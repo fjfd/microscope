@@ -1,0 +1,6 @@
+spring aop 有两种方式
+
+1 jdk动态代理，需要有接口，在controller层不能使用，只能手动埋点。
+2 对于cglib，需要修改API调用方式，不可取。
+
+对于passport项目来说，可以用aop的就用，不能用的就埋点。

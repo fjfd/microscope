@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="beforeAdvice" class="com.vipshop.microscope.trace.aop.BeforeAdvice"></bean>
+	<bean id="afterAdvice" class="com.vipshop.microscope.trace.aop.AfterAdvice"></bean>
+	<bean id="studenttarget" class="com.vipshop.microscope.trace.aop.StudentImpl"></bean>
+	<bean id="student" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="proxyInterfaces">
+			<value>com.vipshop.microscope.trace.aop.Student</value>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>beforeAdvice</value>
+				<value>afterAdvice</value>
+			</list>
+		</property>
+		<property name="target">
+			<ref bean="studenttarget" />
+		</property>
+	</bean>
+</beans>

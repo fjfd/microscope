@@ -1,0 +1,15 @@
+zipkin developer guide 1.0
+
+1 overview
+
+zipkin is a distributed tracing system from twitter,
+github: https://github.com/twitter/zipkin.git
+
+consider we don't familiar with scala, so we dicide 
+implement zipkin in java.
+github: https://github.com/AlexMahone/zipkin.git
+
+2 architecture
+
+
+3 moudles
