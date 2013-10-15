@@ -22,7 +22,7 @@
 		<dependency>
 			<groupId>org.apache.hbase</groupId>
 			<artifactId>hbase</artifactId>
-			<version>0.94.10</version>
+			<version>0.94.6</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.data</groupId>

@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.vipshop.microscope.thrift.LogEntry;
+import com.vipshop.microscope.thrift.Span;
 import com.vipshop.microscope.trace.Constant;
 import com.vipshop.microscope.trace.encode.Encoder;
 import com.vipshop.microscope.trace.queue.MessageQueue;
@@ -37,12 +38,12 @@ public class ThreadTransporter implements Runnable {
 		int emptySize = 0;
 		
 		while (ThriftClient.isConnect()) {
-			Object object = MessageQueue.poll();
-			if (object == null)
+			Span span = MessageQueue.poll();
+			if (span == null)
 				emptySize++;
 			else {
 				try {
-					logEntries.add(encode.encodeToLogEntry(object));
+					logEntries.add(encode.encodeToLogEntry(span));
 				} catch (TException e) {
 					logger.error("encode Span to LogEntry error, program will ingnore this span");
 				}

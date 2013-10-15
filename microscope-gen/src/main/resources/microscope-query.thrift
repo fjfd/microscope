@@ -16,5 +16,5 @@ namespace java com.vipshop.microscope.thrift
 
 service QueryClient
 {
-  String query(1: string traceId);
+  string query(1: string traceId);
 }

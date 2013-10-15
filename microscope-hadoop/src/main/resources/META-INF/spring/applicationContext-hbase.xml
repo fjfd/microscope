@@ -13,6 +13,9 @@
 	<context:component-scan base-package="com.vipshop.microscope.hbase"/>
 	
 	<hdp:configuration id="hadoopConfiguration">
+	  <!-- 
+	  fs.default.name=hdfs://192.168.52.146:9000/hbase
+	   -->
 	  fs.default.name=hdfs://10.100.90.183:9000/user/hadoop/hbase
 	</hdp:configuration>
 	

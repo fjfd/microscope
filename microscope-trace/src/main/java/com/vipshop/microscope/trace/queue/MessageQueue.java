@@ -16,7 +16,7 @@ import com.vipshop.microscope.trace.thrift.ThriftClient;
  */
 public class MessageQueue {
 	
-	private static final BlockingQueue<Object> queue = new LinkedBlockingQueue<Object>(Constant.QUEUE_SIZE);
+	private static final BlockingQueue<Span> queue = new LinkedBlockingQueue<Span>(Constant.QUEUE_SIZE);
 	
 	/*
 	 * If disconnect, stop collect span to queue.
@@ -27,7 +27,7 @@ public class MessageQueue {
 		}
 	}
 	
-	public static Object poll() {
+	public static Span poll() {
 		return queue.poll();
 	}
 }
