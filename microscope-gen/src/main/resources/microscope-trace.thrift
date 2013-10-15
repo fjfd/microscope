@@ -3,16 +3,16 @@
 namespace java com.vipshop.microscope.thrift
 
 // record system status
-struct SystemState {
+struct EndPoint {
    1: i32 cpu
    2: i32 load
-   3: i32 memory
+   3: i64 memory
    4: string jvmInfo
    5: i32 ipv4
 }
 
 // record business status
-struct BusinessState {
+struct LogicPoint {
    1: string msg
 }
 
@@ -22,8 +22,8 @@ enum AnnotationType { CS, CR, SS, SR }
 // annotation means some event
 struct Annotation {
   1: i64 timestamp                 // microseconds from epoch
-  2: SystemState sysState,                     
-  3: BusinessState busState,
+  2: EndPoint endPoint,                     
+  3: LogicPoint logicPoint,
   4: AnnotationType type           // event type?
 }
 

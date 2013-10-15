@@ -6,45 +6,46 @@
  */
 package com.vipshop.microscope.thrift;
 
+
+import java.util.Map;
+import java.util.HashMap;
+import org.apache.thrift.TEnum;
+
 public enum AnnotationType implements org.apache.thrift.TEnum {
-	BOOL(0), BYTES(1), I16(2), I32(3), I64(4), DOUBLE(5), STRING(6);
+  CS(0),
+  CR(1),
+  SS(2),
+  SR(3);
 
-	private final int value;
+  private final int value;
 
-	private AnnotationType(int value) {
-		this.value = value;
-	}
+  private AnnotationType(int value) {
+    this.value = value;
+  }
 
-	/**
-	 * Get the integer value of this enum value, as defined in the Thrift IDL.
-	 */
-	public int getValue() {
-		return value;
-	}
+  /**
+   * Get the integer value of this enum value, as defined in the Thrift IDL.
+   */
+  public int getValue() {
+    return value;
+  }
 
-	/**
-	 * Find a the enum type by its integer value, as defined in the Thrift IDL.
-	 * 
-	 * @return null if the value is not found.
-	 */
-	public static AnnotationType findByValue(int value) {
-		switch (value) {
-		case 0:
-			return BOOL;
-		case 1:
-			return BYTES;
-		case 2:
-			return I16;
-		case 3:
-			return I32;
-		case 4:
-			return I64;
-		case 5:
-			return DOUBLE;
-		case 6:
-			return STRING;
-		default:
-			return null;
-		}
-	}
+  /**
+   * Find a the enum type by its integer value, as defined in the Thrift IDL.
+   * @return null if the value is not found.
+   */
+  public static AnnotationType findByValue(int value) { 
+    switch (value) {
+      case 0:
+        return CS;
+      case 1:
+        return CR;
+      case 2:
+        return SS;
+      case 3:
+        return SR;
+      default:
+        return null;
+    }
+  }
 }

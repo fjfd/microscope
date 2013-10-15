@@ -6,6 +6,7 @@ import com.vipshop.microscope.hbase.domain.App;
 import com.vipshop.microscope.hbase.domain.TraceIndex;
 import com.vipshop.microscope.hbase.domain.TraceTable;
 import com.vipshop.microscope.thrift.Annotation;
+import com.vipshop.microscope.thrift.AnnotationType;
 import com.vipshop.microscope.thrift.Span;
 
 public class BuildProcessor {
@@ -23,11 +24,11 @@ public class BuildProcessor {
 			Annotation startAnnotation = null;
 			Annotation endAnnotation = null;
 			for (Annotation annotation : annotations) {
-				if (annotation.getValue().equals("cs")) {
+				if (annotation.getType().equals(AnnotationType.CS)) {
 					startAnnotation = annotation;
 				}
 				
-				if (annotation.getValue().equals("cr")) {
+				if (annotation.getType().equals(AnnotationType.CR)) {
 					endAnnotation = annotation;
 				}
 			}
@@ -47,7 +48,7 @@ public class BuildProcessor {
 		String spanId = String.valueOf(span.getId());
 		
 		if (traceId.equals(spanId)) {
-			String appName = span.getTrace_head();
+			String appName = span.getApp_name();
 			String traceName = span.getName();
 			return new TraceIndex(appName, traceName);
 		}
@@ -60,7 +61,7 @@ public class BuildProcessor {
 		String spanId = String.valueOf(span.getId());
 		
 		if (traceId.equals(spanId)) {
-			String appName = span.getTrace_head();
+			String appName = span.getApp_name();
 			return new App(appName);
 		}
 		

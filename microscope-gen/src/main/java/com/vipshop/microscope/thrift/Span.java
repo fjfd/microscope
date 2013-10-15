@@ -38,10 +38,11 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
   private static final org.apache.thrift.protocol.TField ID_FIELD_DESC = new org.apache.thrift.protocol.TField("id", org.apache.thrift.protocol.TType.I64, (short)4);
   private static final org.apache.thrift.protocol.TField PARENT_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("parent_id", org.apache.thrift.protocol.TType.I64, (short)5);
   private static final org.apache.thrift.protocol.TField ANNOTATIONS_FIELD_DESC = new org.apache.thrift.protocol.TField("annotations", org.apache.thrift.protocol.TType.LIST, (short)6);
-  private static final org.apache.thrift.protocol.TField BINARY_ANNOTATIONS_FIELD_DESC = new org.apache.thrift.protocol.TField("binary_annotations", org.apache.thrift.protocol.TType.LIST, (short)8);
-  private static final org.apache.thrift.protocol.TField DEBUG_FIELD_DESC = new org.apache.thrift.protocol.TField("debug", org.apache.thrift.protocol.TType.BOOL, (short)9);
-  private static final org.apache.thrift.protocol.TField TRACE_HEAD_FIELD_DESC = new org.apache.thrift.protocol.TField("trace_head", org.apache.thrift.protocol.TType.STRING, (short)10);
-  private static final org.apache.thrift.protocol.TField ORDER_FIELD_DESC = new org.apache.thrift.protocol.TField("order", org.apache.thrift.protocol.TType.I32, (short)11);
+  private static final org.apache.thrift.protocol.TField DEBUG_FIELD_DESC = new org.apache.thrift.protocol.TField("debug", org.apache.thrift.protocol.TType.BOOL, (short)7);
+  private static final org.apache.thrift.protocol.TField APP_NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("app_name", org.apache.thrift.protocol.TType.STRING, (short)8);
+  private static final org.apache.thrift.protocol.TField ORDER_FIELD_DESC = new org.apache.thrift.protocol.TField("order", org.apache.thrift.protocol.TType.I32, (short)9);
+  private static final org.apache.thrift.protocol.TField DURATION_FIELD_DESC = new org.apache.thrift.protocol.TField("duration", org.apache.thrift.protocol.TType.I32, (short)10);
+  private static final org.apache.thrift.protocol.TField STARTSTAMP_FIELD_DESC = new org.apache.thrift.protocol.TField("startstamp", org.apache.thrift.protocol.TType.I64, (short)11);
 
   private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
   static {
@@ -54,10 +55,11 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
   public long id; // required
   public long parent_id; // optional
   public List<Annotation> annotations; // required
-  public List<BinaryAnnotation> binary_annotations; // required
   public boolean debug; // optional
-  public String trace_head; // required
+  public String app_name; // required
   public int order; // required
+  public int duration; // required
+  public long startstamp; // required
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -66,10 +68,11 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
     ID((short)4, "id"),
     PARENT_ID((short)5, "parent_id"),
     ANNOTATIONS((short)6, "annotations"),
-    BINARY_ANNOTATIONS((short)8, "binary_annotations"),
-    DEBUG((short)9, "debug"),
-    TRACE_HEAD((short)10, "trace_head"),
-    ORDER((short)11, "order");
+    DEBUG((short)7, "debug"),
+    APP_NAME((short)8, "app_name"),
+    ORDER((short)9, "order"),
+    DURATION((short)10, "duration"),
+    STARTSTAMP((short)11, "startstamp");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -94,14 +97,16 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
           return PARENT_ID;
         case 6: // ANNOTATIONS
           return ANNOTATIONS;
-        case 8: // BINARY_ANNOTATIONS
-          return BINARY_ANNOTATIONS;
-        case 9: // DEBUG
+        case 7: // DEBUG
           return DEBUG;
-        case 10: // TRACE_HEAD
-          return TRACE_HEAD;
-        case 11: // ORDER
+        case 8: // APP_NAME
+          return APP_NAME;
+        case 9: // ORDER
           return ORDER;
+        case 10: // DURATION
+          return DURATION;
+        case 11: // STARTSTAMP
+          return STARTSTAMP;
         default:
           return null;
       }
@@ -147,6 +152,8 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
   private static final int __PARENT_ID_ISSET_ID = 2;
   private static final int __DEBUG_ISSET_ID = 3;
   private static final int __ORDER_ISSET_ID = 4;
+  private static final int __DURATION_ISSET_ID = 5;
+  private static final int __STARTSTAMP_ISSET_ID = 6;
   private byte __isset_bitfield = 0;
   private _Fields optionals[] = {_Fields.PARENT_ID,_Fields.DEBUG};
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
@@ -163,15 +170,16 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
     tmpMap.put(_Fields.ANNOTATIONS, new org.apache.thrift.meta_data.FieldMetaData("annotations", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
             new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Annotation.class))));
-    tmpMap.put(_Fields.BINARY_ANNOTATIONS, new org.apache.thrift.meta_data.FieldMetaData("binary_annotations", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
-            new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, BinaryAnnotation.class))));
     tmpMap.put(_Fields.DEBUG, new org.apache.thrift.meta_data.FieldMetaData("debug", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
-    tmpMap.put(_Fields.TRACE_HEAD, new org.apache.thrift.meta_data.FieldMetaData("trace_head", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+    tmpMap.put(_Fields.APP_NAME, new org.apache.thrift.meta_data.FieldMetaData("app_name", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
     tmpMap.put(_Fields.ORDER, new org.apache.thrift.meta_data.FieldMetaData("order", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+    tmpMap.put(_Fields.DURATION, new org.apache.thrift.meta_data.FieldMetaData("duration", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+    tmpMap.put(_Fields.STARTSTAMP, new org.apache.thrift.meta_data.FieldMetaData("startstamp", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Span.class, metaDataMap);
   }
@@ -186,9 +194,10 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
     String name,
     long id,
     List<Annotation> annotations,
-    List<BinaryAnnotation> binary_annotations,
-    String trace_head,
-    int order)
+    String app_name,
+    int order,
+    int duration,
+    long startstamp)
   {
     this();
     this.trace_id = trace_id;
@@ -197,10 +206,13 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
     this.id = id;
     setIdIsSet(true);
     this.annotations = annotations;
-    this.binary_annotations = binary_annotations;
-    this.trace_head = trace_head;
+    this.app_name = app_name;
     this.order = order;
     setOrderIsSet(true);
+    this.duration = duration;
+    setDurationIsSet(true);
+    this.startstamp = startstamp;
+    setStartstampIsSet(true);
   }
 
   /**
@@ -221,18 +233,13 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
       }
       this.annotations = __this__annotations;
     }
-    if (other.isSetBinary_annotations()) {
-      List<BinaryAnnotation> __this__binary_annotations = new ArrayList<BinaryAnnotation>();
-      for (BinaryAnnotation other_element : other.binary_annotations) {
-        __this__binary_annotations.add(new BinaryAnnotation(other_element));
-      }
-      this.binary_annotations = __this__binary_annotations;
-    }
     this.debug = other.debug;
-    if (other.isSetTrace_head()) {
-      this.trace_head = other.trace_head;
+    if (other.isSetApp_name()) {
+      this.app_name = other.app_name;
     }
     this.order = other.order;
+    this.duration = other.duration;
+    this.startstamp = other.startstamp;
   }
 
   public Span deepCopy() {
@@ -249,12 +256,15 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
     setParent_idIsSet(false);
     this.parent_id = 0;
     this.annotations = null;
-    this.binary_annotations = null;
     this.debug = false;
 
-    this.trace_head = null;
+    this.app_name = null;
     setOrderIsSet(false);
     this.order = 0;
+    setDurationIsSet(false);
+    this.duration = 0;
+    setStartstampIsSet(false);
+    this.startstamp = 0;
   }
 
   public long getTrace_id() {
@@ -389,45 +399,6 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
     }
   }
 
-  public int getBinary_annotationsSize() {
-    return (this.binary_annotations == null) ? 0 : this.binary_annotations.size();
-  }
-
-  public java.util.Iterator<BinaryAnnotation> getBinary_annotationsIterator() {
-    return (this.binary_annotations == null) ? null : this.binary_annotations.iterator();
-  }
-
-  public void addToBinary_annotations(BinaryAnnotation elem) {
-    if (this.binary_annotations == null) {
-      this.binary_annotations = new ArrayList<BinaryAnnotation>();
-    }
-    this.binary_annotations.add(elem);
-  }
-
-  public List<BinaryAnnotation> getBinary_annotations() {
-    return this.binary_annotations;
-  }
-
-  public Span setBinary_annotations(List<BinaryAnnotation> binary_annotations) {
-    this.binary_annotations = binary_annotations;
-    return this;
-  }
-
-  public void unsetBinary_annotations() {
-    this.binary_annotations = null;
-  }
-
-  /** Returns true if field binary_annotations is set (has been assigned a value) and false otherwise */
-  public boolean isSetBinary_annotations() {
-    return this.binary_annotations != null;
-  }
-
-  public void setBinary_annotationsIsSet(boolean value) {
-    if (!value) {
-      this.binary_annotations = null;
-    }
-  }
-
   public boolean isDebug() {
     return this.debug;
   }
@@ -451,27 +422,27 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
     __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __DEBUG_ISSET_ID, value);
   }
 
-  public String getTrace_head() {
-    return this.trace_head;
+  public String getApp_name() {
+    return this.app_name;
   }
 
-  public Span setTrace_head(String trace_head) {
-    this.trace_head = trace_head;
+  public Span setApp_name(String app_name) {
+    this.app_name = app_name;
     return this;
   }
 
-  public void unsetTrace_head() {
-    this.trace_head = null;
+  public void unsetApp_name() {
+    this.app_name = null;
   }
 
-  /** Returns true if field trace_head is set (has been assigned a value) and false otherwise */
-  public boolean isSetTrace_head() {
-    return this.trace_head != null;
+  /** Returns true if field app_name is set (has been assigned a value) and false otherwise */
+  public boolean isSetApp_name() {
+    return this.app_name != null;
   }
 
-  public void setTrace_headIsSet(boolean value) {
+  public void setApp_nameIsSet(boolean value) {
     if (!value) {
-      this.trace_head = null;
+      this.app_name = null;
     }
   }
 
@@ -496,6 +467,52 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
 
   public void setOrderIsSet(boolean value) {
     __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __ORDER_ISSET_ID, value);
+  }
+
+  public int getDuration() {
+    return this.duration;
+  }
+
+  public Span setDuration(int duration) {
+    this.duration = duration;
+    setDurationIsSet(true);
+    return this;
+  }
+
+  public void unsetDuration() {
+    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __DURATION_ISSET_ID);
+  }
+
+  /** Returns true if field duration is set (has been assigned a value) and false otherwise */
+  public boolean isSetDuration() {
+    return EncodingUtils.testBit(__isset_bitfield, __DURATION_ISSET_ID);
+  }
+
+  public void setDurationIsSet(boolean value) {
+    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __DURATION_ISSET_ID, value);
+  }
+
+  public long getStartstamp() {
+    return this.startstamp;
+  }
+
+  public Span setStartstamp(long startstamp) {
+    this.startstamp = startstamp;
+    setStartstampIsSet(true);
+    return this;
+  }
+
+  public void unsetStartstamp() {
+    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __STARTSTAMP_ISSET_ID);
+  }
+
+  /** Returns true if field startstamp is set (has been assigned a value) and false otherwise */
+  public boolean isSetStartstamp() {
+    return EncodingUtils.testBit(__isset_bitfield, __STARTSTAMP_ISSET_ID);
+  }
+
+  public void setStartstampIsSet(boolean value) {
+    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __STARTSTAMP_ISSET_ID, value);
   }
 
   public void setFieldValue(_Fields field, Object value) {
@@ -540,14 +557,6 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
       }
       break;
 
-    case BINARY_ANNOTATIONS:
-      if (value == null) {
-        unsetBinary_annotations();
-      } else {
-        setBinary_annotations((List<BinaryAnnotation>)value);
-      }
-      break;
-
     case DEBUG:
       if (value == null) {
         unsetDebug();
@@ -556,11 +565,11 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
       }
       break;
 
-    case TRACE_HEAD:
+    case APP_NAME:
       if (value == null) {
-        unsetTrace_head();
+        unsetApp_name();
       } else {
-        setTrace_head((String)value);
+        setApp_name((String)value);
       }
       break;
 
@@ -569,6 +578,22 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
         unsetOrder();
       } else {
         setOrder((Integer)value);
+      }
+      break;
+
+    case DURATION:
+      if (value == null) {
+        unsetDuration();
+      } else {
+        setDuration((Integer)value);
+      }
+      break;
+
+    case STARTSTAMP:
+      if (value == null) {
+        unsetStartstamp();
+      } else {
+        setStartstamp((Long)value);
       }
       break;
 
@@ -592,17 +617,20 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
     case ANNOTATIONS:
       return getAnnotations();
 
-    case BINARY_ANNOTATIONS:
-      return getBinary_annotations();
-
     case DEBUG:
       return Boolean.valueOf(isDebug());
 
-    case TRACE_HEAD:
-      return getTrace_head();
+    case APP_NAME:
+      return getApp_name();
 
     case ORDER:
       return Integer.valueOf(getOrder());
+
+    case DURATION:
+      return Integer.valueOf(getDuration());
+
+    case STARTSTAMP:
+      return Long.valueOf(getStartstamp());
 
     }
     throw new IllegalStateException();
@@ -625,14 +653,16 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
       return isSetParent_id();
     case ANNOTATIONS:
       return isSetAnnotations();
-    case BINARY_ANNOTATIONS:
-      return isSetBinary_annotations();
     case DEBUG:
       return isSetDebug();
-    case TRACE_HEAD:
-      return isSetTrace_head();
+    case APP_NAME:
+      return isSetApp_name();
     case ORDER:
       return isSetOrder();
+    case DURATION:
+      return isSetDuration();
+    case STARTSTAMP:
+      return isSetStartstamp();
     }
     throw new IllegalStateException();
   }
@@ -695,15 +725,6 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
         return false;
     }
 
-    boolean this_present_binary_annotations = true && this.isSetBinary_annotations();
-    boolean that_present_binary_annotations = true && that.isSetBinary_annotations();
-    if (this_present_binary_annotations || that_present_binary_annotations) {
-      if (!(this_present_binary_annotations && that_present_binary_annotations))
-        return false;
-      if (!this.binary_annotations.equals(that.binary_annotations))
-        return false;
-    }
-
     boolean this_present_debug = true && this.isSetDebug();
     boolean that_present_debug = true && that.isSetDebug();
     if (this_present_debug || that_present_debug) {
@@ -713,12 +734,12 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
         return false;
     }
 
-    boolean this_present_trace_head = true && this.isSetTrace_head();
-    boolean that_present_trace_head = true && that.isSetTrace_head();
-    if (this_present_trace_head || that_present_trace_head) {
-      if (!(this_present_trace_head && that_present_trace_head))
+    boolean this_present_app_name = true && this.isSetApp_name();
+    boolean that_present_app_name = true && that.isSetApp_name();
+    if (this_present_app_name || that_present_app_name) {
+      if (!(this_present_app_name && that_present_app_name))
         return false;
-      if (!this.trace_head.equals(that.trace_head))
+      if (!this.app_name.equals(that.app_name))
         return false;
     }
 
@@ -728,6 +749,24 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
       if (!(this_present_order && that_present_order))
         return false;
       if (this.order != that.order)
+        return false;
+    }
+
+    boolean this_present_duration = true;
+    boolean that_present_duration = true;
+    if (this_present_duration || that_present_duration) {
+      if (!(this_present_duration && that_present_duration))
+        return false;
+      if (this.duration != that.duration)
+        return false;
+    }
+
+    boolean this_present_startstamp = true;
+    boolean that_present_startstamp = true;
+    if (this_present_startstamp || that_present_startstamp) {
+      if (!(this_present_startstamp && that_present_startstamp))
+        return false;
+      if (this.startstamp != that.startstamp)
         return false;
     }
 
@@ -797,16 +836,6 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
         return lastComparison;
       }
     }
-    lastComparison = Boolean.valueOf(isSetBinary_annotations()).compareTo(typedOther.isSetBinary_annotations());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    if (isSetBinary_annotations()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.binary_annotations, typedOther.binary_annotations);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
     lastComparison = Boolean.valueOf(isSetDebug()).compareTo(typedOther.isSetDebug());
     if (lastComparison != 0) {
       return lastComparison;
@@ -817,12 +846,12 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
         return lastComparison;
       }
     }
-    lastComparison = Boolean.valueOf(isSetTrace_head()).compareTo(typedOther.isSetTrace_head());
+    lastComparison = Boolean.valueOf(isSetApp_name()).compareTo(typedOther.isSetApp_name());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetTrace_head()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.trace_head, typedOther.trace_head);
+    if (isSetApp_name()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.app_name, typedOther.app_name);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -833,6 +862,26 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
     }
     if (isSetOrder()) {
       lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.order, typedOther.order);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = Boolean.valueOf(isSetDuration()).compareTo(typedOther.isSetDuration());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetDuration()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.duration, typedOther.duration);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = Boolean.valueOf(isSetStartstamp()).compareTo(typedOther.isSetStartstamp());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetStartstamp()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.startstamp, typedOther.startstamp);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -886,14 +935,6 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
       sb.append(this.annotations);
     }
     first = false;
-    if (!first) sb.append(", ");
-    sb.append("binary_annotations:");
-    if (this.binary_annotations == null) {
-      sb.append("null");
-    } else {
-      sb.append(this.binary_annotations);
-    }
-    first = false;
     if (isSetDebug()) {
       if (!first) sb.append(", ");
       sb.append("debug:");
@@ -901,16 +942,24 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
       first = false;
     }
     if (!first) sb.append(", ");
-    sb.append("trace_head:");
-    if (this.trace_head == null) {
+    sb.append("app_name:");
+    if (this.app_name == null) {
       sb.append("null");
     } else {
-      sb.append(this.trace_head);
+      sb.append(this.app_name);
     }
     first = false;
     if (!first) sb.append(", ");
     sb.append("order:");
     sb.append(this.order);
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("duration:");
+    sb.append(this.duration);
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("startstamp:");
+    sb.append(this.startstamp);
     first = false;
     sb.append(")");
     return sb.toString();
@@ -1008,26 +1057,7 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 8: // BINARY_ANNOTATIONS
-            if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
-              {
-                org.apache.thrift.protocol.TList _list3 = iprot.readListBegin();
-                struct.binary_annotations = new ArrayList<BinaryAnnotation>(_list3.size);
-                for (int _i4 = 0; _i4 < _list3.size; ++_i4)
-                {
-                  BinaryAnnotation _elem5; // required
-                  _elem5 = new BinaryAnnotation();
-                  _elem5.read(iprot);
-                  struct.binary_annotations.add(_elem5);
-                }
-                iprot.readListEnd();
-              }
-              struct.setBinary_annotationsIsSet(true);
-            } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-            }
-            break;
-          case 9: // DEBUG
+          case 7: // DEBUG
             if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
               struct.debug = iprot.readBool();
               struct.setDebugIsSet(true);
@@ -1035,18 +1065,34 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 10: // TRACE_HEAD
+          case 8: // APP_NAME
             if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
-              struct.trace_head = iprot.readString();
-              struct.setTrace_headIsSet(true);
+              struct.app_name = iprot.readString();
+              struct.setApp_nameIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 11: // ORDER
+          case 9: // ORDER
             if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
               struct.order = iprot.readI32();
               struct.setOrderIsSet(true);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            break;
+          case 10: // DURATION
+            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+              struct.duration = iprot.readI32();
+              struct.setDurationIsSet(true);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            break;
+          case 11: // STARTSTAMP
+            if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+              struct.startstamp = iprot.readI64();
+              struct.setStartstampIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
@@ -1086,21 +1132,9 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
         oprot.writeFieldBegin(ANNOTATIONS_FIELD_DESC);
         {
           oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.annotations.size()));
-          for (Annotation _iter6 : struct.annotations)
+          for (Annotation _iter3 : struct.annotations)
           {
-            _iter6.write(oprot);
-          }
-          oprot.writeListEnd();
-        }
-        oprot.writeFieldEnd();
-      }
-      if (struct.binary_annotations != null) {
-        oprot.writeFieldBegin(BINARY_ANNOTATIONS_FIELD_DESC);
-        {
-          oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.binary_annotations.size()));
-          for (BinaryAnnotation _iter7 : struct.binary_annotations)
-          {
-            _iter7.write(oprot);
+            _iter3.write(oprot);
           }
           oprot.writeListEnd();
         }
@@ -1111,13 +1145,19 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
         oprot.writeBool(struct.debug);
         oprot.writeFieldEnd();
       }
-      if (struct.trace_head != null) {
-        oprot.writeFieldBegin(TRACE_HEAD_FIELD_DESC);
-        oprot.writeString(struct.trace_head);
+      if (struct.app_name != null) {
+        oprot.writeFieldBegin(APP_NAME_FIELD_DESC);
+        oprot.writeString(struct.app_name);
         oprot.writeFieldEnd();
       }
       oprot.writeFieldBegin(ORDER_FIELD_DESC);
       oprot.writeI32(struct.order);
+      oprot.writeFieldEnd();
+      oprot.writeFieldBegin(DURATION_FIELD_DESC);
+      oprot.writeI32(struct.duration);
+      oprot.writeFieldEnd();
+      oprot.writeFieldBegin(STARTSTAMP_FIELD_DESC);
+      oprot.writeI64(struct.startstamp);
       oprot.writeFieldEnd();
       oprot.writeFieldStop();
       oprot.writeStructEnd();
@@ -1152,19 +1192,22 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
       if (struct.isSetAnnotations()) {
         optionals.set(4);
       }
-      if (struct.isSetBinary_annotations()) {
+      if (struct.isSetDebug()) {
         optionals.set(5);
       }
-      if (struct.isSetDebug()) {
+      if (struct.isSetApp_name()) {
         optionals.set(6);
       }
-      if (struct.isSetTrace_head()) {
+      if (struct.isSetOrder()) {
         optionals.set(7);
       }
-      if (struct.isSetOrder()) {
+      if (struct.isSetDuration()) {
         optionals.set(8);
       }
-      oprot.writeBitSet(optionals, 9);
+      if (struct.isSetStartstamp()) {
+        optionals.set(9);
+      }
+      oprot.writeBitSet(optionals, 10);
       if (struct.isSetTrace_id()) {
         oprot.writeI64(struct.trace_id);
       }
@@ -1180,36 +1223,33 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
       if (struct.isSetAnnotations()) {
         {
           oprot.writeI32(struct.annotations.size());
-          for (Annotation _iter8 : struct.annotations)
+          for (Annotation _iter4 : struct.annotations)
           {
-            _iter8.write(oprot);
-          }
-        }
-      }
-      if (struct.isSetBinary_annotations()) {
-        {
-          oprot.writeI32(struct.binary_annotations.size());
-          for (BinaryAnnotation _iter9 : struct.binary_annotations)
-          {
-            _iter9.write(oprot);
+            _iter4.write(oprot);
           }
         }
       }
       if (struct.isSetDebug()) {
         oprot.writeBool(struct.debug);
       }
-      if (struct.isSetTrace_head()) {
-        oprot.writeString(struct.trace_head);
+      if (struct.isSetApp_name()) {
+        oprot.writeString(struct.app_name);
       }
       if (struct.isSetOrder()) {
         oprot.writeI32(struct.order);
+      }
+      if (struct.isSetDuration()) {
+        oprot.writeI32(struct.duration);
+      }
+      if (struct.isSetStartstamp()) {
+        oprot.writeI64(struct.startstamp);
       }
     }
 
     @Override
     public void read(org.apache.thrift.protocol.TProtocol prot, Span struct) throws org.apache.thrift.TException {
       TTupleProtocol iprot = (TTupleProtocol) prot;
-      BitSet incoming = iprot.readBitSet(9);
+      BitSet incoming = iprot.readBitSet(10);
       if (incoming.get(0)) {
         struct.trace_id = iprot.readI64();
         struct.setTrace_idIsSet(true);
@@ -1228,43 +1268,37 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
       }
       if (incoming.get(4)) {
         {
-          org.apache.thrift.protocol.TList _list10 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
-          struct.annotations = new ArrayList<Annotation>(_list10.size);
-          for (int _i11 = 0; _i11 < _list10.size; ++_i11)
+          org.apache.thrift.protocol.TList _list5 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
+          struct.annotations = new ArrayList<Annotation>(_list5.size);
+          for (int _i6 = 0; _i6 < _list5.size; ++_i6)
           {
-            Annotation _elem12; // required
-            _elem12 = new Annotation();
-            _elem12.read(iprot);
-            struct.annotations.add(_elem12);
+            Annotation _elem7; // required
+            _elem7 = new Annotation();
+            _elem7.read(iprot);
+            struct.annotations.add(_elem7);
           }
         }
         struct.setAnnotationsIsSet(true);
       }
       if (incoming.get(5)) {
-        {
-          org.apache.thrift.protocol.TList _list13 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
-          struct.binary_annotations = new ArrayList<BinaryAnnotation>(_list13.size);
-          for (int _i14 = 0; _i14 < _list13.size; ++_i14)
-          {
-            BinaryAnnotation _elem15; // required
-            _elem15 = new BinaryAnnotation();
-            _elem15.read(iprot);
-            struct.binary_annotations.add(_elem15);
-          }
-        }
-        struct.setBinary_annotationsIsSet(true);
-      }
-      if (incoming.get(6)) {
         struct.debug = iprot.readBool();
         struct.setDebugIsSet(true);
       }
-      if (incoming.get(7)) {
-        struct.trace_head = iprot.readString();
-        struct.setTrace_headIsSet(true);
+      if (incoming.get(6)) {
+        struct.app_name = iprot.readString();
+        struct.setApp_nameIsSet(true);
       }
-      if (incoming.get(8)) {
+      if (incoming.get(7)) {
         struct.order = iprot.readI32();
         struct.setOrderIsSet(true);
+      }
+      if (incoming.get(8)) {
+        struct.duration = iprot.readI32();
+        struct.setDurationIsSet(true);
+      }
+      if (incoming.get(9)) {
+        struct.startstamp = iprot.readI64();
+        struct.setStartstampIsSet(true);
       }
     }
   }

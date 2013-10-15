@@ -82,7 +82,7 @@ public class SpanBuilder {
 			span.setId(spanContext.getTraceId());
 			// make top span flag to be false.
 			spanContext.setTopSpanFlagFalse();
-			span.setTrace_head(Constant.APP_NAME);
+			span.setApp_name(Constant.APP_NAME);
 		} else {
 			/*
 			 * if this coming span is a sub span.
@@ -145,34 +145,4 @@ public class SpanBuilder {
 		}
 	}
 
-	/**
-	 * Record a message to span.
-	 * 
-	 * This can be useful when you want record 
-	 * some information associate with time.
-	 * 
-	 * This annotation will add to current span.
-	 * 
-	 * @param message
-	 */
-	public void buildMessage(String message) {
-		Span span = spanContext.getCurrentSpan();
-		if (span != null) 
-			span.addToAnnotations(AnnotationBuilder.messageAnnotation(span.getName(), message));
-	}
-	
-	/**
-	 * Record a key/value to span.
-	 * 
-	 * This annotation will add to current span.
-	 * 
-	 * @param key
-	 * @param value
-	 */
-	public void buildKeyValue(String key, String value) {
-		Span span = spanContext.getCurrentSpan();
-		if (span != null) 
-			span.addToBinary_annotations(AnnotationBuilder.keyValueAnnotation(span.getName(), key, value));
-	}
-	
 }

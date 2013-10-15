@@ -9,6 +9,7 @@ import com.vipshop.microscope.hbase.domain.App;
 import com.vipshop.microscope.hbase.domain.TraceTable;
 import com.vipshop.microscope.query.core.QueryTemplate;
 import com.vipshop.microscope.thrift.Annotation;
+import com.vipshop.microscope.thrift.AnnotationType;
 import com.vipshop.microscope.thrift.Span;
 import com.vipshop.microscope.trace.TraceFactory;
 
@@ -75,15 +76,15 @@ public class TraceService {
 			for (Annotation annotation : annotationTables) {
 				Map<String, Object> annotationMap = new LinkedHashMap<String, Object>();
 				annotationMap.put("timestamp", annotation.getTimestamp());
-				annotationMap.put("value", annotation.getValue());
-				if (annotation.getValue().equals("cs")) {
+				annotationMap.put("value", annotation.getType());
+				if (annotation.getType().equals(AnnotationType.CS)) {
 					startstmp = annotation.getTimestamp();
 				}
 				
-				if (annotation.getValue().equals("cr")) {
+				if (annotation.getType().equals(AnnotationType.CR)) {
 					endstmp = annotation.getTimestamp();
 				}
-				annotationMap.put("host", annotation.getHost().getIpv4());
+				annotationMap.put("host", annotation.getEndPoint().getIpv4());
 				annoInfo.add(annotationMap);
 			}
 			

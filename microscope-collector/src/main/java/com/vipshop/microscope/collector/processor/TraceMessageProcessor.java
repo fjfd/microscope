@@ -22,6 +22,7 @@ public class TraceMessageProcessor extends AbstraceMessageProcessor {
 			
 			Span span = encoder.decodeToSpan(msg);
 			
+			System.out.println(span);
 			App appIndex = buildProcessor.buildAppIndex(span);
 			TraceIndex traceIndex = buildProcessor.buildTraceIndex(span);
 			TraceTable traceTable = buildProcessor.buildTraceTable(span);

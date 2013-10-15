@@ -30,17 +30,17 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Send {
+public class QueryClient {
 
   public interface Iface {
 
-    public ResultCode send(List<LogEntry> messages) throws org.apache.thrift.TException;
+    public String query(String traceId) throws org.apache.thrift.TException;
 
   }
 
   public interface AsyncIface {
 
-    public void send(List<LogEntry> messages, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.send_call> resultHandler) throws org.apache.thrift.TException;
+    public void query(String traceId, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.query_call> resultHandler) throws org.apache.thrift.TException;
 
   }
 
@@ -64,27 +64,27 @@ public class Send {
       super(iprot, oprot);
     }
 
-    public ResultCode send(List<LogEntry> messages) throws org.apache.thrift.TException
+    public String query(String traceId) throws org.apache.thrift.TException
     {
-      send_send(messages);
-      return recv_send();
+      send_query(traceId);
+      return recv_query();
     }
 
-    public void send_send(List<LogEntry> messages) throws org.apache.thrift.TException
+    public void send_query(String traceId) throws org.apache.thrift.TException
     {
-      send_args args = new send_args();
-      args.setMessages(messages);
-      sendBase("send", args);
+      query_args args = new query_args();
+      args.setTraceId(traceId);
+      sendBase("query", args);
     }
 
-    public ResultCode recv_send() throws org.apache.thrift.TException
+    public String recv_query() throws org.apache.thrift.TException
     {
-      send_result result = new send_result();
-      receiveBase(result, "send");
+      query_result result = new query_result();
+      receiveBase(result, "query");
       if (result.isSetSuccess()) {
         return result.success;
       }
-      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "send failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "query failed: unknown result");
     }
 
   }
@@ -105,35 +105,35 @@ public class Send {
       super(protocolFactory, clientManager, transport);
     }
 
-    public void send(List<LogEntry> messages, org.apache.thrift.async.AsyncMethodCallback<send_call> resultHandler) throws org.apache.thrift.TException {
+    public void query(String traceId, org.apache.thrift.async.AsyncMethodCallback<query_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      send_call method_call = new send_call(messages, resultHandler, this, ___protocolFactory, ___transport);
+      query_call method_call = new query_call(traceId, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class send_call extends org.apache.thrift.async.TAsyncMethodCall {
-      private List<LogEntry> messages;
-      public send_call(List<LogEntry> messages, org.apache.thrift.async.AsyncMethodCallback<send_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+    public static class query_call extends org.apache.thrift.async.TAsyncMethodCall {
+      private String traceId;
+      public query_call(String traceId, org.apache.thrift.async.AsyncMethodCallback<query_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
-        this.messages = messages;
+        this.traceId = traceId;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("send", org.apache.thrift.protocol.TMessageType.CALL, 0));
-        send_args args = new send_args();
-        args.setMessages(messages);
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("query", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        query_args args = new query_args();
+        args.setTraceId(traceId);
         args.write(prot);
         prot.writeMessageEnd();
       }
 
-      public ResultCode getResult() throws org.apache.thrift.TException {
+      public String getResult() throws org.apache.thrift.TException {
         if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
         org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
-        return (new Client(prot)).recv_send();
+        return (new Client(prot)).recv_query();
       }
     }
 
@@ -150,48 +150,48 @@ public class Send {
     }
 
     private static <I extends Iface> Map<String,  org.apache.thrift.ProcessFunction<I, ? extends  org.apache.thrift.TBase>> getProcessMap(Map<String,  org.apache.thrift.ProcessFunction<I, ? extends  org.apache.thrift.TBase>> processMap) {
-      processMap.put("send", new send());
+      processMap.put("query", new query());
       return processMap;
     }
 
-    public static class send<I extends Iface> extends org.apache.thrift.ProcessFunction<I, send_args> {
-      public send() {
-        super("send");
+    public static class query<I extends Iface> extends org.apache.thrift.ProcessFunction<I, query_args> {
+      public query() {
+        super("query");
       }
 
-      public send_args getEmptyArgsInstance() {
-        return new send_args();
+      public query_args getEmptyArgsInstance() {
+        return new query_args();
       }
 
       protected boolean isOneway() {
         return false;
       }
 
-      public send_result getResult(I iface, send_args args) throws org.apache.thrift.TException {
-        send_result result = new send_result();
-        result.success = iface.send(args.messages);
+      public query_result getResult(I iface, query_args args) throws org.apache.thrift.TException {
+        query_result result = new query_result();
+        result.success = iface.query(args.traceId);
         return result;
       }
     }
 
   }
 
-  public static class send_args implements org.apache.thrift.TBase<send_args, send_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("send_args");
+  public static class query_args implements org.apache.thrift.TBase<query_args, query_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("query_args");
 
-    private static final org.apache.thrift.protocol.TField MESSAGES_FIELD_DESC = new org.apache.thrift.protocol.TField("messages", org.apache.thrift.protocol.TType.LIST, (short)1);
+    private static final org.apache.thrift.protocol.TField TRACE_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("traceId", org.apache.thrift.protocol.TType.STRING, (short)1);
 
     private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
     static {
-      schemes.put(StandardScheme.class, new send_argsStandardSchemeFactory());
-      schemes.put(TupleScheme.class, new send_argsTupleSchemeFactory());
+      schemes.put(StandardScheme.class, new query_argsStandardSchemeFactory());
+      schemes.put(TupleScheme.class, new query_argsTupleSchemeFactory());
     }
 
-    public List<LogEntry> messages; // required
+    public String traceId; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      MESSAGES((short)1, "messages");
+      TRACE_ID((short)1, "traceId");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -206,8 +206,8 @@ public class Send {
        */
       public static _Fields findByThriftId(int fieldId) {
         switch(fieldId) {
-          case 1: // MESSAGES
-            return MESSAGES;
+          case 1: // TRACE_ID
+            return TRACE_ID;
           default:
             return null;
         }
@@ -251,91 +251,71 @@ public class Send {
     public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.MESSAGES, new org.apache.thrift.meta_data.FieldMetaData("messages", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
-              new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, LogEntry.class))));
+      tmpMap.put(_Fields.TRACE_ID, new org.apache.thrift.meta_data.FieldMetaData("traceId", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(send_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(query_args.class, metaDataMap);
     }
 
-    public send_args() {
+    public query_args() {
     }
 
-    public send_args(
-      List<LogEntry> messages)
+    public query_args(
+      String traceId)
     {
       this();
-      this.messages = messages;
+      this.traceId = traceId;
     }
 
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public send_args(send_args other) {
-      if (other.isSetMessages()) {
-        List<LogEntry> __this__messages = new ArrayList<LogEntry>();
-        for (LogEntry other_element : other.messages) {
-          __this__messages.add(new LogEntry(other_element));
-        }
-        this.messages = __this__messages;
+    public query_args(query_args other) {
+      if (other.isSetTraceId()) {
+        this.traceId = other.traceId;
       }
     }
 
-    public send_args deepCopy() {
-      return new send_args(this);
+    public query_args deepCopy() {
+      return new query_args(this);
     }
 
     @Override
     public void clear() {
-      this.messages = null;
+      this.traceId = null;
     }
 
-    public int getMessagesSize() {
-      return (this.messages == null) ? 0 : this.messages.size();
+    public String getTraceId() {
+      return this.traceId;
     }
 
-    public java.util.Iterator<LogEntry> getMessagesIterator() {
-      return (this.messages == null) ? null : this.messages.iterator();
-    }
-
-    public void addToMessages(LogEntry elem) {
-      if (this.messages == null) {
-        this.messages = new ArrayList<LogEntry>();
-      }
-      this.messages.add(elem);
-    }
-
-    public List<LogEntry> getMessages() {
-      return this.messages;
-    }
-
-    public send_args setMessages(List<LogEntry> messages) {
-      this.messages = messages;
+    public query_args setTraceId(String traceId) {
+      this.traceId = traceId;
       return this;
     }
 
-    public void unsetMessages() {
-      this.messages = null;
+    public void unsetTraceId() {
+      this.traceId = null;
     }
 
-    /** Returns true if field messages is set (has been assigned a value) and false otherwise */
-    public boolean isSetMessages() {
-      return this.messages != null;
+    /** Returns true if field traceId is set (has been assigned a value) and false otherwise */
+    public boolean isSetTraceId() {
+      return this.traceId != null;
     }
 
-    public void setMessagesIsSet(boolean value) {
+    public void setTraceIdIsSet(boolean value) {
       if (!value) {
-        this.messages = null;
+        this.traceId = null;
       }
     }
 
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
-      case MESSAGES:
+      case TRACE_ID:
         if (value == null) {
-          unsetMessages();
+          unsetTraceId();
         } else {
-          setMessages((List<LogEntry>)value);
+          setTraceId((String)value);
         }
         break;
 
@@ -344,8 +324,8 @@ public class Send {
 
     public Object getFieldValue(_Fields field) {
       switch (field) {
-      case MESSAGES:
-        return getMessages();
+      case TRACE_ID:
+        return getTraceId();
 
       }
       throw new IllegalStateException();
@@ -358,8 +338,8 @@ public class Send {
       }
 
       switch (field) {
-      case MESSAGES:
-        return isSetMessages();
+      case TRACE_ID:
+        return isSetTraceId();
       }
       throw new IllegalStateException();
     }
@@ -368,21 +348,21 @@ public class Send {
     public boolean equals(Object that) {
       if (that == null)
         return false;
-      if (that instanceof send_args)
-        return this.equals((send_args)that);
+      if (that instanceof query_args)
+        return this.equals((query_args)that);
       return false;
     }
 
-    public boolean equals(send_args that) {
+    public boolean equals(query_args that) {
       if (that == null)
         return false;
 
-      boolean this_present_messages = true && this.isSetMessages();
-      boolean that_present_messages = true && that.isSetMessages();
-      if (this_present_messages || that_present_messages) {
-        if (!(this_present_messages && that_present_messages))
+      boolean this_present_traceId = true && this.isSetTraceId();
+      boolean that_present_traceId = true && that.isSetTraceId();
+      if (this_present_traceId || that_present_traceId) {
+        if (!(this_present_traceId && that_present_traceId))
           return false;
-        if (!this.messages.equals(that.messages))
+        if (!this.traceId.equals(that.traceId))
           return false;
       }
 
@@ -394,20 +374,20 @@ public class Send {
       return 0;
     }
 
-    public int compareTo(send_args other) {
+    public int compareTo(query_args other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
 
       int lastComparison = 0;
-      send_args typedOther = (send_args)other;
+      query_args typedOther = (query_args)other;
 
-      lastComparison = Boolean.valueOf(isSetMessages()).compareTo(typedOther.isSetMessages());
+      lastComparison = Boolean.valueOf(isSetTraceId()).compareTo(typedOther.isSetTraceId());
       if (lastComparison != 0) {
         return lastComparison;
       }
-      if (isSetMessages()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.messages, typedOther.messages);
+      if (isSetTraceId()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.traceId, typedOther.traceId);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -429,14 +409,14 @@ public class Send {
 
     @Override
     public String toString() {
-      StringBuilder sb = new StringBuilder("send_args(");
+      StringBuilder sb = new StringBuilder("query_args(");
       boolean first = true;
 
-      sb.append("messages:");
-      if (this.messages == null) {
+      sb.append("traceId:");
+      if (this.traceId == null) {
         sb.append("null");
       } else {
-        sb.append(this.messages);
+        sb.append(this.traceId);
       }
       first = false;
       sb.append(")");
@@ -464,15 +444,15 @@ public class Send {
       }
     }
 
-    private static class send_argsStandardSchemeFactory implements SchemeFactory {
-      public send_argsStandardScheme getScheme() {
-        return new send_argsStandardScheme();
+    private static class query_argsStandardSchemeFactory implements SchemeFactory {
+      public query_argsStandardScheme getScheme() {
+        return new query_argsStandardScheme();
       }
     }
 
-    private static class send_argsStandardScheme extends StandardScheme<send_args> {
+    private static class query_argsStandardScheme extends StandardScheme<query_args> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, send_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, query_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -482,21 +462,10 @@ public class Send {
             break;
           }
           switch (schemeField.id) {
-            case 1: // MESSAGES
-              if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
-                {
-                  org.apache.thrift.protocol.TList _list0 = iprot.readListBegin();
-                  struct.messages = new ArrayList<LogEntry>(_list0.size);
-                  for (int _i1 = 0; _i1 < _list0.size; ++_i1)
-                  {
-                    LogEntry _elem2; // required
-                    _elem2 = new LogEntry();
-                    _elem2.read(iprot);
-                    struct.messages.add(_elem2);
-                  }
-                  iprot.readListEnd();
-                }
-                struct.setMessagesIsSet(true);
+            case 1: // TRACE_ID
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.traceId = iprot.readString();
+                struct.setTraceIdIsSet(true);
               } else { 
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
@@ -512,20 +481,13 @@ public class Send {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, send_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, query_args struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
-        if (struct.messages != null) {
-          oprot.writeFieldBegin(MESSAGES_FIELD_DESC);
-          {
-            oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.messages.size()));
-            for (LogEntry _iter3 : struct.messages)
-            {
-              _iter3.write(oprot);
-            }
-            oprot.writeListEnd();
-          }
+        if (struct.traceId != null) {
+          oprot.writeFieldBegin(TRACE_ID_FIELD_DESC);
+          oprot.writeString(struct.traceId);
           oprot.writeFieldEnd();
         }
         oprot.writeFieldStop();
@@ -534,79 +496,55 @@ public class Send {
 
     }
 
-    private static class send_argsTupleSchemeFactory implements SchemeFactory {
-      public send_argsTupleScheme getScheme() {
-        return new send_argsTupleScheme();
+    private static class query_argsTupleSchemeFactory implements SchemeFactory {
+      public query_argsTupleScheme getScheme() {
+        return new query_argsTupleScheme();
       }
     }
 
-    private static class send_argsTupleScheme extends TupleScheme<send_args> {
+    private static class query_argsTupleScheme extends TupleScheme<query_args> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, send_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, query_args struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         BitSet optionals = new BitSet();
-        if (struct.isSetMessages()) {
+        if (struct.isSetTraceId()) {
           optionals.set(0);
         }
         oprot.writeBitSet(optionals, 1);
-        if (struct.isSetMessages()) {
-          {
-            oprot.writeI32(struct.messages.size());
-            for (LogEntry _iter4 : struct.messages)
-            {
-              _iter4.write(oprot);
-            }
-          }
+        if (struct.isSetTraceId()) {
+          oprot.writeString(struct.traceId);
         }
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, send_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, query_args struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
-          {
-            org.apache.thrift.protocol.TList _list5 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
-            struct.messages = new ArrayList<LogEntry>(_list5.size);
-            for (int _i6 = 0; _i6 < _list5.size; ++_i6)
-            {
-              LogEntry _elem7; // required
-              _elem7 = new LogEntry();
-              _elem7.read(iprot);
-              struct.messages.add(_elem7);
-            }
-          }
-          struct.setMessagesIsSet(true);
+          struct.traceId = iprot.readString();
+          struct.setTraceIdIsSet(true);
         }
       }
     }
 
   }
 
-  public static class send_result implements org.apache.thrift.TBase<send_result, send_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("send_result");
+  public static class query_result implements org.apache.thrift.TBase<query_result, query_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("query_result");
 
-    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.I32, (short)0);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRING, (short)0);
 
     private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
     static {
-      schemes.put(StandardScheme.class, new send_resultStandardSchemeFactory());
-      schemes.put(TupleScheme.class, new send_resultTupleSchemeFactory());
+      schemes.put(StandardScheme.class, new query_resultStandardSchemeFactory());
+      schemes.put(TupleScheme.class, new query_resultTupleSchemeFactory());
     }
 
-    /**
-     * 
-     * @see ResultCode
-     */
-    public ResultCode success; // required
+    public String success; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      /**
-       * 
-       * @see ResultCode
-       */
       SUCCESS((short)0, "success");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -668,16 +606,16 @@ public class Send {
     static {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.EnumMetaData(org.apache.thrift.protocol.TType.ENUM, ResultCode.class)));
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(send_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(query_result.class, metaDataMap);
     }
 
-    public send_result() {
+    public query_result() {
     }
 
-    public send_result(
-      ResultCode success)
+    public query_result(
+      String success)
     {
       this();
       this.success = success;
@@ -686,14 +624,14 @@ public class Send {
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public send_result(send_result other) {
+    public query_result(query_result other) {
       if (other.isSetSuccess()) {
         this.success = other.success;
       }
     }
 
-    public send_result deepCopy() {
-      return new send_result(this);
+    public query_result deepCopy() {
+      return new query_result(this);
     }
 
     @Override
@@ -701,19 +639,11 @@ public class Send {
       this.success = null;
     }
 
-    /**
-     * 
-     * @see ResultCode
-     */
-    public ResultCode getSuccess() {
+    public String getSuccess() {
       return this.success;
     }
 
-    /**
-     * 
-     * @see ResultCode
-     */
-    public send_result setSuccess(ResultCode success) {
+    public query_result setSuccess(String success) {
       this.success = success;
       return this;
     }
@@ -739,7 +669,7 @@ public class Send {
         if (value == null) {
           unsetSuccess();
         } else {
-          setSuccess((ResultCode)value);
+          setSuccess((String)value);
         }
         break;
 
@@ -772,12 +702,12 @@ public class Send {
     public boolean equals(Object that) {
       if (that == null)
         return false;
-      if (that instanceof send_result)
-        return this.equals((send_result)that);
+      if (that instanceof query_result)
+        return this.equals((query_result)that);
       return false;
     }
 
-    public boolean equals(send_result that) {
+    public boolean equals(query_result that) {
       if (that == null)
         return false;
 
@@ -798,13 +728,13 @@ public class Send {
       return 0;
     }
 
-    public int compareTo(send_result other) {
+    public int compareTo(query_result other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
 
       int lastComparison = 0;
-      send_result typedOther = (send_result)other;
+      query_result typedOther = (query_result)other;
 
       lastComparison = Boolean.valueOf(isSetSuccess()).compareTo(typedOther.isSetSuccess());
       if (lastComparison != 0) {
@@ -833,7 +763,7 @@ public class Send {
 
     @Override
     public String toString() {
-      StringBuilder sb = new StringBuilder("send_result(");
+      StringBuilder sb = new StringBuilder("query_result(");
       boolean first = true;
 
       sb.append("success:");
@@ -868,15 +798,15 @@ public class Send {
       }
     }
 
-    private static class send_resultStandardSchemeFactory implements SchemeFactory {
-      public send_resultStandardScheme getScheme() {
-        return new send_resultStandardScheme();
+    private static class query_resultStandardSchemeFactory implements SchemeFactory {
+      public query_resultStandardScheme getScheme() {
+        return new query_resultStandardScheme();
       }
     }
 
-    private static class send_resultStandardScheme extends StandardScheme<send_result> {
+    private static class query_resultStandardScheme extends StandardScheme<query_result> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, send_result struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, query_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -887,8 +817,8 @@ public class Send {
           }
           switch (schemeField.id) {
             case 0: // SUCCESS
-              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-                struct.success = ResultCode.findByValue(iprot.readI32());
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.success = iprot.readString();
                 struct.setSuccessIsSet(true);
               } else { 
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
@@ -905,13 +835,13 @@ public class Send {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, send_result struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, query_result struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
         if (struct.success != null) {
           oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
-          oprot.writeI32(struct.success.getValue());
+          oprot.writeString(struct.success);
           oprot.writeFieldEnd();
         }
         oprot.writeFieldStop();
@@ -920,16 +850,16 @@ public class Send {
 
     }
 
-    private static class send_resultTupleSchemeFactory implements SchemeFactory {
-      public send_resultTupleScheme getScheme() {
-        return new send_resultTupleScheme();
+    private static class query_resultTupleSchemeFactory implements SchemeFactory {
+      public query_resultTupleScheme getScheme() {
+        return new query_resultTupleScheme();
       }
     }
 
-    private static class send_resultTupleScheme extends TupleScheme<send_result> {
+    private static class query_resultTupleScheme extends TupleScheme<query_result> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, send_result struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, query_result struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         BitSet optionals = new BitSet();
         if (struct.isSetSuccess()) {
@@ -937,16 +867,16 @@ public class Send {
         }
         oprot.writeBitSet(optionals, 1);
         if (struct.isSetSuccess()) {
-          oprot.writeI32(struct.success.getValue());
+          oprot.writeString(struct.success);
         }
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, send_result struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, query_result struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
-          struct.success = ResultCode.findByValue(iprot.readI32());
+          struct.success = iprot.readString();
           struct.setSuccessIsSet(true);
         }
       }
