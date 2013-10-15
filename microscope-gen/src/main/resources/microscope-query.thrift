@@ -14,19 +14,7 @@
 
 namespace java com.vipshop.microscope.thrift
 
-enum ResultCode
+service QueryClient
 {
-  OK,
-  TRY_LATER
-}
-
-struct LogEntry
-{
-  1:  enum category,
-  2:  string message
-}
-
-service Send
-{
-  ResultCode send(1: list<LogEntry> messages);
+  String query(1: string traceId);
 }
