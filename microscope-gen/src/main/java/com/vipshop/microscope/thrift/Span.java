@@ -6,1302 +6,1323 @@
  */
 package com.vipshop.microscope.thrift;
 
+import java.util.ArrayList;
+import java.util.BitSet;
+import java.util.Collections;
+import java.util.EnumMap;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.thrift.EncodingUtils;
+import org.apache.thrift.protocol.TTupleProtocol;
 import org.apache.thrift.scheme.IScheme;
 import org.apache.thrift.scheme.SchemeFactory;
 import org.apache.thrift.scheme.StandardScheme;
-
 import org.apache.thrift.scheme.TupleScheme;
-import org.apache.thrift.protocol.TTupleProtocol;
-import org.apache.thrift.protocol.TProtocolException;
-import org.apache.thrift.EncodingUtils;
-import org.apache.thrift.TException;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.EnumMap;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.EnumSet;
-import java.util.Collections;
-import java.util.BitSet;
-import java.nio.ByteBuffer;
-import java.util.Arrays;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.io.Serializable, Cloneable {
-  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("Span");
-
-  private static final org.apache.thrift.protocol.TField TRACE_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("trace_id", org.apache.thrift.protocol.TType.I64, (short)1);
-  private static final org.apache.thrift.protocol.TField NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("name", org.apache.thrift.protocol.TType.STRING, (short)3);
-  private static final org.apache.thrift.protocol.TField ID_FIELD_DESC = new org.apache.thrift.protocol.TField("id", org.apache.thrift.protocol.TType.I64, (short)4);
-  private static final org.apache.thrift.protocol.TField PARENT_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("parent_id", org.apache.thrift.protocol.TType.I64, (short)5);
-  private static final org.apache.thrift.protocol.TField ANNOTATIONS_FIELD_DESC = new org.apache.thrift.protocol.TField("annotations", org.apache.thrift.protocol.TType.LIST, (short)6);
-  private static final org.apache.thrift.protocol.TField DEBUG_FIELD_DESC = new org.apache.thrift.protocol.TField("debug", org.apache.thrift.protocol.TType.BOOL, (short)7);
-  private static final org.apache.thrift.protocol.TField APP_NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("app_name", org.apache.thrift.protocol.TType.STRING, (short)8);
-  private static final org.apache.thrift.protocol.TField ORDER_FIELD_DESC = new org.apache.thrift.protocol.TField("order", org.apache.thrift.protocol.TType.I32, (short)9);
-  private static final org.apache.thrift.protocol.TField DURATION_FIELD_DESC = new org.apache.thrift.protocol.TField("duration", org.apache.thrift.protocol.TType.I32, (short)10);
-  private static final org.apache.thrift.protocol.TField STARTSTAMP_FIELD_DESC = new org.apache.thrift.protocol.TField("startstamp", org.apache.thrift.protocol.TType.I64, (short)11);
-
-  private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-  static {
-    schemes.put(StandardScheme.class, new SpanStandardSchemeFactory());
-    schemes.put(TupleScheme.class, new SpanTupleSchemeFactory());
-  }
-
-  public long trace_id; // required
-  public String name; // required
-  public long id; // required
-  public long parent_id; // optional
-  public List<Annotation> annotations; // required
-  public boolean debug; // optional
-  public String app_name; // required
-  public int order; // required
-  public int duration; // required
-  public long startstamp; // required
-
-  /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-  public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-    TRACE_ID((short)1, "trace_id"),
-    NAME((short)3, "name"),
-    ID((short)4, "id"),
-    PARENT_ID((short)5, "parent_id"),
-    ANNOTATIONS((short)6, "annotations"),
-    DEBUG((short)7, "debug"),
-    APP_NAME((short)8, "app_name"),
-    ORDER((short)9, "order"),
-    DURATION((short)10, "duration"),
-    STARTSTAMP((short)11, "startstamp");
-
-    private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
-
-    static {
-      for (_Fields field : EnumSet.allOf(_Fields.class)) {
-        byName.put(field.getFieldName(), field);
-      }
-    }
-
-    /**
-     * Find the _Fields constant that matches fieldId, or null if its not found.
-     */
-    public static _Fields findByThriftId(int fieldId) {
-      switch(fieldId) {
-        case 1: // TRACE_ID
-          return TRACE_ID;
-        case 3: // NAME
-          return NAME;
-        case 4: // ID
-          return ID;
-        case 5: // PARENT_ID
-          return PARENT_ID;
-        case 6: // ANNOTATIONS
-          return ANNOTATIONS;
-        case 7: // DEBUG
-          return DEBUG;
-        case 8: // APP_NAME
-          return APP_NAME;
-        case 9: // ORDER
-          return ORDER;
-        case 10: // DURATION
-          return DURATION;
-        case 11: // STARTSTAMP
-          return STARTSTAMP;
-        default:
-          return null;
-      }
-    }
-
-    /**
-     * Find the _Fields constant that matches fieldId, throwing an exception
-     * if it is not found.
-     */
-    public static _Fields findByThriftIdOrThrow(int fieldId) {
-      _Fields fields = findByThriftId(fieldId);
-      if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
-      return fields;
-    }
-
-    /**
-     * Find the _Fields constant that matches name, or null if its not found.
-     */
-    public static _Fields findByName(String name) {
-      return byName.get(name);
-    }
-
-    private final short _thriftId;
-    private final String _fieldName;
-
-    _Fields(short thriftId, String fieldName) {
-      _thriftId = thriftId;
-      _fieldName = fieldName;
-    }
-
-    public short getThriftFieldId() {
-      return _thriftId;
-    }
-
-    public String getFieldName() {
-      return _fieldName;
-    }
-  }
-
-  // isset id assignments
-  private static final int __TRACE_ID_ISSET_ID = 0;
-  private static final int __ID_ISSET_ID = 1;
-  private static final int __PARENT_ID_ISSET_ID = 2;
-  private static final int __DEBUG_ISSET_ID = 3;
-  private static final int __ORDER_ISSET_ID = 4;
-  private static final int __DURATION_ISSET_ID = 5;
-  private static final int __STARTSTAMP_ISSET_ID = 6;
-  private byte __isset_bitfield = 0;
-  private _Fields optionals[] = {_Fields.PARENT_ID,_Fields.DEBUG};
-  public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
-  static {
-    Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.TRACE_ID, new org.apache.thrift.meta_data.FieldMetaData("trace_id", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
-    tmpMap.put(_Fields.NAME, new org.apache.thrift.meta_data.FieldMetaData("name", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-    tmpMap.put(_Fields.ID, new org.apache.thrift.meta_data.FieldMetaData("id", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
-    tmpMap.put(_Fields.PARENT_ID, new org.apache.thrift.meta_data.FieldMetaData("parent_id", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
-    tmpMap.put(_Fields.ANNOTATIONS, new org.apache.thrift.meta_data.FieldMetaData("annotations", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
-            new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Annotation.class))));
-    tmpMap.put(_Fields.DEBUG, new org.apache.thrift.meta_data.FieldMetaData("debug", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
-    tmpMap.put(_Fields.APP_NAME, new org.apache.thrift.meta_data.FieldMetaData("app_name", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-    tmpMap.put(_Fields.ORDER, new org.apache.thrift.meta_data.FieldMetaData("order", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
-    tmpMap.put(_Fields.DURATION, new org.apache.thrift.meta_data.FieldMetaData("duration", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
-    tmpMap.put(_Fields.STARTSTAMP, new org.apache.thrift.meta_data.FieldMetaData("startstamp", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
-    metaDataMap = Collections.unmodifiableMap(tmpMap);
-    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Span.class, metaDataMap);
-  }
-
-  public Span() {
-    this.debug = false;
-
-  }
-
-  public Span(
-    long trace_id,
-    String name,
-    long id,
-    List<Annotation> annotations,
-    String app_name,
-    int order,
-    int duration,
-    long startstamp)
-  {
-    this();
-    this.trace_id = trace_id;
-    setTrace_idIsSet(true);
-    this.name = name;
-    this.id = id;
-    setIdIsSet(true);
-    this.annotations = annotations;
-    this.app_name = app_name;
-    this.order = order;
-    setOrderIsSet(true);
-    this.duration = duration;
-    setDurationIsSet(true);
-    this.startstamp = startstamp;
-    setStartstampIsSet(true);
-  }
-
-  /**
-   * Performs a deep copy on <i>other</i>.
-   */
-  public Span(Span other) {
-    __isset_bitfield = other.__isset_bitfield;
-    this.trace_id = other.trace_id;
-    if (other.isSetName()) {
-      this.name = other.name;
-    }
-    this.id = other.id;
-    this.parent_id = other.parent_id;
-    if (other.isSetAnnotations()) {
-      List<Annotation> __this__annotations = new ArrayList<Annotation>();
-      for (Annotation other_element : other.annotations) {
-        __this__annotations.add(new Annotation(other_element));
-      }
-      this.annotations = __this__annotations;
-    }
-    this.debug = other.debug;
-    if (other.isSetApp_name()) {
-      this.app_name = other.app_name;
-    }
-    this.order = other.order;
-    this.duration = other.duration;
-    this.startstamp = other.startstamp;
-  }
-
-  public Span deepCopy() {
-    return new Span(this);
-  }
-
-  @Override
-  public void clear() {
-    setTrace_idIsSet(false);
-    this.trace_id = 0;
-    this.name = null;
-    setIdIsSet(false);
-    this.id = 0;
-    setParent_idIsSet(false);
-    this.parent_id = 0;
-    this.annotations = null;
-    this.debug = false;
-
-    this.app_name = null;
-    setOrderIsSet(false);
-    this.order = 0;
-    setDurationIsSet(false);
-    this.duration = 0;
-    setStartstampIsSet(false);
-    this.startstamp = 0;
-  }
-
-  public long getTrace_id() {
-    return this.trace_id;
-  }
-
-  public Span setTrace_id(long trace_id) {
-    this.trace_id = trace_id;
-    setTrace_idIsSet(true);
-    return this;
-  }
-
-  public void unsetTrace_id() {
-    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __TRACE_ID_ISSET_ID);
-  }
-
-  /** Returns true if field trace_id is set (has been assigned a value) and false otherwise */
-  public boolean isSetTrace_id() {
-    return EncodingUtils.testBit(__isset_bitfield, __TRACE_ID_ISSET_ID);
-  }
-
-  public void setTrace_idIsSet(boolean value) {
-    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __TRACE_ID_ISSET_ID, value);
-  }
-
-  public String getName() {
-    return this.name;
-  }
-
-  public Span setName(String name) {
-    this.name = name;
-    return this;
-  }
-
-  public void unsetName() {
-    this.name = null;
-  }
-
-  /** Returns true if field name is set (has been assigned a value) and false otherwise */
-  public boolean isSetName() {
-    return this.name != null;
-  }
-
-  public void setNameIsSet(boolean value) {
-    if (!value) {
-      this.name = null;
-    }
-  }
-
-  public long getId() {
-    return this.id;
-  }
-
-  public Span setId(long id) {
-    this.id = id;
-    setIdIsSet(true);
-    return this;
-  }
-
-  public void unsetId() {
-    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __ID_ISSET_ID);
-  }
-
-  /** Returns true if field id is set (has been assigned a value) and false otherwise */
-  public boolean isSetId() {
-    return EncodingUtils.testBit(__isset_bitfield, __ID_ISSET_ID);
-  }
-
-  public void setIdIsSet(boolean value) {
-    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __ID_ISSET_ID, value);
-  }
-
-  public long getParent_id() {
-    return this.parent_id;
-  }
-
-  public Span setParent_id(long parent_id) {
-    this.parent_id = parent_id;
-    setParent_idIsSet(true);
-    return this;
-  }
-
-  public void unsetParent_id() {
-    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __PARENT_ID_ISSET_ID);
-  }
-
-  /** Returns true if field parent_id is set (has been assigned a value) and false otherwise */
-  public boolean isSetParent_id() {
-    return EncodingUtils.testBit(__isset_bitfield, __PARENT_ID_ISSET_ID);
-  }
-
-  public void setParent_idIsSet(boolean value) {
-    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __PARENT_ID_ISSET_ID, value);
-  }
-
-  public int getAnnotationsSize() {
-    return (this.annotations == null) ? 0 : this.annotations.size();
-  }
-
-  public java.util.Iterator<Annotation> getAnnotationsIterator() {
-    return (this.annotations == null) ? null : this.annotations.iterator();
-  }
-
-  public void addToAnnotations(Annotation elem) {
-    if (this.annotations == null) {
-      this.annotations = new ArrayList<Annotation>();
-    }
-    this.annotations.add(elem);
-  }
-
-  public List<Annotation> getAnnotations() {
-    return this.annotations;
-  }
-
-  public Span setAnnotations(List<Annotation> annotations) {
-    this.annotations = annotations;
-    return this;
-  }
-
-  public void unsetAnnotations() {
-    this.annotations = null;
-  }
-
-  /** Returns true if field annotations is set (has been assigned a value) and false otherwise */
-  public boolean isSetAnnotations() {
-    return this.annotations != null;
-  }
-
-  public void setAnnotationsIsSet(boolean value) {
-    if (!value) {
-      this.annotations = null;
-    }
-  }
-
-  public boolean isDebug() {
-    return this.debug;
-  }
-
-  public Span setDebug(boolean debug) {
-    this.debug = debug;
-    setDebugIsSet(true);
-    return this;
-  }
-
-  public void unsetDebug() {
-    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __DEBUG_ISSET_ID);
-  }
-
-  /** Returns true if field debug is set (has been assigned a value) and false otherwise */
-  public boolean isSetDebug() {
-    return EncodingUtils.testBit(__isset_bitfield, __DEBUG_ISSET_ID);
-  }
-
-  public void setDebugIsSet(boolean value) {
-    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __DEBUG_ISSET_ID, value);
-  }
-
-  public String getApp_name() {
-    return this.app_name;
-  }
-
-  public Span setApp_name(String app_name) {
-    this.app_name = app_name;
-    return this;
-  }
-
-  public void unsetApp_name() {
-    this.app_name = null;
-  }
-
-  /** Returns true if field app_name is set (has been assigned a value) and false otherwise */
-  public boolean isSetApp_name() {
-    return this.app_name != null;
-  }
-
-  public void setApp_nameIsSet(boolean value) {
-    if (!value) {
-      this.app_name = null;
-    }
-  }
-
-  public int getOrder() {
-    return this.order;
-  }
-
-  public Span setOrder(int order) {
-    this.order = order;
-    setOrderIsSet(true);
-    return this;
-  }
-
-  public void unsetOrder() {
-    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __ORDER_ISSET_ID);
-  }
-
-  /** Returns true if field order is set (has been assigned a value) and false otherwise */
-  public boolean isSetOrder() {
-    return EncodingUtils.testBit(__isset_bitfield, __ORDER_ISSET_ID);
-  }
-
-  public void setOrderIsSet(boolean value) {
-    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __ORDER_ISSET_ID, value);
-  }
-
-  public int getDuration() {
-    return this.duration;
-  }
-
-  public Span setDuration(int duration) {
-    this.duration = duration;
-    setDurationIsSet(true);
-    return this;
-  }
-
-  public void unsetDuration() {
-    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __DURATION_ISSET_ID);
-  }
-
-  /** Returns true if field duration is set (has been assigned a value) and false otherwise */
-  public boolean isSetDuration() {
-    return EncodingUtils.testBit(__isset_bitfield, __DURATION_ISSET_ID);
-  }
-
-  public void setDurationIsSet(boolean value) {
-    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __DURATION_ISSET_ID, value);
-  }
-
-  public long getStartstamp() {
-    return this.startstamp;
-  }
-
-  public Span setStartstamp(long startstamp) {
-    this.startstamp = startstamp;
-    setStartstampIsSet(true);
-    return this;
-  }
-
-  public void unsetStartstamp() {
-    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __STARTSTAMP_ISSET_ID);
-  }
-
-  /** Returns true if field startstamp is set (has been assigned a value) and false otherwise */
-  public boolean isSetStartstamp() {
-    return EncodingUtils.testBit(__isset_bitfield, __STARTSTAMP_ISSET_ID);
-  }
-
-  public void setStartstampIsSet(boolean value) {
-    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __STARTSTAMP_ISSET_ID, value);
-  }
-
-  public void setFieldValue(_Fields field, Object value) {
-    switch (field) {
-    case TRACE_ID:
-      if (value == null) {
-        unsetTrace_id();
-      } else {
-        setTrace_id((Long)value);
-      }
-      break;
-
-    case NAME:
-      if (value == null) {
-        unsetName();
-      } else {
-        setName((String)value);
-      }
-      break;
-
-    case ID:
-      if (value == null) {
-        unsetId();
-      } else {
-        setId((Long)value);
-      }
-      break;
-
-    case PARENT_ID:
-      if (value == null) {
-        unsetParent_id();
-      } else {
-        setParent_id((Long)value);
-      }
-      break;
-
-    case ANNOTATIONS:
-      if (value == null) {
-        unsetAnnotations();
-      } else {
-        setAnnotations((List<Annotation>)value);
-      }
-      break;
-
-    case DEBUG:
-      if (value == null) {
-        unsetDebug();
-      } else {
-        setDebug((Boolean)value);
-      }
-      break;
-
-    case APP_NAME:
-      if (value == null) {
-        unsetApp_name();
-      } else {
-        setApp_name((String)value);
-      }
-      break;
-
-    case ORDER:
-      if (value == null) {
-        unsetOrder();
-      } else {
-        setOrder((Integer)value);
-      }
-      break;
-
-    case DURATION:
-      if (value == null) {
-        unsetDuration();
-      } else {
-        setDuration((Integer)value);
-      }
-      break;
-
-    case STARTSTAMP:
-      if (value == null) {
-        unsetStartstamp();
-      } else {
-        setStartstamp((Long)value);
-      }
-      break;
-
-    }
-  }
-
-  public Object getFieldValue(_Fields field) {
-    switch (field) {
-    case TRACE_ID:
-      return Long.valueOf(getTrace_id());
-
-    case NAME:
-      return getName();
-
-    case ID:
-      return Long.valueOf(getId());
-
-    case PARENT_ID:
-      return Long.valueOf(getParent_id());
-
-    case ANNOTATIONS:
-      return getAnnotations();
-
-    case DEBUG:
-      return Boolean.valueOf(isDebug());
-
-    case APP_NAME:
-      return getApp_name();
-
-    case ORDER:
-      return Integer.valueOf(getOrder());
-
-    case DURATION:
-      return Integer.valueOf(getDuration());
-
-    case STARTSTAMP:
-      return Long.valueOf(getStartstamp());
-
-    }
-    throw new IllegalStateException();
-  }
-
-  /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
-  public boolean isSet(_Fields field) {
-    if (field == null) {
-      throw new IllegalArgumentException();
-    }
-
-    switch (field) {
-    case TRACE_ID:
-      return isSetTrace_id();
-    case NAME:
-      return isSetName();
-    case ID:
-      return isSetId();
-    case PARENT_ID:
-      return isSetParent_id();
-    case ANNOTATIONS:
-      return isSetAnnotations();
-    case DEBUG:
-      return isSetDebug();
-    case APP_NAME:
-      return isSetApp_name();
-    case ORDER:
-      return isSetOrder();
-    case DURATION:
-      return isSetDuration();
-    case STARTSTAMP:
-      return isSetStartstamp();
-    }
-    throw new IllegalStateException();
-  }
-
-  @Override
-  public boolean equals(Object that) {
-    if (that == null)
-      return false;
-    if (that instanceof Span)
-      return this.equals((Span)that);
-    return false;
-  }
-
-  public boolean equals(Span that) {
-    if (that == null)
-      return false;
-
-    boolean this_present_trace_id = true;
-    boolean that_present_trace_id = true;
-    if (this_present_trace_id || that_present_trace_id) {
-      if (!(this_present_trace_id && that_present_trace_id))
-        return false;
-      if (this.trace_id != that.trace_id)
-        return false;
-    }
-
-    boolean this_present_name = true && this.isSetName();
-    boolean that_present_name = true && that.isSetName();
-    if (this_present_name || that_present_name) {
-      if (!(this_present_name && that_present_name))
-        return false;
-      if (!this.name.equals(that.name))
-        return false;
-    }
-
-    boolean this_present_id = true;
-    boolean that_present_id = true;
-    if (this_present_id || that_present_id) {
-      if (!(this_present_id && that_present_id))
-        return false;
-      if (this.id != that.id)
-        return false;
-    }
-
-    boolean this_present_parent_id = true && this.isSetParent_id();
-    boolean that_present_parent_id = true && that.isSetParent_id();
-    if (this_present_parent_id || that_present_parent_id) {
-      if (!(this_present_parent_id && that_present_parent_id))
-        return false;
-      if (this.parent_id != that.parent_id)
-        return false;
-    }
-
-    boolean this_present_annotations = true && this.isSetAnnotations();
-    boolean that_present_annotations = true && that.isSetAnnotations();
-    if (this_present_annotations || that_present_annotations) {
-      if (!(this_present_annotations && that_present_annotations))
-        return false;
-      if (!this.annotations.equals(that.annotations))
-        return false;
-    }
-
-    boolean this_present_debug = true && this.isSetDebug();
-    boolean that_present_debug = true && that.isSetDebug();
-    if (this_present_debug || that_present_debug) {
-      if (!(this_present_debug && that_present_debug))
-        return false;
-      if (this.debug != that.debug)
-        return false;
-    }
-
-    boolean this_present_app_name = true && this.isSetApp_name();
-    boolean that_present_app_name = true && that.isSetApp_name();
-    if (this_present_app_name || that_present_app_name) {
-      if (!(this_present_app_name && that_present_app_name))
-        return false;
-      if (!this.app_name.equals(that.app_name))
-        return false;
-    }
-
-    boolean this_present_order = true;
-    boolean that_present_order = true;
-    if (this_present_order || that_present_order) {
-      if (!(this_present_order && that_present_order))
-        return false;
-      if (this.order != that.order)
-        return false;
-    }
-
-    boolean this_present_duration = true;
-    boolean that_present_duration = true;
-    if (this_present_duration || that_present_duration) {
-      if (!(this_present_duration && that_present_duration))
-        return false;
-      if (this.duration != that.duration)
-        return false;
-    }
-
-    boolean this_present_startstamp = true;
-    boolean that_present_startstamp = true;
-    if (this_present_startstamp || that_present_startstamp) {
-      if (!(this_present_startstamp && that_present_startstamp))
-        return false;
-      if (this.startstamp != that.startstamp)
-        return false;
-    }
-
-    return true;
-  }
-
-  @Override
-  public int hashCode() {
-    return 0;
-  }
-
-  public int compareTo(Span other) {
-    if (!getClass().equals(other.getClass())) {
-      return getClass().getName().compareTo(other.getClass().getName());
-    }
-
-    int lastComparison = 0;
-    Span typedOther = (Span)other;
-
-    lastComparison = Boolean.valueOf(isSetTrace_id()).compareTo(typedOther.isSetTrace_id());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    if (isSetTrace_id()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.trace_id, typedOther.trace_id);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
-    lastComparison = Boolean.valueOf(isSetName()).compareTo(typedOther.isSetName());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    if (isSetName()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.name, typedOther.name);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
-    lastComparison = Boolean.valueOf(isSetId()).compareTo(typedOther.isSetId());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    if (isSetId()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.id, typedOther.id);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
-    lastComparison = Boolean.valueOf(isSetParent_id()).compareTo(typedOther.isSetParent_id());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    if (isSetParent_id()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.parent_id, typedOther.parent_id);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
-    lastComparison = Boolean.valueOf(isSetAnnotations()).compareTo(typedOther.isSetAnnotations());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    if (isSetAnnotations()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.annotations, typedOther.annotations);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
-    lastComparison = Boolean.valueOf(isSetDebug()).compareTo(typedOther.isSetDebug());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    if (isSetDebug()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.debug, typedOther.debug);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
-    lastComparison = Boolean.valueOf(isSetApp_name()).compareTo(typedOther.isSetApp_name());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    if (isSetApp_name()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.app_name, typedOther.app_name);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
-    lastComparison = Boolean.valueOf(isSetOrder()).compareTo(typedOther.isSetOrder());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    if (isSetOrder()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.order, typedOther.order);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
-    lastComparison = Boolean.valueOf(isSetDuration()).compareTo(typedOther.isSetDuration());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    if (isSetDuration()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.duration, typedOther.duration);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
-    lastComparison = Boolean.valueOf(isSetStartstamp()).compareTo(typedOther.isSetStartstamp());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    if (isSetStartstamp()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.startstamp, typedOther.startstamp);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
-    return 0;
-  }
-
-  public _Fields fieldForId(int fieldId) {
-    return _Fields.findByThriftId(fieldId);
-  }
-
-  public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-    schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
-  }
-
-  public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-    schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder("Span(");
-    boolean first = true;
-
-    sb.append("trace_id:");
-    sb.append(this.trace_id);
-    first = false;
-    if (!first) sb.append(", ");
-    sb.append("name:");
-    if (this.name == null) {
-      sb.append("null");
-    } else {
-      sb.append(this.name);
-    }
-    first = false;
-    if (!first) sb.append(", ");
-    sb.append("id:");
-    sb.append(this.id);
-    first = false;
-    if (isSetParent_id()) {
-      if (!first) sb.append(", ");
-      sb.append("parent_id:");
-      sb.append(this.parent_id);
-      first = false;
-    }
-    if (!first) sb.append(", ");
-    sb.append("annotations:");
-    if (this.annotations == null) {
-      sb.append("null");
-    } else {
-      sb.append(this.annotations);
-    }
-    first = false;
-    if (isSetDebug()) {
-      if (!first) sb.append(", ");
-      sb.append("debug:");
-      sb.append(this.debug);
-      first = false;
-    }
-    if (!first) sb.append(", ");
-    sb.append("app_name:");
-    if (this.app_name == null) {
-      sb.append("null");
-    } else {
-      sb.append(this.app_name);
-    }
-    first = false;
-    if (!first) sb.append(", ");
-    sb.append("order:");
-    sb.append(this.order);
-    first = false;
-    if (!first) sb.append(", ");
-    sb.append("duration:");
-    sb.append(this.duration);
-    first = false;
-    if (!first) sb.append(", ");
-    sb.append("startstamp:");
-    sb.append(this.startstamp);
-    first = false;
-    sb.append(")");
-    return sb.toString();
-  }
-
-  public void validate() throws org.apache.thrift.TException {
-    // check for required fields
-    // check for sub-struct validity
-  }
-
-  private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
-    try {
-      write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-    } catch (org.apache.thrift.TException te) {
-      throw new java.io.IOException(te);
-    }
-  }
-
-  private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
-    try {
-      // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
-      __isset_bitfield = 0;
-      read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-    } catch (org.apache.thrift.TException te) {
-      throw new java.io.IOException(te);
-    }
-  }
-
-  private static class SpanStandardSchemeFactory implements SchemeFactory {
-    public SpanStandardScheme getScheme() {
-      return new SpanStandardScheme();
-    }
-  }
-
-  private static class SpanStandardScheme extends StandardScheme<Span> {
-
-    public void read(org.apache.thrift.protocol.TProtocol iprot, Span struct) throws org.apache.thrift.TException {
-      org.apache.thrift.protocol.TField schemeField;
-      iprot.readStructBegin();
-      while (true)
-      {
-        schemeField = iprot.readFieldBegin();
-        if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
-          break;
-        }
-        switch (schemeField.id) {
-          case 1: // TRACE_ID
-            if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
-              struct.trace_id = iprot.readI64();
-              struct.setTrace_idIsSet(true);
-            } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-            }
-            break;
-          case 3: // NAME
-            if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
-              struct.name = iprot.readString();
-              struct.setNameIsSet(true);
-            } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-            }
-            break;
-          case 4: // ID
-            if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
-              struct.id = iprot.readI64();
-              struct.setIdIsSet(true);
-            } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-            }
-            break;
-          case 5: // PARENT_ID
-            if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
-              struct.parent_id = iprot.readI64();
-              struct.setParent_idIsSet(true);
-            } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-            }
-            break;
-          case 6: // ANNOTATIONS
-            if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
-              {
-                org.apache.thrift.protocol.TList _list0 = iprot.readListBegin();
-                struct.annotations = new ArrayList<Annotation>(_list0.size);
-                for (int _i1 = 0; _i1 < _list0.size; ++_i1)
-                {
-                  Annotation _elem2; // required
-                  _elem2 = new Annotation();
-                  _elem2.read(iprot);
-                  struct.annotations.add(_elem2);
-                }
-                iprot.readListEnd();
-              }
-              struct.setAnnotationsIsSet(true);
-            } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-            }
-            break;
-          case 7: // DEBUG
-            if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
-              struct.debug = iprot.readBool();
-              struct.setDebugIsSet(true);
-            } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-            }
-            break;
-          case 8: // APP_NAME
-            if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
-              struct.app_name = iprot.readString();
-              struct.setApp_nameIsSet(true);
-            } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-            }
-            break;
-          case 9: // ORDER
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-              struct.order = iprot.readI32();
-              struct.setOrderIsSet(true);
-            } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-            }
-            break;
-          case 10: // DURATION
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-              struct.duration = iprot.readI32();
-              struct.setDurationIsSet(true);
-            } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-            }
-            break;
-          case 11: // STARTSTAMP
-            if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
-              struct.startstamp = iprot.readI64();
-              struct.setStartstampIsSet(true);
-            } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-            }
-            break;
-          default:
-            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-        }
-        iprot.readFieldEnd();
-      }
-      iprot.readStructEnd();
-
-      // check for required fields of primitive type, which can't be checked in the validate method
-      struct.validate();
-    }
-
-    public void write(org.apache.thrift.protocol.TProtocol oprot, Span struct) throws org.apache.thrift.TException {
-      struct.validate();
-
-      oprot.writeStructBegin(STRUCT_DESC);
-      oprot.writeFieldBegin(TRACE_ID_FIELD_DESC);
-      oprot.writeI64(struct.trace_id);
-      oprot.writeFieldEnd();
-      if (struct.name != null) {
-        oprot.writeFieldBegin(NAME_FIELD_DESC);
-        oprot.writeString(struct.name);
-        oprot.writeFieldEnd();
-      }
-      oprot.writeFieldBegin(ID_FIELD_DESC);
-      oprot.writeI64(struct.id);
-      oprot.writeFieldEnd();
-      if (struct.isSetParent_id()) {
-        oprot.writeFieldBegin(PARENT_ID_FIELD_DESC);
-        oprot.writeI64(struct.parent_id);
-        oprot.writeFieldEnd();
-      }
-      if (struct.annotations != null) {
-        oprot.writeFieldBegin(ANNOTATIONS_FIELD_DESC);
-        {
-          oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.annotations.size()));
-          for (Annotation _iter3 : struct.annotations)
-          {
-            _iter3.write(oprot);
-          }
-          oprot.writeListEnd();
-        }
-        oprot.writeFieldEnd();
-      }
-      if (struct.isSetDebug()) {
-        oprot.writeFieldBegin(DEBUG_FIELD_DESC);
-        oprot.writeBool(struct.debug);
-        oprot.writeFieldEnd();
-      }
-      if (struct.app_name != null) {
-        oprot.writeFieldBegin(APP_NAME_FIELD_DESC);
-        oprot.writeString(struct.app_name);
-        oprot.writeFieldEnd();
-      }
-      oprot.writeFieldBegin(ORDER_FIELD_DESC);
-      oprot.writeI32(struct.order);
-      oprot.writeFieldEnd();
-      oprot.writeFieldBegin(DURATION_FIELD_DESC);
-      oprot.writeI32(struct.duration);
-      oprot.writeFieldEnd();
-      oprot.writeFieldBegin(STARTSTAMP_FIELD_DESC);
-      oprot.writeI64(struct.startstamp);
-      oprot.writeFieldEnd();
-      oprot.writeFieldStop();
-      oprot.writeStructEnd();
-    }
-
-  }
-
-  private static class SpanTupleSchemeFactory implements SchemeFactory {
-    public SpanTupleScheme getScheme() {
-      return new SpanTupleScheme();
-    }
-  }
-
-  private static class SpanTupleScheme extends TupleScheme<Span> {
-
-    @Override
-    public void write(org.apache.thrift.protocol.TProtocol prot, Span struct) throws org.apache.thrift.TException {
-      TTupleProtocol oprot = (TTupleProtocol) prot;
-      BitSet optionals = new BitSet();
-      if (struct.isSetTrace_id()) {
-        optionals.set(0);
-      }
-      if (struct.isSetName()) {
-        optionals.set(1);
-      }
-      if (struct.isSetId()) {
-        optionals.set(2);
-      }
-      if (struct.isSetParent_id()) {
-        optionals.set(3);
-      }
-      if (struct.isSetAnnotations()) {
-        optionals.set(4);
-      }
-      if (struct.isSetDebug()) {
-        optionals.set(5);
-      }
-      if (struct.isSetApp_name()) {
-        optionals.set(6);
-      }
-      if (struct.isSetOrder()) {
-        optionals.set(7);
-      }
-      if (struct.isSetDuration()) {
-        optionals.set(8);
-      }
-      if (struct.isSetStartstamp()) {
-        optionals.set(9);
-      }
-      oprot.writeBitSet(optionals, 10);
-      if (struct.isSetTrace_id()) {
-        oprot.writeI64(struct.trace_id);
-      }
-      if (struct.isSetName()) {
-        oprot.writeString(struct.name);
-      }
-      if (struct.isSetId()) {
-        oprot.writeI64(struct.id);
-      }
-      if (struct.isSetParent_id()) {
-        oprot.writeI64(struct.parent_id);
-      }
-      if (struct.isSetAnnotations()) {
-        {
-          oprot.writeI32(struct.annotations.size());
-          for (Annotation _iter4 : struct.annotations)
-          {
-            _iter4.write(oprot);
-          }
-        }
-      }
-      if (struct.isSetDebug()) {
-        oprot.writeBool(struct.debug);
-      }
-      if (struct.isSetApp_name()) {
-        oprot.writeString(struct.app_name);
-      }
-      if (struct.isSetOrder()) {
-        oprot.writeI32(struct.order);
-      }
-      if (struct.isSetDuration()) {
-        oprot.writeI32(struct.duration);
-      }
-      if (struct.isSetStartstamp()) {
-        oprot.writeI64(struct.startstamp);
-      }
-    }
-
-    @Override
-    public void read(org.apache.thrift.protocol.TProtocol prot, Span struct) throws org.apache.thrift.TException {
-      TTupleProtocol iprot = (TTupleProtocol) prot;
-      BitSet incoming = iprot.readBitSet(10);
-      if (incoming.get(0)) {
-        struct.trace_id = iprot.readI64();
-        struct.setTrace_idIsSet(true);
-      }
-      if (incoming.get(1)) {
-        struct.name = iprot.readString();
-        struct.setNameIsSet(true);
-      }
-      if (incoming.get(2)) {
-        struct.id = iprot.readI64();
-        struct.setIdIsSet(true);
-      }
-      if (incoming.get(3)) {
-        struct.parent_id = iprot.readI64();
-        struct.setParent_idIsSet(true);
-      }
-      if (incoming.get(4)) {
-        {
-          org.apache.thrift.protocol.TList _list5 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
-          struct.annotations = new ArrayList<Annotation>(_list5.size);
-          for (int _i6 = 0; _i6 < _list5.size; ++_i6)
-          {
-            Annotation _elem7; // required
-            _elem7 = new Annotation();
-            _elem7.read(iprot);
-            struct.annotations.add(_elem7);
-          }
-        }
-        struct.setAnnotationsIsSet(true);
-      }
-      if (incoming.get(5)) {
-        struct.debug = iprot.readBool();
-        struct.setDebugIsSet(true);
-      }
-      if (incoming.get(6)) {
-        struct.app_name = iprot.readString();
-        struct.setApp_nameIsSet(true);
-      }
-      if (incoming.get(7)) {
-        struct.order = iprot.readI32();
-        struct.setOrderIsSet(true);
-      }
-      if (incoming.get(8)) {
-        struct.duration = iprot.readI32();
-        struct.setDurationIsSet(true);
-      }
-      if (incoming.get(9)) {
-        struct.startstamp = iprot.readI64();
-        struct.setStartstampIsSet(true);
-      }
-    }
-  }
+
+	private static final long serialVersionUID = -1322650356173101068L;
+
+	private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("Span");
+
+	private static final org.apache.thrift.protocol.TField TRACE_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("trace_id", org.apache.thrift.protocol.TType.I64, (short) 1);
+	private static final org.apache.thrift.protocol.TField NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("name", org.apache.thrift.protocol.TType.STRING, (short) 3);
+	private static final org.apache.thrift.protocol.TField ID_FIELD_DESC = new org.apache.thrift.protocol.TField("id", org.apache.thrift.protocol.TType.I64, (short) 4);
+	private static final org.apache.thrift.protocol.TField PARENT_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("parent_id", org.apache.thrift.protocol.TType.I64, (short) 5);
+	private static final org.apache.thrift.protocol.TField ANNOTATIONS_FIELD_DESC = new org.apache.thrift.protocol.TField("annotations", org.apache.thrift.protocol.TType.LIST, (short) 6);
+	private static final org.apache.thrift.protocol.TField DEBUG_FIELD_DESC = new org.apache.thrift.protocol.TField("debug", org.apache.thrift.protocol.TType.BOOL, (short) 7);
+	private static final org.apache.thrift.protocol.TField APP_NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("app_name", org.apache.thrift.protocol.TType.STRING, (short) 8);
+	private static final org.apache.thrift.protocol.TField ORDER_FIELD_DESC = new org.apache.thrift.protocol.TField("order", org.apache.thrift.protocol.TType.I32, (short) 9);
+	private static final org.apache.thrift.protocol.TField DURATION_FIELD_DESC = new org.apache.thrift.protocol.TField("duration", org.apache.thrift.protocol.TType.I32, (short) 10);
+	private static final org.apache.thrift.protocol.TField STARTSTAMP_FIELD_DESC = new org.apache.thrift.protocol.TField("startstamp", org.apache.thrift.protocol.TType.I64, (short) 11);
+
+	private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
+	static {
+		schemes.put(StandardScheme.class, new SpanStandardSchemeFactory());
+		schemes.put(TupleScheme.class, new SpanTupleSchemeFactory());
+	}
+
+	public long trace_id; // required
+	public String name; // required
+	public long id; // required
+	public long parent_id; // optional
+	public List<Annotation> annotations; // required
+	public boolean debug; // optional
+	public String app_name; // required
+	public int order; // required
+	public int duration; // required
+	public long startstamp; // required
+
+	/**
+	 * The set of fields this struct contains, along with convenience methods
+	 * for finding and manipulating them.
+	 */
+	public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+		TRACE_ID((short) 1, "trace_id"), NAME((short) 3, "name"), ID((short) 4, "id"), PARENT_ID((short) 5, "parent_id"), ANNOTATIONS((short) 6, "annotations"), DEBUG((short) 7, "debug"), APP_NAME(
+				(short) 8, "app_name"), ORDER((short) 9, "order"), DURATION((short) 10, "duration"), STARTSTAMP((short) 11, "startstamp");
+
+		private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
+
+		static {
+			for (_Fields field : EnumSet.allOf(_Fields.class)) {
+				byName.put(field.getFieldName(), field);
+			}
+		}
+
+		/**
+		 * Find the _Fields constant that matches fieldId, or null if its not
+		 * found.
+		 */
+		public static _Fields findByThriftId(int fieldId) {
+			switch (fieldId) {
+			case 1: // TRACE_ID
+				return TRACE_ID;
+			case 3: // NAME
+				return NAME;
+			case 4: // ID
+				return ID;
+			case 5: // PARENT_ID
+				return PARENT_ID;
+			case 6: // ANNOTATIONS
+				return ANNOTATIONS;
+			case 7: // DEBUG
+				return DEBUG;
+			case 8: // APP_NAME
+				return APP_NAME;
+			case 9: // ORDER
+				return ORDER;
+			case 10: // DURATION
+				return DURATION;
+			case 11: // STARTSTAMP
+				return STARTSTAMP;
+			default:
+				return null;
+			}
+		}
+
+		/**
+		 * Find the _Fields constant that matches fieldId, throwing an exception
+		 * if it is not found.
+		 */
+		public static _Fields findByThriftIdOrThrow(int fieldId) {
+			_Fields fields = findByThriftId(fieldId);
+			if (fields == null)
+				throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+			return fields;
+		}
+
+		/**
+		 * Find the _Fields constant that matches name, or null if its not
+		 * found.
+		 */
+		public static _Fields findByName(String name) {
+			return byName.get(name);
+		}
+
+		private final short _thriftId;
+		private final String _fieldName;
+
+		_Fields(short thriftId, String fieldName) {
+			_thriftId = thriftId;
+			_fieldName = fieldName;
+		}
+
+		public short getThriftFieldId() {
+			return _thriftId;
+		}
+
+		public String getFieldName() {
+			return _fieldName;
+		}
+	}
+
+	// isset id assignments
+	private static final int __TRACE_ID_ISSET_ID = 0;
+	private static final int __ID_ISSET_ID = 1;
+	private static final int __PARENT_ID_ISSET_ID = 2;
+	private static final int __DEBUG_ISSET_ID = 3;
+	private static final int __ORDER_ISSET_ID = 4;
+	private static final int __DURATION_ISSET_ID = 5;
+	private static final int __STARTSTAMP_ISSET_ID = 6;
+	private byte __isset_bitfield = 0;
+	private _Fields optionals[] = { _Fields.PARENT_ID, _Fields.DEBUG };
+	public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+	static {
+		Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+		tmpMap.put(_Fields.TRACE_ID, new org.apache.thrift.meta_data.FieldMetaData("trace_id", org.apache.thrift.TFieldRequirementType.DEFAULT, new org.apache.thrift.meta_data.FieldValueMetaData(
+				org.apache.thrift.protocol.TType.I64)));
+		tmpMap.put(_Fields.NAME, new org.apache.thrift.meta_data.FieldMetaData("name", org.apache.thrift.TFieldRequirementType.DEFAULT, new org.apache.thrift.meta_data.FieldValueMetaData(
+				org.apache.thrift.protocol.TType.STRING)));
+		tmpMap.put(_Fields.ID, new org.apache.thrift.meta_data.FieldMetaData("id", org.apache.thrift.TFieldRequirementType.DEFAULT, new org.apache.thrift.meta_data.FieldValueMetaData(
+				org.apache.thrift.protocol.TType.I64)));
+		tmpMap.put(_Fields.PARENT_ID, new org.apache.thrift.meta_data.FieldMetaData("parent_id", org.apache.thrift.TFieldRequirementType.OPTIONAL, new org.apache.thrift.meta_data.FieldValueMetaData(
+				org.apache.thrift.protocol.TType.I64)));
+		tmpMap.put(_Fields.ANNOTATIONS, new org.apache.thrift.meta_data.FieldMetaData("annotations", org.apache.thrift.TFieldRequirementType.DEFAULT, new org.apache.thrift.meta_data.ListMetaData(
+				org.apache.thrift.protocol.TType.LIST, new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Annotation.class))));
+		tmpMap.put(_Fields.DEBUG, new org.apache.thrift.meta_data.FieldMetaData("debug", org.apache.thrift.TFieldRequirementType.OPTIONAL, new org.apache.thrift.meta_data.FieldValueMetaData(
+				org.apache.thrift.protocol.TType.BOOL)));
+		tmpMap.put(_Fields.APP_NAME, new org.apache.thrift.meta_data.FieldMetaData("app_name", org.apache.thrift.TFieldRequirementType.DEFAULT, new org.apache.thrift.meta_data.FieldValueMetaData(
+				org.apache.thrift.protocol.TType.STRING)));
+		tmpMap.put(_Fields.ORDER, new org.apache.thrift.meta_data.FieldMetaData("order", org.apache.thrift.TFieldRequirementType.DEFAULT, new org.apache.thrift.meta_data.FieldValueMetaData(
+				org.apache.thrift.protocol.TType.I32)));
+		tmpMap.put(_Fields.DURATION, new org.apache.thrift.meta_data.FieldMetaData("duration", org.apache.thrift.TFieldRequirementType.DEFAULT, new org.apache.thrift.meta_data.FieldValueMetaData(
+				org.apache.thrift.protocol.TType.I32)));
+		tmpMap.put(_Fields.STARTSTAMP, new org.apache.thrift.meta_data.FieldMetaData("startstamp", org.apache.thrift.TFieldRequirementType.DEFAULT, new org.apache.thrift.meta_data.FieldValueMetaData(
+				org.apache.thrift.protocol.TType.I64)));
+		metaDataMap = Collections.unmodifiableMap(tmpMap);
+		org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Span.class, metaDataMap);
+	}
+
+	public Span() {
+		this.debug = false;
+
+	}
+
+	public Span(long trace_id, String name, long id, List<Annotation> annotations, String app_name, int order, int duration, long startstamp) {
+		this();
+		this.trace_id = trace_id;
+		setTrace_idIsSet(true);
+		this.name = name;
+		this.id = id;
+		setIdIsSet(true);
+		this.annotations = annotations;
+		this.app_name = app_name;
+		this.order = order;
+		setOrderIsSet(true);
+		this.duration = duration;
+		setDurationIsSet(true);
+		this.startstamp = startstamp;
+		setStartstampIsSet(true);
+	}
+
+	/**
+	 * Performs a deep copy on <i>other</i>.
+	 */
+	public Span(Span other) {
+		__isset_bitfield = other.__isset_bitfield;
+		this.trace_id = other.trace_id;
+		if (other.isSetName()) {
+			this.name = other.name;
+		}
+		this.id = other.id;
+		this.parent_id = other.parent_id;
+		if (other.isSetAnnotations()) {
+			List<Annotation> __this__annotations = new ArrayList<Annotation>();
+			for (Annotation other_element : other.annotations) {
+				__this__annotations.add(new Annotation(other_element));
+			}
+			this.annotations = __this__annotations;
+		}
+		this.debug = other.debug;
+		if (other.isSetApp_name()) {
+			this.app_name = other.app_name;
+		}
+		this.order = other.order;
+		this.duration = other.duration;
+		this.startstamp = other.startstamp;
+	}
+
+	public Span deepCopy() {
+		return new Span(this);
+	}
+
+	@Override
+	public void clear() {
+		setTrace_idIsSet(false);
+		this.trace_id = 0;
+		this.name = null;
+		setIdIsSet(false);
+		this.id = 0;
+		setParent_idIsSet(false);
+		this.parent_id = 0;
+		this.annotations = null;
+		this.debug = false;
+
+		this.app_name = null;
+		setOrderIsSet(false);
+		this.order = 0;
+		setDurationIsSet(false);
+		this.duration = 0;
+		setStartstampIsSet(false);
+		this.startstamp = 0;
+	}
+
+	public long getTrace_id() {
+		return this.trace_id;
+	}
+
+	public Span setTrace_id(long trace_id) {
+		this.trace_id = trace_id;
+		setTrace_idIsSet(true);
+		return this;
+	}
+
+	public void unsetTrace_id() {
+		__isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __TRACE_ID_ISSET_ID);
+	}
+
+	/**
+	 * Returns true if field trace_id is set (has been assigned a value) and
+	 * false otherwise
+	 */
+	public boolean isSetTrace_id() {
+		return EncodingUtils.testBit(__isset_bitfield, __TRACE_ID_ISSET_ID);
+	}
+
+	public void setTrace_idIsSet(boolean value) {
+		__isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __TRACE_ID_ISSET_ID, value);
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public Span setName(String name) {
+		this.name = name;
+		return this;
+	}
+
+	public void unsetName() {
+		this.name = null;
+	}
+
+	/**
+	 * Returns true if field name is set (has been assigned a value) and false
+	 * otherwise
+	 */
+	public boolean isSetName() {
+		return this.name != null;
+	}
+
+	public void setNameIsSet(boolean value) {
+		if (!value) {
+			this.name = null;
+		}
+	}
+
+	public long getId() {
+		return this.id;
+	}
+
+	public Span setId(long id) {
+		this.id = id;
+		setIdIsSet(true);
+		return this;
+	}
+
+	public void unsetId() {
+		__isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __ID_ISSET_ID);
+	}
+
+	/**
+	 * Returns true if field id is set (has been assigned a value) and false
+	 * otherwise
+	 */
+	public boolean isSetId() {
+		return EncodingUtils.testBit(__isset_bitfield, __ID_ISSET_ID);
+	}
+
+	public void setIdIsSet(boolean value) {
+		__isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __ID_ISSET_ID, value);
+	}
+
+	public long getParent_id() {
+		return this.parent_id;
+	}
+
+	public Span setParent_id(long parent_id) {
+		this.parent_id = parent_id;
+		setParent_idIsSet(true);
+		return this;
+	}
+
+	public void unsetParent_id() {
+		__isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __PARENT_ID_ISSET_ID);
+	}
+
+	/**
+	 * Returns true if field parent_id is set (has been assigned a value) and
+	 * false otherwise
+	 */
+	public boolean isSetParent_id() {
+		return EncodingUtils.testBit(__isset_bitfield, __PARENT_ID_ISSET_ID);
+	}
+
+	public void setParent_idIsSet(boolean value) {
+		__isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __PARENT_ID_ISSET_ID, value);
+	}
+
+	public int getAnnotationsSize() {
+		return (this.annotations == null) ? 0 : this.annotations.size();
+	}
+
+	public java.util.Iterator<Annotation> getAnnotationsIterator() {
+		return (this.annotations == null) ? null : this.annotations.iterator();
+	}
+
+	public void addToAnnotations(Annotation elem) {
+		if (this.annotations == null) {
+			this.annotations = new ArrayList<Annotation>();
+		}
+		this.annotations.add(elem);
+	}
+
+	public List<Annotation> getAnnotations() {
+		return this.annotations;
+	}
+
+	public Span setAnnotations(List<Annotation> annotations) {
+		this.annotations = annotations;
+		return this;
+	}
+
+	public void unsetAnnotations() {
+		this.annotations = null;
+	}
+
+	/**
+	 * Returns true if field annotations is set (has been assigned a value) and
+	 * false otherwise
+	 */
+	public boolean isSetAnnotations() {
+		return this.annotations != null;
+	}
+
+	public void setAnnotationsIsSet(boolean value) {
+		if (!value) {
+			this.annotations = null;
+		}
+	}
+
+	public boolean isDebug() {
+		return this.debug;
+	}
+
+	public Span setDebug(boolean debug) {
+		this.debug = debug;
+		setDebugIsSet(true);
+		return this;
+	}
+
+	public void unsetDebug() {
+		__isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __DEBUG_ISSET_ID);
+	}
+
+	/**
+	 * Returns true if field debug is set (has been assigned a value) and false
+	 * otherwise
+	 */
+	public boolean isSetDebug() {
+		return EncodingUtils.testBit(__isset_bitfield, __DEBUG_ISSET_ID);
+	}
+
+	public void setDebugIsSet(boolean value) {
+		__isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __DEBUG_ISSET_ID, value);
+	}
+
+	public String getApp_name() {
+		return this.app_name;
+	}
+
+	public Span setApp_name(String app_name) {
+		this.app_name = app_name;
+		return this;
+	}
+
+	public void unsetApp_name() {
+		this.app_name = null;
+	}
+
+	/**
+	 * Returns true if field app_name is set (has been assigned a value) and
+	 * false otherwise
+	 */
+	public boolean isSetApp_name() {
+		return this.app_name != null;
+	}
+
+	public void setApp_nameIsSet(boolean value) {
+		if (!value) {
+			this.app_name = null;
+		}
+	}
+
+	public int getOrder() {
+		return this.order;
+	}
+
+	public Span setOrder(int order) {
+		this.order = order;
+		setOrderIsSet(true);
+		return this;
+	}
+
+	public void unsetOrder() {
+		__isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __ORDER_ISSET_ID);
+	}
+
+	/**
+	 * Returns true if field order is set (has been assigned a value) and false
+	 * otherwise
+	 */
+	public boolean isSetOrder() {
+		return EncodingUtils.testBit(__isset_bitfield, __ORDER_ISSET_ID);
+	}
+
+	public void setOrderIsSet(boolean value) {
+		__isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __ORDER_ISSET_ID, value);
+	}
+
+	public int getDuration() {
+		return this.duration;
+	}
+
+	public Span setDuration(int duration) {
+		this.duration = duration;
+		setDurationIsSet(true);
+		return this;
+	}
+
+	public void unsetDuration() {
+		__isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __DURATION_ISSET_ID);
+	}
+
+	/**
+	 * Returns true if field duration is set (has been assigned a value) and
+	 * false otherwise
+	 */
+	public boolean isSetDuration() {
+		return EncodingUtils.testBit(__isset_bitfield, __DURATION_ISSET_ID);
+	}
+
+	public void setDurationIsSet(boolean value) {
+		__isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __DURATION_ISSET_ID, value);
+	}
+
+	public long getStartstamp() {
+		return this.startstamp;
+	}
+
+	public Span setStartstamp(long startstamp) {
+		this.startstamp = startstamp;
+		setStartstampIsSet(true);
+		return this;
+	}
+
+	public void unsetStartstamp() {
+		__isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __STARTSTAMP_ISSET_ID);
+	}
+
+	/**
+	 * Returns true if field startstamp is set (has been assigned a value) and
+	 * false otherwise
+	 */
+	public boolean isSetStartstamp() {
+		return EncodingUtils.testBit(__isset_bitfield, __STARTSTAMP_ISSET_ID);
+	}
+
+	public void setStartstampIsSet(boolean value) {
+		__isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __STARTSTAMP_ISSET_ID, value);
+	}
+
+	public void setFieldValue(_Fields field, Object value) {
+		switch (field) {
+		case TRACE_ID:
+			if (value == null) {
+				unsetTrace_id();
+			} else {
+				setTrace_id((Long) value);
+			}
+			break;
+
+		case NAME:
+			if (value == null) {
+				unsetName();
+			} else {
+				setName((String) value);
+			}
+			break;
+
+		case ID:
+			if (value == null) {
+				unsetId();
+			} else {
+				setId((Long) value);
+			}
+			break;
+
+		case PARENT_ID:
+			if (value == null) {
+				unsetParent_id();
+			} else {
+				setParent_id((Long) value);
+			}
+			break;
+
+		case ANNOTATIONS:
+			if (value == null) {
+				unsetAnnotations();
+			} else {
+				setAnnotations((List<Annotation>) value);
+			}
+			break;
+
+		case DEBUG:
+			if (value == null) {
+				unsetDebug();
+			} else {
+				setDebug((Boolean) value);
+			}
+			break;
+
+		case APP_NAME:
+			if (value == null) {
+				unsetApp_name();
+			} else {
+				setApp_name((String) value);
+			}
+			break;
+
+		case ORDER:
+			if (value == null) {
+				unsetOrder();
+			} else {
+				setOrder((Integer) value);
+			}
+			break;
+
+		case DURATION:
+			if (value == null) {
+				unsetDuration();
+			} else {
+				setDuration((Integer) value);
+			}
+			break;
+
+		case STARTSTAMP:
+			if (value == null) {
+				unsetStartstamp();
+			} else {
+				setStartstamp((Long) value);
+			}
+			break;
+
+		}
+	}
+
+	public Object getFieldValue(_Fields field) {
+		switch (field) {
+		case TRACE_ID:
+			return Long.valueOf(getTrace_id());
+
+		case NAME:
+			return getName();
+
+		case ID:
+			return Long.valueOf(getId());
+
+		case PARENT_ID:
+			return Long.valueOf(getParent_id());
+
+		case ANNOTATIONS:
+			return getAnnotations();
+
+		case DEBUG:
+			return Boolean.valueOf(isDebug());
+
+		case APP_NAME:
+			return getApp_name();
+
+		case ORDER:
+			return Integer.valueOf(getOrder());
+
+		case DURATION:
+			return Integer.valueOf(getDuration());
+
+		case STARTSTAMP:
+			return Long.valueOf(getStartstamp());
+
+		}
+		throw new IllegalStateException();
+	}
+
+	/**
+	 * Returns true if field corresponding to fieldID is set (has been assigned
+	 * a value) and false otherwise
+	 */
+	public boolean isSet(_Fields field) {
+		if (field == null) {
+			throw new IllegalArgumentException();
+		}
+
+		switch (field) {
+		case TRACE_ID:
+			return isSetTrace_id();
+		case NAME:
+			return isSetName();
+		case ID:
+			return isSetId();
+		case PARENT_ID:
+			return isSetParent_id();
+		case ANNOTATIONS:
+			return isSetAnnotations();
+		case DEBUG:
+			return isSetDebug();
+		case APP_NAME:
+			return isSetApp_name();
+		case ORDER:
+			return isSetOrder();
+		case DURATION:
+			return isSetDuration();
+		case STARTSTAMP:
+			return isSetStartstamp();
+		}
+		throw new IllegalStateException();
+	}
+
+	@Override
+	public boolean equals(Object that) {
+		if (that == null)
+			return false;
+		if (that instanceof Span)
+			return this.equals((Span) that);
+		return false;
+	}
+
+	public boolean equals(Span that) {
+		if (that == null)
+			return false;
+
+		boolean this_present_trace_id = true;
+		boolean that_present_trace_id = true;
+		if (this_present_trace_id || that_present_trace_id) {
+			if (!(this_present_trace_id && that_present_trace_id))
+				return false;
+			if (this.trace_id != that.trace_id)
+				return false;
+		}
+
+		boolean this_present_name = true && this.isSetName();
+		boolean that_present_name = true && that.isSetName();
+		if (this_present_name || that_present_name) {
+			if (!(this_present_name && that_present_name))
+				return false;
+			if (!this.name.equals(that.name))
+				return false;
+		}
+
+		boolean this_present_id = true;
+		boolean that_present_id = true;
+		if (this_present_id || that_present_id) {
+			if (!(this_present_id && that_present_id))
+				return false;
+			if (this.id != that.id)
+				return false;
+		}
+
+		boolean this_present_parent_id = true && this.isSetParent_id();
+		boolean that_present_parent_id = true && that.isSetParent_id();
+		if (this_present_parent_id || that_present_parent_id) {
+			if (!(this_present_parent_id && that_present_parent_id))
+				return false;
+			if (this.parent_id != that.parent_id)
+				return false;
+		}
+
+		boolean this_present_annotations = true && this.isSetAnnotations();
+		boolean that_present_annotations = true && that.isSetAnnotations();
+		if (this_present_annotations || that_present_annotations) {
+			if (!(this_present_annotations && that_present_annotations))
+				return false;
+			if (!this.annotations.equals(that.annotations))
+				return false;
+		}
+
+		boolean this_present_debug = true && this.isSetDebug();
+		boolean that_present_debug = true && that.isSetDebug();
+		if (this_present_debug || that_present_debug) {
+			if (!(this_present_debug && that_present_debug))
+				return false;
+			if (this.debug != that.debug)
+				return false;
+		}
+
+		boolean this_present_app_name = true && this.isSetApp_name();
+		boolean that_present_app_name = true && that.isSetApp_name();
+		if (this_present_app_name || that_present_app_name) {
+			if (!(this_present_app_name && that_present_app_name))
+				return false;
+			if (!this.app_name.equals(that.app_name))
+				return false;
+		}
+
+		boolean this_present_order = true;
+		boolean that_present_order = true;
+		if (this_present_order || that_present_order) {
+			if (!(this_present_order && that_present_order))
+				return false;
+			if (this.order != that.order)
+				return false;
+		}
+
+		boolean this_present_duration = true;
+		boolean that_present_duration = true;
+		if (this_present_duration || that_present_duration) {
+			if (!(this_present_duration && that_present_duration))
+				return false;
+			if (this.duration != that.duration)
+				return false;
+		}
+
+		boolean this_present_startstamp = true;
+		boolean that_present_startstamp = true;
+		if (this_present_startstamp || that_present_startstamp) {
+			if (!(this_present_startstamp && that_present_startstamp))
+				return false;
+			if (this.startstamp != that.startstamp)
+				return false;
+		}
+
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		return 0;
+	}
+
+	public int compareTo(Span other) {
+		if (!getClass().equals(other.getClass())) {
+			return getClass().getName().compareTo(other.getClass().getName());
+		}
+
+		int lastComparison = 0;
+		Span typedOther = (Span) other;
+
+		lastComparison = Boolean.valueOf(isSetTrace_id()).compareTo(typedOther.isSetTrace_id());
+		if (lastComparison != 0) {
+			return lastComparison;
+		}
+		if (isSetTrace_id()) {
+			lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.trace_id, typedOther.trace_id);
+			if (lastComparison != 0) {
+				return lastComparison;
+			}
+		}
+		lastComparison = Boolean.valueOf(isSetName()).compareTo(typedOther.isSetName());
+		if (lastComparison != 0) {
+			return lastComparison;
+		}
+		if (isSetName()) {
+			lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.name, typedOther.name);
+			if (lastComparison != 0) {
+				return lastComparison;
+			}
+		}
+		lastComparison = Boolean.valueOf(isSetId()).compareTo(typedOther.isSetId());
+		if (lastComparison != 0) {
+			return lastComparison;
+		}
+		if (isSetId()) {
+			lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.id, typedOther.id);
+			if (lastComparison != 0) {
+				return lastComparison;
+			}
+		}
+		lastComparison = Boolean.valueOf(isSetParent_id()).compareTo(typedOther.isSetParent_id());
+		if (lastComparison != 0) {
+			return lastComparison;
+		}
+		if (isSetParent_id()) {
+			lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.parent_id, typedOther.parent_id);
+			if (lastComparison != 0) {
+				return lastComparison;
+			}
+		}
+		lastComparison = Boolean.valueOf(isSetAnnotations()).compareTo(typedOther.isSetAnnotations());
+		if (lastComparison != 0) {
+			return lastComparison;
+		}
+		if (isSetAnnotations()) {
+			lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.annotations, typedOther.annotations);
+			if (lastComparison != 0) {
+				return lastComparison;
+			}
+		}
+		lastComparison = Boolean.valueOf(isSetDebug()).compareTo(typedOther.isSetDebug());
+		if (lastComparison != 0) {
+			return lastComparison;
+		}
+		if (isSetDebug()) {
+			lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.debug, typedOther.debug);
+			if (lastComparison != 0) {
+				return lastComparison;
+			}
+		}
+		lastComparison = Boolean.valueOf(isSetApp_name()).compareTo(typedOther.isSetApp_name());
+		if (lastComparison != 0) {
+			return lastComparison;
+		}
+		if (isSetApp_name()) {
+			lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.app_name, typedOther.app_name);
+			if (lastComparison != 0) {
+				return lastComparison;
+			}
+		}
+		lastComparison = Boolean.valueOf(isSetOrder()).compareTo(typedOther.isSetOrder());
+		if (lastComparison != 0) {
+			return lastComparison;
+		}
+		if (isSetOrder()) {
+			lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.order, typedOther.order);
+			if (lastComparison != 0) {
+				return lastComparison;
+			}
+		}
+		lastComparison = Boolean.valueOf(isSetDuration()).compareTo(typedOther.isSetDuration());
+		if (lastComparison != 0) {
+			return lastComparison;
+		}
+		if (isSetDuration()) {
+			lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.duration, typedOther.duration);
+			if (lastComparison != 0) {
+				return lastComparison;
+			}
+		}
+		lastComparison = Boolean.valueOf(isSetStartstamp()).compareTo(typedOther.isSetStartstamp());
+		if (lastComparison != 0) {
+			return lastComparison;
+		}
+		if (isSetStartstamp()) {
+			lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.startstamp, typedOther.startstamp);
+			if (lastComparison != 0) {
+				return lastComparison;
+			}
+		}
+		return 0;
+	}
+
+	public _Fields fieldForId(int fieldId) {
+		return _Fields.findByThriftId(fieldId);
+	}
+
+	public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+		schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+	}
+
+	public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+		schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder("Span(");
+		boolean first = true;
+
+		sb.append("trace_id:");
+		sb.append(this.trace_id);
+		first = false;
+		if (!first)
+			sb.append(", ");
+		sb.append("name:");
+		if (this.name == null) {
+			sb.append("null");
+		} else {
+			sb.append(this.name);
+		}
+		first = false;
+		if (!first)
+			sb.append(", ");
+		sb.append("id:");
+		sb.append(this.id);
+		first = false;
+		if (isSetParent_id()) {
+			if (!first)
+				sb.append(", ");
+			sb.append("parent_id:");
+			sb.append(this.parent_id);
+			first = false;
+		}
+		if (!first)
+			sb.append(", ");
+		sb.append("annotations:");
+		if (this.annotations == null) {
+			sb.append("null");
+		} else {
+			sb.append(this.annotations);
+		}
+		first = false;
+		if (isSetDebug()) {
+			if (!first)
+				sb.append(", ");
+			sb.append("debug:");
+			sb.append(this.debug);
+			first = false;
+		}
+		if (!first)
+			sb.append(", ");
+		sb.append("app_name:");
+		if (this.app_name == null) {
+			sb.append("null");
+		} else {
+			sb.append(this.app_name);
+		}
+		first = false;
+		if (!first)
+			sb.append(", ");
+		sb.append("order:");
+		sb.append(this.order);
+		first = false;
+		if (!first)
+			sb.append(", ");
+		sb.append("duration:");
+		sb.append(this.duration);
+		first = false;
+		if (!first)
+			sb.append(", ");
+		sb.append("startstamp:");
+		sb.append(this.startstamp);
+		first = false;
+		sb.append(")");
+		return sb.toString();
+	}
+
+	public void validate() throws org.apache.thrift.TException {
+		// check for required fields
+		// check for sub-struct validity
+	}
+
+	private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+		try {
+			write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+		} catch (org.apache.thrift.TException te) {
+			throw new java.io.IOException(te);
+		}
+	}
+
+	private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+		try {
+			// it doesn't seem like you should have to do this, but java
+			// serialization is wacky, and doesn't call the default constructor.
+			__isset_bitfield = 0;
+			read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+		} catch (org.apache.thrift.TException te) {
+			throw new java.io.IOException(te);
+		}
+	}
+
+	private static class SpanStandardSchemeFactory implements SchemeFactory {
+		public SpanStandardScheme getScheme() {
+			return new SpanStandardScheme();
+		}
+	}
+
+	private static class SpanStandardScheme extends StandardScheme<Span> {
+
+		public void read(org.apache.thrift.protocol.TProtocol iprot, Span struct) throws org.apache.thrift.TException {
+			org.apache.thrift.protocol.TField schemeField;
+			iprot.readStructBegin();
+			while (true) {
+				schemeField = iprot.readFieldBegin();
+				if (schemeField.type == org.apache.thrift.protocol.TType.STOP) {
+					break;
+				}
+				switch (schemeField.id) {
+				case 1: // TRACE_ID
+					if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+						struct.trace_id = iprot.readI64();
+						struct.setTrace_idIsSet(true);
+					} else {
+						org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+					}
+					break;
+				case 3: // NAME
+					if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+						struct.name = iprot.readString();
+						struct.setNameIsSet(true);
+					} else {
+						org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+					}
+					break;
+				case 4: // ID
+					if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+						struct.id = iprot.readI64();
+						struct.setIdIsSet(true);
+					} else {
+						org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+					}
+					break;
+				case 5: // PARENT_ID
+					if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+						struct.parent_id = iprot.readI64();
+						struct.setParent_idIsSet(true);
+					} else {
+						org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+					}
+					break;
+				case 6: // ANNOTATIONS
+					if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
+						{
+							org.apache.thrift.protocol.TList _list0 = iprot.readListBegin();
+							struct.annotations = new ArrayList<Annotation>(_list0.size);
+							for (int _i1 = 0; _i1 < _list0.size; ++_i1) {
+								Annotation _elem2; // required
+								_elem2 = new Annotation();
+								_elem2.read(iprot);
+								struct.annotations.add(_elem2);
+							}
+							iprot.readListEnd();
+						}
+						struct.setAnnotationsIsSet(true);
+					} else {
+						org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+					}
+					break;
+				case 7: // DEBUG
+					if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
+						struct.debug = iprot.readBool();
+						struct.setDebugIsSet(true);
+					} else {
+						org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+					}
+					break;
+				case 8: // APP_NAME
+					if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+						struct.app_name = iprot.readString();
+						struct.setApp_nameIsSet(true);
+					} else {
+						org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+					}
+					break;
+				case 9: // ORDER
+					if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+						struct.order = iprot.readI32();
+						struct.setOrderIsSet(true);
+					} else {
+						org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+					}
+					break;
+				case 10: // DURATION
+					if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+						struct.duration = iprot.readI32();
+						struct.setDurationIsSet(true);
+					} else {
+						org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+					}
+					break;
+				case 11: // STARTSTAMP
+					if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+						struct.startstamp = iprot.readI64();
+						struct.setStartstampIsSet(true);
+					} else {
+						org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+					}
+					break;
+				default:
+					org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+				}
+				iprot.readFieldEnd();
+			}
+			iprot.readStructEnd();
+
+			// check for required fields of primitive type, which can't be
+			// checked in the validate method
+			struct.validate();
+		}
+
+		public void write(org.apache.thrift.protocol.TProtocol oprot, Span struct) throws org.apache.thrift.TException {
+			struct.validate();
+
+			oprot.writeStructBegin(STRUCT_DESC);
+			oprot.writeFieldBegin(TRACE_ID_FIELD_DESC);
+			oprot.writeI64(struct.trace_id);
+			oprot.writeFieldEnd();
+			if (struct.name != null) {
+				oprot.writeFieldBegin(NAME_FIELD_DESC);
+				oprot.writeString(struct.name);
+				oprot.writeFieldEnd();
+			}
+			oprot.writeFieldBegin(ID_FIELD_DESC);
+			oprot.writeI64(struct.id);
+			oprot.writeFieldEnd();
+			if (struct.isSetParent_id()) {
+				oprot.writeFieldBegin(PARENT_ID_FIELD_DESC);
+				oprot.writeI64(struct.parent_id);
+				oprot.writeFieldEnd();
+			}
+			if (struct.annotations != null) {
+				oprot.writeFieldBegin(ANNOTATIONS_FIELD_DESC);
+				{
+					oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.annotations.size()));
+					for (Annotation _iter3 : struct.annotations) {
+						_iter3.write(oprot);
+					}
+					oprot.writeListEnd();
+				}
+				oprot.writeFieldEnd();
+			}
+			if (struct.isSetDebug()) {
+				oprot.writeFieldBegin(DEBUG_FIELD_DESC);
+				oprot.writeBool(struct.debug);
+				oprot.writeFieldEnd();
+			}
+			if (struct.app_name != null) {
+				oprot.writeFieldBegin(APP_NAME_FIELD_DESC);
+				oprot.writeString(struct.app_name);
+				oprot.writeFieldEnd();
+			}
+			oprot.writeFieldBegin(ORDER_FIELD_DESC);
+			oprot.writeI32(struct.order);
+			oprot.writeFieldEnd();
+			oprot.writeFieldBegin(DURATION_FIELD_DESC);
+			oprot.writeI32(struct.duration);
+			oprot.writeFieldEnd();
+			oprot.writeFieldBegin(STARTSTAMP_FIELD_DESC);
+			oprot.writeI64(struct.startstamp);
+			oprot.writeFieldEnd();
+			oprot.writeFieldStop();
+			oprot.writeStructEnd();
+		}
+
+	}
+
+	private static class SpanTupleSchemeFactory implements SchemeFactory {
+		public SpanTupleScheme getScheme() {
+			return new SpanTupleScheme();
+		}
+	}
+
+	private static class SpanTupleScheme extends TupleScheme<Span> {
+
+		@Override
+		public void write(org.apache.thrift.protocol.TProtocol prot, Span struct) throws org.apache.thrift.TException {
+			TTupleProtocol oprot = (TTupleProtocol) prot;
+			BitSet optionals = new BitSet();
+			if (struct.isSetTrace_id()) {
+				optionals.set(0);
+			}
+			if (struct.isSetName()) {
+				optionals.set(1);
+			}
+			if (struct.isSetId()) {
+				optionals.set(2);
+			}
+			if (struct.isSetParent_id()) {
+				optionals.set(3);
+			}
+			if (struct.isSetAnnotations()) {
+				optionals.set(4);
+			}
+			if (struct.isSetDebug()) {
+				optionals.set(5);
+			}
+			if (struct.isSetApp_name()) {
+				optionals.set(6);
+			}
+			if (struct.isSetOrder()) {
+				optionals.set(7);
+			}
+			if (struct.isSetDuration()) {
+				optionals.set(8);
+			}
+			if (struct.isSetStartstamp()) {
+				optionals.set(9);
+			}
+			oprot.writeBitSet(optionals, 10);
+			if (struct.isSetTrace_id()) {
+				oprot.writeI64(struct.trace_id);
+			}
+			if (struct.isSetName()) {
+				oprot.writeString(struct.name);
+			}
+			if (struct.isSetId()) {
+				oprot.writeI64(struct.id);
+			}
+			if (struct.isSetParent_id()) {
+				oprot.writeI64(struct.parent_id);
+			}
+			if (struct.isSetAnnotations()) {
+				{
+					oprot.writeI32(struct.annotations.size());
+					for (Annotation _iter4 : struct.annotations) {
+						_iter4.write(oprot);
+					}
+				}
+			}
+			if (struct.isSetDebug()) {
+				oprot.writeBool(struct.debug);
+			}
+			if (struct.isSetApp_name()) {
+				oprot.writeString(struct.app_name);
+			}
+			if (struct.isSetOrder()) {
+				oprot.writeI32(struct.order);
+			}
+			if (struct.isSetDuration()) {
+				oprot.writeI32(struct.duration);
+			}
+			if (struct.isSetStartstamp()) {
+				oprot.writeI64(struct.startstamp);
+			}
+		}
+
+		@Override
+		public void read(org.apache.thrift.protocol.TProtocol prot, Span struct) throws org.apache.thrift.TException {
+			TTupleProtocol iprot = (TTupleProtocol) prot;
+			BitSet incoming = iprot.readBitSet(10);
+			if (incoming.get(0)) {
+				struct.trace_id = iprot.readI64();
+				struct.setTrace_idIsSet(true);
+			}
+			if (incoming.get(1)) {
+				struct.name = iprot.readString();
+				struct.setNameIsSet(true);
+			}
+			if (incoming.get(2)) {
+				struct.id = iprot.readI64();
+				struct.setIdIsSet(true);
+			}
+			if (incoming.get(3)) {
+				struct.parent_id = iprot.readI64();
+				struct.setParent_idIsSet(true);
+			}
+			if (incoming.get(4)) {
+				{
+					org.apache.thrift.protocol.TList _list5 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
+					struct.annotations = new ArrayList<Annotation>(_list5.size);
+					for (int _i6 = 0; _i6 < _list5.size; ++_i6) {
+						Annotation _elem7; // required
+						_elem7 = new Annotation();
+						_elem7.read(iprot);
+						struct.annotations.add(_elem7);
+					}
+				}
+				struct.setAnnotationsIsSet(true);
+			}
+			if (incoming.get(5)) {
+				struct.debug = iprot.readBool();
+				struct.setDebugIsSet(true);
+			}
+			if (incoming.get(6)) {
+				struct.app_name = iprot.readString();
+				struct.setApp_nameIsSet(true);
+			}
+			if (incoming.get(7)) {
+				struct.order = iprot.readI32();
+				struct.setOrderIsSet(true);
+			}
+			if (incoming.get(8)) {
+				struct.duration = iprot.readI32();
+				struct.setDurationIsSet(true);
+			}
+			if (incoming.get(9)) {
+				struct.startstamp = iprot.readI64();
+				struct.setStartstampIsSet(true);
+			}
+		}
+	}
 
 }
-

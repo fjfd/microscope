@@ -98,7 +98,7 @@ public class TraceService {
 		traceSpan.put("endTimestamp", table.getEndTimestamp());
 		traceSpan.put("durationMicro", table.getDuration());
 		traceSpan.put("serviceCounts", template.getSpanNameByTraceId(traceId));
-		
+		System.out.println(traceSpan);
 		return traceSpan;
 		
 	}

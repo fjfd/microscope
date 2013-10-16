@@ -26,7 +26,12 @@ import com.vipshop.microscope.hbase.repository.Repositorys;
 public class RepositorysTest {
 
 	private static final Log log = LogFactory.getLog(RepositorysTest.class);
-
+	
+	@Test
+	public void init() {
+		Repositorys.init();
+	}
+	
 	@Test
 	public void drop() throws IOException {
 		log.info("Drop Hbase Data ");

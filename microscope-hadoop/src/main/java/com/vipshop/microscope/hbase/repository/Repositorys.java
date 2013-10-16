@@ -35,6 +35,14 @@ public class Repositorys {
 		context.close();
 	}
 	
+	public static void init() {
+		APP_INDEX.initialize();
+		TRAC.initialize();
+		TRAC_INDEX.initialize();
+		SPAN.initialize();
+		TRACE_SPAN.initialize();
+	}
+	
 	public static void drop() {
 		APP_INDEX.drop();
 		TRAC.drop();
