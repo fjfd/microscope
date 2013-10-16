@@ -16,7 +16,7 @@ public class Repositorys {
 	public static TraceSpanRepository TRACE_SPAN;
 	
 	static {
-		AbstractApplicationContext context = new ClassPathXmlApplicationContext("/META-INF/spring/applicationContext-hbase.xml", Repositorys.class);
+		AbstractApplicationContext context = new ClassPathXmlApplicationContext("/applicationContext-hbase.xml", Repositorys.class);
 		
 		APP_INDEX = context.getBean(AppRepository.class);
 		TRAC = context.getBean(TraceRepository.class);

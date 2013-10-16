@@ -43,28 +43,85 @@
 
 	<build>
 		<plugins>
-<!-- 			<plugin> -->
-<!-- 				<artifactId>maven-assembly-plugin</artifactId> -->
-<!-- 				<configuration> -->
-<!-- 					<archive> -->
-<!-- 						<manifest> -->
-<!-- 							<mainClass>com.vipshop.microscope.hadoop.hbase.mapreduce.CountShakespeare</mainClass> -->
-<!-- 						</manifest> -->
-<!-- 					</archive> -->
-<!-- 					<descriptorRefs> -->
-<!-- 						<descriptorRef>jar-with-dependencies</descriptorRef> -->
-<!-- 					</descriptorRefs> -->
-<!-- 				</configuration> -->
-<!-- 				<executions> -->
-<!-- 					<execution> -->
-<!-- 						<id>make-assembly</id> -->
-<!-- 						<phase>package</phase> -->
-<!-- 						<goals> -->
-<!-- 							<goal>single</goal> -->
-<!-- 						</goals> -->
-<!-- 					</execution> -->
-<!-- 				</executions> -->
-<!-- 			</plugin> -->
 		</plugins>
 	</build>
+	
+	<profiles>
+      <profile>
+          <id>dev</id>
+          <build>
+              <filters>
+                  <filter>src/main/resources/filters/hbase-dev.properties</filter>
+              </filters>
+              <resources>
+                  <resource>
+                      <directory>src/main/resources</directory>
+                      <filtering>true</filtering>
+                      <includes>
+                          <include>*.*</include>
+                      </includes>
+                  </resource>
+              </resources>
+          </build>
+          
+          <activation>
+              <activeByDefault>true</activeByDefault>
+              <property>
+                  <name>env</name>
+                  <value>dev</value>
+              </property>
+          </activation>
+      </profile>
+      
+      <profile>
+          <id>qa</id>
+          <build>
+              <filters>
+                  <filter>src/main/resources/filters/hbase-qa.properties</filter>
+              </filters>
+              <resources>
+                  <resource>
+                      <directory>src/main/resources</directory>
+                      <filtering>true</filtering>
+                      <includes>
+                          <include>*.*</include>
+                      </includes>
+                  </resource>
+              </resources>
+          </build>
+          
+          <activation>
+              <property>
+                  <name>env</name>
+                  <value>qa</value>
+              </property>
+          </activation>
+      </profile>
+      
+      <profile>
+          <id>prod</id>
+          <build>
+              <filters>
+                  <filter>src/main/resources/filters/hbase-prod.properties</filter>
+              </filters>
+              <resources>
+                  <resource>
+                      <directory>src/main/resources</directory>
+                      <filtering>true</filtering>
+                      <includes>
+                          <include>*.*</include>
+                      </includes>
+                  </resource>
+              </resources>
+          </build>
+          
+          <activation>
+              <property>
+                  <name>env</name>
+                  <value>prod</value>
+              </property>
+          </activation>
+      </profile>
+      
+  </profiles>
 </project>
