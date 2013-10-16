@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 
 import com.vipshop.microscope.collector.consumer.MessageConsumerExecutor;
 import com.vipshop.microscope.collector.thrift.ThriftServerExecutor;
-import com.vipshop.microscope.common.cfg.ConfigData;
 
 public class CollectorServer implements Runnable {
 	
@@ -17,7 +16,7 @@ public class CollectorServer implements Runnable {
 		logger.info("start message consumer thread pool");
 		MessageConsumerExecutor.startMessageConsumer();
 		
-		logger.info("start collector server on port: " + ConfigData.COLLECTOR_PORT);
+		logger.info("start collector server on port: " + CollectorConstant.COLLECTOR_PORT);
 		ThriftServerExecutor.startNonBlockingServer();
 
 	}
@@ -27,7 +26,7 @@ public class CollectorServer implements Runnable {
 		logger.info("start message consumer thread pool");
 		MessageConsumerExecutor.startMessageConsumer();
 		
-		logger.info("start collector server on port: " + ConfigData.COLLECTOR_PORT);
+		logger.info("start collector server on port: " + CollectorConstant.COLLECTOR_PORT);
 		try {
 			ThriftServerExecutor.startNonBlockingServer();
 		} catch (TTransportException e) {

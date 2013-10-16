@@ -1,16 +1,8 @@
-package com.vipshop.microscope.common.cfg;
+package com.vipshop.microscope.collector.server;
 
+import com.vipshop.microscope.common.cfg.Configuration;
 
-/**
- * Configurable value for application.
- * 
- * All the configurable value should read from this utility.
- * 
- *
- * @author Xu Fei
- * @version 1.0
- */
-public class ConfigData {
+public class CollectorConstant {
 	
 	private static final Configuration config = Configuration.getConfiguration("config.properties");
 	

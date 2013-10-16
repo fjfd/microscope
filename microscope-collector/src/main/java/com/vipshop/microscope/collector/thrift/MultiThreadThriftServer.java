@@ -6,8 +6,8 @@ import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TServerTransport;
 import org.apache.thrift.transport.TTransportException;
 
+import com.vipshop.microscope.collector.server.CollectorConstant;
 import com.vipshop.microscope.collector.server.CollectorHandler;
-import com.vipshop.microscope.common.cfg.ConfigData;
 import com.vipshop.microscope.thrift.Send;
 
 /**
@@ -20,7 +20,7 @@ public class MultiThreadThriftServer implements ThriftServer {
 
 	@Override
 	public void serve() throws TTransportException {
-		TServerTransport serverTransport = new TServerSocket(ConfigData.COLLECTOR_PORT);
+		TServerTransport serverTransport = new TServerSocket(CollectorConstant.COLLECTOR_PORT);
 		Send.Processor<CollectorHandler> processor = new Send.Processor<CollectorHandler>(new CollectorHandler());
 		TServer server = new TThreadPoolServer(new TThreadPoolServer.Args(serverTransport).processor(processor));
 		server.serve();		
