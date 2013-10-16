@@ -13,7 +13,7 @@ public class CollectorServer implements Runnable {
 	
 	public static void main(String[] args) throws TTransportException {
 		
-		logger.info("start message consumer thread pool");
+		logger.info("start message consumer thread pool, size " + CollectorConstant.CONSUMER_POOL_SIZE);
 		MessageConsumerExecutor.startMessageConsumer();
 		
 		logger.info("start collector server on port: " + CollectorConstant.COLLECTOR_PORT);
@@ -23,6 +23,7 @@ public class CollectorServer implements Runnable {
 	
 	@Override
 	public void run() {
+		
 		logger.info("start message consumer thread pool");
 		MessageConsumerExecutor.startMessageConsumer();
 		
@@ -30,9 +31,7 @@ public class CollectorServer implements Runnable {
 		try {
 			ThriftServerExecutor.startNonBlockingServer();
 		} catch (TTransportException e) {
-			return;
 		}
-		
 	}
 	
 }

@@ -1,6 +1,8 @@
 package com.vipshop.microscope.collector.processor;
 
 import org.apache.thrift.TException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.vipshop.microscope.hbase.domain.App;
 import com.vipshop.microscope.hbase.domain.TraceIndex;
@@ -9,6 +11,8 @@ import com.vipshop.microscope.thrift.LogEntry;
 import com.vipshop.microscope.thrift.Span;
 
 public class TraceMessageProcessor extends AbstraceMessageProcessor {
+	
+	private static final Logger logger = LoggerFactory.getLogger(TraceMessageProcessor.class);
 	
 	@Override
 	public void stat(LogEntry logEntry) {
@@ -22,7 +26,6 @@ public class TraceMessageProcessor extends AbstraceMessageProcessor {
 			
 			Span span = encoder.decodeToSpan(msg);
 			
-			System.out.println(span);
 			App appIndex = buildProcessor.buildAppIndex(span);
 			TraceIndex traceIndex = buildProcessor.buildTraceIndex(span);
 			TraceTable traceTable = buildProcessor.buildTraceTable(span);
@@ -31,6 +34,8 @@ public class TraceMessageProcessor extends AbstraceMessageProcessor {
 			storageProcessor.save(traceIndex);
 			storageProcessor.save(traceTable);
 			storageProcessor.save(span);
+			
+			logger.debug("save span to hbase:" + span);
 			
 		} catch (TException e) {
 			metric.increFailMsgSize();
