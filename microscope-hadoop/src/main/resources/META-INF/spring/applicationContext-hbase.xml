@@ -7,19 +7,16 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 	http://www.springframework.org/schema/hadoop http://www.springframework.org/schema/hadoop/spring-hadoop.xsd">
-
+	
 	<context:property-placeholder location="hbase.properties"/>
-
+	
 	<context:component-scan base-package="com.vipshop.microscope.hbase"/>
 	
 	<hdp:configuration id="hadoopConfiguration">
-	  <!-- 
-	  fs.default.name=hdfs://192.168.52.146:9000/hbase
-	   -->
-	  fs.default.name=hdfs://test-1:9000/user/hadoop/hbase
+		fs.default.name=${hbase.hdfs}
 	</hdp:configuration>
 	
-	<hdp:hbase-configuration configuration-ref="hadoopConfiguration" zk-quorum="${hbase.host}" zk-port="${hbase.port}"/>
+	<hdp:hbase-configuration configuration-ref="hadoopConfiguration" zk-quorum="${zk.host}" zk-port="${zk.port}"/>
 	
 	<bean id="hbaseTemplate" class="org.springframework.data.hadoop.hbase.HbaseTemplate">
 		<property name="configuration" ref="hbaseConfiguration"/>
