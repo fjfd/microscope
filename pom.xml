@@ -19,6 +19,7 @@
 		<module>microscope-query</module>
 		<module>microscope-test</module>
 		<module>microscope-kafka</module>
+		<module>microscope-admin</module>
 	</modules>
 
 	<properties>
