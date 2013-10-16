@@ -1,6 +1,7 @@
 package com.vipshop.microscope.hbase.repository;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.SerializationUtils;
@@ -55,6 +56,7 @@ public class SpanRepository extends HbaseRepository {
 					Span span = (Span) SerializationUtils.deserialize(data);
 					spans.add(span);
 				}
+				Collections.sort(spans, new SpanComparator());
 				return spans;
 			}
 		});
