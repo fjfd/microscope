@@ -8,7 +8,6 @@ import com.vipshop.microscope.hbase.domain.TraceIndex;
 import com.vipshop.microscope.hbase.domain.TraceTable;
 import com.vipshop.microscope.hbase.repository.Repositorys;
 import com.vipshop.microscope.thrift.Span;
-import com.vipshop.microscope.trace.TraceFactory;
 
 public class QueryTemplate {
 	
@@ -38,9 +37,7 @@ public class QueryTemplate {
 	 * @return
 	 */
 	public List<String> getTraceNameByAppName(String appName) {
-		TraceFactory.getTrace().clientSend("getTraceNameByAppName");
 		List<String> strings = Repositorys.TRAC_INDEX.findTraceNameByAppName(appName);
-		TraceFactory.getTrace().clientReceive();
 		return strings;
 	}
 

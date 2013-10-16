@@ -20,17 +20,6 @@
 		</property>
 	</bean>
 	
-	<bean id="loggerInterception" class="com.vipshop.microscope.trace.interceptor.ControllerInterceptor" />
-
-	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
-        <property name="interceptors">
-            <list>
-                <ref bean="loggerInterception"/>
-            </list>
-        </property>
-    </bean>
-	
-	
 	<bean id="mappingJsonpHttpMessageConverter"
 		class="com.vipshop.microscope.web.jsonp.MappingJsonpHttpMessageConverter">
 		<property name="supportedMediaTypes">
@@ -41,6 +30,5 @@
 		<property name="prefixCallback" value="callback(" />
 		<property name="suffixCallback" value=");" />
 	</bean>
-
 
 </beans>

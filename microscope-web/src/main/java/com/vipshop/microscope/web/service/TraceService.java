@@ -11,14 +11,12 @@ import com.vipshop.microscope.query.core.QueryTemplate;
 import com.vipshop.microscope.thrift.Annotation;
 import com.vipshop.microscope.thrift.AnnotationType;
 import com.vipshop.microscope.thrift.Span;
-import com.vipshop.microscope.trace.TraceFactory;
 
 public class TraceService {
 	
 	QueryTemplate template = new QueryTemplate();
 	
 	public List<Map<String, Object>> getQueryCondition() {
-		TraceFactory.getTrace().clientSend("getQueryCondition");
 		List<Map<String, Object>> conditions = new ArrayList<Map<String, Object>>();
 		List<App> appIndexs = template.getAppIndex();
 		for (App appIndex : appIndexs) {
@@ -28,7 +26,6 @@ public class TraceService {
 			appAndTrace.put("trace", template.getTraceNameByAppName(name));
 			conditions.add(appAndTrace);
 		}
-		TraceFactory.getTrace().clientReceive();
 		return conditions;
 	}
 	
