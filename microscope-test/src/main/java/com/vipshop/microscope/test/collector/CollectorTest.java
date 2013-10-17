@@ -15,9 +15,9 @@ public class CollectorTest {
 		new UserService().login();
 		trace.clientReceive();
 		
-		TimeUnit.SECONDS.sleep(2);
+		TimeUnit.SECONDS.sleep(60);
 		
-		System.out.println("######################### get all trace info from hbase");
+		System.out.println(" get all trace info from hbase");
 		System.out.println(Repositorys.TRAC.findAll());
 	}
 
