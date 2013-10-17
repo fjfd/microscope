@@ -9,6 +9,8 @@ import org.apache.hadoop.hbase.client.HTableInterface;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.hadoop.hbase.RowMapper;
 import org.springframework.data.hadoop.hbase.TableCallback;
 import org.springframework.stereotype.Repository;
@@ -17,7 +19,9 @@ import com.vipshop.microscope.hbase.core.HbaseRepository;
 
 @Repository
 public class TraceSpanRepository extends HbaseRepository {
-
+	
+	private static final Logger logger = LoggerFactory.getLogger(TraceSpanRepository.class);
+	
 	private String tableName = "trace.span";
 	private String cfInfo = "cfInfo";
 
@@ -32,6 +36,9 @@ public class TraceSpanRepository extends HbaseRepository {
 	}
 	
 	public void save(final String traceId, final String spanName) {
+		
+		logger.info("insert tracespan to hbase" + traceId + spanName);
+		
 		hbaseTemplate.execute(tableName, new TableCallback<String>() {
 			@Override
 			public String doInTable(HTableInterface table) throws Throwable {

@@ -30,12 +30,17 @@ public class TraceMessageProcessor extends AbstraceMessageProcessor {
 			TraceIndex traceIndex = buildProcessor.buildTraceIndex(span);
 			TraceTable traceTable = buildProcessor.buildTraceTable(span);
 			
+			logger.info("save appIndex to hbase:" + appIndex);
 			storageProcessor.save(appIndex);
-			storageProcessor.save(traceIndex);
-			storageProcessor.save(traceTable);
-			storageProcessor.save(span);
 			
-			logger.debug("save span to hbase:" + span);
+			logger.info("save traceIndex to hbase:" + traceIndex);
+			storageProcessor.save(traceIndex);
+			
+			logger.info("save traceTable to hbase:" + traceTable);
+			storageProcessor.save(traceTable);
+			
+			logger.info("save span to hbase:" + span);
+			storageProcessor.save(span);
 			
 		} catch (TException e) {
 			metric.increFailMsgSize();

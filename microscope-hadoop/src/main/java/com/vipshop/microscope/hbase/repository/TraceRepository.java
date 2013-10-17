@@ -15,6 +15,8 @@ import org.apache.hadoop.hbase.filter.FilterList;
 import org.apache.hadoop.hbase.filter.RegexStringComparator;
 import org.apache.hadoop.hbase.filter.RowFilter;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.hadoop.hbase.RowMapper;
 import org.springframework.data.hadoop.hbase.TableCallback;
 import org.springframework.stereotype.Repository;
@@ -24,7 +26,9 @@ import com.vipshop.microscope.hbase.domain.TraceTable;
 
 @Repository
 public class TraceRepository extends HbaseRepository {
-
+	
+	private static final Logger logger = LoggerFactory.getLogger(TraceRepository.class);
+	
 	private String tableName = TraceTable.TABLE_NAME;
 	private String cfInfo = TraceTable.CF_INFO;
 
@@ -72,9 +76,7 @@ public class TraceRepository extends HbaseRepository {
 //	}
 	
 	public void save(final TraceTable tableTrace) {
-		if (tableTrace == null) {
-			return;
-		}
+		logger.info("insert traceTable to hbase " + tableTrace);
 		
 		hbaseTemplate.execute(tableName, new TableCallback<TraceTable>() {
 			@Override

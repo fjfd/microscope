@@ -14,6 +14,8 @@ import org.apache.hadoop.hbase.filter.RowFilter;
 import org.apache.hadoop.hbase.filter.SingleColumnValueFilter;
 import org.apache.hadoop.hbase.filter.CompareFilter.CompareOp;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.hadoop.hbase.RowMapper;
 import org.springframework.data.hadoop.hbase.TableCallback;
 import org.springframework.stereotype.Repository;
@@ -23,6 +25,8 @@ import com.vipshop.microscope.hbase.domain.TraceIndex;
 
 @Repository
 public class TraceIndexRepository extends HbaseRepository {
+	
+	private static final Logger logger = LoggerFactory.getLogger(TraceIndexRepository.class);
 
 	private String tableName = TraceIndex.TABLE_NAME;
 	private String cfInfo = TraceIndex.CF_INFO;
@@ -40,9 +44,9 @@ public class TraceIndexRepository extends HbaseRepository {
 	}
 	
 	public void save(final TraceIndex traceIndex) {
-		if (traceIndex == null) {
-			return;
-		}
+		
+		logger.info("insert traceIndex to hbase " + traceIndex);
+		
 		hbaseTemplate.execute(tableName, new TableCallback<TraceIndex>() {
 			@Override
 			public TraceIndex doInTable(HTableInterface table) throws Throwable {

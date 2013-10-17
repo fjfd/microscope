@@ -6,6 +6,8 @@ import org.apache.hadoop.hbase.client.HTableInterface;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.hadoop.hbase.RowMapper;
 import org.springframework.data.hadoop.hbase.TableCallback;
 import org.springframework.stereotype.Repository;
@@ -15,6 +17,8 @@ import com.vipshop.microscope.hbase.domain.App;
 
 @Repository
 public class AppRepository extends HbaseRepository {
+	
+	private static final Logger logger = LoggerFactory.getLogger(AppRepository.class);
 
 	private String tableName = App.TABLE_NAME;
 	private String cfInfo = App.CF_INFO;
@@ -31,6 +35,9 @@ public class AppRepository extends HbaseRepository {
 	}
 	
 	public void save(final App appIndex) {
+		
+		logger.info("insert appIndex to hbase " + appIndex);
+		
 		hbaseTemplate.execute(tableName, new TableCallback<App>() {
 			@Override
 			public App doInTable(HTableInterface table) throws Throwable {
