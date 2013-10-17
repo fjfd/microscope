@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.vipshop</groupId>
 		<artifactId>microscope</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.1</version>
 	</parent>
 	<artifactId>microscope-trace</artifactId>
 	<properties>
@@ -28,11 +28,10 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-	<groupId>org.aspectj</groupId>
-	<artifactId>aspectjtools</artifactId>
-	<version>1.6.2</version>
-</dependency>
-
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjtools</artifactId>
+			<version>1.6.2</version>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.ibatis</groupId>
 			<artifactId>ibatis-core</artifactId>
