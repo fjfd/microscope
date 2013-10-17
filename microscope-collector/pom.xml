@@ -36,4 +36,122 @@
 		</dependency>
 	</dependencies>
 
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<build>
+				<filters>
+					<filter>src/main/resources/filters/collector-dev.properties</filter>
+				</filters>
+				<resources>
+					<resource>
+						<directory>src/main/resources</directory>
+						<filtering>true</filtering>
+						<includes>
+							<include>*.*</include>
+						</includes>
+					</resource>
+				</resources>
+			</build>
+
+			<activation>
+				<activeByDefault>true</activeByDefault>
+				<property>
+					<name>env</name>
+					<value>dev</value>
+				</property>
+			</activation>
+		</profile>
+
+		<profile>
+			<id>qa</id>
+			<build>
+				<filters>
+					<filter>src/main/resources/filters/collector-qa.properties</filter>
+				</filters>
+				<resources>
+					<resource>
+						<directory>src/main/resources</directory>
+						<filtering>true</filtering>
+						<includes>
+							<include>*.*</include>
+						</includes>
+					</resource>
+				</resources>
+			</build>
+
+			<activation>
+				<property>
+					<name>env</name>
+					<value>qa</value>
+				</property>
+			</activation>
+		</profile>
+
+		<profile>
+			<id>prod</id>
+			<build>
+				<filters>
+					<filter>src/main/resources/filters/collector-prod.properties</filter>
+				</filters>
+				<resources>
+					<resource>
+						<directory>src/main/resources</directory>
+						<filtering>true</filtering>
+						<includes>
+							<include>*.*</include>
+						</includes>
+					</resource>
+				</resources>
+			</build>
+
+			<activation>
+				<property>
+					<name>env</name>
+					<value>prod</value>
+				</property>
+			</activation>
+		</profile>
+
+	</profiles>
+	
+		<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>lib/</classpathPrefix>
+							<mainClass>com.vipshop.microscope.collector.server.CollectorServer</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>./lib</outputDirectory>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>false</overWriteSnapshots>
+							<overWriteIfNewer>true</overWriteIfNewer>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
+	
 </project>

@@ -6,15 +6,12 @@ import org.slf4j.LoggerFactory;
 
 import com.vipshop.microscope.collector.consumer.MessageConsumerExecutor;
 import com.vipshop.microscope.collector.thrift.ThriftServerExecutor;
-import com.vipshop.microscope.hbase.repository.Repositorys;
 
 public class CollectorServer implements Runnable {
 	
 	private static final Logger logger = LoggerFactory.getLogger(CollectorServer.class);
 	
 	public static void main(String[] args) throws TTransportException {
-		
-		Repositorys.init();
 		
 		logger.info("start message consumer thread pool, size " + CollectorConstant.CONSUMER_POOL_SIZE);
 		MessageConsumerExecutor.startMessageConsumer();
