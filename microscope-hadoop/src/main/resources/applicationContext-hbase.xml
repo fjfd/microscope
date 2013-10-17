@@ -16,7 +16,7 @@
 		fs.default.name=${hbase.hdfs}
 	</hdp:configuration>
 	
-	<hdp:hbase-configuration zk-quorum="${zk.host}" zk-port="${zk.port}"/>
+	<hdp:hbase-configuration configuration-ref="hadoopConfiguration" zk-quorum="${zk.host}" zk-port="${zk.port}"/>
 	
 	<bean id="hbaseTemplate" class="org.springframework.data.hadoop.hbase.HbaseTemplate">
 		<property name="configuration" ref="hbaseConfiguration"/>
