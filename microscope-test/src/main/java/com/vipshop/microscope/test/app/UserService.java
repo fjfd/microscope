@@ -4,8 +4,10 @@ import java.util.concurrent.TimeUnit;
 
 import com.vipshop.microscope.trace.Trace;
 import com.vipshop.microscope.trace.TraceFactory;
+import com.vipshop.microscope.trace.span.Category;
 
 public class UserService {
+	
 	
 	static UserDao dao = new UserDao();
 	
@@ -20,11 +22,11 @@ public class UserService {
 			e.printStackTrace();
 		}
 		
-		trace.clientSend("cache");
+		trace.clientSend("cache", Category.SERVICE);
 		dao.cache();
 		trace.clientReceive();
 		
-		trace.clientSend("dao");
+		trace.clientSend("dao", Category.SERVICE);
 		dao.login();
 		trace.clientReceive();
 		
