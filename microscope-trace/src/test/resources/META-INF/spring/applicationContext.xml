@@ -18,4 +18,14 @@
 			<ref bean="studenttarget" />
 		</property>
 	</bean>
+	
+	<bean id="controllerInterception" class="com.vipshop.microscope.trace.interceptor.ControllerInterceptor" />
+
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+        <property name="interceptors">
+            <list>
+                <ref bean="controllerInterception"/>
+            </list>
+        </property>
+    </bean>
 </beans>
