@@ -14,13 +14,4 @@
 		<maven-site-plugin.skip>true</maven-site-plugin.skip>
 	</properties>
 	
-	<dependencies>
-		<dependency>
-			<groupId>org.apache.thrift</groupId>
-			<artifactId>libthrift</artifactId>
-			<version>0.9.0</version>
-		</dependency>
-		
-	</dependencies>
-
 </project>

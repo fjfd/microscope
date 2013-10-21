@@ -9,6 +9,7 @@ import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.transport.TFramedTransport;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
+import org.apache.thrift.transport.TTransportException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,16 +30,24 @@ public class ThriftClient {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ThriftClient.class);
 
-	private static final TTransport transport = new TFramedTransport(new TSocket(Constant.COLLECTOR_HOST, Constant.COLLECTOR_PORT));
-	private static final TProtocol protocol = new TBinaryProtocol(transport);
-    private static final Send.Client client = new Send.Client(protocol);
+	private final TTransport transport = new TFramedTransport(new TSocket(Constant.COLLECTOR_HOST, Constant.COLLECTOR_PORT));
+	private final TProtocol protocol = new TBinaryProtocol(transport);
+    private final Send.Client client = new Send.Client(protocol);
+    
+    public ThriftClient() {
+    	try {
+			transport.open();
+		} catch (TTransportException e) {
+			transport.close();
+		}
+    }
     
     /**
      * Return connect state
      * 
      * @return
      */
-    public static boolean isconnect() {
+    public boolean isconnect() {
     	return transport.isOpen();
     }
 
