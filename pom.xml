@@ -6,10 +6,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.vipshop</groupId>
 	<artifactId>microscope</artifactId>
-	<version>0.0.1</version>
+	<version>${project.parent.version}</version>
 	<packaging>pom</packaging>
 	
 	<properties>
+		<project.parent.version>0.0.1</project.parent.version>
 		<project.build.version>0.0.8</project.build.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
