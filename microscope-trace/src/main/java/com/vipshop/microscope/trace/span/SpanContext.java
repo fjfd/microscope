@@ -20,9 +20,9 @@ import com.vipshop.microscope.thrift.Span;
 public class SpanContext {
 	
 	/**
-	 * Is top span or not
+	 * Is root span or not
 	 */
-	private boolean isTopSpan = true;
+	private boolean isRootSpan = true;
 	
     /**
      * Store span when send a new span request.
@@ -90,15 +90,15 @@ public class SpanContext {
      * 
      * @return
      */
-    public boolean isTopSpan() {
-    	return isTopSpan;
+    public boolean isRootSpan() {
+    	return isRootSpan;
     }
     
     /**
-     * set topspan flag be false
+     * set root span flag be false
      */
-    public void setTopSpanFlagFalse() {
-    	isTopSpan = false;
+    public void setRootSpanFlagFalse() {
+    	isRootSpan = false;
     }
     
 }

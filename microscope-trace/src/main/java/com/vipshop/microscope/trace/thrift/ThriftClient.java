@@ -1,6 +1,7 @@
 package com.vipshop.microscope.trace.thrift;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TBinaryProtocol;
@@ -8,7 +9,6 @@ import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.transport.TFramedTransport;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
-import org.apache.thrift.transport.TTransportException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,34 +29,17 @@ public class ThriftClient {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ThriftClient.class);
 
-	/**
-	 * Flag of connection state.
-	 * 
-	 * If client can't connect to thrift server(zipkin collector),
-	 * client tracing program should stop trace and collect. This
-	 * can avoid MessageQueue become too large to handle.
-	 */
-	private static volatile boolean connect = true;
-
-	private final TTransport transport;
-    private final Send.Client client;
-
+	private static final TTransport transport = new TFramedTransport(new TSocket(Constant.COLLECTOR_HOST, Constant.COLLECTOR_PORT));
+	private static final TProtocol protocol = new TBinaryProtocol(transport);
+    private static final Send.Client client = new Send.Client(protocol);
+    
     /**
-     * Create a ThriftClient.
+     * Return connect state
+     * 
+     * @return
      */
-    public ThriftClient() {
-        transport = new TFramedTransport(new TSocket(Constant.COLLECTOR_HOST, Constant.COLLECTOR_PORT));
-        final TProtocol protocol = new TBinaryProtocol(transport);
-        client = new Send.Client(protocol);
-        try {
-            transport.open();
-        } catch (final TTransportException e) {
-        	logger.info("can't open transport to collector on host: " + Constant.COLLECTOR_HOST 
-        			    + ", port: " + Constant.COLLECTOR_PORT + ", program will return now");
-        	connect = false;
-        	return;
-        }
-        logger.info("open transport to collector on host: " + Constant.COLLECTOR_HOST + ", port: " + Constant.COLLECTOR_PORT);
+    public static boolean isconnect() {
+    	return transport.isOpen();
     }
 
     /**
@@ -68,28 +51,37 @@ public class ThriftClient {
         try {
             client.send(logEntries);
         } catch (final TException e) {
-        	logger.error("can't send logEntries to collector, the program will return");
-        	connect = false;
-        	return;
+        	transport.close();
+        	resend(logEntries);
         } 
-        logger.info("send " + logEntries.size() + " logEntry to zipkin");
-    }
-
-    /**
-     * Close socket connection
-     */
-    public void close() {
-        transport.close();
-        connect = false;
+        logger.info("send " + logEntries.size() + " logEntry to collector");
     }
     
     /**
-     * Return connect state
+     * ThriftClient reconnect to collector server.
      * 
-     * @return
      */
-    public static boolean isConnect() {
-    	return connect;
+    private void resend(final List<LogEntry> logEntries) {
+    	
+    	logger.info("fail send " + logEntries.size() + " logEntry to collector, try to reconnect");
+    	
+    	while (!transport.isOpen()) {
+    		try {
+    			transport.open();
+    			client.send(logEntries);
+    		} catch (Exception e) {
+    			
+    			transport.close();
+    			
+    			logger.info("ThriftClient will try to reconnect after " + Constant.RECONNECT_WAIT_TIME + " MILLISECONDS");
+    	    	
+    			try {
+					TimeUnit.MILLISECONDS.sleep(Constant.RECONNECT_WAIT_TIME);
+				} catch (InterruptedException e1) {
+					logger.error(e1.getMessage());
+				}
+    		} 
+		}
+ 
     }
-    
 }

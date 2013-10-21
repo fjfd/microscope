@@ -116,7 +116,7 @@ public class TraceFactory {
 		spanID.setSpanId(Long.valueOf(spanId));
 
 		SpanContext context = new SpanContext(spanID);
-		context.setTopSpanFlagFalse();
+		context.setRootSpanFlagFalse();
 		
 		Trace trace = new Trace(context);
 		

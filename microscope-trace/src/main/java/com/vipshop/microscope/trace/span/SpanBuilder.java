@@ -6,7 +6,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.vipshop.microscope.thrift.Span;
 import com.vipshop.microscope.trace.Constant;
 import com.vipshop.microscope.trace.queue.MessageQueue;
-import com.vipshop.microscope.trace.thrift.ThriftClient;
 
 /**
  * SpanBuilder is a builder which build span object
@@ -63,10 +62,6 @@ public class SpanBuilder {
 	 * @param spanName
 	 */
 	public void clientSend(String spanName) {
-		if (!ThriftClient.isConnect()) {
-			return;
-		}
-		
 		Span span = new Span();
 		// set span order
     	span.setOrder(order.getAndIncrement());
@@ -77,11 +72,11 @@ public class SpanBuilder {
 		 * The topmost span in a trace has its span id 
 		 * equal to trace id and parent span id is null.
 		 */
-		if (spanContext.isTopSpan()) {
+		if (spanContext.isRootSpan()) {
 			// set span id equal to trace id for top span.
 			span.setId(spanContext.getTraceId());
 			// make top span flag to be false.
-			spanContext.setTopSpanFlagFalse();
+			spanContext.setRootSpanFlagFalse();
 			span.setApp_name(Constant.APP_NAME);
 		} else {
 			/*
@@ -118,10 +113,6 @@ public class SpanBuilder {
      * 
      */
 	public void clientReceive() {
-		if (!ThriftClient.isConnect()) {
-			return;
-		}
-		
 		/*
     	 * remove span from stack
     	 */

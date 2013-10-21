@@ -5,7 +5,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import com.vipshop.microscope.thrift.Span;
 import com.vipshop.microscope.trace.Constant;
-import com.vipshop.microscope.trace.thrift.ThriftClient;
 
 /**
  * A queue for store client message.
@@ -16,18 +15,24 @@ import com.vipshop.microscope.trace.thrift.ThriftClient;
  */
 public class MessageQueue {
 	
+	private static long lost = 0;
+	
 	private static final BlockingQueue<Span> queue = new LinkedBlockingQueue<Span>(Constant.QUEUE_SIZE);
 	
 	/*
 	 * If disconnect, stop collect span to queue.
 	 */
 	public static void addSpan(Span span) { 
-		if (ThriftClient.isConnect()) {
-			queue.offer(span);
+		if(!queue.offer(span)){
+			lost++;
 		}
 	}
 	
 	public static Span poll() {
 		return queue.poll();
+	}
+	
+	public static void log() {
+		System.out.println(lost);
 	}
 }

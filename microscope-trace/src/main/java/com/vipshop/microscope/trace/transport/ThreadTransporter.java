@@ -37,7 +37,7 @@ public class ThreadTransporter implements Runnable {
 		
 		int emptySize = 0;
 		
-		while (ThriftClient.isConnect()) {
+		while (true) {
 			Span span = MessageQueue.poll();
 			if (span == null)
 				emptySize++;
@@ -56,7 +56,7 @@ public class ThreadTransporter implements Runnable {
 				transporter.send(logEntries);
 				logEntries.clear();
 				emptySize = 0;
-			}
+			} 
 		}
 		
 	}
