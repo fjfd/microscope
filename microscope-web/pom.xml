@@ -6,6 +6,8 @@
 		<artifactId>microscope</artifactId>
 		<version>0.0.1</version>
 	</parent>
+	
+	<version>${project.build.version}</version>
 	<artifactId>microscope-web</artifactId>
 	<packaging>war</packaging>
 
@@ -28,7 +30,7 @@
 		<dependency>
 			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-query</artifactId>
-			<version>0.0.1</version>
+			<version>${project.build.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -38,7 +40,7 @@
 		<dependency>
 			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-trace</artifactId>
-			<version>0.0.3</version>
+			<version>${project.build.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>

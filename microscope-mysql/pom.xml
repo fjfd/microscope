@@ -6,6 +6,8 @@
 		<artifactId>microscope</artifactId>
 		<version>0.0.1</version>
 	</parent>
+	
+	<version>${project.build.version}</version>
 	<artifactId>microscope-mysql</artifactId>
 
 	<properties>

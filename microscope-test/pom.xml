@@ -6,6 +6,8 @@
 		<artifactId>microscope</artifactId>
 		<version>0.0.1</version>
 	</parent>
+	
+	<version>${project.build.version}</version>
 	<artifactId>microscope-test</artifactId>
 
 	<properties>
@@ -16,17 +18,17 @@
 		<dependency>
 			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-collector</artifactId>
-			<version>0.0.1</version>
+			<version>${project.build.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-trace</artifactId>
-			<version>0.0.1</version>
+			<version>${project.build.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-query</artifactId>
-			<version>0.0.1</version>
+			<version>${project.build.version}</version>
 		</dependency>
 	</dependencies>
 

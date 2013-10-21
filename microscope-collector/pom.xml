@@ -6,6 +6,8 @@
 		<artifactId>microscope</artifactId>
 		<version>0.0.1</version>
 	</parent>
+	
+	<version>${project.build.version}</version>
 	<artifactId>microscope-collector</artifactId>
 	<name>microscope-collector</name>
 
@@ -17,22 +19,22 @@
 		<dependency>
 			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-gen</artifactId>
-			<version>0.0.1</version>
+			<version>${project.build.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-common</artifactId>
-			<version>0.0.1</version>
+			<version>${project.build.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-hadoop</artifactId>
-			<version>0.0.1</version>
+			<version>${project.build.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-trace</artifactId>
-			<version>0.0.5</version>
+			<version>${project.build.version}</version>
 		</dependency>
 	</dependencies>
 
