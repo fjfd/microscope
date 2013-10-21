@@ -33,11 +33,8 @@ import org.slf4j.LoggerFactory;
 public class EndPoint implements org.apache.thrift.TBase<EndPoint, EndPoint._Fields>, java.io.Serializable, Cloneable {
   private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("EndPoint");
 
-  private static final org.apache.thrift.protocol.TField CPU_FIELD_DESC = new org.apache.thrift.protocol.TField("cpu", org.apache.thrift.protocol.TType.I32, (short)1);
-  private static final org.apache.thrift.protocol.TField LOAD_FIELD_DESC = new org.apache.thrift.protocol.TField("load", org.apache.thrift.protocol.TType.I32, (short)2);
-  private static final org.apache.thrift.protocol.TField MEMORY_FIELD_DESC = new org.apache.thrift.protocol.TField("memory", org.apache.thrift.protocol.TType.I64, (short)3);
-  private static final org.apache.thrift.protocol.TField JVM_INFO_FIELD_DESC = new org.apache.thrift.protocol.TField("jvmInfo", org.apache.thrift.protocol.TType.STRING, (short)4);
-  private static final org.apache.thrift.protocol.TField IPV4_FIELD_DESC = new org.apache.thrift.protocol.TField("ipv4", org.apache.thrift.protocol.TType.I32, (short)5);
+  private static final org.apache.thrift.protocol.TField VALUES_FIELD_DESC = new org.apache.thrift.protocol.TField("values", org.apache.thrift.protocol.TType.LIST, (short)1);
+  private static final org.apache.thrift.protocol.TField TEXT_FIELD_DESC = new org.apache.thrift.protocol.TField("text", org.apache.thrift.protocol.TType.STRING, (short)2);
 
   private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
   static {
@@ -45,19 +42,13 @@ public class EndPoint implements org.apache.thrift.TBase<EndPoint, EndPoint._Fie
     schemes.put(TupleScheme.class, new EndPointTupleSchemeFactory());
   }
 
-  public int cpu; // required
-  public int load; // required
-  public long memory; // required
-  public String jvmInfo; // required
-  public int ipv4; // required
+  public List<Map<EndPointType,String>> values; // required
+  public String text; // required
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-    CPU((short)1, "cpu"),
-    LOAD((short)2, "load"),
-    MEMORY((short)3, "memory"),
-    JVM_INFO((short)4, "jvmInfo"),
-    IPV4((short)5, "ipv4");
+    VALUES((short)1, "values"),
+    TEXT((short)2, "text");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -72,16 +63,10 @@ public class EndPoint implements org.apache.thrift.TBase<EndPoint, EndPoint._Fie
      */
     public static _Fields findByThriftId(int fieldId) {
       switch(fieldId) {
-        case 1: // CPU
-          return CPU;
-        case 2: // LOAD
-          return LOAD;
-        case 3: // MEMORY
-          return MEMORY;
-        case 4: // JVM_INFO
-          return JVM_INFO;
-        case 5: // IPV4
-          return IPV4;
+        case 1: // VALUES
+          return VALUES;
+        case 2: // TEXT
+          return TEXT;
         default:
           return null;
       }
@@ -122,24 +107,16 @@ public class EndPoint implements org.apache.thrift.TBase<EndPoint, EndPoint._Fie
   }
 
   // isset id assignments
-  private static final int __CPU_ISSET_ID = 0;
-  private static final int __LOAD_ISSET_ID = 1;
-  private static final int __MEMORY_ISSET_ID = 2;
-  private static final int __IPV4_ISSET_ID = 3;
-  private byte __isset_bitfield = 0;
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
     Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.CPU, new org.apache.thrift.meta_data.FieldMetaData("cpu", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
-    tmpMap.put(_Fields.LOAD, new org.apache.thrift.meta_data.FieldMetaData("load", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
-    tmpMap.put(_Fields.MEMORY, new org.apache.thrift.meta_data.FieldMetaData("memory", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
-    tmpMap.put(_Fields.JVM_INFO, new org.apache.thrift.meta_data.FieldMetaData("jvmInfo", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+    tmpMap.put(_Fields.VALUES, new org.apache.thrift.meta_data.FieldMetaData("values", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+            new org.apache.thrift.meta_data.MapMetaData(org.apache.thrift.protocol.TType.MAP, 
+                new org.apache.thrift.meta_data.EnumMetaData(org.apache.thrift.protocol.TType.ENUM, EndPointType.class), 
+                new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)))));
+    tmpMap.put(_Fields.TEXT, new org.apache.thrift.meta_data.FieldMetaData("text", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-    tmpMap.put(_Fields.IPV4, new org.apache.thrift.meta_data.FieldMetaData("ipv4", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(EndPoint.class, metaDataMap);
   }
@@ -148,36 +125,40 @@ public class EndPoint implements org.apache.thrift.TBase<EndPoint, EndPoint._Fie
   }
 
   public EndPoint(
-    int cpu,
-    int load,
-    long memory,
-    String jvmInfo,
-    int ipv4)
+    List<Map<EndPointType,String>> values,
+    String text)
   {
     this();
-    this.cpu = cpu;
-    setCpuIsSet(true);
-    this.load = load;
-    setLoadIsSet(true);
-    this.memory = memory;
-    setMemoryIsSet(true);
-    this.jvmInfo = jvmInfo;
-    this.ipv4 = ipv4;
-    setIpv4IsSet(true);
+    this.values = values;
+    this.text = text;
   }
 
   /**
    * Performs a deep copy on <i>other</i>.
    */
   public EndPoint(EndPoint other) {
-    __isset_bitfield = other.__isset_bitfield;
-    this.cpu = other.cpu;
-    this.load = other.load;
-    this.memory = other.memory;
-    if (other.isSetJvmInfo()) {
-      this.jvmInfo = other.jvmInfo;
+    if (other.isSetValues()) {
+      List<Map<EndPointType,String>> __this__values = new ArrayList<Map<EndPointType,String>>();
+      for (Map<EndPointType,String> other_element : other.values) {
+        Map<EndPointType,String> __this__values_copy = new HashMap<EndPointType,String>();
+        for (Map.Entry<EndPointType, String> other_element_element : other_element.entrySet()) {
+
+          EndPointType other_element_element_key = other_element_element.getKey();
+          String other_element_element_value = other_element_element.getValue();
+
+          EndPointType __this__values_copy_copy_key = other_element_element_key;
+
+          String __this__values_copy_copy_value = other_element_element_value;
+
+          __this__values_copy.put(__this__values_copy_copy_key, __this__values_copy_copy_value);
+        }
+        __this__values.add(__this__values_copy);
+      }
+      this.values = __this__values;
     }
-    this.ipv4 = other.ipv4;
+    if (other.isSetText()) {
+      this.text = other.text;
+    }
   }
 
   public EndPoint deepCopy() {
@@ -186,172 +167,88 @@ public class EndPoint implements org.apache.thrift.TBase<EndPoint, EndPoint._Fie
 
   @Override
   public void clear() {
-    setCpuIsSet(false);
-    this.cpu = 0;
-    setLoadIsSet(false);
-    this.load = 0;
-    setMemoryIsSet(false);
-    this.memory = 0;
-    this.jvmInfo = null;
-    setIpv4IsSet(false);
-    this.ipv4 = 0;
+    this.values = null;
+    this.text = null;
   }
 
-  public int getCpu() {
-    return this.cpu;
+  public int getValuesSize() {
+    return (this.values == null) ? 0 : this.values.size();
   }
 
-  public EndPoint setCpu(int cpu) {
-    this.cpu = cpu;
-    setCpuIsSet(true);
+  public java.util.Iterator<Map<EndPointType,String>> getValuesIterator() {
+    return (this.values == null) ? null : this.values.iterator();
+  }
+
+  public void addToValues(Map<EndPointType,String> elem) {
+    if (this.values == null) {
+      this.values = new ArrayList<Map<EndPointType,String>>();
+    }
+    this.values.add(elem);
+  }
+
+  public List<Map<EndPointType,String>> getValues() {
+    return this.values;
+  }
+
+  public EndPoint setValues(List<Map<EndPointType,String>> values) {
+    this.values = values;
     return this;
   }
 
-  public void unsetCpu() {
-    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __CPU_ISSET_ID);
+  public void unsetValues() {
+    this.values = null;
   }
 
-  /** Returns true if field cpu is set (has been assigned a value) and false otherwise */
-  public boolean isSetCpu() {
-    return EncodingUtils.testBit(__isset_bitfield, __CPU_ISSET_ID);
+  /** Returns true if field values is set (has been assigned a value) and false otherwise */
+  public boolean isSetValues() {
+    return this.values != null;
   }
 
-  public void setCpuIsSet(boolean value) {
-    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __CPU_ISSET_ID, value);
-  }
-
-  public int getLoad() {
-    return this.load;
-  }
-
-  public EndPoint setLoad(int load) {
-    this.load = load;
-    setLoadIsSet(true);
-    return this;
-  }
-
-  public void unsetLoad() {
-    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __LOAD_ISSET_ID);
-  }
-
-  /** Returns true if field load is set (has been assigned a value) and false otherwise */
-  public boolean isSetLoad() {
-    return EncodingUtils.testBit(__isset_bitfield, __LOAD_ISSET_ID);
-  }
-
-  public void setLoadIsSet(boolean value) {
-    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __LOAD_ISSET_ID, value);
-  }
-
-  public long getMemory() {
-    return this.memory;
-  }
-
-  public EndPoint setMemory(long memory) {
-    this.memory = memory;
-    setMemoryIsSet(true);
-    return this;
-  }
-
-  public void unsetMemory() {
-    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __MEMORY_ISSET_ID);
-  }
-
-  /** Returns true if field memory is set (has been assigned a value) and false otherwise */
-  public boolean isSetMemory() {
-    return EncodingUtils.testBit(__isset_bitfield, __MEMORY_ISSET_ID);
-  }
-
-  public void setMemoryIsSet(boolean value) {
-    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __MEMORY_ISSET_ID, value);
-  }
-
-  public String getJvmInfo() {
-    return this.jvmInfo;
-  }
-
-  public EndPoint setJvmInfo(String jvmInfo) {
-    this.jvmInfo = jvmInfo;
-    return this;
-  }
-
-  public void unsetJvmInfo() {
-    this.jvmInfo = null;
-  }
-
-  /** Returns true if field jvmInfo is set (has been assigned a value) and false otherwise */
-  public boolean isSetJvmInfo() {
-    return this.jvmInfo != null;
-  }
-
-  public void setJvmInfoIsSet(boolean value) {
+  public void setValuesIsSet(boolean value) {
     if (!value) {
-      this.jvmInfo = null;
+      this.values = null;
     }
   }
 
-  public int getIpv4() {
-    return this.ipv4;
+  public String getText() {
+    return this.text;
   }
 
-  public EndPoint setIpv4(int ipv4) {
-    this.ipv4 = ipv4;
-    setIpv4IsSet(true);
+  public EndPoint setText(String text) {
+    this.text = text;
     return this;
   }
 
-  public void unsetIpv4() {
-    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __IPV4_ISSET_ID);
+  public void unsetText() {
+    this.text = null;
   }
 
-  /** Returns true if field ipv4 is set (has been assigned a value) and false otherwise */
-  public boolean isSetIpv4() {
-    return EncodingUtils.testBit(__isset_bitfield, __IPV4_ISSET_ID);
+  /** Returns true if field text is set (has been assigned a value) and false otherwise */
+  public boolean isSetText() {
+    return this.text != null;
   }
 
-  public void setIpv4IsSet(boolean value) {
-    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __IPV4_ISSET_ID, value);
+  public void setTextIsSet(boolean value) {
+    if (!value) {
+      this.text = null;
+    }
   }
 
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
-    case CPU:
+    case VALUES:
       if (value == null) {
-        unsetCpu();
+        unsetValues();
       } else {
-        setCpu((Integer)value);
+        setValues((List<Map<EndPointType,String>>)value);
       }
       break;
 
-    case LOAD:
+    case TEXT:
       if (value == null) {
-        unsetLoad();
+        unsetText();
       } else {
-        setLoad((Integer)value);
-      }
-      break;
-
-    case MEMORY:
-      if (value == null) {
-        unsetMemory();
-      } else {
-        setMemory((Long)value);
-      }
-      break;
-
-    case JVM_INFO:
-      if (value == null) {
-        unsetJvmInfo();
-      } else {
-        setJvmInfo((String)value);
-      }
-      break;
-
-    case IPV4:
-      if (value == null) {
-        unsetIpv4();
-      } else {
-        setIpv4((Integer)value);
+        setText((String)value);
       }
       break;
 
@@ -360,20 +257,11 @@ public class EndPoint implements org.apache.thrift.TBase<EndPoint, EndPoint._Fie
 
   public Object getFieldValue(_Fields field) {
     switch (field) {
-    case CPU:
-      return Integer.valueOf(getCpu());
+    case VALUES:
+      return getValues();
 
-    case LOAD:
-      return Integer.valueOf(getLoad());
-
-    case MEMORY:
-      return Long.valueOf(getMemory());
-
-    case JVM_INFO:
-      return getJvmInfo();
-
-    case IPV4:
-      return Integer.valueOf(getIpv4());
+    case TEXT:
+      return getText();
 
     }
     throw new IllegalStateException();
@@ -386,16 +274,10 @@ public class EndPoint implements org.apache.thrift.TBase<EndPoint, EndPoint._Fie
     }
 
     switch (field) {
-    case CPU:
-      return isSetCpu();
-    case LOAD:
-      return isSetLoad();
-    case MEMORY:
-      return isSetMemory();
-    case JVM_INFO:
-      return isSetJvmInfo();
-    case IPV4:
-      return isSetIpv4();
+    case VALUES:
+      return isSetValues();
+    case TEXT:
+      return isSetText();
     }
     throw new IllegalStateException();
   }
@@ -413,48 +295,21 @@ public class EndPoint implements org.apache.thrift.TBase<EndPoint, EndPoint._Fie
     if (that == null)
       return false;
 
-    boolean this_present_cpu = true;
-    boolean that_present_cpu = true;
-    if (this_present_cpu || that_present_cpu) {
-      if (!(this_present_cpu && that_present_cpu))
+    boolean this_present_values = true && this.isSetValues();
+    boolean that_present_values = true && that.isSetValues();
+    if (this_present_values || that_present_values) {
+      if (!(this_present_values && that_present_values))
         return false;
-      if (this.cpu != that.cpu)
-        return false;
-    }
-
-    boolean this_present_load = true;
-    boolean that_present_load = true;
-    if (this_present_load || that_present_load) {
-      if (!(this_present_load && that_present_load))
-        return false;
-      if (this.load != that.load)
+      if (!this.values.equals(that.values))
         return false;
     }
 
-    boolean this_present_memory = true;
-    boolean that_present_memory = true;
-    if (this_present_memory || that_present_memory) {
-      if (!(this_present_memory && that_present_memory))
+    boolean this_present_text = true && this.isSetText();
+    boolean that_present_text = true && that.isSetText();
+    if (this_present_text || that_present_text) {
+      if (!(this_present_text && that_present_text))
         return false;
-      if (this.memory != that.memory)
-        return false;
-    }
-
-    boolean this_present_jvmInfo = true && this.isSetJvmInfo();
-    boolean that_present_jvmInfo = true && that.isSetJvmInfo();
-    if (this_present_jvmInfo || that_present_jvmInfo) {
-      if (!(this_present_jvmInfo && that_present_jvmInfo))
-        return false;
-      if (!this.jvmInfo.equals(that.jvmInfo))
-        return false;
-    }
-
-    boolean this_present_ipv4 = true;
-    boolean that_present_ipv4 = true;
-    if (this_present_ipv4 || that_present_ipv4) {
-      if (!(this_present_ipv4 && that_present_ipv4))
-        return false;
-      if (this.ipv4 != that.ipv4)
+      if (!this.text.equals(that.text))
         return false;
     }
 
@@ -474,52 +329,22 @@ public class EndPoint implements org.apache.thrift.TBase<EndPoint, EndPoint._Fie
     int lastComparison = 0;
     EndPoint typedOther = (EndPoint)other;
 
-    lastComparison = Boolean.valueOf(isSetCpu()).compareTo(typedOther.isSetCpu());
+    lastComparison = Boolean.valueOf(isSetValues()).compareTo(typedOther.isSetValues());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetCpu()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.cpu, typedOther.cpu);
+    if (isSetValues()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.values, typedOther.values);
       if (lastComparison != 0) {
         return lastComparison;
       }
     }
-    lastComparison = Boolean.valueOf(isSetLoad()).compareTo(typedOther.isSetLoad());
+    lastComparison = Boolean.valueOf(isSetText()).compareTo(typedOther.isSetText());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetLoad()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.load, typedOther.load);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
-    lastComparison = Boolean.valueOf(isSetMemory()).compareTo(typedOther.isSetMemory());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    if (isSetMemory()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.memory, typedOther.memory);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
-    lastComparison = Boolean.valueOf(isSetJvmInfo()).compareTo(typedOther.isSetJvmInfo());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    if (isSetJvmInfo()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.jvmInfo, typedOther.jvmInfo);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
-    lastComparison = Boolean.valueOf(isSetIpv4()).compareTo(typedOther.isSetIpv4());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    if (isSetIpv4()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ipv4, typedOther.ipv4);
+    if (isSetText()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.text, typedOther.text);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -544,28 +369,20 @@ public class EndPoint implements org.apache.thrift.TBase<EndPoint, EndPoint._Fie
     StringBuilder sb = new StringBuilder("EndPoint(");
     boolean first = true;
 
-    sb.append("cpu:");
-    sb.append(this.cpu);
-    first = false;
-    if (!first) sb.append(", ");
-    sb.append("load:");
-    sb.append(this.load);
-    first = false;
-    if (!first) sb.append(", ");
-    sb.append("memory:");
-    sb.append(this.memory);
-    first = false;
-    if (!first) sb.append(", ");
-    sb.append("jvmInfo:");
-    if (this.jvmInfo == null) {
+    sb.append("values:");
+    if (this.values == null) {
       sb.append("null");
     } else {
-      sb.append(this.jvmInfo);
+      sb.append(this.values);
     }
     first = false;
     if (!first) sb.append(", ");
-    sb.append("ipv4:");
-    sb.append(this.ipv4);
+    sb.append("text:");
+    if (this.text == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.text);
+    }
     first = false;
     sb.append(")");
     return sb.toString();
@@ -586,8 +403,6 @@ public class EndPoint implements org.apache.thrift.TBase<EndPoint, EndPoint._Fie
 
   private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
     try {
-      // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
-      __isset_bitfield = 0;
       read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
     } catch (org.apache.thrift.TException te) {
       throw new java.io.IOException(te);
@@ -612,42 +427,40 @@ public class EndPoint implements org.apache.thrift.TBase<EndPoint, EndPoint._Fie
           break;
         }
         switch (schemeField.id) {
-          case 1: // CPU
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-              struct.cpu = iprot.readI32();
-              struct.setCpuIsSet(true);
+          case 1: // VALUES
+            if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
+              {
+                org.apache.thrift.protocol.TList _list0 = iprot.readListBegin();
+                struct.values = new ArrayList<Map<EndPointType,String>>(_list0.size);
+                for (int _i1 = 0; _i1 < _list0.size; ++_i1)
+                {
+                  Map<EndPointType,String> _elem2; // required
+                  {
+                    org.apache.thrift.protocol.TMap _map3 = iprot.readMapBegin();
+                    _elem2 = new HashMap<EndPointType,String>(2*_map3.size);
+                    for (int _i4 = 0; _i4 < _map3.size; ++_i4)
+                    {
+                      EndPointType _key5; // required
+                      String _val6; // required
+                      _key5 = EndPointType.findByValue(iprot.readI32());
+                      _val6 = iprot.readString();
+                      _elem2.put(_key5, _val6);
+                    }
+                    iprot.readMapEnd();
+                  }
+                  struct.values.add(_elem2);
+                }
+                iprot.readListEnd();
+              }
+              struct.setValuesIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 2: // LOAD
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-              struct.load = iprot.readI32();
-              struct.setLoadIsSet(true);
-            } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-            }
-            break;
-          case 3: // MEMORY
-            if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
-              struct.memory = iprot.readI64();
-              struct.setMemoryIsSet(true);
-            } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-            }
-            break;
-          case 4: // JVM_INFO
+          case 2: // TEXT
             if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
-              struct.jvmInfo = iprot.readString();
-              struct.setJvmInfoIsSet(true);
-            } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-            }
-            break;
-          case 5: // IPV4
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-              struct.ipv4 = iprot.readI32();
-              struct.setIpv4IsSet(true);
+              struct.text = iprot.readString();
+              struct.setTextIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
@@ -667,23 +480,31 @@ public class EndPoint implements org.apache.thrift.TBase<EndPoint, EndPoint._Fie
       struct.validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
-      oprot.writeFieldBegin(CPU_FIELD_DESC);
-      oprot.writeI32(struct.cpu);
-      oprot.writeFieldEnd();
-      oprot.writeFieldBegin(LOAD_FIELD_DESC);
-      oprot.writeI32(struct.load);
-      oprot.writeFieldEnd();
-      oprot.writeFieldBegin(MEMORY_FIELD_DESC);
-      oprot.writeI64(struct.memory);
-      oprot.writeFieldEnd();
-      if (struct.jvmInfo != null) {
-        oprot.writeFieldBegin(JVM_INFO_FIELD_DESC);
-        oprot.writeString(struct.jvmInfo);
+      if (struct.values != null) {
+        oprot.writeFieldBegin(VALUES_FIELD_DESC);
+        {
+          oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.MAP, struct.values.size()));
+          for (Map<EndPointType,String> _iter7 : struct.values)
+          {
+            {
+              oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.I32, org.apache.thrift.protocol.TType.STRING, _iter7.size()));
+              for (Map.Entry<EndPointType, String> _iter8 : _iter7.entrySet())
+              {
+                oprot.writeI32(_iter8.getKey().getValue());
+                oprot.writeString(_iter8.getValue());
+              }
+              oprot.writeMapEnd();
+            }
+          }
+          oprot.writeListEnd();
+        }
         oprot.writeFieldEnd();
       }
-      oprot.writeFieldBegin(IPV4_FIELD_DESC);
-      oprot.writeI32(struct.ipv4);
-      oprot.writeFieldEnd();
+      if (struct.text != null) {
+        oprot.writeFieldBegin(TEXT_FIELD_DESC);
+        oprot.writeString(struct.text);
+        oprot.writeFieldEnd();
+      }
       oprot.writeFieldStop();
       oprot.writeStructEnd();
     }
@@ -702,62 +523,65 @@ public class EndPoint implements org.apache.thrift.TBase<EndPoint, EndPoint._Fie
     public void write(org.apache.thrift.protocol.TProtocol prot, EndPoint struct) throws org.apache.thrift.TException {
       TTupleProtocol oprot = (TTupleProtocol) prot;
       BitSet optionals = new BitSet();
-      if (struct.isSetCpu()) {
+      if (struct.isSetValues()) {
         optionals.set(0);
       }
-      if (struct.isSetLoad()) {
+      if (struct.isSetText()) {
         optionals.set(1);
       }
-      if (struct.isSetMemory()) {
-        optionals.set(2);
+      oprot.writeBitSet(optionals, 2);
+      if (struct.isSetValues()) {
+        {
+          oprot.writeI32(struct.values.size());
+          for (Map<EndPointType,String> _iter9 : struct.values)
+          {
+            {
+              oprot.writeI32(_iter9.size());
+              for (Map.Entry<EndPointType, String> _iter10 : _iter9.entrySet())
+              {
+                oprot.writeI32(_iter10.getKey().getValue());
+                oprot.writeString(_iter10.getValue());
+              }
+            }
+          }
+        }
       }
-      if (struct.isSetJvmInfo()) {
-        optionals.set(3);
-      }
-      if (struct.isSetIpv4()) {
-        optionals.set(4);
-      }
-      oprot.writeBitSet(optionals, 5);
-      if (struct.isSetCpu()) {
-        oprot.writeI32(struct.cpu);
-      }
-      if (struct.isSetLoad()) {
-        oprot.writeI32(struct.load);
-      }
-      if (struct.isSetMemory()) {
-        oprot.writeI64(struct.memory);
-      }
-      if (struct.isSetJvmInfo()) {
-        oprot.writeString(struct.jvmInfo);
-      }
-      if (struct.isSetIpv4()) {
-        oprot.writeI32(struct.ipv4);
+      if (struct.isSetText()) {
+        oprot.writeString(struct.text);
       }
     }
 
     @Override
     public void read(org.apache.thrift.protocol.TProtocol prot, EndPoint struct) throws org.apache.thrift.TException {
       TTupleProtocol iprot = (TTupleProtocol) prot;
-      BitSet incoming = iprot.readBitSet(5);
+      BitSet incoming = iprot.readBitSet(2);
       if (incoming.get(0)) {
-        struct.cpu = iprot.readI32();
-        struct.setCpuIsSet(true);
+        {
+          org.apache.thrift.protocol.TList _list11 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.MAP, iprot.readI32());
+          struct.values = new ArrayList<Map<EndPointType,String>>(_list11.size);
+          for (int _i12 = 0; _i12 < _list11.size; ++_i12)
+          {
+            Map<EndPointType,String> _elem13; // required
+            {
+              org.apache.thrift.protocol.TMap _map14 = new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.I32, org.apache.thrift.protocol.TType.STRING, iprot.readI32());
+              _elem13 = new HashMap<EndPointType,String>(2*_map14.size);
+              for (int _i15 = 0; _i15 < _map14.size; ++_i15)
+              {
+                EndPointType _key16; // required
+                String _val17; // required
+                _key16 = EndPointType.findByValue(iprot.readI32());
+                _val17 = iprot.readString();
+                _elem13.put(_key16, _val17);
+              }
+            }
+            struct.values.add(_elem13);
+          }
+        }
+        struct.setValuesIsSet(true);
       }
       if (incoming.get(1)) {
-        struct.load = iprot.readI32();
-        struct.setLoadIsSet(true);
-      }
-      if (incoming.get(2)) {
-        struct.memory = iprot.readI64();
-        struct.setMemoryIsSet(true);
-      }
-      if (incoming.get(3)) {
-        struct.jvmInfo = iprot.readString();
-        struct.setJvmInfoIsSet(true);
-      }
-      if (incoming.get(4)) {
-        struct.ipv4 = iprot.readI32();
-        struct.setIpv4IsSet(true);
+        struct.text = iprot.readString();
+        struct.setTextIsSet(true);
       }
     }
   }

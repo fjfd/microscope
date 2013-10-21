@@ -22,7 +22,6 @@ public class AnnotationBuilder {
 	public static Annotation clientSendAnnotation() {
 		Annotation annotation = new Annotation();
 		annotation.setTimestamp(TimeUtil.currentTimeMicros());
-		annotation.setEndPoint(EndPointBuilder.build());
 		annotation.setType(AnnotationType.CS);
 		return annotation;
 	}
@@ -36,7 +35,6 @@ public class AnnotationBuilder {
 	public static Annotation clientReceAnnotation() {
 		Annotation annotation = new Annotation();
 		annotation.setTimestamp(TimeUtil.currentTimeMicros());
-		annotation.setEndPoint(EndPointBuilder.build());
 		annotation.setType(AnnotationType.CR);
 		return annotation;
 	}
@@ -50,7 +48,6 @@ public class AnnotationBuilder {
 	public static Annotation serverSendAnnotation() {
 		Annotation annotation = new Annotation();
 		annotation.setTimestamp(TimeUtil.currentTimeMicros());
-		annotation.setEndPoint(EndPointBuilder.build());
 		annotation.setType(AnnotationType.SS);
 		return annotation;
 	}
@@ -64,7 +61,6 @@ public class AnnotationBuilder {
 	public static Annotation serverReceAnnotation() {
 		Annotation annotation = new Annotation();
 		annotation.setTimestamp(TimeUtil.currentTimeMicros());
-		annotation.setEndPoint(EndPointBuilder.build());
 		annotation.setType(AnnotationType.SR);
 		return annotation;
 	}
@@ -79,7 +75,7 @@ public class AnnotationBuilder {
 	public static Annotation messageAnnotation(String message) {
 		Annotation annotation = new Annotation();
 		annotation.setTimestamp(TimeUtil.currentTimeMicros());
-		annotation.setLogicPoint(LogicPointBuilder.build(message));
+		annotation.setEndPoint(EndPointBuilder.buildMsg(annotation, message));
 		annotation.setType(AnnotationType.MSG);
 		return annotation;
 	}
@@ -96,7 +92,7 @@ public class AnnotationBuilder {
 	public static Annotation keyValueAnnotation(String key, String value) {
 		Annotation annotation = new Annotation();
 		annotation.setTimestamp(TimeUtil.currentTimeMicros());
-		annotation.setLogicPoint(LogicPointBuilder.build(key, value));
+		annotation.setEndPoint(EndPointBuilder.buildKV(annotation, key, value));
 		annotation.setType(AnnotationType.KV);
 		return annotation;
 	}

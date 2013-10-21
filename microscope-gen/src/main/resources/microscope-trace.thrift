@@ -2,34 +2,28 @@
 
 namespace java com.vipshop.microscope.thrift
 
-// record system status
-struct EndPoint {
-   1: i32 cpu
-   2: i32 load
-   3: i64 memory
-   4: string jvmInfo
-   5: i32 ipv4
+// system status type
+enum EndPointType {
+	CPU, MEMORY, IPV4, JVM
 }
 
-// record business status
-struct LogicPoint {
-   1: string msg
-   2: string key
-   3: string value
+// record system status
+struct EndPoint {
+   1: list<map<EndPointType, string>> values
+   2: string text
 }
 
 // annotation type
 enum AnnotationType { CS, CR, SS, SR, MSG, KV }
 
-// annotation means some event
+// annotation means some kind event
 struct Annotation {
   1: i64 timestamp                 // microseconds from epoch
   2: EndPoint endPoint,                     
-  3: LogicPoint logicPoint,
-  4: AnnotationType type           // event type?
+  3: AnnotationType type           // event type?
 }
 
-// span means a method block
+// span means some kind method
 struct Span {
   1: i64 trace_id                               // unique trace id, use for all spans in trace
   3: string name,                               // span name, rpc method for example

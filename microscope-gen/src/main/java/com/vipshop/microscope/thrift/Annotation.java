@@ -35,8 +35,7 @@ public class Annotation implements org.apache.thrift.TBase<Annotation, Annotatio
 
   private static final org.apache.thrift.protocol.TField TIMESTAMP_FIELD_DESC = new org.apache.thrift.protocol.TField("timestamp", org.apache.thrift.protocol.TType.I64, (short)1);
   private static final org.apache.thrift.protocol.TField END_POINT_FIELD_DESC = new org.apache.thrift.protocol.TField("endPoint", org.apache.thrift.protocol.TType.STRUCT, (short)2);
-  private static final org.apache.thrift.protocol.TField LOGIC_POINT_FIELD_DESC = new org.apache.thrift.protocol.TField("logicPoint", org.apache.thrift.protocol.TType.STRUCT, (short)3);
-  private static final org.apache.thrift.protocol.TField TYPE_FIELD_DESC = new org.apache.thrift.protocol.TField("type", org.apache.thrift.protocol.TType.I32, (short)4);
+  private static final org.apache.thrift.protocol.TField TYPE_FIELD_DESC = new org.apache.thrift.protocol.TField("type", org.apache.thrift.protocol.TType.I32, (short)3);
 
   private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
   static {
@@ -46,7 +45,6 @@ public class Annotation implements org.apache.thrift.TBase<Annotation, Annotatio
 
   public long timestamp; // required
   public EndPoint endPoint; // required
-  public LogicPoint logicPoint; // required
   /**
    * 
    * @see AnnotationType
@@ -57,12 +55,11 @@ public class Annotation implements org.apache.thrift.TBase<Annotation, Annotatio
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
     TIMESTAMP((short)1, "timestamp"),
     END_POINT((short)2, "endPoint"),
-    LOGIC_POINT((short)3, "logicPoint"),
     /**
      * 
      * @see AnnotationType
      */
-    TYPE((short)4, "type");
+    TYPE((short)3, "type");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -81,9 +78,7 @@ public class Annotation implements org.apache.thrift.TBase<Annotation, Annotatio
           return TIMESTAMP;
         case 2: // END_POINT
           return END_POINT;
-        case 3: // LOGIC_POINT
-          return LOGIC_POINT;
-        case 4: // TYPE
+        case 3: // TYPE
           return TYPE;
         default:
           return null;
@@ -134,8 +129,6 @@ public class Annotation implements org.apache.thrift.TBase<Annotation, Annotatio
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
     tmpMap.put(_Fields.END_POINT, new org.apache.thrift.meta_data.FieldMetaData("endPoint", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, EndPoint.class)));
-    tmpMap.put(_Fields.LOGIC_POINT, new org.apache.thrift.meta_data.FieldMetaData("logicPoint", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, LogicPoint.class)));
     tmpMap.put(_Fields.TYPE, new org.apache.thrift.meta_data.FieldMetaData("type", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.EnumMetaData(org.apache.thrift.protocol.TType.ENUM, AnnotationType.class)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
@@ -148,14 +141,12 @@ public class Annotation implements org.apache.thrift.TBase<Annotation, Annotatio
   public Annotation(
     long timestamp,
     EndPoint endPoint,
-    LogicPoint logicPoint,
     AnnotationType type)
   {
     this();
     this.timestamp = timestamp;
     setTimestampIsSet(true);
     this.endPoint = endPoint;
-    this.logicPoint = logicPoint;
     this.type = type;
   }
 
@@ -167,9 +158,6 @@ public class Annotation implements org.apache.thrift.TBase<Annotation, Annotatio
     this.timestamp = other.timestamp;
     if (other.isSetEndPoint()) {
       this.endPoint = new EndPoint(other.endPoint);
-    }
-    if (other.isSetLogicPoint()) {
-      this.logicPoint = new LogicPoint(other.logicPoint);
     }
     if (other.isSetType()) {
       this.type = other.type;
@@ -185,7 +173,6 @@ public class Annotation implements org.apache.thrift.TBase<Annotation, Annotatio
     setTimestampIsSet(false);
     this.timestamp = 0;
     this.endPoint = null;
-    this.logicPoint = null;
     this.type = null;
   }
 
@@ -233,30 +220,6 @@ public class Annotation implements org.apache.thrift.TBase<Annotation, Annotatio
   public void setEndPointIsSet(boolean value) {
     if (!value) {
       this.endPoint = null;
-    }
-  }
-
-  public LogicPoint getLogicPoint() {
-    return this.logicPoint;
-  }
-
-  public Annotation setLogicPoint(LogicPoint logicPoint) {
-    this.logicPoint = logicPoint;
-    return this;
-  }
-
-  public void unsetLogicPoint() {
-    this.logicPoint = null;
-  }
-
-  /** Returns true if field logicPoint is set (has been assigned a value) and false otherwise */
-  public boolean isSetLogicPoint() {
-    return this.logicPoint != null;
-  }
-
-  public void setLogicPointIsSet(boolean value) {
-    if (!value) {
-      this.logicPoint = null;
     }
   }
 
@@ -310,14 +273,6 @@ public class Annotation implements org.apache.thrift.TBase<Annotation, Annotatio
       }
       break;
 
-    case LOGIC_POINT:
-      if (value == null) {
-        unsetLogicPoint();
-      } else {
-        setLogicPoint((LogicPoint)value);
-      }
-      break;
-
     case TYPE:
       if (value == null) {
         unsetType();
@@ -337,9 +292,6 @@ public class Annotation implements org.apache.thrift.TBase<Annotation, Annotatio
     case END_POINT:
       return getEndPoint();
 
-    case LOGIC_POINT:
-      return getLogicPoint();
-
     case TYPE:
       return getType();
 
@@ -358,8 +310,6 @@ public class Annotation implements org.apache.thrift.TBase<Annotation, Annotatio
       return isSetTimestamp();
     case END_POINT:
       return isSetEndPoint();
-    case LOGIC_POINT:
-      return isSetLogicPoint();
     case TYPE:
       return isSetType();
     }
@@ -394,15 +344,6 @@ public class Annotation implements org.apache.thrift.TBase<Annotation, Annotatio
       if (!(this_present_endPoint && that_present_endPoint))
         return false;
       if (!this.endPoint.equals(that.endPoint))
-        return false;
-    }
-
-    boolean this_present_logicPoint = true && this.isSetLogicPoint();
-    boolean that_present_logicPoint = true && that.isSetLogicPoint();
-    if (this_present_logicPoint || that_present_logicPoint) {
-      if (!(this_present_logicPoint && that_present_logicPoint))
-        return false;
-      if (!this.logicPoint.equals(that.logicPoint))
         return false;
     }
 
@@ -451,16 +392,6 @@ public class Annotation implements org.apache.thrift.TBase<Annotation, Annotatio
         return lastComparison;
       }
     }
-    lastComparison = Boolean.valueOf(isSetLogicPoint()).compareTo(typedOther.isSetLogicPoint());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    if (isSetLogicPoint()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.logicPoint, typedOther.logicPoint);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
     lastComparison = Boolean.valueOf(isSetType()).compareTo(typedOther.isSetType());
     if (lastComparison != 0) {
       return lastComparison;
@@ -503,14 +434,6 @@ public class Annotation implements org.apache.thrift.TBase<Annotation, Annotatio
     }
     first = false;
     if (!first) sb.append(", ");
-    sb.append("logicPoint:");
-    if (this.logicPoint == null) {
-      sb.append("null");
-    } else {
-      sb.append(this.logicPoint);
-    }
-    first = false;
-    if (!first) sb.append(", ");
     sb.append("type:");
     if (this.type == null) {
       sb.append("null");
@@ -527,9 +450,6 @@ public class Annotation implements org.apache.thrift.TBase<Annotation, Annotatio
     // check for sub-struct validity
     if (endPoint != null) {
       endPoint.validate();
-    }
-    if (logicPoint != null) {
-      logicPoint.validate();
     }
   }
 
@@ -586,16 +506,7 @@ public class Annotation implements org.apache.thrift.TBase<Annotation, Annotatio
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 3: // LOGIC_POINT
-            if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-              struct.logicPoint = new LogicPoint();
-              struct.logicPoint.read(iprot);
-              struct.setLogicPointIsSet(true);
-            } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-            }
-            break;
-          case 4: // TYPE
+          case 3: // TYPE
             if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
               struct.type = AnnotationType.findByValue(iprot.readI32());
               struct.setTypeIsSet(true);
@@ -624,11 +535,6 @@ public class Annotation implements org.apache.thrift.TBase<Annotation, Annotatio
       if (struct.endPoint != null) {
         oprot.writeFieldBegin(END_POINT_FIELD_DESC);
         struct.endPoint.write(oprot);
-        oprot.writeFieldEnd();
-      }
-      if (struct.logicPoint != null) {
-        oprot.writeFieldBegin(LOGIC_POINT_FIELD_DESC);
-        struct.logicPoint.write(oprot);
         oprot.writeFieldEnd();
       }
       if (struct.type != null) {
@@ -660,21 +566,15 @@ public class Annotation implements org.apache.thrift.TBase<Annotation, Annotatio
       if (struct.isSetEndPoint()) {
         optionals.set(1);
       }
-      if (struct.isSetLogicPoint()) {
+      if (struct.isSetType()) {
         optionals.set(2);
       }
-      if (struct.isSetType()) {
-        optionals.set(3);
-      }
-      oprot.writeBitSet(optionals, 4);
+      oprot.writeBitSet(optionals, 3);
       if (struct.isSetTimestamp()) {
         oprot.writeI64(struct.timestamp);
       }
       if (struct.isSetEndPoint()) {
         struct.endPoint.write(oprot);
-      }
-      if (struct.isSetLogicPoint()) {
-        struct.logicPoint.write(oprot);
       }
       if (struct.isSetType()) {
         oprot.writeI32(struct.type.getValue());
@@ -684,7 +584,7 @@ public class Annotation implements org.apache.thrift.TBase<Annotation, Annotatio
     @Override
     public void read(org.apache.thrift.protocol.TProtocol prot, Annotation struct) throws org.apache.thrift.TException {
       TTupleProtocol iprot = (TTupleProtocol) prot;
-      BitSet incoming = iprot.readBitSet(4);
+      BitSet incoming = iprot.readBitSet(3);
       if (incoming.get(0)) {
         struct.timestamp = iprot.readI64();
         struct.setTimestampIsSet(true);
@@ -695,11 +595,6 @@ public class Annotation implements org.apache.thrift.TBase<Annotation, Annotatio
         struct.setEndPointIsSet(true);
       }
       if (incoming.get(2)) {
-        struct.logicPoint = new LogicPoint();
-        struct.logicPoint.read(iprot);
-        struct.setLogicPointIsSet(true);
-      }
-      if (incoming.get(3)) {
         struct.type = AnnotationType.findByValue(iprot.readI32());
         struct.setTypeIsSet(true);
       }
