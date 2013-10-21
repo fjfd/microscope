@@ -2,6 +2,7 @@ package com.vipshop.microscope.trace.transport;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.thrift.TException;
 import org.slf4j.Logger;
@@ -56,7 +57,13 @@ public class ThreadTransporter implements Runnable {
 				transporter.send(logEntries);
 				logEntries.clear();
 				emptySize = 0;
-			} 
+			} else {
+				try {
+					TimeUnit.MILLISECONDS.sleep(Constant.SEND_WAIT_TIME);
+				} catch (InterruptedException e) {
+
+				}
+			}
 		}
 		
 	}

@@ -19,6 +19,7 @@ public class Constant {
 	public static final int QUEUE_SIZE = config.getInt("queue_size");
 	
 	public static final int RECONNECT_WAIT_TIME = config.getInt("reconnect_wait_time");
+	public static final int SEND_WAIT_TIME = config.getInt("send_wait_time");
 	
 	
 }
