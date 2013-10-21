@@ -7,7 +7,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 
-import com.vipshop.microscope.trace.TraceFactory;
+import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.span.Category;
 
 @Aspect
@@ -29,12 +29,12 @@ public class TraceAspect{
 	@Before("tracedMethodPointcut()")
 	public void traceBefore(ProceedingJoinPoint pjp) {
 		String methodName = pjp.getSignature().getName();  
-		TraceFactory.getTrace().clientSend(methodName, Category.ACTION);
+		Tracer.clientSend(methodName, Category.ACTION);
 	}
 	
 	@After("tracedMethodPointcut()")
 	public void traceAfter(ProceedingJoinPoint pjp) {
-		TraceFactory.getTrace().clientReceive();
+		Tracer.clientReceive();
 	}
 
 }

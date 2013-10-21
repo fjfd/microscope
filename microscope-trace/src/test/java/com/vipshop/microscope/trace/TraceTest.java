@@ -15,10 +15,9 @@ public class TraceTest {
 	 */
 	@Test(priority = 1)
 	public void testTrace() throws InterruptedException {
-		Trace trace = TraceFactory.getTrace();
-		trace.clientSend("user-login");
+		Tracer.clientSend("user-login");
 		new UserController().login();
-		trace.clientReceive();
+		Tracer.clientReceive();
 	}
 	
 	/**
@@ -29,12 +28,11 @@ public class TraceTest {
 	@Test(priority = 2)
 	public void testTraceStartNewThread() throws InterruptedException {
 		CountDownLatch startSignal = new CountDownLatch(1);
-		Trace trace = TraceFactory.getTrace();
-		trace.clientSend("user-login-new-thread");
-		Trace contexTrace = TraceFactory.getContext();
+		Tracer.clientSend("user-login-new-thread");
+		Trace contexTrace = Tracer.getContext();
 		new Thread(new UserController(startSignal, contexTrace)).start();
 		startSignal.await();
-		trace.clientReceive();
+		Tracer.clientReceive();
 	}
 	
 	/**

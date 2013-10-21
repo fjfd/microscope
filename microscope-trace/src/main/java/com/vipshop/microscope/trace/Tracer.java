@@ -24,4 +24,8 @@ public class Tracer {
 		TraceFactory.getTrace().record(key, value);
 	}
 	
+	public static Trace getContext() {
+		return TraceFactory.getContext();
+	}
+	
 }
