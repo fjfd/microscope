@@ -11,6 +11,7 @@
 
 	<properties>
 		<maven-site-plugin.skip>true</maven-site-plugin.skip>
+		<spring.version>3.2.2.RELEASE</spring.version>
 	</properties>
 
 	<dependencies>
@@ -38,6 +39,16 @@
 			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-trace</artifactId>
 			<version>0.0.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${spring.version}</version>
 		</dependency>
 	</dependencies>
 

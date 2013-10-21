@@ -1,14 +1,11 @@
 package com.vipshop.microscope.collector.processor.storage;
 
-import org.springframework.stereotype.Component;
-
 import com.vipshop.microscope.hbase.domain.App;
 import com.vipshop.microscope.hbase.domain.TraceIndex;
 import com.vipshop.microscope.hbase.domain.TraceTable;
 import com.vipshop.microscope.hbase.repository.Repositorys;
 import com.vipshop.microscope.thrift.Span;
 
-@Component
 public class HbaseStorageProcessor implements StorageProcessor {
 
 	@Override

@@ -2,8 +2,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.vipshop</groupId>
 		<artifactId>microscope</artifactId>
+		<groupId>com.vipshop</groupId>
 		<version>0.0.1</version>
 	</parent>
 	<artifactId>microscope-gen</artifactId>
@@ -11,5 +11,14 @@
 	<properties>
 		<maven-site-plugin.skip>true</maven-site-plugin.skip>
 	</properties>
+	
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.thrift</groupId>
+			<artifactId>libthrift</artifactId>
+			<version>0.9.0</version>
+		</dependency>
+		
+	</dependencies>
 
 </project>
