@@ -82,4 +82,29 @@ public class Trace {
 		spanBuilder.clientReceive();
 	}
 	
+	/**
+	 * Record simple text.
+	 * 
+	 * @param msg
+	 */
+	public void record(String msg) {
+		if (Switch.isClose()) {
+			return;
+		}
+		spanBuilder.buildMessage(msg);
+	}
+	
+	/**
+	 * Record key/value pair.
+	 * 
+	 * @param key
+	 * @param value
+	 */
+	public void record(String key, String value) {
+		if (Switch.isClose()) {
+			return;
+		}
+		spanBuilder.buildKeyValue(key, value);
+	}
+	
 }

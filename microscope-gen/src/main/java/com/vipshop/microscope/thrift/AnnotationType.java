@@ -15,7 +15,9 @@ public enum AnnotationType implements org.apache.thrift.TEnum {
   CS(0),
   CR(1),
   SS(2),
-  SR(3);
+  SR(3),
+  MSG(4),
+  KV(5);
 
   private final int value;
 
@@ -44,6 +46,10 @@ public enum AnnotationType implements org.apache.thrift.TEnum {
         return SS;
       case 3:
         return SR;
+      case 4:
+        return MSG;
+      case 5:
+        return KV;
       default:
         return null;
     }

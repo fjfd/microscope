@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>microscope</artifactId>
 		<groupId>com.vipshop</groupId>
-		<version>${project.parent.version}</version>
+		<version>0.0.1</version>
 	</parent>
 	
 	<version>${project.build.version}</version>

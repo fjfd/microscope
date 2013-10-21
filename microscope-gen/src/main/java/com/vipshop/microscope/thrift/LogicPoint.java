@@ -34,6 +34,8 @@ public class LogicPoint implements org.apache.thrift.TBase<LogicPoint, LogicPoin
   private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("LogicPoint");
 
   private static final org.apache.thrift.protocol.TField MSG_FIELD_DESC = new org.apache.thrift.protocol.TField("msg", org.apache.thrift.protocol.TType.STRING, (short)1);
+  private static final org.apache.thrift.protocol.TField KEY_FIELD_DESC = new org.apache.thrift.protocol.TField("key", org.apache.thrift.protocol.TType.STRING, (short)2);
+  private static final org.apache.thrift.protocol.TField VALUE_FIELD_DESC = new org.apache.thrift.protocol.TField("value", org.apache.thrift.protocol.TType.STRING, (short)3);
 
   private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
   static {
@@ -42,10 +44,14 @@ public class LogicPoint implements org.apache.thrift.TBase<LogicPoint, LogicPoin
   }
 
   public String msg; // required
+  public String key; // required
+  public String value; // required
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-    MSG((short)1, "msg");
+    MSG((short)1, "msg"),
+    KEY((short)2, "key"),
+    VALUE((short)3, "value");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -62,6 +68,10 @@ public class LogicPoint implements org.apache.thrift.TBase<LogicPoint, LogicPoin
       switch(fieldId) {
         case 1: // MSG
           return MSG;
+        case 2: // KEY
+          return KEY;
+        case 3: // VALUE
+          return VALUE;
         default:
           return null;
       }
@@ -107,6 +117,10 @@ public class LogicPoint implements org.apache.thrift.TBase<LogicPoint, LogicPoin
     Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
     tmpMap.put(_Fields.MSG, new org.apache.thrift.meta_data.FieldMetaData("msg", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.KEY, new org.apache.thrift.meta_data.FieldMetaData("key", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.VALUE, new org.apache.thrift.meta_data.FieldMetaData("value", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(LogicPoint.class, metaDataMap);
   }
@@ -115,10 +129,14 @@ public class LogicPoint implements org.apache.thrift.TBase<LogicPoint, LogicPoin
   }
 
   public LogicPoint(
-    String msg)
+    String msg,
+    String key,
+    String value)
   {
     this();
     this.msg = msg;
+    this.key = key;
+    this.value = value;
   }
 
   /**
@@ -127,6 +145,12 @@ public class LogicPoint implements org.apache.thrift.TBase<LogicPoint, LogicPoin
   public LogicPoint(LogicPoint other) {
     if (other.isSetMsg()) {
       this.msg = other.msg;
+    }
+    if (other.isSetKey()) {
+      this.key = other.key;
+    }
+    if (other.isSetValue()) {
+      this.value = other.value;
     }
   }
 
@@ -137,6 +161,8 @@ public class LogicPoint implements org.apache.thrift.TBase<LogicPoint, LogicPoin
   @Override
   public void clear() {
     this.msg = null;
+    this.key = null;
+    this.value = null;
   }
 
   public String getMsg() {
@@ -163,6 +189,54 @@ public class LogicPoint implements org.apache.thrift.TBase<LogicPoint, LogicPoin
     }
   }
 
+  public String getKey() {
+    return this.key;
+  }
+
+  public LogicPoint setKey(String key) {
+    this.key = key;
+    return this;
+  }
+
+  public void unsetKey() {
+    this.key = null;
+  }
+
+  /** Returns true if field key is set (has been assigned a value) and false otherwise */
+  public boolean isSetKey() {
+    return this.key != null;
+  }
+
+  public void setKeyIsSet(boolean value) {
+    if (!value) {
+      this.key = null;
+    }
+  }
+
+  public String getValue() {
+    return this.value;
+  }
+
+  public LogicPoint setValue(String value) {
+    this.value = value;
+    return this;
+  }
+
+  public void unsetValue() {
+    this.value = null;
+  }
+
+  /** Returns true if field value is set (has been assigned a value) and false otherwise */
+  public boolean isSetValue() {
+    return this.value != null;
+  }
+
+  public void setValueIsSet(boolean value) {
+    if (!value) {
+      this.value = null;
+    }
+  }
+
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
     case MSG:
@@ -173,6 +247,22 @@ public class LogicPoint implements org.apache.thrift.TBase<LogicPoint, LogicPoin
       }
       break;
 
+    case KEY:
+      if (value == null) {
+        unsetKey();
+      } else {
+        setKey((String)value);
+      }
+      break;
+
+    case VALUE:
+      if (value == null) {
+        unsetValue();
+      } else {
+        setValue((String)value);
+      }
+      break;
+
     }
   }
 
@@ -180,6 +270,12 @@ public class LogicPoint implements org.apache.thrift.TBase<LogicPoint, LogicPoin
     switch (field) {
     case MSG:
       return getMsg();
+
+    case KEY:
+      return getKey();
+
+    case VALUE:
+      return getValue();
 
     }
     throw new IllegalStateException();
@@ -194,6 +290,10 @@ public class LogicPoint implements org.apache.thrift.TBase<LogicPoint, LogicPoin
     switch (field) {
     case MSG:
       return isSetMsg();
+    case KEY:
+      return isSetKey();
+    case VALUE:
+      return isSetValue();
     }
     throw new IllegalStateException();
   }
@@ -217,6 +317,24 @@ public class LogicPoint implements org.apache.thrift.TBase<LogicPoint, LogicPoin
       if (!(this_present_msg && that_present_msg))
         return false;
       if (!this.msg.equals(that.msg))
+        return false;
+    }
+
+    boolean this_present_key = true && this.isSetKey();
+    boolean that_present_key = true && that.isSetKey();
+    if (this_present_key || that_present_key) {
+      if (!(this_present_key && that_present_key))
+        return false;
+      if (!this.key.equals(that.key))
+        return false;
+    }
+
+    boolean this_present_value = true && this.isSetValue();
+    boolean that_present_value = true && that.isSetValue();
+    if (this_present_value || that_present_value) {
+      if (!(this_present_value && that_present_value))
+        return false;
+      if (!this.value.equals(that.value))
         return false;
     }
 
@@ -246,6 +364,26 @@ public class LogicPoint implements org.apache.thrift.TBase<LogicPoint, LogicPoin
         return lastComparison;
       }
     }
+    lastComparison = Boolean.valueOf(isSetKey()).compareTo(typedOther.isSetKey());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetKey()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.key, typedOther.key);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = Boolean.valueOf(isSetValue()).compareTo(typedOther.isSetValue());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetValue()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.value, typedOther.value);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
     return 0;
   }
 
@@ -271,6 +409,22 @@ public class LogicPoint implements org.apache.thrift.TBase<LogicPoint, LogicPoin
       sb.append("null");
     } else {
       sb.append(this.msg);
+    }
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("key:");
+    if (this.key == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.key);
+    }
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("value:");
+    if (this.value == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.value);
     }
     first = false;
     sb.append(")");
@@ -324,6 +478,22 @@ public class LogicPoint implements org.apache.thrift.TBase<LogicPoint, LogicPoin
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
+          case 2: // KEY
+            if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+              struct.key = iprot.readString();
+              struct.setKeyIsSet(true);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            break;
+          case 3: // VALUE
+            if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+              struct.value = iprot.readString();
+              struct.setValueIsSet(true);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            break;
           default:
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
         }
@@ -342,6 +512,16 @@ public class LogicPoint implements org.apache.thrift.TBase<LogicPoint, LogicPoin
       if (struct.msg != null) {
         oprot.writeFieldBegin(MSG_FIELD_DESC);
         oprot.writeString(struct.msg);
+        oprot.writeFieldEnd();
+      }
+      if (struct.key != null) {
+        oprot.writeFieldBegin(KEY_FIELD_DESC);
+        oprot.writeString(struct.key);
+        oprot.writeFieldEnd();
+      }
+      if (struct.value != null) {
+        oprot.writeFieldBegin(VALUE_FIELD_DESC);
+        oprot.writeString(struct.value);
         oprot.writeFieldEnd();
       }
       oprot.writeFieldStop();
@@ -365,19 +545,39 @@ public class LogicPoint implements org.apache.thrift.TBase<LogicPoint, LogicPoin
       if (struct.isSetMsg()) {
         optionals.set(0);
       }
-      oprot.writeBitSet(optionals, 1);
+      if (struct.isSetKey()) {
+        optionals.set(1);
+      }
+      if (struct.isSetValue()) {
+        optionals.set(2);
+      }
+      oprot.writeBitSet(optionals, 3);
       if (struct.isSetMsg()) {
         oprot.writeString(struct.msg);
+      }
+      if (struct.isSetKey()) {
+        oprot.writeString(struct.key);
+      }
+      if (struct.isSetValue()) {
+        oprot.writeString(struct.value);
       }
     }
 
     @Override
     public void read(org.apache.thrift.protocol.TProtocol prot, LogicPoint struct) throws org.apache.thrift.TException {
       TTupleProtocol iprot = (TTupleProtocol) prot;
-      BitSet incoming = iprot.readBitSet(1);
+      BitSet incoming = iprot.readBitSet(3);
       if (incoming.get(0)) {
         struct.msg = iprot.readString();
         struct.setMsgIsSet(true);
+      }
+      if (incoming.get(1)) {
+        struct.key = iprot.readString();
+        struct.setKeyIsSet(true);
+      }
+      if (incoming.get(2)) {
+        struct.value = iprot.readString();
+        struct.setValueIsSet(true);
       }
     }
   }

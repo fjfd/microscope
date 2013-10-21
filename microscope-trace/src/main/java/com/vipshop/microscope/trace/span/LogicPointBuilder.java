@@ -6,15 +6,14 @@ public class LogicPointBuilder {
 	
 	public static LogicPoint build(String msg) {
 		LogicPoint logicPoint = new LogicPoint();
-		logicPoint.setMsg("user login operation...");
-		
+		logicPoint.setMsg(msg);
 		return logicPoint;
 	}
 	
-	public static LogicPoint build() {
+	public static LogicPoint build(String key, String value) {
 		LogicPoint logicPoint = new LogicPoint();
-		logicPoint.setMsg("user login operation...");
-		
+		logicPoint.setKey(key);
+		logicPoint.setValue(value);
 		return logicPoint;
 	}
 }

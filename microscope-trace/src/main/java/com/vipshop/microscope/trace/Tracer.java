@@ -15,4 +15,13 @@ public class Tracer {
 	public static void clientReceive() {
 		TraceFactory.getTrace().clientReceive();
 	}
+	
+	public static void record(String msg) {
+		TraceFactory.getTrace().record(msg);
+	}
+	
+	public static void record(String key, String value) {
+		TraceFactory.getTrace().record(key, value);
+	}
+	
 }

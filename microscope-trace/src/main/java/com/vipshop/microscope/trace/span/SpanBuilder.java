@@ -90,8 +90,8 @@ public class SpanBuilder {
 		/*
 		 * add send annotation to span.
 		 */
-		span.addToAnnotations(AnnotationBuilder.clientSendAnnotation(spanName));
-		span.addToAnnotations(AnnotationBuilder.serverReceAnnotation(spanName));
+		span.addToAnnotations(AnnotationBuilder.clientSendAnnotation());
+		span.addToAnnotations(AnnotationBuilder.serverReceAnnotation());
 		
 		/*
 		 * make the new span be the
@@ -117,8 +117,8 @@ public class SpanBuilder {
     	 * remove span from stack
     	 */
 		Span span = spanStack.pop();
-		span.addToAnnotations(AnnotationBuilder.serverSendAnnotation(span.getName()));
-    	span.addToAnnotations(AnnotationBuilder.clientReceAnnotation(span.getName()));
+		span.addToAnnotations(AnnotationBuilder.serverSendAnnotation());
+    	span.addToAnnotations(AnnotationBuilder.clientReceAnnotation());
     	
     	/*
     	 * put span to queue
@@ -134,6 +134,36 @@ public class SpanBuilder {
 		} else {
 			spanContext.setCurrentSpan(null);
 		}
+	}
+	
+	/**
+	 * Record a message to span.
+	 * 
+	 * This can be useful when you want record 
+	 * some information associate with time.
+	 * 
+	 * This annotation will add to current span.
+	 * 
+	 * @param message
+	 */
+	public void buildMessage(String message) {
+		Span span = spanContext.getCurrentSpan();
+		if (span != null) 
+			span.addToAnnotations(AnnotationBuilder.messageAnnotation(message));
+	}
+	
+	/**
+	 * Record a key/value to span.
+	 * 
+	 * This annotation will add to current span.
+	 * 
+	 * @param key
+	 * @param value
+	 */
+	public void buildKeyValue(String key, String value) {
+		Span span = spanContext.getCurrentSpan();
+		if (span != null) 
+			span.addToAnnotations(AnnotationBuilder.keyValueAnnotation(key, value));
 	}
 
 }

@@ -14,10 +14,12 @@ struct EndPoint {
 // record business status
 struct LogicPoint {
    1: string msg
+   2: string key
+   3: string value
 }
 
 // annotation type
-enum AnnotationType { CS, CR, SS, SR }
+enum AnnotationType { CS, CR, SS, SR, MSG, KV }
 
 // annotation means some event
 struct Annotation {

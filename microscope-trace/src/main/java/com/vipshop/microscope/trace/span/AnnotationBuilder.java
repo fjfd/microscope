@@ -13,19 +13,16 @@ import com.vipshop.microscope.thrift.AnnotationType;
  */
 public class AnnotationBuilder {
 	
-//	private static final String UTF_8 = "UTF-8";
-	
 	/**
 	 * Return a client send annotation.
 	 * 
 	 * @param spanName the name of span
 	 * @return Annotation object
 	 */
-	public static Annotation clientSendAnnotation(String spanName) {
+	public static Annotation clientSendAnnotation() {
 		Annotation annotation = new Annotation();
 		annotation.setTimestamp(TimeUtil.currentTimeMicros());
 		annotation.setEndPoint(EndPointBuilder.build());
-		annotation.setLogicPoint(LogicPointBuilder.build());
 		annotation.setType(AnnotationType.CS);
 		return annotation;
 	}
@@ -36,11 +33,10 @@ public class AnnotationBuilder {
 	 * @param spanName the name of span
 	 * @return Annotation object
 	 */
-	public static Annotation clientReceAnnotation(String spanName) {
+	public static Annotation clientReceAnnotation() {
 		Annotation annotation = new Annotation();
 		annotation.setTimestamp(TimeUtil.currentTimeMicros());
 		annotation.setEndPoint(EndPointBuilder.build());
-		annotation.setLogicPoint(LogicPointBuilder.build());
 		annotation.setType(AnnotationType.CR);
 		return annotation;
 	}
@@ -51,11 +47,10 @@ public class AnnotationBuilder {
 	 * @param spanName the name of span
 	 * @return Annotation object
 	 */
-	public static Annotation serverSendAnnotation(String spanName) {
+	public static Annotation serverSendAnnotation() {
 		Annotation annotation = new Annotation();
 		annotation.setTimestamp(TimeUtil.currentTimeMicros());
 		annotation.setEndPoint(EndPointBuilder.build());
-		annotation.setLogicPoint(LogicPointBuilder.build());
 		annotation.setType(AnnotationType.SS);
 		return annotation;
 	}
@@ -66,12 +61,11 @@ public class AnnotationBuilder {
 	 * @param spanName the name of span 
 	 * @return Annotation object
 	 */
-	public static Annotation serverReceAnnotation(String spanName) {
+	public static Annotation serverReceAnnotation() {
 		Annotation annotation = new Annotation();
 		annotation.setTimestamp(TimeUtil.currentTimeMicros());
 		annotation.setEndPoint(EndPointBuilder.build());
-		annotation.setLogicPoint(LogicPointBuilder.build());
-		annotation.setType(AnnotationType.CR);
+		annotation.setType(AnnotationType.SR);
 		return annotation;
 	}
 	
@@ -82,17 +76,16 @@ public class AnnotationBuilder {
 	 * @param message  the message 
 	 * @return Annotation object
 	 */
-	public static Annotation messageAnnotation(String spanName, String message) {
+	public static Annotation messageAnnotation(String message) {
 		Annotation annotation = new Annotation();
 		annotation.setTimestamp(TimeUtil.currentTimeMicros());
-		annotation.setEndPoint(EndPointBuilder.build());
-		annotation.setLogicPoint(LogicPointBuilder.build());
-		annotation.setType(AnnotationType.CR);
+		annotation.setLogicPoint(LogicPointBuilder.build(message));
+		annotation.setType(AnnotationType.MSG);
 		return annotation;
 	}
 	
 	/**
-	 * Returns a binary annotation.
+	 * Returns a key/value annotation.
 	 * 
 	 * @param spanName the name of span
 	 * @param key annotation key
@@ -100,23 +93,12 @@ public class AnnotationBuilder {
 	 * @throws IllegalStateException if encode is not supported
 	 * @return BinaryAnnotation ojbect
 	 */
-	public static Annotation keyValueAnnotation(String spanName, String key, String value) {
+	public static Annotation keyValueAnnotation(String key, String value) {
 		Annotation annotation = new Annotation();
 		annotation.setTimestamp(TimeUtil.currentTimeMicros());
-		annotation.setEndPoint(EndPointBuilder.build());
-		annotation.setLogicPoint(LogicPointBuilder.build());
-		annotation.setType(AnnotationType.CR);
+		annotation.setLogicPoint(LogicPointBuilder.build(key, value));
+		annotation.setType(AnnotationType.KV);
 		return annotation;
-//        Annotation binaryAnnotation = new Annotation();
-//        binaryAnnotation.setKey(key);
-//        try {
-//			binaryAnnotation.setValue(ByteBuffer.wrap(value.getBytes(UTF_8)));
-//		} catch (UnsupportedEncodingException e) {
-//			throw new IllegalStateException(e);
-//		}
-//        binaryAnnotation.setAnnotation_type(AnnotationType.STRING);
-//        binaryAnnotation.setHost(EndpointBuilder.newEndpoint(spanName));
-//        return binaryAnnotation;
 	}
 	
 }
