@@ -12,11 +12,4 @@
 		<maven-site-plugin.skip>true</maven-site-plugin.skip>
 	</properties>
 
-	<dependencies>
-		<dependency>
-			<groupId>com.google.protobuf</groupId>
-			<artifactId>protobuf-java</artifactId>
-			<version>2.5.0</version>
-		</dependency>
-	</dependencies>
 </project>

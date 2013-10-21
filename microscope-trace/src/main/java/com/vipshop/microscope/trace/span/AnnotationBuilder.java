@@ -13,6 +13,8 @@ import com.vipshop.microscope.thrift.AnnotationType;
  */
 public class AnnotationBuilder {
 	
+//	private static final String UTF_8 = "UTF-8";
+	
 	/**
 	 * Return a client send annotation.
 	 * 
@@ -71,6 +73,50 @@ public class AnnotationBuilder {
 		annotation.setLogicPoint(LogicPointBuilder.build());
 		annotation.setType(AnnotationType.CR);
 		return annotation;
+	}
+	
+	/**
+	 * Returns a message annotation.
+	 * 
+	 * @param spanName the name of span
+	 * @param message  the message 
+	 * @return Annotation object
+	 */
+	public static Annotation messageAnnotation(String spanName, String message) {
+		Annotation annotation = new Annotation();
+		annotation.setTimestamp(TimeUtil.currentTimeMicros());
+		annotation.setEndPoint(EndPointBuilder.build());
+		annotation.setLogicPoint(LogicPointBuilder.build());
+		annotation.setType(AnnotationType.CR);
+		return annotation;
+	}
+	
+	/**
+	 * Returns a binary annotation.
+	 * 
+	 * @param spanName the name of span
+	 * @param key annotation key
+	 * @param value annotation value
+	 * @throws IllegalStateException if encode is not supported
+	 * @return BinaryAnnotation ojbect
+	 */
+	public static Annotation keyValueAnnotation(String spanName, String key, String value) {
+		Annotation annotation = new Annotation();
+		annotation.setTimestamp(TimeUtil.currentTimeMicros());
+		annotation.setEndPoint(EndPointBuilder.build());
+		annotation.setLogicPoint(LogicPointBuilder.build());
+		annotation.setType(AnnotationType.CR);
+		return annotation;
+//        Annotation binaryAnnotation = new Annotation();
+//        binaryAnnotation.setKey(key);
+//        try {
+//			binaryAnnotation.setValue(ByteBuffer.wrap(value.getBytes(UTF_8)));
+//		} catch (UnsupportedEncodingException e) {
+//			throw new IllegalStateException(e);
+//		}
+//        binaryAnnotation.setAnnotation_type(AnnotationType.STRING);
+//        binaryAnnotation.setHost(EndpointBuilder.newEndpoint(spanName));
+//        return binaryAnnotation;
 	}
 	
 }

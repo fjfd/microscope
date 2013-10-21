@@ -59,7 +59,7 @@ public class ThreadTransporter implements Runnable {
 				emptySize = 0;
 			} else {
 				try {
-					TimeUnit.MILLISECONDS.sleep(Constant.SEND_WAIT_TIME);
+					TimeUnit.MICROSECONDS.sleep(Constant.SEND_WAIT_TIME);
 				} catch (InterruptedException e) {
 
 				}
