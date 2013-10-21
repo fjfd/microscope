@@ -28,4 +28,8 @@ public class Tracer {
 		return TraceFactory.getContext();
 	}
 	
+	public static long getTraceId() {
+		return TraceFactory.getTraceId();
+	}
+	
 }
