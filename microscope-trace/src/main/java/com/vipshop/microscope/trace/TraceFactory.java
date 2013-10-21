@@ -46,6 +46,9 @@ public class TraceFactory {
 	 * @return current trace id.
 	 */
 	public static long getTraceId() {
+		if (TRACE_CONTEXT.get() == null) {
+			return 0L;
+		}
 		return TRACE_CONTEXT.get().getSpanId().getTraceId();
 	}
 	
