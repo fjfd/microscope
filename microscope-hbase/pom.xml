@@ -8,7 +8,7 @@
 	</parent>
 
 	<version>${project.build.version}</version>
-	<artifactId>microscope-hadoop</artifactId>
+	<artifactId>microscope-hbase</artifactId>
 
 	<properties>
 		<maven-site-plugin.skip>true</maven-site-plugin.skip>

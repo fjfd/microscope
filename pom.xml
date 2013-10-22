@@ -27,7 +27,7 @@
 		<module>microscope-common</module>
 		<module>microscope-collector</module>
 		<module>microscope-gen</module>
-		<module>microscope-hadoop</module>
+		<module>microscope-hbase</module>
 		<module>microscope-mysql</module>
 		<module>microscope-test</module>
 	</modules>

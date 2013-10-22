@@ -39,7 +39,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.vipshop</groupId>
-			<artifactId>microscope-hadoop</artifactId>
+			<artifactId>microscope-hbase</artifactId>
 			<version>${project.build.version}</version>
 		</dependency>
 		<dependency>
