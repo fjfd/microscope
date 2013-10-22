@@ -31,7 +31,6 @@ public class TraceTableRepository extends AbstraceHbaseRepository {
 	private String cf = "cf";
 
 	private byte[] CF = Bytes.toBytes(cf);
-
 	private byte[] CF_TRACE_ID = Bytes.toBytes("trace_id");
 	private byte[] CF_TRACE_NAME = Bytes.toBytes("trace_name");
 	private byte[] CF_START_TIMESTAMP = Bytes.toBytes("start_timestamp");
