@@ -1,13 +1,32 @@
-package com.vipshop.microscope.trace;
+package com.vipshop.microscope.test.trace;
 
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.vipshop.microscope.collector.server.CollectorServer;
+import com.vipshop.microscope.test.app.UserController;
+import com.vipshop.microscope.trace.Trace;
+import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.span.Category;
-import com.vipshop.microscope.trace.user.UserController;
 
 public class TraceTest {
+	
+	@BeforeClass
+	public void setUp() {
+		ExecutorService executor = Executors.newSingleThreadExecutor();
+		executor.execute(new CollectorServer());
+	}
+	
+	@AfterClass
+	public void tearDown() {
+		System.exit(0);
+	}
 	
 	/**
 	 * A trace which all spans in one thread.
@@ -20,6 +39,8 @@ public class TraceTest {
 		new UserController().login();
 		Tracer.record("queue size", "10");
 		Tracer.clientReceive();
+		
+		TimeUnit.SECONDS.sleep(5);
 	}
 	
 	/**
