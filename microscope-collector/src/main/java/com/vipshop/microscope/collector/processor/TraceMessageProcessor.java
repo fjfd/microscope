@@ -5,8 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.vipshop.microscope.collector.builder.BuildProcessor;
-import com.vipshop.microscope.collector.decode.Encoder;
 import com.vipshop.microscope.collector.metric.Metric;
+import com.vipshop.microscope.common.codec.Encoder;
 import com.vipshop.microscope.hbase.domain.App;
 import com.vipshop.microscope.hbase.domain.TraceIndex;
 import com.vipshop.microscope.hbase.domain.TraceTable;

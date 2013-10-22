@@ -1,5 +1,6 @@
-package com.vipshop.microscope.trace.encode;
+package com.vipshop.microscope.common.codec;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
 import org.apache.commons.codec.binary.Base64;
@@ -14,30 +15,24 @@ import com.vipshop.microscope.thrift.Span;
 
 public class Encoder {
 
+	private static final TProtocolFactory protocolFactory = new TBinaryProtocol.Factory();
 	private static final Base64 base64 = new Base64();
 
-	private static final TProtocolFactory protocolFactory = new TBinaryProtocol.Factory();
-
-	/**
-	 * Write {@code Span} object to byte array.
-	 * 
-	 * @param thriftSpan
-	 *            span object
-	 * @return
-	 * @throws TException
-	 */
-	private byte[] spanToBytes(final Span thriftSpan) throws TException {
-		final ByteArrayOutputStream buf = new ByteArrayOutputStream();
+	public Span decodeToSpan(final String msg) throws TException {
+		byte[] tmp = Base64.decodeBase64(msg);
+		final ByteArrayInputStream buf = new ByteArrayInputStream(tmp);
 		final TProtocol proto = protocolFactory.getProtocol(new TIOStreamTransport(buf));
-		thriftSpan.write(proto);
-		return buf.toByteArray();
+		Span span = new Span();
+		span.read(proto);
+		return span;
 	}
 
 	public LogEntry encodeToLogEntry(Span span) throws TException {
-		LogEntry logEntry = null;
-
-		String spanAsString = base64.encodeToString(spanToBytes(span));
-		logEntry = new LogEntry("trace", spanAsString);
+		final ByteArrayOutputStream buf = new ByteArrayOutputStream();
+		final TProtocol proto = protocolFactory.getProtocol(new TIOStreamTransport(buf));
+		span.write(proto);
+		String spanAsString = base64.encodeToString(buf.toByteArray());
+		LogEntry logEntry = new LogEntry("trace", spanAsString);
 		return logEntry;
 	}
 

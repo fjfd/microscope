@@ -14,4 +14,11 @@
 		<maven-site-plugin.skip>true</maven-site-plugin.skip>
 	</properties>
 
+	<dependencies>
+		<dependency>
+			<groupId>com.vipshop</groupId>
+			<artifactId>microscope-gen</artifactId>
+			<version>${project.build.version}</version>
+		</dependency>
+	</dependencies>
 </project>
