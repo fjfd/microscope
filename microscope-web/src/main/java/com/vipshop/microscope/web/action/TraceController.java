@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.span.Category;
-import com.vipshop.microscope.web.builder.TraceQueryBuilder;
+import com.vipshop.microscope.web.query.TraceQuery;
 import com.vipshop.microscope.web.result.AppAndTraceResult;
 import com.vipshop.microscope.web.result.TraceListResult;
 import com.vipshop.microscope.web.result.TraceSpanResult;
@@ -41,7 +41,7 @@ public class TraceController {
 	@ResponseBody
 	public TraceListResult traceList(HttpServletRequest request, String callback) {
 		TraceListResult result = new TraceListResult();
-		Map<String, String> query = TraceQueryBuilder.build(request);
+		Map<String, String> query = TraceQuery.build(request);
 		List<Map<String, Object>> traceLists = service.getTraceList(query);
 		result.setTraceList(traceLists);
 		result.setCallback(callback);

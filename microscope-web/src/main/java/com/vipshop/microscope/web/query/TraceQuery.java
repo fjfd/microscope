@@ -1,75 +1,26 @@
 package com.vipshop.microscope.web.query;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 public class TraceQuery {
 	
-	private String appName;
-	private String traceName;
-	
-	private String startTime;
-	private String endTime;
-	
-	private String limit;
-	
-	public TraceQuery(String traceName, String startTime, String endTime, String limit) {
-		super();
-		this.traceName = traceName;
-		this.startTime = startTime;
-		this.endTime = endTime;
-		this.limit = limit;
+	public static Map<String, String> build(HttpServletRequest request) {
+		String appName = request.getParameter("appName");
+		String traceName = request.getParameter("traceName");
+		String startTime = request.getParameter("startTime");
+		String endTime = request.getParameter("endTime");
+		String limit = request.getParameter("limit");
+		
+		Map<String, String> query = new HashMap<String, String>();
+		query.put("appName", appName);
+		query.put("traceName", traceName);
+		query.put("startTime", startTime);
+		query.put("endTime", endTime);
+		query.put("limit", limit);
+		
+		return query;
 	}
-
-	public TraceQuery(String appName, String traceName, String startTime, String endTime, String limit) {
-		super();
-		this.appName = appName;
-		this.traceName = traceName;
-		this.startTime = startTime;
-		this.endTime = endTime;
-		this.limit = limit;
-	}
-	
-	public String getAppName() {
-		return appName;
-	}
-	
-	public void setAppName(String appName) {
-		this.appName = appName;
-	}
-
-	public String getTraceName() {
-		return traceName;
-	}
-
-	public void setTraceName(String traceName) {
-		this.traceName = traceName;
-	}
-
-	public String getStartTime() {
-		return startTime;
-	}
-
-	public void setStartTime(String startTime) {
-		this.startTime = startTime;
-	}
-
-	public String getEndTime() {
-		return endTime;
-	}
-
-	public void setEndTime(String endTime) {
-		this.endTime = endTime;
-	}
-
-	public String getLimit() {
-		return limit;
-	}
-
-	public void setLimit(String limit) {
-		this.limit = limit;
-	}
-
-	@Override
-	public String toString() {
-		return "TraceQuery [appName=" + appName + ", traceName=" + traceName + ", startTime=" + startTime + ", endTime=" + endTime + ", limit=" + limit + "]";
-	}
-	
 }
