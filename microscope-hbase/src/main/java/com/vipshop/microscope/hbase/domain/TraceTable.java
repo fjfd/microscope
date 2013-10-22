@@ -6,14 +6,6 @@ import java.io.Serializable;
 public class TraceTable implements Serializable {
 	
 	private static final long serialVersionUID = -2609783475042433846L;
-
-	public static final String TABLE_NAME = "trace";
-	public static final String CF_INFO = "cfInfo";
-	public static final String CF_INFO_TRACE_ID = "trace_id";
-	public static final String CF_INFO_TRACE_NAME = "trace_name";
-	public static final String CF_INFO_TRACE_STMP = "startTimestamp";
-	public static final String CF_INFO_TRACE_ETMP = "endTimestamp";
-	public static final String CF_INFO_TRACE_DURA = "duration";
 	
 	private String traceId;
 	private String traceName;

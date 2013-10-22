@@ -5,7 +5,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.vipshop.microscope.hbase.domain.App;
 import com.vipshop.microscope.hbase.domain.TraceTable;
 import com.vipshop.microscope.hbase.query.HbaseQueryTemplate;
 import com.vipshop.microscope.thrift.Annotation;
@@ -17,16 +16,7 @@ public class TraceService {
 	HbaseQueryTemplate template = new HbaseQueryTemplate();
 	
 	public List<Map<String, Object>> getQueryCondition() {
-		List<Map<String, Object>> conditions = new ArrayList<Map<String, Object>>();
-		List<App> appIndexs = template.getAppIndex();
-		for (App appIndex : appIndexs) {
-			Map<String, Object> appAndTrace = new LinkedHashMap<String, Object>();
-			String name = appIndex.getAppName();
-			appAndTrace.put("app", name);
-			appAndTrace.put("trace", template.getTraceNameByAppName(name));
-			conditions.add(appAndTrace);
-		}
-		return conditions;
+		return template.getAppTrace();
 	}
 	
 	public List<Map<String, Object>> getTraceList(Map<String, String> query) {
@@ -43,7 +33,7 @@ public class TraceService {
 			trace.put("startTimestamp", stmp);
 			trace.put("endTimestamp", etmp);
 			trace.put("durationMicro", dura);
-			trace.put("serviceCounts", template.getSpanNameByTraceId(traceId));
+			trace.put("serviceCounts", template.findSpanNameByTraceId(traceId));
 			traceLists.add(trace);
 		}
 		return traceLists;
@@ -81,7 +71,6 @@ public class TraceService {
 				if (annotation.getType().equals(AnnotationType.CR)) {
 					endstmp = annotation.getTimestamp();
 				}
-				annotationMap.put("host", annotation.getEndPoint().values);
 				annoInfo.add(annotationMap);
 			}
 			
@@ -97,7 +86,7 @@ public class TraceService {
 		traceSpan.put("startTimestamp", table.getStartTimestamp());
 		traceSpan.put("endTimestamp", table.getEndTimestamp());
 		traceSpan.put("durationMicro", table.getDuration());
-		traceSpan.put("serviceCounts", template.getSpanNameByTraceId(traceId));
+		traceSpan.put("serviceCounts", template.findSpanNameByTraceId(traceId));
 
 		return traceSpan;
 		

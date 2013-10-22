@@ -15,19 +15,13 @@
  */
 package com.vipshop.microscope.hbase.repository;
 
-import java.io.IOException;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.testng.annotations.Test;
 
-public class AnnotationRepositoryTest {
-
-	private static final Log log = LogFactory.getLog(AnnotationRepositoryTest.class);
+public class SpanTableRepositoryTest {
 
 	@Test
-	public void testFind() throws IOException {
-		log.info("HBase Application Running");
+	public void testfind() {
 		
+		System.out.println(Repositorys.SPAN.findSpanByTraceId("-5276315724518876759"));
 	}
 }

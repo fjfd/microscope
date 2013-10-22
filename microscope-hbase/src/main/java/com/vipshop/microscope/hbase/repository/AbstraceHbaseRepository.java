@@ -1,6 +1,7 @@
 package com.vipshop.microscope.hbase.repository;
 
 import java.io.IOException;
+import java.util.NavigableMap;
 
 import javax.annotation.Resource;
 
@@ -8,6 +9,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HColumnDescriptor;
 import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.client.HBaseAdmin;
+import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +17,7 @@ import org.springframework.data.hadoop.hbase.HbaseTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-public abstract class HbaseRepository implements InitializingBean {
+public abstract class AbstraceHbaseRepository implements InitializingBean {
 
 	@Resource(name = "hbaseConfiguration")
 	protected Configuration config;
@@ -58,5 +60,18 @@ public abstract class HbaseRepository implements InitializingBean {
 	public Configuration getConfiguration() {
 		return config;
 	}
+	
+	public static String[] getColumnsInColumnFamily(Result r, String ColumnFamily) {
+		NavigableMap<byte[], byte[]> familyMap = r.getFamilyMap(Bytes.toBytes(ColumnFamily));
+		String[] Quantifers = new String[familyMap.size()];
+
+		int counter = 0;
+		for (byte[] bQunitifer : familyMap.keySet()) {
+			Quantifers[counter++] = Bytes.toString(bQunitifer);
+
+		}
+		return Quantifers;
+	}
+
 
 }

@@ -37,7 +37,7 @@ public class CountShakespeare {
 	}
 
 	public static void main(String[] args) throws Exception {
-		Configuration conf = Repositorys.TRAC.getConfiguration();
+		Configuration conf = Repositorys.TRACE.getConfiguration();
 		Job job = new Job(conf, "TwitBase Shakespeare counter");
 		job.setJarByClass(CountShakespeare.class);
 

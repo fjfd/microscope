@@ -3,8 +3,6 @@ package com.vipshop.microscope.hbase.query;
 import java.util.List;
 import java.util.Map;
 
-import com.vipshop.microscope.hbase.domain.App;
-import com.vipshop.microscope.hbase.domain.TraceIndex;
 import com.vipshop.microscope.hbase.domain.TraceTable;
 import com.vipshop.microscope.hbase.repository.Repositorys;
 import com.vipshop.microscope.thrift.Span;
@@ -12,35 +10,14 @@ import com.vipshop.microscope.thrift.Span;
 public class HbaseQueryTemplate {
 	
 	/**
-	 * Returns all app name.
+	 * Returns app-with-trace info.
 	 * 
 	 * @return
 	 */
-	public List<App> getAppIndex() {
-		return Repositorys.APP_INDEX.findAll();
+	public List<Map<String, Object>> getAppTrace() {
+		return Repositorys.APP_TRACE.findAll();
 	}
 	
-	/**
-	 * Returns all {@code TraceIndex} name by app name.
-	 * 
-	 * @param appName
-	 * @return
-	 */
-	public List<TraceIndex> getTraceIndexByAppName(String appName) {
-		return Repositorys.TRAC_INDEX.findByAppName(appName);
-	}
-	
-	/**
-	 * Returns all trace name by app name.
-	 * 
-	 * @param appName
-	 * @return
-	 */
-	public List<String> getTraceNameByAppName(String appName) {
-		List<String> strings = Repositorys.TRAC_INDEX.findTraceNameByAppName(appName);
-		return strings;
-	}
-
 	/**
 	 * Returns trace list by trace name.
 	 * 
@@ -48,20 +25,15 @@ public class HbaseQueryTemplate {
 	 * @return
 	 */
 	public List<TraceTable> getTraceListByTraceQuery(Map<String, String> query) {
-		return Repositorys.TRAC.findByName(query);
+		return Repositorys.TRACE.findByName(query);
+	}
+	
+	public Map<String, String> findSpanNameByTraceId(String traceId) {
+		return Repositorys.SPAN.findSpanNameByTraceId(traceId);
 	}
 	
 	public TraceTable getTraceTableByTraceId(String traceId) {
-		return Repositorys.TRAC.findByTraceId(traceId);
-	}
-	/**
-	 * Returns span names by trace id.
-	 * 
-	 * @param traceId
-	 * @return
-	 */
-	public Map<String, String> getSpanNameByTraceId(String traceId) {
-		return Repositorys.TRACE_SPAN.find(traceId);
+		return Repositorys.TRACE.findByTraceId(traceId);
 	}
 	
 	/**

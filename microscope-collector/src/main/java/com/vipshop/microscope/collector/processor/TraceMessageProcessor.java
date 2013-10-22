@@ -7,8 +7,7 @@ import org.slf4j.LoggerFactory;
 import com.vipshop.microscope.collector.builder.BuildProcessor;
 import com.vipshop.microscope.collector.metric.Metric;
 import com.vipshop.microscope.common.codec.Encoder;
-import com.vipshop.microscope.hbase.domain.App;
-import com.vipshop.microscope.hbase.domain.TraceIndex;
+import com.vipshop.microscope.hbase.domain.AppTrace;
 import com.vipshop.microscope.hbase.domain.TraceTable;
 import com.vipshop.microscope.hbase.storage.HbaseStorageTemplate;
 import com.vipshop.microscope.thrift.LogEntry;
@@ -52,17 +51,13 @@ public class TraceMessageProcessor {
 	}
 	
 	private void index(Span span) {
-		App appIndex = buildProcessor.buildAppIndex(span);
-		storageProcessor.save(appIndex);
-
-		TraceIndex traceIndex = buildProcessor.buildTraceIndex(span);
-		storageProcessor.save(traceIndex);
+		AppTrace appTrace = buildProcessor.buildAppIndex(span);
+		storageProcessor.save(appTrace);
 	}
 	
 	private void store(Span span) {
 		TraceTable traceTable = buildProcessor.buildTraceTable(span);
 		storageProcessor.save(traceTable);
-		
 		storageProcessor.save(span);
 	}
 

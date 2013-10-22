@@ -13,7 +13,6 @@ import org.apache.hadoop.hbase.regionserver.InternalScanner;
 import org.apache.hadoop.hbase.util.Bytes;
 
 import com.vipshop.microscope.common.util.Md5Utils;
-import com.vipshop.microscope.hbase.domain.TraceTable;
 
 public class CountCoprocessor extends BaseEndpointCoprocessor {
 	
@@ -21,7 +20,7 @@ public class CountCoprocessor extends BaseEndpointCoprocessor {
 		byte[] startkey = Md5Utils.md5sum(userId);
 		Scan scan = new Scan(startkey);
 		scan.setFilter(new PrefixFilter(startkey));
-		scan.addColumn(Bytes.toBytes(TraceTable.CF_INFO), Bytes.toBytes(TraceTable.CF_INFO_TRACE_NAME));
+		scan.addColumn(Bytes.toBytes("cf"), Bytes.toBytes("trace_name"));
 		scan.setMaxVersions(1);
 
 		RegionCoprocessorEnvironment env = (RegionCoprocessorEnvironment) getEnvironment();

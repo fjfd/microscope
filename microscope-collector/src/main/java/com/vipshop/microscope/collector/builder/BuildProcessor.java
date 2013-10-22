@@ -2,14 +2,26 @@ package com.vipshop.microscope.collector.builder;
 
 import java.util.List;
 
-import com.vipshop.microscope.hbase.domain.App;
-import com.vipshop.microscope.hbase.domain.TraceIndex;
+import com.vipshop.microscope.hbase.domain.AppTrace;
 import com.vipshop.microscope.hbase.domain.TraceTable;
 import com.vipshop.microscope.thrift.Annotation;
 import com.vipshop.microscope.thrift.AnnotationType;
 import com.vipshop.microscope.thrift.Span;
 
 public class BuildProcessor {
+	
+	public AppTrace buildAppIndex(Span span) {
+		String traceId = String.valueOf(span.getTrace_id());
+		String spanId = String.valueOf(span.getId());
+		
+		if (traceId.equals(spanId)) {
+			String appName = span.getApp_name();
+			String traceName = span.getName();
+			return new AppTrace(appName, traceName);
+		}
+		
+		return null;
+	}
 	
 	public TraceTable buildTraceTable(Span span) {
 		
@@ -43,30 +55,4 @@ public class BuildProcessor {
 		return null;
 	}
 	
-	public TraceIndex buildTraceIndex(Span span) {
-		String traceId = String.valueOf(span.getTrace_id());
-		String spanId = String.valueOf(span.getId());
-		
-		if (traceId.equals(spanId)) {
-			String appName = span.getApp_name();
-			String traceName = span.getName();
-			return new TraceIndex(appName, traceName);
-		}
-		
-		return null;
-	}
-	
-	public App buildAppIndex(Span span) {
-		String traceId = String.valueOf(span.getTrace_id());
-		String spanId = String.valueOf(span.getId());
-		
-		if (traceId.equals(spanId)) {
-			String appName = span.getApp_name();
-			return new App(appName);
-		}
-		
-		return null;
-	}
-
-
 }
