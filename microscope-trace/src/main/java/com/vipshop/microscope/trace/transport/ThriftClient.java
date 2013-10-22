@@ -1,4 +1,4 @@
-package com.vipshop.microscope.trace.thrift;
+package com.vipshop.microscope.trace.transport;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;

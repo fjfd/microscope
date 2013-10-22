@@ -13,7 +13,6 @@ import com.vipshop.microscope.thrift.Span;
 import com.vipshop.microscope.trace.Constant;
 import com.vipshop.microscope.trace.encode.Encoder;
 import com.vipshop.microscope.trace.queue.MessageQueue;
-import com.vipshop.microscope.trace.thrift.ThriftClient;
 
 /**
  * Use a {@code Thread} transport message to zipkin collector.
