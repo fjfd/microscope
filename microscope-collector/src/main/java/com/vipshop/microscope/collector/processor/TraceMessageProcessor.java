@@ -18,7 +18,6 @@ public class TraceMessageProcessor {
 	
 	private static final Logger logger = LoggerFactory.getLogger(TraceMessageProcessor.class);
 	
-	
 	private final Encoder encoder = new Encoder();
 
 	private final Metric metric = new Metric();
@@ -27,42 +26,44 @@ public class TraceMessageProcessor {
 
 	private final BuildProcessor buildProcessor = new BuildProcessor();
 	
-	
 	public void process(LogEntry logEntry) {
-		this.stat(logEntry);
-		this.store(logEntry.getMessage());
+		Span span = null;
+		try {
+			span = encoder.decodeToSpan(logEntry.getMessage());
+		} catch (TException e) {
+			this.statError();
+			return;
+		}
+		this.index(span);
+		this.store(span);
+		
+		this.statSuccess(logEntry);
 	}
 	
-	public void stat(LogEntry logEntry) {
+	private void statError() {
+		logger.info("");
+	}
+	
+	private void statSuccess(LogEntry logEntry) {
 		metric.increMsgSize();
 		metric.increMsgByte(logEntry);
-	}
-
-	public void store(String msg) {
-		try {
-			
-			Span span = encoder.decodeToSpan(msg);
-			
-			App appIndex = buildProcessor.buildAppIndex(span);
-			TraceIndex traceIndex = buildProcessor.buildTraceIndex(span);
-			TraceTable traceTable = buildProcessor.buildTraceTable(span);
-			
-			logger.info("save appIndex to hbase:" + appIndex);
-			storageProcessor.save(appIndex);
-			
-			logger.info("save traceIndex to hbase:" + traceIndex);
-			storageProcessor.save(traceIndex);
-			
-			logger.info("save traceTable to hbase:" + traceTable);
-			storageProcessor.save(traceTable);
-			
-			logger.info("save span to hbase:" + span);
-			storageProcessor.save(span);
-			
-		} catch (TException e) {
-			metric.increFailMsgSize();
-		}
 		
+		logger.info("");
+	}
+	
+	private void index(Span span) {
+		App appIndex = buildProcessor.buildAppIndex(span);
+		storageProcessor.save(appIndex);
+
+		TraceIndex traceIndex = buildProcessor.buildTraceIndex(span);
+		storageProcessor.save(traceIndex);
+	}
+	
+	private void store(Span span) {
+		TraceTable traceTable = buildProcessor.buildTraceTable(span);
+		storageProcessor.save(traceTable);
+		
+		storageProcessor.save(span);
 	}
 
 }
