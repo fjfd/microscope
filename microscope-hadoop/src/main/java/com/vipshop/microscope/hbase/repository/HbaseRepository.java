@@ -1,4 +1,4 @@
-package com.vipshop.microscope.hbase.core;
+package com.vipshop.microscope.hbase.repository;
 
 import java.io.IOException;
 

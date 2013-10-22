@@ -29,9 +29,7 @@
 		<module>microscope-gen</module>
 		<module>microscope-hadoop</module>
 		<module>microscope-mysql</module>
-		<module>microscope-query</module>
 		<module>microscope-test</module>
-		<module>microscope-kafka</module>
 	</modules>
 
 

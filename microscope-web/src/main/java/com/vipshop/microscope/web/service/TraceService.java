@@ -7,14 +7,14 @@ import java.util.Map;
 
 import com.vipshop.microscope.hbase.domain.App;
 import com.vipshop.microscope.hbase.domain.TraceTable;
-import com.vipshop.microscope.query.core.QueryTemplate;
+import com.vipshop.microscope.hbase.query.HbaseQueryTemplate;
 import com.vipshop.microscope.thrift.Annotation;
 import com.vipshop.microscope.thrift.AnnotationType;
 import com.vipshop.microscope.thrift.Span;
 
 public class TraceService {
 	
-	QueryTemplate template = new QueryTemplate();
+	HbaseQueryTemplate template = new HbaseQueryTemplate();
 	
 	public List<Map<String, Object>> getQueryCondition() {
 		List<Map<String, Object>> conditions = new ArrayList<Map<String, Object>>();

@@ -25,11 +25,6 @@
 			<artifactId>microscope-trace</artifactId>
 			<version>${project.build.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>com.vipshop</groupId>
-			<artifactId>microscope-query</artifactId>
-			<version>${project.build.version}</version>
-		</dependency>
 	</dependencies>
 
 	<build>

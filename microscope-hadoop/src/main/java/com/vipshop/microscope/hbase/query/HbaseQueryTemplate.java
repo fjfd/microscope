@@ -1,4 +1,4 @@
-package com.vipshop.microscope.query.core;
+package com.vipshop.microscope.hbase.query;
 
 import java.util.List;
 import java.util.Map;
@@ -9,7 +9,7 @@ import com.vipshop.microscope.hbase.domain.TraceTable;
 import com.vipshop.microscope.hbase.repository.Repositorys;
 import com.vipshop.microscope.thrift.Span;
 
-public class QueryTemplate {
+public class HbaseQueryTemplate {
 	
 	/**
 	 * Returns all app name.
