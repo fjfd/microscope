@@ -34,11 +34,6 @@
 		</dependency>
 		<dependency>
 			<groupId>com.vipshop</groupId>
-			<artifactId>microscope-trace</artifactId>
-			<version>${project.build.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-hbase</artifactId>
 			<version>${project.build.version}</version>
 		</dependency>

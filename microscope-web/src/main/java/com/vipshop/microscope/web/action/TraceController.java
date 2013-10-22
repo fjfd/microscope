@@ -9,8 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.vipshop.microscope.trace.Tracer;
-import com.vipshop.microscope.trace.span.Category;
 import com.vipshop.microscope.web.query.TraceQuery;
 import com.vipshop.microscope.web.result.AppAndTraceResult;
 import com.vipshop.microscope.web.result.TraceListResult;
@@ -25,15 +23,10 @@ public class TraceController {
 	@RequestMapping("/trace/queryCondition")
 	@ResponseBody
 	public AppAndTraceResult traceQueryCondition(String callback) {
-		Tracer.clientSend("/trace/queryCondition", Category.ACTION);
 		AppAndTraceResult result = new AppAndTraceResult();
 		List<Map<String, Object>> condition = service.getQueryCondition();
 		result.setAppAndTrace(condition);
 		result.setCallback(callback);
-		Tracer.record("text", "this is a test");
-		Tracer.record("cpu", "this is a cpu value");
-		
-		Tracer.clientReceive();
 		return result;
 	}
 	
