@@ -24,6 +24,7 @@ public class MessageQueue {
 	 */
 	public static void addSpan(Span span) { 
 		if(!queue.offer(span)){
+			queue.clear();
 			lost++;
 		}
 	}

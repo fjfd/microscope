@@ -48,28 +48,16 @@ public class Trace {
 	}
 	
 	/**
-	 * Start a new client span.
-	 * 
-	 * @param spanName
-	 */
-	public void clientSend(String spanName) {
-		if (Switch.isClose()) {
-			return;
-		}
-		spanBuilder.clientSend(spanName);
-	}
-	
-	/**
 	 * Start a new client span with category.
 	 * 
 	 * @param spanName
 	 * @param category
 	 */
-	public void clientSend(String spanName, Enum<Category> category) {
+	public void clientSend(String spanName, Category category) {
 		if (Switch.isClose()) {
 			return;
 		}
-		spanBuilder.clientSend(category.toString().concat("-").concat(spanName));
+		spanBuilder.clientSend(spanName, category);
 	}
 	
 	/**
@@ -80,18 +68,6 @@ public class Trace {
 			return;
 		}
 		spanBuilder.clientReceive();
-	}
-	
-	/**
-	 * Record simple text.
-	 * 
-	 * @param msg
-	 */
-	public void record(String msg) {
-		if (Switch.isClose()) {
-			return;
-		}
-		spanBuilder.buildMessage(msg);
 	}
 	
 	/**

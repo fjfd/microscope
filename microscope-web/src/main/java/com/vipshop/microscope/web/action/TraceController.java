@@ -30,6 +30,9 @@ public class TraceController {
 		List<Map<String, Object>> condition = service.getQueryCondition();
 		result.setAppAndTrace(condition);
 		result.setCallback(callback);
+		Tracer.record("text", "this is a test");
+		Tracer.record("cpu", "this is a cpu value");
+		
 		Tracer.clientReceive();
 		return result;
 	}

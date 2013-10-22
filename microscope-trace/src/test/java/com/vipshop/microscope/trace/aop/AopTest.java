@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 
 import com.vipshop.microscope.trace.Trace;
 import com.vipshop.microscope.trace.TraceFactory;
+import com.vipshop.microscope.trace.span.Category;
 
 public class AopTest {
 
@@ -15,7 +16,7 @@ public class AopTest {
 		Student student = (Student) ctx.getBean("student");
 		Trace trace = TraceFactory.getTrace();
 		
-		trace.clientSend("start");
+		trace.clientSend("start", Category.ACTION);
 		student.add();
 		trace.clientReceive();
 		ctx.close();

@@ -1,5 +1,8 @@
 package com.vipshop.microscope.trace.span;
 
+import java.util.Iterator;
+import java.util.List;
+
 import com.vipshop.microscope.common.util.TimeUtil;
 import com.vipshop.microscope.thrift.Annotation;
 import com.vipshop.microscope.thrift.AnnotationType;
@@ -66,35 +69,54 @@ public class AnnotationBuilder {
 	}
 	
 	/**
-	 * Returns a message annotation.
+	 * Add a KV annotation
+	 * 
+	 * @param annotations
+	 * @param key
+	 * @param message
+	 */
+	public static void KVAnnotation(List<Annotation> annotations, String key, String message) {
+		if (hasKVAnnotation(annotations)) {
+			Annotation annotation = getKVAnnotation(annotations);
+			annotation.setEndPoint(EndPointBuilder.buildAddKV(annotation, key, message));
+		} else {
+			annotations.add(newKVAnnotation(key, message));
+		}
+	}
+	
+	/**
+	 * Returns a KV annotation.
 	 * 
 	 * @param spanName the name of span
 	 * @param message  the message 
 	 * @return Annotation object
 	 */
-	public static Annotation messageAnnotation(String message) {
+	private static Annotation newKVAnnotation(String key, String message) {
 		Annotation annotation = new Annotation();
 		annotation.setTimestamp(TimeUtil.currentTimeMicros());
-		annotation.setEndPoint(EndPointBuilder.buildMsg(annotation, message));
-		annotation.setType(AnnotationType.MSG);
-		return annotation;
-	}
-	
-	/**
-	 * Returns a key/value annotation.
-	 * 
-	 * @param spanName the name of span
-	 * @param key annotation key
-	 * @param value annotation value
-	 * @throws IllegalStateException if encode is not supported
-	 * @return BinaryAnnotation ojbect
-	 */
-	public static Annotation keyValueAnnotation(String key, String value) {
-		Annotation annotation = new Annotation();
-		annotation.setTimestamp(TimeUtil.currentTimeMicros());
-		annotation.setEndPoint(EndPointBuilder.buildKV(annotation, key, value));
+		annotation.setEndPoint(EndPointBuilder.buildNewKV(annotation, key, message));
 		annotation.setType(AnnotationType.KV);
 		return annotation;
 	}
+
+	private static boolean hasKVAnnotation(List<Annotation> annotations) {
+		for (Iterator<Annotation> iterator = annotations.iterator(); iterator.hasNext();) {
+			Annotation annotation = iterator.next();
+			if (annotation.getType().equals(AnnotationType.KV)) {
+				return true;
+			}
+		}
+		return false;
+	}
 	
+	private static Annotation getKVAnnotation(List<Annotation> annotations) {
+		for (Iterator<Annotation> iterator = annotations.iterator(); iterator.hasNext();) {
+			Annotation annotation = iterator.next();
+			if (annotation.getType().equals(AnnotationType.KV)) {
+				return annotation;
+			}
+		}
+		return null;
+	}
+
 }

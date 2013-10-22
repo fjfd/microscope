@@ -2,19 +2,13 @@
 
 namespace java com.vipshop.microscope.thrift
 
-// system status type
-enum EndPointType {
-	CPU, MEMORY, IPV4, JVM
-}
-
 // record system status
 struct EndPoint {
-   1: list<map<EndPointType, string>> values
-   2: string text
+   1: map<string, string> values
 }
 
 // annotation type
-enum AnnotationType { CS, CR, SS, SR, MSG, KV }
+enum AnnotationType { CS, CR, SS, SR, KV }
 
 // annotation means some kind event
 struct Annotation {
@@ -35,5 +29,6 @@ struct Span {
   9: i32 order                                  // span order
   10: i32 duration                              // how long did it take?
   11: i64 startstamp                            // start timestamp
+  12: string type                               // span type
 }
 

@@ -6,12 +6,13 @@ import com.vipshop.microscope.hbase.repository.Repositorys;
 import com.vipshop.microscope.test.app.UserService;
 import com.vipshop.microscope.trace.Trace;
 import com.vipshop.microscope.trace.TraceFactory;
+import com.vipshop.microscope.trace.span.Category;
 
 public class CollectorTest {
 
 	public static void main(String[] args) throws InterruptedException {
 		Trace trace = TraceFactory.getTrace();
-		trace.clientSend("test");
+		trace.clientSend("test", Category.ACTION);
 		new UserService().login();
 		trace.clientReceive();
 		

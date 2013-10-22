@@ -61,13 +61,13 @@ public class SpanBuilder {
 	 * 
 	 * @param spanName
 	 */
-	public void clientSend(String spanName) {
+	public void clientSend(String spanName, Category category) {
 		Span span = new Span();
 		// set span order
     	span.setOrder(order.getAndIncrement());
 		span.setTrace_id(spanContext.getTraceId());
 		span.setName(spanName);
-
+		span.setType(category.toString());
 		/*
 		 * The topmost span in a trace has its span id 
 		 * equal to trace id and parent span id is null.
@@ -137,33 +137,21 @@ public class SpanBuilder {
 	}
 	
 	/**
-	 * Record a message to span.
+	 * Record a key/value to span.
 	 * 
 	 * This can be useful when you want record 
 	 * some information associate with time.
 	 * 
 	 * This annotation will add to current span.
 	 * 
-	 * @param message
-	 */
-	public void buildMessage(String message) {
-		Span span = spanContext.getCurrentSpan();
-		if (span != null) 
-			span.addToAnnotations(AnnotationBuilder.messageAnnotation(message));
-	}
-	
-	/**
-	 * Record a key/value to span.
-	 * 
-	 * This annotation will add to current span.
-	 * 
 	 * @param key
 	 * @param value
 	 */
-	public void buildKeyValue(String key, String value) {
+	public void buildKeyValue(String key, String message) {
 		Span span = spanContext.getCurrentSpan();
-		if (span != null) 
-			span.addToAnnotations(AnnotationBuilder.keyValueAnnotation(key, value));
+		if (span != null) {
+			AnnotationBuilder.KVAnnotation(span.annotations, key, message);
+		}
 	}
 
 }

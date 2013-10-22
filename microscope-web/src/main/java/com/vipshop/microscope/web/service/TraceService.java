@@ -81,7 +81,7 @@ public class TraceService {
 				if (annotation.getType().equals(AnnotationType.CR)) {
 					endstmp = annotation.getTimestamp();
 				}
-				annotationMap.put("host", annotation.getEndPoint().getIpv4());
+				annotationMap.put("host", annotation.getEndPoint().values);
 				annoInfo.add(annotationMap);
 			}
 			

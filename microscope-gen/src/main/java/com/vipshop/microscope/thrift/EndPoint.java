@@ -33,8 +33,7 @@ import org.slf4j.LoggerFactory;
 public class EndPoint implements org.apache.thrift.TBase<EndPoint, EndPoint._Fields>, java.io.Serializable, Cloneable {
   private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("EndPoint");
 
-  private static final org.apache.thrift.protocol.TField VALUES_FIELD_DESC = new org.apache.thrift.protocol.TField("values", org.apache.thrift.protocol.TType.LIST, (short)1);
-  private static final org.apache.thrift.protocol.TField TEXT_FIELD_DESC = new org.apache.thrift.protocol.TField("text", org.apache.thrift.protocol.TType.STRING, (short)2);
+  private static final org.apache.thrift.protocol.TField VALUES_FIELD_DESC = new org.apache.thrift.protocol.TField("values", org.apache.thrift.protocol.TType.MAP, (short)1);
 
   private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
   static {
@@ -42,13 +41,11 @@ public class EndPoint implements org.apache.thrift.TBase<EndPoint, EndPoint._Fie
     schemes.put(TupleScheme.class, new EndPointTupleSchemeFactory());
   }
 
-  public List<Map<EndPointType,String>> values; // required
-  public String text; // required
+  public Map<String,String> values; // required
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-    VALUES((short)1, "values"),
-    TEXT((short)2, "text");
+    VALUES((short)1, "values");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -65,8 +62,6 @@ public class EndPoint implements org.apache.thrift.TBase<EndPoint, EndPoint._Fie
       switch(fieldId) {
         case 1: // VALUES
           return VALUES;
-        case 2: // TEXT
-          return TEXT;
         default:
           return null;
       }
@@ -111,12 +106,9 @@ public class EndPoint implements org.apache.thrift.TBase<EndPoint, EndPoint._Fie
   static {
     Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
     tmpMap.put(_Fields.VALUES, new org.apache.thrift.meta_data.FieldMetaData("values", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
-            new org.apache.thrift.meta_data.MapMetaData(org.apache.thrift.protocol.TType.MAP, 
-                new org.apache.thrift.meta_data.EnumMetaData(org.apache.thrift.protocol.TType.ENUM, EndPointType.class), 
-                new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)))));
-    tmpMap.put(_Fields.TEXT, new org.apache.thrift.meta_data.FieldMetaData("text", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+        new org.apache.thrift.meta_data.MapMetaData(org.apache.thrift.protocol.TType.MAP, 
+            new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING), 
+            new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING))));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(EndPoint.class, metaDataMap);
   }
@@ -125,12 +117,10 @@ public class EndPoint implements org.apache.thrift.TBase<EndPoint, EndPoint._Fie
   }
 
   public EndPoint(
-    List<Map<EndPointType,String>> values,
-    String text)
+    Map<String,String> values)
   {
     this();
     this.values = values;
-    this.text = text;
   }
 
   /**
@@ -138,26 +128,19 @@ public class EndPoint implements org.apache.thrift.TBase<EndPoint, EndPoint._Fie
    */
   public EndPoint(EndPoint other) {
     if (other.isSetValues()) {
-      List<Map<EndPointType,String>> __this__values = new ArrayList<Map<EndPointType,String>>();
-      for (Map<EndPointType,String> other_element : other.values) {
-        Map<EndPointType,String> __this__values_copy = new HashMap<EndPointType,String>();
-        for (Map.Entry<EndPointType, String> other_element_element : other_element.entrySet()) {
+      Map<String,String> __this__values = new HashMap<String,String>();
+      for (Map.Entry<String, String> other_element : other.values.entrySet()) {
 
-          EndPointType other_element_element_key = other_element_element.getKey();
-          String other_element_element_value = other_element_element.getValue();
+        String other_element_key = other_element.getKey();
+        String other_element_value = other_element.getValue();
 
-          EndPointType __this__values_copy_copy_key = other_element_element_key;
+        String __this__values_copy_key = other_element_key;
 
-          String __this__values_copy_copy_value = other_element_element_value;
+        String __this__values_copy_value = other_element_value;
 
-          __this__values_copy.put(__this__values_copy_copy_key, __this__values_copy_copy_value);
-        }
-        __this__values.add(__this__values_copy);
+        __this__values.put(__this__values_copy_key, __this__values_copy_value);
       }
       this.values = __this__values;
-    }
-    if (other.isSetText()) {
-      this.text = other.text;
     }
   }
 
@@ -168,29 +151,24 @@ public class EndPoint implements org.apache.thrift.TBase<EndPoint, EndPoint._Fie
   @Override
   public void clear() {
     this.values = null;
-    this.text = null;
   }
 
   public int getValuesSize() {
     return (this.values == null) ? 0 : this.values.size();
   }
 
-  public java.util.Iterator<Map<EndPointType,String>> getValuesIterator() {
-    return (this.values == null) ? null : this.values.iterator();
-  }
-
-  public void addToValues(Map<EndPointType,String> elem) {
+  public void putToValues(String key, String val) {
     if (this.values == null) {
-      this.values = new ArrayList<Map<EndPointType,String>>();
+      this.values = new HashMap<String,String>();
     }
-    this.values.add(elem);
+    this.values.put(key, val);
   }
 
-  public List<Map<EndPointType,String>> getValues() {
+  public Map<String,String> getValues() {
     return this.values;
   }
 
-  public EndPoint setValues(List<Map<EndPointType,String>> values) {
+  public EndPoint setValues(Map<String,String> values) {
     this.values = values;
     return this;
   }
@@ -210,45 +188,13 @@ public class EndPoint implements org.apache.thrift.TBase<EndPoint, EndPoint._Fie
     }
   }
 
-  public String getText() {
-    return this.text;
-  }
-
-  public EndPoint setText(String text) {
-    this.text = text;
-    return this;
-  }
-
-  public void unsetText() {
-    this.text = null;
-  }
-
-  /** Returns true if field text is set (has been assigned a value) and false otherwise */
-  public boolean isSetText() {
-    return this.text != null;
-  }
-
-  public void setTextIsSet(boolean value) {
-    if (!value) {
-      this.text = null;
-    }
-  }
-
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
     case VALUES:
       if (value == null) {
         unsetValues();
       } else {
-        setValues((List<Map<EndPointType,String>>)value);
-      }
-      break;
-
-    case TEXT:
-      if (value == null) {
-        unsetText();
-      } else {
-        setText((String)value);
+        setValues((Map<String,String>)value);
       }
       break;
 
@@ -259,9 +205,6 @@ public class EndPoint implements org.apache.thrift.TBase<EndPoint, EndPoint._Fie
     switch (field) {
     case VALUES:
       return getValues();
-
-    case TEXT:
-      return getText();
 
     }
     throw new IllegalStateException();
@@ -276,8 +219,6 @@ public class EndPoint implements org.apache.thrift.TBase<EndPoint, EndPoint._Fie
     switch (field) {
     case VALUES:
       return isSetValues();
-    case TEXT:
-      return isSetText();
     }
     throw new IllegalStateException();
   }
@@ -301,15 +242,6 @@ public class EndPoint implements org.apache.thrift.TBase<EndPoint, EndPoint._Fie
       if (!(this_present_values && that_present_values))
         return false;
       if (!this.values.equals(that.values))
-        return false;
-    }
-
-    boolean this_present_text = true && this.isSetText();
-    boolean that_present_text = true && that.isSetText();
-    if (this_present_text || that_present_text) {
-      if (!(this_present_text && that_present_text))
-        return false;
-      if (!this.text.equals(that.text))
         return false;
     }
 
@@ -339,16 +271,6 @@ public class EndPoint implements org.apache.thrift.TBase<EndPoint, EndPoint._Fie
         return lastComparison;
       }
     }
-    lastComparison = Boolean.valueOf(isSetText()).compareTo(typedOther.isSetText());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    if (isSetText()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.text, typedOther.text);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
     return 0;
   }
 
@@ -374,14 +296,6 @@ public class EndPoint implements org.apache.thrift.TBase<EndPoint, EndPoint._Fie
       sb.append("null");
     } else {
       sb.append(this.values);
-    }
-    first = false;
-    if (!first) sb.append(", ");
-    sb.append("text:");
-    if (this.text == null) {
-      sb.append("null");
-    } else {
-      sb.append(this.text);
     }
     first = false;
     sb.append(")");
@@ -428,39 +342,21 @@ public class EndPoint implements org.apache.thrift.TBase<EndPoint, EndPoint._Fie
         }
         switch (schemeField.id) {
           case 1: // VALUES
-            if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
+            if (schemeField.type == org.apache.thrift.protocol.TType.MAP) {
               {
-                org.apache.thrift.protocol.TList _list0 = iprot.readListBegin();
-                struct.values = new ArrayList<Map<EndPointType,String>>(_list0.size);
-                for (int _i1 = 0; _i1 < _list0.size; ++_i1)
+                org.apache.thrift.protocol.TMap _map0 = iprot.readMapBegin();
+                struct.values = new HashMap<String,String>(2*_map0.size);
+                for (int _i1 = 0; _i1 < _map0.size; ++_i1)
                 {
-                  Map<EndPointType,String> _elem2; // required
-                  {
-                    org.apache.thrift.protocol.TMap _map3 = iprot.readMapBegin();
-                    _elem2 = new HashMap<EndPointType,String>(2*_map3.size);
-                    for (int _i4 = 0; _i4 < _map3.size; ++_i4)
-                    {
-                      EndPointType _key5; // required
-                      String _val6; // required
-                      _key5 = EndPointType.findByValue(iprot.readI32());
-                      _val6 = iprot.readString();
-                      _elem2.put(_key5, _val6);
-                    }
-                    iprot.readMapEnd();
-                  }
-                  struct.values.add(_elem2);
+                  String _key2; // required
+                  String _val3; // required
+                  _key2 = iprot.readString();
+                  _val3 = iprot.readString();
+                  struct.values.put(_key2, _val3);
                 }
-                iprot.readListEnd();
+                iprot.readMapEnd();
               }
               struct.setValuesIsSet(true);
-            } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-            }
-            break;
-          case 2: // TEXT
-            if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
-              struct.text = iprot.readString();
-              struct.setTextIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
@@ -483,26 +379,14 @@ public class EndPoint implements org.apache.thrift.TBase<EndPoint, EndPoint._Fie
       if (struct.values != null) {
         oprot.writeFieldBegin(VALUES_FIELD_DESC);
         {
-          oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.MAP, struct.values.size()));
-          for (Map<EndPointType,String> _iter7 : struct.values)
+          oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING, struct.values.size()));
+          for (Map.Entry<String, String> _iter4 : struct.values.entrySet())
           {
-            {
-              oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.I32, org.apache.thrift.protocol.TType.STRING, _iter7.size()));
-              for (Map.Entry<EndPointType, String> _iter8 : _iter7.entrySet())
-              {
-                oprot.writeI32(_iter8.getKey().getValue());
-                oprot.writeString(_iter8.getValue());
-              }
-              oprot.writeMapEnd();
-            }
+            oprot.writeString(_iter4.getKey());
+            oprot.writeString(_iter4.getValue());
           }
-          oprot.writeListEnd();
+          oprot.writeMapEnd();
         }
-        oprot.writeFieldEnd();
-      }
-      if (struct.text != null) {
-        oprot.writeFieldBegin(TEXT_FIELD_DESC);
-        oprot.writeString(struct.text);
         oprot.writeFieldEnd();
       }
       oprot.writeFieldStop();
@@ -526,62 +410,37 @@ public class EndPoint implements org.apache.thrift.TBase<EndPoint, EndPoint._Fie
       if (struct.isSetValues()) {
         optionals.set(0);
       }
-      if (struct.isSetText()) {
-        optionals.set(1);
-      }
-      oprot.writeBitSet(optionals, 2);
+      oprot.writeBitSet(optionals, 1);
       if (struct.isSetValues()) {
         {
           oprot.writeI32(struct.values.size());
-          for (Map<EndPointType,String> _iter9 : struct.values)
+          for (Map.Entry<String, String> _iter5 : struct.values.entrySet())
           {
-            {
-              oprot.writeI32(_iter9.size());
-              for (Map.Entry<EndPointType, String> _iter10 : _iter9.entrySet())
-              {
-                oprot.writeI32(_iter10.getKey().getValue());
-                oprot.writeString(_iter10.getValue());
-              }
-            }
+            oprot.writeString(_iter5.getKey());
+            oprot.writeString(_iter5.getValue());
           }
         }
-      }
-      if (struct.isSetText()) {
-        oprot.writeString(struct.text);
       }
     }
 
     @Override
     public void read(org.apache.thrift.protocol.TProtocol prot, EndPoint struct) throws org.apache.thrift.TException {
       TTupleProtocol iprot = (TTupleProtocol) prot;
-      BitSet incoming = iprot.readBitSet(2);
+      BitSet incoming = iprot.readBitSet(1);
       if (incoming.get(0)) {
         {
-          org.apache.thrift.protocol.TList _list11 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.MAP, iprot.readI32());
-          struct.values = new ArrayList<Map<EndPointType,String>>(_list11.size);
-          for (int _i12 = 0; _i12 < _list11.size; ++_i12)
+          org.apache.thrift.protocol.TMap _map6 = new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING, iprot.readI32());
+          struct.values = new HashMap<String,String>(2*_map6.size);
+          for (int _i7 = 0; _i7 < _map6.size; ++_i7)
           {
-            Map<EndPointType,String> _elem13; // required
-            {
-              org.apache.thrift.protocol.TMap _map14 = new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.I32, org.apache.thrift.protocol.TType.STRING, iprot.readI32());
-              _elem13 = new HashMap<EndPointType,String>(2*_map14.size);
-              for (int _i15 = 0; _i15 < _map14.size; ++_i15)
-              {
-                EndPointType _key16; // required
-                String _val17; // required
-                _key16 = EndPointType.findByValue(iprot.readI32());
-                _val17 = iprot.readString();
-                _elem13.put(_key16, _val17);
-              }
-            }
-            struct.values.add(_elem13);
+            String _key8; // required
+            String _val9; // required
+            _key8 = iprot.readString();
+            _val9 = iprot.readString();
+            struct.values.put(_key8, _val9);
           }
         }
         struct.setValuesIsSet(true);
-      }
-      if (incoming.get(1)) {
-        struct.text = iprot.readString();
-        struct.setTextIsSet(true);
       }
     }
   }

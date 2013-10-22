@@ -20,5 +20,6 @@ public enum Category {
 	CACHE,
 	DB,
 	SQL,
-	RPC;
+	RPC,
+	METHOD;
 }

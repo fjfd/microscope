@@ -4,6 +4,7 @@ import java.util.concurrent.CountDownLatch;
 
 import org.testng.annotations.Test;
 
+import com.vipshop.microscope.trace.span.Category;
 import com.vipshop.microscope.trace.user.UserController;
 
 public class TraceTest {
@@ -15,8 +16,9 @@ public class TraceTest {
 	 */
 	@Test(priority = 1)
 	public void testTrace() throws InterruptedException {
-		Tracer.clientSend("user-login");
+		Tracer.clientSend("user-login", Category.ACTION);
 		new UserController().login();
+		Tracer.record("queue size", "10");
 		Tracer.clientReceive();
 	}
 	
@@ -28,7 +30,7 @@ public class TraceTest {
 	@Test(priority = 2)
 	public void testTraceStartNewThread() throws InterruptedException {
 		CountDownLatch startSignal = new CountDownLatch(1);
-		Tracer.clientSend("user-login-new-thread");
+		Tracer.clientSend("user-login-new-thread", Category.ACTION);
 		Trace contexTrace = Tracer.getContext();
 		new Thread(new UserController(startSignal, contexTrace)).start();
 		startSignal.await();
