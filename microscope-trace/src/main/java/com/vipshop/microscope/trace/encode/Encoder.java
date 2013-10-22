@@ -11,7 +11,6 @@ import org.apache.thrift.transport.TIOStreamTransport;
 
 import com.vipshop.microscope.thrift.LogEntry;
 import com.vipshop.microscope.thrift.Span;
-import com.vipshop.microscope.trace.queue.MessageCategory;
 
 public class Encoder {
 
@@ -38,7 +37,7 @@ public class Encoder {
 		LogEntry logEntry = null;
 
 		String spanAsString = base64.encodeToString(spanToBytes(span));
-		logEntry = new LogEntry(MessageCategory.TRACE, spanAsString);
+		logEntry = new LogEntry("trace", spanAsString);
 		return logEntry;
 	}
 
