@@ -53,7 +53,7 @@ public class TraceTableRepository extends AbstraceHbaseRepository {
 		hbaseTemplate.execute(tableName, new TableCallback<TraceTable>() {
 			@Override
 			public TraceTable doInTable(HTableInterface table) throws Throwable {
-				Put p = new Put(Bytes.toBytes(tableTrace.getTraceName() + tableTrace.getTraceId()));
+				Put p = new Put(Bytes.toBytes(rowKey(tableTrace)));
 				p.add(CF, CF_TRACE_ID, Bytes.toBytes(tableTrace.getTraceId()));
 				p.add(CF, CF_TRACE_NAME, Bytes.toBytes(tableTrace.getTraceName()));
 				p.add(CF, CF_START_TIMESTAMP, Bytes.toBytes(tableTrace.getStartTimestamp()));
@@ -63,6 +63,19 @@ public class TraceTableRepository extends AbstraceHbaseRepository {
 				return tableTrace;
 			}
 		});
+	}
+	
+	/**
+	 * Use reverse timestamp as part of rowkey
+	 * can make data query as new as possible.
+	 * 
+	 * @param tableTrace
+	 * @return
+	 */
+	private String rowKey(TraceTable tableTrace) {
+		return tableTrace.getTraceName() 
+			   + "-" + tableTrace.getTraceId() 
+			   + "-" + (Long.MAX_VALUE -System.currentTimeMillis());
 	}
 	
 	public void save(final List<TraceTable> tableTraces) {
