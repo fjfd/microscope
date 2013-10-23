@@ -25,7 +25,7 @@ public class HbaseQueryTemplate {
 	 * @return
 	 */
 	public List<TraceTable> getTraceListByTraceQuery(Map<String, String> query) {
-		return Repositorys.TRACE.findByName(query);
+		return Repositorys.TRACE.findByQuery(query);
 	}
 	
 	public Map<String, String> findSpanNameByTraceId(String traceId) {

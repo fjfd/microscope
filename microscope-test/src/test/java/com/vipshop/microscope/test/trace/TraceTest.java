@@ -35,11 +35,7 @@ public class TraceTest {
 	 */
 	@Test(priority = 1)
 	public void testTrace() throws InterruptedException {
-		Tracer.clientSend("user-login", Category.ACTION);
 		new UserController().login();
-		Tracer.record("queue size", "10");
-		Tracer.clientReceive();
-		
 		TimeUnit.SECONDS.sleep(5);
 	}
 	
@@ -56,6 +52,8 @@ public class TraceTest {
 		new Thread(new UserController(startSignal, contexTrace)).start();
 		startSignal.await();
 		Tracer.clientReceive();
+		
+		TimeUnit.SECONDS.sleep(5);
 	}
 	
 	/**

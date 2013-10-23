@@ -1,5 +1,6 @@
 package com.vipshop.microscope.hbase.repository;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.filter.CompareFilter;
 import org.apache.hadoop.hbase.filter.FilterList;
+import org.apache.hadoop.hbase.filter.PageFilter;
 import org.apache.hadoop.hbase.filter.RegexStringComparator;
 import org.apache.hadoop.hbase.filter.RowFilter;
 import org.apache.hadoop.hbase.util.Bytes;
@@ -121,11 +123,17 @@ public class TraceTableRepository extends AbstraceHbaseRepository {
 		});
 	}
 	
-	public List<TraceTable> findByName(Map<String, String> query) {
+	public List<TraceTable> findByQuery(Map<String, String> query) {
 		Scan scan = new Scan();
 		RowFilter filter = new RowFilter(CompareFilter.CompareOp.EQUAL, new RegexStringComparator(query.get("traceName") + ".*"));
-		FilterList filterList = new FilterList(filter);
+		PageFilter pageFilter = new PageFilter(Long.valueOf(query.get("limit")));
+		FilterList filterList = new FilterList(pageFilter, filter);
 		scan.setFilter(filterList);
+		try {
+			scan.setTimeRange(Long.valueOf(query.get("startTime")), Long.valueOf(query.get("endTime")));
+		} catch (IOException e) {
+			throw new SetTimeRangeException();
+		}
 		return hbaseTemplate.find(tableName, scan, new RowMapper<TraceTable>() {
 			@Override
 			public TraceTable mapRow(Result result, int rowNum) throws Exception {

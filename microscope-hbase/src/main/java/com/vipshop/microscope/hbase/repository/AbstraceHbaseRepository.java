@@ -37,7 +37,9 @@ public abstract class AbstraceHbaseRepository implements InitializingBean {
 			if (!admin.tableExists(tableName)) {
 				HTableDescriptor tableDescriptor = new HTableDescriptor(tableName);
 				HColumnDescriptor columnDescriptor = new HColumnDescriptor(cfName);
+				columnDescriptor.setMaxVersions(1);
 				tableDescriptor.addFamily(columnDescriptor);
+				
 				admin.createTable(tableDescriptor);
 			}
 		} catch (IOException e) {

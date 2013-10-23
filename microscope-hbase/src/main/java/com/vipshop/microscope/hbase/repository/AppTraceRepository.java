@@ -71,8 +71,8 @@ public class AppTraceRepository extends AbstraceHbaseRepository {
 	
 	public List<Map<String, Object>> findAll() {
 		
-		final List<Map<String, Object>> appTraceList = new ArrayList<Map<String,Object>>();
 		final List<String> appList = new ArrayList<String>();
+		final List<Map<String, Object>> appTraceList = new ArrayList<Map<String,Object>>();
 		
 		hbaseTemplate.find(tableName, cf_app, new RowMapper<List<String>>() {
 			@Override
