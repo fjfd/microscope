@@ -1,4 +1,4 @@
-package com.vipshop.microscope.trace;
+package com.vipshop.microscope.trace.http;
 
 /**
  * HTTP header for propagate.

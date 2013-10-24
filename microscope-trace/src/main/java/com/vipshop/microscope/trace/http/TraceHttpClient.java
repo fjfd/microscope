@@ -1,4 +1,4 @@
-package com.vipshop.microscope.trace;
+package com.vipshop.microscope.trace.http;
 
 import java.io.IOException;
 
@@ -31,6 +31,7 @@ import org.apache.http.protocol.RequestTargetHost;
 import org.apache.http.protocol.RequestUserAgent;
 import org.apache.http.util.VersionInfo;
 
+import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.span.Category;
 
 public class TraceHttpClient extends AbstractHttpClient {

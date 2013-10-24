@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.http.client.methods.HttpUriRequest;
 
 import com.vipshop.microscope.common.util.ThreadPoolProvider;
+import com.vipshop.microscope.trace.http.HTTPHeader;
 import com.vipshop.microscope.trace.span.SpanContext;
 import com.vipshop.microscope.trace.span.SpanId;
 import com.vipshop.microscope.trace.transport.ThreadTransporter;

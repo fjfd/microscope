@@ -9,7 +9,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.util.EntityUtils;
 import org.testng.annotations.Test;
 
-import com.vipshop.microscope.trace.TraceHttpClient;
 
 public class HTTPTraceTest {
 	

@@ -6,11 +6,11 @@
 		<groupId>com.vipshop</groupId>
 		<artifactId>microscope</artifactId>
 		<version>0.0.1</version>
-	</parent> 
-	
+	</parent>
+
 	<artifactId>microscope-trace</artifactId>
 	<version>${project.build.version}</version>
-	
+
 	<properties>
 		<maven-site-plugin.skip>true</maven-site-plugin.skip>
 		<spring.version>3.2.2.RELEASE</spring.version>
@@ -51,15 +51,16 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.vipshop</groupId>
-			<artifactId>microscope-trace</artifactId>
-			<version>0.0.9</version>
-		</dependency>
-		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 			<version>4.1.3</version>
 		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.2.3</version>
+		</dependency>
+
 	</dependencies>
 
 	<profiles>
@@ -140,5 +141,5 @@
 		</profile>
 
 	</profiles>
-	
+
 </project>
