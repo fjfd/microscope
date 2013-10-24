@@ -71,9 +71,8 @@ public class ThriftClient {
      * 
      */
     private void resend(final List<LogEntry> logEntries) {
-    	
     	logger.info("fail send " + logEntries.size() + " logEntry to collector, try to reconnect every " + Constant.RECONNECT_WAIT_TIME + "MILLISECONDS");
-    	
+
     	while (!transport.isOpen()) {
     		try {
     			transport.open();

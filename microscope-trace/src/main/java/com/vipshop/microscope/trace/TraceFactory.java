@@ -95,60 +95,11 @@ public class TraceFactory {
 	}
 	
 	/**
-	 * Handler cross-JVM request.
-	 * 
-	 * If this is a new trace, then create one;
-	 * If this is a part of exist trace, then get
-	 * the trace context information and set to a
-	 * trace object.
-	 * 
-	 * @param request
-	 */
-	public static void handleRequest(HttpServletRequest request) {
-		String traceId = request.getHeader(HTTPHeader.X_B3_TRACE_ID);
-		String spanId = request.getHeader(HTTPHeader.X_B3_SPAN_ID);
-		
-		// If this is a new trace.
-		if (traceId == null && spanId == null) {
-			Trace trace = new Trace();
-			TRACE_CONTEXT.set(trace);
-			return;
-		}
-		 
-		// If this is some part of exist trace.
-		SpanId spanID = new SpanId();
-		spanID.setTraceId(Long.valueOf(traceId));
-		spanID.setSpanId(Long.valueOf(spanId));
-
-		SpanContext context = new SpanContext(spanID);
-		context.setRootSpanFlagFalse();
-		
-		Trace trace = new Trace(context);
-		
-		TRACE_CONTEXT.set(trace);
-		
-	}
-	
-	/**
-	 * Use HTTP header to propagate trace id and span id.
-	 * 
-	 * @param response
-	 */
-	public static void handleResponse(HttpServletResponse response) {
-		SpanId spanID = TRACE_CONTEXT.get().getSpanId();
-		
-		String traceId = String.valueOf(spanID.getTraceId());
-		String spanId = String.valueOf(spanID.getSpanId());
-		
-		response.addHeader(HTTPHeader.X_B3_TRACE_ID, traceId);
-		response.addHeader(HTTPHeader.X_B3_SPAN_ID, spanId);
-	}
-	
-	/**
 	 * Use HTTP header to propagate trace id and span id.
 	 * 
 	 * @param request
 	 */
+	
 	public static void setHttpRequestHead(HttpUriRequest request) {
 		SpanId spanID = TRACE_CONTEXT.get().getSpanId();
 		
@@ -160,7 +111,12 @@ public class TraceFactory {
 	}
 	
 	/**
-	 * Get http head
+	 * Handler cross-JVM request by http protocol.
+	 * 
+	 * If this is a new trace, then create one;
+	 * If this is a part of exist trace, then get
+	 * the trace context information and set to a
+	 * trace object.
 	 * 
 	 * @param request
 	 */
@@ -188,7 +144,51 @@ public class TraceFactory {
 		TRACE_CONTEXT.set(trace);
 		
 	}
+	
+	public static void setThriftRequestHead(HttpServletResponse response) {
+		SpanId spanID = TRACE_CONTEXT.get().getSpanId();
+		
+		String traceId = String.valueOf(spanID.getTraceId());
+		String spanId = String.valueOf(spanID.getSpanId());
+		
+		response.addHeader(HTTPHeader.X_B3_TRACE_ID, traceId);
+		response.addHeader(HTTPHeader.X_B3_SPAN_ID, spanId);
+	}
 
+	/**
+	 * Handler cross-JVM request by thrift protocol.
+	 * 
+	 * If this is a new trace, then create one;
+	 * If this is a part of exist trace, then get
+	 * the trace context information and set to a
+	 * trace object.
+	 * 
+	 * @param request
+	 */
+	public static void getThriftRequestHead(HttpServletRequest request) {
+		String traceId = request.getHeader(HTTPHeader.X_B3_TRACE_ID);
+		String spanId = request.getHeader(HTTPHeader.X_B3_SPAN_ID);
+		
+		// If this is a new trace.
+		if (traceId == null && spanId == null) {
+			Trace trace = new Trace();
+			TRACE_CONTEXT.set(trace);
+			return;
+		}
+		 
+		// If this is some part of exist trace.
+		SpanId spanID = new SpanId();
+		spanID.setTraceId(Long.valueOf(traceId));
+		spanID.setSpanId(Long.valueOf(spanId));
+
+		SpanContext context = new SpanContext(spanID);
+		context.setRootSpanFlagFalse();
+		
+		Trace trace = new Trace(context);
+		
+		TRACE_CONTEXT.set(trace);
+		
+	}
 	
 	@Override
 	public String toString() {
