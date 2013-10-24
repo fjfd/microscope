@@ -19,14 +19,13 @@ public class Tracer {
 	}
 	
 	public static void clientSend(HttpUriRequest request, Category category){
-		TraceFactory.getTrace().clientSend(request.getMethod() + category, category);
+		TraceFactory.getTrace().clientSend(getShortURL(request), category);
 		TraceFactory.setHttpRequestHead(request);
 	}
 	
 	public static void clientSend(HttpServletRequest request, Category category){
-		System.out.println("request" + request);
 		TraceFactory.getHttpRequestHead(request);
-		TraceFactory.getTrace().clientSend(request.getMethod() + category, category);
+		TraceFactory.getTrace().clientSend(request.getMethod(), category);
 	}
 	
 	/**
@@ -66,6 +65,10 @@ public class Tracer {
 	 */
 	public static long getTraceId() {
 		return TraceFactory.getTraceId();
+	}
+	
+	private static String getShortURL(HttpUriRequest request) {
+		return request.getURI().getPath();
 	}
 	
 }

@@ -147,7 +147,7 @@ public class TraceFactory {
 	/**
 	 * Use HTTP header to propagate trace id and span id.
 	 * 
-	 * @param response
+	 * @param request
 	 */
 	public static void setHttpRequestHead(HttpUriRequest request) {
 		SpanId spanID = TRACE_CONTEXT.get().getSpanId();
@@ -159,6 +159,11 @@ public class TraceFactory {
 		request.addHeader(HTTPHeader.X_B3_SPAN_ID, spanId);
 	}
 	
+	/**
+	 * Get http head
+	 * 
+	 * @param request
+	 */
 	public static void getHttpRequestHead(HttpServletRequest request) {
 		String traceId = request.getHeader(HTTPHeader.X_B3_TRACE_ID);
 		String spanId = request.getHeader(HTTPHeader.X_B3_SPAN_ID);

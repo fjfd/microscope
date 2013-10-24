@@ -64,6 +64,7 @@ public class SpanBuilder {
 		span.setTrace_id(spanContext.getTraceId());
 		span.setName(spanName);
 		span.setType(category.toString());
+		span.setStartstamp(System.currentTimeMillis());
 		/*
 		 * The topmost span in a trace has its span id 
 		 * equal to trace id and parent span id is null.

@@ -72,7 +72,7 @@ public class ThriftClient {
      */
     private void resend(final List<LogEntry> logEntries) {
     	
-    	logger.info("fail send " + logEntries.size() + " logEntry to collector, try to reconnect");
+    	logger.info("fail send " + logEntries.size() + " logEntry to collector, try to reconnect every " + Constant.RECONNECT_WAIT_TIME + "MILLISECONDS");
     	
     	while (!transport.isOpen()) {
     		try {
@@ -82,7 +82,7 @@ public class ThriftClient {
     			
     			transport.close();
     			
-    			logger.info("ThriftClient will try to reconnect after " + Constant.RECONNECT_WAIT_TIME + " MILLISECONDS");
+    			logger.debug("ThriftClient will try to reconnect after " + Constant.RECONNECT_WAIT_TIME + " MILLISECONDS");
     	    	
     			try {
 					TimeUnit.MILLISECONDS.sleep(Constant.RECONNECT_WAIT_TIME);

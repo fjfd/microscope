@@ -50,6 +50,11 @@
 			<version>${spring.version}</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.vipshop</groupId>
+			<artifactId>microscope-trace</artifactId>
+			<version>0.0.9</version>
+		</dependency>
 	</dependencies>
 
 	<profiles>

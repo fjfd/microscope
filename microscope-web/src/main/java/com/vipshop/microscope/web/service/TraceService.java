@@ -16,7 +16,8 @@ public class TraceService {
 	HbaseQueryTemplate template = new HbaseQueryTemplate();
 	
 	public List<Map<String, Object>> getQueryCondition() {
-		return template.getAppTrace();
+		List<Map<String, Object>> result = template.getAppTrace();
+		return result;
 	}
 	
 	public List<Map<String, Object>> getTraceList(Map<String, String> query) {
