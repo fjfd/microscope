@@ -14,10 +14,10 @@ public class SpanTable {
 
 		@Override
 		public int compare(Span o1, Span o2) {
-			if(o1.getOrder() < o2.getOrder()){
+			if(o1.getStartstamp() < o2.getStartstamp()){
 				return -1;
 			}
-			if(o1.getOrder() > o2.getOrder()){
+			if(o1.getStartstamp() > o2.getStartstamp()){
 				return 1;
 			}
 			return 0;

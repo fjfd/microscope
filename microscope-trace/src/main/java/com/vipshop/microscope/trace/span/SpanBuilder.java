@@ -1,7 +1,6 @@
 package com.vipshop.microscope.trace.span;
 
 import java.util.Stack;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import com.vipshop.microscope.thrift.Span;
 import com.vipshop.microscope.trace.Constant;
@@ -25,8 +24,6 @@ public class SpanBuilder {
      * A stack used to store span.
      */
     private final Stack<Span> spanStack;
-    
-    private AtomicInteger order = new AtomicInteger(0);
     
 	public SpanBuilder() {
 		this.spanContext = new SpanContext(new SpanId());
@@ -64,7 +61,6 @@ public class SpanBuilder {
 	public void clientSend(String spanName, Category category) {
 		Span span = new Span();
 		// set span order
-    	span.setOrder(order.getAndIncrement());
 		span.setTrace_id(spanContext.getTraceId());
 		span.setName(spanName);
 		span.setType(category.toString());
@@ -75,6 +71,7 @@ public class SpanBuilder {
 		if (spanContext.isRootSpan()) {
 			// set span id equal to trace id for top span.
 			span.setId(spanContext.getTraceId());
+			spanContext.getSpanId().setSpanId(spanContext.getTraceId());
 			// make top span flag to be false.
 			spanContext.setRootSpanFlagFalse();
 			span.setApp_name(Constant.APP_NAME);

@@ -28,7 +28,8 @@ public class RepositorysTest {
 	private static final Log log = LogFactory.getLog(RepositorysTest.class);
 	
 	@Test
-	public void init() {
+	public void reinit() {
+		Repositorys.drop();
 		Repositorys.init();
 	}
 	

@@ -5,6 +5,8 @@ import java.util.concurrent.ExecutorService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.http.client.methods.HttpUriRequest;
+
 import com.vipshop.microscope.common.util.ThreadPoolProvider;
 import com.vipshop.microscope.trace.span.SpanContext;
 import com.vipshop.microscope.trace.span.SpanId;
@@ -141,6 +143,47 @@ public class TraceFactory {
 		response.addHeader(HTTPHeader.X_B3_TRACE_ID, traceId);
 		response.addHeader(HTTPHeader.X_B3_SPAN_ID, spanId);
 	}
+	
+	/**
+	 * Use HTTP header to propagate trace id and span id.
+	 * 
+	 * @param response
+	 */
+	public static void setHttpRequestHead(HttpUriRequest request) {
+		SpanId spanID = TRACE_CONTEXT.get().getSpanId();
+		
+		String traceId = String.valueOf(spanID.getTraceId());
+		String spanId = String.valueOf(spanID.getSpanId());
+		
+		request.addHeader(HTTPHeader.X_B3_TRACE_ID, traceId);
+		request.addHeader(HTTPHeader.X_B3_SPAN_ID, spanId);
+	}
+	
+	public static void getHttpRequestHead(HttpServletRequest request) {
+		String traceId = request.getHeader(HTTPHeader.X_B3_TRACE_ID);
+		String spanId = request.getHeader(HTTPHeader.X_B3_SPAN_ID);
+		
+		// If this is a new trace.
+		if (traceId == null || spanId == null) {
+			Trace trace = new Trace();
+			TRACE_CONTEXT.set(trace);
+			return;
+		}
+		 
+		// If this is some part of exist trace.
+		SpanId spanID = new SpanId();
+		spanID.setTraceId(Long.valueOf(traceId));
+		spanID.setSpanId(Long.valueOf(spanId));
+
+		SpanContext context = new SpanContext(spanID);
+		context.setRootSpanFlagFalse();
+		
+		Trace trace = new Trace(context);
+		
+		TRACE_CONTEXT.set(trace);
+		
+	}
+
 	
 	@Override
 	public String toString() {

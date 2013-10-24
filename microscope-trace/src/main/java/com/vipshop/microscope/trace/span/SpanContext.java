@@ -100,5 +100,5 @@ public class SpanContext {
     public void setRootSpanFlagFalse() {
     	isRootSpan = false;
     }
-    
+
 }

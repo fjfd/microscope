@@ -11,10 +11,12 @@ public class Metric {
 	
 	public void increMsgSize() {
 		msgSize++;
+		System.out.println(msgSize);
 	}
 	
 	public void increMsgByte(LogEntry logEntry) {
 		msgByte += logEntry.toString().getBytes().length;
+		System.out.println(msgByte);
 	}
 	
 	public void increFailMsgSize() {
