@@ -25,7 +25,7 @@ public class Tracer {
 	
 	public static void clientSend(HttpServletRequest request, Category category){
 		TraceFactory.getHttpRequestHead(request);
-		TraceFactory.getTrace().clientSend(request.getMethod(), category);
+		TraceFactory.getTrace().clientSend(request.getRequestURI(), category);
 	}
 	
 	/**

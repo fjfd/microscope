@@ -47,6 +47,11 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.vipshop</groupId>
+			<artifactId>microscope-trace</artifactId>
+			<version>0.0.9</version>
+		</dependency>
 	</dependencies>
 
 	<build>

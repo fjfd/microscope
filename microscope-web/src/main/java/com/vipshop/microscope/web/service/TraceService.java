@@ -1,6 +1,7 @@
 package com.vipshop.microscope.web.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,17 @@ public class TraceService {
 	
 	public List<Map<String, Object>> getTraceList(Map<String, String> query) {
 		List<Map<String, Object>> traceLists = new ArrayList<Map<String, Object>>();
+		
+		long start = System.currentTimeMillis();
 		List<TraceTable> tableTraces = template.getTraceListByTraceQuery(query);
+		long end = System.currentTimeMillis();
+		
+		long time = end - start;
+		int size = tableTraces.size();
+		Map<String, Object> summary = new HashMap<String, Object>();
+		summary.put("time", time);
+		summary.put("size", size);
+		traceLists.add(summary);
 		for (TraceTable tableTrace : tableTraces) {
 			Map<String, Object> trace = new LinkedHashMap<String, Object>();
 			String traceId = tableTrace.getTraceId();

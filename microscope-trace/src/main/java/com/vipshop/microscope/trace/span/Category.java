@@ -22,5 +22,5 @@ public enum Category {
 	SQL,
 	RPC,
 	METHOD,
-	HTTP_REQUEST;
+	HTTP_CALL;
 }
