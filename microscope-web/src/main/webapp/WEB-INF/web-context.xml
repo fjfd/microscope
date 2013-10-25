@@ -30,6 +30,7 @@
 		<property name="suffixCallback" value=");" />
 	</bean>
 	
+	<!-- 
 	<bean id="controllerInterception" class="com.vipshop.microscope.trace.interceptor.ControllerInterceptor" />
 
 	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
@@ -39,6 +40,6 @@
             </list>
         </property>
     </bean>
-	
+	 -->
 
 </beans>
