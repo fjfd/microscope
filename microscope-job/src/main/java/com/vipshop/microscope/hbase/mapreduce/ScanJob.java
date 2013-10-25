@@ -15,9 +15,9 @@ import org.slf4j.LoggerFactory;
 
 import com.vipshop.microscope.hbase.repository.Repositorys;
 
-public class CountShakespeare {
+public class ScanJob {
 	
-	private static final Logger logger = LoggerFactory.getLogger(CountShakespeare.class);
+	private static final Logger logger = LoggerFactory.getLogger(ScanJob.class);
 
 	public static class Map extends TableMapper<Text, LongWritable> {
 
@@ -31,15 +31,15 @@ public class CountShakespeare {
 
 		@Override
 		protected void map(ImmutableBytesWritable rowkey, Result result, Context context) {
-			logger.info("+++++++++++++++++++++++++++++++++++++++++++++++++++");
 			logger.info(result.toString());
 		}
 	}
 
 	public static void main(String[] args) throws Exception {
 		Configuration conf = Repositorys.TRACE.getConfiguration();
+		@SuppressWarnings("deprecation")
 		Job job = new Job(conf, "TwitBase Shakespeare counter");
-		job.setJarByClass(CountShakespeare.class);
+		job.setJarByClass(ScanJob.class);
 
 		Scan scan = new Scan();
 		TableMapReduceUtil.initTableMapperJob("span", scan, Map.class, ImmutableBytesWritable.class, Result.class, job);

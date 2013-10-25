@@ -30,6 +30,7 @@
 		<module>microscope-hbase</module>
 		<module>microscope-mysql</module>
 		<module>microscope-test</module>
+		<module>microscope-job</module>
 	</modules>
 
 
