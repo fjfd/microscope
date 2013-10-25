@@ -30,7 +30,7 @@ public class HttpClientTest {
 	@Test
 	public void testQueryConditionOnQA() throws ClientProtocolException, IOException {
 		HttpClient httpClient = new DefaultHttpClient();
-		HttpGet httpGet = new HttpGet("http://10.100.90.183:8080/trace/queryCondition?callback=jQuery11020021555292898187584_1382520578214&_=1382520578215");
+		HttpGet httpGet = new HttpGet("http://192.168.52.145:8080/trace/queryCondition?callback=jQuery11020021555292898187584_1382520578214&_=1382520578215");
 		
 		HttpResponse response = httpClient.execute(httpGet);
 		HttpEntity entity = response.getEntity();
