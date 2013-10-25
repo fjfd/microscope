@@ -50,7 +50,7 @@
 		<dependency>
 			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-hbase</artifactId>
-			<version>0.0.9</version>
+			<version>${project.build.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>jdk.tools</groupId>
