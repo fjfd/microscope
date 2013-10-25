@@ -6,7 +6,7 @@
 		<artifactId>microscope</artifactId>
 		<version>0.0.1</version>
 	</parent>
-	
+
 	<version>${project.build.version}</version>
 	<artifactId>microscope-collector</artifactId>
 	<name>microscope-collector</name>
@@ -101,8 +101,8 @@
 		</profile>
 
 	</profiles>
-	
-		<build>
+
+	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -117,7 +117,6 @@
 					</archive>
 				</configuration>
 			</plugin>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
@@ -137,8 +136,7 @@
 					</execution>
 				</executions>
 			</plugin>
-
 		</plugins>
 	</build>
-	
+
 </project>
