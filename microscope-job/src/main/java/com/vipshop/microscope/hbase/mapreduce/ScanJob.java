@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 import com.vipshop.microscope.hbase.repository.Repositorys;
 
 public class ScanJob {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(ScanJob.class);
 
 	public static class Map extends TableMapper<Text, LongWritable> {
