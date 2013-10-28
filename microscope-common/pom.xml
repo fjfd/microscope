@@ -4,10 +4,9 @@
 	<parent>
 		<artifactId>microscope</artifactId>
 		<groupId>com.vipshop</groupId>
-		<version>0.0.1</version>
+		<version>${project.build.version}</version>
 	</parent>
 	
-	<version>${project.build.version}</version>
 	<artifactId>microscope-common</artifactId>
 
 	<properties>

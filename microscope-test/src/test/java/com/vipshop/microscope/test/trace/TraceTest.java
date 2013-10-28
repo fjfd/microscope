@@ -56,13 +56,4 @@ public class TraceTest {
 		TimeUnit.SECONDS.sleep(5);
 	}
 	
-	/**
-	 * A trace which some spans cross JVM.
-	 * 
-	 */
-	@Test(priority = 3)
-	public void testTraceCrossJVM() {
-		
-	}
-
 }
