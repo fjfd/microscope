@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<title>Microscope</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+	<link rel="stylesheet" type="text/css" href="css/main.css"/>
+	<link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css"/>
+	<script type="text/javascript" src="lib/LAB.min.js"></script>
+	<script type="text/javascript" src="lib/underscore-1.5.2.min.js"></script>
+	<script type="text/javascript" src="js/app.js"></script>
+</head>
+<body ng-controller="homeCtrl">
+<nav class="gl_header clearfix">
+	<h1 class="logo"><a href="#/home">Microscope</a></h1>
+	<ul class="gl_nav list-inline">
+		<li><a href="#/trace" ng-click="path = '/trace'" ng-class="{current:path=='/trace'}">trace</a></li>
+		<li><a href="#/report" ng-click="path = '/report'" ng-class="{ current:path=='/report'}">report</a></li>
+	</ul>
+</nav>
+<div class="gl_contain" ng-view></div>
+</body>
+</html>

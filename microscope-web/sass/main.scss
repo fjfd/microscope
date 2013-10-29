@@ -1,0 +1,39 @@
+body{
+   background: url(../img/bg/body-bg.png);
+}
+.gl_contain{
+  min-width: 1200px;
+}
+.gl_header{
+  height: 60px;
+  padding:14px 15px;
+  margin-bottom: 10px;
+  .logo{
+
+    float: left;
+    margin: 0;
+    line-height: 32px;
+    a{
+      text-decoration: none;
+      color:#428BCA;
+    }
+  }
+  .gl_nav{
+    float: left;
+    margin-bottom: 0;
+    margin-left: 20px;
+    a{
+      display: block;
+      text-decoration: none;
+      color:#fff;
+      line-height: 32px;
+      padding: 0 15px;
+      font-size: 16px;
+    }
+    .current{
+      border-radius: 3px;
+      background-color: #2a2a2a;
+      box-shadow: 1px 1px 1px 0 #555, 1px 1px 3px 0 #000 inset;
+    }
+  }
+}

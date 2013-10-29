@@ -1,0 +1,139 @@
+	.gl_gantt {
+		margin: 0;
+	}
+	#gl_tab {
+		float: left;
+		height: 60px;
+		background-color: #EEEEEE;
+		width: 100%;
+		margin-bottom: 20px;
+		padding: 20px 60px 20px 20px;
+	}
+	#gl_tab span {
+		display: inline-block;
+		padding-right: 20px;
+	}
+	#gl_tab a {
+		text-decoration: none;
+	}
+	.clear {
+		clear: both;
+	}
+
+	.gantt-nodes { 
+		margin-right: 20px;
+		position: absolute; 
+		left: 26px;
+		top: 168px;
+	}
+
+
+	.graphic{
+		padding: 20px 0 0 0;
+	}
+
+
+	.gantt-scale {
+		overflow: hidden;
+		position: absolute;
+		height: 100%;
+		width: 100%;
+		top:0;
+	}
+	.gantt-scale .item {
+		width: 100%;
+		float: left;
+		height:100%;
+	}
+	.gantt-scale .item .line{
+		border-left: dashed 1px #4c5458;
+		height:100%;
+		width: 100%;
+	}
+	.gantt-chart {
+		overflow: hidden;
+		padding: 0;
+	}
+	.gantt-chart li{
+		line-height: 20px;
+		margin: 2px 0;
+	}
+	.gantt-chart li {
+		position: relative;
+		display: block;
+		height: 20px;
+	}
+
+
+	.gantt-bar {
+		display: block;
+		height: 20px;
+		background: #988caf;
+		box-shadow:1px 1px 1px 0 rgba(170,190,210,0.6) inset;
+		position: absolute;
+
+		left: 0;
+		width: 90%;
+		padding-left:10px;
+		font-size:12px;
+		font-style: normal;
+	}
+
+	.gantt-bar_1 {
+		background: #C6DBEF;
+	}
+
+	.graphic{ 
+		overflow: hidden; 
+		position: relative;
+		width: 98%;
+		height: 200px;
+	}
+	.overview_tree, .timeline_chart, .dep_tree {
+		display: none;
+	}
+	.timeline_chart {
+		margin: 2px 20px;
+	}
+
+	.gantt-bar-hover {
+		position: absolute;
+		left: 800px;
+		top: 330px;
+		border: 1px solid red;
+		height: 200px;
+		width: 300px;
+		display: none;
+	}
+
+
+/*
+timeline
+ */
+
+
+
+	.node circle {
+	  fill: #fff;
+	  stroke: steelblue;
+	  stroke-width: 1.5px;
+	}
+
+	.node {
+	  font: 10px sans-serif;
+	}
+
+	.link {
+	  fill: none;
+	  stroke: #ccc;
+	  stroke-width: 1.5px;
+	}
+	.overview_tree table {
+		background: #efefef;
+		margin: 0px 5px;
+
+	}
+	.overview_tree table th {
+		background: #cbcbcb;
+		text-align: center;
+	}
