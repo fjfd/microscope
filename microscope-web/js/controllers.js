@@ -2,12 +2,12 @@
 
 var ms = {};
 ms.config = {
-	hostname :'microscope.vipshop.com',
-	port: '80'
+	// hostname :'microscope.vipshop.com',
+	// port: '80'
 	// hostname :'10.100.90.183',
 	// port: '8080'
-	// hostname :'192.168.52.145',
-	// port: '8080'
+	hostname :'192.168.52.145',
+	port: '8080'
 };
 
 
