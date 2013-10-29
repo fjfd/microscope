@@ -22,15 +22,15 @@
 	</properties>
 
 	<modules>
-		<module>microscope-trace</module>
-		<module>microscope-web</module>
-		<module>microscope-common</module>
 		<module>microscope-collector</module>
+		<module>microscope-common</module>
 		<module>microscope-gen</module>
 		<module>microscope-hbase</module>
 		<module>microscope-mysql</module>
+		<module>microscope-query</module>
 		<module>microscope-test</module>
 		<module>microscope-job</module>
+		<module>microscope-trace</module>
 	</modules>
 
 
