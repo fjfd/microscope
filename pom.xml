@@ -6,7 +6,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.vipshop</groupId>
 	<artifactId>microscope</artifactId>
-	<version>${project.build.version}</version>
+	<version>0.1.0</version>
 	<packaging>pom</packaging>
 	
 	<properties>
