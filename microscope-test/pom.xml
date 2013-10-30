@@ -6,7 +6,7 @@
 		<artifactId>microscope</artifactId>
 		<version>0.1.0</version>
 	</parent>
-	
+
 	<artifactId>microscope-test</artifactId>
 
 	<properties>
