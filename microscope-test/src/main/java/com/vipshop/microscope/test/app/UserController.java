@@ -4,6 +4,7 @@ import java.util.concurrent.CountDownLatch;
 
 import com.vipshop.microscope.trace.Trace;
 import com.vipshop.microscope.trace.TraceFactory;
+import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.span.Category;
 
 public class UserController implements Runnable {
@@ -22,11 +23,9 @@ public class UserController implements Runnable {
 	}
 	
 	public void login() {
-		Trace trace = TraceFactory.getTrace();
-
-		trace.clientSend("login", Category.ACTION);
+		Tracer.clientSend("login", Category.METHOD);
 		userService.login();
-		trace.clientReceive();
+		Tracer.clientReceive();
 	}
 
 	@Override
