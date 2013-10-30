@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.vipshop</groupId>
 		<artifactId>microscope</artifactId>
-		<version>${project.build.version}</version>
+		<version>0.1.0</version>
 	</parent>
 
 	<artifactId>microscope-job</artifactId>
@@ -49,7 +49,7 @@
 		<dependency>
 			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-hbase</artifactId>
-			<version>${project.build.version}</version>
+			<version>0.1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>jdk.tools</groupId>

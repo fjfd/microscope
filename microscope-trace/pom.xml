@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.vipshop</groupId>
 		<artifactId>microscope</artifactId>
-		<version>${project.build.version}</version>
+		<version>0.1.0</version>
 	</parent>
 
 	<artifactId>microscope-trace</artifactId>
@@ -24,12 +24,12 @@
 		<dependency>
 			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-common</artifactId>
-			<version>${project.build.version}</version>
+			<version>0.1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-gen</artifactId>
-			<version>${project.build.version}</version>
+			<version>0.1.0</version>
 		</dependency>
 
 	</dependencies>
