@@ -95,6 +95,10 @@ public class TraceFactory {
 		return TRACE_CONTEXT.get();
 	}
 	
+	public static Trace getTraceForRecord() {
+		return TRACE_CONTEXT.get();
+	}
+	
 	/**
 	 * Use HTTP header to propagate trace id and span id.
 	 * 

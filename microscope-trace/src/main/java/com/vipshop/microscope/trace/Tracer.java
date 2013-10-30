@@ -42,7 +42,10 @@ public class Tracer {
 	 * @param value
 	 */
 	public static void record(String key, String value) {
-		TraceFactory.getTrace().record(key, value);
+		Trace trace = TraceFactory.getTraceForRecord();
+		if (trace != null) {
+			trace.record(key, value);
+		}
 	}
 	
 	/**
