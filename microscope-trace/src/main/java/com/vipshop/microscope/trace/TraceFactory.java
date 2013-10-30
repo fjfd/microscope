@@ -5,6 +5,7 @@ import java.util.concurrent.ExecutorService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.http.HttpRequest;
 import org.apache.http.client.methods.HttpUriRequest;
 
 import com.vipshop.microscope.common.util.ThreadPoolProvider;
@@ -105,6 +106,16 @@ public class TraceFactory {
 	 */
 	
 	public static void setHttpRequestHead(HttpUriRequest request) {
+		SpanId spanID = TRACE_CONTEXT.get().getSpanId();
+		
+		String traceId = String.valueOf(spanID.getTraceId());
+		String spanId = String.valueOf(spanID.getSpanId());
+		
+		request.addHeader(HTTPHeader.X_B3_TRACE_ID, traceId);
+		request.addHeader(HTTPHeader.X_B3_SPAN_ID, spanId);
+	}
+	
+	public static void setHttpRequestHead(HttpRequest request) {
 		SpanId spanID = TRACE_CONTEXT.get().getSpanId();
 		
 		String traceId = String.valueOf(spanID.getTraceId());
