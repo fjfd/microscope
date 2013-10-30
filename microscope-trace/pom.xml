@@ -25,13 +25,19 @@
 			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-common</artifactId>
 			<version>0.1.0</version>
+			<exclusions>
+				<exclusion> 
+					<groupId>org.apache.httpcomponents</groupId>
+					<artifactId>httpclient</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-gen</artifactId>
 			<version>0.1.0</version>
 			<exclusions>
-				<exclusion>  <!-- declare the exclusion here -->
+				<exclusion> 
 					<groupId>org.apache.httpcomponents</groupId>
 					<artifactId>httpclient</artifactId>
 				</exclusion>
