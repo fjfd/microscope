@@ -2,6 +2,7 @@ package com.vipshop.microscope.trace;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.http.HttpRequest;
 import org.apache.http.client.methods.HttpUriRequest;
 
 import com.vipshop.microscope.trace.span.Category;
@@ -26,6 +27,17 @@ public class Tracer {
 	 */
 	public static void clientSend(HttpUriRequest request, Category category){
 		TraceFactory.getTrace().clientSend(getShortURL(request), category);
+		TraceFactory.setHttpRequestHead(request);
+	}
+	
+	/**
+	 * For httpclient 4.2 send request
+	 * 
+	 * @param request
+	 * @param category
+	 */
+	public static void clientSend(HttpRequest request, Category category){
+		TraceFactory.getTrace().clientSend(request.getRequestLine().getMethod(), category);
 		TraceFactory.setHttpRequestHead(request);
 	}
 	
