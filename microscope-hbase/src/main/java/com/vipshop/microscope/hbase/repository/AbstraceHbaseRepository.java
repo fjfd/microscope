@@ -10,6 +10,7 @@ import org.apache.hadoop.hbase.HColumnDescriptor;
 import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.client.HBaseAdmin;
 import org.apache.hadoop.hbase.client.Result;
+import org.apache.hadoop.hbase.io.hfile.Compression.Algorithm;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,7 @@ public abstract class AbstraceHbaseRepository implements InitializingBean {
 				HTableDescriptor tableDescriptor = new HTableDescriptor(tableName);
 				HColumnDescriptor columnDescriptor = new HColumnDescriptor(cfName);
 				columnDescriptor.setMaxVersions(1);
+				columnDescriptor.setCompressionType(Algorithm.SNAPPY);
 				tableDescriptor.addFamily(columnDescriptor);
 				
 				admin.createTable(tableDescriptor);

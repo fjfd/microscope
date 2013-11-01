@@ -45,8 +45,9 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient-vipshop</artifactId>
+			<artifactId>httpclient</artifactId>
 			<version>4.2</version>
+			<classifier>microscope</classifier>
 		</dependency>
 	</dependencies>
 </project>

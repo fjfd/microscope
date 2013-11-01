@@ -15,13 +15,13 @@ public class HiveTestCase {
 		// hive插入数据支持两种方式一种：load文件，令一种为从另一个表中查询进行插入（感觉这是个鸡肋）
 		// hive是不支持insert into...values(....)这种操作的
 		String insterSQL = "LOAD DATA LOCAL INPATH '/work/hive/examples/files/kv1.txt' OVERWRITE INTO TABLE javabloger";
-		String querySQL = "SELECT a.* FROM javabloger a";
+		String querySQL = "SELECT * FROM hbase_table_1";
 
-		Connection con = DriverManager.getConnection("jdbc:hive://192.168.X.X:10000/default", "", "");
+		Connection con = DriverManager.getConnection("jdbc:hive://10.100.90.183:50031/default", "", "");
 		Statement stmt = con.createStatement();
-		stmt.executeQuery(dropSQL); // 执行删除语句
-		stmt.executeQuery(createSQL); // 执行建表语句
-		stmt.executeQuery(insterSQL); // 执行插入语句
+//		stmt.executeQuery(dropSQL); // 执行删除语句
+//		stmt.executeQuery(createSQL); // 执行建表语句
+//		stmt.executeQuery(insterSQL); // 执行插入语句
 		ResultSet res = stmt.executeQuery(querySQL); // 执行查询语句
 
 		while (res.next()) {
