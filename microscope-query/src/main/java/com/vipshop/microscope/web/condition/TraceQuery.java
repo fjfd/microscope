@@ -1,4 +1,4 @@
-package com.vipshop.microscope.web.query;
+package com.vipshop.microscope.web.condition;
 
 import java.util.HashMap;
 import java.util.Map;

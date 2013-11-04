@@ -1,4 +1,4 @@
-package com.vipshop.microscope.hbase.query;
+package com.vipshop.microscope.web.query;
 
 import java.util.List;
 import java.util.Map;

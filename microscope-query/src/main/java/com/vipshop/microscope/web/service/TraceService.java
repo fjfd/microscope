@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.vipshop.microscope.hbase.domain.TraceTable;
-import com.vipshop.microscope.hbase.query.HbaseQueryTemplate;
 import com.vipshop.microscope.thrift.Annotation;
 import com.vipshop.microscope.thrift.AnnotationType;
 import com.vipshop.microscope.thrift.Span;
+import com.vipshop.microscope.web.query.HbaseQueryTemplate;
 
 public class TraceService {
 	

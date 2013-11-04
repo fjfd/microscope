@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.vipshop.microscope.web.query.TraceQuery;
+import com.vipshop.microscope.web.condition.TraceQuery;
 import com.vipshop.microscope.web.result.AppAndTraceResult;
 import com.vipshop.microscope.web.result.TraceListResult;
 import com.vipshop.microscope.web.result.TraceSpanResult;
