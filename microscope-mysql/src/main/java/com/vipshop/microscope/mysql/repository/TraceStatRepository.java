@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.vipshop.microscope.mysql.domain.TraceStat;
+import com.vipshop.microscope.mysql.template.JdbcTemplateFactory;
 
 @Repository
 public class TraceStatRepository {

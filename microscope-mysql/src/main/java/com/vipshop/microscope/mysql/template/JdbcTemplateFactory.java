@@ -1,4 +1,4 @@
-package com.vipshop.microscope.mysql.repository;
+package com.vipshop.microscope.mysql.template;
 
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
