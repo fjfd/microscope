@@ -8,7 +8,7 @@
 	<artifactId>microscope</artifactId>
 	<version>0.1.0</version>
 	<packaging>pom</packaging>
-	
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -44,7 +44,7 @@
 			<url>http://10.101.0.2:8081/nexus/content/repositories/releases</url>
 		</repository>
 	</distributionManagement>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>org.testng</groupId>
@@ -114,6 +114,13 @@
 					<locales>zh_CN</locales>
 					<skip>${maven-site-plugin.skip}</skip>
 					<generatedSiteDirectory>${project.build.directory}/docs</generatedSiteDirectory>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
 				</configuration>
 			</plugin>
 		</plugins>
