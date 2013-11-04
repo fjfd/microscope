@@ -36,9 +36,14 @@ public class TraceMessageProcessor {
 		this.index(span);
 		this.store(span);
 		this.analyze(span);
+		this.statSuccess();
 
 	}
 	
+	private void statSuccess() {
+		
+	}
+
 	private void statFailure() {
 		logger.info("");
 	}

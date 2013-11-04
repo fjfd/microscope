@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.vipshop.microscope.hbase.domain.AppTrace;
 import com.vipshop.microscope.hbase.domain.TraceTable;
+import com.vipshop.microscope.mysql.domain.TraceStat;
 import com.vipshop.microscope.thrift.Annotation;
 import com.vipshop.microscope.thrift.AnnotationType;
 import com.vipshop.microscope.thrift.Span;
@@ -53,6 +54,24 @@ public class BuildProcessor {
 			return new TraceTable(traceId, traceName, String.valueOf(startTimestamp), String.valueOf(endTimestamp), duration, type);
 		}
 		
+		return null;
+	}
+	
+	public TraceStat buildTraceStat(Span span) {
+		String traceId = String.valueOf(span.getTrace_id());
+		String spanId = String.valueOf(span.getId());
+		
+		if (traceId.equals(spanId)) {
+			TraceStat stat = new TraceStat();
+			stat.setName(span.getName());
+			stat.setTotalCount(1);
+			stat.setFailureCount(0);
+			stat.setMax(span.getDuration());
+			stat.setMin(span.getDuration());
+			stat.setAvg(span.getDuration());
+			
+			return stat;
+		}
 		return null;
 	}
 	

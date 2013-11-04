@@ -2,6 +2,7 @@ package com.vipshop.microscope.trace.span;
 
 import java.util.Stack;
 
+import com.vipshop.microscope.thrift.Annotation;
 import com.vipshop.microscope.thrift.Span;
 import com.vipshop.microscope.trace.Constant;
 import com.vipshop.microscope.trace.queue.MessageQueue;
@@ -115,9 +116,13 @@ public class SpanBuilder {
     	 * remove span from stack
     	 */
 		Span span = spanStack.pop();
+		
+		Annotation startAnnotation = span.annotations.get(0);
 		span.addToAnnotations(AnnotationBuilder.serverSendAnnotation());
     	span.addToAnnotations(AnnotationBuilder.clientReceAnnotation());
-    	
+    	Annotation endAnnotation = span.annotations.get(3);
+    	int duration = (int) (endAnnotation.getTimestamp() - startAnnotation.getTimestamp());
+    	span.setDuration(duration);
     	/*
     	 * put span to queue
     	 */
