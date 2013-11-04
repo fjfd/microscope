@@ -6,11 +6,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 public class JdbcTemplateFactory {
 	
-	public static JdbcTemplate jdbcTemplate;
+	public static JdbcTemplate JDBCTEMPLATE;
 	
 	static {
 		AbstractApplicationContext context = new ClassPathXmlApplicationContext("/applicationContext-jdbc.xml", JdbcTemplateFactory.class);
-		jdbcTemplate = context.getBean(JdbcTemplate.class);
+		JDBCTEMPLATE = context.getBean(JdbcTemplate.class);
 		context.close();
 	}
 	
