@@ -13,7 +13,7 @@ import com.vipshop.microscope.hbase.storage.HbaseStorageTemplate;
 import com.vipshop.microscope.thrift.LogEntry;
 import com.vipshop.microscope.thrift.Span;
 
-public class TraceMessageProcessor {
+public class TraceMessageProcessor extends AbstraceMessageProcessor {
 	
 	private static final Logger logger = LoggerFactory.getLogger(TraceMessageProcessor.class);
 	

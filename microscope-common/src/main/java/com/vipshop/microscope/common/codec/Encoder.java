@@ -32,7 +32,7 @@ public class Encoder {
 		final TProtocol proto = protocolFactory.getProtocol(new TIOStreamTransport(buf));
 		span.write(proto);
 		String spanAsString = base64.encodeToString(buf.toByteArray());
-		LogEntry logEntry = new LogEntry("trace", spanAsString);
+		LogEntry logEntry = new LogEntry(MessageCategory.TRACE, spanAsString);
 		return logEntry;
 	}
 
