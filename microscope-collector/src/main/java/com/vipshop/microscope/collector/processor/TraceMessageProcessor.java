@@ -4,8 +4,8 @@ import org.apache.thrift.TException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.vipshop.microscope.collector.analyzer.TraceMessageAnalyzer;
 import com.vipshop.microscope.collector.builder.BuildProcessor;
-import com.vipshop.microscope.collector.metric.Metric;
 import com.vipshop.microscope.common.codec.Encoder;
 import com.vipshop.microscope.hbase.domain.AppTrace;
 import com.vipshop.microscope.hbase.domain.TraceTable;
@@ -19,34 +19,27 @@ public class TraceMessageProcessor {
 	
 	private final Encoder encoder = new Encoder();
 
-	private final Metric metric = new Metric();
-
 	private final HbaseStorageTemplate storageProcessor = new HbaseStorageTemplate();
 
 	private final BuildProcessor buildProcessor = new BuildProcessor();
+	
+	private final TraceMessageAnalyzer messageAnalyzer = new TraceMessageAnalyzer();
 	
 	public void process(LogEntry logEntry) {
 		Span span = null;
 		try {
 			span = encoder.decodeToSpan(logEntry.getMessage());
 		} catch (TException e) {
-			this.statError();
+			this.statFailure();
 			return;
 		}
 		this.index(span);
 		this.store(span);
-		
-		this.statSuccess(logEntry);
+		this.analyze(span);
+
 	}
 	
-	private void statError() {
-		logger.info("");
-	}
-	
-	private void statSuccess(LogEntry logEntry) {
-		metric.increMsgSize();
-		metric.increMsgByte(logEntry);
-		
+	private void statFailure() {
 		logger.info("");
 	}
 	
@@ -59,6 +52,10 @@ public class TraceMessageProcessor {
 		TraceTable traceTable = buildProcessor.buildTraceTable(span);
 		storageProcessor.save(traceTable);
 		storageProcessor.save(span);
+	}
+	
+	private void analyze(Span span) {
+		messageAnalyzer.analyze(span);
 	}
 
 }

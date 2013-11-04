@@ -48,8 +48,9 @@ public class BuildProcessor {
 			long startTimestamp = startAnnotation.getTimestamp();
 			long endTimestamp = endAnnotation.getTimestamp();
 			String duration = String.valueOf(endTimestamp - startTimestamp);
+			String type = span.getType();
 			
-			return new TraceTable(traceId, traceName, String.valueOf(startTimestamp), String.valueOf(endTimestamp) ,duration);
+			return new TraceTable(traceId, traceName, String.valueOf(startTimestamp), String.valueOf(endTimestamp), duration, type);
 		}
 		
 		return null;
