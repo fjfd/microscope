@@ -6,7 +6,7 @@ import com.vipshop.microscope.mysql.domain.TraceStat;
 
 public class MySQLTemplateTest {
 	
-	TraceStatTemplate mySQLTemplate = new TraceStatTemplate();
+	TraceStatRepository mySQLTemplate = MysqlRepositorys.getTraceStatRepository();
 	
 	@Test
 	public void testCreate() {

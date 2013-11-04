@@ -9,10 +9,12 @@ import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import com.vipshop.microscope.mysql.domain.TraceStat;
 
-public class TraceStatTemplate {
+@Repository
+public class TraceStatRepository {
 
 	private JdbcTemplate jdbcTemplate = JdbcTemplateFactory.JDBCTEMPLATE;
 
