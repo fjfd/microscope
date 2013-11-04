@@ -22,6 +22,23 @@ public class TraceStatRepository {
 		jdbcTemplate.execute(sql);
 	}
 
+	/**
+	 * check one trace_stat exist or not.
+	 * 
+	 * @param trace
+	 * @return
+	 */
+	public boolean exist(final String trace) {
+		String sql = "select trace_name from trace_stat where trace_name = ?" ;
+		
+		String count = jdbcTemplate.queryForObject(sql, new Object[]{trace}, String.class);
+		if (count == null) {
+			return false;
+		}
+		return true;
+
+	}
+
 	public void save(final TraceStat traceStat) {
 		String insert = "insert into trace_stat(trace_name, total_count,failure_count, failure_precent, min, max, avg) values(?,?,?,?,?,?,?)";
 
@@ -40,7 +57,7 @@ public class TraceStatRepository {
 			}
 		});
 	}
-	
+
 	public void update(final TraceStat traceStat) {
 		String update = "update trace_stat set total_count = ?, failure_count = ?, failure_precent =?, min = ?, max = ?, avg = ? where trace_name = ?";
 
@@ -59,11 +76,11 @@ public class TraceStatRepository {
 			}
 		});
 	}
-	
+
 	public List<TraceStat> findTraceStat() {
-		 final List<TraceStat> list = new ArrayList<TraceStat>();
-		 String sql = "select * from trace_stat" ;
-		 jdbcTemplate.query(sql, new RowMapper<TraceStat>(){
+		final List<TraceStat> list = new ArrayList<TraceStat>();
+		String sql = "select * from trace_stat";
+		jdbcTemplate.query(sql, new RowMapper<TraceStat>() {
 
 			@Override
 			public TraceStat mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -78,9 +95,8 @@ public class TraceStatRepository {
 				list.add(traceStat);
 				return traceStat;
 			}
-		 });
-		 return list;
+		});
+		return list;
 	}
-	
 
 }

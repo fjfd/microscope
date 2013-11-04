@@ -4,9 +4,9 @@ import org.testng.annotations.Test;
 
 import com.vipshop.microscope.mysql.domain.TraceStat;
 
-public class MySQLTemplateTest {
+public class TraceStatRepositoryTest {
 	
-	TraceStatRepository mySQLTemplate = MysqlRepositorys.getTraceStatRepository();
+	TraceStatRepository mySQLTemplate = MySQLRepositorys.TRACE_STAT_REPOSITORY;
 	
 	@Test
 	public void testCreate() {
@@ -45,5 +45,10 @@ public class MySQLTemplateTest {
 	@Test
 	public void testfind() {
 		System.out.println(mySQLTemplate.findTraceStat());;
+	}
+	
+	@Test
+	public void exist() {
+		System.out.println(mySQLTemplate.exist("trace/queryconditon"));
 	}
 }
