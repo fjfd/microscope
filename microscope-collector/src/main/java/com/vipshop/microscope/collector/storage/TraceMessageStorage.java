@@ -1,12 +1,12 @@
-package com.vipshop.microscope.hbase.storage;
+package com.vipshop.microscope.collector.storage;
 
 import com.vipshop.microscope.hbase.domain.AppTrace;
 import com.vipshop.microscope.hbase.domain.TraceTable;
 import com.vipshop.microscope.hbase.repository.Repositorys;
 import com.vipshop.microscope.thrift.Span;
 
-public class HbaseStorageTemplate {
-
+public class TraceMessageStorage {
+	
 	public void save(AppTrace appIndex) {
 		if (appIndex != null) {
 			Repositorys.APP_TRACE.save(appIndex);
@@ -24,5 +24,4 @@ public class HbaseStorageTemplate {
 			Repositorys.SPAN.save(span);
 		}
 	}
-
 }
