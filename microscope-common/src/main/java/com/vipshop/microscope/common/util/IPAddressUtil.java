@@ -5,6 +5,12 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 
+/**
+ * A util class to get IPAdress.
+ * 
+ * @author Xu Fei
+ * @version 1.0
+ */
 public class IPAddressUtil {
 	
 	public static String IPAddress() {

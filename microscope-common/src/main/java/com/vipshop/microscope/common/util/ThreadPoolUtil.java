@@ -5,6 +5,12 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * A threadpool util to provide special thread.
+ * 
+ * @author Xu Fei
+ * @version 1.0
+ */
 public class ThreadPoolUtil {
 	
     public static ExecutorService newFixedThreadPool(int nThreads, String groupName) {

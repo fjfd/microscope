@@ -5,7 +5,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class Md5Utils {
 
-	public static final int MD5_LENGTH = 16; // bytes
+	public static final int MD5_LENGTH = 16; 
 
 	public static byte[] md5sum(String s) {
 		MessageDigest d;
