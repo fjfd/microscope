@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.vipshop.microscope.common.codec.Encoder;
-import com.vipshop.microscope.mysql.repository.MsgStatRepository;
+import com.vipshop.microscope.mysql.repository.MsgReportRepository;
 import com.vipshop.microscope.mysql.repository.MySQLRepositorys;
 import com.vipshop.microscope.thrift.LogEntry;
 import com.vipshop.microscope.thrift.Span;
@@ -16,7 +16,7 @@ public class TraceMessageCounter {
 	
 	private final Encoder encoder = new Encoder();
 	
-	private final MsgStatRepository msgStatRepository = MySQLRepositorys.MSG_STAT_REPOSITORY;
+	private final MsgReportRepository msgStatRepository = MySQLRepositorys.MSG_STAT_REPOSITORY;
 	
 	
 	/**

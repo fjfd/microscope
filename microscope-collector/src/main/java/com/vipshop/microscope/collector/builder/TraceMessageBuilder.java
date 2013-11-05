@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.vipshop.microscope.hbase.domain.AppTrace;
 import com.vipshop.microscope.hbase.domain.TraceTable;
-import com.vipshop.microscope.mysql.domain.TraceStat;
+import com.vipshop.microscope.mysql.domain.TraceReport;
 import com.vipshop.microscope.thrift.Annotation;
 import com.vipshop.microscope.thrift.AnnotationType;
 import com.vipshop.microscope.thrift.Span;
@@ -57,13 +57,13 @@ public class TraceMessageBuilder {
 		return null;
 	}
 	
-	public TraceStat buildTraceStat(Span span) {
+	public TraceReport buildTraceStat(Span span) {
 		String traceId = String.valueOf(span.getTrace_id());
 		String spanId = String.valueOf(span.getId());
 		
 		if (traceId.equals(spanId)) {
-			TraceStat stat = new TraceStat();
-			stat.setName(span.getName());
+			TraceReport stat = new TraceReport();
+			stat.setType(span.getName());
 			stat.setTotalCount(1);
 			stat.setFailureCount(0);
 			stat.setMax(span.getDuration());

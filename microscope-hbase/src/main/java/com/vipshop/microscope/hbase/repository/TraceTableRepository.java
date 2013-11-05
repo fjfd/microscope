@@ -170,7 +170,8 @@ public class TraceTableRepository extends AbstraceHbaseRepository {
 		return hbaseTemplate.find(tableName, scan, new RowMapper<TraceTable>() {
 			@Override
 			public TraceTable mapRow(Result result, int rowNum) throws Exception {
-				return new TraceTable(Bytes.toString(result.getValue(CF, CF_TRACE_ID)), 
+				return new TraceTable(Bytes.toString(result.getValue(CF, CF_TYPE)),
+						              Bytes.toString(result.getValue(CF, CF_TRACE_ID)), 
 						  			  Bytes.toString(result.getValue(CF, CF_TRACE_NAME)),
 						  			  Bytes.toString(result.getValue(CF, CF_START_TIMESTAMP)),
 						  			  Bytes.toString(result.getValue(CF, CF_END_TIMESTAMP)),

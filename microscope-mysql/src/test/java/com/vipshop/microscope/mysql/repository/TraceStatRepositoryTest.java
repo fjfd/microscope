@@ -2,11 +2,11 @@ package com.vipshop.microscope.mysql.repository;
 
 import org.testng.annotations.Test;
 
-import com.vipshop.microscope.mysql.domain.TraceStat;
+import com.vipshop.microscope.mysql.domain.TraceReport;
 
 public class TraceStatRepositoryTest {
 	
-	TraceStatRepository mySQLTemplate = MySQLRepositorys.TRACE_STAT_REPOSITORY;
+	TraceReportRepository mySQLTemplate = MySQLRepositorys.TRACE_REPORT;
 	
 	@Test
 	public void testCreate() {
@@ -16,8 +16,8 @@ public class TraceStatRepositoryTest {
 	
 	@Test
 	public void testSave() {
-		TraceStat traceStat = new TraceStat();
-		traceStat.setName("trace/queryconditon2");
+		TraceReport traceStat = new TraceReport();
+		traceStat.setType("trace/queryconditon2");
 		traceStat.setTotalCount(100);
 		traceStat.setFailureCount(10);
 		traceStat.setFailurePrecent(1.2f);
@@ -30,8 +30,8 @@ public class TraceStatRepositoryTest {
 	
 	@Test
 	public void testUpdate() {
-		TraceStat traceStat = new TraceStat();
-		traceStat.setName("trace/queryconditon");
+		TraceReport traceStat = new TraceReport();
+		traceStat.setType("trace/queryconditon");
 		traceStat.setTotalCount(1000);
 		traceStat.setFailureCount(10);
 		traceStat.setFailurePrecent(1.2f);

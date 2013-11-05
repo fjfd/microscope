@@ -1,9 +1,10 @@
 package com.vipshop.microscope.hbase.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
 
-public class TraceTable implements Serializable {
+public class TraceTable implements Serializable, Comparable<TraceTable> {
 	
 	private static final long serialVersionUID = -2609783475042433846L;
 	
@@ -86,6 +87,27 @@ public class TraceTable implements Serializable {
 	public String toString() {
 		return "TraceTable [type=" + type + ", traceId=" + traceId + ", traceName=" + traceName + ", startTimestamp=" + startTimestamp + ", endTimestamp=" + endTimestamp + ", duration=" + duration
 				+ "]";
+	}
+
+	@Override
+	public int compareTo(TraceTable o) {
+		if (Long.valueOf(this.getDuration()) > Long.valueOf(o.getDuration())) {
+			return 1;
+		}
+		
+		if (Long.valueOf(this.getDuration()) < Long.valueOf(o.getDuration())) {
+			return -1;
+		}
+		
+		return 0;
+	}
+	
+	public static float avgDuration(List<TraceTable> tableTraces) {
+		long sum = 0;
+		for (TraceTable traceTable : tableTraces) {
+			sum += Long.valueOf(traceTable.getDuration());
+		}
+		return sum / tableTraces.size() / 1000;
 	}
 	
 }

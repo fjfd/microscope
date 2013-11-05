@@ -205,6 +205,10 @@ public class TraceFactory {
 		
 	}
 	
+	public static void cleanContext() {
+		TRACE_CONTEXT.set(null);
+	}
+	
 	@Override
 	public String toString() {
 		return "TRACE CONTEXT : " + TRACE_CONTEXT.get().toString();

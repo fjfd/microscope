@@ -11,11 +11,11 @@ import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.vipshop.microscope.mysql.domain.TraceStat;
+import com.vipshop.microscope.mysql.domain.TraceReport;
 import com.vipshop.microscope.mysql.template.JdbcTemplateFactory;
 
 @Repository
-public class TraceStatRepository {
+public class TraceReportRepository {
 
 	private JdbcTemplate jdbcTemplate = JdbcTemplateFactory.JDBCTEMPLATE;
 
@@ -30,7 +30,7 @@ public class TraceStatRepository {
 	 * @return
 	 */
 	public boolean exist(final String trace) {
-		String sql = "select trace_name from trace_stat where trace_name = ?" ;
+		String sql = "select type from trace_stat where type = ?" ;
 		
 		String count = jdbcTemplate.queryForObject(sql, new Object[]{trace}, String.class);
 		if (count == null) {
@@ -40,27 +40,30 @@ public class TraceStatRepository {
 
 	}
 
-	public void save(final TraceStat traceStat) {
-		String insert = "insert into trace_stat(trace_name, total_count,failure_count, failure_precent, min, max, avg) values(?,?,?,?,?,?,?)";
+	public void save(final TraceReport traceStat) {
+		String insert = "insert into trace_stat(type, total_count,failure_count, failure_precent, min, max, avg, year, month, day, hour) values(?,?,?,?,?,?,?,?,?,?,?)";
 
 		jdbcTemplate.update(insert, new PreparedStatementSetter() {
 
 			@Override
 			public void setValues(PreparedStatement ps) throws SQLException {
-				ps.setString(1, traceStat.getName());
+				ps.setString(1, traceStat.getType());
 				ps.setLong(2, traceStat.getTotalCount());
 				ps.setLong(3, traceStat.getFailureCount());
 				ps.setFloat(4, traceStat.getFailurePrecent());
 				ps.setFloat(5, traceStat.getMin());
 				ps.setFloat(6, traceStat.getMax());
 				ps.setFloat(7, traceStat.getAvg());
-
+				ps.setInt(8, traceStat.getYear());
+				ps.setInt(9, traceStat.getMonth());
+				ps.setInt(10, traceStat.getDay());
+				ps.setInt(11, traceStat.getHour());
 			}
 		});
 	}
 
-	public void update(final TraceStat traceStat) {
-		String update = "update trace_stat set total_count = ?, failure_count = ?, failure_precent =?, min = ?, max = ?, avg = ? where trace_name = ?";
+	public void update(final TraceReport traceStat) {
+		String update = "update trace_stat set total_count = ?, failure_count = ?, failure_precent =?, min = ?, max = ?, avg = ? where type = ?";
 
 		jdbcTemplate.update(update, new PreparedStatementSetter() {
 
@@ -72,21 +75,21 @@ public class TraceStatRepository {
 				ps.setFloat(4, traceStat.getMin());
 				ps.setFloat(5, traceStat.getMax());
 				ps.setFloat(6, traceStat.getAvg());
-				ps.setString(7, traceStat.getName());
+				ps.setString(7, traceStat.getType());
 
 			}
 		});
 	}
 
-	public List<TraceStat> findTraceStat() {
-		final List<TraceStat> list = new ArrayList<TraceStat>();
+	public List<TraceReport> findTraceStat() {
+		final List<TraceReport> list = new ArrayList<TraceReport>();
 		String sql = "select * from trace_stat";
-		jdbcTemplate.query(sql, new RowMapper<TraceStat>() {
+		jdbcTemplate.query(sql, new RowMapper<TraceReport>() {
 
 			@Override
-			public TraceStat mapRow(ResultSet rs, int rowNum) throws SQLException {
-				TraceStat traceStat = new TraceStat();
-				traceStat.setName(rs.getString("trace_name"));
+			public TraceReport mapRow(ResultSet rs, int rowNum) throws SQLException {
+				TraceReport traceStat = new TraceReport();
+				traceStat.setType(rs.getString("type"));
 				traceStat.setTotalCount(rs.getLong("total_count"));
 				traceStat.setFailureCount(rs.getLong("failure_count"));
 				traceStat.setFailurePrecent(rs.getFloat("failure_precent"));

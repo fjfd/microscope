@@ -4,7 +4,7 @@ import org.testng.annotations.Test;
 
 public class MsgStatRepositoryTest {
 	
-	MsgStatRepository msgStatRepository = new MsgStatRepository();
+	MsgReportRepository msgStatRepository = new MsgReportRepository();
 	
 	@Test
 	public void testExist() {

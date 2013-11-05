@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.vipshop.microscope.mysql.template.JdbcTemplateFactory;
 
 @Repository
-public class MsgStatRepository {
+public class MsgReportRepository {
 
 	private JdbcTemplate jdbcTemplate = JdbcTemplateFactory.JDBCTEMPLATE;
 

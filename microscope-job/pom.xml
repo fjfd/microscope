@@ -68,6 +68,16 @@
 			<artifactId>hive-jdbc</artifactId>
 			<version>0.10.0-cdh4.4.0</version>
 		</dependency>
+		<dependency>
+			<groupId>com.vipshop</groupId>
+			<artifactId>microscope-mysql</artifactId>
+			<version>0.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vipshop</groupId>
+			<artifactId>microscope-trace</artifactId>
+			<version>0.1.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>

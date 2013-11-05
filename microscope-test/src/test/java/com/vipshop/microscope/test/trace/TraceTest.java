@@ -12,6 +12,7 @@ import org.testng.annotations.Test;
 import com.vipshop.microscope.collector.server.CollectorServer;
 import com.vipshop.microscope.test.app.UserController;
 import com.vipshop.microscope.trace.Trace;
+import com.vipshop.microscope.trace.TraceFactory;
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.span.Category;
 
@@ -34,8 +35,11 @@ public class TraceTest {
 	 * @throws InterruptedException
 	 */
 	@Test(priority = 1)
-	public void testTrace() throws InterruptedException {
-		new UserController().login();
+	public void makeTrace() throws InterruptedException {
+		for (int i = 0; i < 20; i++) {
+			TraceFactory.cleanContext();
+			new UserController().login();
+		}
 		TimeUnit.SECONDS.sleep(5);
 	}
 	

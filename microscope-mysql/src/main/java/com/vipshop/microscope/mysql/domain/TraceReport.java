@@ -1,21 +1,57 @@
 package com.vipshop.microscope.mysql.domain;
 
-public class TraceStat {
+public class TraceReport {
 
-	private String name;
+	private String type;
 	private long totalCount;
 	private long failureCount;
 	private float failurePrecent;
 	private float min;
 	private float max;
 	private float avg;
+	private int year;
+	private int month;
+	private int day;
+	private int hour;
 
-	public String getName() {
-		return name;
+	public int getYear() {
+		return year;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setYear(int year) {
+		this.year = year;
+	}
+
+	public int getMonth() {
+		return month;
+	}
+
+	public void setMonth(int month) {
+		this.month = month;
+	}
+
+	public int getDay() {
+		return day;
+	}
+
+	public void setDay(int day) {
+		this.day = day;
+	}
+
+	public int getHour() {
+		return hour;
+	}
+
+	public void setHour(int hour) {
+		this.hour = hour;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String name) {
+		this.type = name;
 	}
 
 	public long getTotalCount() {
@@ -68,7 +104,7 @@ public class TraceStat {
 	
 	@Override
 	public String toString() {
-		return "TraceStat [name=" + name + ", totalCount=" + totalCount + ", failureCount=" + failureCount + ", failurePrecent=" + failurePrecent + ", min=" + min + ", max=" + max + ", avg=" + avg
+		return "TraceStat [name=" + type + ", totalCount=" + totalCount + ", failureCount=" + failureCount + ", failurePrecent=" + failurePrecent + ", min=" + min + ", max=" + max + ", avg=" + avg
 				+ "]";
 	}
 
