@@ -1,6 +1,5 @@
-package com.vipshop.microscope.hbase.mapreduce.picket;
+package com.vipshop.microscope.job.mapreduce;
 
-import com.vipshop.microscope.hbase.mapreduce.comm.ByteUtil;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;

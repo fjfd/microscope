@@ -1,4 +1,4 @@
-package com.vipshop.microscope.hbase.mapreduce.comm;
+package com.vipshop.microscope.job.mapreduce;
 
 /**
  *项目名：microscope-job

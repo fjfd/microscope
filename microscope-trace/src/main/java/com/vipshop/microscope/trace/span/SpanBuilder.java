@@ -2,9 +2,11 @@ package com.vipshop.microscope.trace.span;
 
 import java.util.Stack;
 
+import com.vipshop.microscope.common.util.IPAddressUtil;
 import com.vipshop.microscope.thrift.Annotation;
 import com.vipshop.microscope.thrift.Span;
 import com.vipshop.microscope.trace.Constant;
+import com.vipshop.microscope.trace.ResultCode;
 import com.vipshop.microscope.trace.queue.MessageQueue;
 
 /**
@@ -66,6 +68,9 @@ public class SpanBuilder {
 		span.setName(spanName);
 		span.setType(category.toString());
 		span.setStartstamp(System.currentTimeMillis());
+		span.setResultCode(ResultCode.OK);
+		span.setIPAddress(IPAddressUtil.IPAddress());
+		
 		/*
 		 * The topmost span in a trace has its span id 
 		 * equal to trace id and parent span id is null.

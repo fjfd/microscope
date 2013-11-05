@@ -1,4 +1,4 @@
-package com.vipshop.microscope.hbase.hive;
+package com.vipshop.microscope.job.hive;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

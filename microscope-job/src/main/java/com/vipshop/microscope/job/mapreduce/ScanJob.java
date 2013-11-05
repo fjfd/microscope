@@ -1,4 +1,4 @@
-package com.vipshop.microscope.hbase.mapreduce;
+package com.vipshop.microscope.job.mapreduce;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.client.Result;

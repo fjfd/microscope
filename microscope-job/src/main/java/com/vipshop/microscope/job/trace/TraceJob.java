@@ -15,7 +15,7 @@ import com.vipshop.microscope.mysql.domain.TraceReport;
 import com.vipshop.microscope.mysql.repository.MySQLRepositorys;
 import com.vipshop.microscope.trace.span.Category;
 
-public class TraceReportJob {
+public class TraceJob {
 	
 	public static void main(String[] args) {
 		Category[] values = Category.values();

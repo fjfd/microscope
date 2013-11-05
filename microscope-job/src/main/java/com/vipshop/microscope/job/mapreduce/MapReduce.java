@@ -1,4 +1,4 @@
-package com.vipshop.microscope.hbase.mapreduce.picket;
+package com.vipshop.microscope.job.mapreduce;
 
 import java.security.PrivilegedAction;
 import java.text.SimpleDateFormat;
@@ -18,7 +18,6 @@ import org.apache.hadoop.mapreduce.lib.db.DBConfiguration;
 import org.apache.hadoop.mapreduce.lib.db.DBOutputFormat;
 import org.apache.hadoop.security.UserGroupInformation;
 
-import com.vipshop.microscope.hbase.mapreduce.comm.DateUtil;
 
 public class MapReduce {
 	private Configuration conf = new Configuration();

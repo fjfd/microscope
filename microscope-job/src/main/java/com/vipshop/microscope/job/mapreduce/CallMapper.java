@@ -1,4 +1,4 @@
-package com.vipshop.microscope.hbase.mapreduce.picket;
+package com.vipshop.microscope.job.mapreduce;
 
 import java.io.IOException;
 import org.apache.hadoop.hbase.client.Result;

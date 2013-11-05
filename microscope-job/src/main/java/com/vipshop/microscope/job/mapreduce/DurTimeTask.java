@@ -1,4 +1,4 @@
-package com.vipshop.microscope.hbase.mapreduce.picket;
+package com.vipshop.microscope.job.mapreduce;
 
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

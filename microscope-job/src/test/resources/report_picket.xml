@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:hdp="http://www.springframework.org/schema/hadoop"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/hadoop http://www.springframework.org/schema/hadoop/spring-hadoop.xsd">
+
+
+	    
+	<bean id="task_range_1" class="com.vipshop.microscope.hbase.mapreduce.picket.MapReduce">
+	        <property name="picket_top_size" value="${top}"/>
+	        <property name="zk_port" value="${zk_port}"/>
+	        <property name="remote_user" value="${remote_user]"/>
+	        <property name="zk_quorum" value="${zk_quorum}"/>
+	        <property name="range" value="${range}"/>
+	        <property name="h_master" value="${h_master}"/>
+	        <property name="db_user" value="${db_user}"/>
+	        <property name="db_pw" value="${db_pw}"/>
+	        <property name="db_url" value="${db_url}"/>
+	</bean>
+	    
+</beans>

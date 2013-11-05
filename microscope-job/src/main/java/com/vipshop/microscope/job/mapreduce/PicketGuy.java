@@ -1,4 +1,4 @@
-package com.vipshop.microscope.hbase.mapreduce.picket;
+package com.vipshop.microscope.job.mapreduce;
 
 public class PicketGuy {
 	private String name;

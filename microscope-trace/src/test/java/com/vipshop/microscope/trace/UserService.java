@@ -2,18 +2,13 @@ package com.vipshop.microscope.trace;
 
 import java.util.concurrent.TimeUnit;
 
-import com.vipshop.microscope.trace.Trace;
-import com.vipshop.microscope.trace.TraceFactory;
 import com.vipshop.microscope.trace.span.Category;
 
 public class UserService {
 	
-	
 	static UserDao dao = new UserDao();
 	
 	public void login() {
-		Trace trace = TraceFactory.getTrace();
-
 		// time for handler logic
 		try {
 			TimeUnit.MILLISECONDS.sleep(500);
@@ -21,14 +16,22 @@ public class UserService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		trace.clientSend("cache", Category.SERVICE);
-		dao.cache();
-		trace.clientReceive();
-		
-		trace.clientSend("dao", Category.SERVICE);
-		dao.login();
-		trace.clientReceive();
+		Tracer.clientSend("cache", Category.SERVICE);
+		try {
+			dao.cache();
+		} catch (Exception e) {
+			// TODO: handle exception
+		} finally {
+			Tracer.clientReceive();
+		}
+			
+		try {
+			Tracer.clientSend("dao", Category.SERVICE);
+			dao.login();
+			Tracer.clientReceive();
+		} catch (Exception e) {
+			
+		}
 		
 	}
 }
