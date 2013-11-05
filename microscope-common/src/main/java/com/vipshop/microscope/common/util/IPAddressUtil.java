@@ -7,6 +7,14 @@ import java.nio.ByteBuffer;
 
 public class IPAddressUtil {
 	
+	public static String IPAddress() {
+        try {
+			return InetAddress.getLocalHost().getHostAddress();
+		} catch (UnknownHostException e) {
+			return "UnknownHost";
+		}
+    }
+	
 	public static int intIPAddress() {
         InetAddress inetAddress = null;
         try {
@@ -30,6 +38,10 @@ public class IPAddressUtil {
 	
 	public static short defaultPort() {
 		return 8080;
+	}
+	
+	public static void main(String[] args) throws UnknownHostException {
+		System.out.println(IPAddress());
 	}
 	
 }

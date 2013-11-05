@@ -10,11 +10,11 @@ public class HiveTestCase {
 
 		Class.forName("org.apache.hadoop.hive.jdbc.HiveDriver");
 
-		String dropSQL = "drop table javabloger";
-		String createSQL = "create table javabloger (key int, value string)";
+//		String dropSQL = "drop table javabloger";
+//		String createSQL = "create table javabloger (key int, value string)";
 		// hive插入数据支持两种方式一种：load文件，令一种为从另一个表中查询进行插入（感觉这是个鸡肋）
 		// hive是不支持insert into...values(....)这种操作的
-		String insterSQL = "LOAD DATA LOCAL INPATH '/work/hive/examples/files/kv1.txt' OVERWRITE INTO TABLE javabloger";
+//		String insterSQL = "LOAD DATA LOCAL INPATH '/work/hive/examples/files/kv1.txt' OVERWRITE INTO TABLE javabloger";
 		String querySQL = "SELECT * FROM hbase_table_1";
 
 		Connection con = DriverManager.getConnection("jdbc:hive://10.100.90.183:50031/default", "", "");
