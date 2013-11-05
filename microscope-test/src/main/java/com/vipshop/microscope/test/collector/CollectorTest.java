@@ -2,7 +2,6 @@ package com.vipshop.microscope.test.collector;
 
 import java.util.concurrent.TimeUnit;
 
-import com.vipshop.microscope.hbase.repository.Repositorys;
 import com.vipshop.microscope.test.app.UserService;
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.span.Category;
@@ -18,12 +17,8 @@ public class CollectorTest {
 		Tracer.record("responsecode", "200");
 		Tracer.clientReceive();
 		
-		TimeUnit.SECONDS.sleep(60);
+		TimeUnit.SECONDS.sleep(15);
 		
-		System.out.println(" get all trace info from hbase");
-		System.out.println(Repositorys.TRACE.findAll());
-		
-		System.exit(0);
 	}
 
 }
