@@ -54,6 +54,20 @@ public class HttpClientTest {
 			EntityUtils.consume(entity);
 		}
 	}
+	
+	@Test
+	public void testQueryTrace() throws ClientProtocolException, IOException {
+		HttpClient httpClient = new DefaultHttpClient();
+		HttpGet httpGet = new HttpGet("http://microscope.vipshop.com.qa/#/show/-7394143064602656503");
+		
+		HttpResponse response = httpClient.execute(httpGet);
+		HttpEntity entity = response.getEntity();
+		
+		if (null != entity) {
+			System.out.println(EntityUtils.toString(entity, "UTF-8"));
+			EntityUtils.consume(entity);
+		}
+	}
 
 	
 }
