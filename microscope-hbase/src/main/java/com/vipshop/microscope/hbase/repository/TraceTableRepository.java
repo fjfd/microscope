@@ -33,6 +33,7 @@ public class TraceTableRepository extends AbstraceHbaseRepository {
 	private String cf = "cf";
 
 	private byte[] CF = Bytes.toBytes(cf);
+	private byte[] CF_TYPE = Bytes.toBytes("type");
 	private byte[] CF_TRACE_ID = Bytes.toBytes("trace_id");
 	private byte[] CF_TRACE_NAME = Bytes.toBytes("trace_name");
 	private byte[] CF_START_TIMESTAMP = Bytes.toBytes("start_timestamp");
@@ -54,6 +55,7 @@ public class TraceTableRepository extends AbstraceHbaseRepository {
 			@Override
 			public TraceTable doInTable(HTableInterface table) throws Throwable {
 				Put p = new Put(Bytes.toBytes(rowKey(tableTrace)));
+				p.add(CF, CF_TYPE, Bytes.toBytes(tableTrace.getType()));
 				p.add(CF, CF_TRACE_ID, Bytes.toBytes(tableTrace.getTraceId()));
 				p.add(CF, CF_TRACE_NAME, Bytes.toBytes(tableTrace.getTraceName()));
 				p.add(CF, CF_START_TIMESTAMP, Bytes.toBytes(tableTrace.getStartTimestamp()));
@@ -73,8 +75,9 @@ public class TraceTableRepository extends AbstraceHbaseRepository {
 	 * @return
 	 */
 	private String rowKey(TraceTable tableTrace) {
-		return tableTrace.getTraceName() 
+		return tableTrace.getType()
 			   + "-" + tableTrace.getTraceId() 
+			   + "-" + tableTrace.getTraceName() 
 			   + "-" + (Long.MAX_VALUE -System.currentTimeMillis());
 	}
 	
@@ -85,6 +88,7 @@ public class TraceTableRepository extends AbstraceHbaseRepository {
 				List<Put> puts = new ArrayList<Put>();
 				for (TraceTable tableTrace : tableTraces) {
 					Put p = new Put(Bytes.toBytes(tableTrace.getTraceId()));
+					p.add(CF, CF_TYPE, Bytes.toBytes(tableTrace.getType()));
 					p.add(CF, CF_TRACE_ID, Bytes.toBytes(tableTrace.getTraceId()));
 					p.add(CF, CF_TRACE_NAME, Bytes.toBytes(tableTrace.getTraceName()));
 					p.add(CF, CF_START_TIMESTAMP, Bytes.toBytes(tableTrace.getStartTimestamp()));
@@ -114,7 +118,8 @@ public class TraceTableRepository extends AbstraceHbaseRepository {
 		return hbaseTemplate.find(tableName, cf, new RowMapper<TraceTable>() {
 			@Override
 			public TraceTable mapRow(Result result, int rowNum) throws Exception {
-				return new TraceTable(Bytes.toString(result.getValue(CF, CF_TRACE_ID)), 
+				return new TraceTable(Bytes.toString(result.getValue(CF, CF_TYPE)), 
+									  Bytes.toString(result.getValue(CF, CF_TRACE_NAME)),
 									  Bytes.toString(result.getValue(CF, CF_TRACE_NAME)),
 									  Bytes.toString(result.getValue(CF, CF_START_TIMESTAMP)),
 									  Bytes.toString(result.getValue(CF, CF_END_TIMESTAMP)),
@@ -127,7 +132,8 @@ public class TraceTableRepository extends AbstraceHbaseRepository {
 		return hbaseTemplate.get(tableName, traceId, new RowMapper<TraceTable>() {
 			@Override
 			public TraceTable mapRow(Result result, int rowNum) throws Exception {
-				return new TraceTable(Bytes.toString(result.getValue(CF, CF_TRACE_ID)), 
+				return new TraceTable(Bytes.toString(result.getValue(CF, CF_TYPE)),
+									  Bytes.toString(result.getValue(CF, CF_TRACE_ID)), 
 									  Bytes.toString(result.getValue(CF, CF_TRACE_NAME)),
 									  Bytes.toString(result.getValue(CF, CF_START_TIMESTAMP)),
 									  Bytes.toString(result.getValue(CF, CF_END_TIMESTAMP)),
@@ -150,7 +156,8 @@ public class TraceTableRepository extends AbstraceHbaseRepository {
 		return hbaseTemplate.find(tableName, scan, new RowMapper<TraceTable>() {
 			@Override
 			public TraceTable mapRow(Result result, int rowNum) throws Exception {
-				return new TraceTable(Bytes.toString(result.getValue(CF, CF_TRACE_ID)), 
+				return new TraceTable(Bytes.toString(result.getValue(CF, CF_TYPE)),
+									  Bytes.toString(result.getValue(CF, CF_TRACE_ID)), 
 									  Bytes.toString(result.getValue(CF, CF_TRACE_NAME)),
 									  Bytes.toString(result.getValue(CF, CF_START_TIMESTAMP)),
 									  Bytes.toString(result.getValue(CF, CF_END_TIMESTAMP)),

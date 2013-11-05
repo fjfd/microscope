@@ -7,12 +7,12 @@ public class TraceTable implements Serializable {
 	
 	private static final long serialVersionUID = -2609783475042433846L;
 	
+	private String type;
 	private String traceId;
 	private String traceName;
 	private String startTimestamp;
 	private String endTimestamp;
 	private String duration;
-	private String type;
 	
 	public String getStartTimestamp() {
 		return startTimestamp;
@@ -56,14 +56,14 @@ public class TraceTable implements Serializable {
 		this.duration = duration;
 	}
 	
-	public TraceTable(String traceId, String traceName, String startTimestamp, String endTimestamp, String duration, String type) {
+	public TraceTable(String type, String traceId, String traceName, String startTimestamp, String endTimestamp, String duration) {
 		super();
+		this.type = type;
 		this.traceId = traceId;
 		this.traceName = traceName;
 		this.startTimestamp = startTimestamp;
 		this.endTimestamp = endTimestamp;
 		this.duration = duration;
-		this.type = type;
 	}
 
 	public String getTraceId() {
@@ -74,17 +74,18 @@ public class TraceTable implements Serializable {
 		return traceName;
 	}
 
-	@Override
-	public String toString() {
-		return "TableTrace [traceId=" + traceId + ", traceName=" + traceName + "]";
-	}
-
 	public String getType() {
 		return type;
 	}
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	@Override
+	public String toString() {
+		return "TraceTable [type=" + type + ", traceId=" + traceId + ", traceName=" + traceName + ", startTimestamp=" + startTimestamp + ", endTimestamp=" + endTimestamp + ", duration=" + duration
+				+ "]";
 	}
 	
 }

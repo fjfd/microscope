@@ -51,7 +51,7 @@ public class TraceMessageBuilder {
 			String duration = String.valueOf(endTimestamp - startTimestamp);
 			String type = span.getType();
 			
-			return new TraceTable(traceId, traceName, String.valueOf(startTimestamp), String.valueOf(endTimestamp), duration, type);
+			return new TraceTable(type, traceId, traceName, String.valueOf(startTimestamp), String.valueOf(endTimestamp), duration);
 		}
 		
 		return null;
