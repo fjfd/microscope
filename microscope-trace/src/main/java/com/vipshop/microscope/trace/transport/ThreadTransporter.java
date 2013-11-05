@@ -8,7 +8,7 @@ import org.apache.thrift.TException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.vipshop.microscope.common.codec.Encoder;
+import com.vipshop.microscope.common.codec.MessageCodec;
 import com.vipshop.microscope.thrift.LogEntry;
 import com.vipshop.microscope.thrift.Span;
 import com.vipshop.microscope.trace.Constant;
@@ -27,7 +27,7 @@ public class ThreadTransporter implements Runnable {
 	private final ThriftClient transporter = new ThriftClient();
 	
 	private final List<LogEntry> logEntries = new ArrayList<LogEntry>();
-	private final Encoder encode = new Encoder();
+	private final MessageCodec encode = new MessageCodec();
 	
 	private final int MAX_BATCH_SIZE = Constant.MAX_BATCH_SIZE;
 	private final int MAX_EMPTY_SIZE = Constant.MAX_EMPTY_SIZE;

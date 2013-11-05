@@ -5,7 +5,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class ThreadPoolProvider {
+public class ThreadPoolUtil {
 	
     public static ExecutorService newFixedThreadPool(int nThreads, String groupName) {
         return Executors.newFixedThreadPool(nThreads, new DefaultThreadFactory(groupName));

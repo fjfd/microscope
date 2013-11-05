@@ -36,12 +36,4 @@ public class IPAddressUtil {
         return ByteBuffer.wrap(inetAddress.getAddress()).getInt();
     }
 	
-	public static short defaultPort() {
-		return 8080;
-	}
-	
-	public static void main(String[] args) throws UnknownHostException {
-		System.out.println(IPAddress());
-	}
-	
 }

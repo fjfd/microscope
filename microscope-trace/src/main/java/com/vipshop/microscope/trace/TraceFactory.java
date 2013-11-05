@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.http.HttpRequest;
 import org.apache.http.client.methods.HttpUriRequest;
 
-import com.vipshop.microscope.common.util.ThreadPoolProvider;
+import com.vipshop.microscope.common.util.ThreadPoolUtil;
 import com.vipshop.microscope.trace.span.SpanContext;
 import com.vipshop.microscope.trace.span.SpanId;
 import com.vipshop.microscope.trace.transport.ThreadTransporter;
@@ -31,7 +31,7 @@ public class TraceFactory {
 	 * Use java thread send message to collector.
 	 */
 	static {
-		ExecutorService executor = ThreadPoolProvider.newSingleDaemonThreadExecutor("transporter-pool");
+		ExecutorService executor = ThreadPoolUtil.newSingleDaemonThreadExecutor("transporter-pool");
 		executor.execute(new ThreadTransporter());
 	}
 

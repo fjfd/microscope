@@ -10,7 +10,14 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
-public class HttpClientExecutor {
+/**
+ * A util class to execute HTTP request.
+ * 
+ * 
+ * @author Xu Fei
+ * @version 1.0
+ */
+public class HttpClientUtil {
 	
 	public static String request(String url) throws ClientProtocolException, IOException {
 		HttpClient httpClient = new DefaultHttpClient();
@@ -22,7 +29,6 @@ public class HttpClientExecutor {
 		if (null != entity) {
 			return EntityUtils.toString(entity, "UTF-8");
 		}
-		
 		return null;
 	}
 }

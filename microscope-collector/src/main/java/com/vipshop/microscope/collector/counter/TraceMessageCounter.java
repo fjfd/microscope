@@ -4,7 +4,7 @@ import org.apache.thrift.TException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.vipshop.microscope.common.codec.Encoder;
+import com.vipshop.microscope.common.codec.MessageCodec;
 import com.vipshop.microscope.mysql.repository.MsgReportRepository;
 import com.vipshop.microscope.mysql.repository.MySQLRepositorys;
 import com.vipshop.microscope.thrift.LogEntry;
@@ -14,7 +14,7 @@ public class TraceMessageCounter {
 	
 	private static final Logger logger = LoggerFactory.getLogger(TraceMessageCounter.class);
 	
-	private final Encoder encoder = new Encoder();
+	private final MessageCodec encoder = new MessageCodec();
 	
 	private final MsgReportRepository msgStatRepository = MySQLRepositorys.MSG_STAT_REPOSITORY;
 	
