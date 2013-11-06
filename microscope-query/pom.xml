@@ -6,7 +6,7 @@
 		<artifactId>microscope</artifactId>
 		<version>0.1.0</version>
 	</parent>
-	
+
 	<artifactId>microscope-query</artifactId>
 	<packaging>war</packaging>
 
@@ -40,6 +40,21 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-server</artifactId>
+			<version>8.0.0.RC0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-servlet</artifactId>
+			<version>8.0.0.RC0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-webapp</artifactId>
+			<version>8.0.0.RC0</version>
 		</dependency>
 	</dependencies>
 

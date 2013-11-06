@@ -37,6 +37,17 @@
 			</exclusions>
 		</dependency>
 		<dependency>
+			<groupId>com.vipshop</groupId>
+			<artifactId>microscope-query</artifactId>
+			<version>0.1.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.httpcomponents</groupId>
+					<artifactId>httpclient</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
 			<version>3.2.4.RELEASE</version>
