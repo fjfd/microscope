@@ -109,6 +109,14 @@ public class SpanBuilder {
 		spanStack.push(span);
 	}
 	
+	public void setResultCode(String result) {
+		/*
+    	 * remove span from stack
+    	 */
+		Span span = spanStack.peek();
+		span.setResultCode(result);
+	}
+	
 	/**
      * This process receive annotation.
      * 

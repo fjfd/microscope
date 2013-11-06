@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 
 import com.vipshop.microscope.collector.server.CollectorServer;
 import com.vipshop.microscope.test.app.UserController;
+import com.vipshop.microscope.trace.ResultCode;
 import com.vipshop.microscope.trace.Trace;
 import com.vipshop.microscope.trace.TraceFactory;
 import com.vipshop.microscope.trace.Tracer;
@@ -27,6 +28,20 @@ public class TraceTest {
 	@AfterClass
 	public void tearDown() {
 		System.exit(0);
+	}
+	
+	@Test
+	public void traceUseExample() throws InterruptedException {
+		Tracer.clientSend("example", Category.METHOD);
+		try {
+			new UserController().login();
+			throw new RuntimeException();
+		} catch (Exception e) {
+			Tracer.setResultCode(ResultCode.EXCEPTION);
+		} finally {
+			Tracer.clientReceive();
+		}
+		TimeUnit.SECONDS.sleep(10);
 	}
 	
 	/**

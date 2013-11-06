@@ -31,6 +31,18 @@ public class Tracer {
 	}
 	
 	/**
+	 * Set result code when exception happens.
+	 * 
+	 * @param e
+	 */
+	public static void setResultCode(String result) {
+		Trace trace = TraceFactory.getContext();
+		if (trace != null) {
+			trace.setResutlCode(result);
+		}
+	}
+	
+	/**
 	 * For httpclient 4.2 send request
 	 * 
 	 * @param request
@@ -66,7 +78,7 @@ public class Tracer {
 	 * @param value
 	 */
 	public static void record(String key, String value) {
-		Trace trace = TraceFactory.getTraceForRecord();
+		Trace trace = TraceFactory.getContext();
 		if (trace != null) {
 			trace.record(key, value);
 		}
@@ -81,6 +93,11 @@ public class Tracer {
 		return TraceFactory.getContext();
 	}
 	
+	/**
+	 * Set context
+	 * 
+	 * @param trace
+	 */
 	public static void setContext(Trace trace) {
 		TraceFactory.setContext(trace);
 	}
@@ -93,6 +110,7 @@ public class Tracer {
 	public static long getTraceId() {
 		return TraceFactory.getTraceId();
 	}
+	
 	
 	private static String getShortURL(HttpUriRequest request) {
 		return request.getURI().getPath();

@@ -60,6 +60,13 @@ public class Trace {
 		spanBuilder.clientSend(spanName, category);
 	}
 	
+	public void setResutlCode(String result) {
+		if (Switch.isClose()) {
+			return;
+		}
+		spanBuilder.setResultCode(result);
+	}
+	
 	/**
 	 * Complete a span.
 	 */
