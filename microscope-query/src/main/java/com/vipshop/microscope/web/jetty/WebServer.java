@@ -16,7 +16,7 @@ import org.eclipse.jetty.webapp.*;
  */
 public class WebServer implements Runnable {
 
-	private static final String LOG_PATH = "./var/logs/access/yyyy_mm_dd.request.log";
+	private static final String LOG_PATH = "./target/logs/access/yyyy_mm_dd.request.log";
 
 	private static final String WEB_XML = "WEB-INF/web.xml";
 	private static final String CLASS_ONLY_AVAILABLE_IN_IDE = "com.sjl.IDE";
