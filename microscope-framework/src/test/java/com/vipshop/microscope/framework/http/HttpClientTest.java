@@ -1,4 +1,4 @@
-package com.vipshop.microscope.test.trace;
+package com.vipshop.microscope.framework.http;
 
 import java.io.IOException;
 
