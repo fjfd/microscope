@@ -7,8 +7,8 @@
 		<version>0.1.0</version>
 	</parent>
 	<artifactId>microscope-framework</artifactId>
-	
-		<dependencies>
+
+	<dependencies>
 		<dependency>
 			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-collector</artifactId>
@@ -61,6 +61,12 @@
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 			<version>4.2</version>
+			<classifier>microscope</classifier>
 		</dependency>
-		</dependencies>
+		<dependency>
+			<groupId>struts</groupId>
+			<artifactId>struts</artifactId>
+			<version>1.2.8</version>
+		</dependency>
+	</dependencies>
 </project>

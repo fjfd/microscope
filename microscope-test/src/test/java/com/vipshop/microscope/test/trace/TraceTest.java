@@ -27,10 +27,9 @@ public class TraceTest {
 	
 	@AfterClass
 	public void tearDown() {
-		System.exit(0);
 	}
 	
-	@Test
+	@Test(priority = 0)
 	public void traceUseExample() throws InterruptedException {
 		Tracer.clientSend("example", Category.METHOD);
 		try {
@@ -67,12 +66,17 @@ public class TraceTest {
 	public void testTraceStartNewThread() throws InterruptedException {
 		CountDownLatch startSignal = new CountDownLatch(1);
 		Tracer.clientSend("user-login-new-thread", Category.ACTION);
-		Trace contexTrace = Tracer.getContext();
-		new Thread(new UserController(startSignal, contexTrace)).start();
-		startSignal.await();
-		Tracer.clientReceive();
+		try {
+			Trace contexTrace = Tracer.getContext();
+			new Thread(new UserController(startSignal, contexTrace)).start();
+			startSignal.await();
+		} catch (Exception e) {
+			Tracer.setResultCode(ResultCode.EXCEPTION);
+		} finally {
+			Tracer.clientReceive();
+		}
 		
-		TimeUnit.SECONDS.sleep(50);
+		TimeUnit.SECONDS.sleep(10);
 	}
 	
 }
