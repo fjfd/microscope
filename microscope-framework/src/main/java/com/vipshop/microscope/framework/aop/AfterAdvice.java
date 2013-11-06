@@ -1,4 +1,4 @@
-package com.vipshop.microscope.test.aop;
+package com.vipshop.microscope.framework.aop;
 
 import java.lang.reflect.Method;
 

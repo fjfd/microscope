@@ -1,4 +1,4 @@
-package com.vipshop.microscope.test.interceptor;
+package com.vipshop.microscope.framework.spring;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

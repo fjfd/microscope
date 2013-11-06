@@ -1,4 +1,4 @@
-package com.vipshop.microscope.test.interceptor;
+package com.vipshop.microscope.framework.mybatis;
 
 import java.util.Properties;
 

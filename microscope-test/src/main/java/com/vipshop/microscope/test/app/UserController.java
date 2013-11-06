@@ -32,7 +32,6 @@ public class UserController implements Runnable {
 	public void run() {
 		TraceFactory.setContext(contexTrace);
 		Trace trace = TraceFactory.getTrace();
-
 		trace.clientSend("login", Category.ACTION);
 		userService.login();
 		trace.clientReceive();

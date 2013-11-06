@@ -18,9 +18,9 @@ public class TraceTest {
 			throw new RuntimeException();
 		} catch (Exception e) {
 			Tracer.setResultCode(ResultCode.EXCEPTION);
+		} finally {
+			Tracer.clientReceive();
 		}
-		
-		Tracer.clientReceive();
 		
 		TimeUnit.SECONDS.sleep(10);
 	}

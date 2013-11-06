@@ -29,6 +29,7 @@
 		<module>microscope-query</module>
 		<module>microscope-test</module>
 		<module>microscope-job</module>
+		<module>microscope-framework</module>
 		<module>microscope-trace</module>
 	</modules>
 

@@ -1,4 +1,4 @@
-package com.vipshop.microscope.test.aop;
+package com.vipshop.microscope.framework.aop;
 
 public class StudentImpl implements Student {
 
