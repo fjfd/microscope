@@ -57,7 +57,7 @@ public class TraceTest {
 		startSignal.await();
 		Tracer.clientReceive();
 		
-		TimeUnit.SECONDS.sleep(5);
+		TimeUnit.SECONDS.sleep(50);
 	}
 	
 }

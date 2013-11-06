@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class HiveTestCase {
+public class HiveJdbcClient {
 	public static void main(String[] args) throws Exception {
 
 		Class.forName("org.apache.hadoop.hive.jdbc.HiveDriver");
