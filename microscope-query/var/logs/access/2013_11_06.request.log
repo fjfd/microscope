@@ -3,3 +3,15 @@
 127.0.0.1 -  -  [06/十一月/2013:07:57:03 +0000] "GET /trace/queryCondition?callback=jQuery11020021555292898187584_1382520578214&_=1382520578215 HTTP/1.1" 200 154  2151
 127.0.0.1 -  -  [06/十一月/2013:07:59:32 +0000] "GET /trace/queryCondition?callback=jQuery11020021555292898187584_1382520578214&_=1382520578215 HTTP/1.1" 200 154  185
 127.0.0.1 -  -  [06/十一月/2013:08:00:42 +0000] "GET /trace/queryCondition?callback=jQuery11020021555292898187584_1382520578214&_=1382520578215 HTTP/1.1" 200 154  184
+127.0.0.1 -  -  [06/十一月/2013:08:06:28 +0000] "GET /trace/queryCondition?callback=jQuery11020021555292898187584_1382520578214&_=1382520578215 HTTP/1.1" 200 154  183
+127.0.0.1 -  -  [06/十一月/2013:08:06:47 +0000] "GET /trace/traceList?appName=picket&traceName=order&startTime=1380168116362000&endTime=1380168116362000&limit=100&callback=alfjdsfadfdk HTTP/1.1" 200 31  287
+127.0.0.1 -  -  [06/十一月/2013:08:08:32 +0000] "GET /trace/traceSpan?traceId=-4403393697944183921&callback=%22alfjdsfadfdk%22 HTTP/1.1" 500 6067  199
+127.0.0.1 -  -  [06/十一月/2013:08:15:08 +0000] "GET /trace/queryCondition?callback=jQuery11020021555292898187584 HTTP/1.1" 200 140  2606
+127.0.0.1 -  -  [06/十一月/2013:08:15:11 +0000] "GET /trace/traceList?appName=picket&traceName=order&startTime=1380168116362000&endTime=1380168116362000&limit=100&callback=jQuery11020021555292898187584 HTTP/1.1" 200 48  250
+127.0.0.1 -  -  [06/十一月/2013:08:15:11 +0000] "GET /trace/traceSpan?traceId=-4403393697944183921&callback=jQuery11020021555292898187584 HTTP/1.1" 500 6067  167
+127.0.0.1 -  -  [06/十一月/2013:08:17:44 +0000] "GET /trace/queryCondition?callback=jQuery11020021555292898187584 HTTP/1.1" 200 140  2163
+127.0.0.1 -  -  [06/十一月/2013:08:17:46 +0000] "GET /trace/traceList?appName=picket&traceName=order&startTime=1380168116362000&endTime=1380168116362000&limit=100&callback=jQuery11020021555292898187584 HTTP/1.1" 200 48  253
+127.0.0.1 -  -  [06/十一月/2013:08:17:46 +0000] "GET /trace/traceSpan?traceId=-4403393697944183921&callback=jQuery11020021555292898187584 HTTP/1.1" 500 6067  164
+127.0.0.1 -  -  [06/十一月/2013:08:23:25 +0000] "GET /trace/queryCondition?callback=jQuery11020021555292898187584 HTTP/1.1" 200 140  2206
+127.0.0.1 -  -  [06/十一月/2013:08:23:28 +0000] "GET /trace/traceList?appName=picket&traceName=order&startTime=1380168116362000&endTime=1380168116362000&limit=100&callback=jQuery11020021555292898187584 HTTP/1.1" 200 48  252
+127.0.0.1 -  -  [06/十一月/2013:08:23:28 +0000] "GET /trace/traceSpan?traceId=-4403393697944183921&callback=jQuery11020021555292898187584 HTTP/1.1" 500 6067  166
