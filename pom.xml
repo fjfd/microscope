@@ -23,13 +23,13 @@
 	<modules>
 		<module>microscope-collector</module>
 		<module>microscope-common</module>
+		<module>microscope-framework</module>
 		<module>microscope-gen</module>
 		<module>microscope-hbase</module>
+		<module>microscope-job</module>
 		<module>microscope-mysql</module>
 		<module>microscope-query</module>
 		<module>microscope-test</module>
-		<module>microscope-job</module>
-		<module>microscope-framework</module>
 		<module>microscope-trace</module>
 	</modules>
 
@@ -42,7 +42,7 @@
 		</snapshotRepository>
 		<repository>
 			<id>releases</id>
-			<url>http://10.101.0.2:8081/nexus/content/repositories/releases</url>
+			<url>http://10.101.0.2:8081/nexus/content/repositories/thirdparty/</url>
 		</repository>
 	</distributionManagement>
 
