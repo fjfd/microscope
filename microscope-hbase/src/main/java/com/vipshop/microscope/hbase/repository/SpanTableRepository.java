@@ -11,8 +11,6 @@ import org.apache.hadoop.hbase.client.HTableInterface;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.util.Bytes;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.hadoop.hbase.RowMapper;
 import org.springframework.data.hadoop.hbase.TableCallback;
 import org.springframework.stereotype.Repository;
@@ -22,8 +20,6 @@ import com.vipshop.microscope.thrift.Span;
 
 @Repository
 public class SpanTableRepository extends AbstraceHbaseRepository {
-
-	private static final Logger logger = LoggerFactory.getLogger(SpanTableRepository.class);
 
 	private String tableName = "span";
 	private String cf = "cf";
@@ -39,7 +35,6 @@ public class SpanTableRepository extends AbstraceHbaseRepository {
 	}
 
 	public void save(final Span span) {
-		logger.info("insert span to hbase " + span);
 		hbaseTemplate.execute(tableName, new TableCallback<Span>() {
 			@Override
 			public Span doInTable(HTableInterface table) throws Throwable {

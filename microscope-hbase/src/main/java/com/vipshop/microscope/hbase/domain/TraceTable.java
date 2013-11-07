@@ -15,7 +15,10 @@ public class TraceTable implements Serializable, Comparable<TraceTable> {
 	private String startTimestamp;
 	private String endTimestamp;
 	private String duration;
+	private String resultCode;
+	private String IPAdress;
 	
+
 	public String getStartTimestamp() {
 		return startTimestamp;
 	}
@@ -70,6 +73,19 @@ public class TraceTable implements Serializable, Comparable<TraceTable> {
 		this.duration = duration;
 	}
 
+	public TraceTable(String appName, String type, String traceId, String traceName, String startTimestamp, String endTimestamp, String duration, String resultCode, String iPAdress) {
+		super();
+		this.appName = appName;
+		this.type = type;
+		this.traceId = traceId;
+		this.traceName = traceName;
+		this.startTimestamp = startTimestamp;
+		this.endTimestamp = endTimestamp;
+		this.duration = duration;
+		this.resultCode = resultCode;
+		this.IPAdress = iPAdress;
+	}
+
 	public String getTraceId() {
 		return traceId;
 	}
@@ -120,6 +136,22 @@ public class TraceTable implements Serializable, Comparable<TraceTable> {
 	public String toString() {
 		return "TraceTable [appName=" + appName + ", type=" + type + ", traceId=" + traceId + ", traceName=" + traceName + ", startTimestamp=" + startTimestamp + ", endTimestamp=" + endTimestamp
 				+ ", duration=" + duration + "]";
+	}
+
+	public String getResultCode() {
+		return resultCode;
+	}
+
+	public void setResultCode(String resultCode) {
+		this.resultCode = resultCode;
+	}
+
+	public String getIPAdress() {
+		return IPAdress;
+	}
+
+	public void setIPAdress(String iPAdress) {
+		IPAdress = iPAdress;
 	}
 
 }

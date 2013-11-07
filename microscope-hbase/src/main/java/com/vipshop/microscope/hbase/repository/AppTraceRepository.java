@@ -14,8 +14,6 @@ import org.apache.hadoop.hbase.client.HTableInterface;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.util.Bytes;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.hadoop.hbase.RowMapper;
 import org.springframework.data.hadoop.hbase.TableCallback;
 import org.springframework.stereotype.Repository;
@@ -24,8 +22,6 @@ import com.vipshop.microscope.hbase.domain.AppTrace;
 
 @Repository
 public class AppTraceRepository extends AbstraceHbaseRepository {
-	
-	private static final Logger logger = LoggerFactory.getLogger(AppTraceRepository.class);
 	
 	private String tableName = "app";
 	private String cf_app = "cf_app";
@@ -54,9 +50,6 @@ public class AppTraceRepository extends AbstraceHbaseRepository {
 	}
 	
 	public void save(final AppTrace app) {
-		
-		logger.info("insert app to hbase " + app);
-		
 		hbaseTemplate.execute(tableName, new TableCallback<AppTrace>() {
 			@Override
 			public AppTrace doInTable(HTableInterface table) throws Throwable {
