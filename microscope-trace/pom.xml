@@ -25,41 +25,18 @@
 			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-common</artifactId>
 			<version>0.1.0</version>
-			<exclusions>
-				<exclusion> 
-					<groupId>org.apache.httpcomponents</groupId>
-					<artifactId>httpclient</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-gen</artifactId>
 			<version>0.1.0</version>
-			<exclusions>
-				<exclusion> 
-					<groupId>org.apache.httpcomponents</groupId>
-					<artifactId>httpclient</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-collector</artifactId>
 			<version>0.1.0</version>
-			<exclusions>
-				<exclusion> 
-					<groupId>org.apache.httpcomponents</groupId>
-					<artifactId>httpclient</artifactId>
-				</exclusion>
-			</exclusions>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-			<version>4.2</version>
-			<classifier>microscope</classifier>
-		</dependency>
 	</dependencies>
+	
 </project>
