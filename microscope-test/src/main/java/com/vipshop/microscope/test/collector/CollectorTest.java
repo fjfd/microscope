@@ -1,26 +1,29 @@
 package com.vipshop.microscope.test.collector;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import com.vipshop.microscope.hbase.repository.Repositorys;
-import com.vipshop.microscope.test.app.UserService;
+import org.apache.http.client.ClientProtocolException;
+
+import com.vipshop.microscope.test.app.UserController;
+import com.vipshop.microscope.trace.ResultCode;
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.span.Category;
 
 public class CollectorTest {
 
-	public static void main(String[] args) throws InterruptedException {
+	public static void main(String[] args) throws InterruptedException, ClientProtocolException, IOException {
 		
-		Repositorys.drop();
-		
-		Tracer.clientSend("order", Category.ACTION);
-		new UserService().login();
-		
-		Tracer.record("url", "http://zipkin.web:8080/trace/queryCondition?callback=%22alfjdsfadfdk%22");
-		Tracer.record("responsecode", "200");
-		Tracer.clientReceive();
-		
-		TimeUnit.SECONDS.sleep(15);
+		// send data
+		Tracer.clientSend("example", Category.METHOD);
+		try {
+			new UserController().login();
+		} catch (Exception e) {
+			Tracer.setResultCode(ResultCode.EXCEPTION);
+		} finally {
+			Tracer.clientReceive();
+		}
+		TimeUnit.SECONDS.sleep(5);
 		
 	}
 
