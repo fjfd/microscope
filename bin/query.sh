@@ -1,1 +1,1 @@
-java -Dport=8888 -jar microscope-query-0.1.0.jar
+nohup java -Dport=8888 -jar microscope-query-0.1.0.jar &

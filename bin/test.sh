@@ -1,3 +1,3 @@
 # test collector
 
-java -jar microscope-test-0.0.1.jar
+java -jar microscope-test-0.1.0.jar
