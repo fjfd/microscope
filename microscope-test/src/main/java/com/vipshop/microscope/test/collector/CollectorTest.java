@@ -2,6 +2,7 @@ package com.vipshop.microscope.test.collector;
 
 import java.util.concurrent.TimeUnit;
 
+import com.vipshop.microscope.hbase.repository.Repositorys;
 import com.vipshop.microscope.test.app.UserService;
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.span.Category;
@@ -9,6 +10,8 @@ import com.vipshop.microscope.trace.span.Category;
 public class CollectorTest {
 
 	public static void main(String[] args) throws InterruptedException {
+		
+		Repositorys.drop();
 		
 		Tracer.clientSend("order", Category.ACTION);
 		new UserService().login();
