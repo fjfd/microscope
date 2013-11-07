@@ -8,6 +8,7 @@ public class TraceTable implements Serializable, Comparable<TraceTable> {
 	
 	private static final long serialVersionUID = -2609783475042433846L;
 	
+	private String appName;
 	private String type;
 	private String traceId;
 	private String traceName;
@@ -47,9 +48,10 @@ public class TraceTable implements Serializable, Comparable<TraceTable> {
 		this.traceId = traceId;
 		this.traceName = traceName;
 	}
-	
-	public TraceTable(String traceId, String traceName, String startTimestamp, String endTimestamp, String duration) {
+
+	public TraceTable(String type, String traceId, String traceName, String startTimestamp, String endTimestamp, String duration) {
 		super();
+		this.type = type;
 		this.traceId = traceId;
 		this.traceName = traceName;
 		this.startTimestamp = startTimestamp;
@@ -57,8 +59,9 @@ public class TraceTable implements Serializable, Comparable<TraceTable> {
 		this.duration = duration;
 	}
 	
-	public TraceTable(String type, String traceId, String traceName, String startTimestamp, String endTimestamp, String duration) {
+	public TraceTable(String appName, String type, String traceId, String traceName, String startTimestamp, String endTimestamp, String duration) {
 		super();
+		this.appName = appName;
 		this.type = type;
 		this.traceId = traceId;
 		this.traceName = traceName;
@@ -83,11 +86,6 @@ public class TraceTable implements Serializable, Comparable<TraceTable> {
 		this.type = type;
 	}
 
-	@Override
-	public String toString() {
-		return "TraceTable [type=" + type + ", traceId=" + traceId + ", traceName=" + traceName + ", startTimestamp=" + startTimestamp + ", endTimestamp=" + endTimestamp + ", duration=" + duration
-				+ "]";
-	}
 
 	@Override
 	public int compareTo(TraceTable o) {
@@ -109,5 +107,19 @@ public class TraceTable implements Serializable, Comparable<TraceTable> {
 		}
 		return sum / tableTraces.size() / 1000;
 	}
+
+	public String getAppName() {
+		return appName;
+	}
+
+	public void setAppName(String appName) {
+		this.appName = appName;
+	}
 	
+	@Override
+	public String toString() {
+		return "TraceTable [appName=" + appName + ", type=" + type + ", traceId=" + traceId + ", traceName=" + traceName + ", startTimestamp=" + startTimestamp + ", endTimestamp=" + endTimestamp
+				+ ", duration=" + duration + "]";
+	}
+
 }

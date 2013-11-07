@@ -50,8 +50,9 @@ public class TraceMessageBuilder {
 			long endTimestamp = endAnnotation.getTimestamp();
 			String duration = String.valueOf(endTimestamp - startTimestamp);
 			String type = span.getType();
+			String appName = span.getApp_name();
 			
-			return new TraceTable(type, traceId, traceName, String.valueOf(startTimestamp), String.valueOf(endTimestamp), duration);
+			return new TraceTable(appName, type, traceId, traceName, String.valueOf(startTimestamp), String.valueOf(endTimestamp), duration);
 		}
 		
 		return null;

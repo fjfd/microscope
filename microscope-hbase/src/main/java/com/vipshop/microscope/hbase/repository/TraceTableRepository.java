@@ -76,6 +76,7 @@ public class TraceTableRepository extends AbstraceHbaseRepository {
 	 */
 	private String rowKey(TraceTable tableTrace) {
 		return tableTrace.getType()
+			   + "-" + tableTrace.getAppName() 
 			   + "-" + tableTrace.getTraceId() 
 			   + "-" + tableTrace.getTraceName() 
 			   + "-" + (Long.MAX_VALUE -System.currentTimeMillis());
