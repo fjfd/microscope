@@ -28,7 +28,7 @@ public class WebServer implements Runnable {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		new WebServer(8080).start();
+		new WebServer(8888).start();
 	}
 
 	private Server server;
