@@ -9,25 +9,21 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import com.vipshop.microscope.web.jetty.WebServer;
 
 public class HttpClientTest {
 	
-	WebServer webServer = new WebServer(8080);
-	
-	@BeforeClass
-	public void setUpBeforeClass() throws Exception {
-		webServer.start();
-	}
-	
-	@AfterClass
-	public void tearDownAfterClass() throws Exception {
-		webServer.stop();
-	}
+//	WebServer webServer = new WebServer(8080);
+//	
+//	@BeforeClass
+//	public void setUpBeforeClass() throws Exception {
+//		webServer.start();
+//	}
+//	
+//	@AfterClass
+//	public void tearDownAfterClass() throws Exception {
+//		webServer.stop();
+//	}
 	
 	
 	@Test

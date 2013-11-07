@@ -42,7 +42,7 @@
 		</snapshotRepository>
 		<repository>
 			<id>releases</id>
-			<url>http://10.101.0.2:8081/nexus/content/repositories/thirdparty/</url>
+			<url>http://10.101.0.2:8081/nexus/content/repositories/releases</url>
 		</repository>
 	</distributionManagement>
 

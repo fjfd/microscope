@@ -36,17 +36,6 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<dependency>
-			<groupId>com.vipshop</groupId>
-			<artifactId>microscope-query</artifactId>
-			<version>0.1.0</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.apache.httpcomponents</groupId>
-					<artifactId>httpclient</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
 	</dependencies>
 
 	<build>

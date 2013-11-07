@@ -9,18 +9,16 @@ import org.testng.annotations.Test;
 
 import com.vipshop.microscope.collector.server.CollectorServer;
 import com.vipshop.microscope.common.util.HttpClientUtil;
-import com.vipshop.microscope.test.app.UserController;
 import com.vipshop.microscope.trace.ResultCode;
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.span.Category;
-import com.vipshop.microscope.web.jetty.WebServer;
 
 public class ExampleTest {
 	
 	@BeforeClass
 	public void setUp() throws Exception {
 		new Thread(new CollectorServer()).start();
-		new WebServer(8080).start();
+//		new WebServer(8080).start();
 	}
 	
 	@Test
