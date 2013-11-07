@@ -28,7 +28,12 @@ public class WebServer implements Runnable {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		new WebServer(8888).start();
+		int port = 8080;
+		String newPort = System.getProperty("port");
+		if (newPort != null) {
+			port = Integer.valueOf(newPort);
+		}
+		new WebServer(port).start();
 	}
 
 	private Server server;
