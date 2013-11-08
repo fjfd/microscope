@@ -1,6 +1,6 @@
 package com.vipshop.microscope.hive;
 
-public class HQLBuilder {
+public class HiveRepositoryFactory {
 	
 	public static String callTimeSQL() {
 		
