@@ -71,7 +71,7 @@ public class TraceMessageAnalyzer {
 				previous.setMax(duration);
 			}
 			
-			int avg = (int) ((previous.getAvg() + duration) / previous.getTotalCount());
+			int avg = (int) ((previous.getAvg() + duration) / 2);
 			previous.setAvg(avg);
 			
 			if (startTime < previous.getStartTime()) {
