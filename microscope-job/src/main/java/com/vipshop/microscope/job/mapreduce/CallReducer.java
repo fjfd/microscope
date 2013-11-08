@@ -8,6 +8,7 @@ import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
+@SuppressWarnings("unused")
 public class CallReducer extends Reducer<Text, Text, TraceOut, NullWritable> {
 	private CallList clist = new CallList();
 
@@ -19,6 +20,7 @@ public class CallReducer extends Reducer<Text, Text, TraceOut, NullWritable> {
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	protected void cleanup(Reducer<Text, Text, TraceOut, NullWritable>.Context context) {
 		int size = Integer.parseInt(context.getConfiguration().get("picket_top_size"));
 		if (null != this.clist) {

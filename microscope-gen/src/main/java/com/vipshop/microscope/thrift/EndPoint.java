@@ -6,444 +6,440 @@
  */
 package com.vipshop.microscope.thrift;
 
+import java.util.BitSet;
+import java.util.Collections;
+import java.util.EnumMap;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.thrift.protocol.TTupleProtocol;
 import org.apache.thrift.scheme.IScheme;
 import org.apache.thrift.scheme.SchemeFactory;
 import org.apache.thrift.scheme.StandardScheme;
-
 import org.apache.thrift.scheme.TupleScheme;
-import org.apache.thrift.protocol.TTupleProtocol;
-import org.apache.thrift.protocol.TProtocolException;
-import org.apache.thrift.EncodingUtils;
-import org.apache.thrift.TException;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.EnumMap;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.EnumSet;
-import java.util.Collections;
-import java.util.BitSet;
-import java.nio.ByteBuffer;
-import java.util.Arrays;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class EndPoint implements org.apache.thrift.TBase<EndPoint, EndPoint._Fields>, java.io.Serializable, Cloneable {
-  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("EndPoint");
 
-  private static final org.apache.thrift.protocol.TField VALUES_FIELD_DESC = new org.apache.thrift.protocol.TField("values", org.apache.thrift.protocol.TType.MAP, (short)1);
+	private static final long serialVersionUID = -7934247153886871380L;
 
-  private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-  static {
-    schemes.put(StandardScheme.class, new EndPointStandardSchemeFactory());
-    schemes.put(TupleScheme.class, new EndPointTupleSchemeFactory());
-  }
+	private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("EndPoint");
 
-  public Map<String,String> values; // required
+	private static final org.apache.thrift.protocol.TField VALUES_FIELD_DESC = new org.apache.thrift.protocol.TField("values", org.apache.thrift.protocol.TType.MAP, (short) 1);
 
-  /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-  public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-    VALUES((short)1, "values");
+	private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
+	static {
+		schemes.put(StandardScheme.class, new EndPointStandardSchemeFactory());
+		schemes.put(TupleScheme.class, new EndPointTupleSchemeFactory());
+	}
 
-    private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
+	public Map<String, String> values; // required
 
-    static {
-      for (_Fields field : EnumSet.allOf(_Fields.class)) {
-        byName.put(field.getFieldName(), field);
-      }
-    }
+	/**
+	 * The set of fields this struct contains, along with convenience methods
+	 * for finding and manipulating them.
+	 */
+	public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+		VALUES((short) 1, "values");
 
-    /**
-     * Find the _Fields constant that matches fieldId, or null if its not found.
-     */
-    public static _Fields findByThriftId(int fieldId) {
-      switch(fieldId) {
-        case 1: // VALUES
-          return VALUES;
-        default:
-          return null;
-      }
-    }
+		private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
-    /**
-     * Find the _Fields constant that matches fieldId, throwing an exception
-     * if it is not found.
-     */
-    public static _Fields findByThriftIdOrThrow(int fieldId) {
-      _Fields fields = findByThriftId(fieldId);
-      if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
-      return fields;
-    }
+		static {
+			for (_Fields field : EnumSet.allOf(_Fields.class)) {
+				byName.put(field.getFieldName(), field);
+			}
+		}
 
-    /**
-     * Find the _Fields constant that matches name, or null if its not found.
-     */
-    public static _Fields findByName(String name) {
-      return byName.get(name);
-    }
+		/**
+		 * Find the _Fields constant that matches fieldId, or null if its not
+		 * found.
+		 */
+		public static _Fields findByThriftId(int fieldId) {
+			switch (fieldId) {
+			case 1: // VALUES
+				return VALUES;
+			default:
+				return null;
+			}
+		}
 
-    private final short _thriftId;
-    private final String _fieldName;
+		/**
+		 * Find the _Fields constant that matches fieldId, throwing an exception
+		 * if it is not found.
+		 */
+		public static _Fields findByThriftIdOrThrow(int fieldId) {
+			_Fields fields = findByThriftId(fieldId);
+			if (fields == null)
+				throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+			return fields;
+		}
 
-    _Fields(short thriftId, String fieldName) {
-      _thriftId = thriftId;
-      _fieldName = fieldName;
-    }
+		/**
+		 * Find the _Fields constant that matches name, or null if its not
+		 * found.
+		 */
+		public static _Fields findByName(String name) {
+			return byName.get(name);
+		}
 
-    public short getThriftFieldId() {
-      return _thriftId;
-    }
+		private final short _thriftId;
+		private final String _fieldName;
 
-    public String getFieldName() {
-      return _fieldName;
-    }
-  }
+		_Fields(short thriftId, String fieldName) {
+			_thriftId = thriftId;
+			_fieldName = fieldName;
+		}
 
-  // isset id assignments
-  public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
-  static {
-    Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.VALUES, new org.apache.thrift.meta_data.FieldMetaData("values", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.MapMetaData(org.apache.thrift.protocol.TType.MAP, 
-            new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING), 
-            new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING))));
-    metaDataMap = Collections.unmodifiableMap(tmpMap);
-    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(EndPoint.class, metaDataMap);
-  }
+		public short getThriftFieldId() {
+			return _thriftId;
+		}
 
-  public EndPoint() {
-  }
+		public String getFieldName() {
+			return _fieldName;
+		}
+	}
 
-  public EndPoint(
-    Map<String,String> values)
-  {
-    this();
-    this.values = values;
-  }
+	// isset id assignments
+	public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+	static {
+		Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+		tmpMap.put(_Fields.VALUES, new org.apache.thrift.meta_data.FieldMetaData("values", org.apache.thrift.TFieldRequirementType.DEFAULT, new org.apache.thrift.meta_data.MapMetaData(
+				org.apache.thrift.protocol.TType.MAP, new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING), new org.apache.thrift.meta_data.FieldValueMetaData(
+						org.apache.thrift.protocol.TType.STRING))));
+		metaDataMap = Collections.unmodifiableMap(tmpMap);
+		org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(EndPoint.class, metaDataMap);
+	}
 
-  /**
-   * Performs a deep copy on <i>other</i>.
-   */
-  public EndPoint(EndPoint other) {
-    if (other.isSetValues()) {
-      Map<String,String> __this__values = new HashMap<String,String>();
-      for (Map.Entry<String, String> other_element : other.values.entrySet()) {
+	public EndPoint() {
+	}
 
-        String other_element_key = other_element.getKey();
-        String other_element_value = other_element.getValue();
+	public EndPoint(Map<String, String> values) {
+		this();
+		this.values = values;
+	}
 
-        String __this__values_copy_key = other_element_key;
+	/**
+	 * Performs a deep copy on <i>other</i>.
+	 */
+	public EndPoint(EndPoint other) {
+		if (other.isSetValues()) {
+			Map<String, String> __this__values = new HashMap<String, String>();
+			for (Map.Entry<String, String> other_element : other.values.entrySet()) {
 
-        String __this__values_copy_value = other_element_value;
+				String other_element_key = other_element.getKey();
+				String other_element_value = other_element.getValue();
 
-        __this__values.put(__this__values_copy_key, __this__values_copy_value);
-      }
-      this.values = __this__values;
-    }
-  }
+				String __this__values_copy_key = other_element_key;
 
-  public EndPoint deepCopy() {
-    return new EndPoint(this);
-  }
+				String __this__values_copy_value = other_element_value;
 
-  @Override
-  public void clear() {
-    this.values = null;
-  }
+				__this__values.put(__this__values_copy_key, __this__values_copy_value);
+			}
+			this.values = __this__values;
+		}
+	}
 
-  public int getValuesSize() {
-    return (this.values == null) ? 0 : this.values.size();
-  }
+	public EndPoint deepCopy() {
+		return new EndPoint(this);
+	}
 
-  public void putToValues(String key, String val) {
-    if (this.values == null) {
-      this.values = new HashMap<String,String>();
-    }
-    this.values.put(key, val);
-  }
+	@Override
+	public void clear() {
+		this.values = null;
+	}
 
-  public Map<String,String> getValues() {
-    return this.values;
-  }
+	public int getValuesSize() {
+		return (this.values == null) ? 0 : this.values.size();
+	}
 
-  public EndPoint setValues(Map<String,String> values) {
-    this.values = values;
-    return this;
-  }
+	public void putToValues(String key, String val) {
+		if (this.values == null) {
+			this.values = new HashMap<String, String>();
+		}
+		this.values.put(key, val);
+	}
 
-  public void unsetValues() {
-    this.values = null;
-  }
+	public Map<String, String> getValues() {
+		return this.values;
+	}
 
-  /** Returns true if field values is set (has been assigned a value) and false otherwise */
-  public boolean isSetValues() {
-    return this.values != null;
-  }
+	public EndPoint setValues(Map<String, String> values) {
+		this.values = values;
+		return this;
+	}
 
-  public void setValuesIsSet(boolean value) {
-    if (!value) {
-      this.values = null;
-    }
-  }
+	public void unsetValues() {
+		this.values = null;
+	}
 
-  public void setFieldValue(_Fields field, Object value) {
-    switch (field) {
-    case VALUES:
-      if (value == null) {
-        unsetValues();
-      } else {
-        setValues((Map<String,String>)value);
-      }
-      break;
+	/**
+	 * Returns true if field values is set (has been assigned a value) and false
+	 * otherwise
+	 */
+	public boolean isSetValues() {
+		return this.values != null;
+	}
 
-    }
-  }
+	public void setValuesIsSet(boolean value) {
+		if (!value) {
+			this.values = null;
+		}
+	}
 
-  public Object getFieldValue(_Fields field) {
-    switch (field) {
-    case VALUES:
-      return getValues();
+	public void setFieldValue(_Fields field, Object value) {
+		switch (field) {
+		case VALUES:
+			if (value == null) {
+				unsetValues();
+			} else {
+				setValues((Map<String, String>) value);
+			}
+			break;
 
-    }
-    throw new IllegalStateException();
-  }
+		}
+	}
 
-  /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
-  public boolean isSet(_Fields field) {
-    if (field == null) {
-      throw new IllegalArgumentException();
-    }
+	public Object getFieldValue(_Fields field) {
+		switch (field) {
+		case VALUES:
+			return getValues();
 
-    switch (field) {
-    case VALUES:
-      return isSetValues();
-    }
-    throw new IllegalStateException();
-  }
+		}
+		throw new IllegalStateException();
+	}
 
-  @Override
-  public boolean equals(Object that) {
-    if (that == null)
-      return false;
-    if (that instanceof EndPoint)
-      return this.equals((EndPoint)that);
-    return false;
-  }
+	/**
+	 * Returns true if field corresponding to fieldID is set (has been assigned
+	 * a value) and false otherwise
+	 */
+	public boolean isSet(_Fields field) {
+		if (field == null) {
+			throw new IllegalArgumentException();
+		}
 
-  public boolean equals(EndPoint that) {
-    if (that == null)
-      return false;
+		switch (field) {
+		case VALUES:
+			return isSetValues();
+		}
+		throw new IllegalStateException();
+	}
 
-    boolean this_present_values = true && this.isSetValues();
-    boolean that_present_values = true && that.isSetValues();
-    if (this_present_values || that_present_values) {
-      if (!(this_present_values && that_present_values))
-        return false;
-      if (!this.values.equals(that.values))
-        return false;
-    }
+	@Override
+	public boolean equals(Object that) {
+		if (that == null)
+			return false;
+		if (that instanceof EndPoint)
+			return this.equals((EndPoint) that);
+		return false;
+	}
 
-    return true;
-  }
+	public boolean equals(EndPoint that) {
+		if (that == null)
+			return false;
 
-  @Override
-  public int hashCode() {
-    return 0;
-  }
+		boolean this_present_values = true && this.isSetValues();
+		boolean that_present_values = true && that.isSetValues();
+		if (this_present_values || that_present_values) {
+			if (!(this_present_values && that_present_values))
+				return false;
+			if (!this.values.equals(that.values))
+				return false;
+		}
 
-  public int compareTo(EndPoint other) {
-    if (!getClass().equals(other.getClass())) {
-      return getClass().getName().compareTo(other.getClass().getName());
-    }
+		return true;
+	}
 
-    int lastComparison = 0;
-    EndPoint typedOther = (EndPoint)other;
+	@Override
+	public int hashCode() {
+		return 0;
+	}
 
-    lastComparison = Boolean.valueOf(isSetValues()).compareTo(typedOther.isSetValues());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    if (isSetValues()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.values, typedOther.values);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
-    return 0;
-  }
+	public int compareTo(EndPoint other) {
+		if (!getClass().equals(other.getClass())) {
+			return getClass().getName().compareTo(other.getClass().getName());
+		}
 
-  public _Fields fieldForId(int fieldId) {
-    return _Fields.findByThriftId(fieldId);
-  }
+		int lastComparison = 0;
+		EndPoint typedOther = (EndPoint) other;
 
-  public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-    schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
-  }
+		lastComparison = Boolean.valueOf(isSetValues()).compareTo(typedOther.isSetValues());
+		if (lastComparison != 0) {
+			return lastComparison;
+		}
+		if (isSetValues()) {
+			lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.values, typedOther.values);
+			if (lastComparison != 0) {
+				return lastComparison;
+			}
+		}
+		return 0;
+	}
 
-  public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-    schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
-  }
+	public _Fields fieldForId(int fieldId) {
+		return _Fields.findByThriftId(fieldId);
+	}
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder("EndPoint(");
-    boolean first = true;
+	public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+		schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+	}
 
-    sb.append("values:");
-    if (this.values == null) {
-      sb.append("null");
-    } else {
-      sb.append(this.values);
-    }
-    first = false;
-    sb.append(")");
-    return sb.toString();
-  }
+	public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+		schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+	}
 
-  public void validate() throws org.apache.thrift.TException {
-    // check for required fields
-    // check for sub-struct validity
-  }
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder("EndPoint(");
+		boolean first = true;
 
-  private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
-    try {
-      write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-    } catch (org.apache.thrift.TException te) {
-      throw new java.io.IOException(te);
-    }
-  }
+		sb.append("values:");
+		if (this.values == null) {
+			sb.append("null");
+		} else {
+			sb.append(this.values);
+		}
+		first = false;
+		sb.append(")");
+		return sb.toString();
+	}
 
-  private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
-    try {
-      read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-    } catch (org.apache.thrift.TException te) {
-      throw new java.io.IOException(te);
-    }
-  }
+	public void validate() throws org.apache.thrift.TException {
+		// check for required fields
+		// check for sub-struct validity
+	}
 
-  private static class EndPointStandardSchemeFactory implements SchemeFactory {
-    public EndPointStandardScheme getScheme() {
-      return new EndPointStandardScheme();
-    }
-  }
+	private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+		try {
+			write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+		} catch (org.apache.thrift.TException te) {
+			throw new java.io.IOException(te);
+		}
+	}
 
-  private static class EndPointStandardScheme extends StandardScheme<EndPoint> {
+	private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+		try {
+			read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+		} catch (org.apache.thrift.TException te) {
+			throw new java.io.IOException(te);
+		}
+	}
 
-    public void read(org.apache.thrift.protocol.TProtocol iprot, EndPoint struct) throws org.apache.thrift.TException {
-      org.apache.thrift.protocol.TField schemeField;
-      iprot.readStructBegin();
-      while (true)
-      {
-        schemeField = iprot.readFieldBegin();
-        if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
-          break;
-        }
-        switch (schemeField.id) {
-          case 1: // VALUES
-            if (schemeField.type == org.apache.thrift.protocol.TType.MAP) {
-              {
-                org.apache.thrift.protocol.TMap _map0 = iprot.readMapBegin();
-                struct.values = new HashMap<String,String>(2*_map0.size);
-                for (int _i1 = 0; _i1 < _map0.size; ++_i1)
-                {
-                  String _key2; // required
-                  String _val3; // required
-                  _key2 = iprot.readString();
-                  _val3 = iprot.readString();
-                  struct.values.put(_key2, _val3);
-                }
-                iprot.readMapEnd();
-              }
-              struct.setValuesIsSet(true);
-            } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-            }
-            break;
-          default:
-            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-        }
-        iprot.readFieldEnd();
-      }
-      iprot.readStructEnd();
+	private static class EndPointStandardSchemeFactory implements SchemeFactory {
+		public EndPointStandardScheme getScheme() {
+			return new EndPointStandardScheme();
+		}
+	}
 
-      // check for required fields of primitive type, which can't be checked in the validate method
-      struct.validate();
-    }
+	private static class EndPointStandardScheme extends StandardScheme<EndPoint> {
 
-    public void write(org.apache.thrift.protocol.TProtocol oprot, EndPoint struct) throws org.apache.thrift.TException {
-      struct.validate();
+		public void read(org.apache.thrift.protocol.TProtocol iprot, EndPoint struct) throws org.apache.thrift.TException {
+			org.apache.thrift.protocol.TField schemeField;
+			iprot.readStructBegin();
+			while (true) {
+				schemeField = iprot.readFieldBegin();
+				if (schemeField.type == org.apache.thrift.protocol.TType.STOP) {
+					break;
+				}
+				switch (schemeField.id) {
+				case 1: // VALUES
+					if (schemeField.type == org.apache.thrift.protocol.TType.MAP) {
+						{
+							org.apache.thrift.protocol.TMap _map0 = iprot.readMapBegin();
+							struct.values = new HashMap<String, String>(2 * _map0.size);
+							for (int _i1 = 0; _i1 < _map0.size; ++_i1) {
+								String _key2; // required
+								String _val3; // required
+								_key2 = iprot.readString();
+								_val3 = iprot.readString();
+								struct.values.put(_key2, _val3);
+							}
+							iprot.readMapEnd();
+						}
+						struct.setValuesIsSet(true);
+					} else {
+						org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+					}
+					break;
+				default:
+					org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+				}
+				iprot.readFieldEnd();
+			}
+			iprot.readStructEnd();
 
-      oprot.writeStructBegin(STRUCT_DESC);
-      if (struct.values != null) {
-        oprot.writeFieldBegin(VALUES_FIELD_DESC);
-        {
-          oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING, struct.values.size()));
-          for (Map.Entry<String, String> _iter4 : struct.values.entrySet())
-          {
-            oprot.writeString(_iter4.getKey());
-            oprot.writeString(_iter4.getValue());
-          }
-          oprot.writeMapEnd();
-        }
-        oprot.writeFieldEnd();
-      }
-      oprot.writeFieldStop();
-      oprot.writeStructEnd();
-    }
+			// check for required fields of primitive type, which can't be
+			// checked in the validate method
+			struct.validate();
+		}
 
-  }
+		public void write(org.apache.thrift.protocol.TProtocol oprot, EndPoint struct) throws org.apache.thrift.TException {
+			struct.validate();
 
-  private static class EndPointTupleSchemeFactory implements SchemeFactory {
-    public EndPointTupleScheme getScheme() {
-      return new EndPointTupleScheme();
-    }
-  }
+			oprot.writeStructBegin(STRUCT_DESC);
+			if (struct.values != null) {
+				oprot.writeFieldBegin(VALUES_FIELD_DESC);
+				{
+					oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING, struct.values.size()));
+					for (Map.Entry<String, String> _iter4 : struct.values.entrySet()) {
+						oprot.writeString(_iter4.getKey());
+						oprot.writeString(_iter4.getValue());
+					}
+					oprot.writeMapEnd();
+				}
+				oprot.writeFieldEnd();
+			}
+			oprot.writeFieldStop();
+			oprot.writeStructEnd();
+		}
 
-  private static class EndPointTupleScheme extends TupleScheme<EndPoint> {
+	}
 
-    @Override
-    public void write(org.apache.thrift.protocol.TProtocol prot, EndPoint struct) throws org.apache.thrift.TException {
-      TTupleProtocol oprot = (TTupleProtocol) prot;
-      BitSet optionals = new BitSet();
-      if (struct.isSetValues()) {
-        optionals.set(0);
-      }
-      oprot.writeBitSet(optionals, 1);
-      if (struct.isSetValues()) {
-        {
-          oprot.writeI32(struct.values.size());
-          for (Map.Entry<String, String> _iter5 : struct.values.entrySet())
-          {
-            oprot.writeString(_iter5.getKey());
-            oprot.writeString(_iter5.getValue());
-          }
-        }
-      }
-    }
+	private static class EndPointTupleSchemeFactory implements SchemeFactory {
+		public EndPointTupleScheme getScheme() {
+			return new EndPointTupleScheme();
+		}
+	}
 
-    @Override
-    public void read(org.apache.thrift.protocol.TProtocol prot, EndPoint struct) throws org.apache.thrift.TException {
-      TTupleProtocol iprot = (TTupleProtocol) prot;
-      BitSet incoming = iprot.readBitSet(1);
-      if (incoming.get(0)) {
-        {
-          org.apache.thrift.protocol.TMap _map6 = new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING, iprot.readI32());
-          struct.values = new HashMap<String,String>(2*_map6.size);
-          for (int _i7 = 0; _i7 < _map6.size; ++_i7)
-          {
-            String _key8; // required
-            String _val9; // required
-            _key8 = iprot.readString();
-            _val9 = iprot.readString();
-            struct.values.put(_key8, _val9);
-          }
-        }
-        struct.setValuesIsSet(true);
-      }
-    }
-  }
+	private static class EndPointTupleScheme extends TupleScheme<EndPoint> {
+
+		@Override
+		public void write(org.apache.thrift.protocol.TProtocol prot, EndPoint struct) throws org.apache.thrift.TException {
+			TTupleProtocol oprot = (TTupleProtocol) prot;
+			BitSet optionals = new BitSet();
+			if (struct.isSetValues()) {
+				optionals.set(0);
+			}
+			oprot.writeBitSet(optionals, 1);
+			if (struct.isSetValues()) {
+				{
+					oprot.writeI32(struct.values.size());
+					for (Map.Entry<String, String> _iter5 : struct.values.entrySet()) {
+						oprot.writeString(_iter5.getKey());
+						oprot.writeString(_iter5.getValue());
+					}
+				}
+			}
+		}
+
+		@Override
+		public void read(org.apache.thrift.protocol.TProtocol prot, EndPoint struct) throws org.apache.thrift.TException {
+			TTupleProtocol iprot = (TTupleProtocol) prot;
+			BitSet incoming = iprot.readBitSet(1);
+			if (incoming.get(0)) {
+				{
+					org.apache.thrift.protocol.TMap _map6 = new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING, iprot.readI32());
+					struct.values = new HashMap<String, String>(2 * _map6.size);
+					for (int _i7 = 0; _i7 < _map6.size; ++_i7) {
+						String _key8; // required
+						String _val9; // required
+						_key8 = iprot.readString();
+						_val9 = iprot.readString();
+						struct.values.put(_key8, _val9);
+					}
+				}
+				struct.setValuesIsSet(true);
+			}
+		}
+	}
 
 }
-

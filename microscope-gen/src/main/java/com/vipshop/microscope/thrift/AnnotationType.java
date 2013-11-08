@@ -6,49 +6,41 @@
  */
 package com.vipshop.microscope.thrift;
 
-
-import java.util.Map;
-import java.util.HashMap;
-import org.apache.thrift.TEnum;
-
 public enum AnnotationType implements org.apache.thrift.TEnum {
-  CS(0),
-  CR(1),
-  SS(2),
-  SR(3),
-  KV(4);
+	CS(0), CR(1), SS(2), SR(3), KV(4);
 
-  private final int value;
+	private final int value;
 
-  private AnnotationType(int value) {
-    this.value = value;
-  }
+	private AnnotationType(int value) {
+		this.value = value;
+	}
 
-  /**
-   * Get the integer value of this enum value, as defined in the Thrift IDL.
-   */
-  public int getValue() {
-    return value;
-  }
+	/**
+	 * Get the integer value of this enum value, as defined in the Thrift IDL.
+	 */
+	public int getValue() {
+		return value;
+	}
 
-  /**
-   * Find a the enum type by its integer value, as defined in the Thrift IDL.
-   * @return null if the value is not found.
-   */
-  public static AnnotationType findByValue(int value) { 
-    switch (value) {
-      case 0:
-        return CS;
-      case 1:
-        return CR;
-      case 2:
-        return SS;
-      case 3:
-        return SR;
-      case 4:
-        return KV;
-      default:
-        return null;
-    }
-  }
+	/**
+	 * Find a the enum type by its integer value, as defined in the Thrift IDL.
+	 * 
+	 * @return null if the value is not found.
+	 */
+	public static AnnotationType findByValue(int value) {
+		switch (value) {
+		case 0:
+			return CS;
+		case 1:
+			return CR;
+		case 2:
+			return SS;
+		case 3:
+			return SR;
+		case 4:
+			return KV;
+		default:
+			return null;
+		}
+	}
 }

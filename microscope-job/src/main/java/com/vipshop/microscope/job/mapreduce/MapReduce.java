@@ -52,6 +52,7 @@ public class MapReduce {
 
 					DBConfiguration.configureDB(conf, "com.mysql.jdbc.Driver", db_url, db_user, db_pw);
 
+					@SuppressWarnings("deprecation")
 					Job job = new Job(conf);
 					job.setJobName("Trace mapreduce job");
 					// job.setJarByClass(DurTimeTask.class);

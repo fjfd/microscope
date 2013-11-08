@@ -8,5 +8,6 @@ public class DurTimeTask {
 		AbstractApplicationContext context = new ClassPathXmlApplicationContext("/META-INF/spring/applicationContext-report.xml");
 		MapReduce t = (MapReduce) context.getBean("task_range_1");
 		t.action(DurMapper.class, DurReducer.class, TableTrace.Q_DURATION_BYTE);
+		context.close();
 	}
 }
