@@ -18,12 +18,11 @@ public class TraceTest {
 	@Test
 	public void traceUseExample() throws InterruptedException {
 		
-		Tracer.clientSend("example1", Category.METHOD);
+		Tracer.clientSend("example2", Category.METHOD);
 		
 		try {
 			TimeUnit.SECONDS.sleep(1);
 			System.out.println("example method invoke");
-			throw new RuntimeException();
 		} catch (Exception e) {
 			Tracer.setResultCode(ResultCode.EXCEPTION);
 		} finally {

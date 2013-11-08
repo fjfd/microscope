@@ -4,6 +4,7 @@ import com.vipshop.microscope.collector.analyzer.TraceMessageAnalyzer;
 import com.vipshop.microscope.collector.builder.TraceMessageBuilder;
 import com.vipshop.microscope.collector.counter.TraceMessageCounter;
 import com.vipshop.microscope.collector.storage.TraceMessageStorage;
+import com.vipshop.microscope.common.util.SpanUtil;
 import com.vipshop.microscope.hbase.domain.AppTrace;
 import com.vipshop.microscope.hbase.domain.TraceTable;
 import com.vipshop.microscope.thrift.LogEntry;
@@ -35,7 +36,9 @@ public class TraceMessageProcessor extends AbstraceMessageProcessor {
 	}
 	
 	private void analyze(Span span) {
-		messageAnalyzer.analyze(span);
+		if (SpanUtil.isRootSpan(span)) {
+			messageAnalyzer.analyze(span);
+		}
 	}
 
 }
