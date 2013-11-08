@@ -49,6 +49,15 @@ public class AppTraceRepository extends AbstraceHbaseRepository {
 		super.drop(tableName);
 	}
 	
+	/**
+	 * Save app name and trace name in format.
+	 * 
+	 * app name   trace name
+	 * "app1"     "trace1", "tarce2", "trace3" 
+	 * "app2"     "trace21", "tarce22", "trace23" 
+	 * 
+	 * @param app
+	 */
 	public void save(final AppTrace app) {
 		hbaseTemplate.execute(tableName, new TableCallback<AppTrace>() {
 			@Override
@@ -62,6 +71,15 @@ public class AppTraceRepository extends AbstraceHbaseRepository {
 		});
 	}
 	
+	/**
+	 * Returns app name and trace name in format:
+	 * [
+	 * "app name1" : ["trace name1", "trace name2", ...]
+	 * "app name2" : ["trace name21", "trace name22", ...]
+	 * ]
+	 * 
+	 * @return
+	 */
 	public List<Map<String, Object>> findAll() {
 		
 		final List<String> appList = new ArrayList<String>();

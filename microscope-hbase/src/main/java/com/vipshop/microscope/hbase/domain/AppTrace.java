@@ -1,6 +1,11 @@
 package com.vipshop.microscope.hbase.domain;
 
-
+/**
+ * AppTrace stands for app name and trace name.
+ * 
+ * @author Xu Fei
+ * @version 1.0
+ */
 public class AppTrace {
 
 	private String appName;
@@ -8,7 +13,6 @@ public class AppTrace {
 	private String traceName;
 
 	public AppTrace(String appName, String traceName) {
-		super();
 		this.appName = appName;
 		this.traceName = traceName;
 	}
