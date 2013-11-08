@@ -10,7 +10,7 @@ public class TraceRepositoryTest {
 	@Test
 	public void testCount() {
 		int result = traceRepository.count();
-		Assert.assertEquals(9, result);
+		Assert.assertEquals(10, result);
 	}
 	
 	@Test

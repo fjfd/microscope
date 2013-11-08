@@ -18,7 +18,7 @@ public class TraceTest {
 	@Test
 	public void traceUseExample() throws InterruptedException {
 		
-		Tracer.clientSend("example", Category.METHOD);
+		Tracer.clientSend("example1", Category.METHOD);
 		
 		try {
 			TimeUnit.SECONDS.sleep(1);

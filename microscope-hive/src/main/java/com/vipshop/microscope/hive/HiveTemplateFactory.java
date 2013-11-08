@@ -13,7 +13,7 @@ public class HiveTemplateFactory {
 	public static HiveTemplate HIVE_TEMPLATE;
 	
 	static {
-		AbstractApplicationContext context = new ClassPathXmlApplicationContext("/META-INF/spring/hive-context.xml", HiveTemplateFactory.class);
+		AbstractApplicationContext context = new ClassPathXmlApplicationContext("/META-INF/spring/applicationContext-hive.xml", HiveTemplateFactory.class);
 		context.registerShutdownHook();
 
 		logger.info("init hive template bean");

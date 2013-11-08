@@ -49,7 +49,7 @@ public class TraceRepository {
 
 	
 	public int count() {
-		return hiveTemplate.queryForInt("select count(*) from test.h_trace");
+		return hiveTemplate.queryForInt("select count(*) from default.h_trace");
 	}
 	
 	public List<String> callTime() {

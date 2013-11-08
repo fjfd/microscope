@@ -6,9 +6,9 @@
 	  http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 	  http://www.springframework.org/schema/hadoop http://www.springframework.org/schema/hadoop/spring-hadoop.xsd">
 
-	<beans:import resource="jdbc-context.xml" />
+	<beans:import resource="applicationContext-jdbc.xml" />
 
-	<context:property-placeholder location="hadoop.properties,hive.properties" />
+	<context:property-placeholder location="hive.properties" />
 
 	<context:component-scan base-package="com.vipshop.microscope.hive" />
 
@@ -16,12 +16,6 @@
 		fs.default.name=${hd.fs}
 		mapred.job.tracker=${mapred.job.tracker}
 	</configuration>
-
-	<!--
-	This will throw a NPE at the end of running the app that should be 
-		ignored To avoid this, run against the stand-alone server, use the command 
-		line hive -hiveconf fs.default.name=hdfs://localhost:9000 -hiveconf mapred.job.tracker=localhost:9001 
-	-->
 
 	<hive-client-factory host="${hive.host}" port="${hive.port}" />
 
