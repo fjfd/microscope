@@ -8,6 +8,11 @@ public class TraceRepositoryTest {
 	TraceRepository traceRepository = new TraceRepository();
 	
 	@Test
+	public void testFindAll() {
+		System.out.println(traceRepository.findAll());
+	}
+	
+	@Test
 	public void testCount() {
 		int result = traceRepository.count();
 		Assert.assertEquals(10, result);

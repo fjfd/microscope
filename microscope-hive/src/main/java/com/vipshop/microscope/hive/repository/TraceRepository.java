@@ -46,14 +46,17 @@ public class TraceRepository {
 			}
 		});
 	}
-
+	
+	public List<String> findAll() {
+		return hiveTemplate.query("select * from h_trace");
+	}
 	
 	public int count() {
-		return hiveTemplate.queryForInt("select count(*) from default.h_trace");
+		return hiveTemplate.queryForInt("select count(*) from h_trace");
 	}
 	
 	public List<String> callTime() {
-		return hiveTemplate.query("select trace_name, COUNT(duration) as dur_count from default.h_trace  GROUP BY trace_name order by dur_count desc limit 2");
+		return hiveTemplate.query("select trace_name, COUNT(duration) as dur_count from h_trace  GROUP BY trace_name order by dur_count desc limit 2");
 	}
 	
 	public List<String> callDura() {
