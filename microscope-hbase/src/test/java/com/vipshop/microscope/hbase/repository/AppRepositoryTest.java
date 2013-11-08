@@ -35,6 +35,6 @@ public class AppRepositoryTest {
 	
 	@Test
 	public void testFindAll() {
-		System.out.println(Repositorys.APP_TRACE.findAll());
+		Repositorys.APP_TRACE.findAll();
 	}
 }

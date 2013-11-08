@@ -31,6 +31,10 @@
 		<module>microscope-query</module>
 		<module>microscope-test</module>
 		<module>microscope-trace</module>
+		<module>microscope-hive</module>
+		<module>microscope-report</module>
+		<module>microscope-kafka</module>
+		<module>microscope-storm</module>
 	</modules>
 
 

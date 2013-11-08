@@ -15,7 +15,7 @@ public class HiveJdbcClient {
 		// hive插入数据支持两种方式一种：load文件，令一种为从另一个表中查询进行插入（感觉这是个鸡肋）
 		// hive是不支持insert into...values(....)这种操作的
 //		String insterSQL = "LOAD DATA LOCAL INPATH '/work/hive/examples/files/kv1.txt' OVERWRITE INTO TABLE javabloger";
-		String querySQL = "select * from test";
+		String querySQL = "select * from test.h_trace";
 
 		Connection con = DriverManager.getConnection("jdbc:hive://192.168.52.145:20000/test", "", "");
 		Statement stmt = con.createStatement();
@@ -25,7 +25,7 @@ public class HiveJdbcClient {
 		ResultSet res = stmt.executeQuery(querySQL); // 执行查询语句
 
 		while (res.next()) {
-			System.out.println(res.getString(1));
+			System.out.println(res.toString());
 		}
 	}
 }
