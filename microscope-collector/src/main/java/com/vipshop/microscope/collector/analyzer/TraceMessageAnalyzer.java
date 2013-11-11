@@ -1,26 +1,21 @@
 package com.vipshop.microscope.collector.analyzer;
 
-import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.vipshop.microscope.hbase.domain.StatByType;
-import com.vipshop.microscope.hbase.repository.Repositorys;
+import com.vipshop.microscope.common.util.CalendarUtil;
+import com.vipshop.microscope.mysql.domain.TraceReport;
+import com.vipshop.microscope.mysql.repository.MySQLRepositorys;
 import com.vipshop.microscope.thrift.Span;
 
 public class TraceMessageAnalyzer {
 	
-	private static final ConcurrentHashMap<String, StatByType> container = new ConcurrentHashMap<String, StatByType>();
-	
-	static {
-		List<StatByType> result = Repositorys.STAT_TYPE.findAll();
-		if (result != null) {
-			for (StatByType statByType : result) {
-				container.put(statByType.getType(), statByType);
-			}
-		}
-	}
+	private static final ConcurrentHashMap<String, TraceReport> container = new ConcurrentHashMap<String, TraceReport>();
 	
 	public void analyze(Span span) {
+		
+		String name = span.getName();
+
+		checkPrevious(name);
 		
 		String type = span.getType();
 		String resultCode = span.getResultCode();
@@ -28,67 +23,86 @@ public class TraceMessageAnalyzer {
 		long startTime = span.getStartstamp();
 		long endTime = span.getStartstamp() + duration;
 		
-		StatByType previous = container.get(type);
+		String key = TraceReport.makeId(name);
+		TraceReport report = container.get(key);
 		// first time 
-		if (previous == null) {
+		if (report == null) {
 			
-			previous = new StatByType();
-			previous.setType(type);
-			previous.setTotalCount(1);
-			if (!resultCode.equals("OK")) {
-				previous.setFailureCount(1);
-				previous.setFailurePrecent(100.00f);
+			report = new TraceReport();
+			
+			report.setId(key);
+			report.setYear(CalendarUtil.currentYear());
+			report.setMonth(CalendarUtil.currentMonth());
+			report.setWeek(CalendarUtil.currentWeek());
+			report.setDay(CalendarUtil.currentDay());
+			report.setHour(CalendarUtil.currentHour());
+			report.setType(type);
+			report.setName(name);
+			
+			report.setTotalCount(1);
+			if (resultCode.equals("OK")) {
+				report.setFailureCount(0);
+				report.setFailurePrecent(0/1);
 			} else {
-				previous.setFailureCount(0);
-				previous.setFailurePrecent(0.00f);
+				report.setFailureCount(1);
+				report.setFailurePrecent(1/1);
 			}
 			
-			previous.setMin(duration);
-			previous.setMax(duration);
-			previous.setAvg(duration);
-			previous.setStartTime(startTime);
-			previous.setEndTime(endTime);
-			float tps = 1 / ((endTime - startTime) / 1000);
-			previous.setTPS(tps);
+			report.setMin(duration);
+			report.setMax(duration);
+			report.setAvg(duration);
 			
-			container.put(type, previous);
-			
-			Repositorys.STAT_TYPE.save(previous);
+			report.setSum(duration);
+			report.setStartTime(startTime);
+			report.setEndTime(endTime);
 			
 		} else {
-			previous.setTotalCount(previous.getTotalCount() + 1);
+			
+			report.setTotalCount(report.getTotalCount() + 1);
 			if (!resultCode.equals("OK")) {
-				previous.setFailureCount(previous.getFailureCount() + 1);
+				report.setFailureCount(report.getFailureCount() + 1);
 			} 
-			float precent = previous.getFailureCount() / previous.getTotalCount();
-			previous.setFailurePrecent(precent);
+			float precent = report.getFailureCount() / report.getTotalCount();
+			report.setFailurePrecent(precent);
 			
-			if (duration < previous.getMin()) {
-				previous.setMin(duration);
+			if (duration < report.getMin()) {
+				report.setMin(duration);
 			}
 			
-			if (duration < previous.getMax()) {
-				previous.setMax(duration);
+			if (duration > report.getMax()) {
+				report.setMax(duration);
 			}
 			
-			int avg = (int) ((previous.getAvg() + duration) / 2);
-			previous.setAvg(avg);
+			report.setSum(report.getSum() + duration);
+			report.setAvg(report.getSum() / report.getTotalCount());
 			
-			if (startTime < previous.getStartTime()) {
-				previous.setStartTime(startTime);
+			if (startTime < report.getStartTime()) {
+				report.setStartTime(startTime);
 			}
 			
-			if (endTime > previous.getEndTime()) {
-				previous.setEndTime(endTime);
+			if (endTime > report.getEndTime()) {
+				report.setEndTime(endTime);
 			}
 			
-			float tps = previous.getTotalCount() /((previous.getEndTime() - previous.getStartTime()) / 1000); 
-			
-			previous.setTPS(tps);
-			
-			container.put(type, previous);
-			
-			Repositorys.STAT_TYPE.save(previous);
+			report.setDuration(report.getEndTime() - report.getStartTime());
+		}
+
+		container.put(key, report);
+	
+	}
+	
+	private void checkPrevious(String name) {
+		String key = TraceReport.makePreId(name);
+		TraceReport report = container.get(key);
+		if (report != null) {
+			try {
+				report.setTps(TraceReport.makeTPS(report));
+				MySQLRepositorys.TRACE_REPORT.save(report);
+			} catch (Exception e) {
+				// TODO: handle exception
+			} finally {
+				container.remove(key);
+			}
 		}
 	}
 }

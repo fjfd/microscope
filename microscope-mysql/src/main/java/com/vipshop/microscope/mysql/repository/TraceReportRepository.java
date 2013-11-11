@@ -24,40 +24,49 @@ public class TraceReportRepository {
 	}
 
 	/**
-	 * check one trace_stat exist or not.
+	 * check one trace_report exist or not.
 	 * 
-	 * @param trace
+	 * @param id
 	 * @return
 	 */
-	public boolean exist(final String trace) {
-		String sql = "select type from trace_stat where type = ?" ;
+	public boolean exist(final String id) {
+		String sql = "select id from trace_report where id = ?" ;
 		
-		String count = jdbcTemplate.queryForObject(sql, new Object[]{trace}, String.class);
-		if (count == null) {
+		List<String> count = jdbcTemplate.queryForList(sql, new Object[]{id}, String.class);
+		if (count.size() == 0) {
 			return false;
 		}
 		return true;
 
 	}
 
-	public void save(final TraceReport traceStat) {
-		String insert = "insert into trace_stat(type, total_count,failure_count, failure_precent, min, max, avg, year, month, day, hour) values(?,?,?,?,?,?,?,?,?,?,?)";
+	public void save(final TraceReport traceReport) {
+		String insert = "insert into trace_report(id, year, month, week, day, hour, type, name, total_count, failure_count, failure_precent, min, max, avg, tps, start_time, end_time, duration) " +
+				  	 	                  "values(?,  ?,    ?,     ?,    ?,   ?,    ?,    ?,    ?,           ?,             ?,               ?,   ?,   ?,   ?,   ?,          ?,        ?)";
 
 		jdbcTemplate.update(insert, new PreparedStatementSetter() {
 
 			@Override
 			public void setValues(PreparedStatement ps) throws SQLException {
-				ps.setString(1, traceStat.getType());
-				ps.setLong(2, traceStat.getTotalCount());
-				ps.setLong(3, traceStat.getFailureCount());
-				ps.setFloat(4, traceStat.getFailurePrecent());
-				ps.setFloat(5, traceStat.getMin());
-				ps.setFloat(6, traceStat.getMax());
-				ps.setFloat(7, traceStat.getAvg());
-				ps.setInt(8, traceStat.getYear());
-				ps.setInt(9, traceStat.getMonth());
-				ps.setInt(10, traceStat.getDay());
-				ps.setInt(11, traceStat.getHour());
+				ps.setString(1, traceReport.getId());
+				ps.setInt(2, traceReport.getYear());
+				ps.setInt(3, traceReport.getMonth());
+				ps.setInt(4, traceReport.getWeek());
+				ps.setInt(5, traceReport.getDay());
+				ps.setInt(6, traceReport.getHour());
+				ps.setString(7, traceReport.getType());
+				ps.setString(8, traceReport.getName());
+				ps.setLong(9, traceReport.getTotalCount());
+				ps.setLong(10, traceReport.getFailureCount());
+				ps.setFloat(11, traceReport.getFailurePrecent());
+				ps.setFloat(12, traceReport.getMin());
+				ps.setFloat(13, traceReport.getMax());
+				ps.setFloat(14, traceReport.getAvg());
+				ps.setFloat(15, traceReport.getTps());
+				ps.setLong(16, traceReport.getStartTime());
+				ps.setLong(17, traceReport.getEndTime());
+				ps.setLong(18, traceReport.getDuration());
+				
 			}
 		});
 	}
@@ -81,7 +90,7 @@ public class TraceReportRepository {
 		});
 	}
 
-	public List<TraceReport> findTraceStat() {
+	public List<TraceReport> findTraceReport() {
 		final List<TraceReport> list = new ArrayList<TraceReport>();
 		String sql = "select * from trace_stat";
 		jdbcTemplate.query(sql, new RowMapper<TraceReport>() {

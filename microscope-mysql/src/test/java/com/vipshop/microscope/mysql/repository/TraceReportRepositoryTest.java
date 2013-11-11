@@ -2,9 +2,10 @@ package com.vipshop.microscope.mysql.repository;
 
 import org.testng.annotations.Test;
 
+import com.vipshop.microscope.common.util.CalendarUtil;
 import com.vipshop.microscope.mysql.domain.TraceReport;
 
-public class TraceStatRepositoryTest {
+public class TraceReportRepositoryTest {
 	
 	TraceReportRepository mySQLTemplate = MySQLRepositorys.TRACE_REPORT;
 	
@@ -16,16 +17,23 @@ public class TraceStatRepositoryTest {
 	
 	@Test
 	public void testSave() {
-		TraceReport traceStat = new TraceReport();
-		traceStat.setType("trace/queryconditon2");
-		traceStat.setTotalCount(100);
-		traceStat.setFailureCount(10);
-		traceStat.setFailurePrecent(1.2f);
-		traceStat.setMin(4.2f);
-		traceStat.setMax(4234f);
-		traceStat.setAvg(232);
-		
-		mySQLTemplate.save(traceStat);
+		TraceReport traceReport = new TraceReport();
+		traceReport.setId(TraceReport.makeId("example"));
+		traceReport.setYear(CalendarUtil.currentYear());
+		traceReport.setMonth(CalendarUtil.currentMonth());
+		traceReport.setWeek(CalendarUtil.currentWeek());
+		traceReport.setDay(CalendarUtil.currentDay());
+		traceReport.setHour(CalendarUtil.currentHour());
+		traceReport.setType("action");
+		traceReport.setName("example");
+		traceReport.setTotalCount(100);
+		traceReport.setFailureCount(10);
+		traceReport.setFailurePrecent(1.2f);
+		traceReport.setMin(4.2f);
+		traceReport.setMax(4234f);
+		traceReport.setAvg(232);
+		traceReport.setTps(1.0f);
+		mySQLTemplate.save(traceReport);
 	}
 	
 	@Test
@@ -44,7 +52,7 @@ public class TraceStatRepositoryTest {
 	
 	@Test
 	public void testfind() {
-		System.out.println(mySQLTemplate.findTraceStat());;
+		System.out.println(mySQLTemplate.findTraceReport());;
 	}
 	
 	@Test
