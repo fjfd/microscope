@@ -27,12 +27,12 @@ public class TraceReport {
 	private long duration;
 	
 	
-	public static String makeId(String traceName) {
-		return CalendarUtil.uniqueTimeStamp() + "-" + traceName;
+	public static String makeId(CalendarUtil calendarUtil, String traceName) {
+		return calendarUtil.uniqueTimeStamp() + "-" + traceName;
 	}
 	
-	public static String makePreId(String traceName) {
-		return CalendarUtil.uniquePreTimeStamp() + "-" + traceName;
+	public static String makePreId(CalendarUtil calendarUtil, String traceName) {
+		return calendarUtil.uniquePreTimeStamp() + "-" + traceName;
 	}
 	
 	public static float makeTPS(TraceReport report) {
@@ -159,12 +159,6 @@ public class TraceReport {
 		this.id = id;
 	}
 
-	@Override
-	public String toString() {
-		return "TraceReport [id=" + id + ", year=" + year + ", month=" + month + ", week=" + week + ", day=" + day + ", hour=" + hour + ", type=" + type + ", name=" + name + ", totalCount="
-				+ totalCount + ", failureCount=" + failureCount + ", failurePrecent=" + failurePrecent + ", min=" + min + ", max=" + max + ", avg=" + avg + ", tps=" + tps + "]";
-	}
-
 	public long getStartTime() {
 		return startTime;
 	}
@@ -195,6 +189,13 @@ public class TraceReport {
 
 	public void setDuration(long duration) {
 		this.duration = duration;
+	}
+
+	@Override
+	public String toString() {
+		return "TraceReport [id=" + id + ", year=" + year + ", month=" + month + ", week=" + week + ", day=" + day + ", hour=" + hour + ", type=" + type + ", name=" + name + ", totalCount="
+				+ totalCount + ", failureCount=" + failureCount + ", failurePrecent=" + failurePrecent + ", min=" + min + ", max=" + max + ", avg=" + avg + ", tps=" + tps + ", sum=" + sum
+				+ ", startTime=" + startTime + ", endTime=" + endTime + ", duration=" + duration + "]";
 	}
 
 }

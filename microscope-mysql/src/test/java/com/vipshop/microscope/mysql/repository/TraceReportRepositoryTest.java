@@ -17,13 +17,14 @@ public class TraceReportRepositoryTest {
 	
 	@Test
 	public void testSave() {
+		CalendarUtil calendarUtil = new CalendarUtil();
 		TraceReport traceReport = new TraceReport();
-		traceReport.setId(TraceReport.makeId("example"));
-		traceReport.setYear(CalendarUtil.currentYear());
-		traceReport.setMonth(CalendarUtil.currentMonth());
-		traceReport.setWeek(CalendarUtil.currentWeek());
-		traceReport.setDay(CalendarUtil.currentDay());
-		traceReport.setHour(CalendarUtil.currentHour());
+		traceReport.setId(TraceReport.makeId(calendarUtil, "example"));
+		traceReport.setYear(calendarUtil.currentYear());
+		traceReport.setMonth(calendarUtil.currentMonth());
+		traceReport.setWeek(calendarUtil.currentWeek());
+		traceReport.setDay(calendarUtil.currentDay());
+		traceReport.setHour(calendarUtil.currentHour());
 		traceReport.setType("action");
 		traceReport.setName("example");
 		traceReport.setTotalCount(100);
@@ -34,20 +35,6 @@ public class TraceReportRepositoryTest {
 		traceReport.setAvg(232);
 		traceReport.setTps(1.0f);
 		mySQLTemplate.save(traceReport);
-	}
-	
-	@Test
-	public void testUpdate() {
-		TraceReport traceStat = new TraceReport();
-		traceStat.setType("trace/queryconditon");
-		traceStat.setTotalCount(1000);
-		traceStat.setFailureCount(10);
-		traceStat.setFailurePrecent(1.2f);
-		traceStat.setMin(4.2f);
-		traceStat.setMax(4234f);
-		traceStat.setAvg(232);
-		
-		mySQLTemplate.update(traceStat);
 	}
 	
 	@Test

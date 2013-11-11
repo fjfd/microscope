@@ -41,8 +41,8 @@ public class TraceReportRepository {
 	}
 
 	public void save(final TraceReport traceReport) {
-		String insert = "insert into trace_report(id, year, month, week, day, hour, type, name, total_count, failure_count, failure_precent, min, max, avg, tps, start_time, end_time, duration) " +
-				  	 	                  "values(?,  ?,    ?,     ?,    ?,   ?,    ?,    ?,    ?,           ?,             ?,               ?,   ?,   ?,   ?,   ?,          ?,        ?)";
+		String insert = "insert into trace_report(id, year, month, week, day, hour, type, name, total_count, failure_count, failure_precent, min, max, avg, tps, start_time, end_time) " +
+				  	 	                  "values(?,  ?,    ?,     ?,    ?,   ?,    ?,    ?,    ?,           ?,             ?,               ?,   ?,   ?,   ?,   ?,          ?)";
 
 		jdbcTemplate.update(insert, new PreparedStatementSetter() {
 
@@ -65,34 +65,13 @@ public class TraceReportRepository {
 				ps.setFloat(15, traceReport.getTps());
 				ps.setLong(16, traceReport.getStartTime());
 				ps.setLong(17, traceReport.getEndTime());
-				ps.setLong(18, traceReport.getDuration());
-				
-			}
-		});
-	}
-
-	public void update(final TraceReport traceStat) {
-		String update = "update trace_stat set total_count = ?, failure_count = ?, failure_precent =?, min = ?, max = ?, avg = ? where type = ?";
-
-		jdbcTemplate.update(update, new PreparedStatementSetter() {
-
-			@Override
-			public void setValues(PreparedStatement ps) throws SQLException {
-				ps.setLong(1, traceStat.getTotalCount());
-				ps.setLong(2, traceStat.getFailureCount());
-				ps.setFloat(3, traceStat.getFailurePrecent());
-				ps.setFloat(4, traceStat.getMin());
-				ps.setFloat(5, traceStat.getMax());
-				ps.setFloat(6, traceStat.getAvg());
-				ps.setString(7, traceStat.getType());
-
 			}
 		});
 	}
 
 	public List<TraceReport> findTraceReport() {
 		final List<TraceReport> list = new ArrayList<TraceReport>();
-		String sql = "select * from trace_stat";
+		String sql = "select * from trace_report";
 		jdbcTemplate.query(sql, new RowMapper<TraceReport>() {
 
 			@Override

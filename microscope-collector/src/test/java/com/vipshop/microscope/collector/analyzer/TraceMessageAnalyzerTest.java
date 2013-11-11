@@ -2,7 +2,6 @@ package com.vipshop.microscope.collector.analyzer;
 
 import org.testng.annotations.Test;
 
-import com.vipshop.microscope.mysql.domain.TraceReport;
 import com.vipshop.microscope.thrift.Span;
 
 public class TraceMessageAnalyzerTest {
@@ -22,13 +21,6 @@ public class TraceMessageAnalyzerTest {
 			span.setResultCode("OK");
 			span.setType("METHOD");
 			analyzer.analyze(span);
-		}
-	}
-
-	@Test
-	public void makeName() {
-		for (int i = 0; i < 10; i++) {
-			System.out.println(TraceReport.makeId("example"));
 		}
 	}
 

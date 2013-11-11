@@ -2,6 +2,9 @@ package com.vipshop.microscope.collector.analyzer;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.vipshop.microscope.common.util.CalendarUtil;
 import com.vipshop.microscope.mysql.domain.TraceReport;
 import com.vipshop.microscope.mysql.repository.MySQLRepositorys;
@@ -9,21 +12,25 @@ import com.vipshop.microscope.thrift.Span;
 
 public class TraceMessageAnalyzer {
 	
+	private static final Logger logger = LoggerFactory.getLogger(TraceMessageAnalyzer.class);
+	
 	private static final ConcurrentHashMap<String, TraceReport> container = new ConcurrentHashMap<String, TraceReport>();
 	
 	public void analyze(Span span) {
 		
+		CalendarUtil calendarUtil = new CalendarUtil();
+		
 		String name = span.getName();
 
-		checkPrevious(name);
+		checkPrevious(calendarUtil, name);
 		
 		String type = span.getType();
 		String resultCode = span.getResultCode();
-		int duration = span.getDuration();
+		int duration = span.getDuration() / 1000;
 		long startTime = span.getStartstamp();
 		long endTime = span.getStartstamp() + duration;
 		
-		String key = TraceReport.makeId(name);
+		String key = TraceReport.makeId(calendarUtil, name);
 		TraceReport report = container.get(key);
 		// first time 
 		if (report == null) {
@@ -31,11 +38,11 @@ public class TraceMessageAnalyzer {
 			report = new TraceReport();
 			
 			report.setId(key);
-			report.setYear(CalendarUtil.currentYear());
-			report.setMonth(CalendarUtil.currentMonth());
-			report.setWeek(CalendarUtil.currentWeek());
-			report.setDay(CalendarUtil.currentDay());
-			report.setHour(CalendarUtil.currentHour());
+			report.setYear(calendarUtil.currentYear());
+			report.setMonth(calendarUtil.currentMonth());
+			report.setWeek(calendarUtil.currentWeek());
+			report.setDay(calendarUtil.currentDay());
+			report.setHour(calendarUtil.currentHour());
 			report.setType(type);
 			report.setName(name);
 			
@@ -55,6 +62,7 @@ public class TraceMessageAnalyzer {
 			report.setSum(duration);
 			report.setStartTime(startTime);
 			report.setEndTime(endTime);
+			report.setDuration(report.getEndTime() - report.getStartTime());
 			
 		} else {
 			
@@ -83,23 +91,28 @@ public class TraceMessageAnalyzer {
 			if (endTime > report.getEndTime()) {
 				report.setEndTime(endTime);
 			}
+			logger.info("report is " + report);
 			
 			report.setDuration(report.getEndTime() - report.getStartTime());
 		}
-
+		
+		report.setTps(TraceReport.makeTPS(report));
+		
 		container.put(key, report);
 	
 	}
 	
-	private void checkPrevious(String name) {
-		String key = TraceReport.makePreId(name);
+	private void checkPrevious(CalendarUtil calendarUtil, String name) {
+		String key = TraceReport.makePreId(calendarUtil, name);
+		
 		TraceReport report = container.get(key);
+		
 		if (report != null) {
 			try {
-				report.setTps(TraceReport.makeTPS(report));
+				logger.info("save report to mysql " + report);
 				MySQLRepositorys.TRACE_REPORT.save(report);
 			} catch (Exception e) {
-				// TODO: handle exception
+				logger.error("lost report to mysql " + report);
 			} finally {
 				container.remove(key);
 			}
