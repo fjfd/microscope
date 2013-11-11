@@ -12,7 +12,7 @@ import org.apache.hadoop.hbase.filter.RowFilter;
 import com.vipshop.microscope.hbase.domain.TraceTable;
 import com.vipshop.microscope.hbase.repository.Repositorys;
 import com.vipshop.microscope.mysql.domain.TraceReport;
-import com.vipshop.microscope.mysql.repository.MySQLRepositorys;
+import com.vipshop.microscope.mysql.factory.MySQLRepositorys;
 import com.vipshop.microscope.trace.span.Category;
 
 public class TraceJob {

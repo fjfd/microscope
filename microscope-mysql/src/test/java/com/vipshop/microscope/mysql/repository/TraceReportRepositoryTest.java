@@ -4,6 +4,7 @@ import org.testng.annotations.Test;
 
 import com.vipshop.microscope.common.util.CalendarUtil;
 import com.vipshop.microscope.mysql.domain.TraceReport;
+import com.vipshop.microscope.mysql.factory.MySQLRepositorys;
 
 public class TraceReportRepositoryTest {
 	

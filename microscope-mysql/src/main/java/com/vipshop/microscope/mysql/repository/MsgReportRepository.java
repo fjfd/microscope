@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.stereotype.Repository;
 
-import com.vipshop.microscope.mysql.template.JdbcTemplateFactory;
+import com.vipshop.microscope.mysql.factory.JdbcTemplateFactory;
 
 @Repository
 public class MsgReportRepository {
