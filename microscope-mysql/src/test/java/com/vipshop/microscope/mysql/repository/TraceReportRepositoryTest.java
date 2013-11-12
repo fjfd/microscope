@@ -19,23 +19,31 @@ public class TraceReportRepositoryTest {
 	@Test
 	public void testSave() {
 		CalendarUtil calendarUtil = new CalendarUtil();
-		TraceReport traceReport = new TraceReport();
-		traceReport.setId(TraceReport.makeId(calendarUtil, "example"));
-		traceReport.setYear(calendarUtil.currentYear());
-		traceReport.setMonth(calendarUtil.currentMonth());
-		traceReport.setWeek(calendarUtil.currentWeek());
-		traceReport.setDay(calendarUtil.currentDay());
-		traceReport.setHour(calendarUtil.currentHour());
-		traceReport.setType("action");
-		traceReport.setName("example");
-		traceReport.setTotalCount(100);
-		traceReport.setFailureCount(10);
-		traceReport.setFailurePrecent(1.2f);
-		traceReport.setMin(4.2f);
-		traceReport.setMax(4234f);
-		traceReport.setAvg(232);
-		traceReport.setTps(1.0f);
-		mySQLTemplate.save(traceReport);
+		for (int i = 0; i < 24; i++) {
+			for (int j = 0; j < 3; j++) {
+				for (int j2 = 0; j2 < 3; j2++) {
+					TraceReport traceReport = new TraceReport();
+					traceReport.setId(TraceReport.makeId(calendarUtil, "example"));
+					traceReport.setYear(calendarUtil.currentYear());
+					traceReport.setMonth(calendarUtil.currentMonth());
+					traceReport.setWeek(calendarUtil.currentWeek());
+					traceReport.setDay(calendarUtil.currentDay() + j);
+					traceReport.setHour(i + 1);
+					traceReport.setType("Type-id" + j2);
+					traceReport.setName("example-id-" + i);
+					traceReport.setTotalCount(100);
+					traceReport.setFailureCount(10);
+					traceReport.setFailurePrecent(0.1f);
+					traceReport.setMin(10);
+					traceReport.setMax(100);
+					traceReport.setAvg(12);
+					traceReport.setTps(13);
+					traceReport.setStartTime(System.currentTimeMillis());
+					traceReport.setEndTime(System.currentTimeMillis() + 100000);
+					mySQLTemplate.save(traceReport);
+				}
+			}
+		}
 	}
 	
 	@Test

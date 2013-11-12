@@ -20,7 +20,7 @@ public class TraceTest {
 			Tracer.clientSend("example2", Category.METHOD);
 			
 			try {
-				TimeUnit.SECONDS.sleep(1);
+				TimeUnit.MILLISECONDS.sleep(1);
 				System.out.println("example method invoke");
 			} catch (Exception e) {
 				Tracer.setResultCode(ResultCode.EXCEPTION);

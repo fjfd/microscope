@@ -1,5 +1,8 @@
 package com.vipshop.microscope.mysql.domain;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import com.vipshop.microscope.common.util.CalendarUtil;
 
 public class TraceReport {
@@ -36,7 +39,9 @@ public class TraceReport {
 	}
 	
 	public static float makeTPS(TraceReport report) {
-		return (report.getTotalCount() / report.getDuration()) * 1000;
+		BigDecimal count = new BigDecimal(report.getTotalCount() * 1000);
+		BigDecimal time = new BigDecimal(report.getDuration());
+		return count.divide(time, 3, RoundingMode.HALF_DOWN).floatValue();
 	}
 	
 	public int getYear() {
@@ -196,6 +201,14 @@ public class TraceReport {
 		return "TraceReport [id=" + id + ", year=" + year + ", month=" + month + ", week=" + week + ", day=" + day + ", hour=" + hour + ", type=" + type + ", name=" + name + ", totalCount="
 				+ totalCount + ", failureCount=" + failureCount + ", failurePrecent=" + failurePrecent + ", min=" + min + ", max=" + max + ", avg=" + avg + ", tps=" + tps + ", sum=" + sum
 				+ ", startTime=" + startTime + ", endTime=" + endTime + ", duration=" + duration + "]";
+	}
+	
+	public String toReportUseName() {
+		return "{'name':'" + name + "', 'totalCount':'" + totalCount + "', 'failureCount':'" + failureCount + "', 'failurePrecent':'" + failurePrecent + "', 'min':'" + min + "', 'max':'" + max + "', 'avg':'" + avg + "', 'tps':'" + tps + "'}";
+	}
+	
+	public String toReportUseType() {
+		return "{'type':" + type + ", 'totalCount':" + totalCount + ", failureCount:" + failureCount + ", failurePrecent:" + failurePrecent + ", min:" + min + ", max:" + max + ", avg:" + avg + ", tps:" + tps + "}";
 	}
 
 }

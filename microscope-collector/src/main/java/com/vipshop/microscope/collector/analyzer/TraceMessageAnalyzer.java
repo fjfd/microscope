@@ -62,7 +62,6 @@ public class TraceMessageAnalyzer {
 			report.setSum(duration);
 			report.setStartTime(startTime);
 			report.setEndTime(endTime);
-			report.setDuration(report.getEndTime() - report.getStartTime());
 			
 		} else {
 			
@@ -93,16 +92,16 @@ public class TraceMessageAnalyzer {
 			}
 			logger.info("report is " + report);
 			
-			report.setDuration(report.getEndTime() - report.getStartTime());
 		}
 		
+		report.setDuration(report.getEndTime() - report.getStartTime());
 		report.setTps(TraceReport.makeTPS(report));
 		
 		container.put(key, report);
-	
+		
 	}
 	
-	private void checkPrevious(CalendarUtil calendarUtil, String name) {
+	private synchronized void checkPrevious(CalendarUtil calendarUtil, String name) {
 		String key = TraceReport.makePreId(calendarUtil, name);
 		
 		TraceReport report = container.get(key);

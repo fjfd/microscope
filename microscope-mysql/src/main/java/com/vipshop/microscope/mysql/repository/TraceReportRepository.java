@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
@@ -16,6 +18,8 @@ import com.vipshop.microscope.mysql.factory.JdbcTemplateFactory;
 
 @Repository
 public class TraceReportRepository {
+	
+	private static final Logger logger = LoggerFactory.getLogger(TraceReportRepository.class);
 
 	private JdbcTemplate jdbcTemplate = JdbcTemplateFactory.JDBCTEMPLATE;
 
@@ -76,19 +80,47 @@ public class TraceReportRepository {
 
 			@Override
 			public TraceReport mapRow(ResultSet rs, int rowNum) throws SQLException {
-				TraceReport traceStat = new TraceReport();
-				traceStat.setType(rs.getString("type"));
-				traceStat.setTotalCount(rs.getLong("total_count"));
-				traceStat.setFailureCount(rs.getLong("failure_count"));
-				traceStat.setFailurePrecent(rs.getFloat("failure_precent"));
-				traceStat.setMin(rs.getFloat("min"));
-				traceStat.setMax(rs.getFloat("max"));
-				traceStat.setAvg(rs.getFloat("avg"));
-				list.add(traceStat);
-				return traceStat;
+				TraceReport traceReport = new TraceReport();
+				traceReport.setType(rs.getString("type"));
+				traceReport.setName(rs.getString("name"));
+				traceReport.setTotalCount(rs.getLong("total_count"));
+				traceReport.setFailureCount(rs.getLong("failure_count"));
+				traceReport.setFailurePrecent(rs.getFloat("failure_precent"));
+				traceReport.setMin(rs.getFloat("min"));
+				traceReport.setMax(rs.getFloat("max"));
+				traceReport.setAvg(rs.getFloat("avg"));
+				traceReport.setTps(rs.getFloat("tps"));
+				list.add(traceReport);
+				return traceReport;
 			}
 		});
 		return list;
 	}
+	
+	public List<TraceReport> findTraceReport(String sql) {
+		final List<TraceReport> list = new ArrayList<TraceReport>();
+		
+		logger.info("query : " + sql);
+		jdbcTemplate.query(sql, new RowMapper<TraceReport>() {
+
+			@Override
+			public TraceReport mapRow(ResultSet rs, int rowNum) throws SQLException {
+				TraceReport traceReport = new TraceReport();
+				traceReport.setType(rs.getString("type"));
+				traceReport.setName(rs.getString("name"));
+				traceReport.setTotalCount(rs.getLong("total_count"));
+				traceReport.setFailureCount(rs.getLong("failure_count"));
+				traceReport.setFailurePrecent(rs.getFloat("failure_precent"));
+				traceReport.setMin(rs.getFloat("min"));
+				traceReport.setMax(rs.getFloat("max"));
+				traceReport.setAvg(rs.getFloat("avg"));
+				traceReport.setTps(rs.getFloat("tps"));
+				list.add(traceReport);
+				return traceReport;
+			}
+		});
+		return list;
+	}
+
 
 }
