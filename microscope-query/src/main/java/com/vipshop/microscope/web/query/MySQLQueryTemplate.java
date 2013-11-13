@@ -2,8 +2,8 @@ package com.vipshop.microscope.web.query;
 
 import java.util.List;
 
-import com.vipshop.microscope.mysql.domain.TraceReport;
 import com.vipshop.microscope.mysql.factory.MySQLRepositorys;
+import com.vipshop.microscope.mysql.report.TraceReport;
 import com.vipshop.microscope.mysql.repository.TraceReportRepository;
 import com.vipshop.microscope.mysql.sql.SQLBuilder;
 

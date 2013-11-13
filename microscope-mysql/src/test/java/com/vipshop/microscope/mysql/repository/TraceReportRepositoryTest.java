@@ -3,20 +3,14 @@ package com.vipshop.microscope.mysql.repository;
 import org.testng.annotations.Test;
 
 import com.vipshop.microscope.common.util.CalendarUtil;
-import com.vipshop.microscope.mysql.domain.DurationDistReport;
-import com.vipshop.microscope.mysql.domain.OverTimeReport;
-import com.vipshop.microscope.mysql.domain.TraceReport;
 import com.vipshop.microscope.mysql.factory.MySQLRepositorys;
+import com.vipshop.microscope.mysql.report.DurationDistReport;
+import com.vipshop.microscope.mysql.report.OverTimeReport;
+import com.vipshop.microscope.mysql.report.TraceReport;
 
 public class TraceReportRepositoryTest {
 	
 	TraceReportRepository mySQLTemplate = MySQLRepositorys.TRACE_REPORT;
-	
-	@Test
-	public void testCreate() {
-		String sql = "CREATE TABLE t1(id int not null,name char(20))";
-		mySQLTemplate.create(sql);
-	}
 	
 	@Test
 	public void testSave() {

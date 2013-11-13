@@ -3,6 +3,7 @@ package com.vipshop.microscope.mysql.domain;
 import org.testng.annotations.Test;
 
 import com.vipshop.microscope.common.util.Logarithm;
+import com.vipshop.microscope.mysql.report.DurationDistReport;
 
 public class DurationDistReportTest {
 	

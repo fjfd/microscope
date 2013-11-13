@@ -1,4 +1,4 @@
-package com.vipshop.microscope.mysql.domain;
+package com.vipshop.microscope.mysql.report;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

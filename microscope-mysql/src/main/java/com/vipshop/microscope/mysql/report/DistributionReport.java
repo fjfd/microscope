@@ -1,4 +1,4 @@
-package com.vipshop.microscope.mysql.domain;
+package com.vipshop.microscope.mysql.report;
 
 
 /**

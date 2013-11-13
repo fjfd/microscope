@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.vipshop.microscope.mysql.domain.TraceReport;
+import com.vipshop.microscope.mysql.report.TraceReport;
 import com.vipshop.microscope.web.query.MySQLQueryTemplate;
 
 public class ReportService {

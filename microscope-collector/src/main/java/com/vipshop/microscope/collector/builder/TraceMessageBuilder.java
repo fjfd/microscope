@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.vipshop.microscope.hbase.domain.AppTrace;
 import com.vipshop.microscope.hbase.domain.TraceTable;
-import com.vipshop.microscope.mysql.domain.TraceReport;
+import com.vipshop.microscope.mysql.report.TraceReport;
 import com.vipshop.microscope.thrift.Annotation;
 import com.vipshop.microscope.thrift.AnnotationType;
 import com.vipshop.microscope.thrift.Span;

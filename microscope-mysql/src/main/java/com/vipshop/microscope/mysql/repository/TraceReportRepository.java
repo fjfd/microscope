@@ -13,10 +13,10 @@ import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.vipshop.microscope.mysql.domain.DurationDistReport;
-import com.vipshop.microscope.mysql.domain.OverTimeReport;
-import com.vipshop.microscope.mysql.domain.TraceReport;
 import com.vipshop.microscope.mysql.factory.JdbcTemplateFactory;
+import com.vipshop.microscope.mysql.report.DurationDistReport;
+import com.vipshop.microscope.mysql.report.OverTimeReport;
+import com.vipshop.microscope.mysql.report.TraceReport;
 
 @Repository
 public class TraceReportRepository {
@@ -24,11 +24,7 @@ public class TraceReportRepository {
 	private static final Logger logger = LoggerFactory.getLogger(TraceReportRepository.class);
 
 	private JdbcTemplate jdbcTemplate = JdbcTemplateFactory.JDBCTEMPLATE;
-
-	public void create(String sql) {
-		jdbcTemplate.execute(sql);
-	}
-
+	
 	public void save(final TraceReport traceReport) {
 		String insert = "insert into trace_report(id, year, month, week, day, hour, type, name, total_count, failure_count, failure_precent, min, max, avg, tps, start_time, end_time) " +
 				  	 	                  "values(?,  ?,    ?,     ?,    ?,   ?,    ?,    ?,    ?,           ?,             ?,               ?,   ?,   ?,   ?,   ?,          ?)";

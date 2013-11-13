@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory;
 
 import com.vipshop.microscope.common.util.CalendarUtil;
 import com.vipshop.microscope.common.util.Logarithm;
-import com.vipshop.microscope.mysql.domain.DurationDistReport;
 import com.vipshop.microscope.mysql.factory.MySQLRepositorys;
+import com.vipshop.microscope.mysql.report.DurationDistReport;
 import com.vipshop.microscope.thrift.Span;
 
 public class DurationDistAnalyzer {

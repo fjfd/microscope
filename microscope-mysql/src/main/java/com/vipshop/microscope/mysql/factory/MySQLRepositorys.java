@@ -5,8 +5,7 @@ import com.vipshop.microscope.mysql.repository.TraceReportRepository;
 
 public class MySQLRepositorys {
 	
-	public static final TraceReportRepository TRACE_REPORT = new TraceReportRepository();
-	public static final MsgReportRepository MSG_STAT_REPOSITORY = new MsgReportRepository();
-	
+	public static TraceReportRepository TRACE_REPORT = new TraceReportRepository();
+	public static MsgReportRepository MSG_REPORT = new MsgReportRepository();
 	
 }

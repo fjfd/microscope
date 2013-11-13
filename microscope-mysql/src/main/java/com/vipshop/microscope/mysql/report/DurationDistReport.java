@@ -1,4 +1,4 @@
-package com.vipshop.microscope.mysql.domain;
+package com.vipshop.microscope.mysql.report;
 
 import com.vipshop.microscope.common.util.CalendarUtil;
 import com.vipshop.microscope.common.util.Logarithm;

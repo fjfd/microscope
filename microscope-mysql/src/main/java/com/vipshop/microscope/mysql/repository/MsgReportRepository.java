@@ -15,35 +15,6 @@ public class MsgReportRepository {
 
 	private JdbcTemplate jdbcTemplate = JdbcTemplateFactory.JDBCTEMPLATE;
 
-	public void create(String sql) {
-		jdbcTemplate.execute(sql);
-	}
-	
-	public void stat(long size) {
-		if (exist()) {
-			update(size);
-		} else {
-			save(size);
-		}
-	}
-
-	/**
-	 * check one msg_stat exist or not.
-	 * 
-	 * @param trace
-	 * @return
-	 */
-	public boolean exist() {
-		String sql = "select count(*) from msg_stat where msg_day = ?";
-		
-		Integer count = jdbcTemplate.queryForObject(sql, new Object[]{msgDay()}, Integer.class);
-		if (count.intValue() == 0) {
-			return false;
-		}
-		return true;
-
-	}
-
 	public void save(final long size) {
 		String insert = "insert into msg_stat(msg_day, msg_num, msg_size) values(?,?,?)";
 
