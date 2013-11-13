@@ -35,6 +35,7 @@ public class TraceMessageCounter {
 		} catch (TException e) {
 			logger.debug("decode logEntry to span error, ingnore this logEntry");
 			statFailure();
+			return null;
 		}
 		statSuccess(span);
 		return span;

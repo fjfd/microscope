@@ -797,7 +797,7 @@ public abstract class AbstractHttpClient implements HttpClient {
     public final HttpResponse execute(HttpUriRequest request)
         throws IOException, ClientProtocolException {
 
-    	Tracer.clientSend(request, Category.HTTP_CALL);
+    	Tracer.clientSend(request, Category.URL);
         HttpResponse response = execute(request, (HttpContext) null);
         Tracer.clientReceive();
         return response;
@@ -842,7 +842,7 @@ public abstract class AbstractHttpClient implements HttpClient {
 
     public final HttpResponse execute(HttpHost target, HttpRequest request)
         throws IOException, ClientProtocolException {
-    	Tracer.clientSend(request, Category.HTTP_CALL);
+    	Tracer.clientSend(request, Category.URL);
         HttpResponse response = execute(target, request, (HttpContext) null);
         Tracer.clientReceive();
         return response;

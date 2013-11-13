@@ -14,13 +14,22 @@ package com.vipshop.microscope.trace.span;
  */
 public enum Category {
 	
-	ACTION,
-	SERVICE,
-	DAO,
-	CACHE,
-	DB,
-	SQL,
-	RPC,
-	METHOD,
-	HTTP_CALL;
+	METHOD("Method"),
+	ACTION("Action"),
+	SERVICE("Service"),
+	DAO("DB"),
+	CACHE("Cache"),
+	URL("URL"),
+	THRIFTCALL("Thrift"),
+	SYSTEM("System");
+	
+	private String value;
+	
+	Category(String value){
+		this.value = value;
+	}
+	
+	public String getValue() {
+		return value;
+	}
 }

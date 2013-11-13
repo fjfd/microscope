@@ -35,8 +35,18 @@ public class CalendarUtil {
 		return new java.util.Date(currentYear(), currentMonth() - 1, currentDay(), currentHour(), 0, 0).getTime();
 	}
 	
+	@SuppressWarnings("deprecation")
+	public long uniqueTimeStampToMin() {
+		int minute = currentMinute() / 5;
+		return new java.util.Date(currentYear(), currentMonth() - 1, currentDay(), currentHour(), minute * 5, 0).getTime();
+	}
+	
 	public long uniquePreTimeStamp() {
 		return uniqueTimeStamp() - (1000 * 60 * 60);
+	}
+	
+	public long uniquePreTimeStampToMin() {
+		return uniqueTimeStampToMin() - (1000 * 60 * 5);
 	}
 	
 }

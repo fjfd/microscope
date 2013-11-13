@@ -64,9 +64,10 @@ public class SpanBuilder {
 	public void clientSend(String spanName, Category category) {
 		Span span = new Span();
 		// set span order
+		span.setApp_name(Constant.APP_NAME);
 		span.setTrace_id(spanContext.getTraceId());
 		span.setName(spanName);
-		span.setType(category.toString());
+		span.setType(category.getValue());
 		span.setStartstamp(System.currentTimeMillis());
 		span.setResultCode(ResultCode.OK);
 		span.setIPAddress(IPAddressUtil.IPAddress());
@@ -81,7 +82,6 @@ public class SpanBuilder {
 			spanContext.getSpanId().setSpanId(spanContext.getTraceId());
 			// make top span flag to be false.
 			spanContext.setRootSpanFlagFalse();
-			span.setApp_name(Constant.APP_NAME);
 		} else {
 			/*
 			 * if this coming span is a sub span.
@@ -95,7 +95,7 @@ public class SpanBuilder {
 		 * add send annotation to span.
 		 */
 		span.addToAnnotations(AnnotationBuilder.clientSendAnnotation());
-		span.addToAnnotations(AnnotationBuilder.serverReceAnnotation());
+//		span.addToAnnotations(AnnotationBuilder.serverReceAnnotation());
 		
 		/*
 		 * make the new span be the
@@ -131,9 +131,9 @@ public class SpanBuilder {
 		Span span = spanStack.pop();
 		
 		Annotation startAnnotation = span.annotations.get(0);
-		span.addToAnnotations(AnnotationBuilder.serverSendAnnotation());
+//		span.addToAnnotations(AnnotationBuilder.serverSendAnnotation());
     	span.addToAnnotations(AnnotationBuilder.clientReceAnnotation());
-    	Annotation endAnnotation = span.annotations.get(3);
+    	Annotation endAnnotation = span.annotations.get(1);
     	int duration = (int) (endAnnotation.getTimestamp() - startAnnotation.getTimestamp());
     	span.setDuration(duration);
     	/*

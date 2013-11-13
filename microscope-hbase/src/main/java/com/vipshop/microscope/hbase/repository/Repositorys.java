@@ -12,7 +12,6 @@ public class Repositorys {
 	public static AppTraceRepository APP_TRACE;
 	public static TraceTableRepository TRACE;
 	public static SpanTableRepository SPAN;
-	public static StatByTypeRepository STAT_TYPE;
 	
 	static {
 		AbstractApplicationContext context = new ClassPathXmlApplicationContext("/applicationContext-hbase.xml", Repositorys.class);
@@ -20,7 +19,6 @@ public class Repositorys {
 		APP_TRACE = context.getBean(AppTraceRepository.class);
 		TRACE = context.getBean(TraceTableRepository.class);
 		SPAN = context.getBean(SpanTableRepository.class);
-		STAT_TYPE = context.getBean(StatByTypeRepository.class);
 		
 		synchronized (Repositorys.class) {
 			init();
@@ -39,8 +37,6 @@ public class Repositorys {
 		logger.info("init hbase table span");
 		SPAN.initialize();
 		
-		logger.info("init hbaset table stat_by_type");
-		STAT_TYPE.initialize();
 	}
 	
 	public static void drop() {
@@ -53,8 +49,6 @@ public class Repositorys {
 		logger.info("drop hbase table span");
 		SPAN.drop();
 		
-		logger.info("drop hbase table stat_by_type");
-		STAT_TYPE.drop();
 	}
 	
 }

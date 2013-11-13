@@ -3,6 +3,8 @@ package com.vipshop.microscope.mysql.repository;
 import org.testng.annotations.Test;
 
 import com.vipshop.microscope.common.util.CalendarUtil;
+import com.vipshop.microscope.mysql.domain.DurationDistReport;
+import com.vipshop.microscope.mysql.domain.OverTimeReport;
 import com.vipshop.microscope.mysql.domain.TraceReport;
 import com.vipshop.microscope.mysql.factory.MySQLRepositorys;
 
@@ -47,12 +49,50 @@ public class TraceReportRepositoryTest {
 	}
 	
 	@Test
+	public void testSaveDurationDistReport() {
+		
+		DurationDistReport report = new DurationDistReport();
+		
+		report.setId(DurationDistReport.makeId(new CalendarUtil(), "example"));
+		report.setYear(2013);
+		report.setMonth(11);
+		report.setWeek(3);
+		report.setDay(13);
+		report.setHour(13);
+		report.setType("cache");
+		report.setName("example");
+		report.setRegion_0(1);
+		report.setRegion_1(3);
+		
+		
+		mySQLTemplate.save(report);
+		
+	}
+	
+	@Test
+	public void testSaveOverTime() {
+		OverTimeReport report = new OverTimeReport();
+		
+		report.setId("exmaple");
+		report.setYear(2013);
+		report.setMonth(11);
+		report.setWeek(3);
+		report.setDay(13);
+		report.setHour(13);
+		report.setMinute(5);
+		report.setType("cache");
+		report.setName("example");
+		
+		report.setAvgDuration(23f);
+		report.setHitCount(122);
+		report.setFailCount(23);
+		
+		mySQLTemplate.save(report);
+	}
+	
+	@Test
 	public void testfind() {
 		System.out.println(mySQLTemplate.findTraceReport());;
 	}
 	
-	@Test
-	public void exist() {
-		System.out.println(mySQLTemplate.exist("trace/queryconditon"));
-	}
 }

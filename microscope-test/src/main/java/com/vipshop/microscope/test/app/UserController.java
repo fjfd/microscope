@@ -1,6 +1,8 @@
 package com.vipshop.microscope.test.app;
 
+import java.util.Random;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import com.vipshop.microscope.trace.Trace;
 import com.vipshop.microscope.trace.TraceFactory;
@@ -22,8 +24,10 @@ public class UserController implements Runnable {
 		this.contexTrace = contexTrace;
 	}
 	
-	public void login() {
-		Tracer.clientSend("login", Category.METHOD);
+	public void login() throws InterruptedException {
+		TimeUnit.MILLISECONDS.sleep(new Random(10).nextInt());
+		Tracer.clientSend("login-service", Category.SERVICE);
+		TimeUnit.MILLISECONDS.sleep(new Random(100).nextInt());
 		userService.login();
 		Tracer.clientReceive();
 	}
@@ -33,7 +37,12 @@ public class UserController implements Runnable {
 		TraceFactory.setContext(contexTrace);
 		Trace trace = TraceFactory.getTrace();
 		trace.clientSend("login", Category.ACTION);
-		userService.login();
+		try {
+			userService.login();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		trace.clientReceive();
 		startSignal.countDown();
 	}

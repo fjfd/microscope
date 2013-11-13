@@ -1,5 +1,6 @@
 package com.vipshop.microscope.mysql.domain;
 
+
 /**
  * Invoke source distribution.
  * 

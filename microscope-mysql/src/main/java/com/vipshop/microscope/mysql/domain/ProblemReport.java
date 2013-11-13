@@ -1,5 +1,5 @@
 package com.vipshop.microscope.mysql.domain;
 
-public class AlertReport {
+public class ProblemReport {
 
 }
