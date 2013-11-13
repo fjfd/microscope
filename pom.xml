@@ -26,7 +26,6 @@
 		<module>microscope-framework</module>
 		<module>microscope-gen</module>
 		<module>microscope-hbase</module>
-		<module>microscope-job</module>
 		<module>microscope-mysql</module>
 		<module>microscope-query</module>
 		<module>microscope-test</module>
