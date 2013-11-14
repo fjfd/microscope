@@ -2,28 +2,26 @@ package com.vipshop.microscope.web.query;
 
 import java.util.List;
 
-import com.vipshop.microscope.mysql.factory.MySQLRepositorys;
 import com.vipshop.microscope.mysql.report.TraceReport;
-import com.vipshop.microscope.mysql.repository.TraceReportRepository;
-import com.vipshop.microscope.mysql.sql.SQLBuilder;
+import com.vipshop.microscope.mysql.repository.ReportRepository;
 
 public class MySQLQueryTemplate {
 	
-	TraceReportRepository repository = MySQLRepositorys.TRACE_REPORT;
+	ReportRepository repository = new ReportRepository();
 	
 	public List<TraceReport> beforeHourTraceReport(int before) {
-		return repository.findTraceReport(SQLBuilder.beforeHourTraceQuery(before));
+		return null;
 	}
 	
 	public List<TraceReport> getTraceReportUseName() {
-		return repository.findTraceReport(SQLBuilder.getTraceReportByName());
+		return null;
 	}
 	
 	public List<TraceReport> getTraceReportUseName(String name) {
-		return repository.findTraceReport(SQLBuilder.getTraceReportByName(name));
+		return null;
 	}
 	
 	public List<TraceReport> getTraceReportUseType() {
-		return repository.findTraceReport(SQLBuilder.getTraceReportByType());
+		return null;
 	}
 }

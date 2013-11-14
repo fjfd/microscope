@@ -4,8 +4,6 @@ import com.vipshop.microscope.common.util.CalendarUtil;
 
 public class OverTimeReport {
 
-	private String id;
-
 	private int year;
 	private int month;
 	private int week;
@@ -32,14 +30,6 @@ public class OverTimeReport {
 
 	public static String makePreId(CalendarUtil calendarUtil, String traceName) {
 		return calendarUtil.uniquePreTimeStampToMin() + "-" + traceName;
-	}
-	
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public int getYear() {

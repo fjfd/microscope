@@ -2,6 +2,9 @@ package com.vipshop.microscope.mysql.repository;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.vipshop.microscope.mysql.condition.TraceReportCondition;
 import com.vipshop.microscope.mysql.factory.DaoFactory;
 import com.vipshop.microscope.mysql.report.DurationDistReport;
@@ -11,11 +14,21 @@ import com.vipshop.microscope.mysql.report.TraceReport;
 
 public class ReportRepository {
 	
+	private static Logger logger = LoggerFactory.getLogger(ReportRepository.class);
+	
+	private static final ReportRepository REPOSITORY = new ReportRepository();
+	
+	public static ReportRepository getRepository() {
+		return REPOSITORY;
+	}
+	
 	public void emptyTraceReport() {
 		DaoFactory.TRACE_REPORT_DAO.emptyTraceReport();
 	}
 	
 	public void save(TraceReport traceReport) {
+		logger.info("save tracereport to mysql: " + traceReport);
+		
 		DaoFactory.TRACE_REPORT_DAO.saveTraceReport(traceReport);
 	}
 	
@@ -24,11 +37,23 @@ public class ReportRepository {
 	}
 	
 	public void save(DurationDistReport durationDistReport) {
+		logger.info("save durationDistReport to mysql: " + durationDistReport);
+		
 		DaoFactory.TRACE_REPORT_DAO.saveDurationDistReport(durationDistReport);
 	}
 	
+	public void emptyDurationDistReport() {
+		DaoFactory.TRACE_REPORT_DAO.emptyDurationDist();
+	}
+	
 	public void save(OverTimeReport overTimeReport) {
+		logger.info("save overTimeReport to mysql: " + overTimeReport);
+		
 		DaoFactory.TRACE_REPORT_DAO.saveOverTimeReport(overTimeReport);
+	}
+	
+	public void emptyOverTimeReport() {
+		DaoFactory.TRACE_REPORT_DAO.emptyOverTimeReport();
 	}
 	
 	public void save(MsgReport msgReport) {

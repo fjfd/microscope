@@ -2,8 +2,6 @@ package com.vipshop.microscope.mysql.report;
 
 public class MsgReport {
 	
-	private String id;
-	
 	private int year;
 	private int month;
 	private int week;
@@ -16,16 +14,6 @@ public class MsgReport {
 	private long failMsgSize;
 	private float failMsgPre;
 	
-	public String getId() {
-		return id;
-	}
-
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-
 	public int getYear() {
 		return year;
 	}
@@ -128,7 +116,7 @@ public class MsgReport {
 
 	@Override
 	public String toString() {
-		return "MsgReport [id=" + id + ", year=" + year + ", month=" + month + ", week=" + week + ", day=" + day + ", hour=" + hour + ", msgNum=" + msgNum + ", msgSize=" + msgSize + ", failMsgNum="
+		return "MsgReport [year=" + year + ", month=" + month + ", week=" + week + ", day=" + day + ", hour=" + hour + ", msgNum=" + msgNum + ", msgSize=" + msgSize + ", failMsgNum="
 				+ failMsgNum + ", failMsgSize=" + failMsgSize + ", failMsgPre=" + failMsgPre + "]";
 	}
 	

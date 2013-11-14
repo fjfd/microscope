@@ -5,8 +5,6 @@ import com.vipshop.microscope.common.util.Logarithm;
 
 public class DurationDistReport {
 
-	private String id;
-
 	private int year;
 	private int month;
 	private int week;
@@ -102,14 +100,6 @@ public class DurationDistReport {
 		default:
 			break;
 		}
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public int getYear() {
@@ -306,7 +296,7 @@ public class DurationDistReport {
 
 	@Override
 	public String toString() {
-		return "DurationDistReport [id=" + id + ", year=" + year + ", month=" + month + ", week=" + week + ", day=" + day + ", hour=" + hour + ", type=" + type + ", name=" + name + ", region_0="
+		return "DurationDistReport [year=" + year + ", month=" + month + ", week=" + week + ", day=" + day + ", hour=" + hour + ", type=" + type + ", name=" + name + ", region_0="
 				+ region_0 + ", region_1=" + region_1 + ", region_2=" + region_2 + ", region_3=" + region_3 + ", region_4=" + region_4 + ", region_5=" + region_5 + ", region_6=" + region_6
 				+ ", region_7=" + region_7 + ", region_8=" + region_8 + ", region_9=" + region_9 + ", region_10=" + region_10 + ", region_11=" + region_11 + ", region_12=" + region_12
 				+ ", region_13=" + region_13 + ", region_14=" + region_14 + ", region_15=" + region_15 + ", region_16=" + region_16 + "]";

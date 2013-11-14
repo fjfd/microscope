@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.vipshop.microscope.collector.consumer.MessageConsumerExecutor;
+import com.vipshop.microscope.collector.report.ReportWriterExecutor;
 import com.vipshop.microscope.collector.thrift.ThriftServerExecutor;
 
 public class CollectorServer implements Runnable {
@@ -16,6 +17,9 @@ public class CollectorServer implements Runnable {
 		logger.info("start message consumer thread pool, size " + CollectorConstant.CONSUMER_POOL_SIZE);
 		MessageConsumerExecutor.startMessageConsumer();
 		
+		logger.info("start report wirter thread pool, size 1");
+		ReportWriterExecutor.startReportWriter();
+		
 		logger.info("start collector server on port: " + CollectorConstant.COLLECTOR_PORT);
 		ThriftServerExecutor.startNonBlockingServer();
 
@@ -25,6 +29,9 @@ public class CollectorServer implements Runnable {
 		
 		logger.info("start message consumer thread pool, size " + CollectorConstant.CONSUMER_POOL_SIZE);
 		MessageConsumerExecutor.startMessageConsumer();
+		
+		logger.info("start report wirter thread pool, size 1");
+		ReportWriterExecutor.startReportWriter();
 		
 		logger.info("start collector server on port: " + CollectorConstant.COLLECTOR_PORT);
 		ThriftServerExecutor.startNonBlockingServer();
@@ -36,6 +43,9 @@ public class CollectorServer implements Runnable {
 		
 		logger.info("start message consumer thread pool, size " + CollectorConstant.CONSUMER_POOL_SIZE);
 		MessageConsumerExecutor.startMessageConsumer();
+		
+		logger.info("start report wirter thread pool, size 1");
+		ReportWriterExecutor.startReportWriter();
 		
 		logger.info("start collector server on port: " + CollectorConstant.COLLECTOR_PORT);
 		try {

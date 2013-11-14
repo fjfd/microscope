@@ -2,6 +2,7 @@ package com.vipshop.microscope.mysql.repository;
 
 import org.testng.annotations.Test;
 
+import com.vipshop.microscope.mysql.condition.TraceReportCondition;
 import com.vipshop.microscope.mysql.report.DurationDistReport;
 import com.vipshop.microscope.mysql.report.MsgReport;
 import com.vipshop.microscope.mysql.report.OverTimeReport;
@@ -20,7 +21,6 @@ public class ReportRepositoryTest {
 	public void testSaveTraceReport() {
 		for (int i = 0; i < 100; i++) {
 			TraceReport report = new TraceReport();
-			report.setId("id-" + i);
 			report.setYear(2013);
 			report.setMonth(11);
 			report.setWeek(3);
@@ -39,18 +39,23 @@ public class ReportRepositoryTest {
 			report.setTps(1.3f);
 			report.setStartTime(System.currentTimeMillis());
 			report.setEndTime(System.currentTimeMillis() + 1000);
-			report.setAvgDuration(100);
 			
 			reportRepository.save(report);
 		}
 	}
 	
 	@Test
+	public void testFind() {
+		TraceReportCondition condition = new TraceReportCondition();
+		condition.setAppName("picket");
+		
+		System.out.println(reportRepository.findByApp(condition));;
+	}
+	
+	@Test
 	public void testSaveDuraDistReport() {
 		for (int i = 0; i < 100; i++) {
 			DurationDistReport report = new DurationDistReport();
-			
-			report.setId("id-" + i);
 			report.setYear(2013);
 			report.setMonth(11);
 			report.setWeek(3);
@@ -83,10 +88,14 @@ public class ReportRepositoryTest {
 	}
 	
 	@Test
+	public void emptyDuraDist() {
+		reportRepository.emptyDurationDistReport();
+	}
+	
+	@Test
 	public void testSaveOverTimeReport() {
 		for (int i = 0; i < 100; i++) {
 			OverTimeReport report = new OverTimeReport();
-			report.setId("id-" + i);
 			report.setYear(2013);
 			report.setMonth(11);
 			report.setWeek(3);
@@ -102,6 +111,11 @@ public class ReportRepositoryTest {
 			
 			reportRepository.save(report);
 		}
+	}
+	
+	@Test
+	public void emptyOverTimeReport() {
+		reportRepository.emptyOverTimeReport();
 	}
 	
 	@Test

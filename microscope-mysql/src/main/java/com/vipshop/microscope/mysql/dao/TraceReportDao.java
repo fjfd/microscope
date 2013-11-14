@@ -19,6 +19,10 @@ public interface TraceReportDao {
 
 	public void saveDurationDistReport(DurationDistReport durationDistReport);
 	
+	public void emptyDurationDist();
+	
 	public void saveOverTimeReport(OverTimeReport overTimeReport);
+	
+	public void emptyOverTimeReport();
 	
 }

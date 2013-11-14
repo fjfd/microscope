@@ -3,11 +3,8 @@ package com.vipshop.microscope.mysql.report;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-import com.vipshop.microscope.common.util.CalendarUtil;
-
 public class TraceReport {
 	
-	private String id;
 	private int year;
 	private int month;
 	private int week;
@@ -30,20 +27,9 @@ public class TraceReport {
 	private long startTime;
 	private long endTime;
 	
-	private long avgDuration;
-	
-	
-	public static String makeId(CalendarUtil calendarUtil, String traceName) {
-		return calendarUtil.uniqueTimeStamp() + "-" + traceName;
-	}
-	
-	public static String makePreId(CalendarUtil calendarUtil, String traceName) {
-		return calendarUtil.uniquePreTimeStamp() + "-" + traceName;
-	}
-	
 	public static float makeTPS(TraceReport report) {
-		BigDecimal count = new BigDecimal(report.getTotalCount() * 1000);
-		BigDecimal time = new BigDecimal(report.getAvgDuration());
+		BigDecimal count = new BigDecimal(report.getTotalCount());
+		BigDecimal time = new BigDecimal((report.getEndTime() - report.getStartTime()) / 1000);
 		return count.divide(time, 3, RoundingMode.HALF_DOWN).floatValue();
 	}
 	
@@ -159,14 +145,6 @@ public class TraceReport {
 		this.tps = tps;
 	}
 
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
 	public long getStartTime() {
 		return startTime;
 	}
@@ -191,15 +169,6 @@ public class TraceReport {
 		this.sum = sum;
 	}
 
-	public long getAvgDuration() {
-		return avgDuration;
-	}
-
-	public void setAvgDuration(long duration) {
-		this.avgDuration = duration;
-	}
-
-
 	public String getApp() {
 		return app;
 	}
@@ -210,9 +179,9 @@ public class TraceReport {
 
 	@Override
 	public String toString() {
-		return "TraceReport [id=" + id + ", year=" + year + ", month=" + month + ", week=" + week + ", day=" + day + ", hour=" + hour + ", app=" + app + ", type=" + type + ", name=" + name
+		return "TraceReport [year=" + year + ", month=" + month + ", week=" + week + ", day=" + day + ", hour=" + hour + ", app=" + app + ", type=" + type + ", name=" + name
 				+ ", totalCount=" + totalCount + ", failureCount=" + failureCount + ", failurePrecent=" + failurePrecent + ", min=" + min + ", max=" + max + ", avg=" + avg + ", tps=" + tps + ", sum="
-				+ sum + ", startTime=" + startTime + ", endTime=" + endTime + ", duration=" + avgDuration + "]";
+				+ sum + ", startTime=" + startTime + ", endTime=" + "]";
 	}
 
 	public String getIpAdress() {

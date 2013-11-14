@@ -4,7 +4,6 @@
 <mapper namespace="com.vipshop.microscope.mysql.dao.TraceReportDao">
 
 	<resultMap id="traceReportList" type="TraceReport">
-		<id column="id" property="id" />
 		<result column="year" property="year" />
 		<result column="month" property="month" />
 		<result column="week" property="week" />
@@ -36,32 +35,41 @@
 	
 	<insert id="saveTraceReport" parameterType="TraceReport">
 		insert into trace_report
-		(id, year, month, week, day, hour, app, ip_adress, type, name, total_count, failure_count, failure_precent, min, max, avg, tps, start_time, end_time, avg_duration)
+		(year, month, week, day, hour, app, ip_adress, type, name, total_count, failure_count, failure_precent, min, max, sum, avg, tps, start_time, end_time)
 		values
-		(#{id},#{year},#{month},#{week},#{day},#{hour},#{app},#{ipAdress},#{type},#{name},#{totalCount},#{failureCount},#{failurePrecent},#{min},#{max},#{avg},#{tps},#{startTime},#{endTime},#{avgDuration})
+		(#{year},#{month},#{week},#{day},#{hour},#{app},#{ipAdress},#{type},#{name},#{totalCount},#{failureCount},#{failurePrecent},#{min},#{max},#{sum},#{avg},#{tps},#{startTime},#{endTime})
 	</insert>
 	
 	<select id="findTraceReportByApp" parameterType="TraceReportCondition"
 		resultMap="traceReportList">
 		SELECT app, type, name, SUM(total_count) AS total_count, SUM(failure_count) AS failure_count, TRUNCATE(failure_count/total_count, 3) as failure_precent,
-		MIN(MIN) AS MIN, MAX(MAX) AS MAX, AVG(AVG) AS AVG, TRUNCATE(total_count/((MAX(end_time) - MIN(start_time)) / 1000), 3) AS tps, 
-		From trace_report 
+		MIN(MIN) AS MIN, MAX(MAX) AS MAX, AVG(AVG) AS AVG, TRUNCATE(total_count/((MAX(end_time) - MIN(start_time)) / 1000), 3) AS tps
+		From trace_report
 		WHERE app = #{appName}
-		GROUP BY type;
+		GROUP BY app;
 	</select>
 	
 	<insert id="saveDurationDistReport" parameterType="DurationDistReport">
 		insert into duration_dist_report
-		(id, year, month, week, day, hour, app, ip_adress, type, name, region_0, region_1, region_2, region_3, region_4, region_5, region_6, region_7, region_8, region_9, region_10, region_11, region_12, region_13, region_14, region_15, region_16)
+		(year, month, week, day, hour, app, ip_adress, type, name, region_0, region_1, region_2, region_3, region_4, region_5, region_6, region_7, region_8, region_9, region_10, region_11, region_12, region_13, region_14, region_15, region_16)
 		values
-		(#{id},#{year},#{month},#{week},#{day},#{hour},#{app},#{ipAdress},#{type},#{name},#{region_0},#{region_1},#{region_2},#{region_3},#{region_4},#{region_5},#{region_6},#{region_7},#{region_8},#{region_9},#{region_10},#{region_11},#{region_12},#{region_13},#{region_14},#{region_15},#{region_16})
+		(#{year},#{month},#{week},#{day},#{hour},#{app},#{ipAdress},#{type},#{name},#{region_0},#{region_1},#{region_2},#{region_3},#{region_4},#{region_5},#{region_6},#{region_7},#{region_8},#{region_9},#{region_10},#{region_11},#{region_12},#{region_13},#{region_14},#{region_15},#{region_16})
 	</insert>
+	
+	<delete id="emptyDurationDist">
+		DELETE FROM duration_dist_report;
+	</delete>
 	
 	<insert id="saveOverTimeReport" parameterType="OverTimeReport">
 		insert into over_time_report
-		(id, year, month, week, day, hour, minute, app, ip_adress, type, name, avg_dura, hit_count, fail_count)
+		(year, month, week, day, hour, minute, app, ip_adress, type, name, avg_dura, hit_count, fail_count)
 		values
-		(#{id},#{year},#{month},#{week},#{day},#{hour},#{minute},#{app},#{ipAdress},#{type},#{name},#{avgDura},#{hitCount},#{failCount})
+		(#{year},#{month},#{week},#{day},#{hour},#{minute},#{app},#{ipAdress},#{type},#{name},#{avgDura},#{hitCount},#{failCount})
 	</insert>
+	
+	<delete id="emptyOverTimeReport">
+		DELETE FROM over_time_report;
+	</delete>
+	
 
 </mapper>
