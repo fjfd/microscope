@@ -2,6 +2,7 @@ package com.vipshop.microscope.collector.analyzer;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.vipshop.microscope.collector.report.ReportContainer;
 import com.vipshop.microscope.common.util.CalendarUtil;
 import com.vipshop.microscope.common.util.Logarithm;
 import com.vipshop.microscope.mysql.report.DurationDistReport;
@@ -12,9 +13,9 @@ import com.vipshop.microscope.thrift.Span;
 
 public class TraceMessageAnalyzer {
 	
-	private static final ConcurrentHashMap<Long, TraceReport> traceContainer = new ConcurrentHashMap<Long, TraceReport>();
-	private static final ConcurrentHashMap<Long, DurationDistReport> duraDistContainer = new ConcurrentHashMap<Long, DurationDistReport>();
-	private static final ConcurrentHashMap<Long, OverTimeReport> overTimeContainer = new ConcurrentHashMap<Long, OverTimeReport>();
+	private static final ConcurrentHashMap<Long, TraceReport> traceContainer = ReportContainer.getTracecontainer();
+	private static final ConcurrentHashMap<Long, DurationDistReport> duraDistContainer = ReportContainer.getDuradistcontainer();
+	private static final ConcurrentHashMap<Long, OverTimeReport> overTimeContainer = ReportContainer.getOvertimecontainer();
 	
 	public void analyze(Span span) {
 		
@@ -156,18 +157,6 @@ public class TraceMessageAnalyzer {
 		}
 		
 		overTimeContainer.put(key5Minute, report);
-	}
-
-	public static ConcurrentHashMap<Long, TraceReport> getTracecontainer() {
-		return traceContainer;
-	}
-
-	public static ConcurrentHashMap<Long, DurationDistReport> getDuradistcontainer() {
-		return duraDistContainer;
-	}
-
-	public static ConcurrentHashMap<Long, OverTimeReport> getOvertimecontainer() {
-		return overTimeContainer;
 	}
 
 }

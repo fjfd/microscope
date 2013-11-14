@@ -6,7 +6,6 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.vipshop.microscope.collector.analyzer.TraceMessageAnalyzer;
 import com.vipshop.microscope.common.util.CalendarUtil;
 import com.vipshop.microscope.mysql.report.DurationDistReport;
 import com.vipshop.microscope.mysql.report.OverTimeReport;
@@ -18,9 +17,9 @@ public class ReportWriter implements Runnable {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ReportWriter.class);
 	
-	private final ConcurrentHashMap<Long, TraceReport> traceContainer = TraceMessageAnalyzer.getTracecontainer();
-	private final ConcurrentHashMap<Long, DurationDistReport> duraDistContainer = TraceMessageAnalyzer.getDuradistcontainer();
-	private final ConcurrentHashMap<Long, OverTimeReport> overTimeContainer = TraceMessageAnalyzer.getOvertimecontainer();
+	private final ConcurrentHashMap<Long, TraceReport> traceContainer = ReportContainer.getTracecontainer();
+	private final ConcurrentHashMap<Long, DurationDistReport> duraDistContainer = ReportContainer.getDuradistcontainer();
+	private final ConcurrentHashMap<Long, OverTimeReport> overTimeContainer = ReportContainer.getOvertimecontainer();
 	
 	private final ReportRepository repository = ReportRepository.getRepository();
 
