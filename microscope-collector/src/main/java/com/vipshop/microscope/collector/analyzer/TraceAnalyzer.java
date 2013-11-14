@@ -6,8 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.vipshop.microscope.common.util.CalendarUtil;
-import com.vipshop.microscope.mysql.factory.MySQLRepositorys;
 import com.vipshop.microscope.mysql.report.TraceReport;
+import com.vipshop.microscope.mysql.repository.ReportRepository;
 import com.vipshop.microscope.thrift.Span;
 
 public class TraceAnalyzer {
@@ -16,7 +16,7 @@ public class TraceAnalyzer {
 	
 	private final ConcurrentHashMap<String, TraceReport> container = new ConcurrentHashMap<String, TraceReport>();
 	
-	public void analyze(Span span, CalendarUtil calendarUtil) {
+	public void analyze(Span span, CalendarUtil calendarUtil, ReportRepository reportRepository) {
 		synchronized (container) {
 			String key = TraceReport.makePreId(calendarUtil, span.getType());
 			
@@ -25,7 +25,7 @@ public class TraceAnalyzer {
 			if (report != null) {
 				try {
 					logger.info("save report to mysql " + report);
-					MySQLRepositorys.TRACE_REPORT.save(report);
+					reportRepository.save(report);
 				} catch (Exception e) {
 					logger.error("lost report to mysql " + report);
 				} finally {
@@ -54,6 +54,7 @@ public class TraceAnalyzer {
 			report.setWeek(calendarUtil.currentWeek());
 			report.setDay(calendarUtil.currentDay());
 			report.setHour(calendarUtil.currentHour());
+			report.setApp(span.getApp_name());
 			report.setType(type);
 			report.setName(name);
 			
@@ -105,7 +106,7 @@ public class TraceAnalyzer {
 			
 		}
 		
-		report.setDuration(report.getEndTime() - report.getStartTime());
+		report.setAvgDuration(report.getEndTime() - report.getStartTime());
 		report.setTps(TraceReport.makeTPS(report));
 
 		container.put(key, report);

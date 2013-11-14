@@ -13,12 +13,14 @@ public class OverTimeReport {
 	private int hour;
 	private int minute;
 	
+	private String app;
+	private String ipAdress;
 	private String type;
 	private String name;
 
-	private float AvgDuration;
-	private int HitCount;
-	private int FailCount;
+	private float avgDura;
+	private int hitCount;
+	private int failCount;
 	
 	public int getRegion(int minute) {
 		return 0;
@@ -88,30 +90,14 @@ public class OverTimeReport {
 		this.minute = minute;
 	}
 
-	public float getAvgDuration() {
-		return AvgDuration;
+	public float getAvgDura() {
+		return avgDura;
 	}
 
-	public void setAvgDuration(float durationCount) {
-		AvgDuration = durationCount;
+	public void setAvgDura(float durationCount) {
+		avgDura = durationCount;
 	}
 
-	public int getHitCount() {
-		return HitCount;
-	}
-
-	public void setHitCount(int hitCount) {
-		HitCount = hitCount;
-	}
-
-	public int getFailCount() {
-		return FailCount;
-	}
-
-	public void setFailCount(int failCount) {
-		FailCount = failCount;
-	}
-	
 	public String getType() {
 		return type;
 	}
@@ -126,6 +112,38 @@ public class OverTimeReport {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getApp() {
+		return app;
+	}
+
+	public void setApp(String app) {
+		this.app = app;
+	}
+
+	public String getIpAdress() {
+		return ipAdress;
+	}
+
+	public void setIpAdress(String ipAdress) {
+		this.ipAdress = ipAdress;
+	}
+
+	public int getHitCount() {
+		return hitCount;
+	}
+
+	public void setHitCount(int hitCount) {
+		this.hitCount = hitCount;
+	}
+
+	public int getFailCount() {
+		return failCount;
+	}
+
+	public void setFailCount(int failCount) {
+		this.failCount = failCount;
 	}
 
 }

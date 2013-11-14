@@ -48,12 +48,12 @@ public class OverTimeAnalyzer {
 			report.setMinute((calendarUtil.currentMinute() / 5) * 5);
 			report.setType(span.getType());
 			report.setName(span.getName());
-			report.setAvgDuration(span.getDuration());
+			report.setAvgDura(span.getDuration());
 			report.setHitCount(1);
 			
 		} else {
 			report.setHitCount(report.getHitCount() + 1);
-			report.setAvgDuration((report.getAvgDuration() + span.getDuration()) / report.getHitCount());
+			report.setAvgDura((report.getAvgDura() + span.getDuration()) / report.getHitCount());
 		}
 		
 		if (!span.getResultCode().equals("OK")) {

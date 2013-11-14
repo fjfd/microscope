@@ -13,6 +13,8 @@ public class DurationDistReport {
 	private int day;
 	private int hour;
 	
+	private String app;
+	private String ipAdress;
 	private String type;
 	private String name;
 
@@ -308,6 +310,22 @@ public class DurationDistReport {
 				+ region_0 + ", region_1=" + region_1 + ", region_2=" + region_2 + ", region_3=" + region_3 + ", region_4=" + region_4 + ", region_5=" + region_5 + ", region_6=" + region_6
 				+ ", region_7=" + region_7 + ", region_8=" + region_8 + ", region_9=" + region_9 + ", region_10=" + region_10 + ", region_11=" + region_11 + ", region_12=" + region_12
 				+ ", region_13=" + region_13 + ", region_14=" + region_14 + ", region_15=" + region_15 + ", region_16=" + region_16 + "]";
+	}
+
+	public String getApp() {
+		return app;
+	}
+
+	public void setApp(String app) {
+		this.app = app;
+	}
+
+	public String getIpAdress() {
+		return ipAdress;
+	}
+
+	public void setIpAdress(String ipAdress) {
+		this.ipAdress = ipAdress;
 	}
 
 }

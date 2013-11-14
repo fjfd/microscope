@@ -13,6 +13,9 @@ public class TraceReport {
 	private int week;
 	private int day;
 	private int hour;
+	
+	private String app;
+	private String ipAdress;
 	private String type;
 	private String name;
 	private long totalCount;
@@ -27,7 +30,7 @@ public class TraceReport {
 	private long startTime;
 	private long endTime;
 	
-	private long duration;
+	private long avgDuration;
 	
 	
 	public static String makeId(CalendarUtil calendarUtil, String traceName) {
@@ -40,7 +43,7 @@ public class TraceReport {
 	
 	public static float makeTPS(TraceReport report) {
 		BigDecimal count = new BigDecimal(report.getTotalCount() * 1000);
-		BigDecimal time = new BigDecimal(report.getDuration());
+		BigDecimal time = new BigDecimal(report.getAvgDuration());
 		return count.divide(time, 3, RoundingMode.HALF_DOWN).floatValue();
 	}
 	
@@ -188,27 +191,36 @@ public class TraceReport {
 		this.sum = sum;
 	}
 
-	public long getDuration() {
-		return duration;
+	public long getAvgDuration() {
+		return avgDuration;
 	}
 
-	public void setDuration(long duration) {
-		this.duration = duration;
+	public void setAvgDuration(long duration) {
+		this.avgDuration = duration;
+	}
+
+
+	public String getApp() {
+		return app;
+	}
+
+	public void setApp(String app) {
+		this.app = app;
 	}
 
 	@Override
 	public String toString() {
-		return "TraceReport [id=" + id + ", year=" + year + ", month=" + month + ", week=" + week + ", day=" + day + ", hour=" + hour + ", type=" + type + ", name=" + name + ", totalCount="
-				+ totalCount + ", failureCount=" + failureCount + ", failurePrecent=" + failurePrecent + ", min=" + min + ", max=" + max + ", avg=" + avg + ", tps=" + tps + ", sum=" + sum
-				+ ", startTime=" + startTime + ", endTime=" + endTime + ", duration=" + duration + "]";
-	}
-	
-	public String toReportUseName() {
-		return "{'name':'" + name + "', 'totalCount':'" + totalCount + "', 'failureCount':'" + failureCount + "', 'failurePrecent':'" + failurePrecent + "', 'min':'" + min + "', 'max':'" + max + "', 'avg':'" + avg + "', 'tps':'" + tps + "'}";
-	}
-	
-	public String toReportUseType() {
-		return "{'type':" + type + ", 'totalCount':" + totalCount + ", failureCount:" + failureCount + ", failurePrecent:" + failurePrecent + ", min:" + min + ", max:" + max + ", avg:" + avg + ", tps:" + tps + "}";
+		return "TraceReport [id=" + id + ", year=" + year + ", month=" + month + ", week=" + week + ", day=" + day + ", hour=" + hour + ", app=" + app + ", type=" + type + ", name=" + name
+				+ ", totalCount=" + totalCount + ", failureCount=" + failureCount + ", failurePrecent=" + failurePrecent + ", min=" + min + ", max=" + max + ", avg=" + avg + ", tps=" + tps + ", sum="
+				+ sum + ", startTime=" + startTime + ", endTime=" + endTime + ", duration=" + avgDuration + "]";
 	}
 
+	public String getIpAdress() {
+		return ipAdress;
+	}
+
+	public void setIpAdress(String ipAdress) {
+		this.ipAdress = ipAdress;
+	}
+	
 }
