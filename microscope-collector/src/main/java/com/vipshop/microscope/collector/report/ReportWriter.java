@@ -11,7 +11,6 @@ import com.vipshop.microscope.mysql.report.DurationDistReport;
 import com.vipshop.microscope.mysql.report.OverTimeReport;
 import com.vipshop.microscope.mysql.report.TraceReport;
 import com.vipshop.microscope.mysql.repository.ReportRepository;
-import com.vipshop.microscope.mysql.timeline.WriteReportFrequency;
 
 public class ReportWriter implements Runnable {
 	
@@ -29,8 +28,8 @@ public class ReportWriter implements Runnable {
 			
 			CalendarUtil calendarUtil = new CalendarUtil();
 			
-			long prekeyHour = WriteReportFrequency.getPreKeyByHour(calendarUtil);
-			long preKey5Minute = WriteReportFrequency.getPreKeyByMinute(calendarUtil);
+			long prekeyHour = ReportFrequency.getPreKeyByHour(calendarUtil);
+			long preKey5Minute = ReportFrequency.getPreKeyByMinute(calendarUtil);
 			
 			TraceReport report = traceContainer.get(prekeyHour);
 			if (report != null) {

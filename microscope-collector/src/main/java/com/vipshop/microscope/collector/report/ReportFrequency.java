@@ -1,9 +1,9 @@
-package com.vipshop.microscope.mysql.timeline;
+package com.vipshop.microscope.collector.report;
 
 import com.vipshop.microscope.common.util.CalendarUtil;
 
 
-public class WriteReportFrequency {
+public class ReportFrequency {
 	
 	@SuppressWarnings("deprecation")
 	public static long generateKeyByHour(CalendarUtil calendar) {

@@ -3,12 +3,12 @@ package com.vipshop.microscope.collector.analyzer;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.vipshop.microscope.collector.report.ReportContainer;
+import com.vipshop.microscope.collector.report.ReportFrequency;
 import com.vipshop.microscope.common.util.CalendarUtil;
 import com.vipshop.microscope.common.util.Logarithm;
 import com.vipshop.microscope.mysql.report.DurationDistReport;
 import com.vipshop.microscope.mysql.report.OverTimeReport;
 import com.vipshop.microscope.mysql.report.TraceReport;
-import com.vipshop.microscope.mysql.timeline.WriteReportFrequency;
 import com.vipshop.microscope.thrift.Span;
 
 public class TraceMessageAnalyzer {
@@ -26,11 +26,11 @@ public class TraceMessageAnalyzer {
 		String type = span.getType();
 		String name = span.getName();
 		
-		long keyHour = WriteReportFrequency.generateKeyByHour(calendarUtil);
+		long keyHour = ReportFrequency.generateKeyByHour(calendarUtil);
 		processTrace(span, calendarUtil, app, ipAdress, type, name, keyHour);
 		processDuraDist(span, calendarUtil, app, ipAdress, type, name, keyHour);
 		
-		long key5Minute = WriteReportFrequency.generateKeyBy5Minute(calendarUtil);
+		long key5Minute = ReportFrequency.generateKeyBy5Minute(calendarUtil);
 		processOverTime(span, calendarUtil, app, ipAdress, type, name, key5Minute);
 		
 	}
