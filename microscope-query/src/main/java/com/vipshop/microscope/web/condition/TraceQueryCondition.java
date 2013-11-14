@@ -5,7 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class TraceQuery {
+public class TraceQueryCondition {
 	
 	public static Map<String, String> build(HttpServletRequest request) {
 		String appName = request.getParameter("appName");
