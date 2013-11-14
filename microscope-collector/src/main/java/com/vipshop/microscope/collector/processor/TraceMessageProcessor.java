@@ -15,7 +15,7 @@ public class TraceMessageProcessor extends AbstraceMessageProcessor {
 	@Override
 	public void process(LogEntry logEntry) {
 		
-		Span span = messageCounter.countAndReturnSpan(logEntry);
+		Span span = messageCounter.count(logEntry);
 		
 		if (span == null) {
 			return;

@@ -5,9 +5,9 @@
 	
 	<insert id="saveMsgReport" parameterType="MsgReport">
 		insert into msg_report
-		(year, month, week, day, hour, msg_num, msg_size, fail_msg_num, fail_msg_size, fail_msg_pre)
+		(year, month, week, day, hour, msg_num, msg_size)
 		values
-		(#{year},#{month},#{week},#{day},#{hour},#{msgNum},#{msgSize},#{failMsgNum},#{failMsgSize},#{failMsgPre})
+		(#{year},#{month},#{week},#{day},#{hour},#{msgNum},#{msgSize})
 	</insert>
 	
 </mapper>

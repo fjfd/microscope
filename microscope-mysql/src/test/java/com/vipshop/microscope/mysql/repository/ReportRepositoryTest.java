@@ -132,10 +132,6 @@ public class ReportRepositoryTest {
 			report.setMsgSize(1000);
 			report.setMsgNum(1000);
 			
-			report.setFailMsgNum(100);
-			report.setFailMsgSize(100);
-			report.setFailMsgPre(1.0f);
-			
 			reportRepository.save(report);
 			
 		}

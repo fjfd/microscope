@@ -3,14 +3,20 @@ package com.vipshop.microscope.collector.report;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.vipshop.microscope.mysql.report.DurationDistReport;
+import com.vipshop.microscope.mysql.report.MsgReport;
 import com.vipshop.microscope.mysql.report.OverTimeReport;
 import com.vipshop.microscope.mysql.report.TraceReport;
 
 public class ReportContainer {
 	
+	private static final ConcurrentHashMap<Long, MsgReport> msgContainer = new ConcurrentHashMap<Long, MsgReport>();
 	private static final ConcurrentHashMap<Long, TraceReport> traceContainer = new ConcurrentHashMap<Long, TraceReport>();
 	private static final ConcurrentHashMap<Long, DurationDistReport> duraDistContainer = new ConcurrentHashMap<Long, DurationDistReport>();
 	private static final ConcurrentHashMap<Long, OverTimeReport> overTimeContainer = new ConcurrentHashMap<Long, OverTimeReport>();
+
+	public static ConcurrentHashMap<Long, MsgReport> getMsgcontainer() {
+		return msgContainer;
+	}
 
 	public static ConcurrentHashMap<Long, TraceReport> getTracecontainer() {
 		return traceContainer;
@@ -23,5 +29,6 @@ public class ReportContainer {
 	public static ConcurrentHashMap<Long, OverTimeReport> getOvertimecontainer() {
 		return overTimeContainer;
 	}
+
 
 }

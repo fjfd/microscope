@@ -10,9 +10,6 @@ public class MsgReport {
 	
 	private long msgNum;
 	private long msgSize;
-	private long failMsgNum;
-	private long failMsgSize;
-	private float failMsgPre;
 	
 	public int getYear() {
 		return year;
@@ -83,42 +80,9 @@ public class MsgReport {
 		this.msgSize = msgSize;
 	}
 
-
-	public long getFailMsgNum() {
-		return failMsgNum;
-	}
-
-
-	public void setFailMsgNum(long failMsgNum) {
-		this.failMsgNum = failMsgNum;
-	}
-
-
-	public long getFailMsgSize() {
-		return failMsgSize;
-	}
-
-
-	public void setFailMsgSize(long failMsgSize) {
-		this.failMsgSize = failMsgSize;
-	}
-
-
-	public float getFailMsgPre() {
-		return failMsgPre;
-	}
-
-
-	public void setFailMsgPre(float failMsgPre) {
-		this.failMsgPre = failMsgPre;
-	}
-
-
 	@Override
 	public String toString() {
-		return "MsgReport [year=" + year + ", month=" + month + ", week=" + week + ", day=" + day + ", hour=" + hour + ", msgNum=" + msgNum + ", msgSize=" + msgSize + ", failMsgNum="
-				+ failMsgNum + ", failMsgSize=" + failMsgSize + ", failMsgPre=" + failMsgPre + "]";
+		return "MsgReport [year=" + year + ", month=" + month + ", week=" + week + ", day=" + day + ", hour=" + hour + ", msgNum=" + msgNum + ", msgSize=" + msgSize + "]";
 	}
-	
-	
+
 }
