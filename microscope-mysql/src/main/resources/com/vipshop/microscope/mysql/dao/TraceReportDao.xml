@@ -18,11 +18,11 @@
 		<result column="failure_precent" property="failurePrecent" />
 		<result column="min" property="min" />
 		<result column="max" property="max" />
+		<result column="sum" property="sum" />
 		<result column="avg" property="avg" />
 		<result column="tps" property="tps" />
 		<result column="start_time" property="startTime" />
 		<result column="end_time" property="endTime" />
-		<result column="avg_duration" property="avgDuration" />
 	</resultMap>
 
 	<select id="countAll" resultType="int">
@@ -43,7 +43,7 @@
 	<select id="findTraceReportByApp" parameterType="TraceReportCondition"
 		resultMap="traceReportList">
 		SELECT app, type, name, SUM(total_count) AS total_count, SUM(failure_count) AS failure_count, TRUNCATE(failure_count/total_count, 3) as failure_precent,
-		MIN(MIN) AS MIN, MAX(MAX) AS MAX, AVG(AVG) AS AVG, TRUNCATE(total_count/((MAX(end_time) - MIN(start_time)) / 1000), 3) AS tps
+		MIN(MIN) AS MIN, MAX(MAX) AS MAX, AVG(AVG) AS AVG, SUM(sum) as sum, TRUNCATE(total_count/((MAX(end_time) - MIN(start_time)) / 1000), 3) AS tps, start_time, end_time
 		From trace_report
 		WHERE app = #{appName}
 		GROUP BY app;

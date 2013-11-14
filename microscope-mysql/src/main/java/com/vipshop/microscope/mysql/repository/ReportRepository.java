@@ -14,7 +14,7 @@ import com.vipshop.microscope.mysql.report.TraceReport;
 
 public class ReportRepository {
 	
-	private static Logger logger = LoggerFactory.getLogger(ReportRepository.class);
+	public static Logger logger = LoggerFactory.getLogger(ReportRepository.class);
 	
 	private static final ReportRepository REPOSITORY = new ReportRepository();
 	
@@ -27,8 +27,6 @@ public class ReportRepository {
 	}
 	
 	public void save(TraceReport traceReport) {
-		logger.info("save tracereport to mysql: " + traceReport);
-		
 		DaoFactory.TRACE_REPORT_DAO.saveTraceReport(traceReport);
 	}
 	
@@ -37,8 +35,6 @@ public class ReportRepository {
 	}
 	
 	public void save(DurationDistReport durationDistReport) {
-		logger.info("save durationDistReport to mysql: " + durationDistReport);
-		
 		DaoFactory.TRACE_REPORT_DAO.saveDurationDistReport(durationDistReport);
 	}
 	
@@ -47,8 +43,6 @@ public class ReportRepository {
 	}
 	
 	public void save(OverTimeReport overTimeReport) {
-		logger.info("save overTimeReport to mysql: " + overTimeReport);
-		
 		DaoFactory.TRACE_REPORT_DAO.saveOverTimeReport(overTimeReport);
 	}
 	

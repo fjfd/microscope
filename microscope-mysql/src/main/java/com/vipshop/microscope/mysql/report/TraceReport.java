@@ -177,19 +177,19 @@ public class TraceReport {
 		this.app = app;
 	}
 
-	@Override
-	public String toString() {
-		return "TraceReport [year=" + year + ", month=" + month + ", week=" + week + ", day=" + day + ", hour=" + hour + ", app=" + app + ", type=" + type + ", name=" + name
-				+ ", totalCount=" + totalCount + ", failureCount=" + failureCount + ", failurePrecent=" + failurePrecent + ", min=" + min + ", max=" + max + ", avg=" + avg + ", tps=" + tps + ", sum="
-				+ sum + ", startTime=" + startTime + ", endTime=" + "]";
-	}
-
 	public String getIpAdress() {
 		return ipAdress;
 	}
 
 	public void setIpAdress(String ipAdress) {
 		this.ipAdress = ipAdress;
+	}
+
+	@Override
+	public String toString() {
+		return "TraceReport [year=" + year + ", month=" + month + ", week=" + week + ", day=" + day + ", hour=" + hour + ", app=" + app + ", ipAdress=" + ipAdress + ", type=" + type + ", name="
+				+ name + ", totalCount=" + totalCount + ", failureCount=" + failureCount + ", failurePrecent=" + failurePrecent + ", min=" + min + ", max=" + max + ", avg=" + avg + ", tps=" + tps
+				+ ", sum=" + sum + ", startTime=" + startTime + ", endTime=" + endTime + "]";
 	}
 	
 }
