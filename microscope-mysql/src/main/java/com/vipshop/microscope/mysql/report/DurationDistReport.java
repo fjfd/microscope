@@ -1,7 +1,7 @@
 package com.vipshop.microscope.mysql.report;
 
 import com.vipshop.microscope.common.util.CalendarUtil;
-import com.vipshop.microscope.common.util.Logarithm;
+import com.vipshop.microscope.common.util.MathUtil;
 
 public class DurationDistReport {
 
@@ -43,7 +43,7 @@ public class DurationDistReport {
 	}
 
 	public void updateRegion(int duration) {
-		int logDura = Logarithm.log(duration, 2);
+		int logDura = MathUtil.log2(duration);
 		switch (logDura) {
 		case 0:
 			region_0 += 1;
