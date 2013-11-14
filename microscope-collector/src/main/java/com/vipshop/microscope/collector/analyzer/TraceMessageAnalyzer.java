@@ -2,10 +2,10 @@ package com.vipshop.microscope.collector.analyzer;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.vipshop.microscope.collector.report.ReportComputer;
 import com.vipshop.microscope.collector.report.ReportContainer;
 import com.vipshop.microscope.collector.report.ReportFrequency;
 import com.vipshop.microscope.common.util.CalendarUtil;
-import com.vipshop.microscope.common.util.Logarithm;
 import com.vipshop.microscope.mysql.report.DurationDistReport;
 import com.vipshop.microscope.mysql.report.OverTimeReport;
 import com.vipshop.microscope.mysql.report.TraceReport;
@@ -125,7 +125,7 @@ public class TraceMessageAnalyzer {
 		} 
 		
 		int dura = span.getDuration();
-		durationDistReport.updateRegion(Logarithm.log2(dura));
+		durationDistReport.updateRegion(ReportComputer.log2(dura));
 		
 		duraDistContainer.put(key, durationDistReport);
 	}
