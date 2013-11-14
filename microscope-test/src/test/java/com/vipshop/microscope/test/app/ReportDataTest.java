@@ -14,14 +14,14 @@ import com.vipshop.microscope.trace.ResultCode;
 import com.vipshop.microscope.trace.TraceFactory;
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.span.Category;
-import com.vipshop.microscope.web.jetty.WebServer;
+import com.vipshop.microscope.web.server.JettyWebServer;
 
 public class ReportDataTest {
 
 	@BeforeClass
 	public void setUp() throws Exception {
 		new Thread(new CollectorServer()).start();
-		new WebServer(8080).start();
+		new JettyWebServer(8080).start();
 	}
 
 	@Test

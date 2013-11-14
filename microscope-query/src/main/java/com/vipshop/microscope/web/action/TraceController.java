@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.vipshop.microscope.web.condition.TraceQuery;
-import com.vipshop.microscope.web.result.AppAndTraceResult;
-import com.vipshop.microscope.web.result.TraceListResult;
-import com.vipshop.microscope.web.result.TraceSpanResult;
+import com.vipshop.microscope.web.result.ListResult;
+import com.vipshop.microscope.web.result.MapResult;
 import com.vipshop.microscope.web.service.TraceService;
 
 @Controller
@@ -22,32 +21,32 @@ public class TraceController {
 
 	@RequestMapping("/trace/queryCondition")
 	@ResponseBody
-	public AppAndTraceResult traceQueryCondition(String callback) {
-		AppAndTraceResult result = new AppAndTraceResult();
+	public ListResult traceQueryCondition(String callback) {
+		ListResult result = new ListResult();
 		List<Map<String, Object>> condition = service.getQueryCondition();
-		result.setAppAndTrace(condition);
+		result.setResult(condition);
 		result.setCallback(callback);
 		return result;
 	}
 	
 	@RequestMapping("/trace/traceList")
 	@ResponseBody
-	public TraceListResult traceList(HttpServletRequest request, String callback) {
-		TraceListResult result = new TraceListResult();
+	public ListResult traceList(HttpServletRequest request, String callback) {
+		ListResult result = new ListResult();
 		Map<String, String> query = TraceQuery.build(request);
 		List<Map<String, Object>> traceLists = service.getTraceList(query);
-		result.setTraceList(traceLists);
+		result.setResult(traceLists);
 		result.setCallback(callback);
 		return result;
 	}
 	
 	@RequestMapping("/trace/traceSpan")
 	@ResponseBody
-	public TraceSpanResult traceSpan(HttpServletRequest request, String callback) {
+	public MapResult traceSpan(HttpServletRequest request, String callback) {
 		String traceId = request.getParameter("traceId");
-		TraceSpanResult result = new TraceSpanResult();
+		MapResult result = new MapResult();
 		Map<String, Object> traceSpan = service.getTraceSpan(traceId);
-		result.setTraceSpan(traceSpan);
+		result.setResult(traceSpan);
 		result.setCallback(callback);
 		return result;
 	}

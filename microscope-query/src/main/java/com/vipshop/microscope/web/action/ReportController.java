@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.vipshop.microscope.web.result.TraceReportResult;
+import com.vipshop.microscope.web.result.ListResult;
 import com.vipshop.microscope.web.service.ReportService;
 
 @Controller
@@ -19,8 +19,8 @@ public class ReportController {
 	
 	@RequestMapping("/report/traceReportUseType")
 	@ResponseBody
-	public TraceReportResult traceReportUseType(String callback) {
-		TraceReportResult result = new TraceReportResult();
+	public ListResult traceReportUseType(String callback) {
+		ListResult result = new ListResult();
 		List<Map<String, Object>> condition = service.getReportUseType();
 		result.setResult(condition);
 		result.setCallback(callback);
@@ -29,8 +29,8 @@ public class ReportController {
 	
 	@RequestMapping("/report/traceReportUseTypeAndTime")
 	@ResponseBody
-	public TraceReportResult traceReportUseTypeAndTime(String callback) {
-		TraceReportResult result = new TraceReportResult();
+	public ListResult traceReportUseTypeAndTime(String callback) {
+		ListResult result = new ListResult();
 		List<Map<String, Object>> condition = service.getReportUseType();
 		result.setResult(condition);
 		result.setCallback(callback);
@@ -39,8 +39,8 @@ public class ReportController {
 
 	@RequestMapping("/report/traceReportUseName")
 	@ResponseBody
-	public TraceReportResult traceReportUseName(HttpServletRequest request, String callback) {
-		TraceReportResult result = new TraceReportResult();
+	public ListResult traceReportUseName(HttpServletRequest request, String callback) {
+		ListResult result = new ListResult();
 		String name = request.getParameter("name");
 		
 		List<Map<String, Object>> condition = null;
@@ -57,8 +57,8 @@ public class ReportController {
 	
 	@RequestMapping("/report/traceReportUseNameAndTime")
 	@ResponseBody
-	public TraceReportResult traceReportUseNameAndTime(HttpServletRequest request, String callback) {
-		TraceReportResult result = new TraceReportResult();
+	public ListResult traceReportUseNameAndTime(HttpServletRequest request, String callback) {
+		ListResult result = new ListResult();
 		String name = request.getParameter("name");
 		
 		List<Map<String, Object>> condition = null;

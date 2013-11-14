@@ -80,7 +80,7 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>com.vipshop.microscope.web.jetty.WebServer</mainClass>
+							<mainClass>com.vipshop.microscope.web.server.JettyWebServer</mainClass>
 						</manifest>
 					</archive>
 				</configuration>

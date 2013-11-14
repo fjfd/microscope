@@ -1,4 +1,4 @@
-package com.vipshop.microscope.web.jetty;
+package com.vipshop.microscope.web.server;
 
 import java.io.*;
 import java.net.*;
@@ -14,7 +14,7 @@ import org.eclipse.jetty.webapp.*;
  * Example WebServer class which sets up an embedded Jetty appropriately whether
  * running in an IDE or in "production" mode in a shaded jar.
  */
-public class WebServer implements Runnable {
+public class JettyWebServer implements Runnable {
 
 	private static final String LOG_PATH = "./target/logs/access/yyyy_mm_dd.request.log";
 
@@ -33,18 +33,18 @@ public class WebServer implements Runnable {
 		if (newPort != null) {
 			port = Integer.valueOf(newPort);
 		}
-		new WebServer(port).start();
+		new JettyWebServer(port).start();
 	}
 
 	private Server server;
 	private int port;
 	private String bindInterface;
 
-	public WebServer(int aPort) {
+	public JettyWebServer(int aPort) {
 		this(aPort, null);
 	}
 
-	public WebServer(int aPort, String aBindInterface) {
+	public JettyWebServer(int aPort, String aBindInterface) {
 		port = aPort;
 		bindInterface = aBindInterface;
 	}

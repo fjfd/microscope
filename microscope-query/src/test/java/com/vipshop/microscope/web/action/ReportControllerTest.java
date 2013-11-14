@@ -8,11 +8,11 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.vipshop.microscope.common.util.HttpClientUtil;
-import com.vipshop.microscope.web.jetty.WebServer;
+import com.vipshop.microscope.web.server.JettyWebServer;
 
 public class ReportControllerTest {
 	
-	WebServer webServer = new WebServer(8080);
+	JettyWebServer webServer = new JettyWebServer(8080);
 	
 	@BeforeClass
 	public void setUpBeforeClass() throws Exception {
