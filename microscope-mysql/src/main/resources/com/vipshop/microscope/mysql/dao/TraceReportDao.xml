@@ -41,6 +41,22 @@
 		<result column="region_15" property="region_15" />
 		<result column="region_16" property="region_16" />
 	</resultMap>
+	
+	<resultMap id="overTimeReportList" type="OverTimeReport">
+		<result column="year" property="year" />
+		<result column="month" property="month" />
+		<result column="week" property="week" />
+		<result column="day" property="day" />
+		<result column="hour" property="hour" />
+		<result column="minute" property="minute" />
+		<result column="app" property="app" />
+		<result column="ip_adress" property="ipAdress" />
+		<result column="type" property="type" />
+		<result column="name" property="name" />
+		<result column="avg_dura" property="avgDura" />
+		<result column="hit_count" property="hitCount" />
+		<result column="fail_count" property="failCount" />
+	</resultMap>
 
 	<select id="countAll" resultType="int">
 		select count(*) from trace_stat_report;
@@ -66,7 +82,7 @@
 	<select id="findTraceReport" parameterType="TraceReportCondition"
 		resultMap="traceReportList">
 		SELECT year, month, day, week, day, hour, 
-		app, type, name, SUM(total_count) AS total_count, SUM(failure_count) AS failure_count, TRUNCATE(failure_count/total_count, 3) as failure_precent,
+		app, ip_adress, type, name, SUM(total_count) AS total_count, SUM(failure_count) AS failure_count, TRUNCATE(failure_count/total_count, 3) as failure_precent,
 		MIN(MIN) AS MIN, MAX(MAX) AS MAX, AVG(AVG) AS AVG, SUM(sum) as sum, TRUNCATE(total_count/((MAX(end_time) - MIN(start_time)) / 1000), 3) AS tps, start_time, end_time,
 		SUM(region_0) as region_0, SUM(region_1) as region_1, SUM(region_2) as region_2, SUM(region_3) as region_3, SUM(region_4) as region_4, SUM(region_5) as region_5,
 		SUM(region_6) as region_6, SUM(region_7) as region_7, SUM(region_8) as region_8, SUM(region_9) as region_9, SUM(region_10) as region_10, SUM(region_11) as region_11,
@@ -74,7 +90,7 @@
 		From trace_stat_report
 		WHERE app = #{appName}
 		<if test="type != null"> and type = #{type} </if>
-		<if test="name != null"> and name like ${name} </if>
+		<if test="name != null"> and name = #{name}</if>
 		<if test="year != -1"> and year = #{year} </if>
 		<if test="month != -1"> and month = #{month} </if>
 		<if test="day != -1"> and day = #{day} </if>
@@ -95,5 +111,22 @@
 		DELETE FROM trace_overtime_report;
 	</delete>
 	
+	<select id="findOverTimeReport" parameterType="TraceReportCondition" resultMap="overTimeReportList">
+		SELECT year, month, day, week, day, hour, minute, app, ip_adress, type, name, 
+		AVG(avg_dura) as avg_dura,
+		SUM(hit_count) as hit_count,
+		SUM(fail_count) as fail_count
+		from trace_overtime_report 
+		WHERE year = #{year}
+		and month = #{month}
+		and day = #{day}
+		and hour = #{hour}
+		and app = #{appName}
+		and type = #{type}
+		
+		<if test="name != null"> AND name = #{name} </if>
+		GROUP BY minute
+		order by minute
+	</select>
 
 </mapper>

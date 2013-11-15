@@ -63,9 +63,13 @@ public class ReportRepositoryTest {
 	public void testFind() {
 		TraceReportCondition condition = new TraceReportCondition();
 		condition.setAppName("picket");
-		condition.setType("DB");
+		condition.setType("Cache");
 		condition.setYear(2013);
+		condition.setMonth(11);
+		condition.setDay(15);
 		condition.setHour(11);
+		condition.setName("%cache%");
+		condition.setGroupBy("none");
 		System.out.println(reportRepository.findTraceReport(condition));;
 	}
 	

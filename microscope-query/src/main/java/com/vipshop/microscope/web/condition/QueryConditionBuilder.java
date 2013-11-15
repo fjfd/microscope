@@ -55,4 +55,28 @@ public class QueryConditionBuilder {
 		
 		return condition;
 	}
+	
+	public static TraceReportCondition buildOverTimeReport(HttpServletRequest request) {
+		TraceReportCondition condition = new TraceReportCondition();
+		
+		String appName = request.getParameter("appName");
+		String type = request.getParameter("type");
+		String name = request.getParameter("name");
+		
+		condition.setAppName(appName);
+		condition.setType(type);
+		condition.setGroupBy("none");
+		
+		if (name != null) {
+			condition.setName(name);
+		}
+		
+		condition.setYear(2013);
+		condition.setMonth(11);
+		condition.setDay(15);
+		condition.setHour(11);
+		
+		return condition;
+	}
+
 }

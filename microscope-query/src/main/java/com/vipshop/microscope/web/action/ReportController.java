@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.vipshop.microscope.mysql.condition.TraceReportCondition;
 import com.vipshop.microscope.web.condition.QueryConditionBuilder;
 import com.vipshop.microscope.web.result.ListResult;
+import com.vipshop.microscope.web.result.MapResult;
 import com.vipshop.microscope.web.service.ReportService;
 
 @Controller
@@ -26,6 +27,18 @@ public class ReportController {
 		
 		TraceReportCondition queryCondition = QueryConditionBuilder.buildTraceReport(request);
 		List<Map<String, Object>> condition = service.getTraceReport(queryCondition);
+		result.setResult(condition);
+		result.setCallback(callback);
+		return result;
+	}
+	
+	@RequestMapping("/report/overTimeReport")
+	@ResponseBody
+	public MapResult overTimeReport(HttpServletRequest request, String callback) {
+		MapResult result = new MapResult();
+		
+		TraceReportCondition queryCondition = QueryConditionBuilder.buildOverTimeReport(request);
+		Map<String, Object> condition = service.getOverTimeReport(queryCondition);
 		result.setResult(condition);
 		result.setCallback(callback);
 		return result;
