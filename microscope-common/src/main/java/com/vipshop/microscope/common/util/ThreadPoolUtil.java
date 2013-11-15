@@ -2,6 +2,7 @@ package com.vipshop.microscope.common.util;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -23,6 +24,10 @@ public class ThreadPoolUtil {
     
     public static ExecutorService newSingleDaemonThreadExecutor(String groupName) {
     	return Executors.newSingleThreadExecutor(new DaemonThreadFactory(groupName));
+    }
+    
+    public static ScheduledExecutorService newSingleDaemonScheduledThreadPool(String groupName) {
+    	return Executors.newSingleThreadScheduledExecutor(new DaemonThreadFactory(groupName));
     }
 	
 	static class DefaultThreadFactory implements ThreadFactory {

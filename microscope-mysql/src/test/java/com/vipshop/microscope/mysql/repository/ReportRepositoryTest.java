@@ -3,7 +3,6 @@ package com.vipshop.microscope.mysql.repository;
 import org.testng.annotations.Test;
 
 import com.vipshop.microscope.mysql.condition.TraceReportCondition;
-import com.vipshop.microscope.mysql.report.DurationDistReport;
 import com.vipshop.microscope.mysql.report.MsgReport;
 import com.vipshop.microscope.mysql.report.OverTimeReport;
 import com.vipshop.microscope.mysql.report.TraceReport;
@@ -19,7 +18,7 @@ public class ReportRepositoryTest {
 	
 	@Test
 	public void testSaveTraceReport() {
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < 1; i++) {
 			TraceReport report = new TraceReport();
 			report.setYear(2013);
 			report.setMonth(11);
@@ -39,32 +38,6 @@ public class ReportRepositoryTest {
 			report.setTps(1.3f);
 			report.setStartTime(System.currentTimeMillis());
 			report.setEndTime(System.currentTimeMillis() + 1000);
-			
-			reportRepository.save(report);
-		}
-	}
-	
-	@Test
-	public void testFind() {
-		TraceReportCondition condition = new TraceReportCondition();
-		condition.setAppName("picket");
-		
-		System.out.println(reportRepository.findByApp(condition));;
-	}
-	
-	@Test
-	public void testSaveDuraDistReport() {
-		for (int i = 0; i < 100; i++) {
-			DurationDistReport report = new DurationDistReport();
-			report.setYear(2013);
-			report.setMonth(11);
-			report.setWeek(3);
-			report.setDay(14);
-			report.setHour(13);
-			report.setApp("picket");
-			report.setIpAdress("localhost");
-			report.setType("DB");
-			report.setName("query:select * from trace_report");
 			report.setRegion_0(1);
 			report.setRegion_1(1);
 			report.setRegion_2(1);
@@ -82,14 +55,15 @@ public class ReportRepositoryTest {
 			report.setRegion_14(1);
 			report.setRegion_15(1);
 			report.setRegion_16(1);
-			
 			reportRepository.save(report);
 		}
 	}
 	
 	@Test
-	public void emptyDuraDist() {
-		reportRepository.emptyDurationDistReport();
+	public void testFind() {
+		TraceReportCondition condition = new TraceReportCondition();
+		condition.setAppName("picket");
+		System.out.println(reportRepository.findByApp(condition));;
 	}
 	
 	@Test

@@ -11,6 +11,7 @@ import com.vipshop.microscope.collector.report.ReportFrequency;
 import com.vipshop.microscope.common.codec.MessageCodec;
 import com.vipshop.microscope.common.util.CalendarUtil;
 import com.vipshop.microscope.mysql.report.MsgReport;
+import com.vipshop.microscope.mysql.repository.ReportRepository;
 import com.vipshop.microscope.thrift.LogEntry;
 import com.vipshop.microscope.thrift.Span;
 
@@ -22,7 +23,7 @@ public class TraceMessageCounter {
 	
 	private static final ConcurrentHashMap<Long, MsgReport> msgContainer = ReportContainer.getMsgcontainer();
 	
-	
+	private final ReportRepository repository = ReportRepository.getRepository();
 	/**
 	 * Stat LogEntry and decode to span.
 	 * 
@@ -48,7 +49,10 @@ public class TraceMessageCounter {
 	}
 
 	private void countMsg(Span span, CalendarUtil calendarUtil) {
-		long keyHour = ReportFrequency.generateKeyByHour(calendarUtil);
+		
+		checkBeforeCount(calendarUtil);
+		
+		long keyHour = ReportFrequency.makeKeyByHour(calendarUtil);
 		MsgReport reporte = msgContainer.get(keyHour);
 		if (reporte == null) {
 			reporte = new MsgReport();
@@ -68,6 +72,20 @@ public class TraceMessageCounter {
 		}
 		
 		msgContainer.put(keyHour, reporte);
+	}
+
+	private void checkBeforeCount(CalendarUtil calendarUtil) {
+		long preKeyHour = ReportFrequency.getPreKeyByHour(calendarUtil);
+		MsgReport msgReport = msgContainer.get(preKeyHour);
+		if (msgReport != null) {
+			try {
+				repository.save(msgReport);
+			} catch (Exception e) {
+				// TODO: handle exception
+			} finally {
+				msgContainer.remove(preKeyHour);
+			}
+		}
 	}
 
 }

@@ -2,7 +2,6 @@ package com.vipshop.microscope.collector.report;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.vipshop.microscope.mysql.report.DurationDistReport;
 import com.vipshop.microscope.mysql.report.MsgReport;
 import com.vipshop.microscope.mysql.report.OverTimeReport;
 import com.vipshop.microscope.mysql.report.TraceReport;
@@ -10,23 +9,18 @@ import com.vipshop.microscope.mysql.report.TraceReport;
 public class ReportContainer {
 	
 	private static final ConcurrentHashMap<Long, MsgReport> msgContainer = new ConcurrentHashMap<Long, MsgReport>();
-	private static final ConcurrentHashMap<Long, TraceReport> traceContainer = new ConcurrentHashMap<Long, TraceReport>();
-	private static final ConcurrentHashMap<Long, DurationDistReport> duraDistContainer = new ConcurrentHashMap<Long, DurationDistReport>();
-	private static final ConcurrentHashMap<Long, OverTimeReport> overTimeContainer = new ConcurrentHashMap<Long, OverTimeReport>();
+	private static final ConcurrentHashMap<String, TraceReport> traceContainer = new ConcurrentHashMap<String, TraceReport>();
+	private static final ConcurrentHashMap<String, OverTimeReport> overTimeContainer = new ConcurrentHashMap<String, OverTimeReport>();
 
 	public static ConcurrentHashMap<Long, MsgReport> getMsgcontainer() {
 		return msgContainer;
 	}
 
-	public static ConcurrentHashMap<Long, TraceReport> getTracecontainer() {
+	public static ConcurrentHashMap<String, TraceReport> getTracecontainer() {
 		return traceContainer;
 	}
 	
-	public static ConcurrentHashMap<Long, DurationDistReport> getDuradistcontainer() {
-		return duraDistContainer;
-	}
-	
-	public static ConcurrentHashMap<Long, OverTimeReport> getOvertimecontainer() {
+	public static ConcurrentHashMap<String, OverTimeReport> getOvertimecontainer() {
 		return overTimeContainer;
 	}
 

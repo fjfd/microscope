@@ -2,21 +2,27 @@ package com.vipshop.microscope.collector.analyzer;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.vipshop.microscope.collector.report.ReportContainer;
 import com.vipshop.microscope.collector.report.ReportFrequency;
 import com.vipshop.microscope.common.util.CalendarUtil;
 import com.vipshop.microscope.common.util.MathUtil;
-import com.vipshop.microscope.mysql.report.DurationDistReport;
 import com.vipshop.microscope.mysql.report.OverTimeReport;
 import com.vipshop.microscope.mysql.report.TraceReport;
+import com.vipshop.microscope.mysql.repository.ReportRepository;
 import com.vipshop.microscope.thrift.Span;
 
 public class TraceMessageAnalyzer {
 	
-	private static final ConcurrentHashMap<Long, TraceReport> traceContainer = ReportContainer.getTracecontainer();
-	private static final ConcurrentHashMap<Long, DurationDistReport> duraDistContainer = ReportContainer.getDuradistcontainer();
-	private static final ConcurrentHashMap<Long, OverTimeReport> overTimeContainer = ReportContainer.getOvertimecontainer();
+	private static final Logger logger = LoggerFactory.getLogger(TraceMessageAnalyzer.class);
 	
+	private final ConcurrentHashMap<String, TraceReport> traceContainer = ReportContainer.getTracecontainer();
+	private final ConcurrentHashMap<String, OverTimeReport> overTimeContainer = ReportContainer.getOvertimecontainer();
+	
+	private final ReportRepository repository = ReportRepository.getRepository();
+
 	public void analyze(Span span) {
 		
 		CalendarUtil calendarUtil = new CalendarUtil();
@@ -26,16 +32,116 @@ public class TraceMessageAnalyzer {
 		String type = span.getType();
 		String name = span.getName();
 		
-		long keyHour = ReportFrequency.generateKeyByHour(calendarUtil);
-		processTrace(span, calendarUtil, app, ipAdress, type, name, keyHour);
-		processDuraDist(span, calendarUtil, app, ipAdress, type, name, keyHour);
+		/**
+		 * check before analyze:
+		 * 
+		 * if current time is 2013-11-15 11:00:00
+		 * then save the data 2013-11-15 10:00:00
+		 * from @{code ReportContainer} to mysql
+		 * and remove the data from memory.
+		 */
+		String prekeyHour = ReportFrequency.getPreKeyByHour(calendarUtil, app, ipAdress, type, name);
+		checkTraceBeforeAnalyze(calendarUtil, prekeyHour);
 		
-		long key5Minute = ReportFrequency.generateKeyBy5Minute(calendarUtil);
-		processOverTime(span, calendarUtil, app, ipAdress, type, name, key5Minute);
+		/**
+		 * Analyze msg every 1 hour.
+		 * 
+		 * key: 2013-11-15 11:00:00-app-ipadress-type-name
+		 * value: report object
+		 * 
+		 */
+		String keyHour = ReportFrequency.makeKeyByHour(calendarUtil, app, ipAdress, type, name);
+		analyzeTrace(span, calendarUtil, app, ipAdress, type, name, keyHour);
+		
+		/**
+		 * check before analyze:
+		 * 
+		 * if current time is 2013-11-15 11:05:00
+		 * then save the data 2013-11-15 10:00:00
+		 * from @{code ReportContainer} to mysql
+		 * and remove the data from memory.
+		 */
+		String preKey5Minute = ReportFrequency.getPreKeyBy5Minute(calendarUtil, app, ipAdress, type, name);
+		checkOverTimeBeforeAnalyze(calendarUtil, preKey5Minute);
+		
+		/**
+		 * Analyze msg every 5 minute.
+		 * 
+		 * key: 2013-11-15 11:05:00-app-ipadress-type-name
+		 * value: report object
+		 * 
+		 */
+		String key5Minute = ReportFrequency.makeKeyBy5Minute(calendarUtil, app, ipAdress, type, name);
+		analyzeOverTime(span, calendarUtil, app, ipAdress, type, name, key5Minute);
 		
 	}
-
-	private void processTrace(Span span, CalendarUtil calendarUtil, String app, String ipAdress, String type, String name, long key) {
+	
+	/**
+	 * check trace report by key.
+	 * 
+	 * if this key contains value, then save
+	 * the value to mysql db, and remove the
+	 * from {@code traceContainer}.
+	 * 
+	 * @param calendarUtil
+	 * @param prekeyHour
+	 */
+	private void checkTraceBeforeAnalyze(CalendarUtil calendarUtil, String prekeyHour) {
+		TraceReport report = traceContainer.get(prekeyHour);
+		if (report != null) {
+			try {
+				repository.save(report);
+				logger.info("save trace report to mysql: " + report);
+			} catch (Exception e) {
+				logger.error("save trace report to msyql error, ignore it");
+			} finally {
+				traceContainer.remove(prekeyHour);
+				logger.info("remove this report from map after save ");
+			}
+		}
+	}
+	
+	/**
+	 * check over time report by key.
+	 * 
+	 * if this key contains value, then save
+	 * the value to mysql db, and remove the
+	 * from {@code traceContainer}.
+	 * 
+	 * @param calendarUtil
+	 * @param prekeyHour
+	 */
+	private void checkOverTimeBeforeAnalyze(CalendarUtil calendarUtil, String preKey5Minute) {
+		OverTimeReport overTimeReport = overTimeContainer.get(preKey5Minute);
+		if (overTimeReport != null) {
+			try {
+				repository.save(overTimeReport);
+				logger.info("save overtime report to mysql: " + overTimeReport);
+			} catch (Exception e) {
+				logger.error("save over time report to msyql error, ignore it");
+			} finally {
+				overTimeContainer.remove(preKey5Minute);
+				logger.info("remove this report from map after save ");
+			}
+		}
+	}
+	
+	/**
+	 * Analyze Trace Report
+	 * 
+	 * for every incoming span, we make a key:
+	 * 2013-11-15 11:00:00-app-ipadress-type-name
+	 * and create a {@code TraceReport} as value.
+	 * 
+	 * @param span incoming span
+	 * @param calendarUtil 
+	 * @param app
+	 * @param ipAdress
+	 * @param type
+	 * @param name
+	 * @param key
+	 */
+	private void analyzeTrace(Span span, CalendarUtil calendarUtil, String app, String ipAdress, String type, String name, String key) {
 		
 		String resultCode = span.getResultCode();
 		int duration = span.getDuration() / 1000;
@@ -54,7 +160,7 @@ public class TraceMessageAnalyzer {
 			report.setDay(calendarUtil.currentDay());
 			report.setHour(calendarUtil.currentHour());
 			report.setApp(app);
-			report.setIpAdress(name);
+			report.setIpAdress(ipAdress);
 			report.setType(type);
 			report.setName(name);
 			
@@ -103,34 +209,27 @@ public class TraceMessageAnalyzer {
 			
 		}
 		
+		int dura = span.getDuration();
+		report.updateRegion(MathUtil.log2(dura));
+		
 		report.setTps(TraceReport.makeTPS(report));
 
 		traceContainer.put(key, report);
 	}
 	
-	private void processDuraDist(Span span, CalendarUtil calendarUtil, String app, String ipAdress, String type, String name, long key) {
-		DurationDistReport durationDistReport = duraDistContainer.get(key);
-		
-		if (durationDistReport == null) {
-			durationDistReport = new DurationDistReport();
-			durationDistReport.setYear(calendarUtil.currentYear());
-			durationDistReport.setMonth(calendarUtil.currentMonth());
-			durationDistReport.setWeek(calendarUtil.currentWeek());
-			durationDistReport.setDay(calendarUtil.currentDay());
-			durationDistReport.setHour(calendarUtil.currentHour());
-			durationDistReport.setApp(app);
-			durationDistReport.setIpAdress(ipAdress);
-			durationDistReport.setType(type);
-			durationDistReport.setName(name);
-		} 
-		
-		int dura = span.getDuration();
-		durationDistReport.updateRegion(MathUtil.log2(dura));
-		
-		duraDistContainer.put(key, durationDistReport);
-	}
 	
-	private void processOverTime(Span span, CalendarUtil calendarUtil, String app, String ipAdress, String type, String name, long key5Minute) {
+	/**
+	 * Analyze OverTime Report.
+	 * 
+	 * @param span
+	 * @param calendarUtil
+	 * @param app
+	 * @param ipAdress
+	 * @param type
+	 * @param name
+	 * @param key5Minute
+	 */
+	private void analyzeOverTime(Span span, CalendarUtil calendarUtil, String app, String ipAdress, String type, String name, String key5Minute) {
 		OverTimeReport report = overTimeContainer.get(key5Minute);
 		if (report == null) {
 			report = new OverTimeReport();

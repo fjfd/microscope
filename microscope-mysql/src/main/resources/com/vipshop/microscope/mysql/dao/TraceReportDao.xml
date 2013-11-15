@@ -23,6 +23,23 @@
 		<result column="tps" property="tps" />
 		<result column="start_time" property="startTime" />
 		<result column="end_time" property="endTime" />
+		<result column="region_0" property="region_0" />
+		<result column="region_1" property="region_1" />
+		<result column="region_2" property="region_2" />
+		<result column="region_3" property="region_3" />
+		<result column="region_4" property="region_4" />
+		<result column="region_5" property="region_5" />
+		<result column="region_6" property="region_6" />
+		<result column="region_7" property="region_7" />
+		<result column="region_8" property="region_8" />
+		<result column="region_9" property="region_9" />
+		<result column="region_10" property="region_10" />
+		<result column="region_11" property="region_11" />
+		<result column="region_12" property="region_12" />
+		<result column="region_13" property="region_13" />
+		<result column="region_14" property="region_14" />
+		<result column="region_15" property="region_15" />
+		<result column="region_16" property="region_16" />
 	</resultMap>
 
 	<select id="countAll" resultType="int">
@@ -35,9 +52,15 @@
 	
 	<insert id="saveTraceReport" parameterType="TraceReport">
 		insert into trace_report
-		(year, month, week, day, hour, app, ip_adress, type, name, total_count, failure_count, failure_precent, min, max, sum, avg, tps, start_time, end_time)
+		(year, month, week, day, hour, app, ip_adress, type, name, total_count, failure_count, failure_precent, 
+		 min, max, sum, avg, tps, start_time, end_time,
+		 region_0, region_1, region_2, region_3, region_4, region_5, region_6, region_7, region_8, region_9, 
+		 region_10, region_11, region_12, region_13, region_14, region_15, region_16)
 		values
-		(#{year},#{month},#{week},#{day},#{hour},#{app},#{ipAdress},#{type},#{name},#{totalCount},#{failureCount},#{failurePrecent},#{min},#{max},#{sum},#{avg},#{tps},#{startTime},#{endTime})
+		(#{year},#{month},#{week},#{day},#{hour},#{app},#{ipAdress},#{type},#{name},#{totalCount},#{failureCount},#{failurePrecent},
+		 #{min},#{max},#{sum},#{avg},#{tps},#{startTime},#{endTime},
+		 #{region_0},#{region_1},#{region_2},#{region_3},#{region_4},#{region_5},#{region_6},#{region_7},#{region_8},#{region_9},
+		 #{region_10},#{region_11},#{region_12},#{region_13},#{region_14},#{region_15},#{region_16})
 	</insert>
 	
 	<select id="findTraceReportByApp" parameterType="TraceReportCondition"
@@ -48,17 +71,6 @@
 		WHERE app = #{appName}
 		GROUP BY app;
 	</select>
-	
-	<insert id="saveDurationDistReport" parameterType="DurationDistReport">
-		insert into duration_dist_report
-		(year, month, week, day, hour, app, ip_adress, type, name, region_0, region_1, region_2, region_3, region_4, region_5, region_6, region_7, region_8, region_9, region_10, region_11, region_12, region_13, region_14, region_15, region_16)
-		values
-		(#{year},#{month},#{week},#{day},#{hour},#{app},#{ipAdress},#{type},#{name},#{region_0},#{region_1},#{region_2},#{region_3},#{region_4},#{region_5},#{region_6},#{region_7},#{region_8},#{region_9},#{region_10},#{region_11},#{region_12},#{region_13},#{region_14},#{region_15},#{region_16})
-	</insert>
-	
-	<delete id="emptyDurationDist">
-		DELETE FROM duration_dist_report;
-	</delete>
 	
 	<insert id="saveOverTimeReport" parameterType="OverTimeReport">
 		insert into over_time_report

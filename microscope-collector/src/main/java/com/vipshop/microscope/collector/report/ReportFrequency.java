@@ -6,7 +6,7 @@ import com.vipshop.microscope.common.util.CalendarUtil;
 public class ReportFrequency {
 	
 	@SuppressWarnings("deprecation")
-	public static long generateKeyByHour(CalendarUtil calendar) {
+	public static long makeKeyByHour(CalendarUtil calendar) {
 		
 		return new java.util.Date(calendar.currentYear(), 
 							      calendar.currentMonth(), 
@@ -17,13 +17,35 @@ public class ReportFrequency {
 	}
 	
 	public static long getPreKeyByHour(CalendarUtil calendar) {
-		long key = generateKeyByHour(calendar);
+		return makeKeyByHour(calendar) - (1000 * 60 *60);
+	}
+	
+	public static String makeKeyByHour(CalendarUtil calendar, String app, String ipAdress, String type, String name) {
+		StringBuilder builder = new StringBuilder();
+		builder.append(makeKeyByHour(calendar))
+			   .append("-").append(app)
+			   .append("-").append(ipAdress)
+			   .append("-").append(type)
+			   .append("-").append(name);
+		
+		return builder.toString();
+	}
+	
+	public static String getPreKeyByHour(CalendarUtil calendar, String app, String ipAdress, String type, String name) {
+		long key = makeKeyByHour(calendar);
 		long preKey = key - (1000 * 60 *60);
-		return preKey;
+		StringBuilder builder = new StringBuilder();
+		builder.append(preKey)
+			   .append("-").append(app)
+			   .append("-").append(ipAdress)
+			   .append("-").append(type)
+			   .append("-").append(name);
+		
+		return builder.toString();
 	}
 	
 	@SuppressWarnings("deprecation")
-	public static long generateKeyBy5Minute(CalendarUtil calendar) {
+	public static long makeKeyBy5Minute(CalendarUtil calendar) {
 		
 		return new java.util.Date(calendar.currentYear(), 
 							      calendar.currentMonth(), 
@@ -33,13 +55,31 @@ public class ReportFrequency {
 							      0).getTime();
 	}
 	
-	public static long getPreKeyBy5Minute(CalendarUtil calendar) {
-		return (generateKeyBy5Minute(calendar) - (1000 * 60 * 5));
+	public static String makeKeyBy5Minute(CalendarUtil calendar, String app, String ipAdress, String type, String name) {
+		StringBuilder builder = new StringBuilder();
+		builder.append(makeKeyBy5Minute(calendar))
+			   .append("-").append(app)
+			   .append("-").append(ipAdress)
+			   .append("-").append(type)
+			   .append("-").append(name);
+		
+		return builder.toString();
+	}
+	
+	public static String getPreKeyBy5Minute(CalendarUtil calendar, String app, String ipAdress, String type, String name) {
+		StringBuilder builder = new StringBuilder();
+		builder.append(makeKeyBy5Minute(calendar) - (1000 * 60 * 5))
+			   .append("-").append(app)
+			   .append("-").append(ipAdress)
+			   .append("-").append(type)
+			   .append("-").append(name);
+		
+		return builder.toString();
 	}
 
 	
 	@SuppressWarnings("deprecation")
-	public static long generateKeyByMinute(CalendarUtil calendar) {
+	public static long makeKeyByMinute(CalendarUtil calendar) {
 		
 		return new java.util.Date(calendar.currentYear(), 
 							      calendar.currentMonth(), 
@@ -49,8 +89,26 @@ public class ReportFrequency {
 							      0).getTime();
 	}
 	
-	public static long getPreKeyByMinute(CalendarUtil calendar) {
-		return (generateKeyByMinute(calendar) - (1000 * 60));
+	public static String makeKeyByMinute(CalendarUtil calendar, String app, String ipAdress, String type, String name) {
+		StringBuilder builder = new StringBuilder();
+		builder.append(makeKeyByMinute(calendar) - (1000 * 60 * 5))
+			   .append("-").append(app)
+			   .append("-").append(ipAdress)
+			   .append("-").append(type)
+			   .append("-").append(name);
+		
+		return builder.toString();
+	}
+	
+	public static String getPreKeyByMinute(CalendarUtil calendar, String app, String ipAdress, String type, String name) {
+		StringBuilder builder = new StringBuilder();
+		builder.append(makeKeyByMinute(calendar) - (1000 * 60))
+			   .append("-").append(app)
+			   .append("-").append(ipAdress)
+			   .append("-").append(type)
+			   .append("-").append(name);
+		
+		return builder.toString();
 	}
 	
 	

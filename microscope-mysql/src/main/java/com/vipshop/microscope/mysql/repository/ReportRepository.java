@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 
 import com.vipshop.microscope.mysql.condition.TraceReportCondition;
 import com.vipshop.microscope.mysql.factory.DaoFactory;
-import com.vipshop.microscope.mysql.report.DurationDistReport;
 import com.vipshop.microscope.mysql.report.MsgReport;
 import com.vipshop.microscope.mysql.report.OverTimeReport;
 import com.vipshop.microscope.mysql.report.TraceReport;
@@ -32,14 +31,6 @@ public class ReportRepository {
 	
 	public List<TraceReport> findByApp(TraceReportCondition condition) {
 		return DaoFactory.TRACE_REPORT_DAO.findTraceReportByApp(condition);
-	}
-	
-	public void save(DurationDistReport durationDistReport) {
-		DaoFactory.TRACE_REPORT_DAO.saveDurationDistReport(durationDistReport);
-	}
-	
-	public void emptyDurationDistReport() {
-		DaoFactory.TRACE_REPORT_DAO.emptyDurationDist();
 	}
 	
 	public void save(OverTimeReport overTimeReport) {

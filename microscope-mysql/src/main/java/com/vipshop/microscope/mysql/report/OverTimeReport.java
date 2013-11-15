@@ -136,4 +136,10 @@ public class OverTimeReport {
 		this.failCount = failCount;
 	}
 
+	@Override
+	public String toString() {
+		return "OverTimeReport [year=" + year + ", month=" + month + ", week=" + week + ", day=" + day + ", hour=" + hour + ", minute=" + minute + ", app=" + app + ", ipAdress=" + ipAdress
+				+ ", type=" + type + ", name=" + name + ", avgDura=" + avgDura + ", hitCount=" + hitCount + ", failCount=" + failCount + "]";
+	}
+	
 }
