@@ -12,9 +12,6 @@ public class MessageProcessors {
 	
 	static {
 		container.put(MessageCategory.TRACE, new TraceMessageProcessor());
-		container.put(MessageCategory.EVENT, new EventMessageProcessor());
-		container.put(MessageCategory.PROBLEM, new ProblemMessageProcessor());
-		container.put(MessageCategory.HEARTBEAT, new HeartbeatMessageProcessor());
 	}
 
 	public static void process(LogEntry logEntry) {

@@ -24,6 +24,7 @@ public class TraceMessageCounter {
 	private static final ConcurrentHashMap<Long, MsgReport> msgContainer = ReportContainer.getMsgcontainer();
 	
 	private final ReportRepository repository = ReportRepository.getRepository();
+	
 	/**
 	 * Stat LogEntry and decode to span.
 	 * 

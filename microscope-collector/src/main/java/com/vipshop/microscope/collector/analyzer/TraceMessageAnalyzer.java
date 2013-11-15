@@ -40,18 +40,8 @@ public class TraceMessageAnalyzer {
 		 * from @{code ReportContainer} to mysql
 		 * and remove the data from memory.
 		 */
-		String prekeyHour = ReportFrequency.getPreKeyByHour(calendarUtil, app, ipAdress, type, name);
-		checkTraceBeforeAnalyze(calendarUtil, prekeyHour);
-		
-		/**
-		 * Analyze msg every 1 hour.
-		 * 
-		 * key: 2013-11-15 11:00:00-app-ipadress-type-name
-		 * value: report object
-		 * 
-		 */
-		String keyHour = ReportFrequency.makeKeyByHour(calendarUtil, app, ipAdress, type, name);
-		analyzeTrace(span, calendarUtil, app, ipAdress, type, name, keyHour);
+		checkTraceBeforeAnalyze(calendarUtil,  app, ipAdress, type, name);
+		analyzeTrace(span, calendarUtil, app, ipAdress, type, name);
 		
 		/**
 		 * check before analyze:
@@ -61,18 +51,8 @@ public class TraceMessageAnalyzer {
 		 * from @{code ReportContainer} to mysql
 		 * and remove the data from memory.
 		 */
-		String preKey5Minute = ReportFrequency.getPreKeyBy5Minute(calendarUtil, app, ipAdress, type, name);
-		checkOverTimeBeforeAnalyze(calendarUtil, preKey5Minute);
-		
-		/**
-		 * Analyze msg every 5 minute.
-		 * 
-		 * key: 2013-11-15 11:05:00-app-ipadress-type-name
-		 * value: report object
-		 * 
-		 */
-		String key5Minute = ReportFrequency.makeKeyBy5Minute(calendarUtil, app, ipAdress, type, name);
-		analyzeOverTime(span, calendarUtil, app, ipAdress, type, name, key5Minute);
+		checkOverTimeBeforeAnalyze(calendarUtil, app, ipAdress, type, name);
+		analyzeOverTime(span, calendarUtil, app, ipAdress, type, name);
 		
 	}
 	
@@ -86,7 +66,9 @@ public class TraceMessageAnalyzer {
 	 * @param calendarUtil
 	 * @param prekeyHour
 	 */
-	private void checkTraceBeforeAnalyze(CalendarUtil calendarUtil, String prekeyHour) {
+	private void checkTraceBeforeAnalyze(CalendarUtil calendarUtil, String app, String ipAdress, String type, String name) {
+		String prekeyHour = ReportFrequency.getPreKeyByHour(calendarUtil, app, ipAdress, type, name);
+
 		TraceReport report = traceContainer.get(prekeyHour);
 		if (report != null) {
 			try {
@@ -111,7 +93,8 @@ public class TraceMessageAnalyzer {
 	 * @param calendarUtil
 	 * @param prekeyHour
 	 */
-	private void checkOverTimeBeforeAnalyze(CalendarUtil calendarUtil, String preKey5Minute) {
+	private void checkOverTimeBeforeAnalyze(CalendarUtil calendarUtil, String app, String ipAdress, String type, String name) {
+		String preKey5Minute = ReportFrequency.getPreKeyBy5Minute(calendarUtil, app, ipAdress, type, name);
 		OverTimeReport overTimeReport = overTimeContainer.get(preKey5Minute);
 		if (overTimeReport != null) {
 			try {
@@ -141,8 +124,8 @@ public class TraceMessageAnalyzer {
 	 * @param name
 	 * @param key
 	 */
-	private void analyzeTrace(Span span, CalendarUtil calendarUtil, String app, String ipAdress, String type, String name, String key) {
-		
+	private void analyzeTrace(Span span, CalendarUtil calendarUtil, String app, String ipAdress, String type, String name) {
+		String key = ReportFrequency.makeKeyByHour(calendarUtil, app, ipAdress, type, name);
 		String resultCode = span.getResultCode();
 		int duration = span.getDuration() / 1000;
 		long startTime = span.getStartstamp();
@@ -229,7 +212,8 @@ public class TraceMessageAnalyzer {
 	 * @param name
 	 * @param key5Minute
 	 */
-	private void analyzeOverTime(Span span, CalendarUtil calendarUtil, String app, String ipAdress, String type, String name, String key5Minute) {
+	private void analyzeOverTime(Span span, CalendarUtil calendarUtil, String app, String ipAdress, String type, String name) {
+		String key5Minute = ReportFrequency.makeKeyBy5Minute(calendarUtil, app, ipAdress, type, name);
 		OverTimeReport report = overTimeContainer.get(key5Minute);
 		if (report == null) {
 			report = new OverTimeReport();
