@@ -13,6 +13,8 @@ public class TraceReportCondition {
 	private int day = -1;
 	private int hour = -1;
 	
+	private String groupBy;
+	
 	public String getIpAdress() {
 		return ipAdress;
 	}
@@ -83,5 +85,13 @@ public class TraceReportCondition {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public String getGroupBy() {
+		return groupBy;
+	}
+
+	public void setGroupBy(String groupBy) {
+		this.groupBy = groupBy;
 	}
 }

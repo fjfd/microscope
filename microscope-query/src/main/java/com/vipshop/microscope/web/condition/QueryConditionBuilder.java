@@ -5,7 +5,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class TraceQueryCondition {
+import com.vipshop.microscope.mysql.condition.TraceReportCondition;
+
+public class QueryConditionBuilder {
 	
 	public static Map<String, String> build(HttpServletRequest request) {
 		String appName = request.getParameter("appName");
@@ -22,5 +24,26 @@ public class TraceQueryCondition {
 		query.put("limit", limit);
 		
 		return query;
+	}
+	
+	public static TraceReportCondition buildTraceReport(HttpServletRequest request) {
+		TraceReportCondition condition = new TraceReportCondition();
+		
+		String appName = request.getParameter("appName");
+		String type = request.getParameter("type");
+		if (appName != null) {
+			condition.setAppName(appName);
+			condition.setGroupBy("type");
+		}
+		if (type != null && appName != null) {
+			condition.setType(type);
+			condition.setGroupBy("name");
+		}
+		condition.setYear(2013);
+		condition.setMonth(11);
+		condition.setDay(15);
+		condition.setHour(11);
+		
+		return condition;
 	}
 }

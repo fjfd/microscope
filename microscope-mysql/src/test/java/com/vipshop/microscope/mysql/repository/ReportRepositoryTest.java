@@ -66,7 +66,7 @@ public class ReportRepositoryTest {
 		condition.setType("DB");
 		condition.setYear(2013);
 		condition.setHour(11);
-		System.out.println(reportRepository.find(condition));;
+		System.out.println(reportRepository.findTraceReport(condition));;
 	}
 	
 	@Test

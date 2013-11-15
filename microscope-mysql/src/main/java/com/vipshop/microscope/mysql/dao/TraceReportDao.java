@@ -12,12 +12,14 @@ public interface TraceReportDao {
 	
 	public void emptyTraceReport();
 	
+	public void emptyOverTimeReport();
+
 	public void saveTraceReport(TraceReport traceReport);
 	
-	public List<TraceReport> findTraceReport(TraceReportCondition condition);
-
 	public void saveOverTimeReport(OverTimeReport overTimeReport);
+
+	public List<TraceReport> findTraceReport(TraceReportCondition condition);
 	
-	public void emptyOverTimeReport();
-	
+	public List<OverTimeReport> findOverTimeReport(TraceReportCondition condition);
+
 }

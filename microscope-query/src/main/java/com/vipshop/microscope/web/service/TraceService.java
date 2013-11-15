@@ -6,24 +6,22 @@ import java.util.List;
 import java.util.Map;
 
 import com.vipshop.microscope.hbase.domain.TraceTable;
+import com.vipshop.microscope.hbase.repository.Repositorys;
 import com.vipshop.microscope.thrift.Annotation;
 import com.vipshop.microscope.thrift.AnnotationType;
 import com.vipshop.microscope.thrift.Span;
-import com.vipshop.microscope.web.query.HbaseQueryTemplate;
 
 public class TraceService {
 	
-	HbaseQueryTemplate template = new HbaseQueryTemplate();
-	
 	public List<Map<String, Object>> getQueryCondition() {
-		List<Map<String, Object>> result = template.getAppTrace();
+		List<Map<String, Object>> result = Repositorys.APP_TRACE.findAll();
 		return result;
 	}
 	
 	public List<Map<String, Object>> getTraceList(Map<String, String> query) {
 		List<Map<String, Object>> traceLists = new ArrayList<Map<String, Object>>();
 		
-		List<TraceTable> tableTraces = template.getTraceListByTraceQuery(query);
+		List<TraceTable> tableTraces = Repositorys.TRACE.findByQuery(query);
 		for (TraceTable tableTrace : tableTraces) {
 			Map<String, Object> trace = new LinkedHashMap<String, Object>();
 			String traceId = tableTrace.getTraceId();
@@ -35,7 +33,7 @@ public class TraceService {
 			trace.put("startTimestamp", stmp);
 			trace.put("endTimestamp", etmp);
 			trace.put("durationMicro", dura);
-			trace.put("serviceCounts", template.findSpanNameByTraceId(traceId));
+			trace.put("serviceCounts", Repositorys.SPAN.findSpanNameByTraceId(traceId));
 			traceLists.add(trace);
 		}
 		return traceLists;
@@ -46,7 +44,7 @@ public class TraceService {
 
 		traceSpan.put("traceId", traceId);
 		List<Map<String, Object>> spans = new ArrayList<Map<String,Object>>();
-		List<Span> spanTables = template.getSpanByTraceId(traceId);
+		List<Span> spanTables = Repositorys.SPAN.findSpanByTraceId(traceId);
 		for (Span span : spanTables) {
 			Map<String, Object> spanInfo = new LinkedHashMap<String, Object>();
 			spanInfo.put("traceId", traceId);
@@ -84,11 +82,11 @@ public class TraceService {
 		
 		traceSpan.put("spans", spans);
 		
-		TraceTable table = template.getTraceTableByTraceId(traceId);
+		TraceTable table = Repositorys.TRACE.findByTraceId(traceId);
 		traceSpan.put("startTimestamp", table.getStartTimestamp());
 		traceSpan.put("endTimestamp", table.getEndTimestamp());
 		traceSpan.put("durationMicro", table.getDuration());
-		traceSpan.put("serviceCounts", template.findSpanNameByTraceId(traceId));
+		traceSpan.put("serviceCounts", Repositorys.SPAN.findSpanNameByTraceId(traceId));
 
 		return traceSpan;
 		

@@ -73,12 +73,14 @@
 		SUM(region_12) as region_12, SUM(region_13) as region_13, SUM(region_14) as region_14, SUM(region_15) as region_15, SUM(region_16) as region_16
 		From trace_stat_report
 		WHERE app = #{appName}
-		<if test="type != null">and type = #{type} </if>
-		<if test="year != -1">and year = #{year} </if>
-		<if test="month != -1">and month = #{month} </if>
-		<if test="day != -1">and day = #{day} </if>
-		<if test="hour != -1">and hour = #{hour} </if>
-		GROUP BY app;
+		<if test="type != null"> and type = #{type} </if>
+		<if test="year != -1"> and year = #{year} </if>
+		<if test="month != -1"> and month = #{month} </if>
+		<if test="day != -1"> and day = #{day} </if>
+		<if test="hour != -1"> and hour = #{hour} </if>
+		
+		<if test="groupBy == 'type'"> GROUP BY type </if>
+		<if test="groupBy == 'name'"> GROUP BY name </if>
 	</select>
 	
 	<insert id="saveOverTimeReport" parameterType="OverTimeReport">

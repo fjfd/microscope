@@ -5,6 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.vipshop.microscope.mysql.condition.MsgReportCondition;
 import com.vipshop.microscope.mysql.condition.TraceReportCondition;
 import com.vipshop.microscope.mysql.factory.DaoFactory;
 import com.vipshop.microscope.mysql.report.MsgReport;
@@ -22,27 +23,35 @@ public class ReportRepository {
 	}
 	
 	public void emptyTraceReport() {
-		DaoFactory.TRACE_REPORT_DAO.emptyTraceReport();
-	}
-	
-	public void save(TraceReport traceReport) {
-		DaoFactory.TRACE_REPORT_DAO.saveTraceReport(traceReport);
-	}
-	
-	public List<TraceReport> find(TraceReportCondition condition) {
-		return DaoFactory.TRACE_REPORT_DAO.findTraceReport(condition);
-	}
-	
-	public void save(OverTimeReport overTimeReport) {
-		DaoFactory.TRACE_REPORT_DAO.saveOverTimeReport(overTimeReport);
+		DaoFactory.TRACE.emptyTraceReport();
 	}
 	
 	public void emptyOverTimeReport() {
-		DaoFactory.TRACE_REPORT_DAO.emptyOverTimeReport();
+		DaoFactory.TRACE.emptyOverTimeReport();
 	}
-	
+
 	public void save(MsgReport msgReport) {
-		DaoFactory.MSG_REPORT_DAO.saveMsgReport(msgReport);
+		DaoFactory.MSG.saveMsgReport(msgReport);
+	}
+
+	public void save(TraceReport traceReport) {
+		DaoFactory.TRACE.saveTraceReport(traceReport);
 	}
 	
+	public void save(OverTimeReport overTimeReport) {
+		DaoFactory.TRACE.saveOverTimeReport(overTimeReport);
+	}
+
+	public List<MsgReport> findMsgReport(MsgReportCondition condition) {
+		return DaoFactory.MSG.findMsgReport(condition);
+	}
+
+	public List<TraceReport> findTraceReport(TraceReportCondition condition) {
+		return DaoFactory.TRACE.findTraceReport(condition);
+	}
+	
+	public List<OverTimeReport> findOverTimeReport(TraceReportCondition condition) {
+		return DaoFactory.TRACE.findOverTimeReport(condition);
+	}
+
 }

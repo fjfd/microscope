@@ -8,14 +8,14 @@ import com.vipshop.microscope.mysql.dao.TraceReportDao;
 
 public class DaoFactory {
 	
-	public static final MsgReportDao MSG_REPORT_DAO;
-	public static final TraceReportDao TRACE_REPORT_DAO;
+	public static final MsgReportDao MSG;
+	public static final TraceReportDao TRACE;
 	
 	static {
 		AbstractApplicationContext context = new ClassPathXmlApplicationContext("/applicationContext-database.xml", DaoFactory.class);
 		
-		MSG_REPORT_DAO = context.getBean(MsgReportDao.class);
-		TRACE_REPORT_DAO = context.getBean(TraceReportDao.class);
+		MSG = context.getBean(MsgReportDao.class);
+		TRACE = context.getBean(TraceReportDao.class);
 		
 		context.close();
 	}

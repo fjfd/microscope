@@ -25,19 +25,18 @@ public class ReportControllerTest {
 	}
 
 	@Test
-	public void testGetReportUseName() throws ClientProtocolException, IOException {
-		String url = "http://localhost:8080/report/traceReportUseName?callback=jQuery11020021555292898187584";
+	public void testGetReportUseAppName() throws ClientProtocolException, IOException {
+		String url = "http://localhost:8080/report/traceReport?appName=picket&callback=jQuery11020021555292898187584";
 		String result = HttpClientUtil.request(url);
 		System.out.println(result);
 	}
 	
 	@Test
-	public void testGetReportUseName1() throws ClientProtocolException, IOException {
-		String url = "http://localhost:8080/report/traceReportUseName?name=example-id-0&callback=jQuery11020021555292898187584";
+	public void testGetReportUseAppNameAndType() throws ClientProtocolException, IOException {
+		String url = "http://localhost:8080/report/traceReport?appName=picket&type=Cache&callback=jQuery11020021555292898187584";
 		String result = HttpClientUtil.request(url);
 		System.out.println(result);
 	}
-
 	
 	@Test
 	public void testGetReportUseType() throws ClientProtocolException, IOException {
