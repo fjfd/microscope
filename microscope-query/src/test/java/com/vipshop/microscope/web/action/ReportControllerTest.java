@@ -16,12 +16,12 @@ public class ReportControllerTest {
 	
 	@BeforeClass
 	public void setUpBeforeClass() throws Exception {
-		webServer.start();
+//		webServer.start();
 	}
 	
 	@AfterClass
 	public void tearDownAfterClass() throws Exception {
-		webServer.stop();
+//		webServer.stop();
 	}
 
 	@Test
@@ -40,7 +40,7 @@ public class ReportControllerTest {
 	
 	@Test
 	public void testGetReportUseType() throws ClientProtocolException, IOException {
-		String url = "http://localhost:8080/report/traceReportUseType?callback=jQuery11020021555292898187584";
+		String url = "http://localhost:8080/report/traceReport?appName=picket&type=Cache&name=lo&callback=jQuery11020021555292898187584";
 		String result = HttpClientUtil.request(url);
 		System.out.println(result);
 	}

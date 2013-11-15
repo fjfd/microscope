@@ -31,14 +31,23 @@ public class QueryConditionBuilder {
 		
 		String appName = request.getParameter("appName");
 		String type = request.getParameter("type");
+		String name = request.getParameter("name");
+		
 		if (appName != null) {
 			condition.setAppName(appName);
 			condition.setGroupBy("type");
 		}
+		
 		if (type != null && appName != null) {
 			condition.setType(type);
 			condition.setGroupBy("name");
 		}
+		
+		if (name != null) {
+			condition.setName("%" + name + "%");
+			condition.setGroupBy("none");
+		}
+		
 		condition.setYear(2013);
 		condition.setMonth(11);
 		condition.setDay(15);
