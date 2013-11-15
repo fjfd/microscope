@@ -13,7 +13,8 @@ public class MessageConsumer implements Runnable {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MessageConsumer.class);
 	
-	private static final MessageProcessor MESSAGE_PROCESSOR = new MessageProcessor();
+	private final MessageProcessor MESSAGE_PROCESSOR = new MessageProcessor();
+	
 	@Override
 	public void run() {
 		while (true) {

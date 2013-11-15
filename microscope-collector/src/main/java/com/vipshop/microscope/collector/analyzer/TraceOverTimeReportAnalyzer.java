@@ -25,7 +25,6 @@ public class TraceOverTimeReportAnalyzer {
 		analyzeOverTime(span, calendarUtil, app, ipAdress, type, name);
 	}
 	
-	
 	/**
 	 * check over time report by key.
 	 * 
