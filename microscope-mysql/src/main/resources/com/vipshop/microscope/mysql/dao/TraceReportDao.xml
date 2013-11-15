@@ -43,15 +43,15 @@
 	</resultMap>
 
 	<select id="countAll" resultType="int">
-		select count(*) from trace_report;
+		select count(*) from trace_stat_report;
 	</select>
 	
 	<delete id="emptyTraceReport">
-		DELETE FROM trace_report;
+		DELETE FROM trace_stat_report;
 	</delete>
 	
 	<insert id="saveTraceReport" parameterType="TraceReport">
-		insert into trace_report
+		insert into trace_stat_report
 		(year, month, week, day, hour, app, ip_adress, type, name, total_count, failure_count, failure_precent, 
 		 min, max, sum, avg, tps, start_time, end_time,
 		 region_0, region_1, region_2, region_3, region_4, region_5, region_6, region_7, region_8, region_9, 
@@ -66,21 +66,24 @@
 	<select id="findTraceReportByApp" parameterType="TraceReportCondition"
 		resultMap="traceReportList">
 		SELECT app, type, name, SUM(total_count) AS total_count, SUM(failure_count) AS failure_count, TRUNCATE(failure_count/total_count, 3) as failure_precent,
-		MIN(MIN) AS MIN, MAX(MAX) AS MAX, AVG(AVG) AS AVG, SUM(sum) as sum, TRUNCATE(total_count/((MAX(end_time) - MIN(start_time)) / 1000), 3) AS tps, start_time, end_time
-		From trace_report
+		MIN(MIN) AS MIN, MAX(MAX) AS MAX, AVG(AVG) AS AVG, SUM(sum) as sum, TRUNCATE(total_count/((MAX(end_time) - MIN(start_time)) / 1000), 3) AS tps, start_time, end_time,
+		SUM(region_0) as region_0, SUM(region_1) as region_1, SUM(region_2) as region_2, SUM(region_3) as region_3, SUM(region_4) as region_4, SUM(region_5) as region_5,
+		SUM(region_6) as region_6, SUM(region_7) as region_7, SUM(region_8) as region_8, SUM(region_9) as region_9, SUM(region_10) as region_10, SUM(region_11) as region_11,
+		SUM(region_12) as region_12, SUM(region_13) as region_13, SUM(region_14) as region_14, SUM(region_15) as region_15, SUM(region_16) as region_16
+		From trace_stat_report
 		WHERE app = #{appName}
 		GROUP BY app;
 	</select>
 	
 	<insert id="saveOverTimeReport" parameterType="OverTimeReport">
-		insert into over_time_report
+		insert into trace_overtime_report
 		(year, month, week, day, hour, minute, app, ip_adress, type, name, avg_dura, hit_count, fail_count)
 		values
 		(#{year},#{month},#{week},#{day},#{hour},#{minute},#{app},#{ipAdress},#{type},#{name},#{avgDura},#{hitCount},#{failCount})
 	</insert>
 	
 	<delete id="emptyOverTimeReport">
-		DELETE FROM over_time_report;
+		DELETE FROM trace_overtime_report;
 	</delete>
 	
 
