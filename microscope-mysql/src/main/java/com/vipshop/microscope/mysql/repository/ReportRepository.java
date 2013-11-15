@@ -29,8 +29,8 @@ public class ReportRepository {
 		DaoFactory.TRACE_REPORT_DAO.saveTraceReport(traceReport);
 	}
 	
-	public List<TraceReport> findByApp(TraceReportCondition condition) {
-		return DaoFactory.TRACE_REPORT_DAO.findTraceReportByApp(condition);
+	public List<TraceReport> find(TraceReportCondition condition) {
+		return DaoFactory.TRACE_REPORT_DAO.findTraceReport(condition);
 	}
 	
 	public void save(OverTimeReport overTimeReport) {

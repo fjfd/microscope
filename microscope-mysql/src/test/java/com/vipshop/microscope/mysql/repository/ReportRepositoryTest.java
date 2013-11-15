@@ -63,7 +63,10 @@ public class ReportRepositoryTest {
 	public void testFind() {
 		TraceReportCondition condition = new TraceReportCondition();
 		condition.setAppName("picket");
-		System.out.println(reportRepository.findByApp(condition));;
+		condition.setType("DB");
+		condition.setYear(2013);
+		condition.setHour(11);
+		System.out.println(reportRepository.find(condition));;
 	}
 	
 	@Test

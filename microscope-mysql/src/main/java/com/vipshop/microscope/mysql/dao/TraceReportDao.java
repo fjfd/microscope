@@ -14,7 +14,7 @@ public interface TraceReportDao {
 	
 	public void saveTraceReport(TraceReport traceReport);
 	
-	public List<TraceReport> findTraceReportByApp(TraceReportCondition condition);
+	public List<TraceReport> findTraceReport(TraceReportCondition condition);
 
 	public void saveOverTimeReport(OverTimeReport overTimeReport);
 	

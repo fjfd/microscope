@@ -63,15 +63,21 @@
 		 #{region_10},#{region_11},#{region_12},#{region_13},#{region_14},#{region_15},#{region_16})
 	</insert>
 	
-	<select id="findTraceReportByApp" parameterType="TraceReportCondition"
+	<select id="findTraceReport" parameterType="TraceReportCondition"
 		resultMap="traceReportList">
-		SELECT app, type, name, SUM(total_count) AS total_count, SUM(failure_count) AS failure_count, TRUNCATE(failure_count/total_count, 3) as failure_precent,
+		SELECT year, month, day, week, day, hour, 
+		app, type, name, SUM(total_count) AS total_count, SUM(failure_count) AS failure_count, TRUNCATE(failure_count/total_count, 3) as failure_precent,
 		MIN(MIN) AS MIN, MAX(MAX) AS MAX, AVG(AVG) AS AVG, SUM(sum) as sum, TRUNCATE(total_count/((MAX(end_time) - MIN(start_time)) / 1000), 3) AS tps, start_time, end_time,
 		SUM(region_0) as region_0, SUM(region_1) as region_1, SUM(region_2) as region_2, SUM(region_3) as region_3, SUM(region_4) as region_4, SUM(region_5) as region_5,
 		SUM(region_6) as region_6, SUM(region_7) as region_7, SUM(region_8) as region_8, SUM(region_9) as region_9, SUM(region_10) as region_10, SUM(region_11) as region_11,
 		SUM(region_12) as region_12, SUM(region_13) as region_13, SUM(region_14) as region_14, SUM(region_15) as region_15, SUM(region_16) as region_16
 		From trace_stat_report
 		WHERE app = #{appName}
+		<if test="type != null">and type = #{type} </if>
+		<if test="year != -1">and year = #{year} </if>
+		<if test="month != -1">and month = #{month} </if>
+		<if test="day != -1">and day = #{day} </if>
+		<if test="hour != -1">and hour = #{hour} </if>
 		GROUP BY app;
 	</select>
 	
