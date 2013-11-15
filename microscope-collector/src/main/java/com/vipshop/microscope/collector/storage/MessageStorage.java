@@ -3,17 +3,17 @@ package com.vipshop.microscope.collector.storage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.vipshop.microscope.collector.builder.TraceMessageBuilder;
+import com.vipshop.microscope.collector.builder.MessageBuilder;
 import com.vipshop.microscope.hbase.domain.AppTrace;
 import com.vipshop.microscope.hbase.domain.TraceTable;
 import com.vipshop.microscope.hbase.repository.Repositorys;
 import com.vipshop.microscope.thrift.Span;
 
-public class TraceMessageStorage {
+public class MessageStorage {
 	
-	private static final Logger logger = LoggerFactory.getLogger(TraceMessageStorage.class);
+	private static final Logger logger = LoggerFactory.getLogger(MessageStorage.class);
 	
-	private final TraceMessageBuilder messageBuilder = new TraceMessageBuilder();
+	private final MessageBuilder messageBuilder = new MessageBuilder();
 	
 	public void storage(Span span) {
 		AppTrace appTrace = messageBuilder.buildAppIndex(span);

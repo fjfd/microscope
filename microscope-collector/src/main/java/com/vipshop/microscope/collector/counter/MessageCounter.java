@@ -15,9 +15,9 @@ import com.vipshop.microscope.mysql.repository.ReportRepository;
 import com.vipshop.microscope.thrift.LogEntry;
 import com.vipshop.microscope.thrift.Span;
 
-public class TraceMessageCounter {
+public class MessageCounter {
 	
-	private static final Logger logger = LoggerFactory.getLogger(TraceMessageCounter.class);
+	private static final Logger logger = LoggerFactory.getLogger(MessageCounter.class);
 	
 	private final MessageCodec encoder = new MessageCodec();
 	

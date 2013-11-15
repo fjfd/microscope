@@ -9,7 +9,7 @@ import com.vipshop.microscope.thrift.Annotation;
 import com.vipshop.microscope.thrift.AnnotationType;
 import com.vipshop.microscope.thrift.Span;
 
-public class TraceMessageBuilder {
+public class MessageBuilder {
 	
 	public AppTrace buildAppIndex(Span span) {
 		String traceId = String.valueOf(span.getTrace_id());

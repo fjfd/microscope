@@ -6,7 +6,7 @@ import com.vipshop.microscope.thrift.Span;
 
 public class TraceMessageAnalyzerTest {
 
-	TraceMessageAnalyzer analyzer = new TraceMessageAnalyzer();
+	MessageAnalyzer analyzer = new MessageAnalyzer();
 
 	@Test
 	public void testAnalyze() {
