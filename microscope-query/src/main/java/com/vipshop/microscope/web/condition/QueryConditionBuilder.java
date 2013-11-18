@@ -30,53 +30,56 @@ public class QueryConditionBuilder {
 		TraceReportCondition condition = new TraceReportCondition();
 		
 		String appName = request.getParameter("appName");
+		String ipAdress = request.getParameter("ipAdress");
 		String type = request.getParameter("type");
 		String name = request.getParameter("name");
+		
+		String year = request.getParameter("year");
+		String month = request.getParameter("month");
+		String week = request.getParameter("week");
+		String day = request.getParameter("day");
+		String hour = request.getParameter("hour");
 		
 		if (appName != null) {
 			condition.setAppName(appName);
-			condition.setGroupBy("type");
 		}
 		
-		if (type != null && appName != null) {
+		if (ipAdress != null) {
+			condition.setIpAdress(ipAdress);
+		}
+		
+		if (type != null) {
 			condition.setType(type);
 			condition.setGroupBy("name");
+		} else {
+			condition.setGroupBy("type");
 		}
-		
-		if (name != null) {
-			condition.setName("%" + name + "%");
-			condition.setGroupBy("none");
-		}
-		
-		condition.setYear(2013);
-		condition.setMonth(11);
-		condition.setDay(15);
-		condition.setHour(11);
-		
-		return condition;
-	}
-	
-	public static TraceReportCondition buildOverTimeReport(HttpServletRequest request) {
-		TraceReportCondition condition = new TraceReportCondition();
-		
-		String appName = request.getParameter("appName");
-		String type = request.getParameter("type");
-		String name = request.getParameter("name");
-		
-		condition.setAppName(appName);
-		condition.setType(type);
-		condition.setGroupBy("none");
 		
 		if (name != null) {
 			condition.setName(name);
 		}
 		
-		condition.setYear(2013);
-		condition.setMonth(11);
-		condition.setDay(15);
-		condition.setHour(11);
+		if (year != null) {
+			condition.setYear(Integer.valueOf(year));
+		}
+		
+		if (month != null) {
+			condition.setMonth(Integer.valueOf(month));
+		}
+		
+		if (week != null) {
+			condition.setWeek(Integer.valueOf(week));
+		}
+		
+		if (day != null) {
+			condition.setDay(Integer.valueOf(day));
+		}
+		
+		if (hour != null) {
+			condition.setHour(Integer.valueOf(hour));
+		}
 		
 		return condition;
 	}
-
+	
 }

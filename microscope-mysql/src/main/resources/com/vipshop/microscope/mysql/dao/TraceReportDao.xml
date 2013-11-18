@@ -81,24 +81,41 @@
 	
 	<select id="findTraceReport" parameterType="TraceReportCondition"
 		resultMap="traceReportList">
-		SELECT year, month, day, week, day, hour, 
-		app, ip_adress, type, name, SUM(total_count) AS total_count, SUM(failure_count) AS failure_count, TRUNCATE(failure_count/total_count, 3) as failure_precent,
-		MIN(MIN) AS MIN, MAX(MAX) AS MAX, AVG(AVG) AS AVG, SUM(sum) as sum, TRUNCATE(total_count/((MAX(end_time) - MIN(start_time)) / 1000), 3) AS tps, start_time, end_time,
-		SUM(region_0) as region_0, SUM(region_1) as region_1, SUM(region_2) as region_2, SUM(region_3) as region_3, SUM(region_4) as region_4, SUM(region_5) as region_5,
-		SUM(region_6) as region_6, SUM(region_7) as region_7, SUM(region_8) as region_8, SUM(region_9) as region_9, SUM(region_10) as region_10, SUM(region_11) as region_11,
-		SUM(region_12) as region_12, SUM(region_13) as region_13, SUM(region_14) as region_14, SUM(region_15) as region_15, SUM(region_16) as region_16
+		SELECT type, name, SUM(total_count) AS total_count, SUM(failure_count) AS failure_count, TRUNCATE(failure_count/total_count, 3) as failure_precent,
+		MIN(MIN) AS MIN, MAX(MAX) AS MAX, AVG(AVG) AS AVG, SUM(sum) as sum, TRUNCATE(total_count/((MAX(end_time) - MIN(start_time)) / 1000), 3) AS tps
 		From trace_stat_report
 		WHERE app = #{appName}
+		<if test="ipAdress != null"> and ip_adress = #{ipAdress} </if>
 		<if test="type != null"> and type = #{type} </if>
 		<if test="name != null"> and name = #{name}</if>
 		<if test="year != -1"> and year = #{year} </if>
 		<if test="month != -1"> and month = #{month} </if>
+		<if test="week != -1"> and week = #{week} </if>
 		<if test="day != -1"> and day = #{day} </if>
 		<if test="hour != -1"> and hour = #{hour} </if>
 		
 		<if test="groupBy == 'type'"> GROUP BY type </if>
 		<if test="groupBy == 'name'"> GROUP BY name </if>
 	</select>
+	
+	<select id="findTraceDuration" parameterType="TraceReportCondition"
+		resultType="TraceReport">
+		SELECT SUM(region_0) as region_0, SUM(region_1) as region_1, SUM(region_2) as region_2, SUM(region_3) as region_3, SUM(region_4) as region_4, SUM(region_5) as region_5,
+		SUM(region_6) as region_6, SUM(region_7) as region_7, SUM(region_8) as region_8, SUM(region_9) as region_9, SUM(region_10) as region_10, SUM(region_11) as region_11,
+		SUM(region_12) as region_12, SUM(region_13) as region_13, SUM(region_14) as region_14, SUM(region_15) as region_15, SUM(region_16) as region_16
+		From trace_stat_report
+		WHERE app = #{appName}
+		<if test="ipAdress != null"> and ip_adress = #{ipAdress} </if>
+		<if test="type != null"> and type = #{type} </if>
+		<if test="name != null"> and name = #{name}</if>
+		<if test="year != -1"> and year = #{year} </if>
+		<if test="month != -1"> and month = #{month} </if>
+		<if test="week != -1"> and week = #{week} </if>
+		<if test="day != -1"> and day = #{day} </if>
+		<if test="hour != -1"> and hour = #{hour} </if>
+		
+	</select>
+	
 	
 	<insert id="saveOverTimeReport" parameterType="OverTimeReport">
 		insert into trace_overtime_report
@@ -112,19 +129,22 @@
 	</delete>
 	
 	<select id="findOverTimeReport" parameterType="TraceReportCondition" resultMap="overTimeReportList">
-		SELECT year, month, day, week, day, hour, minute, app, ip_adress, type, name, 
-		AVG(avg_dura) as avg_dura,
-		SUM(hit_count) as hit_count,
-		SUM(fail_count) as fail_count
-		from trace_overtime_report 
-		WHERE year = #{year}
-		and month = #{month}
-		and day = #{day}
-		and hour = #{hour}
-		and app = #{appName}
-		and type = #{type}
+		SELECT AVG(avg_dura) as avg_dura,
+			   SUM(hit_count) as hit_count,
+			   SUM(fail_count) as fail_count
 		
-		<if test="name != null"> AND name = #{name} </if>
+		From trace_overtime_report 
+		
+		WHERE app = #{appName}
+		<if test="ipAdress != null"> and ip_adress = #{ipAdress} </if>
+		<if test="type != null"> and type = #{type} </if>
+		<if test="name != null"> and name = #{name}</if>
+		<if test="year != -1"> and year = #{year} </if>
+		<if test="month != -1"> and month = #{month} </if>
+		<if test="week != -1"> and week = #{week} </if>
+		<if test="day != -1"> and day = #{day} </if>
+		<if test="hour != -1"> and hour = #{hour} </if>
+		
 		GROUP BY minute
 		order by minute
 	</select>

@@ -16,45 +16,38 @@ public class ReportControllerTest {
 	
 	@BeforeClass
 	public void setUpBeforeClass() throws Exception {
-		webServer.start();
+//		webServer.start();
 	}
 	
 	@AfterClass
 	public void tearDownAfterClass() throws Exception {
-		webServer.stop();
+//		webServer.stop();
 	}
 
 	@Test
-	public void testGetReportUseAppName() throws ClientProtocolException, IOException {
-		String url = "http://localhost:8080/report/traceReport?appName=picket&callback=jQuery11020021555292898187584";
+	public void testGetReport() throws ClientProtocolException, IOException {
+		String url = "http://localhost:8080/report/traceReport?appName=picket&ipAdress=10.101.3.169&year=2013&month=11&week=4&day=18&hour=6&callback=jQuery11020021555292898187584";
 		String result = HttpClientUtil.request(url);
 		System.out.println(result);
 	}
 	
 	@Test
-	public void testGetReportUseAppNameAndType() throws ClientProtocolException, IOException {
-		String url = "http://localhost:8080/report/traceReport?appName=picket&type=Cache&callback=jQuery11020021555292898187584";
-		String result = HttpClientUtil.request(url);
-		System.out.println(result);
-	}
-	
-	@Test
-	public void testGetReportUse() throws ClientProtocolException, IOException {
-		String url = "http://localhost:8080/report/traceReport?appName=picket&type=Cache&name=lo&callback=jQuery11020021555292898187584";
+	public void testGetReportByType() throws ClientProtocolException, IOException {
+		String url = "http://localhost:8080/report/traceReport?appName=picket&ipAdress=10.101.3.169&type=DB&year=2013&month=11&week=4&day=18&hour=6&callback=jQuery11020021555292898187584";
 		String result = HttpClientUtil.request(url);
 		System.out.println(result);
 	}
 	
 	@Test
 	public void testOverTime() throws ClientProtocolException, IOException {
-		String url = "http://localhost:8080/report/overTimeReport?appName=picket&type=Cache&callback=jQuery11020021555292898187584";
+		String url = "http://localhost:8080/report/overTimeReport?appName=picket&ipAdress=10.101.3.169&type=DB&year=2013&month=11&week=4&day=18&hour=6&callback=jQuery11020021555292898187584";
 		String result = HttpClientUtil.request(url);
 		System.out.println(result);
 	}
 	
 	@Test
 	public void testOverTimeUseName() throws ClientProtocolException, IOException {
-		String url = "http://localhost:8080/report/overTimeReport?appName=picket&type=Cache&name=cache&callback=jQuery11020021555292898187584";
+		String url = "http://localhost:8080/report/overTimeReport?appName=picket&ipAdress=10.101.3.169&type=DB&name=db&year=2013&month=11&week=4&day=18&hour=6&callback=jQuery11020021555292898187584";
 		String result = HttpClientUtil.request(url);
 		System.out.println(result);
 	}

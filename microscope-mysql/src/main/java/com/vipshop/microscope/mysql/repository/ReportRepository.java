@@ -50,6 +50,10 @@ public class ReportRepository {
 		return DaoFactory.TRACE.findTraceReport(condition);
 	}
 	
+	public TraceReport findTraceDuration(TraceReportCondition condition) {
+		return DaoFactory.TRACE.findTraceDuration(condition);
+	}
+	
 	public List<OverTimeReport> findOverTimeReport(TraceReportCondition condition) {
 		return DaoFactory.TRACE.findOverTimeReport(condition);
 	}

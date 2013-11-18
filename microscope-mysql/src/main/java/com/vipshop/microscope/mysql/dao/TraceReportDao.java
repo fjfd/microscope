@@ -20,6 +20,8 @@ public interface TraceReportDao {
 
 	public List<TraceReport> findTraceReport(TraceReportCondition condition);
 	
+	public TraceReport findTraceDuration(TraceReportCondition condition);
+	
 	public List<OverTimeReport> findOverTimeReport(TraceReportCondition condition);
 
 }

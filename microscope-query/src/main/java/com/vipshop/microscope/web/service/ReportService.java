@@ -44,7 +44,7 @@ public class ReportService {
 		Map<String, Object> result = new HashMap<String, Object>(); 
 
 		Map<Integer, Integer> duration = new LinkedHashMap<Integer, Integer>();
-		TraceReport traceReport = repository.findTraceReport(condition).get(0);
+		TraceReport traceReport = repository.findTraceDuration(condition);
 		duration.put(0, traceReport.getRegion_0());
 		duration.put(1, traceReport.getRegion_1());
 		duration.put(2, traceReport.getRegion_2());

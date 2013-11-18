@@ -37,7 +37,7 @@ public class ReportController {
 	public MapResult overTimeReport(HttpServletRequest request, String callback) {
 		MapResult result = new MapResult();
 		
-		TraceReportCondition queryCondition = QueryConditionBuilder.buildOverTimeReport(request);
+		TraceReportCondition queryCondition = QueryConditionBuilder.buildTraceReport(request);
 		Map<String, Object> condition = service.getOverTimeReport(queryCondition);
 		result.setResult(condition);
 		result.setCallback(callback);
