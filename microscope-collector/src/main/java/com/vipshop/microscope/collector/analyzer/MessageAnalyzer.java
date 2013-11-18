@@ -5,8 +5,10 @@ import com.vipshop.microscope.thrift.Span;
 
 public class MessageAnalyzer {
 	
-	private final TraceReportAnalyzer traceReportAnalyzer = new TraceReportAnalyzer();
-	private final TraceOverTimeReportAnalyzer overTimeReportAnalyzer = new TraceOverTimeReportAnalyzer();
+	private static final TraceReportAnalyzer TRACE_REPORT_ANALYZER = new TraceReportAnalyzer();
+	private static final TraceOverTimeReportAnalyzer OVER_TIME_REPORT_ANALYZER = new TraceOverTimeReportAnalyzer();
+	
+	private static final SourceReportAnalyzer SOURCE_REPORT_ANALYZER = new SourceReportAnalyzer();
 
 	public void analyze(Span span) {
 		
@@ -17,8 +19,10 @@ public class MessageAnalyzer {
 		String type = span.getType();
 		String name = span.getName();
 		
-		traceReportAnalyzer.analyze(span, calendarUtil, app, ipAdress, type, name);
-		overTimeReportAnalyzer.analyze(span, calendarUtil, app, ipAdress, type, name);
+		TRACE_REPORT_ANALYZER.analyze(span, calendarUtil, app, ipAdress, type, name);
+		OVER_TIME_REPORT_ANALYZER.analyze(span, calendarUtil, app, ipAdress, type, name);
+		
+		SOURCE_REPORT_ANALYZER.analyze(span, calendarUtil, app, type, name);
 		
 	}
 	

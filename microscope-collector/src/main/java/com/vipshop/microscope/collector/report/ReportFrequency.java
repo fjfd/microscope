@@ -44,6 +44,27 @@ public class ReportFrequency {
 		return builder.toString();
 	}
 	
+	public static String makeKeyByHour(CalendarUtil calendar, String app, String name) {
+		StringBuilder builder = new StringBuilder();
+		builder.append(makeKeyByHour(calendar))
+			   .append("-").append(app)
+			   .append("-").append(name);
+		
+		return builder.toString();
+	}
+	
+	public static String getPreKeyByHour(CalendarUtil calendar, String app, String name) {
+		long key = makeKeyByHour(calendar);
+		long preKey = key - (1000 * 60 *60);
+		StringBuilder builder = new StringBuilder();
+		builder.append(preKey)
+			   .append("-").append(app)
+			   .append("-").append(name);
+		
+		return builder.toString();
+	}
+
+	
 	@SuppressWarnings("deprecation")
 	public static long makeKeyBy5Minute(CalendarUtil calendar) {
 		
