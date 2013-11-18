@@ -13,6 +13,6 @@ public interface SourceReportDao {
 	
 	public List<SourceReport> findSourceReportDist(SourceReportCondition condition);
 	
-	public List<SourceReport> findSourceReportTOP10(SourceReportCondition condition);
+	public List<SourceReport> findSourceReportTOP(SourceReportCondition condition);
 	
 }

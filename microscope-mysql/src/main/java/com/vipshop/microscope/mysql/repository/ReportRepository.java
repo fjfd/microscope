@@ -79,5 +79,13 @@ public class ReportRepository {
 	public List<SourceReport> findSourceReport(SourceReportCondition condition) {
 		return DaoFactory.SOURCE.findSourceReport(condition);
 	}
+	
+	public List<SourceReport> findSourceReportDist(SourceReportCondition condition) {
+		return DaoFactory.SOURCE.findSourceReportDist(condition);
+	}
+	
+	public List<SourceReport> findSourceReportTOP(SourceReportCondition condition) {
+		return DaoFactory.SOURCE.findSourceReportTOP(condition);
+	}
 
 }

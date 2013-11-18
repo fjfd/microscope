@@ -2,9 +2,11 @@ package com.vipshop.microscope.mysql.repository;
 
 import org.testng.annotations.Test;
 
+import com.vipshop.microscope.mysql.condition.SourceReportCondition;
 import com.vipshop.microscope.mysql.condition.TraceReportCondition;
 import com.vipshop.microscope.mysql.report.MsgReport;
 import com.vipshop.microscope.mysql.report.OverTimeReport;
+import com.vipshop.microscope.mysql.report.SourceReport;
 import com.vipshop.microscope.mysql.report.TraceReport;
 
 public class ReportRepositoryTest {
@@ -116,5 +118,59 @@ public class ReportRepositoryTest {
 			reportRepository.save(report);
 			
 		}
+	}
+	
+	@Test
+	public void saveSourceReport() {
+		SourceReport report = new SourceReport();
+		
+		report.setYear(2013);
+		report.setMonth(11);
+		report.setWeek(3);
+		report.setDay(14);
+		report.setHour(13);
+		
+		report.setApp("picket");
+		report.setName("/login/db");
+		report.setServiceIPAdress("10.101.0.200");
+		report.setServiceName("db@feel");
+		report.setServiceType("DB");
+		
+		report.setAvgDura(1.3f);
+		report.setCount(1);
+		report.setStartTime(System.currentTimeMillis());
+		report.setEndTime(System.currentTimeMillis() + 1000);
+		
+		report.setTps(1.2f);
+		
+		reportRepository.save(report);
+	}
+	
+	@Test
+	public void testfindSourceReport() {
+		SourceReportCondition condition = new SourceReportCondition();
+		
+		condition.setServiceIPAdress("10.101.0.200");
+		condition.setServiceType("DB");
+		
+		System.out.println(reportRepository.findSourceReport(condition));;
+	}
+	
+	@Test
+	public void testfindSourceReportDist() {
+		SourceReportCondition condition = new SourceReportCondition();
+		
+		condition.setServiceIPAdress("10.101.0.200");
+		condition.setServiceType("DB");
+		System.out.println(reportRepository.findSourceReportDist(condition));;
+	}
+	
+	@Test
+	public void testfindSourceReportTOP() {
+		SourceReportCondition condition = new SourceReportCondition();
+		
+		condition.setServiceIPAdress("10.101.0.200");
+		condition.setServiceType("DB");
+		System.out.println(reportRepository.findSourceReportTOP(condition));;
 	}
 }

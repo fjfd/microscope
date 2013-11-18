@@ -13,14 +13,14 @@
 		insert into source_report
 		(year, month, week, day, hour, app, name, service_type, service_ip, service_name, count, fail, failpre, start_time, end_time, avg_dura, tps)
 		values
-		(#{year},#{month},#{week},#{day},#{app},#{name},#{serviceType},#{serviceIPAdress},#{serviceName},#{count},#{fail},#{failpre},#{startTime},#{endTime},#{avg_dura},#{tps})
+		(#{year},#{month},#{week},#{day},#{hour},#{app},#{name},#{serviceType},#{serviceIPAdress},#{serviceName},#{count},#{fail},#{failpre},#{startTime},#{endTime},#{avgDura},#{tps})
 	</insert>
 	
 	<select id="findSourceReport" parameterType="SourceReportCondition" resultMap="sourceReportList">
 		select app, count
 		from source_report
 		where service_type = #{serviceType}
-		and service_id = #{serviceIPAdress}
+		and service_ip = #{serviceIPAdress}
 		<if test="year != -1"> year = #{year} </if>
 		<if test="month != -1"> and month = #{month} </if>
 		<if test="week != -1"> and week = #{week} </if>
@@ -32,7 +32,7 @@
 		select app, SUM(count)
 		from source_report
 		where service_type = #{serviceType}
-		and service_id = #{serviceIPAdress}
+		and service_ip = #{serviceIPAdress}
 		<if test="year != -1"> year = #{year} </if>
 		<if test="month != -1"> and month = #{month} </if>
 		<if test="week != -1"> and week = #{week} </if>
@@ -40,11 +40,11 @@
 		group by app
 	</select>
 	
-	<select id="findSourceReportTOP10" parameterType="SourceReportCondition" resultMap="sourceReportList">
+	<select id="findSourceReportTOP" parameterType="SourceReportCondition" resultMap="sourceReportList">
 		select app, SUM(count)
 		from source_report
 		where service_type = #{serviceType}
-		and service_id = #{serviceIPAdress}
+		and service_ip = #{serviceIPAdress}
 		group by app
 	</select>
 	
