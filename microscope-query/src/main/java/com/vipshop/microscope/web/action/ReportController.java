@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.vipshop.microscope.mysql.condition.MsgReportCondition;
 import com.vipshop.microscope.mysql.condition.TraceReportCondition;
 import com.vipshop.microscope.web.condition.QueryConditionBuilder;
 import com.vipshop.microscope.web.result.ListResult;
@@ -19,6 +20,18 @@ import com.vipshop.microscope.web.service.ReportService;
 public class ReportController {
 	
 	private ReportService service = new ReportService();
+	
+	@RequestMapping("/report/msgReport")
+	@ResponseBody
+	public MapResult msgReport(HttpServletRequest request, String callback) {
+		MapResult result = new MapResult();
+		
+		MsgReportCondition query = QueryConditionBuilder.buildMsgReport(request);
+		Map<String, Object> condition = service.getMsgReport(query);
+		result.setResult(condition);
+		result.setCallback(callback);
+		return result;
+	}
 	
 	@RequestMapping("/report/traceReport")
 	@ResponseBody
