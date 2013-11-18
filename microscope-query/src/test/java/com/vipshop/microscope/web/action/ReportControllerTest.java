@@ -25,14 +25,14 @@ public class ReportControllerTest {
 	}
 
 	@Test
-	public void testGetReport() throws ClientProtocolException, IOException {
+	public void testTraceReport() throws ClientProtocolException, IOException {
 		String url = "http://localhost:8080/report/traceReport?appName=picket&ipAdress=10.101.3.169&year=2013&month=11&week=4&day=18&hour=6&callback=jQuery11020021555292898187584";
 		String result = HttpClientUtil.request(url);
 		System.out.println(result);
 	}
 	
 	@Test
-	public void testGetReportByType() throws ClientProtocolException, IOException {
+	public void testTraceReportByType() throws ClientProtocolException, IOException {
 		String url = "http://localhost:8080/report/traceReport?appName=picket&ipAdress=10.101.3.169&type=DB&year=2013&month=11&week=4&day=18&hour=6&callback=jQuery11020021555292898187584";
 		String result = HttpClientUtil.request(url);
 		System.out.println(result);

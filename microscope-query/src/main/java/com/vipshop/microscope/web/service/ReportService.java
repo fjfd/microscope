@@ -13,7 +13,7 @@ import com.vipshop.microscope.mysql.repository.ReportRepository;
 
 public class ReportService {
 	
-	ReportRepository repository = new ReportRepository();
+	ReportRepository repository = ReportRepository.getRepository();
 	
 	public List<Map<String, Object>> getTraceReport(TraceReportCondition condition) {
 		

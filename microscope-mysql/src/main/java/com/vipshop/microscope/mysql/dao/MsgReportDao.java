@@ -9,5 +9,7 @@ public interface MsgReportDao {
 	
 	public void saveMsgReport(MsgReport msgReport);
 	
-	public List<MsgReport> findMsgReport(MsgReportCondition condition);
+	public MsgReport findMsgReport(MsgReportCondition condition);
+
+	public List<MsgReport> findMsgReportTrend(MsgReportCondition condition);
 }

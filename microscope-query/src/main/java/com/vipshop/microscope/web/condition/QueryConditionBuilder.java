@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.vipshop.microscope.mysql.condition.MsgReportCondition;
 import com.vipshop.microscope.mysql.condition.TraceReportCondition;
 
 public class QueryConditionBuilder {
@@ -77,6 +78,33 @@ public class QueryConditionBuilder {
 		
 		if (hour != null) {
 			condition.setHour(Integer.valueOf(hour));
+		}
+		
+		return condition;
+	}
+	
+	public static MsgReportCondition buildMsgReport(HttpServletRequest request) {
+		MsgReportCondition condition = new MsgReportCondition();
+		
+		String year = request.getParameter("year");
+		String month = request.getParameter("month");
+		String week = request.getParameter("week");
+		String day = request.getParameter("day");
+		
+		if (year != null) {
+			condition.setYear(Integer.valueOf(year));
+		}
+		
+		if (month != null) {
+			condition.setMonth(Integer.valueOf(month));
+		}
+		
+		if (week != null) {
+			condition.setWeek(Integer.valueOf(week));
+		}
+		
+		if (day != null) {
+			condition.setDay(Integer.valueOf(day));
 		}
 		
 		return condition;

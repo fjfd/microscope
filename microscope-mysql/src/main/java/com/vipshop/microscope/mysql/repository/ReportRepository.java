@@ -41,9 +41,13 @@ public class ReportRepository {
 	public void save(OverTimeReport overTimeReport) {
 		DaoFactory.TRACE.saveOverTimeReport(overTimeReport);
 	}
-
-	public List<MsgReport> findMsgReport(MsgReportCondition condition) {
+	
+	public MsgReport findMsgReport(MsgReportCondition condition) {
 		return DaoFactory.MSG.findMsgReport(condition);
+	}
+
+	public List<MsgReport> findMsgReportTrend(MsgReportCondition condition) {
+		return DaoFactory.MSG.findMsgReportTrend(condition);
 	}
 
 	public List<TraceReport> findTraceReport(TraceReportCondition condition) {
