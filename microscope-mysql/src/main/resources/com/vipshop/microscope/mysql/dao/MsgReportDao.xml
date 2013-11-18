@@ -4,6 +4,7 @@
 <mapper namespace="com.vipshop.microscope.mysql.dao.MsgReportDao">
 	
 	<resultMap id="msgReportList" type="MsgReport">
+		<result column="hour" property="hour" />
 		<result column="msg_num" property="msgNum" />
 		<result column="msg_size" property="msgSize" />
 	</resultMap>
@@ -26,7 +27,7 @@
 	</select>
 	
 	<select id="findMsgReportTrend" parameterType="MsgReportCondition" resultMap="msgReportList">
-		select SUM(msg_num) as msgNum, SUM(msg_size) as msgSize 
+		select SUM(msg_num) as msgNum, SUM(msg_size) as msgSize, hour 
 		from msg_report
 		where 
 		<if test="year != -1"> year = #{year} </if>

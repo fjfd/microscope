@@ -5,13 +5,7 @@ import java.math.RoundingMode;
 
 import com.vipshop.microscope.common.util.MathUtil;
 
-public class TraceReport {
-	
-	private int year;
-	private int month;
-	private int week;
-	private int day;
-	private int hour;
+public class TraceReport extends AbstraceReport {
 	
 	private String app;
 	private String ipAdress;
@@ -249,37 +243,6 @@ public class TraceReport {
 		return count.divide(time, 3, RoundingMode.HALF_DOWN).floatValue();
 	}
 	
-	public int getYear() {
-		return year;
-	}
-
-	public void setYear(int year) {
-		this.year = year;
-	}
-
-	public int getMonth() {
-		return month;
-	}
-
-	public void setMonth(int month) {
-		this.month = month;
-	}
-
-	public int getDay() {
-		return day;
-	}
-
-	public void setDay(int day) {
-		this.day = day;
-	}
-
-	public int getHour() {
-		return hour;
-	}
-
-	public void setHour(int hour) {
-		this.hour = hour;
-	}
 
 	public String getType() {
 		return type;

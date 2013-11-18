@@ -6,10 +6,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.vipshop.microscope.mysql.condition.MsgReportCondition;
+import com.vipshop.microscope.mysql.condition.SourceReportCondition;
 import com.vipshop.microscope.mysql.condition.TraceReportCondition;
 import com.vipshop.microscope.mysql.factory.DaoFactory;
 import com.vipshop.microscope.mysql.report.MsgReport;
 import com.vipshop.microscope.mysql.report.OverTimeReport;
+import com.vipshop.microscope.mysql.report.SourceReport;
 import com.vipshop.microscope.mysql.report.TraceReport;
 
 public class ReportRepository {
@@ -42,6 +44,10 @@ public class ReportRepository {
 		DaoFactory.TRACE.saveOverTimeReport(overTimeReport);
 	}
 	
+	public void save(SourceReport sourceReport) {
+		DaoFactory.SOURCE.saveSourceReport(sourceReport);
+	}
+	
 	public MsgReport findMsgReport(MsgReportCondition condition) {
 		return DaoFactory.MSG.findMsgReport(condition);
 	}
@@ -60,6 +66,10 @@ public class ReportRepository {
 	
 	public List<OverTimeReport> findOverTimeReport(TraceReportCondition condition) {
 		return DaoFactory.TRACE.findOverTimeReport(condition);
+	}
+	
+	public List<SourceReport> findSourceReport(SourceReportCondition condition) {
+		return DaoFactory.SOURCE.findSourceReport(condition);
 	}
 
 }

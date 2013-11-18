@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vipshop.microscope.mysql.dao.SourceReportDao">
+	
+	<resultMap id="sourceReportList" type="SourceReport">
+		<result column="app" property="app" />
+		<result column="count" property="count" />
+		<result column="hour" property="hour" />
+	</resultMap>
+	
+	<insert id="saveSourceReport" parameterType="SourceReport">
+		insert into source_report
+		(year, month, week, day, hour, app, name, service_type, service_ip, service_name, count, fail, failpre, start_time, end_time, avg_dura, tps)
+		values
+		(#{year},#{month},#{week},#{day},#{app},#{name},#{serviceType},#{serviceIPAdress},#{serviceName},#{count},#{fail},#{failpre},#{startTime},#{endTime},#{avg_dura},#{tps})
+	</insert>
+	
+	<select id="findSourceReport" parameterType="SourceReportCondition" resultMap="sourceReportList">
+		select app, count
+		from source_report
+		where service_type = #{serviceType}
+		and service_id = #{serviceIPAdress}
+		<if test="year != -1"> year = #{year} </if>
+		<if test="month != -1"> and month = #{month} </if>
+		<if test="week != -1"> and week = #{week} </if>
+		<if test="day != -1"> and day = #{day} </if>
+		group by hour
+	</select>
+	
+	<select id="findSourceReportDist" parameterType="SourceReportCondition" resultMap="sourceReportList">
+		select app, SUM(count)
+		from source_report
+		where service_type = #{serviceType}
+		and service_id = #{serviceIPAdress}
+		<if test="year != -1"> year = #{year} </if>
+		<if test="month != -1"> and month = #{month} </if>
+		<if test="week != -1"> and week = #{week} </if>
+		<if test="day != -1"> and day = #{day} </if>
+		group by app
+	</select>
+	
+	<select id="findSourceReportTOP10" parameterType="SourceReportCondition" resultMap="sourceReportList">
+		select app, SUM(count)
+		from source_report
+		where service_type = #{serviceType}
+		and service_id = #{serviceIPAdress}
+		group by app
+	</select>
+	
+</mapper>

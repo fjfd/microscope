@@ -25,12 +25,13 @@ public class ReportService {
 		msgReportResult.put("msg_num", msgReport.getMsgNum());
 		msgReportResult.put("msg_size", msgReport.getMsgSize());
 		
-		List<Map<String, Long>> msgReportsResult = new ArrayList<Map<String,Long>>();
+		List<Map<String, Object>> msgReportsResult = new ArrayList<Map<String,Object>>();
 		List<MsgReport> msgReports = repository.findMsgReportTrend(condition);
 		for (MsgReport trend : msgReports) {
-			Map<String, Long> trendResult = new HashMap<String, Long>();
+			Map<String, Object> trendResult = new HashMap<String, Object>();
 			trendResult.put("msg_num", trend.getMsgNum());
 			trendResult.put("msg_size", trend.getMsgSize());
+			trendResult.put("hour", trend.getHour());
 			msgReportsResult.add(trendResult);
 		}
 		result.put("msgReport", msgReportResult);
