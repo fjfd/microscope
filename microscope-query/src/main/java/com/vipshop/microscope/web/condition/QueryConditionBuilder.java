@@ -45,7 +45,7 @@ public class QueryConditionBuilder {
 			condition.setAppName(appName);
 		}
 		
-		if (ipAdress != null) {
+		if (ipAdress != null && !ipAdress.equals("All")) {
 			condition.setIpAdress(ipAdress);
 		}
 		
