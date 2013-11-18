@@ -39,6 +39,23 @@ public class ReportService {
 		
 		return result;
 	}
+	
+	public Map<String, Object> getAppAndIP() {
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		List<TraceReport> traceReports = repository.findAppName();
+		for (TraceReport traceReport : traceReports) {
+			String app = traceReport.getApp();
+			List<TraceReport> ipResults = repository.findIPAdress(app);
+			List<String> ipsList = new ArrayList<String>();
+			for (TraceReport ipResult : ipResults) {
+				ipsList.add(ipResult.getIpAdress());
+			}
+			result.put(app, ipsList);
+		}
+		
+		return result;
+	}
 
 	public List<Map<String, Object>> getTraceReport(TraceReportCondition condition) {
 		

@@ -60,6 +60,14 @@ public class ReportRepository {
 		return DaoFactory.TRACE.findTraceReport(condition);
 	}
 	
+	public List<TraceReport> findAppName() {
+		return DaoFactory.TRACE.findAppName();
+	}
+	
+	public List<TraceReport> findIPAdress(String app) {
+		return DaoFactory.TRACE.findIPAdress(app);
+	}
+	
 	public TraceReport findTraceDuration(TraceReportCondition condition) {
 		return DaoFactory.TRACE.findTraceDuration(condition);
 	}

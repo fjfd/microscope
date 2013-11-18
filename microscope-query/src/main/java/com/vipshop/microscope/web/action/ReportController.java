@@ -33,6 +33,18 @@ public class ReportController {
 		return result;
 	}
 	
+	@RequestMapping("/report/appAndIP")
+	@ResponseBody
+	public MapResult appAndIP(HttpServletRequest request, String callback) {
+		MapResult result = new MapResult();
+		
+		Map<String, Object> condition = service.getAppAndIP();
+		result.setResult(condition);
+		result.setCallback(callback);
+		return result;
+	}
+
+	
 	@RequestMapping("/report/traceReport")
 	@ResponseBody
 	public ListResult traceReport(HttpServletRequest request, String callback) {

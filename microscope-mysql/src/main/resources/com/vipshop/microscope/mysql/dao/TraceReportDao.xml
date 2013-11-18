@@ -148,5 +148,13 @@
 		GROUP BY minute
 		order by minute
 	</select>
-
+	
+	<select id="findAppName" parameterType="TraceReport" resultMap="traceReportList">
+		select app from trace_stat_report group by app
+	</select>
+	
+	<select id="findIPAdress" parameterType="String" resultMap="traceReportList">
+		select ip_adress from trace_stat_report where app = #{app} group by ip_adress
+	</select>
+	
 </mapper>

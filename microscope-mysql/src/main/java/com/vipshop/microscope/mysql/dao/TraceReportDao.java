@@ -20,6 +20,10 @@ public interface TraceReportDao {
 
 	public List<TraceReport> findTraceReport(TraceReportCondition condition);
 	
+	public List<TraceReport> findAppName();
+	
+	public List<TraceReport> findIPAdress(String app);
+	
 	public TraceReport findTraceDuration(TraceReportCondition condition);
 	
 	public List<OverTimeReport> findOverTimeReport(TraceReportCondition condition);

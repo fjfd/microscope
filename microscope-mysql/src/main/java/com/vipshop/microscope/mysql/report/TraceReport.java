@@ -374,6 +374,10 @@ public class TraceReport extends AbstraceReport {
 				+ region_16 + "]";
 	}
 	
+	public String toIPAdress() {
+		return ipAdress;
+	}
+	
 	
 
 }
