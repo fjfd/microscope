@@ -35,15 +35,15 @@ public class SecondaryCategory {
 	public static String buildName(RoutingStatementHandler handler) {
 		String name = handler.getBoundSql().getSql();
 		if (name.contains("select")) {
-			name = "query@";
+			name = "query@db";
 		} else if (name.contains("insert")) {
-			name = "insert@";
+			name = "insert@db";
 		} else if (name.contains("update")) {
-			name = "update@";
+			name = "update@db";
 		} else if (name.contains("delete")) {
-			name = "delete@";
+			name = "delete@db";
 		} else {
-			name = "execute@";
+			name = "execute@db";
 		}
 		return name;
 	}
