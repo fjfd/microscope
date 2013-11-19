@@ -14,7 +14,7 @@ import org.eclipse.jetty.webapp.*;
  * Example WebServer class which sets up an embedded Jetty appropriately whether
  * running in an IDE or in "production" mode in a shaded jar.
  */
-public class JettyWebServer implements Runnable {
+public class TestWebServer implements Runnable {
 
 	private static final String LOG_PATH = "./target/logs/access/yyyy_mm_dd.request.log";
 
@@ -28,23 +28,23 @@ public class JettyWebServer implements Runnable {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		int port = 8080;
+		int port = 9090;
 		String newPort = System.getProperty("port");
 		if (newPort != null) {
 			port = Integer.valueOf(newPort);
 		}
-		new JettyWebServer(port).start();
+		new TestWebServer(port).start();
 	}
 
 	private Server server;
 	private int port;
 	private String bindInterface;
 
-	public JettyWebServer(int aPort) {
+	public TestWebServer(int aPort) {
 		this(aPort, null);
 	}
 
-	public JettyWebServer(int aPort, String aBindInterface) {
+	public TestWebServer(int aPort, String aBindInterface) {
 		port = aPort;
 		bindInterface = aBindInterface;
 	}
