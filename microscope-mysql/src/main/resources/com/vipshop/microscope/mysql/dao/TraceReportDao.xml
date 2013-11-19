@@ -129,7 +129,7 @@
 	</delete>
 	
 	<select id="findOverTimeReport" parameterType="TraceReportCondition" resultMap="overTimeReportList">
-		SELECT AVG(avg_dura) as avg_dura,
+		SELECT minute, AVG(avg_dura) as avg_dura,
 			   SUM(hit_count) as hit_count,
 			   SUM(fail_count) as fail_count
 		
