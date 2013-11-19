@@ -48,6 +48,11 @@
 			</exclusions>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.vipshop</groupId>
+			<artifactId>microscope-framework</artifactId>
+			<version>0.1.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
