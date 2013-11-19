@@ -62,7 +62,7 @@
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="typeAliasesPackage" value="com.vipshop.microscope.mysql.report, com.vipshop.microscope.mysql.condition" />
-		<property name="configLocation" value="classpath:mybatis-config.xml"></property>  
+		<!-- <property name="configLocation" value="classpath:mybatis-config.xml"></property> -->  
 	</bean>
 
 	<!-- scan for mappers and let them be autowired -->
