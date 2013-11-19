@@ -13,7 +13,7 @@ public class ControllerInterceptor extends HandlerInterceptorAdapter {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-		Tracer.clientSend(request, Category.ACTION);
+		Tracer.clientSend(request, handler, Category.ACTION);
 		return super.preHandle(request, response, handler);
 	}
 

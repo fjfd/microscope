@@ -7,6 +7,7 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.ibatis.executor.statement.RoutingStatementHandler;
 
 import com.vipshop.microscope.trace.span.Category;
+import com.vipshop.microscope.trace.span.SecondaryCategory;
 
 public class Tracer {
 	
@@ -27,7 +28,7 @@ public class Tracer {
 	 * @param category
 	 */
 	public static void clientSend(RoutingStatementHandler handler, String serverIP, Category category) {
-		TraceFactory.getTrace().clientSend(handler.getBoundSql().getSql(), category);
+		TraceFactory.getTrace().clientSend(SecondaryCategory.buildName(handler), category);
 	}
 	
 	/**
@@ -37,7 +38,7 @@ public class Tracer {
 	 * @param category
 	 */
 	public static void clientSend(HttpUriRequest request, Category category){
-		TraceFactory.getTrace().clientSend(getShortURL(request), category);
+		TraceFactory.getTrace().clientSend(SecondaryCategory.buildName(request), category);
 		TraceFactory.setHttpRequestHead(request);
 	}
 	
@@ -70,9 +71,9 @@ public class Tracer {
 	 * @param request
 	 * @param category
 	 */
-	public static void clientSend(HttpServletRequest request, Category category){
+	public static void clientSend(HttpServletRequest request, Object handler, Category category){
 		TraceFactory.getHttpRequestHead(request);
-		TraceFactory.getTrace().clientSend(request.getRequestURI(), category);
+		TraceFactory.getTrace().clientSend(SecondaryCategory.buildName(request, handler), category);
 	}
 	
 	/**
@@ -120,11 +121,6 @@ public class Tracer {
 	 */
 	public static long getTraceId() {
 		return TraceFactory.getTraceId();
-	}
-	
-	
-	private static String getShortURL(HttpUriRequest request) {
-		return request.getURI().getPath();
 	}
 	
 }

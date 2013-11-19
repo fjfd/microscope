@@ -1,7 +1,5 @@
 package com.vipshop.microscope.test.app;
 
-import java.util.concurrent.TimeUnit;
-
 import com.vipshop.microscope.collector.server.CollectorServer;
 import com.vipshop.microscope.test.app.server.TestWebServer;
 import com.vipshop.microscope.test.app.url.UserURL;
@@ -20,6 +18,6 @@ public class UserApp {
 		
 		userURL.insertRequest();
 		
-		TimeUnit.SECONDS.sleep(5);
+//		TimeUnit.SECONDS.sleep(5);
 	}
 }
