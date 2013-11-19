@@ -53,20 +53,21 @@
 		</tx:attributes>
 	</tx:advice>
 
-	<!-- <aop:config> <aop:pointcut id="transactionPointCuts" expression="execution 
-		(* com.vipshop.pickit.service.service.*.*(..))" /> <aop:advisor pointcut-ref="transactionPointCuts" 
-		advice-ref="txAdvice" /> </aop:config> -->
+	<aop:config>
+		<aop:pointcut id="transactionPointCuts" expression="execution (* com.vipshop.microscope.mysql.repository.*.*(..))" />
+		<aop:advisor pointcut-ref="transactionPointCuts" advice-ref="txAdvice" />
+	</aop:config>
 
 	<!-- Spring iBatis SqlMapClient -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="typeAliasesPackage"
-			value="com.vipshop.microscope.mysql.report, com.vipshop.microscope.mysql.condition" />
+		<property name="typeAliasesPackage" value="com.vipshop.microscope.mysql.report, com.vipshop.microscope.mysql.condition" />
+		<property name="configLocation" value="classpath:mybatis-config.xml"></property>  
 	</bean>
 
 	<!-- scan for mappers and let them be autowired -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.vipshop.microscope.mysql.dao" />
 	</bean>
-	
+
 </beans>

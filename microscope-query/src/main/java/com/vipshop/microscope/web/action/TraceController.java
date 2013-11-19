@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.vipshop.microscope.web.condition.QueryConditionBuilder;
+import com.vipshop.microscope.web.condition.ConditionBuilder;
 import com.vipshop.microscope.web.result.ListResult;
 import com.vipshop.microscope.web.result.MapResult;
 import com.vipshop.microscope.web.service.TraceService;
@@ -33,7 +33,7 @@ public class TraceController {
 	@ResponseBody
 	public ListResult traceList(HttpServletRequest request, String callback) {
 		ListResult result = new ListResult();
-		Map<String, String> query = QueryConditionBuilder.build(request);
+		Map<String, String> query = ConditionBuilder.build(request);
 		List<Map<String, Object>> traceLists = service.getTraceList(query);
 		result.setResult(traceLists);
 		result.setCallback(callback);

@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.vipshop.microscope.mysql.condition.MsgReportCondition;
 import com.vipshop.microscope.mysql.condition.TraceReportCondition;
 
-public class QueryConditionBuilder {
+public class ConditionBuilder {
 	
 	public static Map<String, String> build(HttpServletRequest request) {
 		String appName = request.getParameter("appName");

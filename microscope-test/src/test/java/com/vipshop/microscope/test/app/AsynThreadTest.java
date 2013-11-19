@@ -1,4 +1,4 @@
-package com.vipshop.microscope.framework.thread;
+package com.vipshop.microscope.test.app;
 
 import java.util.concurrent.TimeUnit;
 
@@ -7,6 +7,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.vipshop.microscope.collector.server.CollectorServer;
+import com.vipshop.microscope.framework.thread.RunableTask;
 import com.vipshop.microscope.trace.ResultCode;
 import com.vipshop.microscope.trace.Trace;
 import com.vipshop.microscope.trace.Tracer;

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.vipshop.microscope.mysql.condition.MsgReportCondition;
 import com.vipshop.microscope.mysql.condition.TraceReportCondition;
-import com.vipshop.microscope.web.condition.QueryConditionBuilder;
+import com.vipshop.microscope.web.condition.ConditionBuilder;
 import com.vipshop.microscope.web.result.ListResult;
 import com.vipshop.microscope.web.result.MapResult;
 import com.vipshop.microscope.web.service.ReportService;
@@ -21,38 +21,45 @@ public class ReportController {
 	
 	private ReportService service = new ReportService();
 	
-	@RequestMapping("/report/msgReport")
+	@RequestMapping("/report/marketReport")
 	@ResponseBody
-	public MapResult msgReport(HttpServletRequest request, String callback) {
+	public MapResult marketReport(HttpServletRequest request, String callback) {
 		MapResult result = new MapResult();
-		
-		MsgReportCondition query = QueryConditionBuilder.buildMsgReport(request);
-		Map<String, Object> condition = service.getMsgReport(query);
-		result.setResult(condition);
+		MsgReportCondition query = ConditionBuilder.buildMsgReport(request);
+		Map<String, Object> data = service.getMsgReport(query);
+		result.setResult(data);
 		result.setCallback(callback);
 		return result;
-	}
+	}	
 	
-	@RequestMapping("/report/appAndIP")
+	@RequestMapping("/report/topReport")
 	@ResponseBody
-	public MapResult appAndIP(HttpServletRequest request, String callback) {
+	public MapResult topReport(HttpServletRequest request, String callback) {
 		MapResult result = new MapResult();
-		
-		Map<String, Object> condition = service.getAppAndIP();
-		result.setResult(condition);
+		MsgReportCondition query = ConditionBuilder.buildMsgReport(request);
+		Map<String, Object> data = service.getMsgReport(query);
+		result.setResult(data);
 		result.setCallback(callback);
 		return result;
 	}
 
-	
+	@RequestMapping("/report/appAndIP")
+	@ResponseBody
+	public MapResult appAndIP(HttpServletRequest request, String callback) {
+		MapResult result = new MapResult();
+		Map<String, Object> data = service.getAppAndIP();
+		result.setResult(data);
+		result.setCallback(callback);
+		return result;
+	}
+
 	@RequestMapping("/report/traceReport")
 	@ResponseBody
 	public ListResult traceReport(HttpServletRequest request, String callback) {
 		ListResult result = new ListResult();
-		
-		TraceReportCondition queryCondition = QueryConditionBuilder.buildTraceReport(request);
-		List<Map<String, Object>> condition = service.getTraceReport(queryCondition);
-		result.setResult(condition);
+		TraceReportCondition query = ConditionBuilder.buildTraceReport(request);
+		List<Map<String, Object>> data = service.getTraceReport(query);
+		result.setResult(data);
 		result.setCallback(callback);
 		return result;
 	}
@@ -61,10 +68,42 @@ public class ReportController {
 	@ResponseBody
 	public MapResult overTimeReport(HttpServletRequest request, String callback) {
 		MapResult result = new MapResult();
-		
-		TraceReportCondition queryCondition = QueryConditionBuilder.buildTraceReport(request);
-		Map<String, Object> condition = service.getOverTimeReport(queryCondition);
-		result.setResult(condition);
+		TraceReportCondition query = ConditionBuilder.buildTraceReport(request);
+		Map<String, Object> data = service.getOverTimeReport(query);
+		result.setResult(data);
+		result.setCallback(callback);
+		return result;
+	}
+	
+	@RequestMapping("/report/sourceReport")
+	@ResponseBody
+	public MapResult sourceReport(HttpServletRequest request, String callback) {
+		MapResult result = new MapResult();
+		MsgReportCondition query = ConditionBuilder.buildMsgReport(request);
+		Map<String, Object> data = service.getMsgReport(query);
+		result.setResult(data);
+		result.setCallback(callback);
+		return result;
+	}
+	
+	@RequestMapping("/report/depenReport")
+	@ResponseBody
+	public MapResult depenReport(HttpServletRequest request, String callback) {
+		MapResult result = new MapResult();
+		MsgReportCondition query = ConditionBuilder.buildMsgReport(request);
+		Map<String, Object> data = service.getMsgReport(query);
+		result.setResult(data);
+		result.setCallback(callback);
+		return result;
+	}
+	
+	@RequestMapping("/report/msgReport")
+	@ResponseBody
+	public MapResult msgReport(HttpServletRequest request, String callback) {
+		MapResult result = new MapResult();
+		MsgReportCondition query = ConditionBuilder.buildMsgReport(request);
+		Map<String, Object> data = service.getMsgReport(query);
+		result.setResult(data);
 		result.setCallback(callback);
 		return result;
 	}

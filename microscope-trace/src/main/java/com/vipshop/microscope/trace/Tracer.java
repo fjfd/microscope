@@ -4,19 +4,30 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.http.HttpRequest;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.ibatis.executor.statement.RoutingStatementHandler;
 
 import com.vipshop.microscope.trace.span.Category;
 
 public class Tracer {
 	
 	/**
-	 * trace start api
+	 * Handle Method opeations.
 	 * 
 	 * @param spanName
 	 * @param category
 	 */
 	public static void clientSend(String spanName, Category category){
 		TraceFactory.getTrace().clientSend(spanName, category);
+	}
+	
+	/**
+	 * Handle MyBATIS operations.
+	 * 
+	 * @param handler
+	 * @param category
+	 */
+	public static void clientSend(RoutingStatementHandler handler, String serverIP, Category category) {
+		TraceFactory.getTrace().clientSend(handler.getBoundSql().getSql(), category);
 	}
 	
 	/**
