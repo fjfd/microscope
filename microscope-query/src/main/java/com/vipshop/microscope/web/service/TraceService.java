@@ -1,6 +1,7 @@
 package com.vipshop.microscope.web.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,9 @@ public class TraceService {
 		List<Map<String, Object>> traceLists = new ArrayList<Map<String, Object>>();
 		
 		List<TraceTable> tableTraces = Repositorys.TRACE.findByQuery(query);
+		
+		Collections.sort(tableTraces);
+		
 		for (TraceTable tableTrace : tableTraces) {
 			Map<String, Object> trace = new LinkedHashMap<String, Object>();
 			String traceId = tableTrace.getTraceId();

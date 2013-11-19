@@ -105,11 +105,11 @@ public class TraceTable implements Serializable, Comparable<TraceTable> {
 
 	@Override
 	public int compareTo(TraceTable o) {
-		if (Long.valueOf(this.getDuration()) > Long.valueOf(o.getDuration())) {
+		if (Long.valueOf(this.getStartTimestamp()) > Long.valueOf(o.getStartTimestamp())) {
 			return 1;
 		}
 		
-		if (Long.valueOf(this.getDuration()) < Long.valueOf(o.getDuration())) {
+		if (Long.valueOf(this.getStartTimestamp()) < Long.valueOf(o.getStartTimestamp())) {
 			return -1;
 		}
 		
