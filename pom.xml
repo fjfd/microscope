@@ -31,6 +31,7 @@
 		<module>microscope-test</module>
 		<module>microscope-trace</module>
 		<module>microscope-hive</module>
+		<module>microscope-httpclient</module>
 	</modules>
 
 
