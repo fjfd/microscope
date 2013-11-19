@@ -1,25 +1,26 @@
-package com.vipshop.microscope.test.app;
+package com.vipshop.microscope.test.app.cache;
 
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+import com.vipshop.microscope.test.app.httpclient.UserHttpClient;
 import com.vipshop.microscope.trace.Trace;
 import com.vipshop.microscope.trace.TraceFactory;
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.span.Category;
 
-public class UserController implements Runnable {
+public class UserCache implements Runnable {
 
-	private static UserService userService = new UserService();
+	private static UserHttpClient userService = new UserHttpClient();
 	
 	private CountDownLatch startSignal;
 	private Trace contexTrace;
 	
-	public UserController() {
+	public UserCache() {
 	}
 	
-	public UserController(CountDownLatch startSignal, Trace contexTrace) {
+	public UserCache(CountDownLatch startSignal, Trace contexTrace) {
 		this.startSignal = startSignal;
 		this.contexTrace = contexTrace;
 	}

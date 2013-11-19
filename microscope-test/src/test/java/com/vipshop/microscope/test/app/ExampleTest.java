@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 
 import com.vipshop.microscope.collector.server.CollectorServer;
 import com.vipshop.microscope.common.util.HttpClientUtil;
+import com.vipshop.microscope.test.app.cache.UserCache;
 import com.vipshop.microscope.trace.ResultCode;
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.span.Category;
@@ -28,7 +29,7 @@ public class ExampleTest {
 		// send data
 		Tracer.clientSend("example", Category.METHOD);
 		try {
-			new UserController().login();
+			new UserCache().login();
 			throw new RuntimeException();
 		} catch (Exception e) {
 			Tracer.setResultCode(ResultCode.EXCEPTION);

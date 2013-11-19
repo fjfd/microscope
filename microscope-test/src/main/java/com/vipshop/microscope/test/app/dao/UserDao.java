@@ -1,4 +1,4 @@
-package com.vipshop.microscope.test.app;
+package com.vipshop.microscope.test.app.dao;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;

@@ -9,7 +9,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.vipshop.microscope.collector.server.CollectorServer;
-import com.vipshop.microscope.test.app.UserController;
+import com.vipshop.microscope.test.app.cache.UserCache;
 import com.vipshop.microscope.trace.ResultCode;
 import com.vipshop.microscope.trace.TraceFactory;
 import com.vipshop.microscope.trace.Tracer;
@@ -32,7 +32,7 @@ public class ReportDataTest {
 			Tracer.clientSend("http://localhost/vipshop/microscope/trace", Category.ACTION);
 			try {
 				TimeUnit.MILLISECONDS.sleep(new Random(100).nextInt());
-				new UserController().login();
+				new UserCache().login();
 			} catch (Exception e) {
 				Tracer.setResultCode(ResultCode.EXCEPTION);
 			} finally {

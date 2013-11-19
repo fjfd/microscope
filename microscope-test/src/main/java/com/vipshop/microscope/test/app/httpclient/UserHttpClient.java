@@ -1,12 +1,13 @@
-package com.vipshop.microscope.test.app;
+package com.vipshop.microscope.test.app.httpclient;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import com.vipshop.microscope.test.app.dao.UserDao;
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.span.Category;
 
-public class UserService {
+public class UserHttpClient {
 	
 	
 	static UserDao dao = new UserDao();
