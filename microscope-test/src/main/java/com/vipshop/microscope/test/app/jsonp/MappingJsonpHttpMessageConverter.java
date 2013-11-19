@@ -10,7 +10,7 @@ import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 
-import com.vipshop.microscope.web.result.BasicResult;
+import com.vipshop.microscope.test.app.result.BasicResult;
 
 public class MappingJsonpHttpMessageConverter extends MappingJacksonHttpMessageConverter {
 

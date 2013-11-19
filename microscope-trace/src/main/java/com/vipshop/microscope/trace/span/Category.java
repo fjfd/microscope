@@ -20,7 +20,7 @@ public enum Category {
 	DAO("DB"),
 	CACHE("Cache"),
 	URL("URL"),
-	THRIFTCALL("Thrift"),
+	THRIFT("Thrift"),
 	SYSTEM("System");
 	
 	private String value;

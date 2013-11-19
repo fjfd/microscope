@@ -146,7 +146,7 @@ public class TestWebServer implements Runnable {
 
 	@Override
 	public void run() {
-		server = new Server();
+		server = new Server(9090);
 
 		server.setThreadPool(createThreadPool());
 		server.addConnector(createConnector());

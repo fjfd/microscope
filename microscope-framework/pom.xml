@@ -13,12 +13,6 @@
 			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-trace</artifactId>
 			<version>0.1.0</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.apache.httpcomponents</groupId>
-					<artifactId>httpclient</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -34,12 +28,6 @@
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis</artifactId>
 			<version>3.2.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-			<version>4.2</version>
-			<classifier>microscope</classifier>
 		</dependency>
 		<dependency>
 			<groupId>struts</groupId>

@@ -239,8 +239,8 @@ public class TraceReport extends AbstraceReport {
 
 	public static float makeTPS(TraceReport report) {
 		BigDecimal count = new BigDecimal(report.getTotalCount());
-		BigDecimal time = new BigDecimal((report.getEndTime() - report.getStartTime()) / 1000);
-		return count.divide(time, 3, RoundingMode.HALF_DOWN).floatValue();
+		BigDecimal time = new BigDecimal(report.getEndTime() - report.getStartTime());
+		return count.divide(time, 3, RoundingMode.HALF_DOWN).floatValue() * 1000;
 	}
 	
 
