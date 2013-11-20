@@ -21,6 +21,9 @@ public class ReportService {
 		Map<String, Object> result = new HashMap<String, Object>();
 		
 		MsgReport msgReport = repository.findMsgReport(condition);
+		if (msgReport == null) {
+			return null;
+		}
 		Map<String, Long> msgReportResult = new HashMap<String, Long>();
 		msgReportResult.put("msg_num", msgReport.getMsgNum());
 		msgReportResult.put("msg_size", msgReport.getMsgSize());

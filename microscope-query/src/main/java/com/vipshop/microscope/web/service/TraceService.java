@@ -55,6 +55,9 @@ public class TraceService {
 			spanInfo.put("name", span.getName());
 			spanInfo.put("id", span.getId());
 			spanInfo.put("services", span.getName());
+			spanInfo.put("app", span.getApp_name());
+			spanInfo.put("type", span.getType());
+			spanInfo.put("status", span.getResultCode());
 			if (!(span.getParent_id() == 0L)) {
 				spanInfo.put("parentId", span.getParent_id());
 			}

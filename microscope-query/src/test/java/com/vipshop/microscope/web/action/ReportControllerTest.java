@@ -26,7 +26,7 @@ public class ReportControllerTest {
 	
 	@Test
 	public void testGetMsgReport() throws ClientProtocolException, IOException {
-		String url = "http://localhost:8080/report/msgReport?year=2013&month=11&week=4&day=17&callback=jQuery11020021555292898187584";
+		String url = "http://localhost:8080/report/msgReport?year=2013&month=11&week=4&day=21&callback=jQuery11020021555292898187584";
 		String result = HttpClientUtil.request(url);
 		System.out.println(result);
 	}
