@@ -60,6 +60,13 @@ public class Trace {
 		spanBuilder.clientSend(spanName, category);
 	}
 	
+	public void clientSend(String spanName, String serverIP, Category category) {
+		if (Switch.isClose()) {
+			return;
+		}
+		spanBuilder.clientSend(spanName, serverIP, category);
+	}
+	
 	public void setResutlCode(String result) {
 		if (Switch.isClose()) {
 			return;

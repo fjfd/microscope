@@ -109,6 +109,55 @@ public class SpanBuilder {
 		spanStack.push(span);
 	}
 	
+	public void clientSend(String spanName, String serverIP, Category category) {
+		Span span = new Span();
+		// set span order
+		span.setApp_name(Constant.APP_NAME);
+		span.setTrace_id(spanContext.getTraceId());
+		span.setName(spanName);
+		span.setType(category.getValue());
+		span.setStartstamp(System.currentTimeMillis());
+		span.setResultCode(ResultCode.OK);
+		span.setIPAddress(IPAddressUtil.IPAddress());
+		span.setServerIP(serverIP);
+		/*
+		 * The topmost span in a trace has its span id 
+		 * equal to trace id and parent span id is null.
+		 */
+		if (spanContext.isRootSpan()) {
+			// set span id equal to trace id for top span.
+			span.setId(spanContext.getTraceId());
+			spanContext.getSpanId().setSpanId(spanContext.getTraceId());
+			// make top span flag to be false.
+			spanContext.setRootSpanFlagFalse();
+		} else {
+			/*
+			 * if this coming span is a sub span.
+			 * set the parent span id
+			 */
+			span.setId(SpanId.createId());
+			span.setParent_id(spanContext.getCurrentSpanId());
+		}
+		
+		/*
+		 * add send annotation to span.
+		 */
+		span.addToAnnotations(AnnotationBuilder.clientSendAnnotation());
+//		span.addToAnnotations(AnnotationBuilder.serverReceAnnotation());
+		
+		/*
+		 * make the new span be the
+		 * current span of trace.
+		 */
+		spanContext.setCurrentSpan(span);
+		
+		/*
+		 * push the new span to stack.
+		 */
+		spanStack.push(span);
+	}
+	
+	
 	public void setResultCode(String result) {
 		/*
     	 * remove span from stack

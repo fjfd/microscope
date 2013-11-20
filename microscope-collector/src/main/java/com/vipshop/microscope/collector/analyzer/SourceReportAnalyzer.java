@@ -56,9 +56,9 @@ public class SourceReportAnalyzer {
 			report.setApp(app);
 			report.setName(name);
 			
-			report.setServiceType(span.getType());
-			report.setServiceIPAdress("db@feel");
-			report.setServiceName("insert");
+			report.setServerType(span.getType());
+			report.setServerIp("db@feel");
+			report.setSqlType("insert");
 			
 			report.setStartTime(span.getStartstamp());
 			report.setEndTime(span.getStartstamp() + span.getDuration());

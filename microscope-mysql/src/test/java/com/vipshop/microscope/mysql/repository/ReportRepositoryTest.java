@@ -132,9 +132,9 @@ public class ReportRepositoryTest {
 		
 		report.setApp("picket");
 		report.setName("/login/db");
-		report.setServiceIPAdress("10.101.0.200");
-		report.setServiceName("db@feel");
-		report.setServiceType("DB");
+		report.setServerType("DB");
+		report.setServerIp("db@feel");
+		report.setSqlType("query");
 		
 		report.setAvgDura(1.3f);
 		report.setCount(1);
@@ -150,8 +150,8 @@ public class ReportRepositoryTest {
 	public void testfindSourceReport() {
 		SourceReportCondition condition = new SourceReportCondition();
 		
-		condition.setServiceIPAdress("10.101.0.200");
-		condition.setServiceType("DB");
+		condition.setServerIp("db@feel");
+		condition.setServerType("DB");
 		
 		System.out.println(reportRepository.findSourceReport(condition));;
 	}
@@ -160,8 +160,8 @@ public class ReportRepositoryTest {
 	public void testfindSourceReportDist() {
 		SourceReportCondition condition = new SourceReportCondition();
 		
-		condition.setServiceIPAdress("10.101.0.200");
-		condition.setServiceType("DB");
+		condition.setServerIp("db@feel");
+		condition.setServerType("DB");
 		System.out.println(reportRepository.findSourceReportDist(condition));;
 	}
 	
@@ -169,8 +169,8 @@ public class ReportRepositoryTest {
 	public void testfindSourceReportTOP() {
 		SourceReportCondition condition = new SourceReportCondition();
 		
-		condition.setServiceIPAdress("10.101.0.200");
-		condition.setServiceType("DB");
+		condition.setServerIp("db@feel");
+		condition.setServerType("DB");
 		System.out.println(reportRepository.findSourceReportTOP(condition));;
 	}
 }

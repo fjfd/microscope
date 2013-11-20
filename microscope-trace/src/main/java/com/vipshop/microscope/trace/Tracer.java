@@ -28,7 +28,7 @@ public class Tracer {
 	 * @param category
 	 */
 	public static void clientSend(RoutingStatementHandler handler, String serverIP, Category category) {
-		TraceFactory.getTrace().clientSend(SecondaryCategory.buildName(handler), category);
+		TraceFactory.getTrace().clientSend(SecondaryCategory.buildName(handler), serverIP, category);
 	}
 	
 	/**

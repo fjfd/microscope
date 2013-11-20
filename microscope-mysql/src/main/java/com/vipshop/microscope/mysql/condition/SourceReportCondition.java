@@ -8,8 +8,9 @@ public class SourceReportCondition {
 	private int day = -1;
 	private int hour = -1;
 	
-	private String serviceType;
-	private String serviceIPAdress;
+	private String serverType;
+	private String serverIp;
+	
 	public int getYear() {
 		return year;
 	}
@@ -40,17 +41,17 @@ public class SourceReportCondition {
 	public void setHour(int hour) {
 		this.hour = hour;
 	}
-	public String getServiceType() {
-		return serviceType;
+	public String getServerType() {
+		return serverType;
 	}
-	public void setServiceType(String serviceType) {
-		this.serviceType = serviceType;
+	public void setServerType(String serviceType) {
+		this.serverType = serviceType;
 	}
-	public String getServiceIPAdress() {
-		return serviceIPAdress;
+	public String getServerIp() {
+		return serverIp;
 	}
-	public void setServiceIPAdress(String serviceIPAdress) {
-		this.serviceIPAdress = serviceIPAdress;
+	public void setServerIp(String serviceIPAdress) {
+		this.serverIp = serviceIPAdress;
 	}
 	
 }

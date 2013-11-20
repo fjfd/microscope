@@ -5,9 +5,9 @@ public class SourceReport extends AbstraceReport {
 	private String app;
 	private String name;
 	
-	private String serviceType;
-	private String serviceIPAdress;
-	private String serviceName;
+	private String serverType;
+	private String serverIp;
+	private String sqlType;
 	
 	private long count;
 	
@@ -38,12 +38,12 @@ public class SourceReport extends AbstraceReport {
 		this.endTime = endTime;
 	}
 
-	public String getServiceIPAdress() {
-		return serviceIPAdress;
+	public String getServerIp() {
+		return serverIp;
 	}
 
-	public void setServiceIPAdress(String serviceIPAdress) {
-		this.serviceIPAdress = serviceIPAdress;
+	public void setServerIp(String serviceIPAdress) {
+		this.serverIp = serviceIPAdress;
 	}
 
 	public long getFail() {
@@ -86,20 +86,20 @@ public class SourceReport extends AbstraceReport {
 		this.name = name;
 	}
 
-	public String getServiceName() {
-		return serviceName;
+	public String getSqlType() {
+		return sqlType;
 	}
 
-	public void setServiceName(String serviceName) {
-		this.serviceName = serviceName;
+	public void setSqlType(String serviceName) {
+		this.sqlType = serviceName;
 	}
 
-	public String getServiceType() {
-		return serviceType;
+	public String getServerType() {
+		return serverType;
 	}
 
-	public void setServiceType(String serviceType) {
-		this.serviceType = serviceType;
+	public void setServerType(String serviceType) {
+		this.serverType = serviceType;
 	}
 
 	public long getCount() {
@@ -120,7 +120,7 @@ public class SourceReport extends AbstraceReport {
 
 	@Override
 	public String toString() {
-		return "SourceReport [app=" + app + ", name=" + name + ", serviceType=" + serviceType + ", serviceIPAdress=" + serviceIPAdress + ", serviceName=" + serviceName + ", count=" + count
+		return "SourceReport [app=" + app + ", name=" + name + ", serviceType=" + serverType + ", serviceIPAdress=" + serverIp + ", serviceName=" + sqlType + ", count=" + count
 				+ ", fail=" + fail + ", failpre=" + failpre + ", avgDura=" + avgDura + ", startTime=" + startTime + ", endTime=" + endTime + ", tps=" + tps + ", getMinute()=" + getMinute()
 				+ ", getYear()=" + getYear() + ", getMonth()=" + getMonth() + ", getWeek()=" + getWeek() + ", getDay()=" + getDay() + ", getHour()=" + getHour() + ", getClass()=" + getClass()
 				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
