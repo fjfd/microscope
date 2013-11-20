@@ -5,22 +5,22 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class Repositorys {
+public class HbaseRepository {
 	
-	private static final Logger logger = LoggerFactory.getLogger(Repositorys.class);
+	private static final Logger logger = LoggerFactory.getLogger(HbaseRepository.class);
 	
 	public static AppTraceRepository APP_TRACE;
 	public static TraceTableRepository TRACE;
 	public static SpanTableRepository SPAN;
 	
 	static {
-		AbstractApplicationContext context = new ClassPathXmlApplicationContext("/applicationContext-hbase.xml", Repositorys.class);
+		AbstractApplicationContext context = new ClassPathXmlApplicationContext("/applicationContext-hbase.xml", HbaseRepository.class);
 		
 		APP_TRACE = context.getBean(AppTraceRepository.class);
 		TRACE = context.getBean(TraceTableRepository.class);
 		SPAN = context.getBean(SpanTableRepository.class);
 		
-		synchronized (Repositorys.class) {
+		synchronized (HbaseRepository.class) {
 			init();
 		}
 		

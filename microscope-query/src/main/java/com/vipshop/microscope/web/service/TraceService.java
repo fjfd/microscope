@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.vipshop.microscope.hbase.domain.TraceTable;
-import com.vipshop.microscope.hbase.repository.Repositorys;
+import com.vipshop.microscope.hbase.repository.HbaseRepository;
 import com.vipshop.microscope.thrift.Annotation;
 import com.vipshop.microscope.thrift.AnnotationType;
 import com.vipshop.microscope.thrift.Span;
@@ -15,14 +15,14 @@ import com.vipshop.microscope.thrift.Span;
 public class TraceService {
 	
 	public List<Map<String, Object>> getQueryCondition() {
-		List<Map<String, Object>> result = Repositorys.APP_TRACE.findAll();
+		List<Map<String, Object>> result = HbaseRepository.APP_TRACE.findAll();
 		return result;
 	}
 	
 	public List<Map<String, Object>> getTraceList(Map<String, String> query) {
 		List<Map<String, Object>> traceLists = new ArrayList<Map<String, Object>>();
 		
-		List<TraceTable> tableTraces = Repositorys.TRACE.findByQuery(query);
+		List<TraceTable> tableTraces = HbaseRepository.TRACE.findByQuery(query);
 		
 		Collections.sort(tableTraces);
 		
@@ -37,7 +37,7 @@ public class TraceService {
 			trace.put("startTimestamp", stmp);
 			trace.put("endTimestamp", etmp);
 			trace.put("durationMicro", dura);
-			trace.put("serviceCounts", Repositorys.SPAN.findSpanNameByTraceId(traceId));
+			trace.put("serviceCounts", HbaseRepository.SPAN.findSpanNameByTraceId(traceId));
 			traceLists.add(trace);
 		}
 		return traceLists;
@@ -48,7 +48,7 @@ public class TraceService {
 
 		traceSpan.put("traceId", traceId);
 		List<Map<String, Object>> spans = new ArrayList<Map<String,Object>>();
-		List<Span> spanTables = Repositorys.SPAN.findSpanByTraceId(traceId);
+		List<Span> spanTables = HbaseRepository.SPAN.findSpanByTraceId(traceId);
 		for (Span span : spanTables) {
 			Map<String, Object> spanInfo = new LinkedHashMap<String, Object>();
 			spanInfo.put("traceId", traceId);
@@ -94,11 +94,11 @@ public class TraceService {
 		
 		traceSpan.put("spans", spans);
 		
-		TraceTable table = Repositorys.TRACE.findByTraceId(traceId);
+		TraceTable table = HbaseRepository.TRACE.findByTraceId(traceId);
 		traceSpan.put("startTimestamp", table.getStartTimestamp());
 		traceSpan.put("endTimestamp", table.getEndTimestamp());
 		traceSpan.put("durationMicro", table.getDuration());
-		traceSpan.put("serviceCounts", Repositorys.SPAN.findSpanNameByTraceId(traceId));
+		traceSpan.put("serviceCounts", HbaseRepository.SPAN.findSpanNameByTraceId(traceId));
 
 		return traceSpan;
 		

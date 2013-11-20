@@ -14,7 +14,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.vipshop.microscope.hbase.domain.TraceTable;
-import com.vipshop.microscope.hbase.repository.Repositorys;
+import com.vipshop.microscope.hbase.repository.HbaseRepository;
 
 public class TraceTableRepositoryTest {
 
@@ -22,7 +22,7 @@ public class TraceTableRepositoryTest {
 	
 	@BeforeClass
 	public void setUp() {
-		Repositorys.TRACE.initialize();
+		HbaseRepository.TRACE.initialize();
 	}
 	
 	@AfterClass
@@ -38,9 +38,9 @@ public class TraceTableRepositoryTest {
 		TraceTable trace2 = new TraceTable("xufei-2", "andy19881006@gmail.com-2");
 		TraceTable trace3 = new TraceTable("xufei-3", "andy19881006@gmail.com-3");
 
-		Repositorys.TRACE.save(Arrays.asList(trace1, trace2, trace3));
-		Repositorys.TRACE.delete(trace1);
-		List<TraceTable> traces = Repositorys.TRACE.findAll();
+		HbaseRepository.TRACE.save(Arrays.asList(trace1, trace2, trace3));
+		HbaseRepository.TRACE.delete(trace1);
+		List<TraceTable> traces = HbaseRepository.TRACE.findAll();
 
 		Assert.assertEquals(2, traces.size());
 	}
@@ -56,14 +56,14 @@ public class TraceTableRepositoryTest {
 		TraceTable trace5 = new TraceTable("xufei-5", "andy19881006@gmail.com-5");
 		TraceTable trace6 = new TraceTable("xufei-6", "andy19881006@gmail.com-6");
 
-		Repositorys.TRACE.save(Arrays.asList(trace1, trace2, trace3, trace4, trace5, trace6));
+		HbaseRepository.TRACE.save(Arrays.asList(trace1, trace2, trace3, trace4, trace5, trace6));
 
 		Scan scan = new Scan(Bytes.toBytes("xufei-1"), Bytes.toBytes("xufei-5"));
-		List<TraceTable> traces = Repositorys.TRACE.findWithScan(scan);
+		List<TraceTable> traces = HbaseRepository.TRACE.findWithScan(scan);
 		Assert.assertEquals(4, traces.size());
 		
 		scan = new Scan(Bytes.toBytes("xufei-1"));
-		traces = Repositorys.TRACE.findWithScan(scan);
+		traces = HbaseRepository.TRACE.findWithScan(scan);
 		Assert.assertEquals(6, traces.size());
 
 	}

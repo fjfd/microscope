@@ -21,7 +21,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.testng.annotations.Test;
 
-import com.vipshop.microscope.hbase.repository.Repositorys;
+import com.vipshop.microscope.hbase.repository.HbaseRepository;
 
 public class RepositorysTest {
 
@@ -29,14 +29,14 @@ public class RepositorysTest {
 	
 	@Test
 	public void reinit() {
-		Repositorys.drop();
-		Repositorys.init();
+		HbaseRepository.drop();
+		HbaseRepository.init();
 	}
 	
 	@Test
 	public void drop() throws IOException {
 		log.info("Drop Hbase Data ");
-		Repositorys.drop();
+		HbaseRepository.drop();
 	}
 	
 }

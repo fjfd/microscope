@@ -12,19 +12,19 @@ public class AppRepositoryTest {
 	
 	@Test
 	public void init() {
-		Repositorys.APP_TRACE.initialize();
+		HbaseRepository.APP_TRACE.initialize();
 	}
 	
 	@Test
 	public void drop() {
-		Repositorys.APP_TRACE.drop();
+		HbaseRepository.APP_TRACE.drop();
 	}
 	
 	@Test
 	public void add() {
 		AppTrace app = new AppTrace("passport", "action/test/find2");
-		Repositorys.APP_TRACE.save(app);
-		List<Map<String, Object>> result = Repositorys.APP_TRACE.findAll();
+		HbaseRepository.APP_TRACE.save(app);
+		List<Map<String, Object>> result = HbaseRepository.APP_TRACE.findAll();
 		for (Map<String, Object> map : result) {
 			if (map.containsKey("passport")) {
 				Assert.assertEquals(true, map.containsKey("passport"));
@@ -35,6 +35,6 @@ public class AppRepositoryTest {
 	
 	@Test
 	public void testFindAll() {
-		Repositorys.APP_TRACE.findAll();
+		HbaseRepository.APP_TRACE.findAll();
 	}
 }
