@@ -9,7 +9,8 @@
 
 	<artifactId>microscope-collector</artifactId>
 	<name>microscope-collector</name>
-
+	<version>${project.build.version}</version>
+	
 	<properties>
 		<maven-site-plugin.skip>true</maven-site-plugin.skip>
 	</properties>
@@ -18,12 +19,12 @@
 		<dependency>
 			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-hbase</artifactId>
-			<version>0.1.0</version>
+			<version>${project.build.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-mysql</artifactId>
-			<version>0.1.0</version>
+			<version>${project.build.version}</version>
 		</dependency>
 	</dependencies>
 

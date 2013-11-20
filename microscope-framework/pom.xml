@@ -7,12 +7,13 @@
 		<version>0.1.0</version>
 	</parent>
 	<artifactId>microscope-framework</artifactId>
+	<version>${project.build.version}</version>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-trace</artifactId>
-			<version>0.1.0</version>
+			<version>${project.build.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>

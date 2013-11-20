@@ -1,12 +1,6 @@
 package com.vipshop.microscope.trace;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.ibatis.executor.statement.RoutingStatementHandler;
-
 import com.vipshop.microscope.trace.span.Category;
-import com.vipshop.microscope.trace.span.SecondaryCategory;
 
 public class Tracer {
 	
@@ -26,19 +20,8 @@ public class Tracer {
 	 * @param handler
 	 * @param category
 	 */
-	public static void clientSend(RoutingStatementHandler handler, String serverIP, Category category) {
-		TraceFactory.getTrace().clientSend(SecondaryCategory.buildName(handler), serverIP, category);
-	}
-	
-	/**
-	 * For httpclient 4.2 send request
-	 * 
-	 * @param request
-	 * @param category
-	 */
-	public static void clientSend(HttpUriRequest request, Category category){
-		TraceFactory.getTrace().clientSend(SecondaryCategory.buildName(request), category);
-		TraceFactory.setHttpRequestHead(request);
+	public static void clientSend(String name, String serverIP, Category category) {
+		TraceFactory.getTrace().clientSend(name, serverIP, category);
 	}
 	
 	/**
@@ -51,28 +34,6 @@ public class Tracer {
 		if (trace != null) {
 			trace.setResutlCode(result);
 		}
-	}
-	
-//	/**
-//	 * For httpclient 4.2 send request
-//	 * 
-//	 * @param request
-//	 * @param category
-//	 */
-//	public static void clientSend(HttpRequest request, Category category){
-//		//TraceFactory.getTrace().clientSend(SecondaryCategory.buildName(request), category);
-//		TraceFactory.setHttpRequestHead(request);
-//	}
-	
-	/**
-	 * For javax servlet receive http request
-	 * 
-	 * @param request
-	 * @param category
-	 */
-	public static void clientSend(HttpServletRequest request, Object handler, Category category){
-		TraceFactory.getHttpRequestHead(request);
-		TraceFactory.getTrace().clientSend(SecondaryCategory.buildName(request, handler), category);
 	}
 	
 	/**

@@ -9,7 +9,8 @@
 	</parent>
 
 	<artifactId>microscope-trace</artifactId>
-
+	<version>${project.build.version}</version>
+	
 	<properties>
 		<maven-site-plugin.skip>true</maven-site-plugin.skip>
 		<spring.version>3.2.2.RELEASE</spring.version>
@@ -24,18 +25,12 @@
 		<dependency>
 			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-common</artifactId>
-			<version>0.1.0</version>
+			<version>${project.build.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-gen</artifactId>
-			<version>0.1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.vipshop</groupId>
-			<artifactId>microscope-collector</artifactId>
-			<version>0.1.0</version>
-			<scope>test</scope>
+			<version>${project.build.version}</version>
 		</dependency>
 	</dependencies>
 	
