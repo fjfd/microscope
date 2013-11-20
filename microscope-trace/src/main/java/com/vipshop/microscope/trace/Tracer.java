@@ -30,7 +30,7 @@ public class Tracer {
 	 */
 	public static void clientSend(ContainerRequestContext requestContext, Category category){
 		TraceFactory.getHttpRequestHead(requestContext);
-		TraceFactory.getTrace().clientSend(requestContext.getUriInfo().toString(), category);
+		TraceFactory.getTrace().clientSend(requestContext.getUriInfo().getPath(), category);
 	}
 	
 	/**
