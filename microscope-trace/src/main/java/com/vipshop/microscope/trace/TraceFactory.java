@@ -31,8 +31,10 @@ public class TraceFactory {
 	 * Use java thread send message to collector.
 	 */
 	static {
-		ExecutorService executor = ThreadPoolUtil.newSingleDaemonThreadExecutor("transporter-pool");
-		executor.execute(new ThreadTransporter());
+		if (Switch.isOpen()) {
+			ExecutorService executor = ThreadPoolUtil.newSingleDaemonThreadExecutor("transporter-pool");
+			executor.execute(new ThreadTransporter());
+		}
 	}
 
 	/**

@@ -72,7 +72,7 @@ public class SourceReportAnalyzer {
 			
 			report.setFailpre(report.getFailpre() / report.getCount());
 			
-			report.setTps(report.getCount() / (span.getDuration()/1000));
+			report.setTps(report.getCount() / (span.getDuration()));
 			
 		} else {
 			

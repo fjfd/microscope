@@ -2,7 +2,6 @@ package com.vipshop.microscope.trace;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.http.HttpRequest;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.ibatis.executor.statement.RoutingStatementHandler;
 
@@ -54,16 +53,16 @@ public class Tracer {
 		}
 	}
 	
-	/**
-	 * For httpclient 4.2 send request
-	 * 
-	 * @param request
-	 * @param category
-	 */
-	public static void clientSend(HttpRequest request, Category category){
-		TraceFactory.getTrace().clientSend(request.getRequestLine().getMethod(), category);
-		TraceFactory.setHttpRequestHead(request);
-	}
+//	/**
+//	 * For httpclient 4.2 send request
+//	 * 
+//	 * @param request
+//	 * @param category
+//	 */
+//	public static void clientSend(HttpRequest request, Category category){
+//		//TraceFactory.getTrace().clientSend(SecondaryCategory.buildName(request), category);
+//		TraceFactory.setHttpRequestHead(request);
+//	}
 	
 	/**
 	 * For javax servlet receive http request
