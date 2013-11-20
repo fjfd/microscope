@@ -7,5 +7,7 @@
 /*/dependency-reduced-pom.xml
 /lib/*
 /*/lib/*
+/pom.xml.versionsBackup
+/*/pom.xml.versionsBackup
 
 
