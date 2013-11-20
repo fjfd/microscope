@@ -70,7 +70,7 @@ public class TraceReportAnalyzer {
 	private void analyzeTrace(Span span, CalendarUtil calendarUtil, String app, String ipAdress, String type, String name) {
 		String key = ReportFrequency.makeKeyByHour(calendarUtil, app, ipAdress, type, name);
 		String resultCode = span.getResultCode();
-		int duration = span.getDuration() / 1000;
+		int duration = span.getDuration();
 		long startTime = span.getStartstamp();
 		long endTime = span.getStartstamp() + duration;
 		

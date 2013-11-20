@@ -3,7 +3,6 @@ package com.vipshop.microscope.trace.span;
 import java.util.Stack;
 
 import com.vipshop.microscope.common.util.IPAddressUtil;
-import com.vipshop.microscope.thrift.Annotation;
 import com.vipshop.microscope.thrift.Span;
 import com.vipshop.microscope.trace.Constant;
 import com.vipshop.microscope.trace.ResultCode;
@@ -179,12 +178,9 @@ public class SpanBuilder {
     	 */
 		Span span = spanStack.pop();
 		
-		Annotation startAnnotation = span.annotations.get(0);
+		span.setDuration((int) (System.currentTimeMillis() - span.getStartstamp()));
 //		span.addToAnnotations(AnnotationBuilder.serverSendAnnotation());
     	span.addToAnnotations(AnnotationBuilder.clientReceAnnotation());
-    	Annotation endAnnotation = span.annotations.get(1);
-    	int duration = (int) (endAnnotation.getTimestamp() - startAnnotation.getTimestamp());
-    	span.setDuration(duration);
     	/*
     	 * put span to queue
     	 */
