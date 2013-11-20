@@ -8,6 +8,7 @@
 	</parent>
 	<artifactId>microscope-hive</artifactId>
 	<version>${parent.version}</version>
+	
 	<repositories>
 		<repository>
 			<id>cloudera</id>
@@ -17,8 +18,6 @@
 
 	<properties>
 		<maven-site-plugin.skip>true</maven-site-plugin.skip>
-		<spring.version>3.2.2.RELEASE</spring.version>
-		<hive.version>0.10.0-cdh4.4.0</hive.version>
 	</properties>
 
 	<dependencies>
@@ -40,7 +39,7 @@
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-hadoop</artifactId>
-			<version>1.0.0.RELEASE</version>
+			<version>${spring.data.hadoop.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.vipshop</groupId>
@@ -55,7 +54,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-dao</artifactId>
-			<version>2.0.8</version>
+			<version>${spring.dao.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>

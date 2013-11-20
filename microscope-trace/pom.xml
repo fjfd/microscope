@@ -13,14 +13,13 @@
 	
 	<properties>
 		<maven-site-plugin.skip>true</maven-site-plugin.skip>
-		<spring.version>3.2.2.RELEASE</spring.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
-			<version>2.5</version>
+			<version>${servlet-api.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.vipshop</groupId>
@@ -35,7 +34,7 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-			<version>4.2</version>
+			<version>${httpclient.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.apache.httpcomponents</groupId>
@@ -46,7 +45,7 @@
 		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis</artifactId>
-			<version>3.2.2</version>
+			<version>${mybatis.version}</version>
 		</dependency>
 	</dependencies>
 	

@@ -12,24 +12,23 @@
 	
 	<properties>
 		<maven-site-plugin.skip>true</maven-site-plugin.skip>
-		<spring.version>3.2.2.RELEASE</spring.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.hadoop</groupId>
 			<artifactId>hadoop-core</artifactId>
-			<version>1.2.1</version>
+			<version>${hadoop.core.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.hbase</groupId>
 			<artifactId>hbase</artifactId>
-			<version>0.94.6</version>
+			<version>${hbase.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-hadoop</artifactId>
-			<version>1.0.0.RELEASE</version>
+			<version>${spring.data.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.vipshop</groupId>
@@ -44,7 +43,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-dao</artifactId>
-			<version>2.0.8</version>
+			<version>${spring.dao.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -62,11 +61,6 @@
 			<version>${spring.version}</version>
 		</dependency>
 	</dependencies>
-
-	<build>
-		<plugins>
-		</plugins>
-	</build>
 
 	<profiles>
 		<profile>

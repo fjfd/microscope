@@ -12,23 +12,33 @@
 	
 	<properties>
 		<maven-site-plugin.skip>true</maven-site-plugin.skip>
-		<spring.version>3.2.2.RELEASE</spring.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<version>${json-lib.version}</version>
+			<classifier>jdk15</classifier>
+		</dependency>
+		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
-			<version>1.7.1</version>
+			<version>${jackson-mapper-asl.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
-			<version>2.2.2</version>
+			<version>${jackson-core.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-hbase</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vipshop</groupId>
+			<artifactId>microscope-mysql</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
@@ -44,28 +54,17 @@
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-server</artifactId>
-			<version>8.0.0.RC0</version>
+			<version>${jetty.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-servlet</artifactId>
-			<version>8.0.0.RC0</version>
+			<version>${jetty.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-webapp</artifactId>
-			<version>8.0.0.RC0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.vipshop</groupId>
-			<artifactId>microscope-mysql</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>net.sf.json-lib</groupId>
-			<artifactId>json-lib</artifactId>
-			<version>2.4</version>
-			<classifier>jdk15</classifier>
+			<version>${jetty.version}</version>
 		</dependency>
 
 	</dependencies>

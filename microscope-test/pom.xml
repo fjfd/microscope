@@ -20,7 +20,7 @@
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 			<version>4.2</version>
-			<classifier>microscope</classifier>
+			<classifier>microscope-1.0.0</classifier>
 			<exclusions>
 				<exclusion>
 					<groupId>org.apache.httpcomponents</groupId>
