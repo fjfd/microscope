@@ -96,9 +96,9 @@ public class TraceFactory {
 	 * 
 	 * @return
 	 */
-	public static long getTraceIdFromThreadLocal() {
+	public static String getTraceIdFromThreadLocal() {
 		SpanId spanID = TRACE_CONTEXT.get().getSpanId();
-		return spanID.getTraceId();
+		return String.valueOf(spanID.getTraceId());
 	}
 	
 	/**
@@ -106,9 +106,9 @@ public class TraceFactory {
 	 * 
 	 * @return
 	 */
-	public static long getSpanIdFromThreadLocal() {
+	public static String getSpanIdFromThreadLocal() {
 		SpanId spanID = TRACE_CONTEXT.get().getSpanId();
-		return spanID.getSpanId();
+		return String.valueOf(spanID.getSpanId());
 	}
 	
 	/**
