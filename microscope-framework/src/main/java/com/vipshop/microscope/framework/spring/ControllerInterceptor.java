@@ -8,13 +8,12 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.span.Category;
-import com.vipshop.microscope.trace.span.SecondaryCategory;
 
 public class ControllerInterceptor extends HandlerInterceptorAdapter {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-		Tracer.clientSend(SecondaryCategory.buildName(request, handler), Category.ACTION);
+		Tracer.clientSend(request, handler, Category.ACTION);
 		return super.preHandle(request, response, handler);
 	}
 

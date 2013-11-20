@@ -4,12 +4,12 @@
 	<parent>
 		<groupId>com.vipshop</groupId>
 		<artifactId>microscope</artifactId>
-		<version>0.1.0</version>
+		<version>1.0.0</version>
 	</parent>
 
 	<artifactId>microscope-test</artifactId>
-	<version>${project.build.version}</version>
-
+	<version>${parent.version}</version>
+	
 	<properties>
 		<maven-site-plugin.skip>true</maven-site-plugin.skip>
 	</properties>
@@ -32,7 +32,7 @@
 		<dependency>
 			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-framework</artifactId>
-			<version>${project.build.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>
@@ -107,7 +107,7 @@
 		<dependency>
 			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-collector</artifactId>
-			<version>${project.build.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 

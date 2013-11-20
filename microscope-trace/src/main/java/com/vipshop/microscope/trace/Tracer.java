@@ -49,7 +49,7 @@ public class Tracer {
 	 * @param category
 	 */
 	public static void clientSend(HttpRequest request, Category category){
-		TraceFactory.getTrace().clientSend(request.toString(), category);
+		TraceFactory.getTrace().clientSend(SecondaryCategory.buildName((HttpUriRequest)request), category);
 		TraceFactory.setHttpRequestHead(request);
 	}
 	

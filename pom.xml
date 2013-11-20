@@ -6,11 +6,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.vipshop</groupId>
 	<artifactId>microscope</artifactId>
-	<version>0.1.0</version>
+	<version>1.0.0</version>
 	<packaging>pom</packaging>
 
 	<properties>
-		<project.build.version>0.1.0</project.build.version>
+		<project.build.version>UTF-8</project.build.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<spring.version>3.2.2.RELEASE</spring.version>

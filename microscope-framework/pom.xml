@@ -4,16 +4,21 @@
 	<parent>
 		<groupId>com.vipshop</groupId>
 		<artifactId>microscope</artifactId>
-		<version>0.1.0</version>
+		<version>1.0.0</version>
 	</parent>
+	
 	<artifactId>microscope-framework</artifactId>
-	<version>${project.build.version}</version>
-
+	<version>${parent.version}</version>
+	
+	<properties>
+		<maven-site-plugin.skip>true</maven-site-plugin.skip>
+	</properties>
+	
 	<dependencies>
 		<dependency>
 			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-trace</artifactId>
-			<version>${project.build.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>

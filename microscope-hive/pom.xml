@@ -4,16 +4,16 @@
 	<parent>
 		<groupId>com.vipshop</groupId>
 		<artifactId>microscope</artifactId>
-		<version>0.1.0</version>
+		<version>1.0.0</version>
 	</parent>
 	<artifactId>microscope-hive</artifactId>
-	<version>${project.build.version}</version>
+	<version>${parent.version}</version>
 	<repositories>
-    <repository>
-      <id>cloudera</id>
-      <url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>
-    </repository>
-  </repositories>
+		<repository>
+			<id>cloudera</id>
+			<url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>
+		</repository>
+	</repositories>
 
 	<properties>
 		<maven-site-plugin.skip>true</maven-site-plugin.skip>
@@ -45,12 +45,12 @@
 		<dependency>
 			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-common</artifactId>
-			<version>${project.build.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-gen</artifactId>
-			<version>${project.build.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>

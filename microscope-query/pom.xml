@@ -4,12 +4,12 @@
 	<parent>
 		<groupId>com.vipshop</groupId>
 		<artifactId>microscope</artifactId>
-		<version>0.1.0</version>
+		<version>1.0.0</version>
 	</parent>
 
 	<artifactId>microscope-query</artifactId>
-	<version>${project.build.version}</version>
-
+	<version>${parent.version}</version>
+	
 	<properties>
 		<maven-site-plugin.skip>true</maven-site-plugin.skip>
 		<spring.version>3.2.2.RELEASE</spring.version>
@@ -29,7 +29,7 @@
 		<dependency>
 			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-hbase</artifactId>
-			<version>${project.build.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -59,7 +59,7 @@
 		<dependency>
 			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-mysql</artifactId>
-			<version>${project.build.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>net.sf.json-lib</groupId>
