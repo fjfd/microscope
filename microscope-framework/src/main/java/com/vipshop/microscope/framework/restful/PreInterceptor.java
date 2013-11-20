@@ -1,25 +1,22 @@
 package com.vipshop.microscope.framework.restful;
 
-import com.vipshop.microscope.trace.Tracer;
-import com.vipshop.microscope.trace.span.Category;
-import org.jboss.resteasy.core.ResourceMethodInvoker;
-import org.jboss.resteasy.core.ServerResponse;
-import org.jboss.resteasy.spi.Failure;
-import org.jboss.resteasy.spi.HttpRequest;
-import org.jboss.resteasy.spi.interception.PreProcessInterceptor;
-import org.springframework.stereotype.Component;
+import java.io.IOException;
 
-import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.ext.Provider;
 
-@SuppressWarnings("deprecation")
+import org.springframework.stereotype.Component;
+
+import com.vipshop.microscope.trace.Tracer;
+import com.vipshop.microscope.trace.span.Category;
+
 @Provider
 @Component
-public class PreInterceptor implements PreProcessInterceptor {
+public class PreInterceptor implements ContainerRequestFilter {
 	
-    @Override
-    public ServerResponse preProcess(HttpRequest request, ResourceMethodInvoker method) throws Failure, WebApplicationException {
-        Tracer.clientSend(request.getUri().toString(), Category.ACTION);
-        return null;
-    }
+	@Override
+	public void filter(ContainerRequestContext requestContext) throws IOException {
+		Tracer.clientSend(requestContext, Category.ACTION);
+	}
 }

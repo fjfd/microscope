@@ -4,6 +4,7 @@ import java.util.concurrent.ExecutorService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.container.ContainerRequestContext;
 
 import org.apache.http.HttpRequest;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -136,6 +137,31 @@ public class TraceFactory {
 	public static void getHttpRequestHead(HttpServletRequest request) {
 		String traceId = request.getHeader(HTTPHeader.X_B3_TRACE_ID);
 		String spanId = request.getHeader(HTTPHeader.X_B3_SPAN_ID);
+		
+		// If this is a new trace.
+		if (traceId == null || spanId == null) {
+			Trace trace = new Trace();
+			TRACE_CONTEXT.set(trace);
+			return;
+		}
+		 
+		// If this is some part of exist trace.
+		SpanId spanID = new SpanId();
+		spanID.setTraceId(Long.valueOf(traceId));
+		spanID.setSpanId(Long.valueOf(spanId));
+
+		SpanContext context = new SpanContext(spanID);
+		context.setRootSpanFlagFalse();
+		
+		Trace trace = new Trace(context);
+		
+		TRACE_CONTEXT.set(trace);
+		
+	}
+	
+	public static void getHttpRequestHead(ContainerRequestContext requestContext) {
+		String traceId = requestContext.getHeaderString(HTTPHeader.X_B3_TRACE_ID);
+		String spanId = requestContext.getHeaderString(HTTPHeader.X_B3_SPAN_ID);
 		
 		// If this is a new trace.
 		if (traceId == null || spanId == null) {

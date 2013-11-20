@@ -109,6 +109,16 @@
 			<artifactId>microscope-collector</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		 <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-spring</artifactId>
+            <version>3.0.3.Final</version>
+        </dependency>
+		<dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jaxrs</artifactId>
+            <version>${resteasy-jaxrs.version}</version>
+        </dependency>
 	</dependencies>
 
 	<build>

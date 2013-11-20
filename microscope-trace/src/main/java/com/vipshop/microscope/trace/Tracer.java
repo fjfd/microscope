@@ -1,6 +1,7 @@
 package com.vipshop.microscope.trace;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.container.ContainerRequestContext;
 
 import org.apache.http.HttpRequest;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -19,6 +20,17 @@ public class Tracer {
 	 */
 	public static void clientSend(String spanName, Category category){
 		TraceFactory.getTrace().clientSend(spanName, category);
+	}
+	
+	/**
+	 * Handle resteasy operations.
+	 * 
+	 * @param requestContext
+	 * @param category
+	 */
+	public static void clientSend(ContainerRequestContext requestContext, Category category){
+		TraceFactory.getHttpRequestHead(requestContext);
+		TraceFactory.getTrace().clientSend(requestContext.getUriInfo().toString(), category);
 	}
 	
 	/**

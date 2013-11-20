@@ -47,6 +47,11 @@
 			<artifactId>mybatis</artifactId>
 			<version>${mybatis.version}</version>
 		</dependency>
+		<dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jaxrs</artifactId>
+            <version>${resteasy-jaxrs.version}</version>
+        </dependency>
 	</dependencies>
 	
 </project>
