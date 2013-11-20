@@ -36,6 +36,7 @@
 		<json-lib.version>2.4</json-lib.version>
 		<jackson-mapper-asl.version>1.7.1</jackson-mapper-asl.version>
 		<jackson-core.version>2.2.2</jackson-core.version>
+		<resteasy-jaxrs.version>3.0.3.Final</resteasy-jaxrs.version>
 		<maven-site-plugin.skip>false</maven-site-plugin.skip>
 	</properties>
 
