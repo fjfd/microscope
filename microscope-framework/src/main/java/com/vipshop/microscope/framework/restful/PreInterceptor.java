@@ -8,6 +8,7 @@ import javax.ws.rs.ext.Provider;
 
 import org.springframework.stereotype.Component;
 
+import com.vipshop.microscope.trace.HTTPHeader;
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.span.Category;
 
@@ -17,6 +18,11 @@ public class PreInterceptor implements ContainerRequestFilter {
 	
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {
-		Tracer.clientSend(requestContext, Category.ACTION);
+		String traceId = requestContext.getHeaderString(HTTPHeader.X_B3_TRACE_ID);
+		String spanId = requestContext.getHeaderString(HTTPHeader.X_B3_SPAN_ID);
+		
+		String name = requestContext.getUriInfo().getPath();
+		
+		Tracer.clientSend(traceId, spanId, name, Category.ACTION);
 	}
 }

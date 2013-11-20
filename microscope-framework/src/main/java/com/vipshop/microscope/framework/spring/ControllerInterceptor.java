@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.vipshop.microscope.framework.span.SecondaryCategory;
+import com.vipshop.microscope.trace.HTTPHeader;
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.span.Category;
 
@@ -13,7 +15,13 @@ public class ControllerInterceptor extends HandlerInterceptorAdapter {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-		Tracer.clientSend(request, handler, Category.ACTION);
+		String traceId = request.getHeader(HTTPHeader.X_B3_TRACE_ID);
+		String spanId = request.getHeader(HTTPHeader.X_B3_SPAN_ID);
+
+		String name = SecondaryCategory.buildName(request, handler);
+		
+		Tracer.clientSend(traceId, spanId, name, Category.ACTION);
+		
 		return super.preHandle(request, response, handler);
 	}
 

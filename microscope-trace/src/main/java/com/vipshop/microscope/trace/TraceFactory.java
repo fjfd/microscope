@@ -2,13 +2,6 @@ package com.vipshop.microscope.trace;
 
 import java.util.concurrent.ExecutorService;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.container.ContainerRequestContext;
-
-import org.apache.http.HttpRequest;
-import org.apache.http.client.methods.HttpUriRequest;
-
 import com.vipshop.microscope.common.util.ThreadPoolUtil;
 import com.vipshop.microscope.trace.span.SpanContext;
 import com.vipshop.microscope.trace.span.SpanId;
@@ -99,71 +92,40 @@ public class TraceFactory {
 	}
 	
 	/**
-	 * Use HTTP header to propagate trace id and span id.
+	 * Returns traceId from ThreadLocal.
 	 * 
-	 * @param request
+	 * @return
 	 */
-	
-	public static void setHttpRequestHead(HttpUriRequest request) {
+	public static long getTraceIdFromThreadLocal() {
 		SpanId spanID = TRACE_CONTEXT.get().getSpanId();
-		
-		String traceId = String.valueOf(spanID.getTraceId());
-		String spanId = String.valueOf(spanID.getSpanId());
-		
-		request.addHeader(HTTPHeader.X_B3_TRACE_ID, traceId);
-		request.addHeader(HTTPHeader.X_B3_SPAN_ID, spanId);
-	}
-	
-	public static void setHttpRequestHead(HttpRequest request) {
-		SpanId spanID = TRACE_CONTEXT.get().getSpanId();
-		
-		String traceId = String.valueOf(spanID.getTraceId());
-		String spanId = String.valueOf(spanID.getSpanId());
-		
-		request.addHeader(HTTPHeader.X_B3_TRACE_ID, traceId);
-		request.addHeader(HTTPHeader.X_B3_SPAN_ID, spanId);
+		return spanID.getTraceId();
 	}
 	
 	/**
-	 * Handler cross-JVM request by http protocol.
+	 * Returns spanId from ThreadLocal.
 	 * 
-	 * If this is a new trace, then create one;
-	 * If this is a part of exist trace, then get
-	 * the trace context information and set to a
-	 * trace object.
-	 * 
-	 * @param request
+	 * @return
 	 */
-	public static void getHttpRequestHead(HttpServletRequest request) {
-		String traceId = request.getHeader(HTTPHeader.X_B3_TRACE_ID);
-		String spanId = request.getHeader(HTTPHeader.X_B3_SPAN_ID);
-		setHeadToTrace(traceId, spanId);
+	public static long getSpanIdFromThreadLocal() {
+		SpanId spanID = TRACE_CONTEXT.get().getSpanId();
+		return spanID.getSpanId();
 	}
 	
 	/**
-	 * Handler cross-JVM request by http protocol.
+	 * Set traceId and spanId to ThreadLocal
 	 * 
-	 * If this is a new trace, then create one;
-	 * If this is a part of exist trace, then get
-	 * the trace context information and set to a
-	 * trace object.
+	 * from HTTPHeader OR Thrift
 	 * 
 	 * @param request
 	 */
-	public static void getHttpRequestHead(ContainerRequestContext requestContext) {
-		String traceId = requestContext.getHeaderString(HTTPHeader.X_B3_TRACE_ID);
-		String spanId = requestContext.getHeaderString(HTTPHeader.X_B3_SPAN_ID);
-		setHeadToTrace(traceId, spanId);
-	}
-
-	private static void setHeadToTrace(String traceId, String spanId) {
+	public static void setTraceContexToThreadLocal(String traceId, String spanId) {
 		// If this is a new trace.
 		if (traceId == null || spanId == null) {
 			Trace trace = new Trace();
 			TRACE_CONTEXT.set(trace);
 			return;
 		}
-		 
+
 		// If this is some part of exist trace.
 		SpanId spanID = new SpanId();
 		spanID.setTraceId(Long.valueOf(traceId));
@@ -171,57 +133,12 @@ public class TraceFactory {
 
 		SpanContext context = new SpanContext(spanID);
 		context.setRootSpanFlagFalse();
-		
+
 		Trace trace = new Trace(context);
-		
+
 		TRACE_CONTEXT.set(trace);
 	}
-	
-	public static void setThriftRequestHead(HttpServletResponse response) {
-		SpanId spanID = TRACE_CONTEXT.get().getSpanId();
-		
-		String traceId = String.valueOf(spanID.getTraceId());
-		String spanId = String.valueOf(spanID.getSpanId());
-		
-		response.addHeader(HTTPHeader.X_B3_TRACE_ID, traceId);
-		response.addHeader(HTTPHeader.X_B3_SPAN_ID, spanId);
-	}
 
-	/**
-	 * Handler cross-JVM request by thrift protocol.
-	 * 
-	 * If this is a new trace, then create one;
-	 * If this is a part of exist trace, then get
-	 * the trace context information and set to a
-	 * trace object.
-	 * 
-	 * @param request
-	 */
-	public static void getThriftRequestHead(HttpServletRequest request) {
-		String traceId = request.getHeader(HTTPHeader.X_B3_TRACE_ID);
-		String spanId = request.getHeader(HTTPHeader.X_B3_SPAN_ID);
-		
-		// If this is a new trace.
-		if (traceId == null && spanId == null) {
-			Trace trace = new Trace();
-			TRACE_CONTEXT.set(trace);
-			return;
-		}
-		 
-		// If this is some part of exist trace.
-		SpanId spanID = new SpanId();
-		spanID.setTraceId(Long.valueOf(traceId));
-		spanID.setSpanId(Long.valueOf(spanId));
-
-		SpanContext context = new SpanContext(spanID);
-		context.setRootSpanFlagFalse();
-		
-		Trace trace = new Trace(context);
-		
-		TRACE_CONTEXT.set(trace);
-		
-	}
-	
 	public static void cleanContext() {
 		TRACE_CONTEXT.set(null);
 	}

@@ -1,4 +1,4 @@
-package com.vipshop.microscope.trace.span;
+package com.vipshop.microscope.framework.span;
 
 import javax.servlet.http.HttpServletRequest;
 

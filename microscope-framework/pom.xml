@@ -45,5 +45,16 @@
             <artifactId>resteasy-jaxrs</artifactId>
             <version>${resteasy-jaxrs.version}</version>
         </dependency>
+       	<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>${httpclient.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.httpcomponents</groupId>
+					<artifactId>httpclient</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 	</dependencies>
 </project>
