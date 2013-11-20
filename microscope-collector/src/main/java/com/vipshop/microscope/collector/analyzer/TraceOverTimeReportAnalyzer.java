@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import com.vipshop.microscope.collector.report.ReportContainer;
 import com.vipshop.microscope.collector.report.ReportFrequency;
 import com.vipshop.microscope.common.util.CalendarUtil;
+import com.vipshop.microscope.common.util.MathUtil;
 import com.vipshop.microscope.mysql.report.OverTimeReport;
 import com.vipshop.microscope.mysql.repository.ReportRepository;
 import com.vipshop.microscope.thrift.Span;
@@ -40,6 +41,11 @@ public class TraceOverTimeReportAnalyzer {
 		OverTimeReport overTimeReport = overTimeContainer.get(preKey5Minute);
 		if (overTimeReport != null) {
 			try {
+				long sumDura = overTimeReport.getSumDura();
+				long count = overTimeReport.getHitCount();
+				
+				overTimeReport.setAvgDura(MathUtil.calculateAvgDura(count, sumDura));
+
 				repository.save(overTimeReport);
 				logger.info("save overtime report to mysql: " + overTimeReport);
 			} catch (Exception e) {
@@ -77,17 +83,15 @@ public class TraceOverTimeReportAnalyzer {
 			report.setIpAdress(ipAdress);
 			report.setType(type);
 			report.setName(name);
-			report.setAvgDura(span.getDuration());
-			report.setHitCount(1);
-			
-		} else {
-			report.setHitCount(report.getHitCount() + 1);
-			report.setAvgDura((report.getAvgDura() + span.getDuration()) / report.getHitCount());
-		}
+		} 
+		
+		report.setHitCount(report.getHitCount() + 1);
 		
 		if (!span.getResultCode().equals("OK")) {
 			report.setFailCount(report.getFailCount() + 1);
 		}
+		
+		report.setSumDura(report.getSumDura() + span.getDuration());
 		
 		overTimeContainer.put(key5Minute, report);
 	}

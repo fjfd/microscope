@@ -112,16 +112,16 @@ public class ReportService {
 		Map<Integer, Integer> hitOverTime = new LinkedHashMap<Integer, Integer>();
 		Map<Integer, Integer> faiOverTime = new LinkedHashMap<Integer, Integer>();
 		
-		for (int i = 0; i < 13; i++) {
+		for (int i = 1; i < 13; i++) {
 			avgDuration.put(i * 5, 0f);
 			hitOverTime.put(i * 5, 0);
 			faiOverTime.put(i * 5, 0);
 		}
 		
 		for (OverTimeReport overTimeReport : overTimeReports) {
-			avgDuration.put(overTimeReport.getMinute(), overTimeReport.getAvgDura());
-			hitOverTime.put(overTimeReport.getMinute(), overTimeReport.getHitCount());
-			faiOverTime.put(overTimeReport.getMinute(), overTimeReport.getFailCount());
+			avgDuration.put(overTimeReport.getMinute() + 5, overTimeReport.getAvgDura());
+			hitOverTime.put(overTimeReport.getMinute() + 5, overTimeReport.getHitCount());
+			faiOverTime.put(overTimeReport.getMinute() + 5, overTimeReport.getFailCount());
 		}
 		
 		

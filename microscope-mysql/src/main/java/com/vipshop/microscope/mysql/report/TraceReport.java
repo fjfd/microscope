@@ -1,8 +1,5 @@
 package com.vipshop.microscope.mysql.report;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-
 import com.vipshop.microscope.common.util.MathUtil;
 
 public class TraceReport extends AbstraceReport {
@@ -236,13 +233,6 @@ public class TraceReport extends AbstraceReport {
 	public void setRegion_16(int region_16) {
 		this.region_16 = region_16;
 	}
-
-	public static float makeTPS(TraceReport report) {
-		BigDecimal count = new BigDecimal(report.getTotalCount());
-		BigDecimal time = new BigDecimal(report.getEndTime() - report.getStartTime());
-		return count.divide(time, 3, RoundingMode.HALF_DOWN).floatValue() * 1000;
-	}
-	
 
 	public String getType() {
 		return type;

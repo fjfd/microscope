@@ -41,6 +41,15 @@ public class TraceReportAnalyzer {
 		TraceReport report = traceContainer.get(prekeyHour);
 		if (report != null) {
 			try {
+				long count = report.getTotalCount();
+				long time = report.getEndTime() - report.getStartTime();
+				long failCount = report.getFailureCount();
+				long sumDura = report.getSum();
+				
+				report.setFailurePrecent(MathUtil.calculateFailPre(count, failCount));
+				report.setAvg(MathUtil.calculateAvgDura(count, sumDura));
+				report.setTps(MathUtil.calculateTPS(count, time));
+				
 				repository.save(report);
 				logger.info("save trace report to mysql: " + report);
 			} catch (Exception e) {
@@ -90,31 +99,13 @@ public class TraceReportAnalyzer {
 			report.setType(type);
 			report.setName(name);
 			
-			report.setTotalCount(1);
-			if (resultCode.equals("OK")) {
-				report.setFailureCount(0);
-				report.setFailurePrecent(0/1);
-			} else {
-				report.setFailureCount(1);
-				report.setFailurePrecent(1/1);
-			}
-			
 			report.setMin(duration);
 			report.setMax(duration);
-			report.setAvg(duration);
 			
-			report.setSum(duration);
 			report.setStartTime(startTime);
 			report.setEndTime(endTime);
-			
+
 		} else {
-			
-			report.setTotalCount(report.getTotalCount() + 1);
-			if (!resultCode.equals("OK")) {
-				report.setFailureCount(report.getFailureCount() + 1);
-			} 
-			float precent = report.getFailureCount() / report.getTotalCount();
-			report.setFailurePrecent(precent);
 			
 			if (duration < report.getMin()) {
 				report.setMin(duration);
@@ -122,9 +113,6 @@ public class TraceReportAnalyzer {
 			if (duration > report.getMax()) {
 				report.setMax(duration);
 			}
-			
-			report.setSum(report.getSum() + duration);
-			report.setAvg(report.getSum() / report.getTotalCount());
 			
 			if (startTime < report.getStartTime()) {
 				report.setStartTime(startTime);
@@ -135,11 +123,15 @@ public class TraceReportAnalyzer {
 			
 		}
 		
-		int dura = span.getDuration();
-		report.updateRegion(MathUtil.log2(dura));
-		
-		report.setTps(TraceReport.makeTPS(report));
+		report.setTotalCount(report.getTotalCount() + 1);
 
+		if (!resultCode.equals("OK")) {
+			report.setFailureCount(report.getFailureCount() + 1);
+		}
+		
+		report.updateRegion(MathUtil.log2(span.getDuration()));
+		report.setSum(report.getSum() + duration);
+		
 		traceContainer.put(key, report);
 	}
 }

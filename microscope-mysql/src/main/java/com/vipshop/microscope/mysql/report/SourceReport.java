@@ -16,11 +16,13 @@ public class SourceReport extends AbstraceReport {
 	private float failpre;
 	
 	private float avgDura;
+	private long sumDura;
 	
 	private long startTime;
 	private long endTime;
 	
 	private float tps;
+	
 	
 	public long getStartTime() {
 		return startTime;
@@ -124,6 +126,14 @@ public class SourceReport extends AbstraceReport {
 				+ ", fail=" + fail + ", failpre=" + failpre + ", avgDura=" + avgDura + ", startTime=" + startTime + ", endTime=" + endTime + ", tps=" + tps + ", getMinute()=" + getMinute()
 				+ ", getYear()=" + getYear() + ", getMonth()=" + getMonth() + ", getWeek()=" + getWeek() + ", getDay()=" + getDay() + ", getHour()=" + getHour() + ", getClass()=" + getClass()
 				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+	}
+
+	public long getSumDura() {
+		return sumDura;
+	}
+
+	public void setSumDura(long sumDura) {
+		this.sumDura = sumDura;
 	}
 	
 	

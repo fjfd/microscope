@@ -63,6 +63,32 @@ public class ReportFrequency {
 		
 		return builder.toString();
 	}
+	
+	public static String makeKeyByHourForDBReport(CalendarUtil calendar, String app, String ServerIP, String sqlType) {
+		long key = makeKeyByHour(calendar);
+		StringBuilder builder = new StringBuilder();
+		builder.append(key)
+			   .append("-").append(app)
+			   .append("-").append("DB")
+		   	   .append("-").append(ServerIP)
+		   	   .append("-").append(sqlType);
+		
+		return builder.toString();
+	}
+	
+	public static String getPreKeyByHourForDBReport(CalendarUtil calendar, String app, String ServerIP, String sqlType) {
+		long key = makeKeyByHour(calendar);
+		long preKey = key - (1000 * 60 *60);
+		StringBuilder builder = new StringBuilder();
+		builder.append(preKey)
+			   .append("-").append(app)
+			   .append("-").append("DB")
+		   	   .append("-").append(ServerIP)
+		   	   .append("-").append(sqlType);
+		
+		return builder.toString();
+	}
+
 
 	
 	@SuppressWarnings("deprecation")
