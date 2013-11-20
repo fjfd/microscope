@@ -11,7 +11,6 @@ import org.apache.ibatis.plugin.Invocation;
 import org.apache.ibatis.plugin.Plugin;
 import org.apache.ibatis.plugin.Signature;
 
-import com.vipshop.microscope.framework.span.SecondaryCategory;
 import com.vipshop.microscope.trace.ResultCode;
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.span.Category;
@@ -32,7 +31,7 @@ public class MicroscopeTraceInterceptor implements Interceptor {
 		Object object = null;
 		try {
 			String serverIP = properties.getProperty("serverIP");
-			Tracer.clientSend(SecondaryCategory.buildName(handler), serverIP, Category.DAO);
+			Tracer.clientSend(handler, serverIP, Category.DAO);
 			object = invocation.proceed();  
 		} catch (Exception e) {
 			Tracer.setResultCode(ResultCode.EXCEPTION);

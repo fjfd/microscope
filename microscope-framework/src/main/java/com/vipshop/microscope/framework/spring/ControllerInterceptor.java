@@ -6,9 +6,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.vipshop.microscope.framework.span.SecondaryCategory;
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.span.Category;
+import com.vipshop.microscope.trace.span.SecondaryCategory;
 
 public class ControllerInterceptor extends HandlerInterceptorAdapter {
 
