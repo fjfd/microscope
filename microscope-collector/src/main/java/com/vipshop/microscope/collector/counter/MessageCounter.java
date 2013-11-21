@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.vipshop.microscope.collector.analyzer.report.ReportContainer;
-import com.vipshop.microscope.collector.analyzer.report.ReportRepository;
 import com.vipshop.microscope.common.codec.MessageCodec;
 import com.vipshop.microscope.common.util.CalendarUtil;
 import com.vipshop.microscope.mysql.report.MsgReport;
@@ -50,7 +49,7 @@ public class MessageCounter {
 		MsgReport msgReport = ReportContainer.getMsgReport(preKey);
 		if (msgReport != null) {
 			try {
-				ReportRepository.save(msgReport);
+				ReportContainer.save(msgReport);
 			} catch (Exception e) {
 				// TODO: handle exception
 			} finally {

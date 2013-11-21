@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 
 import com.vipshop.microscope.collector.analyzer.AbstractMessageAnalyzer;
 import com.vipshop.microscope.collector.analyzer.report.ReportContainer;
-import com.vipshop.microscope.collector.analyzer.report.ReportRepository;
 import com.vipshop.microscope.common.util.CalendarUtil;
 import com.vipshop.microscope.common.util.MathUtil;
 import com.vipshop.microscope.mysql.report.OverTimeReport;
@@ -38,7 +37,7 @@ public class TraceOverTimeReportAnalyzer extends AbstractMessageAnalyzer {
 				
 				overTimeReport.setAvgDura(MathUtil.calculateAvgDura(count, sumDura));
 
-				ReportRepository.save(overTimeReport);
+				ReportContainer.save(overTimeReport);
 				logger.info("save overtime report to mysql: " + overTimeReport);
 			} catch (Exception e) {
 				logger.error("save over time report to msyql error, ignore it");

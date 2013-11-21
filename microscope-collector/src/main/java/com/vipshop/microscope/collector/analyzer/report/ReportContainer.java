@@ -7,8 +7,11 @@ import com.vipshop.microscope.mysql.report.MsgReport;
 import com.vipshop.microscope.mysql.report.OverTimeReport;
 import com.vipshop.microscope.mysql.report.SourceReport;
 import com.vipshop.microscope.mysql.report.TraceReport;
+import com.vipshop.microscope.mysql.repository.MysqlRepository;
 
 public class ReportContainer {
+	
+	private static final MysqlRepository repository = MysqlRepository.getRepository();
 	
 	private static final ConcurrentHashMap<Long, MsgReport> msgContainer = new ConcurrentHashMap<Long, MsgReport>();
 	private static final ConcurrentHashMap<String, TraceReport> traceContainer = new ConcurrentHashMap<String, TraceReport>();
@@ -129,6 +132,22 @@ public class ReportContainer {
 	
 	public static void put(String key, SourceReport report) {
 		sourceReportContainer.put(key, report);
+	}
+	
+	public static void save(MsgReport report) {
+		repository.save(report);
+	}
+	
+	public static void save(TraceReport report) {
+		repository.save(report);
+	}
+	
+	public static void save(OverTimeReport report) {
+		repository.save(report);
+	}
+	
+	public static void save(SourceReport report) {
+		repository.save(report);
 	}
 	
 	@SuppressWarnings("deprecation")

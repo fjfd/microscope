@@ -2,7 +2,6 @@ package com.vipshop.microscope.collector.analyzer.impl;
 
 import com.vipshop.microscope.collector.analyzer.AbstractMessageAnalyzer;
 import com.vipshop.microscope.collector.analyzer.report.ReportContainer;
-import com.vipshop.microscope.collector.analyzer.report.ReportRepository;
 import com.vipshop.microscope.common.util.CalendarUtil;
 import com.vipshop.microscope.common.util.MathUtil;
 import com.vipshop.microscope.mysql.report.SourceReport;
@@ -41,7 +40,7 @@ public class SourceReportAnalyzer extends AbstractMessageAnalyzer {
 				sourceReport.setTps(MathUtil.calculateTPS(count, time));
 				sourceReport.setFailpre(MathUtil.calculateFailPre(count, fail));
 				
-				ReportRepository.save(sourceReport);
+				ReportContainer.save(sourceReport);
 			} catch (Exception e) {
 				// TODO: handle exception
 			} finally {

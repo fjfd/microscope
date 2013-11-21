@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 
 import com.vipshop.microscope.collector.analyzer.AbstractMessageAnalyzer;
 import com.vipshop.microscope.collector.analyzer.report.ReportContainer;
-import com.vipshop.microscope.collector.analyzer.report.ReportRepository;
 import com.vipshop.microscope.common.util.CalendarUtil;
 import com.vipshop.microscope.common.util.MathUtil;
 import com.vipshop.microscope.mysql.report.TraceReport;
@@ -43,7 +42,7 @@ public class TraceReportAnalyzer extends AbstractMessageAnalyzer {
 				report.setAvg(MathUtil.calculateAvgDura(count, sumDura));
 				report.setTps(MathUtil.calculateTPS(count, time));
 				
-				ReportRepository.save(report);
+				ReportContainer.save(report);
 				logger.info("save trace report to mysql: " + report);
 			} catch (Exception e) {
 				logger.error("save trace report to msyql error, ignore it");
