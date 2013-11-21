@@ -11,6 +11,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import com.vipshop.microscope.trace.HTTPHeader;
+import com.vipshop.microscope.trace.ResultCode;
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.span.Category;
 
@@ -28,8 +29,13 @@ public class MicroscopeFilter implements Filter{
 		
 		String name = ((HttpServletRequest) request).getPathInfo() + "@" + ((HttpServletRequest) request).getMethod();
 		Tracer.clientSend(traceId, spanId, name, Category.ACTION);
-		chain.doFilter(request, response);
-		Tracer.clientReceive();
+		try {
+			chain.doFilter(request, response);
+		} catch (Exception e) {
+			Tracer.setResultCode(ResultCode.EXCEPTION);
+		} finally {
+			Tracer.clientReceive();
+		}
 		
 	}
 

@@ -21,7 +21,7 @@ public class MicroscopePreInterceptor implements ContainerRequestFilter {
 		String traceId = requestContext.getHeaderString(HTTPHeader.X_B3_TRACE_ID);
 		String spanId = requestContext.getHeaderString(HTTPHeader.X_B3_SPAN_ID);
 		
-		String name = requestContext.getUriInfo().getPath();
+		String name = requestContext.getUriInfo().getPath() + "@resteasy";
 		
 		Tracer.clientSend(traceId, spanId, name, Category.ACTION);
 	}

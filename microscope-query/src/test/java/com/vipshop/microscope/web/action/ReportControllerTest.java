@@ -59,7 +59,11 @@ public class ReportControllerTest {
 		System.out.println(result);
 	}
 	
-	
-	
+	@Test
+	public void testSourceReport() throws ClientProtocolException, IOException {
+		String url = "http://localhost:8080/report/sourceReport?year=2013&month=11&week=4&day=25&callback=jQuery11020021555292898187584";
+		String result = HttpClientUtil.request(url);
+		System.out.println(result);
+	}
 	
 }

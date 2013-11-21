@@ -5,8 +5,16 @@
 	
 	<resultMap id="sourceReportList" type="SourceReport">
 		<result column="app" property="app" />
+		<result column="name" property="name" />
 		<result column="count" property="count" />
 		<result column="hour" property="hour" />
+		<result column="server_type" property="serverType" />
+		<result column="server_ip" property="serverIp" />
+		<result column="sql_type" property="sqlType" />
+		<result column="fail" property="fail" />
+		<result column="failpre" property="failpre" />
+		<result column="avg_dura" property="avgDura" />
+		<result column="tps" property="tps" />
 	</resultMap>
 	
 	<insert id="saveSourceReport" parameterType="SourceReport">
@@ -17,23 +25,25 @@
 	</insert>
 	
 	<select id="findSourceReport" parameterType="SourceReportCondition" resultMap="sourceReportList">
-		select app, count
+		select app, count, hour
 		from source_report
-		where server_type = #{serverType}
-		and server_ip = #{serverIp}
-		<if test="year != -1"> year = #{year} </if>
+		where
+		<if test="serverType != null"> server_type = #{serverType} </if>
+		<if test="serverIp != null"> and server_ip = #{serverIp} </if>
+		<if test="year != -1"> and year = #{year} </if>
 		<if test="month != -1"> and month = #{month} </if>
 		<if test="week != -1"> and week = #{week} </if>
 		<if test="day != -1"> and day = #{day} </if>
-		group by hour
+		group by app, hour
 	</select>
 	
 	<select id="findSourceReportDist" parameterType="SourceReportCondition" resultMap="sourceReportList">
-		select app, SUM(count)
+		select app, SUM(count) as count
 		from source_report
-		where server_type = #{serverType}
-		and server_ip = #{serverIp}
-		<if test="year != -1"> year = #{year} </if>
+		where
+		<if test="serverType != null"> server_type = #{serverType} </if>
+		<if test="serverIp != null"> and server_ip = #{serverIp} </if>
+		<if test="year != -1"> and year = #{year} </if>
 		<if test="month != -1"> and month = #{month} </if>
 		<if test="week != -1"> and week = #{week} </if>
 		<if test="day != -1"> and day = #{day} </if>
@@ -41,11 +51,17 @@
 	</select>
 	
 	<select id="findSourceReportTOP" parameterType="SourceReportCondition" resultMap="sourceReportList">
-		select app, SUM(count)
+		select app, SUM(COUNT) AS COUNT, SUM(fail) AS fail,  AVG(failpre) AS failpre, sql_type, AVG(avg_dura) AS avg_dura, AVG(tps) AS tps
 		from source_report
-		where server_type = #{serverType}
-		and server_ip = #{serverIp}
-		group by app
+		where
+		<if test="serverType != null"> server_type = #{serverType} </if>
+		<if test="serverIp != null"> and server_ip = #{serverIp} </if>
+		<if test="year != -1"> and year = #{year} </if>
+		<if test="month != -1"> and month = #{month} </if>
+		<if test="week != -1"> and week = #{week} </if>
+		<if test="day != -1"> and day = #{day} </if>
+		GROUP BY app
+		ORDER BY COUNT DESC
 	</select>
 	
 </mapper>

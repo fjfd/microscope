@@ -7,9 +7,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.vipshop.microscope.mysql.condition.MsgReportCondition;
+import com.vipshop.microscope.mysql.condition.SourceReportCondition;
 import com.vipshop.microscope.mysql.condition.TraceReportCondition;
 import com.vipshop.microscope.mysql.report.MsgReport;
 import com.vipshop.microscope.mysql.report.OverTimeReport;
+import com.vipshop.microscope.mysql.report.SourceReport;
 import com.vipshop.microscope.mysql.report.TraceReport;
 import com.vipshop.microscope.mysql.repository.ReportRepository;
 
@@ -132,6 +134,50 @@ public class ReportService {
 		result.put("avgDuration", avgDuration);
 		result.put("hit", hitOverTime);
 		result.put("fail", faiOverTime);
+		return result;
+	}
+	
+	public Map<String, Object> getSourceReport(SourceReportCondition condition) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		List<Map<String, Object>> hourResult = new ArrayList<Map<String,Object>>();
+		List<SourceReport> hourReport = repository.findSourceReport(condition);
+		for (SourceReport sourceReport : hourReport) {
+			Map<String, Object> report = new HashMap<String, Object>();
+			report.put("app", sourceReport.getApp());
+			report.put("hour", sourceReport.getHour());
+			report.put("count", sourceReport.getCount());
+			hourResult.add(report);
+		}
+		
+		result.put("hourresult", hourResult);
+		
+		List<Map<String, Object>> distResult = new ArrayList<Map<String,Object>>();
+		List<SourceReport> distReport = repository.findSourceReportDist(condition);
+		for (SourceReport sourceReport : distReport) {
+			Map<String, Object> report = new HashMap<String, Object>();
+			report.put("app", sourceReport.getApp());
+			report.put("count", sourceReport.getCount());
+			distResult.add(report);
+		}
+		
+		result.put("distResult", distResult);
+		
+		List<Map<String, Object>> detailResult = new ArrayList<Map<String,Object>>();
+		List<SourceReport> detailReport = repository.findSourceReportTOP(condition);
+		for (SourceReport sourceReport : detailReport) {
+			Map<String, Object> report = new HashMap<String, Object>();
+			report.put("app", sourceReport.getApp());
+			report.put("count", sourceReport.getCount());
+			report.put("fail", sourceReport.getFail());
+			report.put("failpre", sourceReport.getFailpre());
+			report.put("avg_dura", sourceReport.getAvgDura());
+			report.put("tps", sourceReport.getTps());
+			detailResult.add(report);
+		}
+		
+		result.put("detailResult", detailResult);
+		
 		return result;
 	}
 

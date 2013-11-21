@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.vipshop.microscope.mysql.condition.MsgReportCondition;
+import com.vipshop.microscope.mysql.condition.SourceReportCondition;
 import com.vipshop.microscope.mysql.condition.TraceReportCondition;
 import com.vipshop.microscope.web.condition.ConditionBuilder;
 import com.vipshop.microscope.web.result.ListResult;
@@ -79,8 +80,8 @@ public class ReportController {
 	@ResponseBody
 	public MapResult sourceReport(HttpServletRequest request, String callback) {
 		MapResult result = new MapResult();
-		MsgReportCondition query = ConditionBuilder.buildMsgReport(request);
-		Map<String, Object> data = service.getMsgReport(query);
+		SourceReportCondition query = ConditionBuilder.buildSourceReport(request);
+		Map<String, Object> data = service.getSourceReport(query);
 		result.setResult(data);
 		result.setCallback(callback);
 		return result;

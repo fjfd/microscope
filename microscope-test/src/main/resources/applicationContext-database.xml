@@ -34,37 +34,6 @@
 		<property name="minPoolSize" value="${pool.c3p0.min_size}" />
 	</bean>
 
-	<bean id="transactionManager"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource" />
-	</bean>
-
-	<tx:advice id="txAdvice" transaction-manager="transactionManager">
-		<tx:attributes>
-			<tx:method name="get*" read-only="true" propagation="REQUIRED" />
-			<tx:method name="find*" read-only="true" propagation="REQUIRED" />
-			<tx:method name="get*" read-only="true" propagation="REQUIRED" />
-			<tx:method name="save*" read-only="false" propagation="REQUIRED" />
-			<tx:method name="update*" read-only="false" propagation="REQUIRED" />
-			<tx:method name="remove*" read-only="false" propagation="REQUIRED" />
-			<tx:method name="upload*" read-only="false" propagation="REQUIRED" />
-		</tx:attributes>
-	</tx:advice>
-	
-	<bean id="mircoscopeAspect" class="com.vipshop.microscope.framework.aop.MicroscopeAspect"></bean>
-	
-	<aop:config>
-		<aop:pointcut id="transactionPointCuts" expression="execution (* com.vipshop.microscope.test.app.service.*.*(..))" />
-		<aop:advisor pointcut-ref="transactionPointCuts" advice-ref="txAdvice" />
-       	
-       	<!--配置com.spring.service包下所有类或接口的所有方法-->
-		<aop:aspect id="microscope" ref="mircoscopeAspect">
-            <aop:pointcut id="businessService" expression="execution(* com.vipshop.microscope.test.app.service.*(..))" />
-            <aop:before pointcut-ref="businessService" method="doBefore"/>
-            <aop:after pointcut-ref="businessService" method="doAfter"/>
-        </aop:aspect>
-	</aop:config>
-
 	<!-- Spring iBatis SqlMapClient -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />

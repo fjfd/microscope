@@ -1,14 +1,21 @@
 package com.vipshop.microscope.test.app.server;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
+import java.io.File;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.eclipse.jetty.server.*;
-import org.eclipse.jetty.server.handler.*;
-import org.eclipse.jetty.server.nio.*;
-import org.eclipse.jetty.util.thread.*;
-import org.eclipse.jetty.webapp.*;
+import org.eclipse.jetty.server.Handler;
+import org.eclipse.jetty.server.NCSARequestLog;
+import org.eclipse.jetty.server.RequestLog;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.HandlerCollection;
+import org.eclipse.jetty.server.handler.HandlerList;
+import org.eclipse.jetty.server.handler.RequestLogHandler;
+import org.eclipse.jetty.server.nio.SelectChannelConnector;
+import org.eclipse.jetty.util.thread.QueuedThreadPool;
+import org.eclipse.jetty.util.thread.ThreadPool;
+import org.eclipse.jetty.webapp.WebAppContext;
 
 /**
  * Example WebServer class which sets up an embedded Jetty appropriately whether
@@ -48,7 +55,7 @@ public class TestWebServer implements Runnable {
 		port = aPort;
 		bindInterface = aBindInterface;
 	}
-
+	
 	public void start() throws Exception {
 		server = new Server();
 
@@ -56,7 +63,7 @@ public class TestWebServer implements Runnable {
 		server.addConnector(createConnector());
 		server.setHandler(createHandlers());
 		server.setStopAtShutdown(true);
-
+		
 		server.start();
 	}
 
