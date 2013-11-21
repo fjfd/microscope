@@ -11,6 +11,12 @@ import com.vipshop.microscope.trace.HTTPHeader;
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.span.Category;
 
+/**
+ * Use for trace SpingMVC controllor.
+ * 
+ * @author Xu Fei
+ * @version 1.0
+ */
 public class MicroscopeSpringMVCInterceptor extends HandlerInterceptorAdapter {
 
 	@Override

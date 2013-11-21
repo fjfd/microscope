@@ -11,6 +11,12 @@ import org.springframework.stereotype.Component;
 
 import com.vipshop.microscope.trace.Tracer;
 
+/**
+ * Use for trace resteasy framework.
+ * 
+ * @author Xu Fei
+ * @version 1.0
+ */
 @Provider
 @Component
 public class MicroscopePostInterceptor implements ContainerResponseFilter {

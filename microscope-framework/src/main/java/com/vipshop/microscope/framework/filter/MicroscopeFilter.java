@@ -15,6 +15,14 @@ import com.vipshop.microscope.trace.ResultCode;
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.span.Category;
 
+/**
+ * Use for trace Servlet.
+ * 
+ * Programmer show define this filter in web.xml.
+ * 
+ * @author Xu Fei
+ * @version 1.0
+ */
 public class MicroscopeFilter implements Filter{
 
 	@Override

@@ -12,6 +12,12 @@ import com.vipshop.microscope.trace.HTTPHeader;
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.span.Category;
 
+/**
+ * Use for trace resteasy framework.
+ * 
+ * @author Xu Fei
+ * @version 1.0
+ */
 @Provider
 @Component
 public class MicroscopePreInterceptor implements ContainerRequestFilter {

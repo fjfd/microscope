@@ -6,6 +6,12 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.ibatis.executor.statement.RoutingStatementHandler;
 import org.aspectj.lang.JoinPoint;
 
+/**
+ * Build span name for trace.
+ * 
+ * @author Xu Fei
+ * @version 1.0
+ */
 public class SecondaryCategory {
 	
 	public static String buildName(JoinPoint jp) {

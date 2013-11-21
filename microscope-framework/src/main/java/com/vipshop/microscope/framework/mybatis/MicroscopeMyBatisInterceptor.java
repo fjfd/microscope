@@ -16,6 +16,12 @@ import com.vipshop.microscope.trace.ResultCode;
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.span.Category;
 
+/**
+ * Use for trace MyBatis framework.
+ * 
+ * @author Xu Fei
+ * @version 1.0
+ */
 @Intercepts({ 
 //	@Signature(type = Executor.class, method = "query", args = { MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class}), 
 //	@Signature(type = Executor.class, method = "update", args = { MappedStatement.class, Object.class}),
