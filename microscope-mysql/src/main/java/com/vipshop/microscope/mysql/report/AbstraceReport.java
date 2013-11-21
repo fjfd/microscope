@@ -56,7 +56,7 @@ public abstract class AbstraceReport {
 		this.setHour(calendarUtil.currentHour());
 	}
 	
-	public void setDataByMinute(CalendarUtil calendarUtil) {
+	public void setDataBy5Minute(CalendarUtil calendarUtil) {
 		this.setYear(calendarUtil.currentYear());
 		this.setMonth(calendarUtil.currentMonth());
 		this.setWeek(calendarUtil.currentWeek());

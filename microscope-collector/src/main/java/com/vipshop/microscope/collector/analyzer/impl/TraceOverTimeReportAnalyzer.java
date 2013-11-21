@@ -54,7 +54,7 @@ public class TraceOverTimeReportAnalyzer extends AbstractMessageAnalyzer {
 		OverTimeReport report = ReportContainer.getOverTimeReport(key5Minute);
 		if (report == null) {
 			report = new OverTimeReport();
-			report.setDataByMinute(calendarUtil);
+			report.setDataBy5Minute(calendarUtil);
 			report.setApp(app);
 			report.setIpAdress(ipAdress);
 			report.setType(type);

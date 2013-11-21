@@ -62,54 +62,40 @@ public class TraceReportAnalyzer extends AbstractMessageAnalyzer {
 		long endTime = span.getStartstamp() + duration;
 		
 		TraceReport report = ReportContainer.getTraceReport(key);
-		// first time 
+		
 		if (report == null) {
-			
 			report = new TraceReport();
-			
-			report.setYear(calendarUtil.currentYear());
-			report.setMonth(calendarUtil.currentMonth());
-			report.setWeek(calendarUtil.currentWeek());
-			report.setDay(calendarUtil.currentDay());
-			report.setHour(calendarUtil.currentHour());
+			report.setDataByHour(calendarUtil);
 			report.setApp(app);
 			report.setIpAdress(ipAdress);
 			report.setType(type);
 			report.setName(name);
-			
 			report.setMin(duration);
 			report.setMax(duration);
-			
 			report.setStartTime(startTime);
 			report.setEndTime(endTime);
-
 		} else {
-			
 			if (duration < report.getMin()) {
 				report.setMin(duration);
 			}
 			if (duration > report.getMax()) {
 				report.setMax(duration);
 			}
-			
 			if (startTime < report.getStartTime()) {
 				report.setStartTime(startTime);
 			}
 			if (endTime > report.getEndTime()) {
 				report.setEndTime(endTime);
 			}
-			
 		}
 		
 		report.setTotalCount(report.getTotalCount() + 1);
-
 		if (!resultCode.equals("OK")) {
 			report.setFailureCount(report.getFailureCount() + 1);
 		}
-		
 		report.updateRegion(MathUtil.log2(span.getDuration()));
 		report.setSum(report.getSum() + duration);
-		
+
 		ReportContainer.put(key, report);
 	}
 
