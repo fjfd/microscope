@@ -1,5 +1,7 @@
 package com.vipshop.microscope.mysql.report;
 
+import com.vipshop.microscope.common.util.CalendarUtil;
+
 public abstract class AbstraceReport {
 	
 	protected int year;
@@ -44,5 +46,22 @@ public abstract class AbstraceReport {
 	}
 	public void setHour(int hour) {
 		this.hour = hour;
+	}
+	
+	public void setDataByHour(CalendarUtil calendarUtil) {
+		this.setYear(calendarUtil.currentYear());
+		this.setMonth(calendarUtil.currentMonth());
+		this.setWeek(calendarUtil.currentWeek());
+		this.setDay(calendarUtil.currentDay());
+		this.setHour(calendarUtil.currentHour());
+	}
+	
+	public void setDataByMinute(CalendarUtil calendarUtil) {
+		this.setYear(calendarUtil.currentYear());
+		this.setMonth(calendarUtil.currentMonth());
+		this.setWeek(calendarUtil.currentWeek());
+		this.setDay(calendarUtil.currentDay());
+		this.setHour(calendarUtil.currentHour());
+		this.setMinute((calendarUtil.currentMinute()/5) * 5);
 	}
 }

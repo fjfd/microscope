@@ -14,13 +14,13 @@ import com.vipshop.microscope.mysql.report.OverTimeReport;
 import com.vipshop.microscope.mysql.report.SourceReport;
 import com.vipshop.microscope.mysql.report.TraceReport;
 
-public class ReportRepository {
+public class MysqlRepository {
 	
-	public static Logger logger = LoggerFactory.getLogger(ReportRepository.class);
+	public static Logger logger = LoggerFactory.getLogger(MysqlRepository.class);
 	
-	private static final ReportRepository REPOSITORY = new ReportRepository();
+	private static final MysqlRepository REPOSITORY = new MysqlRepository();
 	
-	public static ReportRepository getRepository() {
+	public static MysqlRepository getRepository() {
 		return REPOSITORY;
 	}
 	

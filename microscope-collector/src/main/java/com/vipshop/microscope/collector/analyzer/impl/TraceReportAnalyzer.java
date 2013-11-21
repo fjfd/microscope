@@ -1,25 +1,19 @@
 package com.vipshop.microscope.collector.analyzer.impl;
 
-import java.util.concurrent.ConcurrentHashMap;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.vipshop.microscope.collector.analyzer.AbstractMessageAnalyzer;
 import com.vipshop.microscope.collector.analyzer.report.ReportContainer;
-import com.vipshop.microscope.collector.analyzer.report.ReportFrequency;
+import com.vipshop.microscope.collector.analyzer.report.ReportRepository;
 import com.vipshop.microscope.common.util.CalendarUtil;
 import com.vipshop.microscope.common.util.MathUtil;
 import com.vipshop.microscope.mysql.report.TraceReport;
-import com.vipshop.microscope.mysql.repository.ReportRepository;
 import com.vipshop.microscope.thrift.Span;
 
 public class TraceReportAnalyzer extends AbstractMessageAnalyzer {
 	
 	private static final Logger logger = LoggerFactory.getLogger(TraceReportAnalyzer.class);
-	
-	private final ConcurrentHashMap<String, TraceReport> traceContainer = ReportContainer.getTracecontainer();
-	private final ReportRepository repository = ReportRepository.getRepository();
 	
 	@Override
 	public void analyze(CalendarUtil calendarUtil, Span span) {
@@ -28,26 +22,16 @@ public class TraceReportAnalyzer extends AbstractMessageAnalyzer {
 		String type = span.getType();
 		String name = span.getName();
 		
-		checkTraceBeforeAnalyze(calendarUtil, app, ipAdress, type, name);
-		analyzeTrace(span, calendarUtil, app, ipAdress, type, name);
+		checkBeforeAnalyze(calendarUtil, app, ipAdress, type, name);
+		analyze(span, calendarUtil, app, ipAdress, type, name);
 		
 		super.processSuccessor(calendarUtil, span);
 	}
 	
-	/**
-	 * check trace report by key.
-	 * 
-	 * if this key contains value, then save
-	 * the value to mysql db, and remove the
-	 * from {@code traceContainer}.
-	 * 
-	 * @param calendarUtil
-	 * @param prekeyHour
-	 */
-	private void checkTraceBeforeAnalyze(CalendarUtil calendarUtil, String app, String ipAdress, String type, String name) {
-		String prekeyHour = ReportFrequency.getPreKeyByHour(calendarUtil, app, ipAdress, type, name);
+	private void checkBeforeAnalyze(CalendarUtil calendarUtil, String app, String ipAdress, String type, String name) {
+		String preKey = ReportContainer.getPreKeyOfTraceReport(calendarUtil, app, ipAdress, type, name);
 
-		TraceReport report = traceContainer.get(prekeyHour);
+		TraceReport report = ReportContainer.getTraceReport(preKey);
 		if (report != null) {
 			try {
 				long count = report.getTotalCount();
@@ -59,40 +43,25 @@ public class TraceReportAnalyzer extends AbstractMessageAnalyzer {
 				report.setAvg(MathUtil.calculateAvgDura(count, sumDura));
 				report.setTps(MathUtil.calculateTPS(count, time));
 				
-				repository.save(report);
+				ReportRepository.save(report);
 				logger.info("save trace report to mysql: " + report);
 			} catch (Exception e) {
 				logger.error("save trace report to msyql error, ignore it");
 			} finally {
-				traceContainer.remove(prekeyHour);
+				ReportContainer.removeTraceReport(preKey);
 				logger.info("remove this report from map after save ");
 			}
 		}
 	}
 	
-	/**
-	 * Analyze Trace Report
-	 * 
-	 * for every incoming span, we make a key:
-	 * 2013-11-15 11:00:00-app-ipadress-type-name
-	 * and create a {@code TraceReport} as value.
-	 * 
-	 * @param span incoming span
-	 * @param calendarUtil 
-	 * @param app
-	 * @param ipAdress
-	 * @param type
-	 * @param name
-	 * @param key
-	 */
-	private void analyzeTrace(Span span, CalendarUtil calendarUtil, String app, String ipAdress, String type, String name) {
-		String key = ReportFrequency.makeKeyByHour(calendarUtil, app, ipAdress, type, name);
+	private void analyze(Span span, CalendarUtil calendarUtil, String app, String ipAdress, String type, String name) {
+		String key = ReportContainer.getKeyOfTraceReport(calendarUtil, app, ipAdress, type, name);
 		String resultCode = span.getResultCode();
 		int duration = span.getDuration();
 		long startTime = span.getStartstamp();
 		long endTime = span.getStartstamp() + duration;
 		
-		TraceReport report = traceContainer.get(key);
+		TraceReport report = ReportContainer.getTraceReport(key);
 		// first time 
 		if (report == null) {
 			
@@ -141,7 +110,7 @@ public class TraceReportAnalyzer extends AbstractMessageAnalyzer {
 		report.updateRegion(MathUtil.log2(span.getDuration()));
 		report.setSum(report.getSum() + duration);
 		
-		traceContainer.put(key, report);
+		ReportContainer.put(key, report);
 	}
 
 }

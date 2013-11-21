@@ -11,7 +11,7 @@ import com.vipshop.microscope.mysql.report.TraceReport;
 
 public class ReportRepositoryTest {
 
-	ReportRepository reportRepository = new ReportRepository();
+	MysqlRepository reportRepository = new MysqlRepository();
 
 	@Test
 	public void testEmpty() {

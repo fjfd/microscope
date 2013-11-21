@@ -13,11 +13,11 @@ import com.vipshop.microscope.mysql.report.MsgReport;
 import com.vipshop.microscope.mysql.report.OverTimeReport;
 import com.vipshop.microscope.mysql.report.SourceReport;
 import com.vipshop.microscope.mysql.report.TraceReport;
-import com.vipshop.microscope.mysql.repository.ReportRepository;
+import com.vipshop.microscope.mysql.repository.MysqlRepository;
 
 public class ReportService {
 	
-	ReportRepository repository = ReportRepository.getRepository();
+	MysqlRepository repository = MysqlRepository.getRepository();
 	
 	public Map<String, Object> getMsgReport(MsgReportCondition condition) {
 		Map<String, Object> result = new HashMap<String, Object>();

@@ -1,21 +1,14 @@
 package com.vipshop.microscope.collector.analyzer.impl;
 
-import java.util.concurrent.ConcurrentHashMap;
-
 import com.vipshop.microscope.collector.analyzer.AbstractMessageAnalyzer;
 import com.vipshop.microscope.collector.analyzer.report.ReportContainer;
-import com.vipshop.microscope.collector.analyzer.report.ReportFrequency;
+import com.vipshop.microscope.collector.analyzer.report.ReportRepository;
 import com.vipshop.microscope.common.util.CalendarUtil;
 import com.vipshop.microscope.common.util.MathUtil;
 import com.vipshop.microscope.mysql.report.SourceReport;
-import com.vipshop.microscope.mysql.repository.ReportRepository;
 import com.vipshop.microscope.thrift.Span;
 
 public class SourceReportAnalyzer extends AbstractMessageAnalyzer {
-	
-	private final ConcurrentHashMap<String, SourceReport> container = ReportContainer.getSourcereportcontainer();
-	
-	private final ReportRepository repository = ReportRepository.getRepository();
 	
 	@Override
 	public void analyze(CalendarUtil calendarUtil, Span span) {
@@ -25,17 +18,17 @@ public class SourceReportAnalyzer extends AbstractMessageAnalyzer {
 		
 		if (type.equals("DB")) {
 			String sqlType = name.substring(0, name.length() - 3);
-			checkDBSourceReportBeforeAnalyze(span, calendarUtil, app, type, name, sqlType);
-			analyzeDBSourceReport(span, calendarUtil, app, type, name, sqlType);
+			checkDBBeforeAnalyze(span, calendarUtil, app, type, name, sqlType);
+			analyzeDB(span, calendarUtil, app, type, name, sqlType);
 		}
 		
 		super.processSuccessor(calendarUtil, span);
 	
 	}
 	
-	private void checkDBSourceReportBeforeAnalyze(Span span, CalendarUtil calendarUtil, String app, String type, String name, String sqlType) {
-		String preKeyHour = ReportFrequency.getPreKeyByHourForDBReport(calendarUtil, app, span.getServerIP(), sqlType);
-		SourceReport sourceReport = container.get(preKeyHour);
+	private void checkDBBeforeAnalyze(Span span, CalendarUtil calendarUtil, String app, String type, String name, String sqlType) {
+		String preKey = ReportContainer.getPreKeyOfDBSourceReport(calendarUtil, app, span.getServerIP(), sqlType);
+		SourceReport sourceReport = ReportContainer.getSourceReport(preKey);
 		if (sourceReport != null) {
 			try {
 				
@@ -48,18 +41,18 @@ public class SourceReportAnalyzer extends AbstractMessageAnalyzer {
 				sourceReport.setTps(MathUtil.calculateTPS(count, time));
 				sourceReport.setFailpre(MathUtil.calculateFailPre(count, fail));
 				
-				repository.save(sourceReport);
+				ReportRepository.save(sourceReport);
 			} catch (Exception e) {
 				// TODO: handle exception
 			} finally {
-				container.remove(preKeyHour);
+				ReportContainer.removeSourceReport(preKey);
 			}
 		}
 	}
 	
-	private void analyzeDBSourceReport(Span span, CalendarUtil calendarUtil, String app, String type, String name, String sqlType) {
-		String key = ReportFrequency.makeKeyByHourForDBReport(calendarUtil, app, span.getServerIP(), sqlType);
-		SourceReport report = container.get(key);
+	private void analyzeDB(Span span, CalendarUtil calendarUtil, String app, String type, String name, String sqlType) {
+		String key = ReportContainer.getKeyOfDBResource(calendarUtil, app, span.getServerIP(), sqlType);
+		SourceReport report = ReportContainer.getSourceReport(key);
 		
 		if (report == null) {
 			report = new SourceReport();
@@ -99,5 +92,7 @@ public class SourceReportAnalyzer extends AbstractMessageAnalyzer {
 		if (!span.getResultCode().equals("OK")) {
 			report.setFail(1);
 		}
+		
+		ReportContainer.put(key, report);
 	}
 }
