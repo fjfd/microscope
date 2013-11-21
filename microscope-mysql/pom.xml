@@ -66,4 +66,83 @@
 			<version>${spring.version}</version>
 		</dependency>
 	</dependencies>
+	
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<build>
+				<filters>
+					<filter>src/main/resources/filters/jdbc-dev.properties</filter>
+				</filters>
+				<resources>
+					<resource>
+						<directory>src/main/resources</directory>
+						<filtering>true</filtering>
+						<includes>
+							<include>*.*</include>
+						</includes>
+					</resource>
+				</resources>
+			</build>
+
+			<activation>
+				<activeByDefault>true</activeByDefault>
+				<property>
+					<name>env</name>
+					<value>dev</value>
+				</property>
+			</activation>
+		</profile>
+
+		<profile>
+			<id>qa</id>
+			<build>
+				<filters>
+					<filter>src/main/resources/filters/jdbc-qa.properties</filter>
+				</filters>
+				<resources>
+					<resource>
+						<directory>src/main/resources</directory>
+						<filtering>true</filtering>
+						<includes>
+							<include>*.*</include>
+						</includes>
+					</resource>
+				</resources>
+			</build>
+
+			<activation>
+				<property>
+					<name>env</name>
+					<value>qa</value>
+				</property>
+			</activation>
+		</profile>
+
+		<profile>
+			<id>prod</id>
+			<build>
+				<filters>
+					<filter>src/main/resources/filters/jdbc-prod.properties</filter>
+				</filters>
+				<resources>
+					<resource>
+						<directory>src/main/resources</directory>
+						<filtering>true</filtering>
+						<includes>
+							<include>*.*</include>
+						</includes>
+					</resource>
+				</resources>
+			</build>
+
+			<activation>
+				<property>
+					<name>env</name>
+					<value>prod</value>
+				</property>
+			</activation>
+		</profile>
+
+	</profiles>
 </project>
