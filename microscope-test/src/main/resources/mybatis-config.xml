@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 
 <configuration>
 	<plugins>
-		<plugin interceptor="com.vipshop.microscope.framework.mybatis.MicroscopeTraceInterceptor">
+		<plugin interceptor="com.vipshop.microscope.framework.mybatis.MicroscopeMyBatisInterceptor">
 			<property name="serverIP" value="db@test" />
 		</plugin>
 	</plugins>
