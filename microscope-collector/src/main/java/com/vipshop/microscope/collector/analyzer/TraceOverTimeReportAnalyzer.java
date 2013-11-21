@@ -13,7 +13,7 @@ import com.vipshop.microscope.mysql.report.OverTimeReport;
 import com.vipshop.microscope.mysql.repository.ReportRepository;
 import com.vipshop.microscope.thrift.Span;
 
-public class TraceOverTimeReportAnalyzer {
+public class TraceOverTimeReportAnalyzer extends AbstractMessageAnalyzer {
 	
 	private static final Logger logger = LoggerFactory.getLogger(TraceOverTimeReportAnalyzer.class);
 	
@@ -21,9 +21,17 @@ public class TraceOverTimeReportAnalyzer {
 	
 	private final ReportRepository repository = ReportRepository.getRepository();
 	
-	public void analyze(Span span, CalendarUtil calendarUtil, String app, String ipAdress, String type, String name) {
+	@Override
+	public void analyze(CalendarUtil calendarUtil, Span span) {
+		String app = span.getApp_name();
+		String ipAdress = span.getIPAddress();
+		String type = span.getType();
+		String name = span.getName();
+		
 		checkOverTimeBeforeAnalyze(calendarUtil, app, ipAdress, type, name);
 		analyzeOverTime(span, calendarUtil, app, ipAdress, type, name);
+		
+		this.getSuccessor().analyze(calendarUtil, span);
 	}
 	
 	/**

@@ -10,13 +10,18 @@ import com.vipshop.microscope.mysql.report.SourceReport;
 import com.vipshop.microscope.mysql.repository.ReportRepository;
 import com.vipshop.microscope.thrift.Span;
 
-public class SourceReportAnalyzer {
+public class SourceReportAnalyzer extends AbstractMessageAnalyzer {
 	
 	private final ConcurrentHashMap<String, SourceReport> container = ReportContainer.getSourcereportcontainer();
 	
 	private final ReportRepository repository = ReportRepository.getRepository();
 	
-	public void analyze(Span span, CalendarUtil calendarUtil, String app, String type, String name) {
+	
+	@Override
+	public void analyze(CalendarUtil calendarUtil, Span span) {
+		String app = span.getApp_name();
+		String type = span.getType();
+		String name = span.getName();
 		
 		if (type.equals("DB")) {
 			String sqlType = name.substring(0, name.length() - 3);
@@ -24,6 +29,8 @@ public class SourceReportAnalyzer {
 			analyzeDBSourceReport(span, calendarUtil, app, type, name, sqlType);
 		}
 		
+		this.getSuccessor().analyze(calendarUtil, span);
+	
 	}
 	
 	private void checkDBSourceReportBeforeAnalyze(Span span, CalendarUtil calendarUtil, String app, String type, String name, String sqlType) {

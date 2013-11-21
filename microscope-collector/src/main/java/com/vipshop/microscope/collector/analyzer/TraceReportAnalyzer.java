@@ -13,16 +13,24 @@ import com.vipshop.microscope.mysql.report.TraceReport;
 import com.vipshop.microscope.mysql.repository.ReportRepository;
 import com.vipshop.microscope.thrift.Span;
 
-public class TraceReportAnalyzer {
+public class TraceReportAnalyzer extends AbstractMessageAnalyzer {
 	
 	private static final Logger logger = LoggerFactory.getLogger(TraceReportAnalyzer.class);
 	
 	private final ConcurrentHashMap<String, TraceReport> traceContainer = ReportContainer.getTracecontainer();
 	private final ReportRepository repository = ReportRepository.getRepository();
 	
-	public void analyze(Span span, CalendarUtil calendarUtil, String app, String ipAdress, String type, String name) {
+	@Override
+	public void analyze(CalendarUtil calendarUtil, Span span) {
+		String app = span.getApp_name();
+		String ipAdress = span.getIPAddress();
+		String type = span.getType();
+		String name = span.getName();
+		
 		checkTraceBeforeAnalyze(calendarUtil, app, ipAdress, type, name);
 		analyzeTrace(span, calendarUtil, app, ipAdress, type, name);
+		
+		this.getSuccessor().analyze(calendarUtil, span);
 	}
 	
 	/**
@@ -134,4 +142,5 @@ public class TraceReportAnalyzer {
 		
 		traceContainer.put(key, report);
 	}
+
 }
