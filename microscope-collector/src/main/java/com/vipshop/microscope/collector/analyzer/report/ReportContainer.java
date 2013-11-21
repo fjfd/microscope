@@ -1,4 +1,4 @@
-package com.vipshop.microscope.collector.report;
+package com.vipshop.microscope.collector.analyzer.report;
 
 import java.util.concurrent.ConcurrentHashMap;
 

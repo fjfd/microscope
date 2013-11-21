@@ -1,9 +1,10 @@
-package com.vipshop.microscope.collector.analyzer;
+package com.vipshop.microscope.collector.analyzer.impl;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.vipshop.microscope.collector.report.ReportContainer;
-import com.vipshop.microscope.collector.report.ReportFrequency;
+import com.vipshop.microscope.collector.analyzer.AbstractMessageAnalyzer;
+import com.vipshop.microscope.collector.analyzer.report.ReportContainer;
+import com.vipshop.microscope.collector.analyzer.report.ReportFrequency;
 import com.vipshop.microscope.common.util.CalendarUtil;
 import com.vipshop.microscope.common.util.MathUtil;
 import com.vipshop.microscope.mysql.report.SourceReport;

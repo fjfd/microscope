@@ -1,4 +1,4 @@
-package com.vipshop.microscope.collector.report;
+package com.vipshop.microscope.collector.analyzer.report;
 
 import com.vipshop.microscope.common.util.CalendarUtil;
 
