@@ -11,7 +11,7 @@ import org.apache.ibatis.plugin.Invocation;
 import org.apache.ibatis.plugin.Plugin;
 import org.apache.ibatis.plugin.Signature;
 
-import com.vipshop.microscope.framework.span.SecondaryCategory;
+import com.vipshop.microscope.framework.util.SecondaryCategory;
 import com.vipshop.microscope.trace.ResultCode;
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.span.Category;
@@ -21,7 +21,7 @@ import com.vipshop.microscope.trace.span.Category;
 //	@Signature(type = Executor.class, method = "update", args = { MappedStatement.class, Object.class}),
 	@Signature(method = "prepare", type = StatementHandler.class, args = {Connection.class})  
 })
-public class MicroscopeTraceInterceptor implements Interceptor {
+public class MicroscopeMyBatisInterceptor implements Interceptor {
 	
 	private Properties properties;
 	

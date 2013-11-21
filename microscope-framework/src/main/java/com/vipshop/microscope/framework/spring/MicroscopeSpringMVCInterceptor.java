@@ -6,12 +6,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.vipshop.microscope.framework.span.SecondaryCategory;
+import com.vipshop.microscope.framework.util.SecondaryCategory;
 import com.vipshop.microscope.trace.HTTPHeader;
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.span.Category;
 
-public class ControllerInterceptor extends HandlerInterceptorAdapter {
+public class MicroscopeSpringMVCInterceptor extends HandlerInterceptorAdapter {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

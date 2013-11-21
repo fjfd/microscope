@@ -14,7 +14,9 @@
                 http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
 				http://www.springframework.org/schema/tx
                 http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
-
+	
+	<aop:aspectj-autoproxy />
+	
 	<context:property-placeholder location="classpath:jdbc.properties" />
 
 	<!-- bean config for database and c3p0 -->
@@ -50,10 +52,19 @@
 			<tx:method name="upload*" read-only="false" propagation="REQUIRED" />
 		</tx:attributes>
 	</tx:advice>
-
+	
+	<bean id="mircoscopeAspect" class="com.vipshop.microscope.framework.aop.MicroscopeAspect"></bean>
+	
 	<aop:config>
 		<aop:pointcut id="transactionPointCuts" expression="execution (* com.vipshop.microscope.test.app.service.*.*(..))" />
 		<aop:advisor pointcut-ref="transactionPointCuts" advice-ref="txAdvice" />
+       	
+       	<!--配置com.spring.service包下所有类或接口的所有方法-->
+		<aop:aspect id="microscope" ref="mircoscopeAspect">
+            <aop:pointcut id="businessService" expression="execution(* com.vipshop.microscope.test.app.service.*.*(..))" />
+            <aop:before pointcut-ref="businessService" method="doBefore"/>
+            <aop:after pointcut-ref="businessService" method="doAfter"/>
+        </aop:aspect>
 	</aop:config>
 
 	<!-- Spring iBatis SqlMapClient -->

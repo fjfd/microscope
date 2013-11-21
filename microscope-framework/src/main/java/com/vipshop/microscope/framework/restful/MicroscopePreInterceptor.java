@@ -14,7 +14,7 @@ import com.vipshop.microscope.trace.span.Category;
 
 @Provider
 @Component
-public class PreInterceptor implements ContainerRequestFilter {
+public class MicroscopePreInterceptor implements ContainerRequestFilter {
 	
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {

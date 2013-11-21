@@ -1,11 +1,21 @@
-package com.vipshop.microscope.framework.span;
+package com.vipshop.microscope.framework.util;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.ibatis.executor.statement.RoutingStatementHandler;
+import org.aspectj.lang.JoinPoint;
 
 public class SecondaryCategory {
+	
+	public static String buildName(JoinPoint jp) {
+		String method = jp.getSignature().getName(); 
+		String service = jp.getSignature().getDeclaringTypeName();
+		String[] temp = service.split("\\.");
+		service = temp[temp.length - 1];
+		
+		return method + "@" + service;
+	}
 	
 	public static String buildName(HttpUriRequest request) {
 		String name = request.getURI().toString();

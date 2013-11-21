@@ -1,5 +1,5 @@
 package com.vipshop.microscope.framework.hibernate;
 
-public class HibernateInterceptor {
+public class MicroscopeHibernateInterceptor {
 
 }

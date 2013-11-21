@@ -14,11 +14,10 @@ import com.vipshop.microscope.trace.HTTPHeader;
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.span.Category;
 
-public class TraceFilter implements Filter{
+public class MicroscopeFilter implements Filter{
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -36,7 +35,6 @@ public class TraceFilter implements Filter{
 
 	@Override
 	public void destroy() {
-		// TODO Auto-generated method stub
 		
 	}
 
