@@ -4,7 +4,7 @@ import org.apache.thrift.TException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.vipshop.microscope.collector.analyzer.report.ReportContainer;
+import com.vipshop.microscope.collector.analyzer.ReportContainer;
 import com.vipshop.microscope.common.codec.MessageCodec;
 import com.vipshop.microscope.common.util.CalendarUtil;
 import com.vipshop.microscope.mysql.report.MsgReport;

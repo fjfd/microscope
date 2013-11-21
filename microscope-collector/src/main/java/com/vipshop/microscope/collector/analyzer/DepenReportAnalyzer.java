@@ -1,10 +1,9 @@
-package com.vipshop.microscope.collector.analyzer.impl;
+package com.vipshop.microscope.collector.analyzer;
 
-import com.vipshop.microscope.collector.analyzer.AbstractMessageAnalyzer;
 import com.vipshop.microscope.common.util.CalendarUtil;
 import com.vipshop.microscope.thrift.Span;
 
-public class MostReportAnalyzer extends AbstractMessageAnalyzer{
+public class DepenReportAnalyzer extends AbstractMessageAnalyzer {
 
 	@Override
 	public void analyze(CalendarUtil calendarUtil, Span span) {

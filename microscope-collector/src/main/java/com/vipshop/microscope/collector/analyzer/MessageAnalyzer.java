@@ -1,12 +1,5 @@
 package com.vipshop.microscope.collector.analyzer;
 
-import com.vipshop.microscope.collector.analyzer.impl.DepenReportAnalyzer;
-import com.vipshop.microscope.collector.analyzer.impl.MostReportAnalyzer;
-import com.vipshop.microscope.collector.analyzer.impl.ProblemReportAnalyzer;
-import com.vipshop.microscope.collector.analyzer.impl.SourceReportAnalyzer;
-import com.vipshop.microscope.collector.analyzer.impl.TopReportAnalyzer;
-import com.vipshop.microscope.collector.analyzer.impl.TraceOverTimeReportAnalyzer;
-import com.vipshop.microscope.collector.analyzer.impl.TraceReportAnalyzer;
 import com.vipshop.microscope.common.util.CalendarUtil;
 import com.vipshop.microscope.thrift.Span;
 
