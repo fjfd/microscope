@@ -31,7 +31,7 @@ public class TraceReportAnalyzer extends AbstractMessageAnalyzer {
 		checkTraceBeforeAnalyze(calendarUtil, app, ipAdress, type, name);
 		analyzeTrace(span, calendarUtil, app, ipAdress, type, name);
 		
-		this.getSuccessor().analyze(calendarUtil, span);
+		super.processSuccessor(calendarUtil, span);
 	}
 	
 	/**

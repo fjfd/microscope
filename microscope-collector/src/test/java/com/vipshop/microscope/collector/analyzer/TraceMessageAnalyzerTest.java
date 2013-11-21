@@ -2,6 +2,7 @@ package com.vipshop.microscope.collector.analyzer;
 
 import org.testng.annotations.Test;
 
+import com.vipshop.microscope.common.util.CalendarUtil;
 import com.vipshop.microscope.thrift.Span;
 
 public class TraceMessageAnalyzerTest {
@@ -11,6 +12,7 @@ public class TraceMessageAnalyzerTest {
 	@Test
 	public void testAnalyze() {
 		for (int i = 0; i < 10; i++) {
+			CalendarUtil calendarUtil = new CalendarUtil();
 			Span span = new Span();
 			span.setApp_name("picket");
 			span.setName("example");
@@ -20,7 +22,7 @@ public class TraceMessageAnalyzerTest {
 			span.setStartstamp(System.currentTimeMillis());
 			span.setResultCode("OK");
 			span.setType("METHOD");
-			analyzer.analyze(span);
+			analyzer.analyze(span, calendarUtil);
 		}
 	}
 

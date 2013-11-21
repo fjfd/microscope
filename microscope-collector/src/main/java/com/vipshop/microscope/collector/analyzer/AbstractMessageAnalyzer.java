@@ -17,5 +17,10 @@ public abstract class AbstractMessageAnalyzer {
 	
 	public abstract void analyze(CalendarUtil calendarUtil, Span span);
 	
+	public void processSuccessor(CalendarUtil calendarUtil, Span span) {
+		if (this.getSuccessor() != null) {
+			this.getSuccessor().analyze(calendarUtil, span);
+		}
+	}
 	
 }

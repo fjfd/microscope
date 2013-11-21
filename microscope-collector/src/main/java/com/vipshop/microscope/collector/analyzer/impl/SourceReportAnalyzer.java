@@ -17,7 +17,6 @@ public class SourceReportAnalyzer extends AbstractMessageAnalyzer {
 	
 	private final ReportRepository repository = ReportRepository.getRepository();
 	
-	
 	@Override
 	public void analyze(CalendarUtil calendarUtil, Span span) {
 		String app = span.getApp_name();
@@ -30,7 +29,7 @@ public class SourceReportAnalyzer extends AbstractMessageAnalyzer {
 			analyzeDBSourceReport(span, calendarUtil, app, type, name, sqlType);
 		}
 		
-		this.getSuccessor().analyze(calendarUtil, span);
+		super.processSuccessor(calendarUtil, span);
 	
 	}
 	

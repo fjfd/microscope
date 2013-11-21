@@ -12,10 +12,8 @@ public class MessageAnalyzer {
 	private final TraceOverTimeReportAnalyzer overTimeReportAnalyzer = new TraceOverTimeReportAnalyzer();
 	private final SourceReportAnalyzer sourceReportAnalyzer = new SourceReportAnalyzer();
 
-	public void analyze(Span span) {
-		
-		CalendarUtil calendarUtil = new CalendarUtil();
-		
+	public void analyze(Span span, CalendarUtil calendarUtil) {
+
 		traceReportAnalyzer.setSuccessor(overTimeReportAnalyzer);
 		overTimeReportAnalyzer.setSuccessor(sourceReportAnalyzer);
 		

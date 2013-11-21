@@ -32,7 +32,7 @@ public class TraceOverTimeReportAnalyzer extends AbstractMessageAnalyzer {
 		checkOverTimeBeforeAnalyze(calendarUtil, app, ipAdress, type, name);
 		analyzeOverTime(span, calendarUtil, app, ipAdress, type, name);
 		
-		this.getSuccessor().analyze(calendarUtil, span);
+		super.processSuccessor(calendarUtil, span);
 	}
 	
 	/**
