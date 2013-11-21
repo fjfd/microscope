@@ -131,7 +131,7 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>com.vipshop.microscope.test.collector.CollectorTest</mainClass>
+							<mainClass>com.vipshop.microscope.test.app.MockDataApp</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
@@ -147,7 +147,7 @@
 							<goal>copy-dependencies</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>./lib</outputDirectory>
+							<outputDirectory>./target/lib/</outputDirectory>
 							<overWriteReleases>false</overWriteReleases>
 							<overWriteSnapshots>false</overWriteSnapshots>
 							<overWriteIfNewer>true</overWriteIfNewer>
