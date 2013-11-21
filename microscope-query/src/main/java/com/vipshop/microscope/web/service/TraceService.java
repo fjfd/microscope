@@ -60,7 +60,6 @@ public class TraceService {
 			spanInfo.put("status", span.getResultCode());
 			spanInfo.put("start_time", span.getStartstamp());
 			spanInfo.put("end_time", span.getStartstamp() + span.getDuration());
-			spanInfo.put("duration", span.getDuration());
 			spanInfo.put("ipadress", span.getIPAddress());
 			
 			if (!(span.getParent_id() == 0L)) {
