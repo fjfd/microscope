@@ -15,7 +15,7 @@
 		<spring.version>3.2.2.RELEASE</spring.version>
 		<resteasy.version>2.3.5.Final</resteasy.version>
 		<testng.version>6.8.5</testng.version>
-		<slf4j.version>1.5.8</slf4j.version>
+		<slf4j.version>1.7.5</slf4j.version>
 		<libthrift.version>0.9.0</libthrift.version>
 		<mybatis.version>3.2.2</mybatis.version>
 		<struts.version>1.2.8</struts.version>
