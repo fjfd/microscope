@@ -5,7 +5,7 @@ import org.testng.annotations.Test;
 import com.vipshop.microscope.common.util.CalendarUtil;
 import com.vipshop.microscope.thrift.Span;
 
-public class TraceMessageAnalyzerTest {
+public class MessageAnalyzerTest {
 
 	MessageAnalyzer analyzer = new MessageAnalyzer();
 

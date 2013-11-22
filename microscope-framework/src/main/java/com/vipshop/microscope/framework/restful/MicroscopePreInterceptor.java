@@ -8,9 +8,9 @@ import javax.ws.rs.ext.Provider;
 
 import org.springframework.stereotype.Component;
 
-import com.vipshop.microscope.trace.HTTPHeader;
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.span.Category;
+import com.vipshop.microscope.trace.span.HTTPHeader;
 
 /**
  * Use for trace resteasy framework.

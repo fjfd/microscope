@@ -1,4 +1,6 @@
-package com.vipshop.microscope.trace;
+package com.vipshop.microscope.trace.swith;
+
+import com.vipshop.microscope.trace.Constant;
 
 /**
  * A flag to judge trace function is on/off.

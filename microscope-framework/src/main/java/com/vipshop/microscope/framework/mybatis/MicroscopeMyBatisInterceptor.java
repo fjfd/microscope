@@ -12,9 +12,9 @@ import org.apache.ibatis.plugin.Plugin;
 import org.apache.ibatis.plugin.Signature;
 
 import com.vipshop.microscope.framework.util.SecondaryCategory;
-import com.vipshop.microscope.trace.ResultCode;
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.span.Category;
+import com.vipshop.microscope.trace.span.ResultCode;
 
 /**
  * Use for trace MyBatis framework.

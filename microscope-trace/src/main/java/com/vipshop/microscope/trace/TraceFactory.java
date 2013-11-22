@@ -5,6 +5,7 @@ import java.util.concurrent.ExecutorService;
 import com.vipshop.microscope.common.util.ThreadPoolUtil;
 import com.vipshop.microscope.trace.span.SpanContext;
 import com.vipshop.microscope.trace.span.SpanId;
+import com.vipshop.microscope.trace.swith.Switch;
 import com.vipshop.microscope.trace.transport.ThreadTransporter;
 
 /**
@@ -36,12 +37,6 @@ public class TraceFactory {
 	 * {@code Trace} object by current thread.
 	 */
 	private static final ThreadLocal<Trace> TRACE_CONTEXT = new ThreadLocal<Trace>();
-	
-	/*
-	 * when application start a new thread, 
-	 * programmer should propagate the contxt.
-	 * 
-	 */
 	
 	/**
 	 * Returns current thread's trace.

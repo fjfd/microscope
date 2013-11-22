@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 import org.testng.annotations.Test;
 
 import com.vipshop.microscope.trace.span.Category;
+import com.vipshop.microscope.trace.span.ResultCode;
 
 public class TraceTest {
 	

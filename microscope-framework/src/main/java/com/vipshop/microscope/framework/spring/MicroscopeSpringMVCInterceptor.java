@@ -7,9 +7,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.vipshop.microscope.framework.util.SecondaryCategory;
-import com.vipshop.microscope.trace.HTTPHeader;
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.span.Category;
+import com.vipshop.microscope.trace.span.HTTPHeader;
 
 /**
  * Use for trace SpingMVC controllor.

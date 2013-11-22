@@ -5,7 +5,6 @@ import java.util.Stack;
 import com.vipshop.microscope.common.util.IPAddressUtil;
 import com.vipshop.microscope.thrift.Span;
 import com.vipshop.microscope.trace.Constant;
-import com.vipshop.microscope.trace.ResultCode;
 import com.vipshop.microscope.trace.queue.MessageQueue;
 
 /**
