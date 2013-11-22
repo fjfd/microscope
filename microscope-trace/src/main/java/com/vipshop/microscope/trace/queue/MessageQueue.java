@@ -23,12 +23,13 @@ public class MessageQueue {
 	private static final BlockingQueue<Span> queue = new LinkedBlockingQueue<Span>(Constant.QUEUE_SIZE);
 	
 	/*
-	 * If disconnect, stop collect span to queue.
+	 * If client queue is full, empty queue.
 	 */
 	public static void addSpan(Span span) { 
-		if(!queue.offer(span)){
+		boolean isFull = queue.offer(span);
+		if (isFull) {
 			queue.clear();
-			log();
+			logger.info("client queue full, clean queue ... ");
 		}
 	}
 	
@@ -36,7 +37,4 @@ public class MessageQueue {
 		return queue.poll();
 	}
 	
-	public static void log() {
-		logger.info("client queue full, clean queue ... ");
-	}
 }
