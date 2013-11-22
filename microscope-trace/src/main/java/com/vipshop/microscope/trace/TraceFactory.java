@@ -5,7 +5,7 @@ import java.util.concurrent.ExecutorService;
 import com.vipshop.microscope.common.util.ThreadPoolUtil;
 import com.vipshop.microscope.trace.span.SpanContext;
 import com.vipshop.microscope.trace.span.SpanId;
-import com.vipshop.microscope.trace.switcher.Switch;
+import com.vipshop.microscope.trace.switcher.Switcher;
 import com.vipshop.microscope.trace.transport.ThreadTransporter;
 
 /**
@@ -26,7 +26,7 @@ public class TraceFactory {
 	 * Use java thread send message to collector.
 	 */
 	static {
-		if (Switch.isOpen()) {
+		if (Switcher.isOpen()) {
 			ExecutorService executor = ThreadPoolUtil.newSingleDaemonThreadExecutor("transporter-pool");
 			executor.execute(new ThreadTransporter());
 		}

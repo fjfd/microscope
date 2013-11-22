@@ -8,7 +8,7 @@ import com.vipshop.microscope.trace.Constant;
  * @author Xu Fei
  * @version 1.0
  */
-public class Switch {
+public class Switcher {
 	
 	private static final int OPEN = 1;
 	private static final int CLOSE = 0;

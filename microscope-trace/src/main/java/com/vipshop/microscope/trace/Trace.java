@@ -4,7 +4,7 @@ import com.vipshop.microscope.trace.span.Category;
 import com.vipshop.microscope.trace.span.SpanBuilder;
 import com.vipshop.microscope.trace.span.SpanContext;
 import com.vipshop.microscope.trace.span.SpanId;
-import com.vipshop.microscope.trace.switcher.Switch;
+import com.vipshop.microscope.trace.switcher.Switcher;
 
 /**
  * Tracing client API for Java.
@@ -60,7 +60,7 @@ public class Trace {
 	 * @param category
 	 */
 	public void clientSend(String spanName, Category category) {
-		if (Switch.isClose()) {
+		if (Switcher.isClose()) {
 			return;
 		}
 		spanBuilder.clientSend(spanName, category);
@@ -74,7 +74,7 @@ public class Trace {
 	 * @param category
 	 */
 	public void clientSend(String spanName, String serverIP, Category category) {
-		if (Switch.isClose()) {
+		if (Switcher.isClose()) {
 			return;
 		}
 		spanBuilder.clientSend(spanName, serverIP, category);
@@ -86,7 +86,7 @@ public class Trace {
 	 * @param result
 	 */
 	public void setResutlCode(String result) {
-		if (Switch.isClose()) {
+		if (Switcher.isClose()) {
 			return;
 		}
 		spanBuilder.setResultCode(result);
@@ -96,7 +96,7 @@ public class Trace {
 	 * Complete a Span.
 	 */
 	public void clientReceive() {
-		if (Switch.isClose()) {
+		if (Switcher.isClose()) {
 			return;
 		}
 		spanBuilder.clientReceive();
@@ -109,7 +109,7 @@ public class Trace {
 	 * @param value
 	 */
 	public void record(String key, String value) {
-		if (Switch.isClose()) {
+		if (Switcher.isClose()) {
 			return;
 		}
 		spanBuilder.buildKeyValue(key, value);
