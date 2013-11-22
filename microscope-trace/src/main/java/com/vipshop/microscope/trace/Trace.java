@@ -4,7 +4,7 @@ import com.vipshop.microscope.trace.span.Category;
 import com.vipshop.microscope.trace.span.SpanBuilder;
 import com.vipshop.microscope.trace.span.SpanContext;
 import com.vipshop.microscope.trace.span.SpanId;
-import com.vipshop.microscope.trace.swith.Switch;
+import com.vipshop.microscope.trace.switcher.Switch;
 
 /**
  * Tracing client API for Java.

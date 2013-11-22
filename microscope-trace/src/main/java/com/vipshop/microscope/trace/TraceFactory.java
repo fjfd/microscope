@@ -5,7 +5,7 @@ import java.util.concurrent.ExecutorService;
 import com.vipshop.microscope.common.util.ThreadPoolUtil;
 import com.vipshop.microscope.trace.span.SpanContext;
 import com.vipshop.microscope.trace.span.SpanId;
-import com.vipshop.microscope.trace.swith.Switch;
+import com.vipshop.microscope.trace.switcher.Switch;
 import com.vipshop.microscope.trace.transport.ThreadTransporter;
 
 /**
