@@ -12,11 +12,6 @@ import org.apache.http.util.EntityUtils;
 
 public class UserHttpClient {
 	
-	public String requestRestEasy() throws ClientProtocolException, IOException {
-		String url = "http://localhost:9090/rest";
-		return request(url);
-	}
-	
 	public String insertRequest() throws ClientProtocolException, IOException {
 		String url = "http://localhost:9090/user/insert?callback=jQuery11020021555292898187584";
 		return request(url);
