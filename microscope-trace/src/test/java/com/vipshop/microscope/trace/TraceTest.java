@@ -2,22 +2,31 @@ package com.vipshop.microscope.trace;
 
 import java.util.concurrent.TimeUnit;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.vipshop.microscope.trace.span.Category;
 
 public class TraceTest {
 	
-	@BeforeClass
-	public void setUpBeforeClass() {
+	@Test
+	public void traceUseExample() throws InterruptedException {
+		Tracer.clientSend("example", Category.METHOD);
+		
+		try {
+			TimeUnit.MILLISECONDS.sleep(10);
+			System.out.println("example method invoke");
+		} catch (Exception e) {
+			Tracer.setResultCode(ResultCode.EXCEPTION);
+		} finally {
+			Tracer.clientReceive();
+		}
 	}
 	
 	@Test
-	public void traceUseExample() throws InterruptedException {
+	public void traceUseExample1() throws InterruptedException {
 		while (true) {
-			TraceFactory.cleanContext();
-			Tracer.clientSend("example2", Category.METHOD);
+			Tracer.cleanContext();
+			Tracer.clientSend("example1", Category.METHOD);
 			
 			try {
 				TimeUnit.MILLISECONDS.sleep(10);
@@ -31,5 +40,6 @@ public class TraceTest {
 			TimeUnit.SECONDS.sleep(1);
 		}
 	}
+
 	
 }

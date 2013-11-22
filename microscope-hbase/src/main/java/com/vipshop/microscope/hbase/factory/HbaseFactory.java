@@ -25,33 +25,17 @@ public class HbaseFactory {
 		SPAN = context.getBean(SpanTableRepository.class);
 		
 		synchronized (HbaseRepository.class) {
-			init();
+			logger.info("init hbase table app");
+			HbaseFactory.APP_TRACE.initialize();
+			
+			logger.info("init hbase table trace");
+			HbaseFactory.TRACE.initialize();
+			
+			logger.info("init hbase table span");
+			HbaseFactory.SPAN.initialize();
 		}
 		
 		context.close();
 	}
 	
-	public static void init() {
-		logger.info("init hbase table app");
-		APP_TRACE.initialize();
-		
-		logger.info("init hbase table trace");
-		TRACE.initialize();
-		
-		logger.info("init hbase table span");
-		SPAN.initialize();
-		
-	}
-	
-	public static void drop() {
-		logger.info("drop hbase table app");
-		APP_TRACE.drop();
-		
-		logger.info("drop hbase table trace");
-		TRACE.drop();
-		
-		logger.info("drop hbase table span");
-		SPAN.drop();
-		
-	}
 }

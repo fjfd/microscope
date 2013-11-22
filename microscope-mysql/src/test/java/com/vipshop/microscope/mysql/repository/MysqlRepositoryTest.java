@@ -9,7 +9,7 @@ import com.vipshop.microscope.mysql.report.OverTimeReport;
 import com.vipshop.microscope.mysql.report.SourceReport;
 import com.vipshop.microscope.mysql.report.TraceReport;
 
-public class ReportRepositoryTest {
+public class MysqlRepositoryTest {
 
 	MysqlRepository reportRepository = new MysqlRepository();
 

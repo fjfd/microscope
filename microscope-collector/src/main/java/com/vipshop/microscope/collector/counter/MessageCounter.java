@@ -51,7 +51,7 @@ public class MessageCounter {
 			try {
 				ReportContainer.save(msgReport);
 			} catch (Exception e) {
-				// TODO: handle exception
+				logger.error("save msg report to mysql error" + e);
 			} finally {
 				ReportContainer.removeMsgReport(preKey);
 			}

@@ -7,6 +7,12 @@ import com.vipshop.microscope.test.app.httpclient.UserHttpClient;
 import com.vipshop.microscope.test.app.server.TestWebServer;
 import com.vipshop.microscope.trace.Tracer;
 
+/**
+ * Mock data app
+ * 
+ * @author Xu Fei
+ * @version 1.0
+ */
 public class MockDataApp {
 
 	public static void main(String[] args) throws Exception {
@@ -20,16 +26,16 @@ public class MockDataApp {
 			Tracer.cleanContext();
 			userURL.findRequest();
 			Tracer.cleanContext();
-			TimeUnit.MILLISECONDS.sleep(1);
+			TimeUnit.SECONDS.sleep(1);
 			Tracer.cleanContext();
 			userURL.updateRequest();
-			TimeUnit.MILLISECONDS.sleep(1);
+			TimeUnit.SECONDS.sleep(1);
 			Tracer.cleanContext();
 			userURL.insertRequest();
-			TimeUnit.MILLISECONDS.sleep(1);
+			TimeUnit.SECONDS.sleep(1);
 			Tracer.cleanContext();
 			userURL.deleteRequest();
-			TimeUnit.MILLISECONDS.sleep(1);
+			TimeUnit.SECONDS.sleep(1);
 		}
 
 	}
