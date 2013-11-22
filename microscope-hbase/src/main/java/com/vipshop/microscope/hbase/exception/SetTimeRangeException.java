@@ -1,4 +1,4 @@
-package com.vipshop.microscope.hbase.repository;
+package com.vipshop.microscope.hbase.exception;
 
 public class SetTimeRangeException extends RuntimeException {
 

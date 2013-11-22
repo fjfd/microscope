@@ -1,5 +1,8 @@
 package com.vipshop.microscope.collector.analyzer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.vipshop.microscope.common.util.CalendarUtil;
 import com.vipshop.microscope.common.util.MathUtil;
 import com.vipshop.microscope.mysql.report.SourceReport;
@@ -7,8 +10,10 @@ import com.vipshop.microscope.thrift.Span;
 
 public class SourceReportAnalyzer extends AbstractMessageAnalyzer {
 	
+	private static final Logger logger = LoggerFactory.getLogger(SourceReportAnalyzer.class);
+	
 	@Override
-	public void analyze(CalendarUtil calendarUtil, Span span) {
+	public synchronized void analyze(CalendarUtil calendarUtil, Span span) {
 		String app = span.getApp_name();
 		String type = span.getType();
 		String name = span.getName();
@@ -40,7 +45,7 @@ public class SourceReportAnalyzer extends AbstractMessageAnalyzer {
 				
 				ReportContainer.save(sourceReport);
 			} catch (Exception e) {
-				// TODO: handle exception
+				logger.error("save source report to mysql error" + e.getStackTrace());
 			} finally {
 				ReportContainer.removeSourceReport(preKey);
 			}

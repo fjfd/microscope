@@ -22,6 +22,5 @@ public class SpanTableRepositoryTest {
 	@Test
 	public void testfind() {
 		
-		System.out.println(HbaseRepository.SPAN.findSpanByTraceId("-5276315724518876759"));
 	}
 }

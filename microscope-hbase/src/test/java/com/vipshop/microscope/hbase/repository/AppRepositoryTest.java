@@ -7,24 +7,25 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.vipshop.microscope.hbase.domain.AppTrace;
+import com.vipshop.microscope.hbase.factory.HbaseFactory;
 
 public class AppRepositoryTest {
 	
 	@Test
 	public void init() {
-		HbaseRepository.APP_TRACE.initialize();
+		HbaseFactory.APP_TRACE.initialize();
 	}
 	
 	@Test
 	public void drop() {
-		HbaseRepository.APP_TRACE.drop();
+		HbaseFactory.APP_TRACE.drop();
 	}
 	
 	@Test
 	public void add() {
 		AppTrace app = new AppTrace("passport", "action/test/find2");
-		HbaseRepository.APP_TRACE.save(app);
-		List<Map<String, Object>> result = HbaseRepository.APP_TRACE.findAll();
+		HbaseFactory.APP_TRACE.save(app);
+		List<Map<String, Object>> result = HbaseFactory.APP_TRACE.findAll();
 		for (Map<String, Object> map : result) {
 			if (map.containsKey("passport")) {
 				Assert.assertEquals(true, map.containsKey("passport"));
@@ -35,6 +36,6 @@ public class AppRepositoryTest {
 	
 	@Test
 	public void testFindAll() {
-		HbaseRepository.APP_TRACE.findAll();
+		HbaseFactory.APP_TRACE.findAll();
 	}
 }

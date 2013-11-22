@@ -65,7 +65,7 @@ public abstract class AbstraceHbaseRepository implements InitializingBean {
 		return config;
 	}
 	
-	public static String[] getColumnsInColumnFamily(Result r, String ColumnFamily) {
+	public String[] getColumnsInColumnFamily(Result r, String ColumnFamily) {
 		NavigableMap<byte[], byte[]> familyMap = r.getFamilyMap(Bytes.toBytes(ColumnFamily));
 		String[] Quantifers = new String[familyMap.size()];
 

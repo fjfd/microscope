@@ -13,7 +13,7 @@ public class TraceReportAnalyzer extends AbstractMessageAnalyzer {
 	private static final Logger logger = LoggerFactory.getLogger(TraceReportAnalyzer.class);
 	
 	@Override
-	public void analyze(CalendarUtil calendarUtil, Span span) {
+	public synchronized void analyze(CalendarUtil calendarUtil, Span span) {
 		String app = span.getApp_name();
 		String ipAdress = span.getIPAddress();
 		String type = span.getType();

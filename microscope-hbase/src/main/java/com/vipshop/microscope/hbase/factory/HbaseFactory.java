@@ -1,13 +1,17 @@
-package com.vipshop.microscope.hbase.repository;
+package com.vipshop.microscope.hbase.factory;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class HbaseRepository {
+import com.vipshop.microscope.hbase.repository.AppTraceRepository;
+import com.vipshop.microscope.hbase.repository.SpanTableRepository;
+import com.vipshop.microscope.hbase.repository.TraceTableRepository;
+
+public class HbaseFactory {
 	
-	private static final Logger logger = LoggerFactory.getLogger(HbaseRepository.class);
+	private static final Logger logger = LoggerFactory.getLogger(HbaseFactory.class);
 	
 	public static AppTraceRepository APP_TRACE;
 	public static TraceTableRepository TRACE;
@@ -50,5 +54,4 @@ public class HbaseRepository {
 		SPAN.drop();
 		
 	}
-	
 }

@@ -21,6 +21,7 @@ import org.springframework.data.hadoop.hbase.TableCallback;
 import org.springframework.stereotype.Repository;
 
 import com.vipshop.microscope.hbase.domain.TraceTable;
+import com.vipshop.microscope.hbase.exception.SetTimeRangeException;
 
 @Repository
 public class TraceTableRepository extends AbstraceHbaseRepository {
