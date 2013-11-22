@@ -37,6 +37,10 @@
 		<jackson-mapper-asl.version>1.7.1</jackson-mapper-asl.version>
 		<jackson-core.version>2.2.2</jackson-core.version>
 		<resteasy-jaxrs.version>3.0.3.Final</resteasy-jaxrs.version>
+		<httpclient.version>4.2</httpclient.version>
+		<httpclient-classifier.version>microscope-1.0.4</httpclient-classifier.version>
+		<mybatis-spring.version>1.2.0</mybatis-spring.version>
+		<commons-dbcp.version>1.4</commons-dbcp.version>
 		<maven-site-plugin.skip>false</maven-site-plugin.skip>
 	</properties>
 
@@ -47,6 +51,8 @@
 		<module>microscope-gen</module>
 		<module>microscope-hbase</module>
 		<module>microscope-hive</module>
+		<module>microscope-job</module>
+		<module>microscope-kafka</module>
 		<module>microscope-mysql</module>
 		<module>microscope-query</module>
 		<module>microscope-test</module>
