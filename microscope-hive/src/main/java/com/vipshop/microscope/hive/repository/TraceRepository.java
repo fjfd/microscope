@@ -6,11 +6,11 @@ import org.apache.hadoop.hive.service.HiveClient;
 import org.springframework.data.hadoop.hive.HiveClientCallback;
 import org.springframework.data.hadoop.hive.HiveTemplate;
 
-import com.vipshop.microscope.hive.HiveTemplateFactory;
+import com.vipshop.microscope.hive.factory.HiveFactory;
 
 public class TraceRepository {
 	
-	private HiveTemplate hiveTemplate = HiveTemplateFactory.HIVE_TEMPLATE;
+	private HiveTemplate hiveTemplate = HiveFactory.HIVE_TEMPLATE;
 	
 	public void create() {
 		hiveTemplate.execute(new HiveClientCallback<Boolean>() {

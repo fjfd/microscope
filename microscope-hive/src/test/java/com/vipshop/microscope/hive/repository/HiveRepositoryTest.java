@@ -3,7 +3,7 @@ package com.vipshop.microscope.hive.repository;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class TraceRepositoryTest {
+public class HiveRepositoryTest {
 	
 	TraceRepository traceRepository = new TraceRepository();
 	

@@ -1,6 +1,6 @@
 package com.vipshop.microscope.hive.sql;
 
-public class TraceSQLBuilder {
+public class HiveSQLBuilder {
 	
 	
 }
