@@ -111,7 +111,7 @@ public class ReportRepositoryTest {
 
 	@Test
 	public void saveMsgReport() {
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < 10; i++) {
 			MsgReport report = new MsgReport();
 
 			report.setYear(2013);
@@ -130,36 +130,30 @@ public class ReportRepositoryTest {
 
 	@Test
 	public void saveSourceReport() {
-		String[] type  = {"insert", "update", "query", "delete", "execute"};
+//		String[] type  = {"insert", "update", "query", "delete", "execute"};
 		
-		for (int i = 0; i < 24; i++) {
-			for (int j = 1; j < 31; j++) {
-				for (int j2 = 0; j2 < 5; j2++) {
-					SourceReport report = new SourceReport();
-					
-					report.setYear(2013);
-					report.setMonth(11);
-					report.setWeek(4);
-					report.setDay(j);
-					report.setHour(i);
-					
-					report.setApp("UserAPI");
-					report.setName("/query/username");
-					report.setServerType("DB");
-					report.setServerIp("db@feel");
-					report.setSqlType(type[j2]);
-					
-					report.setAvgDura(1.3f);
-					report.setCount(36000);
-					report.setStartTime(System.currentTimeMillis());
-					report.setEndTime(System.currentTimeMillis() + 1000);
-					
-					report.setTps(1.2f);
-					
-					reportRepository.save(report);
-				}
-			}
-		}
+		SourceReport report = new SourceReport();
+		
+		report.setYear(2013);
+		report.setMonth(11);
+		report.setWeek(4);
+		report.setDay(1);
+		report.setHour(1);
+		
+//		report.setApp("UserAPI");
+//		report.setName("/query/username");
+//		report.setServerType("DB");
+//		report.setServerIp("db@feel");
+//		report.setSqlType("insert");
+//		
+//		report.setAvgDura(1.3f);
+//		report.setCount(36000);
+//		report.setStartTime(System.currentTimeMillis());
+//		report.setEndTime(System.currentTimeMillis() + 1000);
+//		
+//		report.setTps(1.2f);
+		
+		reportRepository.save(report);
 	}
 
 	@Test

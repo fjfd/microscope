@@ -9,19 +9,17 @@ import com.vipshop.microscope.trace.Tracer;
 
 public class UserApp {
 
-	private static TestWebServer testWebServer = new TestWebServer(9090);
-
 	public static void main(String[] args) throws Exception {
 
 		new Thread(new CollectorServer()).start();
 
-		testWebServer.start();
+		new TestWebServer(9090).start();
 		
 		UserHttpClient userURL = new UserHttpClient();
 
 		while (true) {
-			Tracer.cleanContext();
 			userURL.findRequest();
+			Tracer.cleanContext();
 			TimeUnit.MICROSECONDS.sleep(1000);
 			Tracer.cleanContext();
 			userURL.updateRequest();
@@ -34,6 +32,5 @@ public class UserApp {
 			TimeUnit.MICROSECONDS.sleep(1000);
 		}
 
-		// TimeUnit.SECONDS.sleep(5);
 	}
 }

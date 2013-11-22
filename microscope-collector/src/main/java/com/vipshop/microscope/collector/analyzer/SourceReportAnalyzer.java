@@ -94,7 +94,8 @@ public class SourceReportAnalyzer extends AbstractMessageAnalyzer {
 		if (!span.getResultCode().equals("OK")) {
 			report.setFail(1);
 		}
-		
+
 		ReportContainer.put(key, report);
+		
 	}
 }

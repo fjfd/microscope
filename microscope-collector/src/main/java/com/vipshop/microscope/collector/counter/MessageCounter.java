@@ -28,7 +28,7 @@ public class MessageCounter {
 	 * @param logEntry
 	 * @return
 	 */
-	public Span count(LogEntry logEntry, CalendarUtil calendarUtil) {
+	public synchronized Span count(LogEntry logEntry, CalendarUtil calendarUtil) {
 		Span span = null;
 		try {
 			span = encoder.decodeToSpan(logEntry.getMessage());

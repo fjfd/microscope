@@ -120,14 +120,6 @@ public class SourceReport extends AbstraceReport {
 		this.tps = tps;
 	}
 
-	@Override
-	public String toString() {
-		return "SourceReport [app=" + app + ", name=" + name + ", serviceType=" + serverType + ", serviceIPAdress=" + serverIp + ", serviceName=" + sqlType + ", count=" + count
-				+ ", fail=" + fail + ", failpre=" + failpre + ", avgDura=" + avgDura + ", startTime=" + startTime + ", endTime=" + endTime + ", tps=" + tps + ", getMinute()=" + getMinute()
-				+ ", getYear()=" + getYear() + ", getMonth()=" + getMonth() + ", getWeek()=" + getWeek() + ", getDay()=" + getDay() + ", getHour()=" + getHour() + ", getClass()=" + getClass()
-				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
-	}
-
 	public long getSumDura() {
 		return sumDura;
 	}
@@ -135,6 +127,11 @@ public class SourceReport extends AbstraceReport {
 	public void setSumDura(long sumDura) {
 		this.sumDura = sumDura;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "SourceReport [app=" + app + ", name=" + name + ", serverType=" + serverType + ", serverIp=" + serverIp + ", sqlType=" + sqlType + ", count=" + count + ", fail=" + fail + ", failpre="
+				+ failpre + ", avgDura=" + avgDura + ", sumDura=" + sumDura + ", startTime=" + startTime + ", endTime=" + endTime + ", tps=" + tps + "]";
+	}
 	
 }
