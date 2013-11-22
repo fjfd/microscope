@@ -11,7 +11,7 @@ public class DaoFactory {
 	
 	static {
 		
-		AbstractApplicationContext context = new ClassPathXmlApplicationContext("/applicationContext-database.xml", DaoFactory.class);
+		AbstractApplicationContext context = new ClassPathXmlApplicationContext("/applicationContext-database-test.xml", DaoFactory.class);
 		
 		USER = context.getBean(MyBATISUserDao.class);
 		

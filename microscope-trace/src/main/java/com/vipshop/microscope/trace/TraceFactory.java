@@ -37,20 +37,6 @@ public class TraceFactory {
 	 */
 	private static final ThreadLocal<Trace> TRACE_CONTEXT = new ThreadLocal<Trace>();
 	
-	/**
-	 * Returns current trace id.
-	 * 
-	 * Integrate with exception monitoring.
-	 * 
-	 * @return current trace id.
-	 */
-	public static long getTraceId() {
-		if (TRACE_CONTEXT.get() == null) {
-			return 0L;
-		}
-		return TRACE_CONTEXT.get().getSpanId().getTraceId();
-	}
-	
 	/*
 	 * when application start a new thread, 
 	 * programmer should propagate the contxt.
@@ -76,10 +62,18 @@ public class TraceFactory {
 	}
 	
 	/**
-	 * Returns trace object.
+	 * Clean ThreadLocal
+	 */
+	public static void cleanContext() {
+		TRACE_CONTEXT.set(null);
+	}
+	
+	/**
+	 * Returns trace object when in-JVM.
 	 * 
 	 * If current thread don't have trace object,
-	 * then create a new one.
+	 * create a new trace object, and store it in
+	 * {@code ThreadLocal}.
 	 * 
 	 * @return {@code Trace}
 	 */
@@ -92,38 +86,23 @@ public class TraceFactory {
 	}
 	
 	/**
-	 * Returns traceId from ThreadLocal.
+	 * Return trace object when cross-JVM.
 	 * 
+	 * If client program send a PRC request,
+	 * we propagate {@code traceId} and {@code spanId}
+	 * with the request, and create a new trace object
+	 * according to {@code traceId} and {@code spanId}
+	 * 
+	 * @param traceId 
+	 * @param spanId
 	 * @return
 	 */
-	public static String getTraceIdFromThreadLocal() {
-		SpanId spanID = TRACE_CONTEXT.get().getSpanId();
-		return String.valueOf(spanID.getTraceId());
-	}
-	
-	/**
-	 * Returns spanId from ThreadLocal.
-	 * 
-	 * @return
-	 */
-	public static String getSpanIdFromThreadLocal() {
-		SpanId spanID = TRACE_CONTEXT.get().getSpanId();
-		return String.valueOf(spanID.getSpanId());
-	}
-	
-	/**
-	 * Set traceId and spanId to ThreadLocal
-	 * 
-	 * from HTTPHeader OR Thrift
-	 * 
-	 * @param request
-	 */
-	public static void setTraceContexToThreadLocal(String traceId, String spanId) {
+	public static Trace getTrace(String traceId, String spanId) {
 		// If this is a new trace.
 		if (traceId == null || spanId == null) {
 			Trace trace = new Trace();
 			TRACE_CONTEXT.set(trace);
-			return;
+			return TRACE_CONTEXT.get();
 		}
 
 		// If this is some part of exist trace.
@@ -137,10 +116,35 @@ public class TraceFactory {
 		Trace trace = new Trace(context);
 
 		TRACE_CONTEXT.set(trace);
+		
+		return TRACE_CONTEXT.get();
+
 	}
 
-	public static void cleanContext() {
-		TRACE_CONTEXT.set(null);
+	/**
+	 * Returns traceId from ThreadLocal.
+	 * 
+	 * @return
+	 */
+	public static String getTraceIdFromThreadLocal() {
+		if (TRACE_CONTEXT.get() == null) {
+			return null;
+		}
+		SpanId spanID = TRACE_CONTEXT.get().getSpanId();
+		return String.valueOf(spanID.getTraceId());
+	}
+	
+	/**
+	 * Returns spanId from ThreadLocal.
+	 * 
+	 * @return
+	 */
+	public static String getSpanIdFromThreadLocal() {
+		if (TRACE_CONTEXT.get() == null) {
+			return null;
+		}
+		SpanId spanID = TRACE_CONTEXT.get().getSpanId();
+		return String.valueOf(spanID.getSpanId());
 	}
 	
 	@Override

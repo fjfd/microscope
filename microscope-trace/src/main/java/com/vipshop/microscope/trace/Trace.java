@@ -43,12 +43,17 @@ public class Trace {
 		this.spanBuilder = new SpanBuilder(context);
 	}
 	
+	/**
+	 * Get current {@code SpanId}.
+	 * 
+	 * @return
+	 */
 	public SpanId getSpanId() {
 		return spanBuilder.getSpanId();
 	}
 	
 	/**
-	 * Start a new client span with category.
+	 * Start a new Span.
 	 * 
 	 * @param spanName
 	 * @param category
@@ -60,6 +65,13 @@ public class Trace {
 		spanBuilder.clientSend(spanName, category);
 	}
 	
+	/**
+	 * Start a new Span.
+	 * 
+	 * @param spanName
+	 * @param serverIP
+	 * @param category
+	 */
 	public void clientSend(String spanName, String serverIP, Category category) {
 		if (Switch.isClose()) {
 			return;
@@ -67,6 +79,11 @@ public class Trace {
 		spanBuilder.clientSend(spanName, serverIP, category);
 	}
 	
+	/**
+	 * Set span ResultCode.
+	 * 
+	 * @param result
+	 */
 	public void setResutlCode(String result) {
 		if (Switch.isClose()) {
 			return;
@@ -75,7 +92,7 @@ public class Trace {
 	}
 	
 	/**
-	 * Complete a span.
+	 * Complete a Span.
 	 */
 	public void clientReceive() {
 		if (Switch.isClose()) {
@@ -85,7 +102,7 @@ public class Trace {
 	}
 	
 	/**
-	 * Record key/value pair.
+	 * Record key/value for debug.
 	 * 
 	 * @param key
 	 * @param value

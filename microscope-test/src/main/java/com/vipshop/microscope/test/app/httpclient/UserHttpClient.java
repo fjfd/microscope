@@ -17,24 +17,24 @@ public class UserHttpClient {
 		return request(url);
 	}
 	
-	public void insertRequest() throws ClientProtocolException, IOException {
+	public String insertRequest() throws ClientProtocolException, IOException {
 		String url = "http://localhost:9090/user/insert?callback=jQuery11020021555292898187584";
-		request(url);
+		return request(url);
 	}
 	
-	public void findRequest() throws ClientProtocolException, IOException {
+	public String findRequest() throws ClientProtocolException, IOException {
 		String url = "http://localhost:9090/user/find?callback=jQuery11020021555292898187584";
-		request(url);
+		return request(url);
 	}
 	
-	public void updateRequest() throws ClientProtocolException, IOException {
+	public String updateRequest() throws ClientProtocolException, IOException {
 		String url = "http://localhost:9090/user/update?callback=jQuery11020021555292898187584";
-		request(url);
+		return request(url);
 	}
 
-	public void deleteRequest() throws ClientProtocolException, IOException {
+	public String deleteRequest() throws ClientProtocolException, IOException {
 		String url = "http://localhost:9090/user/delete?callback=jQuery11020021555292898187584";
-		request(url);
+		return request(url);
 	}
 	
 	public static String request(String url) throws ClientProtocolException, IOException {

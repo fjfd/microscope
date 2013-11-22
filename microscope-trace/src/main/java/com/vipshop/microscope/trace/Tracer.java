@@ -5,38 +5,49 @@ import com.vipshop.microscope.trace.span.Category;
 public class Tracer {
 	
 	/**
-	 * Handle Method opeations.
+	 * Handle common method opeations.
 	 * 
-	 * @param spanName
-	 * @param category
+	 * @param spanName the name of method
+	 * @param category the category of service
 	 */
 	public static void clientSend(String spanName, Category category){
 		TraceFactory.getTrace().clientSend(spanName, category);
 	}
 	
 	/**
-	 * Handle mybatis operations.
+	 * Handle MyBatis/Hibernate/SQL/database operations.
 	 * 
-	 * @param handler
-	 * @param category
+	 * @param name the name of method
+	 * @param serverIP the database name where sql execute
+	 * @param category the category of service
 	 */
 	public static void clientSend(String name, String serverIP, Category category) {
 		TraceFactory.getTrace().clientSend(name, serverIP, category);
 	}
 
 	/**
-	 * Handle corss-jvm operations.(http url request --> spring mvc/resteasy)
+	 * Handle corss-JVM operations.(httpclient request)
 	 * 
-	 * @param requestContext
-	 * @param category
+	 * @param traceId the traceId from client
+	 * @param spanId  the spanId from client
+	 * @param name the name of method
+	 * @param category the category of service
 	 */
 	public static void clientSend(String traceId, String spanId, String name, Category category){
-		TraceFactory.setTraceContexToThreadLocal(traceId, spanId);
-		TraceFactory.getTrace().clientSend(name, category);
+		TraceFactory.getTrace(traceId, spanId).clientSend(name, category);
 	}
 	
 	/**
-	 * Set result code when exception happens.
+	 * Complete a span.
+	 */
+	public static void clientReceive() {
+		TraceFactory.getTrace().clientReceive();
+	}
+
+	/**
+	 * Set result code.
+	 * 
+	 * If exception happens. set ResultCode = EXCEPTION.
 	 * 
 	 * @param e
 	 */
@@ -48,17 +59,10 @@ public class Tracer {
 	}
 	
 	/**
-	 * trace end api
-	 */
-	public static void clientReceive() {
-		TraceFactory.getTrace().clientReceive();
-	}
-	
-	/**
-	 * app programmer api
+	 * Record a Key-Value for debug.
 	 * 
-	 * @param key
-	 * @param value
+	 * @param key key String
+	 * @param value value String
 	 */
 	public static void record(String key, String value) {
 		Trace trace = TraceFactory.getContext();
@@ -68,7 +72,9 @@ public class Tracer {
 	}
 	
 	/**
-	 * asyn thread invoke.
+	 * Asyn thread invoke.
+	 * 
+	 * Get trace object from {@code ThreadLocal}.
 	 * 
 	 * @return
 	 */
@@ -77,7 +83,10 @@ public class Tracer {
 	}
 	
 	/**
-	 * Set context
+	 * Asyn thread invoke.
+	 * 
+	 * Set trace object to {@code ThreadLocal}
+	 * with the new Thread.
 	 * 
 	 * @param trace
 	 */
@@ -86,12 +95,28 @@ public class Tracer {
 	}
 	
 	/**
-	 * integrate with other system.
-	 * 
-	 * @return
+	 * Clean {@code ThreadLocal}
 	 */
-	public static long getTraceId() {
-		return TraceFactory.getTraceId();
+	public static void cleanContext() {
+		TraceFactory.cleanContext();
+	}
+	
+	/**
+	 * Get traceId from {@code ThreadLocal}
+	 * 
+	 * @return traceId
+	 */
+	public static String getTraceId() {
+		return TraceFactory.getTraceIdFromThreadLocal();
+	}
+	
+	/**
+	 * Get spanId from {@code ThreadLocal}
+	 * 
+	 * @return spanId
+	 */
+	public static String getSpanId() {
+		return TraceFactory.getSpanIdFromThreadLocal();
 	}
 	
 }
