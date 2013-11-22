@@ -2,6 +2,20 @@ package com.vipshop.microscope.trace;
 
 import com.vipshop.microscope.trace.span.Category;
 
+/**
+ * Tracing client API for Java.
+ * 
+ * <p> Basically, we use {@code collector} as our backend system,
+ * we build a java tracing client to collector message, use
+ * {@code ThreadTransporter} transport spans to {@code collector}.
+ * 
+ * <p> Application programmers should use this API in app code
+ * if necessary. But in some case, we will embed tracing API
+ * to framework if possible.
+ * 
+ * @author Xu Fei
+ * @version 1.0
+ */
 public class Tracer {
 	
 	/**
