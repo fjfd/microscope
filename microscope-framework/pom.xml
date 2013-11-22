@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.vipshop</groupId>
 		<artifactId>microscope</artifactId>
-		<version>1.0.4</version>
+		<version>1.0.5</version>
 	</parent>
 	
 	<artifactId>microscope-framework</artifactId>
@@ -45,17 +45,6 @@
             <artifactId>resteasy-jaxrs</artifactId>
             <version>${resteasy-jaxrs.version}</version>
         </dependency>
-       	<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-			<version>${httpclient.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.apache.httpcomponents</groupId>
-					<artifactId>httpclient</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
 		<dependency>
             <groupId>aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>

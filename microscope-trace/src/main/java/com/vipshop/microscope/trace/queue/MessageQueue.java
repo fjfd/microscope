@@ -26,7 +26,7 @@ public class MessageQueue {
 	 * If client queue is full, empty queue.
 	 */
 	public static void addSpan(Span span) { 
-		boolean isFull = queue.offer(span);
+		boolean isFull = !queue.offer(span);
 		if (isFull) {
 			queue.clear();
 			logger.info("client queue full, clean queue ... ");
