@@ -9,13 +9,6 @@ import com.vipshop.microscope.common.util.ThreadPoolUtil;
 import com.vipshop.microscope.web.server.Session;
 import com.vipshop.microscope.web.server.cons.Constant;
 
-/**
- * 描述：处理请求<br>
- *     判断请求类型
- *
- * @author: dashu
- * @since: 13-3-4
- */
 public class AnalyseHandle extends Handle {
 
     public AnalyseHandle(Session session) {

@@ -3,12 +3,6 @@ package com.vipshop.microscope.web.server;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * 描述：获取请求的mime信息
- *
- * @author: dashu
- * @since: 13-3-1
- */
 public class Mime {
 
     private static Mime mime;

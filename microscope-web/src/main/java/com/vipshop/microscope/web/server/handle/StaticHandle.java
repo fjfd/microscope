@@ -11,12 +11,6 @@ import java.nio.channels.SocketChannel;
 import com.vipshop.microscope.web.server.Session;
 import com.vipshop.microscope.web.server.cons.Constant;
 
-/**
- * 描述：
- *
- * @author: dashu
- * @since: 13-3-4
- */
 public class StaticHandle extends Handle {
 
     /**

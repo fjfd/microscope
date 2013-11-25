@@ -7,13 +7,6 @@ import java.nio.channels.SocketChannel;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * 描述：会话
- *
- * @author: dashu
- * @since: 13-2-27
- */
-
 public class Session {
 
     /**
