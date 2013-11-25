@@ -9,11 +9,11 @@ import kafka.javaapi.producer.Producer;
 import kafka.producer.KeyedMessage;
 import kafka.producer.ProducerConfig;
 
-public class KafkaClient {
-	
+public class KafkaProducer {
+
 	private Producer<String, String> inner;
 
-	public KafkaClient() throws Exception {
+	public KafkaProducer() throws Exception {
 		Properties properties = new Properties();
 		properties.load(ClassLoader.getSystemResourceAsStream("producer.properties"));
 		ProducerConfig config = new ProducerConfig(properties);
@@ -42,4 +42,32 @@ public class KafkaClient {
 		}
 		inner.send(kms);
 	}
+
+	public void close() {
+		inner.close();
+	}
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		KafkaProducer producer = null;
+		try {
+			producer = new KafkaProducer();
+			int i = 0;
+			while (true) {
+				producer.send("test-topic", "this is a sample" + i);
+				i++;
+				Thread.sleep(2000);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (producer != null) {
+				producer.close();
+			}
+		}
+
+	}
+
 }

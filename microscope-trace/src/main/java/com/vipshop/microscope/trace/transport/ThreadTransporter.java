@@ -12,6 +12,7 @@ import com.vipshop.microscope.common.codec.MessageCodec;
 import com.vipshop.microscope.thrift.LogEntry;
 import com.vipshop.microscope.thrift.Span;
 import com.vipshop.microscope.trace.Constant;
+import com.vipshop.microscope.trace.client.ThriftClient;
 import com.vipshop.microscope.trace.queue.MessageQueue;
 
 /**
@@ -24,7 +25,7 @@ public class ThreadTransporter implements Runnable {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ThreadTransporter.class);
 	
-	private final ThriftClient transporter = new ThriftClient();
+	private final ThriftClient client = new ThriftClient();
 	
 	private final List<LogEntry> logEntries = new ArrayList<LogEntry>();
 	private final MessageCodec encode = new MessageCodec();
@@ -53,7 +54,7 @@ public class ThreadTransporter implements Runnable {
 			boolean batchSizeFlag = logEntries.size() >= MAX_BATCH_SIZE;
 			
 			if (emptySizeFlag || batchSizeFlag) {
-				transporter.send(logEntries);
+				client.send(logEntries);
 				logEntries.clear();
 				emptySize = 0;
 			} else {

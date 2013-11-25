@@ -14,8 +14,8 @@ import kafka.consumer.KafkaStream;
 import kafka.javaapi.consumer.ConsumerConnector;
 import kafka.message.MessageAndMetadata;
 
-public class KafkaServer {
-	
+public class KafkaConsumer {
+
 	private ConsumerConfig config;
 	private String topic;
 	private int partitionsNum;
@@ -23,7 +23,7 @@ public class KafkaServer {
 	private ConsumerConnector connector;
 	private ExecutorService threadPool;
 
-	public KafkaServer(String topic, int partitionsNum, MessageExecutor executor) throws Exception {
+	public KafkaConsumer(String topic, int partitionsNum, MessageExecutor executor) throws Exception {
 		Properties properties = new Properties();
 		properties.load(ClassLoader.getSystemResourceAsStream("consumer.properties"));
 		config = new ConsumerConfig(properties);
@@ -78,4 +78,30 @@ public class KafkaServer {
 
 		public void execute(String message);
 	}
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		KafkaConsumer consumer = null;
+		try {
+			MessageExecutor executor = new MessageExecutor() {
+
+				public void execute(String message) {
+					System.out.println(message);
+
+				}
+			};
+			consumer = new KafkaConsumer("test-topic", 2, executor);
+			consumer.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// if(consumer != null){
+			// consumer.close();
+			// }
+		}
+
+	}
+
 }

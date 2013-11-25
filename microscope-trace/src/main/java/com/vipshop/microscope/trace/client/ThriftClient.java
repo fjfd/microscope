@@ -1,4 +1,4 @@
-package com.vipshop.microscope.trace.transport;
+package com.vipshop.microscope.trace.client;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -26,7 +26,7 @@ import com.vipshop.microscope.trace.Constant;
  * @author Xu Fei
  * @version 1.0
  */
-public class ThriftClient {
+public class ThriftClient implements Client {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ThriftClient.class);
 
