@@ -1,3 +1,1 @@
-# start collector server
-
-nohup java -jar microscope-collector-0.1.0.jar &
+nohup java -jar microscope-collector-1.0.5.jar &
