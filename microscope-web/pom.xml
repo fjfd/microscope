@@ -8,6 +8,7 @@
 	</parent>
 	<artifactId>microscope-web</artifactId>
 	<version>${parent.version}</version>
+	
 	<dependencies>
 		<dependency>
 			<groupId>com.vipshop</groupId>
