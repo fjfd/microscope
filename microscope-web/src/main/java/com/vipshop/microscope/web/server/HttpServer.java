@@ -16,7 +16,7 @@ import com.vipshop.microscope.web.server.handle.AnalyseHandle;
 
 public class HttpServer implements Runnable {
 	
-	private static Logger logger = LoggerFactory.getLogger(TestServer.class);
+	private static Logger logger = LoggerFactory.getLogger(HttpServer.class);
 
 	public static void main(String[] args) throws IOException {
 		int port = 80;
