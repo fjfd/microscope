@@ -2,8 +2,11 @@ package com.vipshop.microscope.common.util;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -13,6 +16,12 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @version 1.0
  */
 public class ThreadPoolUtil {
+	
+	private static ThreadPoolExecutor httpServerExecutor = new ThreadPoolExecutor(5, 10, 1000, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
+	
+	public static ThreadPoolExecutor getHttpServerExecutor() {
+		return httpServerExecutor;
+	}
 	
     public static ExecutorService newFixedThreadPool(int nThreads, String groupName) {
         return Executors.newFixedThreadPool(nThreads, new DefaultThreadFactory(groupName));

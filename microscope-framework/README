@@ -20,8 +20,8 @@ maven 地址
 
 2 在类加载路径下添加trace.properties 文件
 文件内容如下，需要修改app_name选项，以下是招商选品,
-                                     线上环境需要配置IP 10.19.111.64 
-                                     测试环境可以配置IP 192.168.52.145
+                                     线上环境需要配置IP ************** 
+                                     测试环境可以配置IP **************
 
 app_name=picket
 collector_host=microscope.collector .com     
