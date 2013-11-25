@@ -17,8 +17,4 @@ public class CollectorQueue {
 		return queue.poll();
 	}
 	
-	public static LogEntry take() throws InterruptedException {
-		return queue.take();
-	}
-	
 }
