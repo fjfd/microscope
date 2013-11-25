@@ -2,7 +2,7 @@ package com.vipshop.microscope.web.server;
 
 import org.testng.annotations.Test;
 
-public class HttpServerTest {
+public class TestServer {
 	
 	@Test
 	public void testServer() {
