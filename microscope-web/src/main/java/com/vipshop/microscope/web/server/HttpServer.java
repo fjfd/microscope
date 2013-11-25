@@ -22,7 +22,7 @@ public class HttpServer implements Runnable {
 		int port = 80;
 		
 		try {
-			port = Integer.parseInt(args[0]);
+			port = Integer.parseInt(System.getProperty("port"));
 		} catch (Exception e) {
 			port = 80;
 		}
