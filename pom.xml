@@ -58,6 +58,7 @@
 		<module>microscope-test</module>
 		<module>microscope-trace</module>
 		<module>microscope-web</module>
+		<module>microscope-zookeeper</module>
 	</modules>
 
 
