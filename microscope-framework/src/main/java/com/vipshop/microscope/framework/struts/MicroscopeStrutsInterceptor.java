@@ -1,7 +1,7 @@
 package com.vipshop.microscope.framework.struts;
 
 
-//public class DisplayInterceptor implements ActionInterceptor {
+//public class MicroscopeStrutsInterceptor implements ActionInterceptor {
 //
 //	@Override
 //	public void beforeAction(Action arg0, ActionMapping arg1, ActionForm arg2, HttpServletRequest arg3, HttpServletResponse arg4) throws IOException, ServletException {
