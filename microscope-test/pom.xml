@@ -142,7 +142,7 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>com.vipshop.microscope.test.app.MockDataApp</mainClass>
+							<mainClass>com.vipshop.microscope.test.MicroscopeTest</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
