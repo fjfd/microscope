@@ -15,7 +15,7 @@ import com.vipshop.microscope.trace.Tracer;
  */
 public class MockDataApp {
 
-	public static void main(String[] args) throws Exception {
+	public static void execute() throws Exception {
 		new Thread(new CollectorServer()).start();
 
 		new TestWebServer(9090).start();
