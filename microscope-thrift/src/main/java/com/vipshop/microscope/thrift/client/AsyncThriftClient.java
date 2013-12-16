@@ -8,6 +8,7 @@ import org.apache.thrift.async.AsyncMethodCallback;
 import org.apache.thrift.async.TAsyncClientManager;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.transport.TNonblockingSocket;
+import org.apache.thrift.transport.TTransportException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,18 +16,24 @@ import com.vipshop.microscope.thrift.gen.LogEntry;
 import com.vipshop.microscope.thrift.gen.Send;
 import com.vipshop.microscope.thrift.gen.Send.AsyncClient.send_call;
 
-public class ThriftAsyncClient {
+/**
+ * Async thrift client.
+ * 
+ * @author Xu Fei
+ * @version 1.0
+ */
+public class AsyncThriftClient {
 	
-	private static final Logger logger = LoggerFactory.getLogger(ThriftAsyncClient.class);
+	private static final Logger logger = LoggerFactory.getLogger(AsyncThriftClient.class);
 	
 	private final String host;
 	private final int port;
-
+	
 	private Send.AsyncClient client;
 	
 	private final SendCallback callback = new SendCallback();
 	
-	public ThriftAsyncClient(String host, int port) throws IOException {
+	public AsyncThriftClient(String host, int port) throws IOException, TTransportException {
 		this.host = host;
 		this.port = port;
 		this.client = new Send.AsyncClient(new TBinaryProtocol.Factory(), 
@@ -45,13 +52,13 @@ public class ThriftAsyncClient {
         try {
             client.send(logEntries, callback);
         } catch (final TException e) {
-        	
+
         } 
         logger.info("send " + logEntries.size() + " logEntry to collector " + host);
     }
-
+    
 	/**
-	 * A callback for Send.
+	 * A callback for send.
 	 * 
 	 * @author Xu Fei
 	 * @version 1.0

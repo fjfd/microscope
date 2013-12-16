@@ -37,22 +37,38 @@ public class ThriftServer {
 	}
 	
 	public void startServer(ThriftCategory category) throws TTransportException {
+		
+		/**
+		 * Use one thread, blocking
+		 */
 		if (category.equals(ThriftCategory.SIMPLE)) {
 			startSingleThreadServer();
 		}
 		
+		/**
+		 * None blocking
+		 */
 		if (category.equals(ThriftCategory.NON_BLOCKING)) {
 			startNonBlockingServer();
 		}
 		
+		/**
+		 * Use thread pool
+		 */
 		if (category.equals(ThriftCategory.THREAD_POOL)) {
 			startThreadPoolServer();
 		}
 		
+		/**
+		 *
+		 */
 		if (category.equals(ThriftCategory.HS_HA)) {
 			startHsHaServer();
 		}
 		
+		/**
+		 * 
+		 */
 		if (category.equals(ThriftCategory.THREAD_SELECTOR)) {
 			startThreadedSelectorServer();
 		}
@@ -83,7 +99,7 @@ public class ThriftServer {
 		TServerTransport serverTransport = new TServerSocket(this.port);
 		final Send.Processor<Send.Iface> processor = new Send.Processor<Send.Iface>(this.handler);
 		TThreadPoolServer.Args args = new TThreadPoolServer.Args(serverTransport).processor(processor);
-		args.maxWorkerThreads = 50;
+		args.maxWorkerThreads = 10;
 		args.protocolFactory(new TBinaryProtocol.Factory());
 		TServer server = new TThreadPoolServer(args);
 		server.serve();
@@ -105,7 +121,7 @@ public class ThriftServer {
 		TTransportFactory transportFactory = new TFramedTransport.Factory();
 		TProtocolFactory proFactory = new TBinaryProtocol.Factory();
 		final Send.Processor<Send.Iface> processor = new Send.Processor<Send.Iface>(this.handler);
-		TThreadedSelectorServer.Args  args = new TThreadedSelectorServer.Args(serverTransport);
+		TThreadedSelectorServer.Args args = new TThreadedSelectorServer.Args(serverTransport);
 		args.protocolFactory(proFactory);
 		args.transportFactory(transportFactory);
 		args.processor(processor);
