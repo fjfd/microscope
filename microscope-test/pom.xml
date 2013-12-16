@@ -8,7 +8,7 @@
 	</parent>
 
 	<artifactId>microscope-test</artifactId>
-	<version>${parent.version}</version>
+	<version>${project.parent.version}</version>
 
 	<properties>
 		<maven-site-plugin.skip>true</maven-site-plugin.skip>
@@ -30,7 +30,6 @@
 			<artifactId>jetty-webapp</artifactId>
 			<version>${jetty.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
@@ -123,7 +122,7 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>com.vipshop.microscope.test.MicroscopeTest</mainClass>
+							<mainClass>com.vipshop.microscope.test.online.OnLineTool</mainClass>
 						</manifest>
 					</archive>
 				</configuration>

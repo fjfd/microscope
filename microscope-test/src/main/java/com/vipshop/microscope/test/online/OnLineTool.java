@@ -3,6 +3,7 @@ package com.vipshop.microscope.test.online;
 import java.util.concurrent.TimeUnit;
 
 import com.vipshop.micorscope.framework.span.Category;
+import com.vipshop.micorscope.framework.span.SpanMock;
 import com.vipshop.micorscope.framework.util.CalendarUtil;
 import com.vipshop.microscope.report.condition.TopReportCondition;
 import com.vipshop.microscope.report.domain.TopReport;
@@ -12,81 +13,60 @@ import com.vipshop.microscope.thrift.gen.Span;
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.span.ResultCode;
 
-public class MicroscopeTest {
+/**
+ * Test tool online
+ * 
+ * @author Xu Fei
+ * @version 1.0
+ */
+public class OnLineTool {
 	
 	public static final String TRACE = "trace";
-	public static final String HBASEREINIT = "hbasereinit";
-	public static final String TESTMYSQL = "testmysql";
+	public static final String HBASE = "hbase";
+	public static final String MYSQL = "mysql";
 	
 	public static void main(String[] args) throws Exception {
 		String app = System.getProperty("app");
-		
 		if (app.equals(TRACE)) {
 			trace();
 		}
-		
-		if (app.equals(HBASEREINIT)) {
-			hbasereinit();
+		if (app.equals(HBASE)) {
+			hbase();
 		}
-		
-		if (app.equals(TESTMYSQL)) {
-			testmysql();
+		if (app.equals(MYSQL)) {
+			mysql();
 		}
 	}
 	
-	private static void trace() {
+	public static void trace() throws InterruptedException {
 		Tracer.clientSend("example", Category.METHOD);
-		
 		try {
 			TimeUnit.MILLISECONDS.sleep(1000);
-			System.out.println("example method invoke");
 		} catch (Exception e) {
 			Tracer.setResultCode(ResultCode.EXCEPTION);
 		} finally {
 			Tracer.clientReceive();
 		}
-		
-		try {
-			TimeUnit.SECONDS.sleep(10);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		TimeUnit.SECONDS.sleep(10);
 	}
 	
-	public static void hbasereinit() {
-		HbaseRepository.drop();
-		HbaseRepository.init();
+	public static void hbase() {
+		HbaseRepository.reinit();
 	}
 	
-	public static void testmysql() {
-		Span span = new Span();
-		
-		span.setAppName("appname");
-		span.setAppIp("localhost");
-		span.setTraceId(8053381312019065847L);
-		span.setParentId(8053381312019065847L);
-		span.setSpanId(8053381312019065847L);
-		span.setSpanName("test");
-		span.setSpanType("Method");
-		span.setResultCode("OK");
-		span.setStartTime(System.currentTimeMillis());
-		span.setDuration(1000);
-		span.setServerName("Service");
-		span.setServerIp("localhost");
-		
+	public static void mysql() {
 		TopReport report = new TopReport();
-
 		CalendarUtil calendarUtil = new CalendarUtil();
+		Span span = SpanMock.mockSpan();
 
 		report.updateReportInit(calendarUtil, span);
 		report.updateReportNext(span);
-		
 		MySQLFactory.TOP.empty();
 
 		report.saveReport();
 		
 		System.out.println(MySQLFactory.TOP.find(new TopReportCondition()));
+		
 		MySQLFactory.TOP.empty();
 	}
 }
