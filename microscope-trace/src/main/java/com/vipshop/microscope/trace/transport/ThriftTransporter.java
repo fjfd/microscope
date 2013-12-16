@@ -29,6 +29,9 @@ public class ThriftTransporter implements Runnable {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ThriftTransporter.class);
 	
+	/**
+	 * start thread
+	 */
 	public static void start() {
 		if (Switcher.isOpen()) {
 			ExecutorService executor = ThreadPoolUtil.newSingleDaemonThreadExecutor("transporter-pool");
@@ -36,6 +39,9 @@ public class ThriftTransporter implements Runnable {
 		}
 	}
 	
+	/**
+	 * thrift client
+	 */
 	private final ThriftClient client = new ThriftClient(Constant.COLLECTOR_HOST, 
 														 Constant.COLLECTOR_PORT, 
 														 Constant.RECONNECT_WAIT_TIME,

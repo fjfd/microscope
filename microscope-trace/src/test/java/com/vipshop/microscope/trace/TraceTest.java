@@ -1,18 +1,54 @@
 package com.vipshop.microscope.trace;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.thrift.TException;
+import org.apache.thrift.server.TNonblockingServer;
+import org.apache.thrift.server.TServer;
+import org.apache.thrift.transport.TNonblockingServerSocket;
+import org.apache.thrift.transport.TNonblockingServerTransport;
+import org.apache.thrift.transport.TTransportException;
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.vipshop.micorscope.framework.span.Category;
-import com.vipshop.microscope.trace.span.ResultCode;
+import com.vipshop.micorscope.framework.span.MessageCodec;
+import com.vipshop.microscope.thrift.gen.LogEntry;
+import com.vipshop.microscope.thrift.gen.ResultCode;
+import com.vipshop.microscope.thrift.gen.Send;
+import com.vipshop.microscope.thrift.gen.Span;
 
 public class TraceTest {
+	
+	static class SimpleHandler implements Send.Iface {
+		@Override
+		public ResultCode send(List<LogEntry> messages) throws TException {
+			for (LogEntry logEntry : messages) {
+				Span span = new MessageCodec().decodeToSpan(logEntry.getMessage());
+				Assert.assertEquals("picket", span.getAppName());
+			}
+			return ResultCode.OK;
+		}
+	}
 	
 	@BeforeMethod
 	public void testBeforeMethod() {
 		Tracer.cleanContext();
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				TNonblockingServerTransport serverTransport;
+				try {
+					serverTransport = new TNonblockingServerSocket(9410);
+					Send.Processor<SimpleHandler> processor = new Send.Processor<SimpleHandler>(new SimpleHandler());
+					TServer server = new TNonblockingServer(new TNonblockingServer.Args(serverTransport).processor(processor));
+					server.serve();
+				} catch (TTransportException e) {
+				}
+			}
+		}).start();
 	}
 	
 	@Test
@@ -21,7 +57,7 @@ public class TraceTest {
 		try {
 			TimeUnit.MILLISECONDS.sleep(1000);
 		} catch (Exception e) {
-			Tracer.setResultCode(ResultCode.EXCEPTION);
+			Tracer.setResultCode("EXCEPTION");
 		} finally {
 			Tracer.clientReceive();
 		}
@@ -47,7 +83,7 @@ public class TraceTest {
 			Tracer.clientReceive();
 			Tracer.clientReceive();
 		} catch (Exception e) {
-			Tracer.setResultCode(ResultCode.EXCEPTION);
+			Tracer.setResultCode("EXCEPTION");
 		} finally {
 			Tracer.clientReceive();
 		}
@@ -56,13 +92,13 @@ public class TraceTest {
 	
 	@Test
 	public void traceUseExample3() throws InterruptedException {
-		while (true) {
+		for (int i = 0; i < 10; i++) {
 			Tracer.cleanContext();
 			Tracer.clientSend("example3", Category.METHOD);
 			try {
 				TimeUnit.MILLISECONDS.sleep(10);
 			} catch (Exception e) {
-				Tracer.setResultCode(ResultCode.EXCEPTION);
+				Tracer.setResultCode("EXCEPTION");
 			} finally {
 				Tracer.clientReceive();
 			}
@@ -71,7 +107,7 @@ public class TraceTest {
 	
 	@Test
 	public void traceUseExample4() throws InterruptedException {
-		while (true) {
+		for (int i = 0; i < 10; i++)  {
 			Tracer.cleanContext();
 			Tracer.clientSend("http://www.huohu123.com", Category.URL);
 			try {
@@ -90,7 +126,7 @@ public class TraceTest {
 				Tracer.clientReceive();
 				Tracer.clientReceive();
 			} catch (Exception e) {
-				Tracer.setResultCode(ResultCode.EXCEPTION);
+				Tracer.setResultCode("EXCEPTION");
 			} finally {
 				Tracer.clientReceive();
 			}
