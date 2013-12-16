@@ -28,7 +28,7 @@ public class MySQLFactory {
 	public static final MsgReportRepository MSG;
 	
 	static {
-		AbstractApplicationContext context = new ClassPathXmlApplicationContext("/applicationContext-database.xml", MySQLFactory.class);
+		AbstractApplicationContext context = new ClassPathXmlApplicationContext("/applicationContext-query-database.xml", MySQLFactory.class);
 		MARKET = context.getBean(MarketReportRepository.class);
 		TOP = context.getBean(TopReportRepository.class);
 		MOST = context.getBean(MostReportRepository.class);

@@ -16,7 +16,7 @@ public class HbaseFactory {
 	public static SpanTableRepository SPAN;
 	
 	static {
-		AbstractApplicationContext context = new ClassPathXmlApplicationContext("/applicationContext-hbase.xml", HbaseRepository.class);
+		AbstractApplicationContext context = new ClassPathXmlApplicationContext("/applicationContext-storage-hbase.xml", HbaseRepository.class);
 		
 		APP = context.getBean(AppTableRepository.class);
 		TRACE = context.getBean(TraceTableRepository.class);
