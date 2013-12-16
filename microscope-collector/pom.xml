@@ -10,7 +10,7 @@
 
 	<artifactId>microscope-collector</artifactId>
 	<name>microscope-collector</name>
-	<version>${parent.version}</version>
+	<version>${project.parent.version}</version>
 
 	<properties>
 		<maven-site-plugin.skip>true</maven-site-plugin.skip>
@@ -20,17 +20,17 @@
 		<dependency>
 			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-storage</artifactId>
-			<version>${parent.version}</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-report</artifactId>
-			<version>${parent.version}</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.lmax</groupId>
 			<artifactId>disruptor</artifactId>
-			<version>3.2.0</version>
+			<version>${disruptor.version}</version>
 		</dependency>
 	</dependencies>
 

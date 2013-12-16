@@ -3,6 +3,7 @@ package com.vipshop.microscope.collector.queue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+import com.vipshop.microscope.collector.server.CollectorServer;
 import com.vipshop.microscope.collector.storager.MessageStorager;
 import com.vipshop.microscope.thrift.gen.Span;
 
@@ -13,6 +14,7 @@ import com.vipshop.microscope.thrift.gen.Span;
  * @version 1.0
  */
 public class StorageWorker implements Runnable {
+	
 	private final MessageStorager storager = new MessageStorager();
 	private final LinkedBlockingQueue<Span> queue;
 	
@@ -29,7 +31,7 @@ public class StorageWorker implements Runnable {
 				storager.storage(span);
 			} else {
 				try {
-					TimeUnit.MILLISECONDS.sleep(3);
+					TimeUnit.MILLISECONDS.sleep(CollectorServer.SLEEP_TIME);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

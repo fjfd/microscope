@@ -4,7 +4,9 @@ import com.vipshop.microscope.report.ReportAnalyzer;
 import com.vipshop.microscope.thrift.gen.Span;
 
 /**
- * Analyze span and create report.
+ * Analyze spans and create report.
+ * 
+ * @see com.vipshop.microscope.report.ReportAnalyzer
  * 
  * @author Xu Fei
  * @version 1.0

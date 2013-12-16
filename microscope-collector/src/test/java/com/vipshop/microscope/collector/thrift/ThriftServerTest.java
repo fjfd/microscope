@@ -48,8 +48,8 @@ public class ThriftServerTest {
 				}
 			}
 		}).start();
-		Span span = new Span();
 		
+		Span span = new Span();
 		span.setAppName("appname");
 		span.setAppIp("localhost");
 		span.setTraceId(8053381312019065847L);

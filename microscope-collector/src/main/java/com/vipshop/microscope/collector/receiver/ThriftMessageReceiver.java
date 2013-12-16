@@ -35,7 +35,14 @@ public class ThriftMessageReceiver implements MessageReceiver {
 		thriftServer.startServer(category);
 	}
 	
+	/**
+	 * Thrift handler.
+	 * 
+	 * @author Xu Fei
+	 * @version 1.0
+	 */
 	static class ThriftReceiveHandler implements Send.Iface {
+		
 		final MessageCodec encoder = new MessageCodec();
 		
 		final MessageConsumer consumer;

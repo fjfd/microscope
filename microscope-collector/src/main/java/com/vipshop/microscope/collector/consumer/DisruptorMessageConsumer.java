@@ -6,16 +6,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.lmax.disruptor.BatchEventProcessor;
-import com.lmax.disruptor.IgnoreExceptionHandler;
 import com.lmax.disruptor.RingBuffer;
 import com.lmax.disruptor.SequenceBarrier;
 import com.lmax.disruptor.SleepingWaitStrategy;
-import com.lmax.disruptor.WorkHandler;
-import com.lmax.disruptor.WorkerPool;
 import com.vipshop.micorscope.framework.util.ThreadPoolUtil;
 import com.vipshop.microscope.collector.disruptor.AnalyzeEventHandler;
 import com.vipshop.microscope.collector.disruptor.SpanEvent;
-import com.vipshop.microscope.collector.disruptor.StoreWorkHandler;
+import com.vipshop.microscope.collector.disruptor.StorageEventHandler;
 import com.vipshop.microscope.thrift.gen.Span;
 
 /**
@@ -24,47 +21,50 @@ import com.vipshop.microscope.thrift.gen.Span;
  * @author Xu Fei
  * @version 1.0
  */
-public class MessageDisruptorConsumer implements MessageConsumer {
+public class DisruptorMessageConsumer implements MessageConsumer {
 	
-	private static final Logger logger = LoggerFactory.getLogger(MessageDisruptorConsumer.class);
+	private static final Logger logger = LoggerFactory.getLogger(DisruptorMessageConsumer.class);
 	
 	private static final int BUFFER_SIZE = 1024 * 8 * 8 * 8;
 	
 	private volatile boolean start = false;
 	
 	private final RingBuffer<SpanEvent> ringBuffer;
-	private final SequenceBarrier sequenceBarrier;
-	private final WorkHandler<SpanEvent>[] storeHandler;
-	private final AnalyzeEventHandler analyzeHandler;
-	private final WorkerPool<SpanEvent> storeWorkerPool;
-	private final BatchEventProcessor<SpanEvent> analyzeEventProcessor;
-	private final int poolSize;
 	
-	public MessageDisruptorConsumer(int poolSize) {
-		this.poolSize = poolSize;
+	private final SequenceBarrier sequenceBarrier;
+	
+	private final AnalyzeEventHandler analyzeHandler;
+	private final BatchEventProcessor<SpanEvent> analyzeEventProcessor;
+
+	private final StorageEventHandler storageHandler;
+	private final BatchEventProcessor<SpanEvent> storageEventProcessor;
+	
+	public DisruptorMessageConsumer() {
 		ringBuffer = RingBuffer.createSingleProducer(SpanEvent.EVENT_FACTORY, BUFFER_SIZE, new SleepingWaitStrategy());
+		
 		sequenceBarrier = ringBuffer.newBarrier();
-		storeHandler = new StoreWorkHandler[poolSize];
-		for (int i = 0; i < poolSize; i++) {
-			storeHandler[i] = new StoreWorkHandler();
-		}
+		
 		analyzeHandler = new AnalyzeEventHandler();
-		storeWorkerPool = new WorkerPool<SpanEvent>(ringBuffer, sequenceBarrier, new IgnoreExceptionHandler(), storeHandler);
 		analyzeEventProcessor = new BatchEventProcessor<SpanEvent>(ringBuffer, sequenceBarrier, analyzeHandler);
-		ringBuffer.addGatingSequences(storeWorkerPool.getWorkerSequences());
+
+		storageHandler = new StorageEventHandler();
+		storageEventProcessor = new BatchEventProcessor<SpanEvent>(ringBuffer, sequenceBarrier, storageHandler);
+
 		ringBuffer.addGatingSequences(analyzeEventProcessor.getSequence());
+		ringBuffer.addGatingSequences(storageEventProcessor.getSequence());
 	}
 	
 	public void start() {
 		logger.info("use message consumer base on disruptor ");
 
-		logger.info("start storage thread pool with size " + poolSize);
-		ExecutorService executor = ThreadPoolUtil.newFixedThreadPool(poolSize, "store-span-pool");
-		storeWorkerPool.start(executor);
+		logger.info("start storage thread pool with size 1");
+		ExecutorService executor = ThreadPoolUtil.newFixedThreadPool(1, "store-span-pool");
+		executor.execute(this.storageEventProcessor);
 		
 		logger.info("start analyze thread pool with size 1");
 		ExecutorService analyzeExecutor = ThreadPoolUtil.newFixedThreadPool(1, "analyze-span-pool");
 		analyzeExecutor.execute(this.analyzeEventProcessor);
+		
 		start = true;
 	}
 	
@@ -77,7 +77,7 @@ public class MessageDisruptorConsumer implements MessageConsumer {
 	}
 	
 	public void shutdown() {
-		storeWorkerPool.halt();
+		storageEventProcessor.halt();
 		analyzeEventProcessor.halt();
 	}
 

@@ -17,36 +17,30 @@ import com.vipshop.microscope.thrift.gen.Span;
  * @author Xu Fei
  * @version 1.0
  */
-public class MessageQueueConsumer implements MessageConsumer {
+public class QueueMessageConsumer implements MessageConsumer {
 	
-	private static final Logger logger = LoggerFactory.getLogger(MessageQueueConsumer.class);
+	private static final Logger logger = LoggerFactory.getLogger(QueueMessageConsumer.class);
 	
-	private final LinkedBlockingQueue<Span> storeQueue = new LinkedBlockingQueue<Span>(Integer.MAX_VALUE);
+	private final LinkedBlockingQueue<Span> storageQueue = new LinkedBlockingQueue<Span>(Integer.MAX_VALUE);
 	private final LinkedBlockingQueue<Span> analyzeQueue = new LinkedBlockingQueue<Span>(Integer.MAX_VALUE);
 	
 	private int poolSize;
 	
-	private ExecutorService storeExecutor;
+	private ExecutorService storageExecutor;
 	private ExecutorService analyzeExecutor;
 	
-	public MessageQueueConsumer(int poolSize) {
+	public QueueMessageConsumer(int poolSize) {
 		this.poolSize = poolSize;
 	}
 	
 	@Override
-	public void publish(Span span) {
-		storeQueue.offer(span);
-		analyzeQueue.offer(span);
-	}
-
-	@Override
 	public void start() {
-		logger.info("use message consumer base on linked blocking queue ");
-
+		logger.info("use message consumer base on LinkedBlockingQueue");
+		
 		logger.info("start storage thread pool with size " + poolSize);
-		storeExecutor = ThreadPoolUtil.newFixedThreadPool(poolSize, "store-span-pool");
+		storageExecutor = ThreadPoolUtil.newFixedThreadPool(poolSize, "store-span-pool");
 		for (int i = 0; i < poolSize; i++) {
-			storeExecutor.execute(new StorageWorker(storeQueue));
+			storageExecutor.execute(new StorageWorker(storageQueue));
 		}
 		
 		logger.info("start analyze thread pool with size 1");
@@ -55,8 +49,14 @@ public class MessageQueueConsumer implements MessageConsumer {
 	}
 
 	@Override
+	public void publish(Span span) {
+		storageQueue.offer(span);
+		analyzeQueue.offer(span);
+	}
+
+	@Override
 	public void shutdown() {
-		storeExecutor.shutdown();
+		storageExecutor.shutdown();
 		analyzeExecutor.shutdown();
 	}
 

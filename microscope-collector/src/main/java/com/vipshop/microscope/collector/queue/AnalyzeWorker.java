@@ -4,6 +4,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 import com.vipshop.microscope.collector.analyzer.MessageAnalyzer;
+import com.vipshop.microscope.collector.server.CollectorServer;
 import com.vipshop.microscope.thrift.gen.Span;
 
 /**
@@ -30,7 +31,7 @@ public class AnalyzeWorker implements Runnable {
 				analyzer.analyze(span);
 			} else {
 				try {
-					TimeUnit.MILLISECONDS.sleep(3);
+					TimeUnit.MILLISECONDS.sleep(CollectorServer.SLEEP_TIME);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

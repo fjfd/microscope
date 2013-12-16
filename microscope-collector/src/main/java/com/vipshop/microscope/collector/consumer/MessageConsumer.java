@@ -15,10 +15,21 @@ import com.vipshop.microscope.thrift.gen.Span;
  */
 public interface MessageConsumer {
 	
+	/**
+	 * Start consumer
+	 */
+	public void start();
+
+	/**
+	 * Publish span to consumer.
+	 * 
+	 * @param span span object
+	 */
 	public void publish(Span span);
 	
-	public void start();
-	
+	/**
+	 * Stop consumer.
+	 */
 	public void shutdown();
 	
 }
