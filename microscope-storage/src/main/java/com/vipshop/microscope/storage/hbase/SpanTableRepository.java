@@ -58,7 +58,6 @@ public class SpanTableRepository extends AbstraceHbaseRepository {
 					spans.add(span);
 				}
 				Collections.sort(spans, new Comparator<Span>() {
-
 					@Override
 					public int compare(Span o1, Span o2) {
 						if(o1.getStartTime() < o2.getStartTime()){

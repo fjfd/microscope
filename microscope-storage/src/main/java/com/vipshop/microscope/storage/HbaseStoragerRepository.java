@@ -5,6 +5,12 @@ import com.vipshop.microscope.storage.domain.TraceTable;
 import com.vipshop.microscope.storage.hbase.HbaseRepository;
 import com.vipshop.microscope.thrift.gen.Span;
 
+/**
+ * Store span to hbase.
+ * 
+ * @author Xu Fei
+ * @version 1.0
+ */
 public class HbaseStoragerRepository {
 	
 	public void storage(Span span) {

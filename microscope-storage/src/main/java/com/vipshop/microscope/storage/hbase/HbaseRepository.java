@@ -60,26 +60,14 @@ public class HbaseRepository {
 	}
 	
 	public static void init() {
-		logger.info("init hbase table app");
 		HbaseFactory.APP.initialize();
-		
-		logger.info("init hbase table trace");
 		HbaseFactory.TRACE.initialize();
-		
-		logger.info("init hbase table span");
 		HbaseFactory.SPAN.initialize();
-		
 	}
 	
 	public static void drop() {
-		logger.info("drop hbase table app");
 		HbaseFactory.APP.drop();
-		
-		logger.info("drop hbase table trace");
 		HbaseFactory.TRACE.drop();
-		
-		logger.info("drop hbase table span");
 		HbaseFactory.SPAN.drop();
-		
 	}
 }

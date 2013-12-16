@@ -12,6 +12,8 @@ import org.apache.hadoop.hbase.client.HBaseAdmin;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.io.hfile.Compression.Algorithm;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.hadoop.hbase.HbaseTemplate;
@@ -19,7 +21,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public abstract class AbstraceHbaseRepository implements InitializingBean {
-
+	
+	private static final Logger logger = LoggerFactory.getLogger(AbstraceHbaseRepository.class);
+	
 	@Resource(name = "hbaseConfiguration")
 	protected Configuration config;
 
@@ -43,6 +47,8 @@ public abstract class AbstraceHbaseRepository implements InitializingBean {
 				tableDescriptor.addFamily(columnDescriptor);
 				
 				admin.createTable(tableDescriptor);
+				
+				logger.info("init hbase table " + tableName);
 			}
 		} catch (IOException e) {
 			throw new RuntimeException("initialize " + tableName, e);
@@ -56,6 +62,8 @@ public abstract class AbstraceHbaseRepository implements InitializingBean {
 				admin.disableTable(tableNameAsBytes);
 			}
 			admin.deleteTable(tableNameAsBytes);
+			
+			logger.info("drop hbase table " + tableName);
 		} catch (IOException e) {
 			throw new RuntimeException("drop" + tableName, e);
 		}

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.hadoop.hbase.client.Delete;
 import org.apache.hadoop.hbase.client.HTableInterface;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
@@ -51,7 +50,7 @@ public class TraceTableRepository extends AbstraceHbaseRepository {
 		hbaseTemplate.execute(tableName, new TableCallback<TraceTable>() {
 			@Override
 			public TraceTable doInTable(HTableInterface table) throws Throwable {
-				Put p = new Put(Bytes.toBytes(rowKey(tableTrace)));
+				Put p = new Put(Bytes.toBytes(tableTrace.rowKey()));
 				p.add(CF, CF_APP_NAME, Bytes.toBytes(tableTrace.getAppName()));
 				p.add(CF, CF_TYPE, Bytes.toBytes(tableTrace.getType()));
 				p.add(CF, CF_TRACE_ID, Bytes.toBytes(tableTrace.getTraceId()));
@@ -65,21 +64,6 @@ public class TraceTableRepository extends AbstraceHbaseRepository {
 				return tableTrace;
 			}
 		});
-	}
-	
-	/**
-	 * Use reverse timestamp as part of rowkey
-	 * can make data query as new as possible.
-	 * 
-	 * @param tableTrace
-	 * @return
-	 */
-	private String rowKey(TraceTable tableTrace) {
-		return tableTrace.getAppName()
-			   + "-" + tableTrace.getType() 
-			   + "-" + tableTrace.getTraceId() 
-			   + "-" + tableTrace.getTraceName() 
-			   + "-" + (Long.MAX_VALUE -System.currentTimeMillis());
 	}
 	
 	public void save(final List<TraceTable> tableTraces) {
@@ -103,17 +87,6 @@ public class TraceTableRepository extends AbstraceHbaseRepository {
 				}
 				table.put(puts);
 				return tableTraces;
-			}
-		});
-	}
-	
-	public void delete(final TraceTable tableTrace) {
-		hbaseTemplate.execute(tableName, new TableCallback<TraceTable>() {
-			@Override
-			public TraceTable doInTable(HTableInterface table) throws Throwable {
-				Delete d = new Delete(Bytes.toBytes(tableTrace.getTraceId()));
-				table.delete(d);
-				return tableTrace;
 			}
 		});
 	}
@@ -164,7 +137,7 @@ public class TraceTableRepository extends AbstraceHbaseRepository {
 		try {
 			scan.setTimeRange(Long.valueOf(query.get("startTime")), Long.valueOf(query.get("endTime")));
 		} catch (IOException e) {
-			throw new SetTimeRangeException();
+			throw new RuntimeException("set time range exception", e);
 		}
 		return hbaseTemplate.find(tableName, scan, new RowMapper<TraceTable>() {
 			@Override

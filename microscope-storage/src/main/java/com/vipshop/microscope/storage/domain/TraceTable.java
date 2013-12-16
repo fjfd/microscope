@@ -4,7 +4,12 @@ import java.io.Serializable;
 
 import com.vipshop.microscope.thrift.gen.Span;
 
-
+/**
+ * Every trace detail info.
+ * 
+ * @author Xu Fei
+ * @version 1.0
+ */
 public class TraceTable implements Serializable, Comparable<TraceTable> {
 	
 	private static final long serialVersionUID = -2609783475042433846L;
@@ -19,6 +24,21 @@ public class TraceTable implements Serializable, Comparable<TraceTable> {
 	private String resultCode;
 	private String IPAdress;
 	
+	/**
+	 * Use reverse timestamp as part of rowkey
+	 * can make data query as new as possible.
+	 * 
+	 * @param tableTrace
+	 * @return
+	 */
+	public String rowKey() {
+		return this.getAppName()
+			   + "-" + this.getType() 
+			   + "-" + this.getTraceId() 
+			   + "-" + this.getTraceName() 
+			   + "-" + (Long.MAX_VALUE -System.currentTimeMillis());
+	}
+
 
 	public String getStartTimestamp() {
 		return startTimestamp;
