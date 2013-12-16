@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vipshop.microscope.report.repository.SourceReportRepository">
+	
+	<resultMap id="SourceReportList" type="SourceReport">
+		<result column="year" property="year" />
+		<result column="month" property="month" />
+		<result column="week" property="week" />
+		<result column="day" property="day" />
+		<result column="hour" property="hour" />
+		<result column="app_name" property="appName" />
+		<result column="app_ip" property="appIp" />
+		<result column="server_name" property="serverName" />
+		<result column="sql_type" property="sqlType" />
+		<result column="total_count" property="totalCount" />
+		<result column="fail_count" property="failCount" />
+		<result column="fail_percent" property="failPercent" />
+		<result column="avg" property="avg" />
+		<result column="tps" property="tps" />
+	</resultMap>
+	
+	<select id="count" resultType="Long">
+		select count(*) from source_report
+	</select>
+	
+	<insert id="saveSourceReport" parameterType="SourceReport">
+		insert 
+		into source_report
+		(year, month, week, day, hour, 
+		 app_name, app_ip,
+		 server_name, sql_type, 
+		 total_count, fail_count, fail_percent, 
+		 avg, qps)
+		values
+		(#{year},#{month},#{week},#{day},#{hour},
+		 #{appName},#{appIp},
+		 #{serverName},#{sqlType},
+		 #{totalCount},#{failCount},#{failPercent},
+		 #{avg},#{qps})
+	</insert>
+	
+	<select id="findSourceReport" parameterType="SourceReportCondition" resultMap="SourceReportList">
+		select 
+		hour, app_name, app_ip, total_count 
+		from 
+		source_report
+		where
+		<if test="year != -1"> year = #{year} </if>
+		<if test="month != -1"> and month = #{month} </if>
+		<if test="week != -1"> and week = #{week} </if>
+		<if test="day != -1"> and day = #{day} </if>
+		<if test="serverName != null"> and server_name = #{serverName} </if>
+		group by app_name, hour
+	</select>
+	
+	<select id="findSourceReportDist" parameterType="SourceReportCondition" resultMap="SourceReportList">
+		select app_name, SUM(total_count) as total_count
+		from source_report
+		where
+		<if test="year != -1"> year = #{year} </if>
+		<if test="month != -1"> and month = #{month} </if>
+		<if test="week != -1"> and week = #{week} </if>
+		<if test="day != -1"> and day = #{day} </if>
+		<if test="serverName != null"> and server_name = #{serverName} </if>
+		group by app_name
+	</select>
+	
+	<select id="findSourceReportTOP" parameterType="SourceReportCondition" resultMap="SourceReportList">
+		select 
+		app_name, SUM(total_count) AS total_count, SUM(fail_count) AS fail_count, AVG(fail_percent) as fail_percent,
+		sql_type, AVG(avg) AS avg, AVG(qps) AS qps
+		from source_report
+		where
+		<if test="year != -1"> year = #{year} </if>
+		<if test="month != -1"> and month = #{month} </if>
+		<if test="week != -1"> and week = #{week} </if>
+		<if test="day != -1"> and day = #{day} </if>
+		<if test="serverName != null"> and server_Name = #{serverName} </if>
+		GROUP BY app_name
+		ORDER BY total_count DESC
+	</select>
+	
+	<delete id="empty">
+		delete from source_report;
+	</delete>
+
+</mapper>

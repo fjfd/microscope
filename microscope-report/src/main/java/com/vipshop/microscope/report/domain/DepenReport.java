@@ -1,0 +1,188 @@
+package com.vipshop.microscope.report.domain;
+
+import com.vipshop.micorscope.framework.util.CalendarUtil;
+import com.vipshop.micorscope.framework.util.MathUtil;
+import com.vipshop.micorscope.framework.util.TimeStampUtil;
+import com.vipshop.microscope.report.factory.MySQLRepository;
+import com.vipshop.microscope.thrift.gen.Span;
+
+/**
+ * DepenReport.
+ * 
+ * From client view: see client depens on service.
+ * 
+ * client		service	  times  qps  etc...
+ * ++++++++++++++++++++++++++++++++++++++++++++++++
+ * client       serviceA  1000
+ * client       serviceB  3000
+ * client       serviceC  2000
+ * 
+ * From server view: see service invoked by clients.
+ * 
+ * server       client    times  qps  etc...
+ * ++++++++++++++++++++++++++++++++++++++++++++++++  
+ * service      clientA   1000
+ * service      clientB   3000
+ * service      clientC   2000
+ * 
+ * @author Xu Fei
+ * @version 1.0
+ */
+public class DepenReport extends AbstraceReport {
+
+	private String clientName;
+	private String serverName;
+
+	private long totalCount;
+	private int failCount;
+	private float failPercent;
+	
+	private long sum;
+	
+	private float avg;
+	private float qps;
+	
+	private long startTime;
+	private long endTime;
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.vipshop.microscope.mysql.report.AbstraceReport#updateReportInit(com.vipshop.microscope.common.util.CalendarUtil, com.vipshop.microscope.thrift.Span)
+	 */
+	@Override
+	public void updateReportInit(CalendarUtil calendarUtil, Span span) {
+		this.setDateByHour(calendarUtil);
+		this.setClientName(span.getAppName());
+		this.setServerName(span.getServerName());
+		this.setStartTime(System.currentTimeMillis());
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.vipshop.microscope.mysql.report.AbstraceReport#updateReportNext(com.vipshop.microscope.thrift.Span)
+	 */
+	@Override
+	public void updateReportNext(Span span) {
+		this.setSum(this.getSum() + span.getDuration());
+		this.setTotalCount(this.getTotalCount() + 1);
+		if (!span.getResultCode().equals("OK")) {
+			this.setFailCount(this.getFailCount() + 1);
+		}
+		this.setEndTime(System.currentTimeMillis());
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.vipshop.microscope.mysql.report.AbstraceReport#updateBeforeSave()
+	 */
+	@Override
+	public void saveReport() {
+		this.setFailPercent(MathUtil.calculateFailPre(this.getTotalCount(), this.getFailCount()));
+		this.setAvg(MathUtil.calculateAvgDura(this.getTotalCount(), this.getSum()));
+		this.setQps(MathUtil.calculateTPS(this.getTotalCount() * 1000, this.getEndTime() - this.getStartTime()));
+		MySQLRepository.getRepository().save(this);
+	}
+	
+	public static String getKey(CalendarUtil calendar, Span span) {
+		StringBuilder builder = new StringBuilder();
+		builder.append(TimeStampUtil.timestampOfCurrentHour(calendar))
+			   .append("-").append(span.getAppName())
+			   .append("-").append("unknow");
+		return builder.toString();
+	}
+
+	public static String getPrevKey(CalendarUtil calendar, Span span) {
+		StringBuilder builder = new StringBuilder();
+		builder.append(TimeStampUtil.timestampOfPrevHour(calendar))
+			   .append("-").append(span.getAppName())
+			   .append("-").append("unknow");
+		return builder.toString();
+	}
+	
+	public String getClientName() {
+		return clientName;
+	}
+
+	public void setClientName(String clientApp) {
+		this.clientName = clientApp;
+	}
+
+	public String getServerName() {
+		return serverName;
+	}
+
+	public void setServerName(String serverApp) {
+		this.serverName = serverApp;
+	}
+
+	public long getTotalCount() {
+		return totalCount;
+	}
+
+	public void setTotalCount(long count) {
+		this.totalCount = count;
+	}
+
+	public int getFailCount() {
+		return failCount;
+	}
+
+	public void setFailCount(int failCount) {
+		this.failCount = failCount;
+	}
+
+	public float getAvg() {
+		return avg;
+	}
+
+	public void setAvg(float avgDura) {
+		this.avg = avgDura;
+	}
+
+	public float getQps() {
+		return qps;
+	}
+
+	public void setQps(float qps) {
+		this.qps = qps;
+	}
+
+	public long getSum() {
+		return sum;
+	}
+
+	public void setSum(long sum) {
+		this.sum = sum;
+	}
+	
+	public float getFailPercent() {
+		return failPercent;
+	}
+	
+	public void setFailPercent(float fialPercent) {
+		this.failPercent = fialPercent;
+	}
+
+	@Override
+	public String toString() {
+		return super.toString() + " DepenReport content [clientName=" + clientName + ", serverName=" + serverName + ", count=" + totalCount + ", " +
+													    "failCount=" + failCount + ", sum=" + sum + ", avg=" + avg + ", qps=" + qps + "]";
+	}
+
+	public long getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(long startTime) {
+		this.startTime = startTime;
+	}
+
+	public long getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(long endTime) {
+		this.endTime = endTime;
+	}
+	
+}
