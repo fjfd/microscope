@@ -9,7 +9,7 @@ public class MathUtil {
 		return (int) (Math.log(x) / Math.log(2));
 	}
 	
-	public static float calculateTPS(long count, long time) {
+	public static float calculateQPS(long count, long time) {
 		BigDecimal bigcount = new BigDecimal(count * 1000);
 		BigDecimal bigtime = new BigDecimal(time);
 		return bigcount.divide(bigtime, 4, RoundingMode.HALF_DOWN).floatValue();

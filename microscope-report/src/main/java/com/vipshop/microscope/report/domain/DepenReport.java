@@ -45,10 +45,6 @@ public class DepenReport extends AbstraceReport {
 	private long startTime;
 	private long endTime;
 	
-	/*
-	 * (non-Javadoc)
-	 * @see com.vipshop.microscope.mysql.report.AbstraceReport#updateReportInit(com.vipshop.microscope.common.util.CalendarUtil, com.vipshop.microscope.thrift.Span)
-	 */
 	@Override
 	public void updateReportInit(CalendarUtil calendarUtil, Span span) {
 		this.setDateByHour(calendarUtil);
@@ -57,10 +53,6 @@ public class DepenReport extends AbstraceReport {
 		this.setStartTime(System.currentTimeMillis());
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see com.vipshop.microscope.mysql.report.AbstraceReport#updateReportNext(com.vipshop.microscope.thrift.Span)
-	 */
 	@Override
 	public void updateReportNext(Span span) {
 		this.setSum(this.getSum() + span.getDuration());
@@ -71,15 +63,11 @@ public class DepenReport extends AbstraceReport {
 		this.setEndTime(System.currentTimeMillis());
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see com.vipshop.microscope.mysql.report.AbstraceReport#updateBeforeSave()
-	 */
 	@Override
 	public void saveReport() {
 		this.setFailPercent(MathUtil.calculateFailPre(this.getTotalCount(), this.getFailCount()));
 		this.setAvg(MathUtil.calculateAvgDura(this.getTotalCount(), this.getSum()));
-		this.setQps(MathUtil.calculateTPS(this.getTotalCount() * 1000, this.getEndTime() - this.getStartTime()));
+		this.setQps(MathUtil.calculateQPS(this.getTotalCount() * 1000, this.getEndTime() - this.getStartTime()));
 		MySQLRepository.getRepository().save(this);
 	}
 	
@@ -163,12 +151,6 @@ public class DepenReport extends AbstraceReport {
 		this.failPercent = fialPercent;
 	}
 
-	@Override
-	public String toString() {
-		return super.toString() + " DepenReport content [clientName=" + clientName + ", serverName=" + serverName + ", count=" + totalCount + ", " +
-													    "failCount=" + failCount + ", sum=" + sum + ", avg=" + avg + ", qps=" + qps + "]";
-	}
-
 	public long getStartTime() {
 		return startTime;
 	}
@@ -185,4 +167,10 @@ public class DepenReport extends AbstraceReport {
 		this.endTime = endTime;
 	}
 	
+	@Override
+	public String toString() {
+		return super.toString() + " DepenReport content [clientName=" + clientName + ", serverName=" + serverName + ", count=" + totalCount + ", " +
+				"failCount=" + failCount + ", sum=" + sum + ", avg=" + avg + ", qps=" + qps + "]";
+	}
+
 }

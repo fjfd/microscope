@@ -65,7 +65,7 @@ public class SourceReport extends AbstraceReport {
 		long time = this.getEndTime() - this.getStartTime();
 		long fail = this.getFailCount();
 		this.setAvg(MathUtil.calculateAvgDura(count, sumDura));
-		this.setQps(MathUtil.calculateTPS(count, time));
+		this.setQps(MathUtil.calculateQPS(count, time));
 		this.setFailPercent(MathUtil.calculateFailPre(count, fail));
 		
 		MySQLRepository.getRepository().save(this);

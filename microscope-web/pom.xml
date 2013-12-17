@@ -6,8 +6,34 @@
 		<artifactId>microscope</artifactId>
 		<version>1.1.2</version>
 	</parent>
-	
+
 	<artifactId>microscope-web</artifactId>
 	<version>${parent.version}</version>
-	
+
+	<dependencies>
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty</artifactId>
+			<version>3.8.0.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpcore</artifactId>
+			<version>4.3</version>
+		</dependency>
+		
+		<dependency>
+	<groupId>org.apache.httpcomponents</groupId>
+	<artifactId>httpcore-nio</artifactId>
+	<version>4.3</version>
+</dependency>
+            
+
+	</dependencies>
 </project>

@@ -61,10 +61,6 @@ public class TraceReport extends AbstraceReport {
 	private int region_15;
 	private int region_16;
 	
-	/*
-	 * (non-Javadoc)
-	 * @see com.vipshop.microscope.mysql.report.AbstraceReport#updateReportInit(com.vipshop.microscope.common.util.CalendarUtil, com.vipshop.microscope.thrift.Span)
-	 */
 	@Override
 	public void updateReportInit(CalendarUtil calendarUtil, Span span) {
 		String app = span.getAppName();
@@ -85,10 +81,6 @@ public class TraceReport extends AbstraceReport {
 		this.setAvg(duration);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see com.vipshop.microscope.mysql.report.AbstraceReport#updateReportNext(com.vipshop.microscope.thrift.Span)
-	 */
 	@Override
 	public void updateReportNext(Span span) {
 		String resultCode = span.getResultCode();
@@ -109,10 +101,6 @@ public class TraceReport extends AbstraceReport {
 		this.setEndTime(System.currentTimeMillis());
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see com.vipshop.microscope.mysql.report.AbstraceReport#saveReport()
-	 */
 	@Override
 	public void saveReport() {
 		long count = this.getTotalCount();
@@ -122,7 +110,7 @@ public class TraceReport extends AbstraceReport {
 
 		this.setFailPercent(MathUtil.calculateFailPre(count, failCount));
 		this.setAvg(MathUtil.calculateAvgDura(count, sum));
-		this.setQps(MathUtil.calculateTPS(count, time));
+		this.setQps(MathUtil.calculateQPS(count, time));
 		
 		MySQLRepository.getRepository().save(this);
 	}

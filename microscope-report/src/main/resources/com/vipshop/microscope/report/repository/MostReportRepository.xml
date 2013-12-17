@@ -3,5 +3,23 @@
 
 <mapper namespace="com.vipshop.microscope.report.repository.MostReportRepository">
 	
+	<resultMap id="MostReportList" type="MostReport">
+		<result column="app_name" property="app" />
+		<result column="name" property="name" />
+		<result column="total_count" property="count" />
+		<result column="type" property="type" />
+	</resultMap>
+	
+	<select id="findMostReport" parameterType="MostReportCondition"
+		resultMap="MostReportList">
+		
+		select app_name, name, type, sum(total_count) as total_count
+		from trace_report
+		where type = #{type}
+		group by name
+		order by total_count desc
+		limit #{limit}
+		
+	</select>
 	
 </mapper>
