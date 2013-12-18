@@ -9,7 +9,7 @@ import com.vipshop.microscope.collector.analyzer.MessageAnalyzer;
  * @author Xu Fei
  * @version 1.0
  */
-public class AnalyzeEventHandler implements EventHandler<SpanEvent> {
+public class MessageAnalyzeHandler implements EventHandler<SpanEvent> {
 	
 	private final MessageAnalyzer messageAnalyzer = new MessageAnalyzer();
 	

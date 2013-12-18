@@ -9,7 +9,7 @@ import com.vipshop.microscope.collector.storager.MessageStorager;
  * @author Xu Fei
  * @version 1.0
  */
-public class StorageEventHandler implements EventHandler<SpanEvent> {
+public class MessageStorageHandler implements EventHandler<SpanEvent> {
 	
 	private final MessageStorager messageStorager = new MessageStorager();
 	

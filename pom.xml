@@ -54,6 +54,7 @@
 		<module>microscope-adapter-spring</module>
 		<module>microscope-adapter-struts</module>
 		<module>microscope-adapter-thrift</module>
+		<module>microscope-alert</module>
 		<module>microscope-collector</module>
 		<module>microscope-framework</module>
 		<module>microscope-job</module>

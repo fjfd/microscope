@@ -7,8 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.vipshop.micorscope.framework.util.ThreadPoolUtil;
-import com.vipshop.microscope.collector.queue.AnalyzeWorker;
-import com.vipshop.microscope.collector.queue.StorageWorker;
+import com.vipshop.microscope.collector.queue.MessageAlertWorker;
+import com.vipshop.microscope.collector.queue.MessageAnalyzeWorker;
+import com.vipshop.microscope.collector.queue.MessageStorageWorker;
 import com.vipshop.microscope.thrift.gen.Span;
 
 /**
@@ -21,13 +22,15 @@ public class QueueMessageConsumer implements MessageConsumer {
 	
 	private static final Logger logger = LoggerFactory.getLogger(QueueMessageConsumer.class);
 	
-	private final LinkedBlockingQueue<Span> storageQueue = new LinkedBlockingQueue<Span>(Integer.MAX_VALUE);
+	private final LinkedBlockingQueue<Span> alertQueue = new LinkedBlockingQueue<Span>(Integer.MAX_VALUE);
 	private final LinkedBlockingQueue<Span> analyzeQueue = new LinkedBlockingQueue<Span>(Integer.MAX_VALUE);
+	private final LinkedBlockingQueue<Span> storageQueue = new LinkedBlockingQueue<Span>(Integer.MAX_VALUE);
 	
 	private int poolSize;
 	
-	private ExecutorService storageExecutor;
+	private ExecutorService alertExecutor;
 	private ExecutorService analyzeExecutor;
+	private ExecutorService storageExecutor;
 	
 	public QueueMessageConsumer(int poolSize) {
 		this.poolSize = poolSize;
@@ -37,27 +40,34 @@ public class QueueMessageConsumer implements MessageConsumer {
 	public void start() {
 		logger.info("use message consumer base on LinkedBlockingQueue");
 		
+		logger.info("start alert thread pool with size 1");
+		alertExecutor = ThreadPoolUtil.newFixedThreadPool(1, "alert-span-pool");
+		alertExecutor.execute(new MessageAlertWorker(alertQueue));
+
+		logger.info("start analyze thread pool with size 1");
+		analyzeExecutor = ThreadPoolUtil.newFixedThreadPool(1, "analyze-span-pool");
+		analyzeExecutor.execute(new MessageAnalyzeWorker(analyzeQueue));
+
 		logger.info("start storage thread pool with size " + poolSize);
 		storageExecutor = ThreadPoolUtil.newFixedThreadPool(poolSize, "store-span-pool");
 		for (int i = 0; i < poolSize; i++) {
-			storageExecutor.execute(new StorageWorker(storageQueue));
+			storageExecutor.execute(new MessageStorageWorker(storageQueue));
 		}
 		
-		logger.info("start analyze thread pool with size 1");
-		analyzeExecutor = ThreadPoolUtil.newFixedThreadPool(1, "analyze-span-pool");
-		analyzeExecutor.execute(new AnalyzeWorker(analyzeQueue));
 	}
 
 	@Override
 	public void publish(Span span) {
-		storageQueue.offer(span);
+		alertQueue.offer(span);
 		analyzeQueue.offer(span);
+		storageQueue.offer(span);
 	}
 
 	@Override
 	public void shutdown() {
-		storageExecutor.shutdown();
+		alertExecutor.shutdown();
 		analyzeExecutor.shutdown();
+		storageExecutor.shutdown();
 	}
 
 }

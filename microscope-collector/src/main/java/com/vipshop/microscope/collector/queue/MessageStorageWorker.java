@@ -3,22 +3,22 @@ package com.vipshop.microscope.collector.queue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-import com.vipshop.microscope.collector.analyzer.MessageAnalyzer;
 import com.vipshop.microscope.collector.server.CollectorServer;
+import com.vipshop.microscope.collector.storager.MessageStorager;
 import com.vipshop.microscope.thrift.gen.Span;
 
 /**
- * A thread worker analyze span. 
+ * A thread worker store span.
  * 
  * @author Xu Fei
  * @version 1.0
  */
-public class AnalyzeWorker implements Runnable {
+public class MessageStorageWorker implements Runnable {
 	
-	private final MessageAnalyzer analyzer = new MessageAnalyzer();
+	private final MessageStorager storager = new MessageStorager();
 	private final LinkedBlockingQueue<Span> queue;
 	
-	public AnalyzeWorker(LinkedBlockingQueue<Span> queue) {
+	public MessageStorageWorker(LinkedBlockingQueue<Span> queue) {
 		this.queue = queue;
 	}
 	
@@ -28,7 +28,7 @@ public class AnalyzeWorker implements Runnable {
 			Span span = queue.poll();
 
 			if (span != null) {
-				analyzer.analyze(span);
+				storager.storage(span);
 			} else {
 				try {
 					TimeUnit.MILLISECONDS.sleep(CollectorServer.SLEEP_TIME);
