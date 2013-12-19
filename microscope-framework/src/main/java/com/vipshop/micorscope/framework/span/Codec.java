@@ -13,7 +13,7 @@ import org.apache.thrift.transport.TIOStreamTransport;
 import com.vipshop.microscope.thrift.gen.LogEntry;
 import com.vipshop.microscope.thrift.gen.Span;
 
-public class MessageCodec {
+public class Codec {
 
 	private static final TProtocolFactory protocolFactory = new TBinaryProtocol.Factory();
 	private static final Base64 base64 = new Base64();

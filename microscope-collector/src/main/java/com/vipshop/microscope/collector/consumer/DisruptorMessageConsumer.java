@@ -12,8 +12,8 @@ import com.lmax.disruptor.SleepingWaitStrategy;
 import com.vipshop.micorscope.framework.util.ThreadPoolUtil;
 import com.vipshop.microscope.collector.disruptor.MessageAlertHandler;
 import com.vipshop.microscope.collector.disruptor.MessageAnalyzeHandler;
-import com.vipshop.microscope.collector.disruptor.SpanEvent;
 import com.vipshop.microscope.collector.disruptor.MessageStorageHandler;
+import com.vipshop.microscope.collector.disruptor.SpanEvent;
 import com.vipshop.microscope.thrift.gen.Span;
 
 /**
@@ -25,8 +25,8 @@ import com.vipshop.microscope.thrift.gen.Span;
 public class DisruptorMessageConsumer implements MessageConsumer {
 	
 	private static final Logger logger = LoggerFactory.getLogger(DisruptorMessageConsumer.class);
-	
-	private static final int BUFFER_SIZE = 1024 * 8 * 8 * 8;
+
+	private final int BUFFER_SIZE = 1024 * 8 * 8 * 8;
 	
 	private volatile boolean start = false;
 	
@@ -54,7 +54,7 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 	
 	public void start() {
 		logger.info("use message consumer base on disruptor ");
-
+		
 		logger.info("start alert thread pool with size 1");
 		ExecutorService alertExecutor = ThreadPoolUtil.newFixedThreadPool(1, "alert-span-pool");
 		alertExecutor.execute(this.alertEventProcessor);
@@ -79,8 +79,9 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 	}
 	
 	public void shutdown() {
-		storageEventProcessor.halt();
+		alertEventProcessor.halt();
 		analyzeEventProcessor.halt();
+		storageEventProcessor.halt();
 	}
 
 }

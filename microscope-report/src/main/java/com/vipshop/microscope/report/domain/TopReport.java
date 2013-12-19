@@ -6,19 +6,22 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
+import com.vipshop.micorscope.framework.span.Category;
 import com.vipshop.micorscope.framework.util.CalendarUtil;
 import com.vipshop.micorscope.framework.util.TimeStampUtil;
 import com.vipshop.microscope.report.factory.MySQLFactory;
 import com.vipshop.microscope.thrift.gen.Span;
 
 /**
- * Top 10 report
+ * Top 10 slow report
  * 
  * 10 most slow URL 
+ * 10 most slow Action 
  * 10 most slow Service 
  * 10 most slow SQL
  * 10 most slow Cache
- * 10 most slow Call
+ * 10 most slow Method
+ * 10 most slow System
  * 
  * This report are stated by 1 minute.
  * 
@@ -47,55 +50,6 @@ public class TopReport extends AbstraceReport {
 		}
 	});
 	
-	/**
-	 * Top Type.
-	 * 
-	 * @author Xu Fei
-	 * @version 1.0
-	 */
-	private static enum Type {
-		URL(1),
-		Service(2),
-		DB(3),
-		Cache(4),
-		Call(5);
-		
-		private int type;
-		
-		private Type(int type) {
-			this.type = type;
-		}
-		
-		public int getType() {
-			return type;
-		}
-		
-	}
-	
-	public static int getTypeValue(String type) {
-		if (type.equals("URL")) {
-			return Type.URL.getType();
-		} else if (type.equals("DB")) {
-			return Type.DB.getType();
-		} else if (type.equals("Cache")) {
-			return Type.Cache.getType();
-		} else if (type.equals("Service")) {
-			return Type.Service.getType();
-		} else {
-			return Type.Call.getType();
-		}
-		
-	}
-	
-	/*
-	 * Top type map
-	 * 
-	 * 1 --> URL
-	 * 2 --> DB
-	 * 3 --> Service
-	 * 4 --> Cache
-	 * 5 --> Call
-	 */
 	private int topType;
 	
 	/*
@@ -109,13 +63,13 @@ public class TopReport extends AbstraceReport {
 
 	private String top_3_name;
 	private int top_3_data;
-
+	
 	private String top_4_name;
 	private int top_4_data;
-
+	
 	private String top_5_name;
 	private int top_5_data;
-
+	
 	private String top_6_name;
 	private int top_6_data;
 
@@ -134,15 +88,15 @@ public class TopReport extends AbstraceReport {
 	@Override
 	public void updateReportInit(CalendarUtil calendarUtil, Span span) {
 		this.setDateByMinute(calendarUtil);
-		this.setTopType(getTypeValue(span.getSpanType()));
-		container.put(span.getDuration(), span.getAppName());
+		this.setTopType(Category.getIntValue(span));
+		container.put(span.getDuration(), span.getAppName() + "#" + span.getTraceId());
 	}
 	
 	@Override
 	public void updateReportNext(Span span) {
-		container.put(span.getDuration(), span.getAppName());
+		container.put(span.getDuration(), span.getAppName() );
 		/**
-		 * Remove the minimum data
+		 * Remove the min one.
 		 */
 		if (container.size() > 10 ) {
 			container.pollLastEntry();
@@ -211,14 +165,11 @@ public class TopReport extends AbstraceReport {
 			}
 		}
 		
-		/**
-		 * save to mysql
-		 */
 		MySQLFactory.TOP.save(this);
 	}
 	
 	public static String getKey(CalendarUtil calendar, Span span) {
-		int type = TopReport.getTypeValue(span.getSpanType());
+		int type = Category.getIntValue(span);
 		StringBuilder builder = new StringBuilder();
 		builder.append(TimeStampUtil.timestampOfCurrentMinute(calendar))
 			   .append("-").append(type);
@@ -226,7 +177,7 @@ public class TopReport extends AbstraceReport {
 	}
 
 	public static String getPrevKey(CalendarUtil calendar, Span span) {
-		int type = TopReport.getTypeValue(span.getSpanType());
+		int type = Category.getIntValue(span);
 		StringBuilder builder = new StringBuilder();
 		builder.append(TimeStampUtil.timestampOfPrevMinute(calendar))
 			   .append("-").append(type);

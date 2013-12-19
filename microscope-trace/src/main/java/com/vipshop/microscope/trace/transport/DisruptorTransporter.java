@@ -12,7 +12,7 @@ import com.lmax.disruptor.EventHandler;
 import com.lmax.disruptor.RingBuffer;
 import com.lmax.disruptor.SequenceBarrier;
 import com.lmax.disruptor.SleepingWaitStrategy;
-import com.vipshop.micorscope.framework.span.MessageCodec;
+import com.vipshop.micorscope.framework.span.Codec;
 import com.vipshop.micorscope.framework.util.ThreadPoolUtil;
 import com.vipshop.microscope.thrift.client.ThriftClient;
 import com.vipshop.microscope.thrift.gen.Span;
@@ -33,7 +33,7 @@ public class DisruptorTransporter  {
 	
 	private volatile boolean start = false;
 	
-	private static final MessageCodec encode = new MessageCodec();
+	private static final Codec encode = new Codec();
 	
 	static class SpanEvent {
 

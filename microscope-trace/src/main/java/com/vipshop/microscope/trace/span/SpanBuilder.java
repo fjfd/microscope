@@ -61,7 +61,7 @@ public class SpanBuilder {
 		span.setAppIp(IPAddressUtil.IPAddress());
 		span.setTraceId(spanContext.getTraceId());
 		span.setSpanName(spanName);
-		span.setSpanType(category.getValue());
+		span.setSpanType(category.getStrValue());
 		span.setStartTime(System.currentTimeMillis());
 		span.setResultCode(ResultCode.OK);
 		
@@ -103,7 +103,7 @@ public class SpanBuilder {
 		span.setAppIp(IPAddressUtil.IPAddress());
 		span.setTraceId(spanContext.getTraceId());
 		span.setSpanName(spanName);
-		span.setSpanType(category.getValue());
+		span.setSpanType(category.getStrValue());
 		span.setStartTime(System.currentTimeMillis());
 		span.setResultCode(ResultCode.OK);
 		span.setServerName(service);

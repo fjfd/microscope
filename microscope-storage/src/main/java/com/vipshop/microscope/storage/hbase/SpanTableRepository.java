@@ -66,13 +66,13 @@ public class SpanTableRepository extends AbstraceHbaseRepository {
 						if(o1.getStartTime() > o2.getStartTime()){
 							return 1;
 						}
-						if (o1.getStartTime() == o2.getStartTime()) {
-							if (o1.parentId == o2.spanId) {
-								return 1;
-							} else {
-								return -1;
-							}
-						}
+//						if (o1.getStartTime() == o2.getStartTime()) {
+//							if (o1.getDuration() > o2.getDuration()) {
+//								return -1;
+//							} else {
+//								return 1;
+//							}
+//						}
 						return 0;
 					}
 				});

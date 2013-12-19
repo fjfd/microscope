@@ -9,8 +9,12 @@ import com.vipshop.microscope.report.factory.MySQLRepository;
 import com.vipshop.microscope.thrift.gen.Span;
 
 /**
- * Stat span in trace by 5 minute.
+ * Stat span in trace over time(5 minute).
  * 
+ * stat: avg  duration
+ *       hit  count
+ *       fail count
+ *       
  * @author Xu Fei
  * @version 1.0
  */
@@ -30,29 +34,20 @@ public class TraceOverTimeReport extends AbstraceReport {
 	private long startTime;
 	private long endTime;
 	
-	/*
-	 * (non-Javadoc)
-	 * @see com.vipshop.microscope.mysql.report.AbstraceReport#updateReportInit
-	 */
 	@Override
 	public void updateReportInit(CalendarUtil calendarUtil, Span span) {
 		String app = span.getAppName();
 		String ipAdress = span.getAppIp();
-		String type = span.getSpanType();
 		String name = span.getSpanName();
 		
 		this.setDateBy5Minute(calendarUtil);
 		this.setAppName(app);
 		this.setAppIp(IPAddressUtil.intIPAddress(ipAdress));
-		this.setType(Category.getIntValue(type));
+		this.setType(Category.getIntValue(span));
 		this.setName(name);
 		this.setStartTime(System.currentTimeMillis());
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see com.vipshop.microscope.mysql.report.AbstraceReport#updateReportNext
-	 */
 	@Override
 	public void updateReportNext(Span span) {
 		if (!span.getResultCode().equals("OK")) {
@@ -63,10 +58,6 @@ public class TraceOverTimeReport extends AbstraceReport {
 		this.setEndTime(System.currentTimeMillis());
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see com.vipshop.microscope.mysql.report.AbstraceReport#saveReport
-	 */
 	@Override
 	public void saveReport() {
 		long count = this.getHit();
@@ -172,30 +163,26 @@ public class TraceOverTimeReport extends AbstraceReport {
 		this.sum = sumDura;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see com.vipshop.microscope.mysql.report.AbstraceReport#toString()
-	 */
+	public long getStartTime() {
+		return startTime;
+	}
+	
+	public void setStartTime(long startTime) {
+		this.startTime = startTime;
+	}
+	
+	public long getEndTime() {
+		return endTime;
+	}
+	
+	public void setEndTime(long endTime) {
+		this.endTime = endTime;
+	}
+
 	@Override
 	public String toString() {
 		return super.toString() + " TraceOverTimeReport content [appName=" + appName + ", appIPAd=" + appIp + ", type=" + type + ", name=" + name + ", " +
 				 					                            "sum=" + sum + ", avg=" + avg + ", hitCount=" + hit + ", failCount=" + fail + "]";
-	}
-
-	public long getStartTime() {
-		return startTime;
-	}
-
-	public void setStartTime(long startTime) {
-		this.startTime = startTime;
-	}
-
-	public long getEndTime() {
-		return endTime;
-	}
-
-	public void setEndTime(long endTime) {
-		this.endTime = endTime;
 	}
 
 }

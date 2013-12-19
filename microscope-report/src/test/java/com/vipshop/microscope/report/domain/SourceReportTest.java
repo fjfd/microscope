@@ -3,8 +3,6 @@ package com.vipshop.microscope.report.domain;
 import org.testng.annotations.Test;
 
 import com.vipshop.micorscope.framework.util.IPAddressUtil;
-import com.vipshop.microscope.report.condition.SourceReportCondition;
-import com.vipshop.microscope.report.domain.SourceReport;
 import com.vipshop.microscope.report.factory.MySQLFactory;
 
 public class SourceReportTest {
@@ -13,9 +11,6 @@ public class SourceReportTest {
 	public void testCRUD() {
 		MySQLFactory.SOURCE.saveSourceReport(mockSourceReport());
 		MySQLFactory.SOURCE.count();
-		MySQLFactory.SOURCE.findSourceReport(new SourceReportCondition());
-		MySQLFactory.SOURCE.findSourceReportDist(new SourceReportCondition());
-		MySQLFactory.SOURCE.findSourceReportTOP(new SourceReportCondition());
 	}
 	
 	@Test

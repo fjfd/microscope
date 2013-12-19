@@ -14,7 +14,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.vipshop.micorscope.framework.span.Category;
-import com.vipshop.micorscope.framework.span.MessageCodec;
+import com.vipshop.micorscope.framework.span.Codec;
 import com.vipshop.microscope.thrift.gen.LogEntry;
 import com.vipshop.microscope.thrift.gen.ResultCode;
 import com.vipshop.microscope.thrift.gen.Send;
@@ -26,7 +26,7 @@ public class TraceTest {
 		@Override
 		public ResultCode send(List<LogEntry> messages) throws TException {
 			for (LogEntry logEntry : messages) {
-				Span span = new MessageCodec().decodeToSpan(logEntry.getMessage());
+				Span span = new Codec().decodeToSpan(logEntry.getMessage());
 				Assert.assertEquals("picket", span.getAppName());
 			}
 			return ResultCode.OK;
@@ -53,7 +53,7 @@ public class TraceTest {
 	
 	@Test
 	public void traceUseExample1() throws InterruptedException {
-		Tracer.clientSend("example1", Category.METHOD);
+		Tracer.clientSend("example1", Category.Method);
 		try {
 			TimeUnit.MILLISECONDS.sleep(1000);
 		} catch (Exception e) {
@@ -69,16 +69,16 @@ public class TraceTest {
 		Tracer.clientSend("http://www.huohu123.com", Category.URL);
 		try {
 			TimeUnit.MILLISECONDS.sleep(1000);
-			Tracer.clientSend("getNew@newService", Category.SERVICE);
+			Tracer.clientSend("getNew@newService", Category.Service);
 			TimeUnit.MILLISECONDS.sleep(400);
-			Tracer.clientSend("get@DB", Category.DAO);
+			Tracer.clientSend("get@DB", Category.DB);
 			TimeUnit.MILLISECONDS.sleep(100);
 			Tracer.clientReceive();
 			Tracer.clientReceive();
 			
-			Tracer.clientSend("buyNew@buyService", Category.SERVICE);
+			Tracer.clientSend("buyNew@buyService", Category.Service);
 			TimeUnit.MILLISECONDS.sleep(200);
-			Tracer.clientSend("buy@Cache", Category.CACHE);
+			Tracer.clientSend("buy@Cache", Category.Cache);
 			TimeUnit.MILLISECONDS.sleep(10);
 			Tracer.clientReceive();
 			Tracer.clientReceive();
@@ -94,7 +94,7 @@ public class TraceTest {
 	public void traceUseExample3() throws InterruptedException {
 		for (int i = 0; i < 10; i++) {
 			Tracer.cleanContext();
-			Tracer.clientSend("example3", Category.METHOD);
+			Tracer.clientSend("example3", Category.Method);
 			try {
 				TimeUnit.MILLISECONDS.sleep(10);
 			} catch (Exception e) {
@@ -112,16 +112,16 @@ public class TraceTest {
 			Tracer.clientSend("http://www.huohu123.com", Category.URL);
 			try {
 				TimeUnit.MILLISECONDS.sleep(1000);
-				Tracer.clientSend("getNew@newService", Category.SERVICE);
+				Tracer.clientSend("getNew@newService", Category.Service);
 				TimeUnit.MILLISECONDS.sleep(400);
-				Tracer.clientSend("get@DB", Category.DAO);
+				Tracer.clientSend("get@DB", Category.DB);
 				TimeUnit.MILLISECONDS.sleep(100);
 				Tracer.clientReceive();
 				Tracer.clientReceive();
 				
-				Tracer.clientSend("buyNew@buyService", Category.SERVICE);
+				Tracer.clientSend("buyNew@buyService", Category.Service);
 				TimeUnit.MILLISECONDS.sleep(200);
-				Tracer.clientSend("buy@Cache", Category.CACHE);
+				Tracer.clientSend("buy@Cache", Category.Cache);
 				TimeUnit.MILLISECONDS.sleep(10);
 				Tracer.clientReceive();
 				Tracer.clientReceive();

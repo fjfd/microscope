@@ -1,95 +1,324 @@
 package com.vipshop.micorscope.framework.span;
 
+import com.vipshop.microscope.thrift.gen.Span;
 
 /**
- * Category is a class stands for service type: 
- * 
- * access cache;
- * access db;
- * access rpc service;
- * ...
+ * Category of span type. 
  * 
  * @author Xu Fei
  * @version 1.0
  */
 public enum Category {
 	
-	URL("URL"),
-	ACTION("Action"),
-	SERVICE("Service"),
-	DAO("DB"),
-	CACHE("Cache"),
-	METHOD("Method"),
-	SYSTEM("System");
-	
-	private String value;
-	
-	Category(String value){
-		this.value = value;
-	}
-	
-	public String getValue() {
-		return value;
-	}
-	
-	public static int getIntValue(String category) {
+	URL {
 		
-		if (category.equals("URL")) {
+		int[] zone = {500, 1000, 1500, 2000, 3000, 5000};
+		
+		@Override
+		public int intValue() {
 			return 1;
 		}
 		
-		if (category.equals("Action")) {
-			return 2;
+		@Override
+		public String strValue() {
+			return "URL";
+		}
+		
+		@Override
+		public boolean hasProblem(int time) {
+			return time > zone[0];
 		}
 
-		if (category.equals("Service")) {
+		@Override
+		public int getTimeZone(int time) {
+			if (time >= zone[0] && time < zone[1]) {
+				return 1;
+			} else if (time >= zone[1] && time < zone[2]) {
+				return 2;
+			} else if (time >= zone[2] && time < zone[3]) {
+				return 3;
+			} else if (time >= zone[3] && time < zone[4]) {
+				return 4;
+			} else if (time >= zone[4] && time < zone[5]) {
+				return 5;
+			} else {
+				return 6;
+			}
+		}
+	},
+	
+	Action {
+		
+		int[] zone = {50, 100, 200, 300, 500, 1000};
+		
+		@Override
+		public int intValue() {
+			return 2;
+		}
+		
+		@Override
+		public String strValue() {
+			return "Action";
+		}
+		
+		@Override
+		public boolean hasProblem(int time) {
+			return time > zone[0];
+		}
+
+		@Override
+		public int getTimeZone(int time) {
+			if (time >= zone[0] && time < zone[1]) {
+				return 1;
+			} else if (time >= zone[1] && time < zone[2]) {
+				return 2;
+			} else if (time >= zone[2] && time < zone[3]) {
+				return 3;
+			} else if (time >= zone[3] && time < zone[4]) {
+				return 4;
+			} else if (time >= zone[4] && time < zone[5]) {
+				return 5;
+			} else {
+				return 6;
+			}
+		}
+	},
+	
+	Service {
+		int[] zone = {50, 100, 200, 300, 500, 1000};
+		
+		@Override
+		public int intValue() {
 			return 3;
 		}
 
-		if (category.equals("DB")) {
+		@Override
+		public String strValue() {
+			return "Service";
+		}
+
+		@Override
+		public boolean hasProblem(int time) {
+			return time > zone[0];
+		}
+
+		@Override
+		public int getTimeZone(int time) {
+			if (time >= zone[0] && time < zone[1]) {
+				return 1;
+			} else if (time >= zone[1] && time < zone[2]) {
+				return 2;
+			} else if (time >= zone[2] && time < zone[3]) {
+				return 3;
+			} else if (time >= zone[3] && time < zone[4]) {
+				return 4;
+			} else if (time >= zone[4] && time < zone[5]) {
+				return 5;
+			} else {
+				return 6;
+			}
+		}
+
+	},
+	
+	DB {
+		
+		int[] zone = {10, 20, 30, 40, 60, 100};
+		
+		@Override
+		public int intValue() {
 			return 4;
 		}
 
-		if (category.equals("Cache")) {
-			return 5;
+		@Override
+		public String strValue() {
+			return "DB";
 		}
 		
-		if (category.equals("Method")) {
+		@Override
+		public boolean hasProblem(int time) {
+			return time > zone[0];
+		}
+
+		@Override
+		public int getTimeZone(int time) {
+			if (time >= zone[0] && time < zone[1]) {
+				return 1;
+			} else if (time >= zone[1] && time < zone[2]) {
+				return 2;
+			} else if (time >= zone[2] && time < zone[3]) {
+				return 3;
+			} else if (time >= zone[3] && time < zone[4]) {
+				return 4;
+			} else if (time >= zone[4] && time < zone[5]) {
+				return 5;
+			} else {
+				return 6;
+			}
+		}
+		
+	},
+	
+	Cache {
+		int[] zone = {10, 20, 30, 40, 60, 100};
+		
+		@Override
+		public int intValue() {
+			return 5;
+		}
+
+		@Override
+		public String strValue() {
+			return "Cache";
+		}
+		
+		@Override
+		public boolean hasProblem(int time) {
+			return time > zone[0];
+		}
+
+		@Override
+		public int getTimeZone(int time) {
+			if (time >= zone[0] && time < zone[1]) {
+				return 1;
+			} else if (time >= zone[1] && time < zone[2]) {
+				return 2;
+			} else if (time >= zone[2] && time < zone[3]) {
+				return 3;
+			} else if (time >= zone[3] && time < zone[4]) {
+				return 4;
+			} else if (time >= zone[4] && time < zone[5]) {
+				return 5;
+			} else {
+				return 6;
+			}
+		}
+
+	},
+	
+	Method {
+		int[] zone = {50, 100, 150, 200, 300, 500};
+		
+		@Override
+		public int intValue() {
 			return 6;
 		}
 
-		if (category.equals("System")) {
-			return 7;
-		}
-		
-		return 0;
-	}
-	
-	public static String getStringValue(int category) {
-		
-		if (category == 1) {
-			return "URL";
-		}
-
-		if (category == 2) {
-			return "Action";
-		}
-		if (category == 3) {
-			return "Service";
-		}
-		if (category == 4) {
-			return "DB";
-		}
-		if (category == 5) {
-			return "Cache";
-		}
-		if (category == 6) {
+		@Override
+		public String strValue() {
 			return "Method";
 		}
-		if (category == 7) {
+
+		@Override
+		public boolean hasProblem(int time) {
+			return time > zone[0];
+		}
+
+		@Override
+		public int getTimeZone(int time) {
+			if (time >= zone[0] && time < zone[1]) {
+				return 1;
+			} else if (time >= zone[1] && time < zone[2]) {
+				return 2;
+			} else if (time >= zone[2] && time < zone[3]) {
+				return 3;
+			} else if (time >= zone[3] && time < zone[4]) {
+				return 4;
+			} else if (time >= zone[4] && time < zone[5]) {
+				return 5;
+			} else {
+				return 6;
+			}
+		}
+	},
+	
+	System {
+		int[] zone = {50, 100, 150, 200, 300, 500};
+		
+		@Override
+		public int intValue() {
+			return 7;
+		}
+
+		@Override
+		public String strValue() {
 			return "System";
 		}
-		return "other";
+
+		@Override
+		public boolean hasProblem(int time) {
+			return time > zone[0];
+		}
+
+		@Override
+		public int getTimeZone(int time) {
+			if (time >= zone[0] && time < zone[1]) {
+				return 1;
+			} else if (time >= zone[1] && time < zone[2]) {
+				return 2;
+			} else if (time >= zone[2] && time < zone[3]) {
+				return 3;
+			} else if (time >= zone[3] && time < zone[4]) {
+				return 4;
+			} else if (time >= zone[4] && time < zone[5]) {
+				return 5;
+			} else {
+				return 6;
+			}
+		}
+	};
+	
+	abstract int intValue();
+	
+	abstract String strValue();
+	
+	abstract boolean hasProblem(int time);
+	
+	abstract int getTimeZone(int time);
+	
+	public int getIntValue() {
+		return this.intValue();
+	}
+	
+	public String getStrValue() {
+		return this.strValue();
+	}
+	
+	public static int getIntValue(Span span) {
+		String category = span.getSpanType();
+		return Category.valueOf(category).intValue();
+	}
+	
+	public static int getIntValue(String type) {
+		return Category.valueOf(type).intValue();
+	}
+
+	public static String getStringValue(int value) {
+		Category[] categories = Category.values();
+		for (Category categorie : categories) {
+			if (categorie.intValue() == value) {
+				return categorie.strValue();
+			}
+		}
+		return "not found";
+	}
+	
+	public static boolean hasProblem(Span span) {
+		String category = span.getSpanType();
+		int time = span.getDuration();
+		return Category.valueOf(category).hasProblem(time);
+	}
+	
+	public static int getTimeZone(Span span) {
+		String category = span.getSpanType();
+		int time = span.getDuration();
+		return Category.valueOf(category).getTimeZone(time);
+	}
+	
+	
+	@Override
+	public String toString() {
+		return this.strValue();
 	}
 
 }

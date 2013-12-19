@@ -5,9 +5,9 @@ import java.util.List;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import com.vipshop.micorscope.framework.span.SpanMock;
 import com.vipshop.micorscope.framework.util.CalendarUtil;
 import com.vipshop.microscope.report.condition.TopReportCondition;
-import com.vipshop.microscope.report.domain.TopReport;
 import com.vipshop.microscope.report.factory.MySQLFactory;
 import com.vipshop.microscope.thrift.gen.Span;
 

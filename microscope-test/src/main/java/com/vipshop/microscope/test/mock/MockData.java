@@ -21,16 +21,16 @@ public class MockData {
 			Tracer.clientSend("http://www.vipshop.com", Category.URL);
 			try {
 				TimeUnit.MILLISECONDS.sleep(1000);
-				Tracer.clientSend("getNew@newService", Category.SERVICE);
+				Tracer.clientSend("getNew@newService", Category.Service);
 				TimeUnit.MILLISECONDS.sleep(400);
-				Tracer.clientSend("get@DB", Category.DAO);
+				Tracer.clientSend("get@DB", Category.DB);
 				TimeUnit.MILLISECONDS.sleep(100);
 				Tracer.clientReceive();
 				Tracer.clientReceive();
 				
-				Tracer.clientSend("buyNew@buyService", Category.SERVICE);
+				Tracer.clientSend("buyNew@buyService", Category.Service);
 				TimeUnit.MILLISECONDS.sleep(200);
-				Tracer.clientSend("buy@Cache", Category.CACHE);
+				Tracer.clientSend("buy@Cache", Category.Cache);
 				TimeUnit.MILLISECONDS.sleep(10);
 				Tracer.clientReceive();
 				Tracer.clientReceive();

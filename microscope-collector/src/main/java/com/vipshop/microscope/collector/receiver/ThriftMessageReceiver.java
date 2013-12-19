@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.thrift.TException;
 import org.apache.thrift.transport.TTransportException;
 
-import com.vipshop.micorscope.framework.span.MessageCodec;
+import com.vipshop.micorscope.framework.span.Codec;
 import com.vipshop.microscope.collector.consumer.MessageConsumer;
 import com.vipshop.microscope.thrift.gen.LogEntry;
 import com.vipshop.microscope.thrift.gen.ResultCode;
@@ -43,7 +43,7 @@ public class ThriftMessageReceiver implements MessageReceiver {
 	 */
 	static class ThriftReceiveHandler implements Send.Iface {
 		
-		final MessageCodec encoder = new MessageCodec();
+		final Codec encoder = new Codec();
 		
 		final MessageConsumer consumer;
 

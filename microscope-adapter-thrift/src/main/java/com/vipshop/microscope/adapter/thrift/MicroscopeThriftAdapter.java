@@ -15,7 +15,7 @@ public class MicroscopeThriftAdapter {
 
 		String name = buildName(request);
 		
-		Tracer.clientSend(traceId, spanId, name, Category.SERVICE);
+		Tracer.clientSend(traceId, spanId, name, Category.Service);
 	}
 	
 	public static void exceHandler() {

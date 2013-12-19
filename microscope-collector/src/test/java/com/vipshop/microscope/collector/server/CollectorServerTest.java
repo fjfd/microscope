@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.thrift.TException;
 import org.testng.annotations.Test;
 
-import com.vipshop.micorscope.framework.span.MessageCodec;
+import com.vipshop.micorscope.framework.span.Codec;
 import com.vipshop.microscope.thrift.client.ThriftClient;
 import com.vipshop.microscope.thrift.gen.LogEntry;
 import com.vipshop.microscope.thrift.gen.Span;
@@ -35,7 +35,7 @@ public class CollectorServerTest {
 		span.setServerName("Service");
 		span.setServerIp("localhost");
 		
-		LogEntry logEntry = new MessageCodec().encodeToLogEntry(span);
+		LogEntry logEntry = new Codec().encodeToLogEntry(span);
 		
 		new ThriftClient("localhost", 9410, 3000, ThriftCategory.NON_BLOCKING).send(Arrays.asList(logEntry, logEntry, logEntry));
 		

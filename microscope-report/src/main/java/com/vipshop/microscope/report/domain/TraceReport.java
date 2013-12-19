@@ -65,7 +65,6 @@ public class TraceReport extends AbstraceReport {
 	public void updateReportInit(CalendarUtil calendarUtil, Span span) {
 		String app = span.getAppName();
 		String ipAdress = span.getAppIp();
-		String type = span.getSpanType();
 		String name = span.getSpanName();
 		long startTime = span.getStartTime();
 		int duration = span.getDuration();
@@ -73,7 +72,7 @@ public class TraceReport extends AbstraceReport {
 		this.setDateByHour(calendarUtil);
 		this.setAppName(app);
 		this.setAppIp(IPAddressUtil.intIPAddress(ipAdress));
-		this.setType(Category.getIntValue(type));
+		this.setType(Category.getIntValue(span));
 		this.setName(name);
 		this.setStartTime(startTime);
 		this.setMin(duration);
@@ -477,10 +476,6 @@ public class TraceReport extends AbstraceReport {
 		return region_16;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see com.vipshop.microscope.mysql.report.AbstraceReport#toString()
-	 */
 	@Override
 	public String toString() {
 		return super.toString() + " TraceReport content [appName=" + appName + ", appIPAd=" + appIp + ", type=" + type + ", name=" + name + ", totalCount=" + totalCount + ", failCount=" + failCount + ", failPrecent="

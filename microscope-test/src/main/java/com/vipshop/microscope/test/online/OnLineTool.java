@@ -39,7 +39,7 @@ public class OnLineTool {
 	}
 	
 	public static void trace() throws InterruptedException {
-		Tracer.clientSend("example", Category.METHOD);
+		Tracer.clientSend("example", Category.Method);
 		try {
 			TimeUnit.MILLISECONDS.sleep(1000);
 		} catch (Exception e) {

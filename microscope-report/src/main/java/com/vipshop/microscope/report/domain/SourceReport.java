@@ -54,10 +54,6 @@ public class SourceReport extends AbstraceReport {
 		this.setEndTime(System.currentTimeMillis());
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see com.vipshop.microscope.mysql.report.AbstraceReport#updateBeforeSave()
-	 */
 	@Override
 	public void saveReport() {
 		long count = this.getTotalCount();
@@ -149,7 +145,7 @@ public class SourceReport extends AbstraceReport {
 
 	public static String buildSQLType(String name) {
 		name = name.toLowerCase();
-		if (name.contains("select")) {
+		if (name.contains("query")) {
 			return "read";
 		}
 		return "write";

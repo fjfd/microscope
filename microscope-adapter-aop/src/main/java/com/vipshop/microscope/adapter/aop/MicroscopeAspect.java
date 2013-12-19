@@ -17,7 +17,7 @@ import com.vipshop.microscope.trace.Tracer;
 public class MicroscopeAspect {
 
 	public void doBefore(JoinPoint jp) {
-		Tracer.clientSend(buildName(jp), Category.SERVICE);
+		Tracer.clientSend(buildName(jp), Category.Service);
 	}
 
     public void doAfter(JoinPoint jp) {

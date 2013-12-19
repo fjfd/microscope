@@ -12,7 +12,7 @@ import org.apache.thrift.transport.TTransportException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.vipshop.micorscope.framework.span.MessageCodec;
+import com.vipshop.micorscope.framework.span.Codec;
 import com.vipshop.microscope.thrift.client.ThriftClient;
 import com.vipshop.microscope.thrift.gen.LogEntry;
 import com.vipshop.microscope.thrift.gen.ResultCode;
@@ -26,7 +26,7 @@ public class ThriftServerTest {
 		@Override
 		public ResultCode send(List<LogEntry> messages) throws TException {
 			for (LogEntry logEntry : messages) {
-				Span span = new MessageCodec().decodeToSpan(logEntry.getMessage());
+				Span span = new Codec().decodeToSpan(logEntry.getMessage());
 				Assert.assertEquals("appname", span.getAppName());
 			}
 			return ResultCode.OK;
@@ -64,7 +64,7 @@ public class ThriftServerTest {
 		span.setServerName("Service");
 		span.setServerIp("localhost");
 		
-		LogEntry logEntry = new MessageCodec().encodeToLogEntry(span);
+		LogEntry logEntry = new Codec().encodeToLogEntry(span);
 		
 		new ThriftClient("localhost", 9410, 300, ThriftCategory.NON_BLOCKING).send(Arrays.asList(logEntry));
 	}
