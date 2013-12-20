@@ -65,7 +65,7 @@ public class ProblemReport extends AbstraceReport {
 	@Override
 	public void updateReportNext(Span span) {
 		this.setProCount(this.getProCount() + 1);
-		this.setTraceId(span.getTraceId());
+		this.setProDesc(span.getSpanName() + "#" + span.getTraceId());
 	}
 	
 	@Override

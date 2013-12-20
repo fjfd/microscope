@@ -18,5 +18,6 @@ struct Span {
   11: i32 resultSize,                           // result size
   12: optional string serverName,			    // server name							
   13: optional string serverIp,	                // server ip adress
+  14: map<string, string> debug,                // debug info
 }
 

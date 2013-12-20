@@ -7,13 +7,7 @@ import com.vipshop.microscope.sample.server.WebServer;
 public class Sample {
 	public static void main(String[] args) throws Exception {
 		
-		new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				new CollectorServer();
-			}
-		}).start();
+		new Thread(new CollectorServer()).start();
 		
 		new WebServer(9090).start();
 		

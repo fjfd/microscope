@@ -89,12 +89,11 @@ public class TopReport extends AbstraceReport {
 	public void updateReportInit(CalendarUtil calendarUtil, Span span) {
 		this.setDateByMinute(calendarUtil);
 		this.setTopType(Category.getIntValue(span));
-		container.put(span.getDuration(), span.getAppName() + "#" + span.getTraceId());
 	}
 	
 	@Override
 	public void updateReportNext(Span span) {
-		container.put(span.getDuration(), span.getAppName() );
+		container.put(span.getDuration(), span.getAppName() + "#" + span.getTraceId());
 		/**
 		 * Remove the min one.
 		 */

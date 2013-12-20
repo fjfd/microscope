@@ -1,5 +1,8 @@
 package com.vipshop.microscope.thrift.server;
 
+import java.util.List;
+
+import org.apache.thrift.TException;
 import org.apache.thrift.TProcessorFactory;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.protocol.TProtocolFactory;
@@ -16,7 +19,11 @@ import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TServerTransport;
 import org.apache.thrift.transport.TTransportException;
 import org.apache.thrift.transport.TTransportFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import com.vipshop.microscope.thrift.gen.LogEntry;
+import com.vipshop.microscope.thrift.gen.ResultCode;
 import com.vipshop.microscope.thrift.gen.Send;
 
 /**
@@ -26,6 +33,8 @@ import com.vipshop.microscope.thrift.gen.Send;
  * @version 1.0
  */
 public class ThriftServer {
+	
+	private static final Logger logger = LoggerFactory.getLogger(ThriftServer.class);
 
 	private Send.Iface handler;
 
@@ -42,6 +51,7 @@ public class ThriftServer {
 		 * Use one thread, blocking
 		 */
 		if (category.equals(ThriftCategory.SIMPLE)) {
+			logger.info("start single thread thrift server");
 			startSingleThreadServer();
 		}
 		
@@ -49,6 +59,7 @@ public class ThriftServer {
 		 * None blocking
 		 */
 		if (category.equals(ThriftCategory.NON_BLOCKING)) {
+			logger.info("start non blocking thrift server");
 			startNonBlockingServer();
 		}
 		
@@ -56,13 +67,15 @@ public class ThriftServer {
 		 * Use thread pool
 		 */
 		if (category.equals(ThriftCategory.THREAD_POOL)) {
+			logger.info("start thread pool thrift server");
 			startThreadPoolServer();
 		}
 		
 		/**
-		 *
+		 * 
 		 */
 		if (category.equals(ThriftCategory.HS_HA)) {
+			logger.info("start hs ha thrift server");
 			startHsHaServer();
 		}
 		
@@ -70,6 +83,7 @@ public class ThriftServer {
 		 * 
 		 */
 		if (category.equals(ThriftCategory.THREAD_SELECTOR)) {
+			logger.info("start thread selector thrift server");
 			startThreadedSelectorServer();
 		}
 	}
@@ -127,6 +141,32 @@ public class ThriftServer {
 		args.processor(processor);
 		TServer server = new TThreadedSelectorServer(args);
 		server.serve();
+	}
+	
+	static class SimpleHandler implements Send.Iface {
+		@Override
+		public ResultCode send(List<LogEntry> messages) throws TException {
+			return ResultCode.OK;
+		}
+	}
+	
+	public static void main(String[] args) throws TTransportException {
+		int type = Integer.valueOf(System.getProperty("type"));
+		if (type == 1) {
+			new ThriftServer(new SimpleHandler(), 9410).startServer(ThriftCategory.SIMPLE);
+		}
+		if (type == 2) {
+			new ThriftServer(new SimpleHandler(), 9410).startServer(ThriftCategory.NON_BLOCKING);
+		}
+		if (type == 3) {
+			new ThriftServer(new SimpleHandler(), 9410).startServer(ThriftCategory.HS_HA);
+		}
+		if (type == 4) {
+			new ThriftServer(new SimpleHandler(), 9410).startServer(ThriftCategory.THREAD_POOL);
+		}
+		if (type == 5) {
+			new ThriftServer(new SimpleHandler(), 9410).startServer(ThriftCategory.THREAD_SELECTOR);
+		}
 	}
 
 }

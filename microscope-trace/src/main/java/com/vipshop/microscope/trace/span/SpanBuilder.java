@@ -1,5 +1,7 @@
 package com.vipshop.microscope.trace.span;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 
 import com.vipshop.micorscope.framework.span.Category;
@@ -179,6 +181,31 @@ public class SpanBuilder {
 			spanContext.setCurrentSpan(spanStack.peek());
 		} else {
 			spanContext.setCurrentSpan(null);
+		}
+	}
+	
+	/**
+	 * Add debug info to span.
+	 * 
+	 * @param key
+	 * @param value
+	 */
+	public void addDebug(String key, String value) {
+		/*
+    	 * get span from stack
+    	 */
+		try {
+			Span span = spanStack.peek();
+			if (span != null) {
+				Map<String, String> debug = span.debug;
+				if (debug == null) {
+					debug = new HashMap<String, String>();
+				}
+				debug.put(key, value);
+				span.setDebug(debug);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	

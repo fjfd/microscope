@@ -1,32 +1,24 @@
 package com.vipshop.microscope.report.domain;
 
+import java.util.List;
+
 import org.testng.annotations.Test;
 
-import com.vipshop.micorscope.framework.util.IPAddressUtil;
-import com.vipshop.microscope.report.domain.ProblemReport;
-import com.vipshop.microscope.report.factory.MySQLFactory;
+import com.vipshop.micorscope.framework.span.SpanMock;
+import com.vipshop.micorscope.framework.util.CalendarUtil;
+import com.vipshop.microscope.thrift.gen.Span;
 
 public class ProblemReportTest {
 	
 	@Test
-	public void testCRUD() {
-		MySQLFactory.PROBLEM.saveProblemReport(mockProblemReport());
+	public void testsave() {
+		List<Span> spans = SpanMock.mockSpans();
+		for (Span span : spans) {
+			ProblemReport report = new ProblemReport();
+			report.updateReportInit(new CalendarUtil(), span);
+			report.updateReportNext(span);
+			report.saveReport();
+		}
 	}
 	
-	public ProblemReport mockProblemReport(){
-		ProblemReport report = new ProblemReport();
-		report.setYear(2013);
-		report.setMonth(11);
-		report.setWeek(4);
-		report.setDay(1);
-		report.setHour(1);
-		report.setAppName("picket");
-		report.setAppIp(IPAddressUtil.intIPAddress("localhost"));
-		report.setProType(1);
-		report.setProTime(1);
-		report.setProCount(1);
-		report.setProDesc("example");
-		
-		return report;
-	}
 }

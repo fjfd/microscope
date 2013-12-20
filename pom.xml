@@ -61,7 +61,6 @@
 		<module>microscope-query</module>
 		<module>microscope-report</module>
 		<module>microscope-sample</module>
-		<module>microscope-server</module>
 		<module>microscope-storage</module>
 		<module>microscope-test</module>
 		<module>microscope-thrift</module>

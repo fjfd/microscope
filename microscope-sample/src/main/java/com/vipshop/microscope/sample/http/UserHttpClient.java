@@ -13,7 +13,7 @@ import org.apache.http.util.EntityUtils;
 public class UserHttpClient {
 	
 	public String insertRequest() throws ClientProtocolException, IOException {
-		String url = "http://localhost:9090/user/insert?callback=jQuery11020021555292898187584";
+		String url = "http://localhost:9090/user/insert?username=xufei&password=01&callback=jQuery11020021555292898187584";
 		return request(url);
 	}
 	

@@ -65,6 +65,19 @@ public class Tracer {
 	}
 	
 	/**
+	 * Add debug info
+	 * 
+	 * @param key
+	 * @param value
+	 */
+	public static void addDebug(String key, String value) {
+		Trace trace = TraceFactory.getContext();
+		if (trace != null) {
+			trace.addDebug(key, value);
+		}
+	}
+	
+	/**
 	 * Asyn thread invoke.
 	 * 
 	 * Get trace object from {@code ThreadLocal}.

@@ -126,6 +126,17 @@ public class Trace {
 		spanBuilder.clientReceive();
 	}
 	
+	public void addDebug(String key, String value) {
+		/**
+		 * if turn off tracing function, 
+		 * then return immediate.
+		 */
+		if (Switcher.isClose()) {
+			return;
+		}
+		spanBuilder.addDebug(key, value);
+	}
+	
 	@Override
 	public String toString() {
 		return "SpanBuilder --> " + this.spanBuilder.toString();

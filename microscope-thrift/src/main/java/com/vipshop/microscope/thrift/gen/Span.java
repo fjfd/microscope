@@ -6,32 +6,23 @@
  */
 package com.vipshop.microscope.thrift.gen;
 
+import java.util.BitSet;
+import java.util.Collections;
+import java.util.EnumMap;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.thrift.EncodingUtils;
+import org.apache.thrift.protocol.TTupleProtocol;
 import org.apache.thrift.scheme.IScheme;
 import org.apache.thrift.scheme.SchemeFactory;
 import org.apache.thrift.scheme.StandardScheme;
-
 import org.apache.thrift.scheme.TupleScheme;
-import org.apache.thrift.protocol.TTupleProtocol;
-import org.apache.thrift.protocol.TProtocolException;
-import org.apache.thrift.EncodingUtils;
-import org.apache.thrift.TException;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.EnumMap;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.EnumSet;
-import java.util.Collections;
-import java.util.BitSet;
-import java.nio.ByteBuffer;
-import java.util.Arrays;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @SuppressWarnings({ "unchecked", "rawtypes", "unused" })
 public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.io.Serializable, Cloneable {
+
 	private static final long serialVersionUID = -423791219887102723L;
 
 	private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("Span");
@@ -49,6 +40,7 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
 	private static final org.apache.thrift.protocol.TField RESULT_SIZE_FIELD_DESC = new org.apache.thrift.protocol.TField("resultSize", org.apache.thrift.protocol.TType.I32, (short) 11);
 	private static final org.apache.thrift.protocol.TField SERVER_NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("serverName", org.apache.thrift.protocol.TType.STRING, (short) 12);
 	private static final org.apache.thrift.protocol.TField SERVER_IP_FIELD_DESC = new org.apache.thrift.protocol.TField("serverIp", org.apache.thrift.protocol.TType.STRING, (short) 13);
+	private static final org.apache.thrift.protocol.TField DEBUG_FIELD_DESC = new org.apache.thrift.protocol.TField("debug", org.apache.thrift.protocol.TType.MAP, (short) 14);
 
 	private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
 	static {
@@ -69,6 +61,7 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
 	public int resultSize; // required
 	public String serverName; // optional
 	public String serverIp; // optional
+	public Map<String, String> debug; // required
 
 	/**
 	 * The set of fields this struct contains, along with convenience methods
@@ -77,7 +70,7 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
 	public enum _Fields implements org.apache.thrift.TFieldIdEnum {
 		APP_NAME((short) 1, "appName"), APP_IP((short) 2, "appIp"), TRACE_ID((short) 3, "traceId"), SPAN_ID((short) 4, "spanId"), PARENT_ID((short) 5, "parentId"), SPAN_NAME((short) 6, "spanName"), SPAN_TYPE(
 				(short) 7, "spanType"), START_TIME((short) 8, "startTime"), DURATION((short) 9, "duration"), RESULT_CODE((short) 10, "resultCode"), RESULT_SIZE((short) 11, "resultSize"), SERVER_NAME(
-				(short) 12, "serverName"), SERVER_IP((short) 13, "serverIp");
+				(short) 12, "serverName"), SERVER_IP((short) 13, "serverIp"), DEBUG((short) 14, "debug");
 
 		private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -119,6 +112,8 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
 				return SERVER_NAME;
 			case 13: // SERVER_IP
 				return SERVER_IP;
+			case 14: // DEBUG
+				return DEBUG;
 			default:
 				return null;
 			}
@@ -198,6 +193,9 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
 				new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
 		tmpMap.put(_Fields.SERVER_IP, new org.apache.thrift.meta_data.FieldMetaData("serverIp", org.apache.thrift.TFieldRequirementType.OPTIONAL, new org.apache.thrift.meta_data.FieldValueMetaData(
 				org.apache.thrift.protocol.TType.STRING)));
+		tmpMap.put(_Fields.DEBUG, new org.apache.thrift.meta_data.FieldMetaData("debug", org.apache.thrift.TFieldRequirementType.DEFAULT, new org.apache.thrift.meta_data.MapMetaData(
+				org.apache.thrift.protocol.TType.MAP, new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING), new org.apache.thrift.meta_data.FieldValueMetaData(
+						org.apache.thrift.protocol.TType.STRING))));
 		metaDataMap = Collections.unmodifiableMap(tmpMap);
 		org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Span.class, metaDataMap);
 	}
@@ -205,7 +203,8 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
 	public Span() {
 	}
 
-	public Span(String appName, String appIp, long traceId, long spanId, long parentId, String spanName, String spanType, long startTime, int duration, String resultCode, int resultSize) {
+	public Span(String appName, String appIp, long traceId, long spanId, long parentId, String spanName, String spanType, long startTime, int duration, String resultCode, int resultSize,
+			Map<String, String> debug) {
 		this();
 		this.appName = appName;
 		this.appIp = appIp;
@@ -224,6 +223,7 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
 		this.resultCode = resultCode;
 		this.resultSize = resultSize;
 		setResultSizeIsSet(true);
+		this.debug = debug;
 	}
 
 	/**
@@ -258,6 +258,21 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
 		if (other.isSetServerIp()) {
 			this.serverIp = other.serverIp;
 		}
+		if (other.isSetDebug()) {
+			Map<String, String> __this__debug = new HashMap<String, String>();
+			for (Map.Entry<String, String> other_element : other.debug.entrySet()) {
+
+				String other_element_key = other_element.getKey();
+				String other_element_value = other_element.getValue();
+
+				String __this__debug_copy_key = other_element_key;
+
+				String __this__debug_copy_value = other_element_value;
+
+				__this__debug.put(__this__debug_copy_key, __this__debug_copy_value);
+			}
+			this.debug = __this__debug;
+		}
 	}
 
 	public Span deepCopy() {
@@ -285,6 +300,7 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
 		this.resultSize = 0;
 		this.serverName = null;
 		this.serverIp = null;
+		this.debug = null;
 	}
 
 	public String getAppName() {
@@ -632,6 +648,44 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
 		}
 	}
 
+	public int getDebugSize() {
+		return (this.debug == null) ? 0 : this.debug.size();
+	}
+
+	public void putToDebug(String key, String val) {
+		if (this.debug == null) {
+			this.debug = new HashMap<String, String>();
+		}
+		this.debug.put(key, val);
+	}
+
+	public Map<String, String> getDebug() {
+		return this.debug;
+	}
+
+	public Span setDebug(Map<String, String> debug) {
+		this.debug = debug;
+		return this;
+	}
+
+	public void unsetDebug() {
+		this.debug = null;
+	}
+
+	/**
+	 * Returns true if field debug is set (has been assigned a value) and false
+	 * otherwise
+	 */
+	public boolean isSetDebug() {
+		return this.debug != null;
+	}
+
+	public void setDebugIsSet(boolean value) {
+		if (!value) {
+			this.debug = null;
+		}
+	}
+
 	public void setFieldValue(_Fields field, Object value) {
 		switch (field) {
 		case APP_NAME:
@@ -738,6 +792,14 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
 			}
 			break;
 
+		case DEBUG:
+			if (value == null) {
+				unsetDebug();
+			} else {
+				setDebug((Map<String, String>) value);
+			}
+			break;
+
 		}
 	}
 
@@ -782,6 +844,9 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
 		case SERVER_IP:
 			return getServerIp();
 
+		case DEBUG:
+			return getDebug();
+
 		}
 		throw new IllegalStateException();
 	}
@@ -822,6 +887,8 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
 			return isSetServerName();
 		case SERVER_IP:
 			return isSetServerIp();
+		case DEBUG:
+			return isSetDebug();
 		}
 		throw new IllegalStateException();
 	}
@@ -953,6 +1020,15 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
 			if (!(this_present_serverIp && that_present_serverIp))
 				return false;
 			if (!this.serverIp.equals(that.serverIp))
+				return false;
+		}
+
+		boolean this_present_debug = true && this.isSetDebug();
+		boolean that_present_debug = true && that.isSetDebug();
+		if (this_present_debug || that_present_debug) {
+			if (!(this_present_debug && that_present_debug))
+				return false;
+			if (!this.debug.equals(that.debug))
 				return false;
 		}
 
@@ -1102,6 +1178,16 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
 				return lastComparison;
 			}
 		}
+		lastComparison = Boolean.valueOf(isSetDebug()).compareTo(typedOther.isSetDebug());
+		if (lastComparison != 0) {
+			return lastComparison;
+		}
+		if (isSetDebug()) {
+			lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.debug, typedOther.debug);
+			if (lastComparison != 0) {
+				return lastComparison;
+			}
+		}
 		return 0;
 	}
 
@@ -1217,6 +1303,15 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
 			}
 			first = false;
 		}
+		if (!first)
+			sb.append(", ");
+		sb.append("debug:");
+		if (this.debug == null) {
+			sb.append("null");
+		} else {
+			sb.append(this.debug);
+		}
+		first = false;
 		sb.append(")");
 		return sb.toString();
 	}
@@ -1366,6 +1461,25 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
 						org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
 					}
 					break;
+				case 14: // DEBUG
+					if (schemeField.type == org.apache.thrift.protocol.TType.MAP) {
+						{
+							org.apache.thrift.protocol.TMap _map0 = iprot.readMapBegin();
+							struct.debug = new HashMap<String, String>(2 * _map0.size);
+							for (int _i1 = 0; _i1 < _map0.size; ++_i1) {
+								String _key2; // required
+								String _val3; // required
+								_key2 = iprot.readString();
+								_val3 = iprot.readString();
+								struct.debug.put(_key2, _val3);
+							}
+							iprot.readMapEnd();
+						}
+						struct.setDebugIsSet(true);
+					} else {
+						org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+					}
+					break;
 				default:
 					org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
 				}
@@ -1439,6 +1553,18 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
 					oprot.writeFieldEnd();
 				}
 			}
+			if (struct.debug != null) {
+				oprot.writeFieldBegin(DEBUG_FIELD_DESC);
+				{
+					oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING, struct.debug.size()));
+					for (Map.Entry<String, String> _iter4 : struct.debug.entrySet()) {
+						oprot.writeString(_iter4.getKey());
+						oprot.writeString(_iter4.getValue());
+					}
+					oprot.writeMapEnd();
+				}
+				oprot.writeFieldEnd();
+			}
 			oprot.writeFieldStop();
 			oprot.writeStructEnd();
 		}
@@ -1496,7 +1622,10 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
 			if (struct.isSetServerIp()) {
 				optionals.set(12);
 			}
-			oprot.writeBitSet(optionals, 13);
+			if (struct.isSetDebug()) {
+				optionals.set(13);
+			}
+			oprot.writeBitSet(optionals, 14);
 			if (struct.isSetAppName()) {
 				oprot.writeString(struct.appName);
 			}
@@ -1536,12 +1665,21 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
 			if (struct.isSetServerIp()) {
 				oprot.writeString(struct.serverIp);
 			}
+			if (struct.isSetDebug()) {
+				{
+					oprot.writeI32(struct.debug.size());
+					for (Map.Entry<String, String> _iter5 : struct.debug.entrySet()) {
+						oprot.writeString(_iter5.getKey());
+						oprot.writeString(_iter5.getValue());
+					}
+				}
+			}
 		}
 
 		@Override
 		public void read(org.apache.thrift.protocol.TProtocol prot, Span struct) throws org.apache.thrift.TException {
 			TTupleProtocol iprot = (TTupleProtocol) prot;
-			BitSet incoming = iprot.readBitSet(13);
+			BitSet incoming = iprot.readBitSet(14);
 			if (incoming.get(0)) {
 				struct.appName = iprot.readString();
 				struct.setAppNameIsSet(true);
@@ -1593,6 +1731,20 @@ public class Span implements org.apache.thrift.TBase<Span, Span._Fields>, java.i
 			if (incoming.get(12)) {
 				struct.serverIp = iprot.readString();
 				struct.setServerIpIsSet(true);
+			}
+			if (incoming.get(13)) {
+				{
+					org.apache.thrift.protocol.TMap _map6 = new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING, iprot.readI32());
+					struct.debug = new HashMap<String, String>(2 * _map6.size);
+					for (int _i7 = 0; _i7 < _map6.size; ++_i7) {
+						String _key8; // required
+						String _val9; // required
+						_key8 = iprot.readString();
+						_val9 = iprot.readString();
+						struct.debug.put(_key8, _val9);
+					}
+				}
+				struct.setDebugIsSet(true);
 			}
 		}
 	}

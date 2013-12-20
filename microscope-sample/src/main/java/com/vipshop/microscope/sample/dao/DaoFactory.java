@@ -31,7 +31,5 @@ public class DaoFactory {
 		user.setAge(25);
 		
 		USER.insert(user);
-		System.out.println(USER.find());
-		USER.update();
 	}
 }
