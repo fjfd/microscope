@@ -15,9 +15,8 @@ import com.vipshop.microscope.thrift.client.ThriftClient;
 import com.vipshop.microscope.thrift.gen.LogEntry;
 import com.vipshop.microscope.thrift.gen.Span;
 import com.vipshop.microscope.thrift.server.ThriftCategory;
-import com.vipshop.microscope.trace.Constant;
+import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.queue.MessageQueue;
-import com.vipshop.microscope.trace.switcher.Switcher;
 
 /**
  * Use a {@code Thread} transport message to collector.
@@ -30,28 +29,26 @@ public class ThriftTransporter implements Runnable {
 	private static final Logger logger = LoggerFactory.getLogger(ThriftTransporter.class);
 	
 	/**
-	 * start thread
+	 * start thrirft transporter
 	 */
 	public static void start() {
-		if (Switcher.isOpen()) {
-			ExecutorService executor = ThreadPoolUtil.newSingleDaemonThreadExecutor("transporter-pool");
-			executor.execute(new ThriftTransporter());
-		}
+		ExecutorService executor = ThreadPoolUtil.newSingleDaemonThreadExecutor("transporter-pool");
+		executor.execute(new ThriftTransporter());
 	}
 	
 	/**
 	 * thrift client
 	 */
-	private final ThriftClient client = new ThriftClient(Constant.COLLECTOR_HOST, 
-														 Constant.COLLECTOR_PORT, 
-														 Constant.RECONNECT_WAIT_TIME,
+	private final ThriftClient client = new ThriftClient(Tracer.COLLECTOR_HOST, 
+														 Tracer.COLLECTOR_PORT, 
+														 Tracer.RECONNECT_WAIT_TIME,
 														 ThriftCategory.THREAD_SELECTOR);
 	
 	private final List<LogEntry> logEntries = new ArrayList<LogEntry>();
 	private final Codec encode = new Codec();
 	
-	private final int MAX_BATCH_SIZE = Constant.MAX_BATCH_SIZE;
-	private final int MAX_EMPTY_SIZE = Constant.MAX_EMPTY_SIZE;
+	private final int MAX_BATCH_SIZE = Tracer.MAX_BATCH_SIZE;
+	private final int MAX_EMPTY_SIZE = Tracer.MAX_EMPTY_SIZE;
 	
 	@Override
 	public void run() {
@@ -79,7 +76,7 @@ public class ThriftTransporter implements Runnable {
 				emptySize = 0;
 			} else {
 				try {
-					TimeUnit.MICROSECONDS.sleep(Constant.SEND_WAIT_TIME);
+					TimeUnit.MICROSECONDS.sleep(Tracer.SEND_WAIT_TIME);
 				} catch (InterruptedException e) {
 
 				}

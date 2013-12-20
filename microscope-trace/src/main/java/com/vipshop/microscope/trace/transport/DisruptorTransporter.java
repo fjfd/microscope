@@ -17,7 +17,7 @@ import com.vipshop.micorscope.framework.util.ThreadPoolUtil;
 import com.vipshop.microscope.thrift.client.ThriftClient;
 import com.vipshop.microscope.thrift.gen.Span;
 import com.vipshop.microscope.thrift.server.ThriftCategory;
-import com.vipshop.microscope.trace.Constant;
+import com.vipshop.microscope.trace.Tracer;
 
 /**
  * Use a {@code Disruptor} transport message to collector.
@@ -64,10 +64,10 @@ public class DisruptorTransporter  {
 	/**
 	 * thrift client
 	 */
-	private static final ThriftClient client = new ThriftClient(Constant.COLLECTOR_HOST, 
-														 Constant.COLLECTOR_PORT, 
-														 Constant.RECONNECT_WAIT_TIME,
-														 ThriftCategory.THREAD_SELECTOR);
+	private static final ThriftClient client = new ThriftClient(Tracer.COLLECTOR_HOST, 
+															    Tracer.COLLECTOR_PORT, 
+															    Tracer.RECONNECT_WAIT_TIME,
+															    ThriftCategory.THREAD_SELECTOR);
 
 	
 	private final RingBuffer<SpanEvent> ringBuffer;

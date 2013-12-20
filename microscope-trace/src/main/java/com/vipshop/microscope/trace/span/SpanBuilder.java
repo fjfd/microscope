@@ -7,7 +7,7 @@ import java.util.Stack;
 import com.vipshop.micorscope.framework.span.Category;
 import com.vipshop.micorscope.framework.util.IPAddressUtil;
 import com.vipshop.microscope.thrift.gen.Span;
-import com.vipshop.microscope.trace.Constant;
+import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.queue.MessageQueue;
 
 /**
@@ -59,7 +59,7 @@ public class SpanBuilder {
 	 */
 	public void clientSend(String spanName, Category category) {
 		Span span = new Span();
-		span.setAppName(Constant.APP_NAME);
+		span.setAppName(Tracer.APP_NAME);
 		span.setAppIp(IPAddressUtil.IPAddress());
 		span.setTraceId(spanContext.getTraceId());
 		span.setSpanName(spanName);
@@ -101,7 +101,7 @@ public class SpanBuilder {
 	
 	public void clientSend(String spanName, String service, Category category) {
 		Span span = new Span();
-		span.setAppName(Constant.APP_NAME);
+		span.setAppName(Tracer.APP_NAME);
 		span.setAppIp(IPAddressUtil.IPAddress());
 		span.setTraceId(spanContext.getTraceId());
 		span.setSpanName(spanName);

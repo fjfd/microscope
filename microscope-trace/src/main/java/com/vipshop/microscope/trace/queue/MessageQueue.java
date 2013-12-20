@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.vipshop.microscope.thrift.gen.Span;
-import com.vipshop.microscope.trace.Constant;
+import com.vipshop.microscope.trace.Tracer;
 
 /**
  * A {@link BlockingQueue} store spans in client memory.
@@ -19,7 +19,7 @@ public class MessageQueue {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MessageQueue.class);
 	
-	private static final BlockingQueue<Span> queue = new LinkedBlockingQueue<Span>(Constant.QUEUE_SIZE);
+	private static final BlockingQueue<Span> queue = new LinkedBlockingQueue<Span>(Tracer.QUEUE_SIZE);
 	
 	/**
 	 * Add span to queue.

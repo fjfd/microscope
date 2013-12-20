@@ -1,6 +1,6 @@
 package com.vipshop.microscope.trace.switcher;
 
-import com.vipshop.microscope.trace.Constant;
+import com.vipshop.microscope.trace.Tracer;
 
 /**
  * A flag to judge trace function is on/off.
@@ -15,10 +15,10 @@ public class Switcher {
 	
 	
 	public static boolean isOpen() { 
-		return Constant.SWITCH == OPEN;
+		return Tracer.SWITCH == OPEN;
 	}
 	
 	public static boolean isClose() { 
-		return Constant.SWITCH == CLOSE;
+		return Tracer.SWITCH == CLOSE;
 	}
 }

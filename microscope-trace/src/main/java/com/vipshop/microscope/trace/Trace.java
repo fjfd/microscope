@@ -4,24 +4,9 @@ import com.vipshop.micorscope.framework.span.Category;
 import com.vipshop.microscope.trace.span.SpanBuilder;
 import com.vipshop.microscope.trace.span.SpanContext;
 import com.vipshop.microscope.trace.span.SpanId;
-import com.vipshop.microscope.trace.switcher.Switcher;
 
 /**
- * Tracing client API for Java.
- * 
- * <p>Basically, we use {@code collector} as our backend system,
- * we build a java tracing client to collector message, use
- * {@code ThreadTransporter} transport spans to {@code collector}.
- * 
- * <p>Application programmers can use this API in app code
- * if necessary. But in most case, we will embed this tracing API
- * to framework. 
- * 
- * <p>For example, we offer: 
- * micorscope-adapter-spring.jar to trace spring
- * micorscope-adapter-mybatis.jar to trace mybatis
- * 
- * @see micorscope-adapter-*.jar for more.
+ * Trace operations.
  * 
  * @author Xu Fei
  * @version 1.0
@@ -65,13 +50,6 @@ public class Trace {
 	 * @param category span category
 	 */
 	public void clientSend(String spanName, Category category) {
-		/**
-		 * if turn off tracing function, 
-		 * then return immediate.
-		 */
-		if (Switcher.isClose()) {
-			return;
-		}
 		spanBuilder.clientSend(spanName, category);
 	}
 	
@@ -83,13 +61,6 @@ public class Trace {
 	 * @param category span category
 	 */
 	public void clientSend(String spanName, String server, Category category) {
-		/**
-		 * if turn off tracing function, 
-		 * then return immediate.
-		 */
-		if (Switcher.isClose()) {
-			return;
-		}
 		spanBuilder.clientSend(spanName, server, category);
 	}
 	
@@ -102,13 +73,6 @@ public class Trace {
 	 * @param result
 	 */
 	public void setResutlCode(String result) {
-		/**
-		 * if turn off tracing function, 
-		 * then return immediate.
-		 */
-		if (Switcher.isClose()) {
-			return;
-		}
 		spanBuilder.setResultCode(result);
 	}
 	
@@ -116,30 +80,17 @@ public class Trace {
 	 * Complete a Span.
 	 */
 	public void clientReceive() {
-		/**
-		 * if turn off tracing function, 
-		 * then return immediate.
-		 */
-		if (Switcher.isClose()) {
-			return;
-		}
 		spanBuilder.clientReceive();
 	}
 	
+	/**
+	 * Add debug info
+	 * 
+	 * @param key
+	 * @param value
+	 */
 	public void addDebug(String key, String value) {
-		/**
-		 * if turn off tracing function, 
-		 * then return immediate.
-		 */
-		if (Switcher.isClose()) {
-			return;
-		}
 		spanBuilder.addDebug(key, value);
-	}
-	
-	@Override
-	public String toString() {
-		return "SpanBuilder --> " + this.spanBuilder.toString();
 	}
 	
 }
