@@ -1,5 +1,6 @@
 package com.vipshop.microscope.report;
 
+import com.vipshop.micorscope.framework.thrift.Span;
 import com.vipshop.micorscope.framework.util.CalendarUtil;
 import com.vipshop.microscope.report.analyzer.DepenReportAnalyzer;
 import com.vipshop.microscope.report.analyzer.MsgReportAnalyzer;
@@ -7,7 +8,6 @@ import com.vipshop.microscope.report.analyzer.ProblemReportAnalyzer;
 import com.vipshop.microscope.report.analyzer.SourceReportAnalyzer;
 import com.vipshop.microscope.report.analyzer.TopReportAnalyzer;
 import com.vipshop.microscope.report.analyzer.TraceReportAnalyzer;
-import com.vipshop.microscope.thrift.gen.Span;
 
 public class ReportAnalyzer {
 	

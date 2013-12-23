@@ -13,10 +13,10 @@ import com.lmax.disruptor.RingBuffer;
 import com.lmax.disruptor.SequenceBarrier;
 import com.lmax.disruptor.SleepingWaitStrategy;
 import com.vipshop.micorscope.framework.span.Codec;
+import com.vipshop.micorscope.framework.thrift.Span;
+import com.vipshop.micorscope.framework.thrift.ThriftCategory;
+import com.vipshop.micorscope.framework.thrift.ThriftClient;
 import com.vipshop.micorscope.framework.util.ThreadPoolUtil;
-import com.vipshop.microscope.thrift.client.ThriftClient;
-import com.vipshop.microscope.thrift.gen.Span;
-import com.vipshop.microscope.thrift.server.ThriftCategory;
 import com.vipshop.microscope.trace.Tracer;
 
 /**

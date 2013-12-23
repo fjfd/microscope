@@ -4,12 +4,12 @@ import java.util.concurrent.TimeUnit;
 
 import com.vipshop.micorscope.framework.span.Category;
 import com.vipshop.micorscope.framework.span.SpanMock;
+import com.vipshop.micorscope.framework.thrift.Span;
 import com.vipshop.micorscope.framework.util.CalendarUtil;
 import com.vipshop.microscope.report.condition.TopReportCondition;
 import com.vipshop.microscope.report.domain.TopReport;
 import com.vipshop.microscope.report.factory.MySQLFactory;
 import com.vipshop.microscope.storage.hbase.HbaseRepository;
-import com.vipshop.microscope.thrift.gen.Span;
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.span.ResultCode;
 

@@ -6,9 +6,9 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.vipshop.micorscope.framework.thrift.Span;
 import com.vipshop.microscope.storage.domain.AppTable;
 import com.vipshop.microscope.storage.domain.TraceTable;
-import com.vipshop.microscope.thrift.gen.Span;
 
 public class HbaseRepository {
 	

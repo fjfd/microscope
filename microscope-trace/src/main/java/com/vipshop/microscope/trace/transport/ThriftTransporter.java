@@ -2,7 +2,6 @@ package com.vipshop.microscope.trace.transport;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.thrift.TException;
@@ -10,11 +9,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.vipshop.micorscope.framework.span.Codec;
-import com.vipshop.micorscope.framework.util.ThreadPoolUtil;
-import com.vipshop.microscope.thrift.client.ThriftClient;
-import com.vipshop.microscope.thrift.gen.LogEntry;
-import com.vipshop.microscope.thrift.gen.Span;
-import com.vipshop.microscope.thrift.server.ThriftCategory;
+import com.vipshop.micorscope.framework.thrift.LogEntry;
+import com.vipshop.micorscope.framework.thrift.Span;
+import com.vipshop.micorscope.framework.thrift.ThriftCategory;
+import com.vipshop.micorscope.framework.thrift.ThriftClient;
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.queue.MessageQueue;
 
@@ -27,14 +25,6 @@ import com.vipshop.microscope.trace.queue.MessageQueue;
 public class ThriftTransporter implements Runnable {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ThriftTransporter.class);
-	
-	/**
-	 * start thrirft transporter
-	 */
-	public static void start() {
-		ExecutorService executor = ThreadPoolUtil.newSingleDaemonThreadExecutor("transporter-pool");
-		executor.execute(new ThriftTransporter());
-	}
 	
 	/**
 	 * thrift client
@@ -82,7 +72,6 @@ public class ThriftTransporter implements Runnable {
 				}
 			}
 		}
-		
 	}
 	
 }

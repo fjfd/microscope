@@ -1,4 +1,4 @@
-package com.vipshop.microscope.thrift.server;
+package com.vipshop.micorscope.framework.thrift;
 
 import java.util.List;
 
@@ -22,9 +22,6 @@ import org.apache.thrift.transport.TTransportFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.vipshop.microscope.thrift.gen.LogEntry;
-import com.vipshop.microscope.thrift.gen.ResultCode;
-import com.vipshop.microscope.thrift.gen.Send;
 
 /**
  * Thrift server.

@@ -5,9 +5,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.vipshop.micorscope.framework.thrift.Span;
 import com.vipshop.micorscope.framework.util.CalendarUtil;
 import com.vipshop.microscope.report.domain.MsgReport;
-import com.vipshop.microscope.thrift.gen.Span;
 
 public class MsgReportAnalyzer {
 	

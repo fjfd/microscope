@@ -9,9 +9,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.vipshop.micorscope.framework.thrift.Span;
 import com.vipshop.microscope.storage.domain.TraceTable;
 import com.vipshop.microscope.storage.hbase.HbaseRepository;
-import com.vipshop.microscope.thrift.gen.Span;
 
 public class TraceService {
 	

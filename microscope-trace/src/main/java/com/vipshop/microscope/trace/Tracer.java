@@ -1,7 +1,10 @@
 package com.vipshop.microscope.trace;
 
+import java.util.concurrent.ExecutorService;
+
 import com.vipshop.micorscope.framework.span.Category;
 import com.vipshop.micorscope.framework.util.ConfigurationUtil;
+import com.vipshop.micorscope.framework.util.ThreadPoolUtil;
 import com.vipshop.microscope.trace.switcher.Switcher;
 import com.vipshop.microscope.trace.transport.ThriftTransporter;
 
@@ -53,7 +56,8 @@ public class Tracer {
 	 */
 	static {
 		if (Switcher.isOpen()) {
-			ThriftTransporter.start();
+			ExecutorService executor = ThreadPoolUtil.newSingleDaemonThreadExecutor("transporter-pool");
+			executor.execute(new ThriftTransporter());
 		}
 	}
 	

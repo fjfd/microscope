@@ -1,7 +1,7 @@
 package com.vipshop.microscope.collector.disruptor;
 
 import com.lmax.disruptor.EventFactory;
-import com.vipshop.microscope.thrift.gen.Span;
+import com.vipshop.micorscope.framework.thrift.Span;
 
 /**
  * Use for disruptor to process.

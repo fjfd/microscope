@@ -1,12 +1,12 @@
 package com.vipshop.microscope.report.domain;
 
 import com.vipshop.micorscope.framework.span.Category;
+import com.vipshop.micorscope.framework.thrift.Span;
 import com.vipshop.micorscope.framework.util.CalendarUtil;
 import com.vipshop.micorscope.framework.util.IPAddressUtil;
 import com.vipshop.micorscope.framework.util.MathUtil;
 import com.vipshop.micorscope.framework.util.TimeStampUtil;
 import com.vipshop.microscope.report.factory.MySQLRepository;
-import com.vipshop.microscope.thrift.gen.Span;
 
 /**
  * Stat span in trace over time(5 minute).

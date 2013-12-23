@@ -16,7 +16,7 @@ import org.springframework.data.hadoop.hbase.RowMapper;
 import org.springframework.data.hadoop.hbase.TableCallback;
 import org.springframework.stereotype.Repository;
 
-import com.vipshop.microscope.thrift.gen.Span;
+import com.vipshop.micorscope.framework.thrift.Span;
 
 @Repository
 public class SpanTableRepository extends AbstraceHbaseRepository {

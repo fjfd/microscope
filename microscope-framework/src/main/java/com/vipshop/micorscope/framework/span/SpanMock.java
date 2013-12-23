@@ -3,7 +3,7 @@ package com.vipshop.micorscope.framework.span;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vipshop.microscope.thrift.gen.Span;
+import com.vipshop.micorscope.framework.thrift.Span;
 
 public class SpanMock {
 	

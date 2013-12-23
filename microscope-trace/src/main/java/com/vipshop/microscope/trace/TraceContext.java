@@ -9,11 +9,9 @@ import com.vipshop.microscope.trace.span.SpanId;
  * 
  * <p>As trace is base on {@code Thread}, so use
  * {@code ThreadLocal} to propagate trace object
- * in single JVM. 
- * 
- * <p>When trace cross JVM, use HTTP Header to propagate it.
- * 
- * <p>Currently, we have HTTP/Thrift protocol.
+ * in single JVM. When trace cross JVM, use HTTP 
+ * Header to propagate it. Currently, we have HTTP
+ * and Thrift protocol.
  * 
  * <p>custom httpclient jar
  * 

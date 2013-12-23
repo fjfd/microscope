@@ -5,8 +5,8 @@ import java.util.Map;
 import java.util.Stack;
 
 import com.vipshop.micorscope.framework.span.Category;
+import com.vipshop.micorscope.framework.thrift.Span;
 import com.vipshop.micorscope.framework.util.IPAddressUtil;
-import com.vipshop.microscope.thrift.gen.Span;
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.queue.MessageQueue;
 

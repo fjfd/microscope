@@ -1,4 +1,4 @@
-package com.vipshop.microscope.thrift.client;
+package com.vipshop.micorscope.framework.thrift;
 
 import java.io.IOException;
 import java.util.List;
@@ -12,9 +12,7 @@ import org.apache.thrift.transport.TTransportException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.vipshop.microscope.thrift.gen.LogEntry;
-import com.vipshop.microscope.thrift.gen.Send;
-import com.vipshop.microscope.thrift.gen.Send.AsyncClient.send_call;
+import com.vipshop.micorscope.framework.thrift.Send.AsyncClient.send_call;
 
 /**
  * Async thrift client.

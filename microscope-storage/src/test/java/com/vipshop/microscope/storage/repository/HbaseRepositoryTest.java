@@ -11,10 +11,10 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.vipshop.micorscope.framework.span.SpanMock;
+import com.vipshop.micorscope.framework.thrift.Span;
 import com.vipshop.microscope.storage.domain.AppTable;
 import com.vipshop.microscope.storage.domain.TraceTable;
 import com.vipshop.microscope.storage.hbase.HbaseRepository;
-import com.vipshop.microscope.thrift.gen.Span;
 
 public class HbaseRepositoryTest {
 

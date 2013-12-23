@@ -7,10 +7,10 @@ import org.apache.thrift.TException;
 import org.testng.annotations.Test;
 
 import com.vipshop.micorscope.framework.span.Codec;
-import com.vipshop.microscope.thrift.client.ThriftClient;
-import com.vipshop.microscope.thrift.gen.LogEntry;
-import com.vipshop.microscope.thrift.gen.Span;
-import com.vipshop.microscope.thrift.server.ThriftCategory;
+import com.vipshop.micorscope.framework.thrift.LogEntry;
+import com.vipshop.micorscope.framework.thrift.Span;
+import com.vipshop.micorscope.framework.thrift.ThriftCategory;
+import com.vipshop.micorscope.framework.thrift.ThriftClient;
 
 public class CollectorServerTest {
 	

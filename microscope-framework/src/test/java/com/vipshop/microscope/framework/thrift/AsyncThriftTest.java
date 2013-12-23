@@ -1,4 +1,4 @@
-package com.vipshop.microscope.thrift;
+package com.vipshop.microscope.framework.thrift;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -16,13 +16,13 @@ import org.apache.thrift.transport.TTransportException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.vipshop.microscope.thrift.client.AsyncThriftClient;
-import com.vipshop.microscope.thrift.gen.LogEntry;
-import com.vipshop.microscope.thrift.gen.ResultCode;
-import com.vipshop.microscope.thrift.gen.Send;
-import com.vipshop.microscope.thrift.gen.Span;
-import com.vipshop.microscope.thrift.server.ThriftCategory;
-import com.vipshop.microscope.thrift.server.ThriftServer;
+import com.vipshop.micorscope.framework.thrift.AsyncThriftClient;
+import com.vipshop.micorscope.framework.thrift.LogEntry;
+import com.vipshop.micorscope.framework.thrift.ResultCode;
+import com.vipshop.micorscope.framework.thrift.Send;
+import com.vipshop.micorscope.framework.thrift.Span;
+import com.vipshop.micorscope.framework.thrift.ThriftCategory;
+import com.vipshop.micorscope.framework.thrift.ThriftServer;
 
 public class AsyncThriftTest {
 

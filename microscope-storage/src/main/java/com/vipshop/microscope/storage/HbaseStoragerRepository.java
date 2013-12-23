@@ -1,9 +1,9 @@
 package com.vipshop.microscope.storage;
 
+import com.vipshop.micorscope.framework.thrift.Span;
 import com.vipshop.microscope.storage.domain.AppTable;
 import com.vipshop.microscope.storage.domain.TraceTable;
 import com.vipshop.microscope.storage.hbase.HbaseRepository;
-import com.vipshop.microscope.thrift.gen.Span;
 
 /**
  * Store span to hbase.

@@ -1,4 +1,4 @@
-package com.vipshop.microscope.thrift;
+package com.vipshop.microscope.framework.thrift;
 
 import java.util.Arrays;
 import java.util.List;
@@ -8,12 +8,12 @@ import org.apache.thrift.transport.TTransportException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.vipshop.microscope.thrift.client.ThriftClient;
-import com.vipshop.microscope.thrift.gen.LogEntry;
-import com.vipshop.microscope.thrift.gen.ResultCode;
-import com.vipshop.microscope.thrift.gen.Send;
-import com.vipshop.microscope.thrift.server.ThriftCategory;
-import com.vipshop.microscope.thrift.server.ThriftServer;
+import com.vipshop.micorscope.framework.thrift.LogEntry;
+import com.vipshop.micorscope.framework.thrift.ResultCode;
+import com.vipshop.micorscope.framework.thrift.Send;
+import com.vipshop.micorscope.framework.thrift.ThriftCategory;
+import com.vipshop.micorscope.framework.thrift.ThriftClient;
+import com.vipshop.micorscope.framework.thrift.ThriftServer;
 
 public class ThriftTest {
 

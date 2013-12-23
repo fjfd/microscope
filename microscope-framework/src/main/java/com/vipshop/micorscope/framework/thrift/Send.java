@@ -4,7 +4,7 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-package com.vipshop.microscope.thrift.gen;
+package com.vipshop.micorscope.framework.thrift;
 
 import java.util.ArrayList;
 import java.util.BitSet;

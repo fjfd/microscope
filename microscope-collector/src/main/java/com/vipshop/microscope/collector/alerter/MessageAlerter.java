@@ -1,7 +1,7 @@
 package com.vipshop.microscope.collector.alerter;
 
+import com.vipshop.micorscope.framework.thrift.Span;
 import com.vipshop.microscope.alert.Alerter;
-import com.vipshop.microscope.thrift.gen.Span;
 
 /**
  * Alert span when serious problem happens.

@@ -1,4 +1,4 @@
-package com.vipshop.microscope.thrift.perf;
+package com.vipshop.microscope.framework.thrift;
 
 import java.util.Arrays;
 import java.util.List;
@@ -9,9 +9,9 @@ import java.util.concurrent.Executors;
 import org.apache.thrift.TException;
 import org.testng.annotations.Test;
 
-import com.vipshop.microscope.thrift.client.ThriftClient;
-import com.vipshop.microscope.thrift.gen.LogEntry;
-import com.vipshop.microscope.thrift.server.ThriftCategory;
+import com.vipshop.micorscope.framework.thrift.LogEntry;
+import com.vipshop.micorscope.framework.thrift.ThriftCategory;
+import com.vipshop.micorscope.framework.thrift.ThriftClient;
 
 public class ThriftPerformanceTest {
 	

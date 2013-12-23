@@ -1,6 +1,6 @@
 package com.vipshop.micorscope.framework.span;
 
-import com.vipshop.microscope.thrift.gen.Span;
+import com.vipshop.micorscope.framework.thrift.Span;
 
 /**
  * Category of span type. 

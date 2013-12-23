@@ -1,6 +1,6 @@
 package com.vipshop.microscope.storage;
 
-import com.vipshop.microscope.thrift.gen.Span;
+import com.vipshop.micorscope.framework.thrift.Span;
 
 public class StorageRepository {
 	

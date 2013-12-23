@@ -1,12 +1,55 @@
 package com.vipshop.microscope.trace;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.thrift.TException;
+import org.apache.thrift.server.TNonblockingServer;
+import org.apache.thrift.server.TServer;
+import org.apache.thrift.transport.TNonblockingServerSocket;
+import org.apache.thrift.transport.TNonblockingServerTransport;
+import org.apache.thrift.transport.TTransportException;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.vipshop.micorscope.framework.span.Category;
+import com.vipshop.micorscope.framework.span.Codec;
+import com.vipshop.micorscope.framework.thrift.LogEntry;
+import com.vipshop.micorscope.framework.thrift.ResultCode;
+import com.vipshop.micorscope.framework.thrift.Send;
+import com.vipshop.micorscope.framework.thrift.Span;
 
-public class TraceTestDepenServer {
+public class TracerTest {
+	
+	static class SimpleHandler implements Send.Iface {
+		@Override
+		public ResultCode send(List<LogEntry> messages) throws TException {
+			for (LogEntry logEntry : messages) {
+				Span span = new Codec().decodeToSpan(logEntry.getMessage());
+				Assert.assertEquals("picket", span.getAppName());
+			}
+			return ResultCode.OK;
+		}
+	}
+	
+	@BeforeMethod
+	public void testBeforeMethod() {
+		Tracer.cleanContext();
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				TNonblockingServerTransport serverTransport;
+				try {
+					serverTransport = new TNonblockingServerSocket(9410);
+					Send.Processor<SimpleHandler> processor = new Send.Processor<SimpleHandler>(new SimpleHandler());
+					TServer server = new TNonblockingServer(new TNonblockingServer.Args(serverTransport).processor(processor));
+					server.serve();
+				} catch (TTransportException e) {
+				}
+			}
+		}).start();
+	}
 	
 	@Test
 	public void traceUseExample1() throws InterruptedException {
@@ -18,7 +61,7 @@ public class TraceTestDepenServer {
 		} finally {
 			Tracer.clientReceive();
 		}
-		TimeUnit.SECONDS.sleep(10);
+		TimeUnit.SECONDS.sleep(1);
 	}
 	
 	@Test
@@ -44,7 +87,7 @@ public class TraceTestDepenServer {
 		} finally {
 			Tracer.clientReceive();
 		}
-		TimeUnit.SECONDS.sleep(10);
+		TimeUnit.SECONDS.sleep(1);
 	}
 	
 	@Test
@@ -60,6 +103,7 @@ public class TraceTestDepenServer {
 				Tracer.clientReceive();
 			}
 		}
+		TimeUnit.SECONDS.sleep(1);
 	}
 	
 	@Test
@@ -88,6 +132,7 @@ public class TraceTestDepenServer {
 				Tracer.clientReceive();
 			}
 		}
+		TimeUnit.SECONDS.sleep(1);
 	}
 	
 }

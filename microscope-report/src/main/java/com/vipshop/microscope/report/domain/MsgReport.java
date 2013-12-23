@@ -2,10 +2,10 @@ package com.vipshop.microscope.report.domain;
 
 import java.lang.instrument.Instrumentation;
 
+import com.vipshop.micorscope.framework.thrift.Span;
 import com.vipshop.micorscope.framework.util.CalendarUtil;
 import com.vipshop.micorscope.framework.util.TimeStampUtil;
 import com.vipshop.microscope.report.factory.MySQLRepository;
-import com.vipshop.microscope.thrift.gen.Span;
 
 /**
  * Stat msg number and msg size.

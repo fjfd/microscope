@@ -2,7 +2,7 @@ package com.vipshop.microscope.storage.domain;
 
 import java.io.Serializable;
 
-import com.vipshop.microscope.thrift.gen.Span;
+import com.vipshop.micorscope.framework.thrift.Span;
 
 /**
  * Every trace detail info.

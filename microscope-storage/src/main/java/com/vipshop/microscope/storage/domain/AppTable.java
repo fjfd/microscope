@@ -1,6 +1,6 @@
 package com.vipshop.microscope.storage.domain;
 
-import com.vipshop.microscope.thrift.gen.Span;
+import com.vipshop.micorscope.framework.thrift.Span;
 
 /**
  * AppTrace stands for app name and trace name.

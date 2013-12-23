@@ -1,8 +1,8 @@
 package com.vipshop.microscope.report.domain;
 
+import com.vipshop.micorscope.framework.thrift.Span;
 import com.vipshop.micorscope.framework.util.CalendarUtil;
 import com.vipshop.micorscope.framework.util.TimeStampUtil;
-import com.vipshop.microscope.thrift.gen.Span;
 
 /**
  * Stat problem in trace in 5 minute.

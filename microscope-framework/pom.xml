@@ -12,11 +12,6 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.vipshop</groupId>
-			<artifactId>microscope-thrift</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.jfree</groupId>
 			<artifactId>jfreechart</artifactId>
 			<version>1.0.15</version>

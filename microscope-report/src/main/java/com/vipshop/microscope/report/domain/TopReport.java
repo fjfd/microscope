@@ -7,10 +7,10 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import com.vipshop.micorscope.framework.span.Category;
+import com.vipshop.micorscope.framework.thrift.Span;
 import com.vipshop.micorscope.framework.util.CalendarUtil;
 import com.vipshop.micorscope.framework.util.TimeStampUtil;
 import com.vipshop.microscope.report.factory.MySQLFactory;
-import com.vipshop.microscope.thrift.gen.Span;
 
 /**
  * Top 10 slow report
