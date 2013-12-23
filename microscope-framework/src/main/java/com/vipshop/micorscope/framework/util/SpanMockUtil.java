@@ -1,11 +1,11 @@
-package com.vipshop.micorscope.framework.span;
+package com.vipshop.micorscope.framework.util;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.vipshop.micorscope.framework.thrift.Span;
 
-public class SpanMock {
+public class SpanMockUtil {
 	
 	public static Span mockSpan() {
 		Span span = new Span();

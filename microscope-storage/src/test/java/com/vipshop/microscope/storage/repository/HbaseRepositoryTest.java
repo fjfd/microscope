@@ -10,8 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.vipshop.micorscope.framework.span.SpanMock;
 import com.vipshop.micorscope.framework.thrift.Span;
+import com.vipshop.micorscope.framework.util.SpanMockUtil;
 import com.vipshop.microscope.storage.domain.AppTable;
 import com.vipshop.microscope.storage.domain.TraceTable;
 import com.vipshop.microscope.storage.hbase.HbaseRepository;
@@ -28,7 +28,7 @@ public class HbaseRepositoryTest {
 	
 	@Test(priority = 2)
 	public void save() {
-		Span span = SpanMock.mockSpan();
+		Span span = SpanMockUtil.mockSpan();
 		HbaseRepository.save(AppTable.build(span));
 		HbaseRepository.save(TraceTable.build(span));
 		HbaseRepository.save(span);

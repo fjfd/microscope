@@ -3,9 +3,9 @@ package com.vipshop.microscope.test.online;
 import java.util.concurrent.TimeUnit;
 
 import com.vipshop.micorscope.framework.span.Category;
-import com.vipshop.micorscope.framework.span.SpanMock;
 import com.vipshop.micorscope.framework.thrift.Span;
 import com.vipshop.micorscope.framework.util.CalendarUtil;
+import com.vipshop.micorscope.framework.util.SpanMockUtil;
 import com.vipshop.microscope.report.condition.TopReportCondition;
 import com.vipshop.microscope.report.domain.TopReport;
 import com.vipshop.microscope.report.factory.MySQLFactory;
@@ -57,7 +57,7 @@ public class OnLineTool {
 	public static void mysql() {
 		TopReport report = new TopReport();
 		CalendarUtil calendarUtil = new CalendarUtil();
-		Span span = SpanMock.mockSpan();
+		Span span = SpanMockUtil.mockSpan();
 
 		report.updateReportInit(calendarUtil, span);
 		report.updateReportNext(span);

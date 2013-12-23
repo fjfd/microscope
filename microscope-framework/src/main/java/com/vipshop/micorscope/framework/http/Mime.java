@@ -1,4 +1,4 @@
-package com.vipshop.microscope.web.http;
+package com.vipshop.micorscope.framework.http;
 
 import java.util.HashMap;
 import java.util.Map;

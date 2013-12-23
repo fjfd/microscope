@@ -1,10 +1,15 @@
 package com.vipshop.microscope.sample;
 
+import java.util.concurrent.TimeUnit;
+
+import org.testng.annotations.Test;
+
 public class SampleTest {
 	
-	public static void main(String[] args) throws Exception {
-		
-		
+	@Test
+	public void testSample() throws Exception {
+		Sample sample = new Sample();
+		sample.startSample();
+		TimeUnit.SECONDS.sleep(3);
 	}
-
 }

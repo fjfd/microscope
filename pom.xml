@@ -63,7 +63,6 @@
 		<module>microscope-sample</module>
 		<module>microscope-storage</module>
 		<module>microscope-test</module>
-		<module>microscope-thrift</module>
 		<module>microscope-trace</module>
 		<module>microscope-web</module>
 	</modules>
@@ -79,7 +78,7 @@
 			<url>http://10.101.0.2:8081/nexus/content/repositories/releases</url>
 		</repository>
 	</distributionManagement>
-
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.testng</groupId>
