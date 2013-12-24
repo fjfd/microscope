@@ -41,7 +41,7 @@
 		<mybatis-spring.version>1.2.0</mybatis-spring.version>
 		<commons-dbcp.version>1.4</commons-dbcp.version>
 		<disruptor.version>3.2.0</disruptor.version>
-		<maven-site-plugin.skip>false</maven-site-plugin.skip>
+		<maven-site-plugin.skip>true</maven-site-plugin.skip>
 	</properties>
 
 	<modules>
@@ -55,6 +55,7 @@
 		<module>microscope-adapter-struts</module>
 		<module>microscope-adapter-thrift</module>
 		<module>microscope-alert</module>
+		<module>microscope-benchmark</module>
 		<module>microscope-collector</module>
 		<module>microscope-framework</module>
 		<module>microscope-job</module>

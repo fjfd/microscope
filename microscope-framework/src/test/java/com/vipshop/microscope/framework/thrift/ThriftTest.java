@@ -2,6 +2,7 @@ package com.vipshop.microscope.framework.thrift;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.thrift.TException;
 import org.apache.thrift.transport.TTransportException;
@@ -18,79 +19,7 @@ import com.vipshop.micorscope.framework.thrift.ThriftServer;
 public class ThriftTest {
 
 	@Test
-	public void testSimpleThriftServer() throws TException {
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					new ThriftServer(new SimpleHandler(), 9410).startServer(ThriftCategory.SIMPLE);
-				} catch (TTransportException e) {
-					e.printStackTrace();
-				}
-			}
-		}).start();
-
-		LogEntry logEntry = new LogEntry("test", "message");
-		ThriftClient client = new ThriftClient("localhost", 9410, 300, ThriftCategory.SIMPLE);
-		client.send(Arrays.asList(logEntry));
-	}
-
-
-	@Test
-	public void testNonBlockingThriftServer() throws TException {
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					new ThriftServer(new SimpleHandler(), 9410).startServer(ThriftCategory.NON_BLOCKING);
-				} catch (TTransportException e) {
-					e.printStackTrace();
-				}
-			}
-		}).start();
-		LogEntry logEntry = new LogEntry("test", "message");
-
-		ThriftClient client = new ThriftClient("localhost", 9410, 300, ThriftCategory.NON_BLOCKING);
-		client.send(Arrays.asList(logEntry));
-	}
-	
-	@Test
-	public void testThreadPoolThriftServer() throws TException {
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					new ThriftServer(new SimpleHandler(), 9410).startServer(ThriftCategory.THREAD_POOL);
-				} catch (TTransportException e) {
-					e.printStackTrace();
-				}
-			}
-		}).start();
-		LogEntry logEntry = new LogEntry("test", "message");
-		ThriftClient client = new ThriftClient("localhost", 9410, 300, ThriftCategory.THREAD_POOL);
-		client.send(Arrays.asList(logEntry));
-	}
-	
-	@Test
-	public void testHsHaThriftServer() throws TException {
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					new ThriftServer(new SimpleHandler(), 9410).startServer(ThriftCategory.HS_HA);
-				} catch (TTransportException e) {
-					e.printStackTrace();
-				}
-			}
-		}).start();
-		LogEntry logEntry = new LogEntry("test", "message");
-
-		ThriftClient client = new ThriftClient("localhost", 9410, 300, ThriftCategory.HS_HA);
-		client.send(Arrays.asList(logEntry));
-	}
-	
-	@Test
-	public void testThreadSelectorThriftServer() throws TException {
+	public void testThreadSelectorThriftServer() throws TException, InterruptedException {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -101,6 +30,8 @@ public class ThriftTest {
 				}
 			}
 		}).start();
+		
+		TimeUnit.SECONDS.sleep(1);
 		LogEntry logEntry = new LogEntry("test", "message");
 
 		ThriftClient client = new ThriftClient("localhost", 9410, 300, ThriftCategory.THREAD_SELECTOR);
