@@ -1,1 +1,0 @@
-java -jar microscope-collector-version.jar
