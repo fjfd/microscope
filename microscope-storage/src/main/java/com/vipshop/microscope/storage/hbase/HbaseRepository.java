@@ -34,6 +34,15 @@ public class HbaseRepository {
 		return HbaseFactory.APP.findAll();
 	}
 	
+	public static List<String> findApps() {
+		return HbaseFactory.APP.findApps();
+	}
+	
+	public static List<TraceTable> findByQuery() {
+		logger.debug("find trace list from hbase ");
+		return HbaseFactory.TRACE.findByQuery();
+	}
+	
 	public static List<TraceTable> findByQuery(Map<String, String> query) {
 		logger.debug("find trace list from hbase ");
 		return HbaseFactory.TRACE.findByQuery(query);

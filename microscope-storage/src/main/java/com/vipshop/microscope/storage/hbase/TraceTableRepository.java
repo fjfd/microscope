@@ -128,10 +128,36 @@ public class TraceTableRepository extends AbstraceHbaseRepository {
 		});
 	}
 	
+	public List<TraceTable> findByQuery() {
+		Scan scan = new Scan();
+		PageFilter pageFilter = new PageFilter(10);
+		scan.setFilter(pageFilter);
+		
+		return hbaseTemplate.find(tableName, scan, new RowMapper<TraceTable>() {
+			@Override
+			public TraceTable mapRow(Result result, int rowNum) throws Exception {
+				return new TraceTable(Bytes.toString(result.getValue(CF, CF_APP_NAME)), 
+						  Bytes.toString(result.getValue(CF, CF_TYPE)),
+						  Bytes.toString(result.getValue(CF, CF_TRACE_ID)), 
+						  Bytes.toString(result.getValue(CF, CF_TRACE_NAME)),
+						  Bytes.toString(result.getValue(CF, CF_START_TIMESTAMP)),
+						  Bytes.toString(result.getValue(CF, CF_END_TIMESTAMP)),
+						  Bytes.toString(result.getValue(CF, CF_DURATION)),
+						  Bytes.toString(result.getValue(CF, CF_RESULT_CODE)),
+						  Bytes.toString(result.getValue(CF, CF_IP_ADDRESS)));
+			}
+		});
+	}
+	
 	public List<TraceTable> findByQuery(Map<String, String> query) {
 		Scan scan = new Scan();
-		RowFilter filter = new RowFilter(CompareFilter.CompareOp.EQUAL, new RegexStringComparator(query.get("traceName") + ".*"));
-		PageFilter pageFilter = new PageFilter(Long.valueOf(query.get("limit")));
+		RowFilter filter = new RowFilter(CompareFilter.CompareOp.EQUAL, new RegexStringComparator(".*" + query.get("traceName") + ".*"));
+		
+		long limit = Long.valueOf(query.get("limit"));
+		if (limit > 100) {
+			limit = 100;
+		}
+		PageFilter pageFilter = new PageFilter(limit);
 		FilterList filterList = new FilterList(pageFilter, filter);
 		scan.setFilter(filterList);
 		try {

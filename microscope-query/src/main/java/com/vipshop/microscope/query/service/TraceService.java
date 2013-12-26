@@ -15,6 +15,32 @@ import com.vipshop.microscope.storage.hbase.HbaseRepository;
 
 public class TraceService {
 	
+	public Map<String, Object> getApps() {
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("app", HbaseRepository.findApps());
+		
+		List<Map<String, Object>> traceLists = new ArrayList<Map<String, Object>>();
+		
+		List<TraceTable> tableTraces = HbaseRepository.findByQuery();
+		Collections.sort(tableTraces);
+		for (TraceTable tableTrace : tableTraces) {
+			Map<String, Object> trace = new LinkedHashMap<String, Object>();
+			String traceId = tableTrace.getTraceId();
+			String stmp = tableTrace.getStartTimestamp();
+			String etmp = tableTrace.getEndTimestamp();
+			String dura = tableTrace.getDuration();
+			trace.put("traceId", traceId);
+			trace.put("startTimestamp", stmp);
+			trace.put("endTimestamp", etmp);
+			trace.put("durationMicro", dura);
+			trace.put("serviceCounts", HbaseRepository.findSpanNameByTraceId(traceId));
+			traceLists.add(trace);
+		}
+		
+		result.put("traceList", traceLists);
+		return result;
+	}
+	
 	public List<Map<String, Object>> getQueryCondition() {
 		return HbaseRepository.findAll();
 	}

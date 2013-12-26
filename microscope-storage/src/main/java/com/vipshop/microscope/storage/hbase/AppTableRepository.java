@@ -13,6 +13,10 @@ import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.client.HTableInterface;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
+import org.apache.hadoop.hbase.client.Scan;
+import org.apache.hadoop.hbase.filter.FilterList;
+import org.apache.hadoop.hbase.filter.FirstKeyOnlyFilter;
+import org.apache.hadoop.hbase.filter.KeyOnlyFilter;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.springframework.data.hadoop.hbase.RowMapper;
 import org.springframework.data.hadoop.hbase.TableCallback;
@@ -69,6 +73,33 @@ public class AppTableRepository extends AbstraceHbaseRepository {
 				return app;
 			}
 		});
+	}
+	
+	/**
+	 * Return app names.
+	 * 
+	 * @return
+	 */
+	public List<String> findApps() {
+		final List<String> apps = new ArrayList<String>();
+		
+		Scan s = new Scan();
+		FilterList fl = new FilterList();
+		// returns first instance of a row, then skip to next row
+		fl.addFilter(new FirstKeyOnlyFilter());
+		// only return the Key, don't return the value
+		fl.addFilter(new KeyOnlyFilter());
+		s.setFilter(fl);
+		
+		hbaseTemplate.find(tableName, s, new RowMapper<List<String>>() {
+			@Override
+			public List<String> mapRow(Result result, int rowNum) throws Exception {
+				apps.add(Bytes.toString(result.getRow()));
+				return apps;
+			}
+		});
+		
+		return apps;
 	}
 	
 	/**

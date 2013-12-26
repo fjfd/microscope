@@ -23,7 +23,18 @@ import com.vipshop.microscope.query.service.TraceService;
 public class TraceController {
 
 	TraceService service = new TraceService();
+	
+	@RequestMapping("/trace/apps")
+	@ResponseBody
+	public MapResult traceApps(String callback) {
+		MapResult result = new MapResult();
+		Map<String, Object> condition = service.getApps();
+		result.setResult(condition);
+		result.setCallback(callback);
+		return result;
+	}
 
+	@Deprecated
 	@RequestMapping("/trace/queryCondition")
 	@ResponseBody
 	public ListResult traceQueryCondition(String callback) {

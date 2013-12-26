@@ -59,4 +59,9 @@ public class HbaseRepositoryTest {
 		}
 	}
 	
+	@Test
+	public void testFindApps() {
+		System.out.println(HbaseRepository.findApps());
+	}
+	
 }
