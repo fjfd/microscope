@@ -1,7 +1,7 @@
 package com.vipshop.microscope.trace.queue;
 
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +19,7 @@ public class MessageQueue {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MessageQueue.class);
 	
-	private static final BlockingQueue<Span> queue = new LinkedBlockingQueue<Span>(Tracer.QUEUE_SIZE);
+	private static final BlockingQueue<Span> queue = new ArrayBlockingQueue<Span>(Tracer.QUEUE_SIZE);
 	
 	/**
 	 * Add span to queue.
