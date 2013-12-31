@@ -13,10 +13,11 @@ import com.vipshop.microscope.report.condition.MarketReportCondition;
 import com.vipshop.microscope.report.condition.MsgReportCondition;
 import com.vipshop.microscope.report.condition.ProblemReportCondition;
 import com.vipshop.microscope.report.condition.SourceReportCondition;
-import com.vipshop.microscope.report.condition.TopReportCondition;
 import com.vipshop.microscope.report.condition.TraceReportCondition;
+import com.vipshop.microscope.report.domain.MostReport;
 import com.vipshop.microscope.report.domain.MsgReport;
 import com.vipshop.microscope.report.domain.SourceReport;
+import com.vipshop.microscope.report.domain.TopReport;
 import com.vipshop.microscope.report.domain.TraceOverTimeReport;
 import com.vipshop.microscope.report.domain.TraceReport;
 import com.vipshop.microscope.report.factory.MySQLRepository;
@@ -30,8 +31,25 @@ public class ReportService {
 		return result;
 	}
 	
-	public Map<String, Object> getTopReport(TopReportCondition condition) {
+	public Map<String, Object> getTopReport() {
 		Map<String, Object> result = new HashMap<String, Object>();
+		Category[] categories = Category.values();
+		for (int i = 0; i < categories.length; i++) {
+			int type = categories[i].getIntValue();
+			List<TopReport> topReports = repository.findTopReport(type);
+			result.put(categories[i].getStrValue(), topReports);
+		}
+		return result;
+	}
+	
+	public Map<String, Object> getMostReport() {
+		Map<String, Object> result = new HashMap<String, Object>();
+		Category[] categories = Category.values();
+		for (int i = 0; i < categories.length; i++) {
+			int type = categories[i].getIntValue();
+			List<MostReport> mostReports = repository.findMostReport(type);
+			result.put(categories[i].getStrValue(), mostReports);
+		}
 		return result;
 	}
 	
@@ -48,7 +66,6 @@ public class ReportService {
 			}
 			result.put(app, ipsList);
 		}
-		
 		return result;
 	}
 
@@ -69,10 +86,8 @@ public class ReportService {
 			trace.put("Max", traceReport.getMax());
 			trace.put("Avg", traceReport.getAvg());
 			trace.put("TPS", traceReport.getQps());
-			
 			report.add(trace);
 		}
-		
 		return report;
 	}
 	

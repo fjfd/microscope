@@ -20,6 +20,11 @@ public class DepenReportAnalyzer {
 	}
 
 	public void analyze(CalendarUtil calendarUtil, Span span) {
+		// do analyze in future
+		if (span != null) {
+			return;
+		}
+		
 		String prevKey = DepenReport.getPrevKey(calendarUtil, span);
 		DepenReport prevReport = depenContainer.get(prevKey);
 		if (prevReport != null) {

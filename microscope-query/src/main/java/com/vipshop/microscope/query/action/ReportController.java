@@ -17,7 +17,6 @@ import com.vipshop.microscope.report.condition.MarketReportCondition;
 import com.vipshop.microscope.report.condition.MsgReportCondition;
 import com.vipshop.microscope.report.condition.ProblemReportCondition;
 import com.vipshop.microscope.report.condition.SourceReportCondition;
-import com.vipshop.microscope.report.condition.TopReportCondition;
 import com.vipshop.microscope.report.condition.TraceReportCondition;
 
 /**
@@ -46,8 +45,17 @@ public class ReportController {
 	@ResponseBody
 	public MapResult topReport(HttpServletRequest request, String callback) {
 		MapResult result = new MapResult();
-		TopReportCondition query = new TopReportCondition(request);
-		Map<String, Object> data = service.getTopReport(query);
+		Map<String, Object> data = service.getTopReport();
+		result.setResult(data);
+		result.setCallback(callback);
+		return result;
+	}
+	
+	@RequestMapping("/report/mostReport")
+	@ResponseBody
+	public MapResult mostReport(HttpServletRequest request, String callback) {
+		MapResult result = new MapResult();
+		Map<String, Object> data = service.getTopReport();
 		result.setResult(data);
 		result.setCallback(callback);
 		return result;

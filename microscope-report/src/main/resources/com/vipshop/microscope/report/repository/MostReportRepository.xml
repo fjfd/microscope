@@ -10,7 +10,7 @@
 		<result column="type" property="type" />
 	</resultMap>
 	
-	<select id="findMostReport" parameterType="MostReportCondition"
+	<select id="findMostReport" parameterType="int"
 		resultMap="MostReportList">
 		
 		select app_name, name, type, sum(total_count) as total_count
@@ -18,7 +18,7 @@
 		where type = #{type}
 		group by name
 		order by total_count desc
-		limit #{limit}
+		limit 20
 		
 	</select>
 	

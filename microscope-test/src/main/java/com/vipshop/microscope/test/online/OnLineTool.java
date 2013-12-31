@@ -6,7 +6,6 @@ import com.vipshop.micorscope.framework.span.Category;
 import com.vipshop.micorscope.framework.thrift.Span;
 import com.vipshop.micorscope.framework.util.CalendarUtil;
 import com.vipshop.micorscope.framework.util.SpanMockUtil;
-import com.vipshop.microscope.report.condition.TopReportCondition;
 import com.vipshop.microscope.report.domain.TopReport;
 import com.vipshop.microscope.report.factory.MySQLFactory;
 import com.vipshop.microscope.storage.hbase.HbaseRepository;
@@ -65,7 +64,7 @@ public class OnLineTool {
 
 		report.saveReport();
 		
-		System.out.println(MySQLFactory.TOP.find(new TopReportCondition()));
+		System.out.println(MySQLFactory.TOP.find(6));
 		
 		MySQLFactory.TOP.empty();
 	}

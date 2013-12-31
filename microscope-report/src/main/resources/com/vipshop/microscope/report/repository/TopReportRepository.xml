@@ -55,8 +55,17 @@
 		select count(*) from top_report
 	</select>
 	
-	<select id="find" parameterType="TopReportCondition" resultMap="TopReportList">
-		select * from top_report
+	<select id="find" parameterType="int" resultMap="TopReportList">
+		SELECT * FROM top_report 
+		WHERE top_type = #{topType}
+		GROUP BY MINUTE
+		
+		ORDER BY YEAR DESC,
+		         MONTH DESC,
+		         HOUR DESC,
+		         MINUTE DESC
+		         
+		LIMIT 10 
 	</select>
 	
 	<delete id="empty">

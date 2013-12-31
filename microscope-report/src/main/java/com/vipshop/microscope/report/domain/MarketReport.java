@@ -7,5 +7,6 @@ package com.vipshop.microscope.report.domain;
  * @version 1.0
  */
 public class MarketReport {
-
+	
+	
 }

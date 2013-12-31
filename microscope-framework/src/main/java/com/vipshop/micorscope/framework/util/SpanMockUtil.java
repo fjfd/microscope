@@ -50,5 +50,30 @@ public class SpanMockUtil {
 		
 		return spans;
 	}
+	
+	public static List<Span> mockSpans(int size) {
+		List<Span> spans = new ArrayList<Span>();
+		for (int i = 0; i < size; i++) {
+			Span span = new Span();
+			
+			span.setAppName("appname" + i);
+			span.setAppIp("localhost");
+			span.setTraceId(8053381312019065847L);
+			span.setParentId(8053381312019065847L);
+			span.setSpanId(8053381312019065847L);
+			span.setSpanName("test");
+			span.setSpanType("Method");
+			span.setResultCode("OK");
+			span.setStartTime(System.currentTimeMillis());
+			span.setDuration(1000 + i);
+			span.setServerName("Service");
+			span.setServerIp("localhost");
+			
+			spans.add(span);
+		}
+		
+		return spans;
+	}
+
 
 }

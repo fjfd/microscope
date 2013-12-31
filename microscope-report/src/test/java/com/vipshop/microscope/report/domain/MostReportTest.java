@@ -14,7 +14,7 @@ public class MostReportTest {
 		MostReportCondition condition = new MostReportCondition();
 		condition.setLimit(10);
 		condition.setType(3);
-		List<MostReport> reports = MySQLFactory.MOST.findMostReport(condition);
+		List<MostReport> reports = MySQLFactory.MOST.findMostReport(3);
 		System.out.println(reports);
 	}
 }

@@ -5,7 +5,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.vipshop.microscope.report.condition.MostReportCondition;
 import com.vipshop.microscope.report.condition.MsgReportCondition;
 import com.vipshop.microscope.report.condition.SourceReportCondition;
 import com.vipshop.microscope.report.condition.TraceReportCondition;
@@ -104,8 +103,12 @@ public class MySQLRepository {
 		return MySQLFactory.SOURCE.findSourceReportTOP(condition);
 	}
 	
-	public List<MostReport> findMostReport(MostReportCondition condition) { 
-		return MySQLFactory.MOST.findMostReport(condition);
+	public List<MostReport> findMostReport(int type) { 
+		return MySQLFactory.MOST.findMostReport(type);
+	}
+	
+	public List<TopReport> findTopReport(int type) {
+		return MySQLFactory.TOP.find(type);
 	}
 	
 	public void emptyTables() {

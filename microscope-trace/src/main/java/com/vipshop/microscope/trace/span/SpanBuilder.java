@@ -147,6 +147,9 @@ public class SpanBuilder {
 	 * @param result
 	 */
 	public void setResultCode(String result) {
+		if (spanStack.isEmpty()) {
+			return;
+		}
 		/*
     	 * get span from stack
     	 */
@@ -162,6 +165,9 @@ public class SpanBuilder {
      * 
      */
 	public void clientReceive() {
+		if (spanStack.isEmpty()) {
+			return;
+		}
 		/*
     	 * remove span from stack
     	 */
@@ -191,6 +197,9 @@ public class SpanBuilder {
 	 * @param value
 	 */
 	public void addDebug(String key, String value) {
+		if (spanStack.isEmpty()) {
+			return;
+		}
 		/*
     	 * get span from stack
     	 */

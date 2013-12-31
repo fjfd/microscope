@@ -1,1 +1,0 @@
-java -Dapp=hbasereinit -jar microscope-test-0.1.0.jar

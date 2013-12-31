@@ -2,7 +2,6 @@ package com.vipshop.microscope.report.repository;
 
 import java.util.List;
 
-import com.vipshop.microscope.report.condition.TopReportCondition;
 import com.vipshop.microscope.report.domain.TopReport;
 
 public interface TopReportRepository {
@@ -11,7 +10,8 @@ public interface TopReportRepository {
 	
 	public long count();
 	
-	public List<TopReport> find(TopReportCondition condition);
+	public List<TopReport> find(int topType);
 	
 	public void empty();
+	
 }

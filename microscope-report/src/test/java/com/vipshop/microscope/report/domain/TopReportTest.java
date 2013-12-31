@@ -8,7 +8,6 @@ import org.testng.annotations.Test;
 import com.vipshop.micorscope.framework.thrift.Span;
 import com.vipshop.micorscope.framework.util.CalendarUtil;
 import com.vipshop.micorscope.framework.util.SpanMockUtil;
-import com.vipshop.microscope.report.condition.TopReportCondition;
 import com.vipshop.microscope.report.factory.MySQLFactory;
 
 public class TopReportTest {
@@ -40,7 +39,7 @@ public class TopReportTest {
 	
 	@Test
 	public void testfindTopReport() {
-		System.out.println(MySQLFactory.TOP.find(new TopReportCondition()));
+		System.out.println(MySQLFactory.TOP.find(6));
 	}
 	
 	@Test
@@ -54,11 +53,11 @@ public class TopReportTest {
 		
 		report.saveReport();
 		
-		Assert.assertEquals(1, MySQLFactory.TOP.find(new TopReportCondition()).size());
+		Assert.assertEquals(1, MySQLFactory.TOP.find(6).size());
 		
 		MySQLFactory.TOP.empty();
 		
-		Assert.assertEquals(0, MySQLFactory.TOP.find(new TopReportCondition()).size());
+		Assert.assertEquals(0, MySQLFactory.TOP.find(6).size());
 		
 	}
 	
