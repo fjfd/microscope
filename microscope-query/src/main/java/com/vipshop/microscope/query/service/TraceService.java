@@ -1,7 +1,6 @@
 package com.vipshop.microscope.query.service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -22,7 +21,7 @@ public class TraceService {
 		List<Map<String, Object>> traceLists = new ArrayList<Map<String, Object>>();
 		
 		List<TraceTable> tableTraces = HbaseRepository.findByQuery();
-		Collections.sort(tableTraces);
+		
 		for (TraceTable tableTrace : tableTraces) {
 			Map<String, Object> trace = new LinkedHashMap<String, Object>();
 			String traceId = tableTrace.getTraceId();
@@ -60,9 +59,8 @@ public class TraceService {
 		query.put("startTime", startTime);
 		query.put("endTime", endTime);
 		query.put("limit", limit);
-
+		
 		List<TraceTable> tableTraces = HbaseRepository.findByQuery(query);
-		Collections.sort(tableTraces);
 		for (TraceTable tableTrace : tableTraces) {
 			Map<String, Object> trace = new LinkedHashMap<String, Object>();
 			String traceId = tableTrace.getTraceId();
@@ -96,6 +94,9 @@ public class TraceService {
 			spanInfo.put("end_time", span.getStartTime() + span.getDuration());
 			spanInfo.put("ipadress", span.getAppIp());
 			spanInfo.put("duration", span.getDuration());
+			if (span.getDebug() != null) {
+				spanInfo.put("debug", span.getDebug().toString());
+			}
 			spans.add(spanInfo);
 		}
 		traceSpan.put("spans", spans);

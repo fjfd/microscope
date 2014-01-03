@@ -13,7 +13,6 @@ import org.apache.thrift.transport.TTransportException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 /**
  * A client responsible for open connection to Thrift Server.
  * 
@@ -143,7 +142,7 @@ public class ThriftClient {
         	transport.close();
         	resend(logEntries);
         } 
-        logger.debug("send " + logEntries.size() + " logEntry to collector " + host);
+        logger.info("send " + logEntries.size() + " logEntry to collector " + host);
     }
     
     /**
@@ -151,9 +150,9 @@ public class ThriftClient {
      * 
      */
     private void resend(final List<LogEntry> logEntries) {
-    	logger.info("fail send " + logEntries.size()
+    	logger.info(" fail send " + logEntries.size()
     			  + " logEntry to collector, try to reconnect every " 
-    			  + reconnect + "MILLISECONDS");
+    			  +   reconnect + " MILLISECONDS");
 
     	while (!transport.isOpen()) {
     		try {

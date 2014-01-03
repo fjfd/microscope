@@ -20,9 +20,9 @@ import com.vipshop.micorscope.framework.thrift.Send.AsyncClient.send_call;
  * @author Xu Fei
  * @version 1.0
  */
-public class AsyncThriftClient {
+public class ThriftAsyncClient {
 	
-	private static final Logger logger = LoggerFactory.getLogger(AsyncThriftClient.class);
+	private static final Logger logger = LoggerFactory.getLogger(ThriftAsyncClient.class);
 	
 	private final String host;
 	private final int port;
@@ -31,7 +31,7 @@ public class AsyncThriftClient {
 	
 	private final SendCallback callback = new SendCallback();
 	
-	public AsyncThriftClient(String host, int port) throws IOException, TTransportException {
+	public ThriftAsyncClient(String host, int port) throws IOException, TTransportException {
 		this.host = host;
 		this.port = port;
 		this.client = new Send.AsyncClient(new TBinaryProtocol.Factory(), 

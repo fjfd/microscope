@@ -3,8 +3,8 @@ package com.vipshop.microscope.storage.hbase;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.vipshop.micorscope.framework.thrift.Span;
 import com.vipshop.microscope.storage.domain.AppTable;
@@ -12,55 +12,65 @@ import com.vipshop.microscope.storage.domain.TraceTable;
 
 public class HbaseRepository {
 	
-	private static final Logger logger = LoggerFactory.getLogger(HbaseRepository.class);
+	private static AppTableRepository APP;
+	private static TraceTableRepository TRACE;
+	private static SpanTableRepository SPAN;
+	
+	static {
+		
+		AbstractApplicationContext context = new ClassPathXmlApplicationContext("/applicationContext-storage-hbase.xml", HbaseRepository.class);
+		
+		APP = context.getBean(AppTableRepository.class);
+		TRACE = context.getBean(TraceTableRepository.class);
+		SPAN = context.getBean(SpanTableRepository.class);
+		
+		synchronized (HbaseRepository.class) {
+			APP.initialize();
+			TRACE.initialize();
+			SPAN.initialize();
+		}
+		
+		context.close();
+	}
 	
 	public static void save(AppTable appTable) {
-		logger.debug("save AppTable to hbase " + appTable);
-		HbaseFactory.APP.save(appTable);
+		APP.save(appTable);
 	}
 	
 	public static void save(TraceTable traceTable) {
-		logger.debug("save TraceTable to hbase " + traceTable);
-		HbaseFactory.TRACE.save(traceTable);
+		TRACE.save(traceTable);
 	}
 	
 	public static void save(Span span) {
-		logger.debug("save Span to hbase " + span);
-		HbaseFactory.SPAN.save(span);
+		SPAN.save(span);
 	}
 	
 	public static List<Map<String, Object>> findAll() {
-		logger.debug("find AppTable from hbase ");
-		return HbaseFactory.APP.findAll();
+		return APP.findAll();
 	}
 	
 	public static List<String> findApps() {
-		return HbaseFactory.APP.findApps();
+		return APP.findApps();
 	}
 	
 	public static List<TraceTable> findByQuery() {
-		logger.debug("find trace list from hbase ");
-		return HbaseFactory.TRACE.findByQuery();
+		return TRACE.findByQuery();
 	}
 	
 	public static List<TraceTable> findByQuery(Map<String, String> query) {
-		logger.debug("find trace list from hbase ");
-		return HbaseFactory.TRACE.findByQuery(query);
+		return TRACE.findByQuery(query);
 	}
 	
 	public static Map<String, Integer> findSpanNameByTraceId(String traceId) {
-		logger.debug("find span names by trace id " + traceId);
-		return HbaseFactory.SPAN.findSpanNameByTraceId(traceId);
+		return SPAN.findSpanNameByTraceId(traceId);
 	}
 	
 	public static List<Span> findSpanByTraceId(String traceId) {
-		logger.debug("find span list by trace id " + traceId);
-		return HbaseFactory.SPAN.findSpanByTraceId(traceId);
+		return SPAN.findSpanByTraceId(traceId);
 	}
 	
 	public static List<TraceTable> findByTraceId(String traceId) {
-		logger.debug("find trace by trace id " + traceId);
-		return HbaseFactory.TRACE.findByTraceId(traceId);
+		return TRACE.findByTraceId(traceId);
 	}
 	
 	public static void reinit() {
@@ -69,14 +79,14 @@ public class HbaseRepository {
 	}
 	
 	public static void init() {
-		HbaseFactory.APP.initialize();
-		HbaseFactory.TRACE.initialize();
-		HbaseFactory.SPAN.initialize();
+		APP.initialize();
+		TRACE.initialize();
+		SPAN.initialize();
 	}
 	
 	public static void drop() {
-		HbaseFactory.APP.drop();
-		HbaseFactory.TRACE.drop();
-		HbaseFactory.SPAN.drop();
+		APP.drop();
+		TRACE.drop();
+		SPAN.drop();
 	}
 }

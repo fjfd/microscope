@@ -16,7 +16,7 @@ import org.apache.thrift.transport.TTransportException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.vipshop.micorscope.framework.thrift.AsyncThriftClient;
+import com.vipshop.micorscope.framework.thrift.ThriftAsyncClient;
 import com.vipshop.micorscope.framework.thrift.LogEntry;
 import com.vipshop.micorscope.framework.thrift.ResultCode;
 import com.vipshop.micorscope.framework.thrift.Send;
@@ -45,7 +45,7 @@ public class AsyncThriftTest {
 
 		LogEntry logEntry = encodeToLogEntry(span);
 
-		AsyncThriftClient client = new AsyncThriftClient("localhost", 9410);
+		ThriftAsyncClient client = new ThriftAsyncClient("localhost", 9410);
 		client.send(Arrays.asList(logEntry));
 	}
 	

@@ -39,7 +39,7 @@ public class SpanTableRepository extends AbstraceHbaseRepository {
 			@Override
 			public Span doInTable(HTableInterface table) throws Throwable {
 				Put p = new Put(Bytes.toBytes(String.valueOf(span.getTraceId())));
-				p.add(CF, Bytes.toBytes(span.getSpanName() + "#" +span.getSpanId()), SerializationUtils.serialize(span));
+				p.add(CF, Bytes.toBytes(span.getSpanName() + "#" + span.getSpanId()), SerializationUtils.serialize(span));
 				table.put(p);
 				return span;
 			}
@@ -66,13 +66,6 @@ public class SpanTableRepository extends AbstraceHbaseRepository {
 						if(o1.getStartTime() > o2.getStartTime()){
 							return 1;
 						}
-//						if (o1.getStartTime() == o2.getStartTime()) {
-//							if (o1.getDuration() > o2.getDuration()) {
-//								return -1;
-//							} else {
-//								return 1;
-//							}
-//						}
 						return 0;
 					}
 				});

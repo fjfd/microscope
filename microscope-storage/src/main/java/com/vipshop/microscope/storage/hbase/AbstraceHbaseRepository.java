@@ -85,5 +85,4 @@ public abstract class AbstraceHbaseRepository implements InitializingBean {
 		return Quantifers;
 	}
 
-
 }
