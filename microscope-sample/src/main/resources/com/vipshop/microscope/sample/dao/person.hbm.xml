@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+          "-//Hibernate/Hibernate mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.vipshop.microscope.sample.domain.Person" table="person">
+		<id name="id" column="ID" type="integer">
+			<generator class="native" />
+		</id>
+		<property name="username" column="username" type="string" />
+		<property name="password" column="password" type="string" />
+		<property name="email" column="email" type="string" />
+	</class>
+</hibernate-mapping>

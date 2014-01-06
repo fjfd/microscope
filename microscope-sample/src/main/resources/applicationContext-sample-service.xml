@@ -21,15 +21,15 @@
 	
 	<bean id="httpclient" class="com.vipshop.microscope.sample.http.UserHttpClient" />
 	
-	<!-- <aop:config>
+	<aop:config>
         <aop:aspect id="microscope" ref="mircoscopeAspect">
         	<aop:pointcut id="businessService" 
         				  expression="execution(* com.vipshop.microscope.sample.service.*.*(..))" />
         	<aop:before pointcut-ref="businessService" method="doBefore"/>
-        	<aop:after pointcut-ref="businessService" method="doAfter"/>
+        	<aop:after  pointcut-ref="businessService" method="doAfter" />
         </aop:aspect>
 	</aop:config>
 	
-	<bean id="mircoscopeAspect" class="com.vipshop.microscope.adapter.aop.MicroscopeAspect"/> -->
+	<bean id="mircoscopeAspect" class="com.vipshop.microscope.adapter.aop.MicroscopeAspect"/>
 	
 </beans>

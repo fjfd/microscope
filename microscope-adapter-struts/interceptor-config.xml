@@ -1,0 +1,12 @@
+<? xml version="1.0" encoding="UTF-8" ?>
+<interceptor-config>
+	<interceptor name="displayInterceptor" type="interceptor.DisplayInterceptor" />
+	<action type="/display">
+		<interceptor name="displayInterceptor" />
+	</action>
+</interceptor-config>
+
+// struts-config.xml中指定加载interceptor-config.xml
+<plug-in className ="net.sf.struts.saif.SAIFSpringPlugin" > 
+      <set-property  property ="interceptor-config"  value ="/WEB-INF/interceptor-config.xml" /> 
+</plug-in >
