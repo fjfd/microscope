@@ -8,7 +8,7 @@ JVM_OPTIONS="-server
 			 -XX:MaxPermSize=500M 
 			 -Xss256K 
 			 -XX:+DisableExplicitGC  
-			 -XX:SurvivorRatio=1 
+			 -XX:SurvivorRatio=8
 			 -XX:+UseConcMarkSweepGC  
 			 -XX:+UseParNewGC  
 			 -XX:+CMSParallelRemarkEnabled  

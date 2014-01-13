@@ -96,6 +96,12 @@ public abstract class AbstraceReport {
 		this.setMinute((calendarUtil.currentMinute()));
 	}
 	
+	public abstract void analyze(CalendarUtil calendarUtil, Span span);
+	
+	abstract String getKey(CalendarUtil calendar, Span span);
+	
+	abstract String getPrevKey(CalendarUtil calendar, Span span);
+	
 	/**
 	 * Update date and invariant fields.
 	 * 

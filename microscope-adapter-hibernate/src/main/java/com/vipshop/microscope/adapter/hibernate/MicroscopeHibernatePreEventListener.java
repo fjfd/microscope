@@ -19,27 +19,27 @@ public class MicroscopeHibernatePreEventListener implements PreInsertEventListen
 	@Override
 	public boolean onPreDelete(PreDeleteEvent event) {
 		String table = event.getEntity().getClass().getSimpleName();
-		Tracer.clientSend("delete on table " + table, Category.DB);
+		Tracer.clientSend("delete@" + table, Category.DB);
 		return false;
 	}
 
 	@Override
 	public boolean onPreUpdate(PreUpdateEvent event) {
 		String table = event.getEntity().getClass().getSimpleName();
-		Tracer.clientSend("update on table " + table, Category.DB);
+		Tracer.clientSend("update@" + table, Category.DB);
 		return false;
 	}
 
 	@Override
 	public void onPreLoad(PreLoadEvent event) {
 		String table = event.getEntity().getClass().getSimpleName();
-		Tracer.clientSend("query on table " + table, Category.DB);
+		Tracer.clientSend("query@" + table, Category.DB);
 	}
 
 	@Override
 	public boolean onPreInsert(PreInsertEvent event) {
 		String table = event.getEntity().getClass().getSimpleName();
-		Tracer.clientSend("insert to table " + table, Category.DB);
+		Tracer.clientSend("insert@" + table, Category.DB);
 		return false;
 	}
 

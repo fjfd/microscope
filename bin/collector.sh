@@ -15,7 +15,7 @@ JVM_OPTIONS="-server
 			 -XX:MaxPermSize=500M 
 			 -Xss256K 
 			 -XX:+DisableExplicitGC  
-			 -XX:SurvivorRatio=1 
+			 -XX:SurvivorRatio=8 
 			 -XX:+UseConcMarkSweepGC  
 			 -XX:+UseParNewGC  
 			 -XX:+CMSParallelRemarkEnabled  
@@ -31,6 +31,8 @@ JVM_OPTIONS="-server
 			 -XX:+PrintGCDetails  
 			 -XX:+PrintGCTimeStamps  
 			 -XX:+PrintHeapAtGC  
+			 -XX:+PrintGCApplicationConcurrentTime
+			 -XX:+PrintGCApplicationStoppedTime
              -Xloggc:./log/gc.log"; 
 
 nohup java $JVM_OPTIONS -jar microscope-collector-1.1.3.jar &

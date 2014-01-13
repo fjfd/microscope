@@ -13,11 +13,19 @@ public class ReportAnalyzerTest {
 	@Test
 	public void testAnalyze() {
 		ReportAnalyzer analyzer = new ReportAnalyzer();
-		int size = 1000000;
+		int size = 100000;
 
 		List<Span> spans = SpanMockUtil.mockSpans(size);
-		for (int i = 0; i < size; i++) {
-			analyzer.analyze(spans.get(i));
+		for (Span span : spans) {
+			analyzer.analyze(span);
+		}
+	}
+	
+	@Test
+	public void mockAnalyze() {
+		ReportAnalyzer analyzer = new ReportAnalyzer();
+		while (true) {
+			analyzer.analyze(SpanMockUtil.mockSpan());
 		}
 	}
 }

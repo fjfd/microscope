@@ -5,6 +5,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.vipshop.micorscope.framework.span.Category;
 import com.vipshop.micorscope.framework.thrift.Span;
@@ -30,6 +34,10 @@ import com.vipshop.microscope.report.factory.MySQLFactory;
  */
 
 public class TopReport extends AbstraceReport {
+	
+	private static final Logger logger = LoggerFactory.getLogger(TopReport.class);
+	
+	private static final ConcurrentHashMap<String, TopReport> topContainer = new ConcurrentHashMap<String, TopReport>();
 	
 	/**
 	 * A sorted map store top 10 data<K,V>
@@ -84,6 +92,39 @@ public class TopReport extends AbstraceReport {
 
 	private String top_10_name;
 	private int top_10_data;
+	
+	/**
+	 * Analyze top by span.
+	 * 
+	 * @param calendarUtil
+	 * @param span
+	 */
+	public void analyze(CalendarUtil calendarUtil, Span span) {
+		String key = this.getKey(calendarUtil, span);
+		TopReport report = topContainer.get(key);
+		if (report == null) {
+			report = new TopReport();
+			report.updateReportInit(calendarUtil, span);
+		}
+		report.updateReportNext(span);
+		topContainer.put(key, report);
+		
+		// save previous report to mysql and remove form hashmap
+		Set<Entry<String, TopReport>> entries = topContainer.entrySet();
+		for (Entry<String, TopReport> entry : entries) {
+			String prevKey = entry.getKey();
+			if (!prevKey.equals(key)) {
+				TopReport prevReport = entry.getValue();
+				try {
+					prevReport.saveReport();
+				} catch (Exception e) {
+					logger.error("save top report to mysql error ignore ... " + e);
+				} finally {
+					topContainer.remove(prevKey);
+				}
+			}
+		}
+	}
 	
 	@Override
 	public void updateReportInit(CalendarUtil calendarUtil, Span span) {
@@ -167,7 +208,7 @@ public class TopReport extends AbstraceReport {
 		MySQLFactory.TOP.save(this);
 	}
 	
-	public static String getKey(CalendarUtil calendar, Span span) {
+	public String getKey(CalendarUtil calendar, Span span) {
 		int type = Category.getIntValue(span);
 		StringBuilder builder = new StringBuilder();
 		builder.append(TimeStampUtil.timestampOfCurrentMinute(calendar))
@@ -175,7 +216,7 @@ public class TopReport extends AbstraceReport {
 		return builder.toString();
 	}
 
-	public static String getPrevKey(CalendarUtil calendar, Span span) {
+	public String getPrevKey(CalendarUtil calendar, Span span) {
 		int type = Category.getIntValue(span);
 		StringBuilder builder = new StringBuilder();
 		builder.append(TimeStampUtil.timestampOfPrevMinute(calendar))

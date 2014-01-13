@@ -1,5 +1,12 @@
 package com.vipshop.microscope.report.domain;
 
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.vipshop.micorscope.framework.span.Category;
 import com.vipshop.micorscope.framework.thrift.Span;
 import com.vipshop.micorscope.framework.util.CalendarUtil;
@@ -19,6 +26,10 @@ import com.vipshop.microscope.report.factory.MySQLRepository;
  * @version 1.0
  */
 public class TraceOverTimeReport extends AbstraceReport {
+	
+	private static final Logger logger = LoggerFactory.getLogger(TraceOverTimeReport.class);
+	
+	private static final ConcurrentHashMap<String, TraceOverTimeReport> traceOverTimeContainer = new ConcurrentHashMap<String, TraceOverTimeReport>();
 
 	private String appName;
 	private int appIp;
@@ -33,6 +44,32 @@ public class TraceOverTimeReport extends AbstraceReport {
 	
 	private long startTime;
 	private long endTime;
+	
+	public void analyze(CalendarUtil calendarUtil, Span span) {
+		String key = this.getKey(calendarUtil, span);
+		TraceOverTimeReport report = traceOverTimeContainer.get(key);
+		if (report == null) {
+			report = new TraceOverTimeReport();
+			report.updateReportInit(calendarUtil, span);
+		} 
+		report.updateReportNext(span);
+		traceOverTimeContainer.put(key, report);
+		
+		Set<Entry<String, TraceOverTimeReport>> entries = traceOverTimeContainer.entrySet();
+		for (Entry<String, TraceOverTimeReport> entry : entries) {
+			String prevKey = entry.getKey();
+			if (!prevKey.equals(key)) {
+				TraceOverTimeReport prevReport = entry.getValue();
+				try {
+					prevReport.saveReport();
+				} catch (Exception e) {
+					logger.error("save trace overtime report to mysql error ... " + e);
+				} finally {
+					traceOverTimeContainer.remove(prevKey);
+				}
+			}
+		}
+	}
 	
 	@Override
 	public void updateReportInit(CalendarUtil calendarUtil, Span span) {
@@ -67,7 +104,7 @@ public class TraceOverTimeReport extends AbstraceReport {
 		MySQLRepository.getRepository().save(this);
 	}
 	
-	public static String getKey(CalendarUtil calendar, Span span) {
+	public String getKey(CalendarUtil calendar, Span span) {
 		String app = span.getAppName();
 		String ipAdress = span.getAppIp();
 		String type = span.getSpanType();
@@ -81,7 +118,7 @@ public class TraceOverTimeReport extends AbstraceReport {
 		return builder.toString();
 	}
 	
-	public static String getPrevKey(CalendarUtil calendar, Span span) {
+	public String getPrevKey(CalendarUtil calendar, Span span) {
 		String app = span.getAppName();
 		String ipAdress = span.getAppIp();
 		String type = span.getSpanType();

@@ -18,19 +18,16 @@ public class MicroscopeHibernatePostEventListener implements PostInsertEventList
 	@Override
 	public void onPostDelete(PostDeleteEvent event) {
 		Tracer.clientReceive();
-		
 	}
 
 	@Override
 	public void onPostUpdate(PostUpdateEvent event) {
 		Tracer.clientReceive();
-		
 	}
 
 	@Override
 	public void onPostLoad(PostLoadEvent event) {
 		Tracer.clientReceive();
-		
 	}
 
 	@Override

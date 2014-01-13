@@ -1,5 +1,12 @@
 package com.vipshop.microscope.report.domain;
 
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.vipshop.micorscope.framework.span.Category;
 import com.vipshop.micorscope.framework.thrift.Span;
 import com.vipshop.micorscope.framework.util.CalendarUtil;
@@ -23,6 +30,10 @@ import com.vipshop.microscope.report.factory.MySQLRepository;
  * @version 1.0
  */
 public class TraceReport extends AbstraceReport {
+	
+	private static final Logger logger = LoggerFactory.getLogger(TraceReport.class);
+	
+	private static final ConcurrentHashMap<String, TraceReport> traceContainer = new ConcurrentHashMap<String, TraceReport>();
 	
 	private String appName;
 	private int appIp;
@@ -60,6 +71,34 @@ public class TraceReport extends AbstraceReport {
 	private int region_14;
 	private int region_15;
 	private int region_16;
+	
+	@Override
+	public void analyze(CalendarUtil calendarUtil, Span span) {
+		String key = this.getKey(calendarUtil, span);
+		TraceReport report = traceContainer.get(key);
+		if (report == null) {
+			report = new TraceReport();
+			report.updateReportInit(calendarUtil, span);
+		}
+		report.updateReportNext(span);
+		traceContainer.put(key, report);
+		
+		Set<Entry<String, TraceReport>> entries = traceContainer.entrySet();
+		for (Entry<String, TraceReport> entry : entries) {
+			String prevKey = entry.getKey();
+			if (!prevKey.equals(key)) {
+				TraceReport prevReport = entry.getValue();
+				try {
+					prevReport.saveReport();
+				} catch (Exception e) {
+					logger.error("save trace report to mysql error ... " + e);
+				} finally {
+					traceContainer.remove(prevKey);
+				}
+			}
+		}
+
+	}
 	
 	@Override
 	public void updateReportInit(CalendarUtil calendarUtil, Span span) {
@@ -112,6 +151,48 @@ public class TraceReport extends AbstraceReport {
 		this.setQps(MathUtil.calculateQPS(count, time));
 		
 		MySQLRepository.getRepository().save(this);
+	}
+	
+	/**
+	 * Calculate key for current report.
+	 * 
+	 * @param calendar
+	 * @param span
+	 * @return
+	 */
+	public String getKey(CalendarUtil calendar, Span span) {
+		String app = span.getAppName();
+		String ipAdress = span.getAppIp();
+		String type = span.getSpanType();
+		String name = span.getSpanName();
+		StringBuilder builder = new StringBuilder();
+		builder.append(TimeStampUtil.timestampOfCurrentHour(calendar))
+			   .append("-").append(app)
+			   .append("-").append(ipAdress)
+			   .append("-").append(type)
+			   .append("-").append(name);
+		return builder.toString();
+	}
+	
+	/**
+	 * Calculate key for previous report.
+	 * 
+	 * @param calendar
+	 * @param span
+	 * @return
+	 */
+	public String getPrevKey(CalendarUtil calendar, Span span) {
+		String app = span.getAppName();
+		String ipAdress = span.getAppIp();
+		String type = span.getSpanType();
+		String name = span.getSpanName();
+		StringBuilder builder = new StringBuilder();
+		builder.append(TimeStampUtil.timestampOfPrevHour(calendar))
+			   .append("-").append(app)
+			   .append("-").append(ipAdress)
+			   .append("-").append(type)
+			   .append("-").append(name);
+		return builder.toString();
 	}
 	
 	/**
@@ -176,48 +257,6 @@ public class TraceReport extends AbstraceReport {
 		default:
 			break;
 		}
-	}
-	
-	/**
-	 * Calculate key for current report.
-	 * 
-	 * @param calendar
-	 * @param span
-	 * @return
-	 */
-	public static String getKey(CalendarUtil calendar, Span span) {
-		String app = span.getAppName();
-		String ipAdress = span.getAppIp();
-		String type = span.getSpanType();
-		String name = span.getSpanName();
-		StringBuilder builder = new StringBuilder();
-		builder.append(TimeStampUtil.timestampOfCurrentHour(calendar))
-			   .append("-").append(app)
-			   .append("-").append(ipAdress)
-			   .append("-").append(type)
-			   .append("-").append(name);
-		return builder.toString();
-	}
-	
-	/**
-	 * Calculate key for previous report.
-	 * 
-	 * @param calendar
-	 * @param span
-	 * @return
-	 */
-	public static String getPrevKey(CalendarUtil calendar, Span span) {
-		String app = span.getAppName();
-		String ipAdress = span.getAppIp();
-		String type = span.getSpanType();
-		String name = span.getSpanName();
-		StringBuilder builder = new StringBuilder();
-		builder.append(TimeStampUtil.timestampOfPrevHour(calendar))
-			   .append("-").append(app)
-			   .append("-").append(ipAdress)
-			   .append("-").append(type)
-			   .append("-").append(name);
-		return builder.toString();
 	}
 	
 	public void setRegion_16(int region_16) {

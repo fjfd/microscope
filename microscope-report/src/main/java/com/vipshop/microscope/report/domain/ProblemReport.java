@@ -1,5 +1,12 @@
 package com.vipshop.microscope.report.domain;
 
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.vipshop.micorscope.framework.span.Category;
 import com.vipshop.micorscope.framework.thrift.Span;
 import com.vipshop.micorscope.framework.util.CalendarUtil;
@@ -29,6 +36,11 @@ import com.vipshop.microscope.report.factory.MySQLRepository;
  */
 public class ProblemReport extends AbstraceReport {
 	
+	public static final Logger logger = LoggerFactory.getLogger(ProblemReport.class);
+	
+	private static final ConcurrentHashMap<String, ProblemReport> problemContainer = new ConcurrentHashMap<String, ProblemReport>();;
+
+	
 	private String appName;
 	private int appIp;
 	
@@ -52,6 +64,47 @@ public class ProblemReport extends AbstraceReport {
 		return Category.getTimeZone(span);
 	}
 	
+	public void analyze(CalendarUtil calendarUtil, Span span) {
+//		String preKey = ProblemReport.getPrevKey(calendarUtil, span);
+//		ProblemReport preReport = problemContainer.get(preKey);
+//		if (preReport != null) {
+//			try {
+//				preReport.saveReport();
+//			} catch (Exception e) {
+//				logger.error("save problem report to mysql error ignore ... " + e);
+//			} finally {
+//				problemContainer.remove(preKey);
+//			}
+//		}
+		
+		// put report to hashmap by hour
+		String key = this.getKey(calendarUtil, span);
+		ProblemReport report = problemContainer.get(key);
+		if (report == null) {
+			report = new ProblemReport();
+			report.updateReportInit(calendarUtil, span);
+		} 
+		report.updateReportNext(span);
+		problemContainer.put(key, report);
+		
+		// save previous report to mysql and remove form hashmap
+		Set<Entry<String, ProblemReport>> entries = problemContainer.entrySet();
+		for (Entry<String, ProblemReport> entry : entries) {
+			String prevKey = entry.getKey();
+			if (!prevKey.equals(key)) {
+				ProblemReport prevReport = entry.getValue();
+				try {
+					prevReport.saveReport();
+				} catch (Exception e) {
+					logger.error("save problem report to mysql error ignore ... " + e);
+				} finally {
+					problemContainer.remove(prevKey);
+				}
+			}
+		}
+	}
+	
+	
 	@Override
 	public void updateReportInit(CalendarUtil calendarUtil, Span span) {
 		this.setDateByHour(calendarUtil);
@@ -73,7 +126,7 @@ public class ProblemReport extends AbstraceReport {
 		MySQLRepository.getRepository().save(this);
 	}
 	
-	public static String getKey(CalendarUtil calendar, Span span) {
+	public String getKey(CalendarUtil calendar, Span span) {
 		String appName = span.getAppName();
 		String appIp = span.getAppIp();
 		int typeZone = ProblemReport.getTypeZone(span);
@@ -89,7 +142,7 @@ public class ProblemReport extends AbstraceReport {
 		return builder.toString();
 	}
 	
-	public static String getPrevKey(CalendarUtil calendar, Span span) {
+	public String getPrevKey(CalendarUtil calendar, Span span) {
 		String appName = span.getAppName();
 		String appIp = span.getAppIp();
 		int typeZone = ProblemReport.getTypeZone(span);

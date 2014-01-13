@@ -22,13 +22,11 @@ public class MicroscopeStrutsInterceptor implements ActionInterceptor {
 	public void beforeAction(Action arg0, ActionMapping arg1, ActionForm arg2, HttpServletRequest arg3, HttpServletResponse arg4) throws IOException, ServletException {
 		String traceId = arg3.getHeader(HTTPHeader.X_B3_TRACE_ID);
 		String spanId = arg3.getHeader(HTTPHeader.X_B3_SPAN_ID);
-
 		Tracer.clientSend(traceId, spanId, arg3.getRequestURI() + "@struts", Category.Action);
 	}
 
 	@Override
 	public void afterAction(Action arg0, ActionMapping arg1, ActionForm arg2, HttpServletRequest arg3, HttpServletResponse arg4) throws IOException, ServletException {
 		Tracer.clientReceive();
-		
 	}
 }

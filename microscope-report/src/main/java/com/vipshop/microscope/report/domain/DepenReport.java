@@ -1,5 +1,12 @@
 package com.vipshop.microscope.report.domain;
 
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.vipshop.micorscope.framework.thrift.Span;
 import com.vipshop.micorscope.framework.util.CalendarUtil;
 import com.vipshop.micorscope.framework.util.MathUtil;
@@ -29,6 +36,10 @@ import com.vipshop.microscope.report.factory.MySQLRepository;
  * @version 1.0
  */
 public class DepenReport extends AbstraceReport {
+	
+	public static final Logger logger = LoggerFactory.getLogger(DepenReport.class);
+
+	private static final ConcurrentHashMap<String, DepenReport> depenContainer = new ConcurrentHashMap<String, DepenReport>();
 
 	private String clientName;
 	private String serverName;
@@ -44,6 +55,34 @@ public class DepenReport extends AbstraceReport {
 	
 	private long startTime;
 	private long endTime;
+	
+	public void analyze(CalendarUtil calendarUtil, Span span) {
+		String key = this.getKey(calendarUtil, span);
+		DepenReport report = depenContainer.get(key);
+		if (report == null) {
+			report = new DepenReport();
+			report.updateReportInit(calendarUtil, span);
+		}
+		report.updateReportNext(span);
+		depenContainer.put(key, report);
+		
+		// save previous report to mysql and remove form hashmap
+		Set<Entry<String, DepenReport>> entries = depenContainer.entrySet();
+		for (Entry<String, DepenReport> entry : entries) {
+			String prevKey = entry.getKey();
+			if (!prevKey.equals(key)) {
+				DepenReport prevReport = entry.getValue();
+				try {
+					prevReport.saveReport();
+				} catch (Exception e) {
+					logger.error("save depen report to mysql error ignore ... " + e);
+				} finally {
+					depenContainer.remove(prevKey);
+				}
+			}
+		}
+
+	}
 	
 	@Override
 	public void updateReportInit(CalendarUtil calendarUtil, Span span) {
@@ -71,7 +110,7 @@ public class DepenReport extends AbstraceReport {
 		MySQLRepository.getRepository().save(this);
 	}
 	
-	public static String getKey(CalendarUtil calendar, Span span) {
+	public String getKey(CalendarUtil calendar, Span span) {
 		StringBuilder builder = new StringBuilder();
 		builder.append(TimeStampUtil.timestampOfCurrentHour(calendar))
 			   .append("-").append(span.getAppName())
@@ -79,7 +118,7 @@ public class DepenReport extends AbstraceReport {
 		return builder.toString();
 	}
 
-	public static String getPrevKey(CalendarUtil calendar, Span span) {
+	public String getPrevKey(CalendarUtil calendar, Span span) {
 		StringBuilder builder = new StringBuilder();
 		builder.append(TimeStampUtil.timestampOfPrevHour(calendar))
 			   .append("-").append(span.getAppName())

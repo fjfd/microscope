@@ -1,6 +1,12 @@
 package com.vipshop.microscope.report.domain;
 
 import java.lang.instrument.Instrumentation;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.vipshop.micorscope.framework.thrift.Span;
 import com.vipshop.micorscope.framework.util.CalendarUtil;
@@ -15,6 +21,10 @@ import com.vipshop.microscope.report.factory.MySQLRepository;
  */
 public class MsgReport extends AbstraceReport{
 	
+	private static final Logger logger = LoggerFactory.getLogger(MsgReport.class);
+	
+	private static final ConcurrentHashMap<String, MsgReport> msgContainer = new ConcurrentHashMap<String, MsgReport>();
+
 	private long msgNum;
 	private long msgSize;
 	
@@ -34,6 +44,34 @@ public class MsgReport extends AbstraceReport{
 	    public static long getObjectSize(Object o) {
 	        return instrumentation.getObjectSize(o);
 	    }
+	}
+	
+	public void analyze(CalendarUtil calendarUtil, Span span) {
+		String key = this.getKey(calendarUtil, span);
+		MsgReport report = msgContainer.get(key);
+		if (report == null) {
+			report = new MsgReport();
+			report.updateReportInit(calendarUtil, span);
+		} 
+		report.updateReportNext(span);
+		msgContainer.put(key, report);
+		
+		// save previous report to mysql and remove form hashmap
+		Set<Entry<String, MsgReport>> entries = msgContainer.entrySet();
+		for (Entry<String, MsgReport> entry : entries) {
+			String prevKey = entry.getKey();
+			if (!prevKey.equals(key)) {
+				MsgReport prevReport = entry.getValue();
+				try {
+					prevReport.saveReport();
+				} catch (Exception e) {
+					logger.error("save msg report to mysql error ignore ... " + e);
+				} finally {
+					msgContainer.remove(prevKey);
+				}
+			}
+		}
+
 	}
 	
 	/*
@@ -60,12 +98,12 @@ public class MsgReport extends AbstraceReport{
 		MySQLRepository.getRepository().save(this);
 	}
 	
-	public static long getKey(CalendarUtil calendar) {
-		return TimeStampUtil.timestampOfCurrentHour(calendar);
+	public String getKey(CalendarUtil calendar, Span span) {
+		return String.valueOf(TimeStampUtil.timestampOfCurrentHour(calendar));
 	}
 
-	public static long getPrevKey(CalendarUtil calendar) {
-		return TimeStampUtil.timestampOfPrevHour(calendar);
+	public String getPrevKey(CalendarUtil calendar, Span span) {
+		return String.valueOf(TimeStampUtil.timestampOfPrevHour(calendar));
 	}
 	
 	public long getMsgNum() {
