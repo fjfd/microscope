@@ -8,7 +8,7 @@ import com.vipshop.micorscope.framework.span.Category;
 import com.vipshop.micorscope.framework.thrift.Span;
 import com.vipshop.micorscope.framework.util.IPAddressUtil;
 import com.vipshop.microscope.trace.Tracer;
-import com.vipshop.microscope.trace.queue.MessageQueue;
+import com.vipshop.microscope.trace.stoarge.MessageQueue;
 
 /**
  * A {@code SpanBuilder} responsible for build

@@ -14,7 +14,7 @@ import com.vipshop.micorscope.framework.thrift.Span;
 import com.vipshop.micorscope.framework.thrift.ThriftCategory;
 import com.vipshop.micorscope.framework.thrift.ThriftClient;
 import com.vipshop.microscope.trace.Tracer;
-import com.vipshop.microscope.trace.queue.MessageQueue;
+import com.vipshop.microscope.trace.stoarge.MessageQueue;
 
 /**
  * Use a {@code Thread} transport message to collector.

@@ -33,8 +33,6 @@ public class ReportAnalyzer {
 	public void analyze(Span span) {
 		CalendarUtil calendarUtil = new CalendarUtil();
 		for (AbstraceReport report : reports) {
-			
-			System.out.println("analyze span --> " + span);
 			report.analyze(calendarUtil, span);
 		}
 	}

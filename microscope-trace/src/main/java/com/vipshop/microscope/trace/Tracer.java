@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import com.vipshop.micorscope.framework.span.Category;
 import com.vipshop.micorscope.framework.util.ConfigurationUtil;
 import com.vipshop.micorscope.framework.util.ThreadPoolUtil;
+import com.vipshop.microscope.trace.switcher.ConfigSwitcher;
 import com.vipshop.microscope.trace.switcher.Switcher;
 import com.vipshop.microscope.trace.transport.ThriftTransporter;
 
@@ -55,13 +56,15 @@ public class Tracer {
 	public static final int QUEUE_SIZE = config.getInt("queue_size");
 	public static final int RECONNECT_WAIT_TIME = config.getInt("reconnect_wait_time");
 	public static final int SEND_WAIT_TIME = config.getInt("send_wait_time");
+	
+	private static final Switcher SWITCHER = new ConfigSwitcher();
 
 	/**
 	 * Start transporter.
 	 */
 	static {
 		try {
-			if (Switcher.isOpen()) {
+			if (SWITCHER.isOpen()) {
 				ExecutorService executor = ThreadPoolUtil.newSingleDaemonThreadExecutor("transporter-pool");
 				executor.execute(new ThriftTransporter());
 			}
@@ -78,11 +81,7 @@ public class Tracer {
 	 */
 	public static void clientSend(String spanName, Category category){
 		try {
-			/**
-			 * if turn off tracing function, 
-			 * then return immediate.
-			 */
-			if (Switcher.isClose()) {
+			if (SWITCHER.isClose()) {
 				return;
 			}
 			TraceContext.getTrace().clientSend(spanName, category);
@@ -100,11 +99,7 @@ public class Tracer {
 	 */
 	public static void clientSend(String name, String server, Category category) {
 		try {
-			/**
-			 * if turn off tracing function, 
-			 * then return immediate.
-			 */
-			if (Switcher.isClose()) {
+			if (SWITCHER.isClose()) {
 				return;
 			}
 			TraceContext.getTrace().clientSend(name, server, category);
@@ -123,11 +118,7 @@ public class Tracer {
 	 */
 	public static void clientSend(String traceId, String spanId, String name, Category category){
 		try {
-			/**
-			 * if turn off tracing function, 
-			 * then return immediate.
-			 */
-			if (Switcher.isClose()) {
+			if (SWITCHER.isClose()) {
 				return;
 			}
 			TraceContext.getTrace(traceId, spanId).clientSend(name, category);
@@ -141,11 +132,7 @@ public class Tracer {
 	 */
 	public static void clientReceive() {
 		try {
-			/**
-			 * if turn off tracing function, 
-			 * then return immediate.
-			 */
-			if (Switcher.isClose()) {
+			if (SWITCHER.isClose()) {
 				return;
 			}
 			TraceContext.getTrace().clientReceive();
@@ -153,21 +140,25 @@ public class Tracer {
 			logger.info("client receive error", e);
 		}
 	}
+	
+	public static void serverSend() {
+		
+	}
+	
+	public static void serverRecv() {
+		
+	}
 
 	/**
 	 * Set result code.
 	 * 
 	 * If exception happens. set ResultCode = EXCEPTION.
 	 * 
-	 * @param e
+	 * @param result
 	 */
 	public static void setResultCode(String result) {
 		try {
-			/**
-			 * if turn off tracing function, 
-			 * then return immediate.
-			 */
-			if (Switcher.isClose()) {
+			if (SWITCHER.isClose()) {
 				return;
 			}
 			Trace trace = TraceContext.getContext();
@@ -180,6 +171,25 @@ public class Tracer {
 	}
 	
 	/**
+	 * Record info
+	 * 
+	 * @param info
+	 */
+	public static void record(String info) {
+		
+	}
+	
+	/**
+	 * Record key/value
+	 * 
+	 * @param key
+	 * @param value
+	 */
+	public static void record(String key, String value) {
+		addDebug(key, value);
+	}
+	
+	/**
 	 * Add debug info
 	 * 
 	 * @param key
@@ -187,11 +197,7 @@ public class Tracer {
 	 */
 	public static void addDebug(String key, String value) {
 		try {
-			/**
-			 * if turn off tracing function, 
-			 * then return immediate.
-			 */
-			if (Switcher.isClose()) {
+			if (SWITCHER.isClose()) {
 				return;
 			}
 			Trace trace = TraceContext.getContext();
@@ -212,11 +218,7 @@ public class Tracer {
 	 */
 	public static Trace getContext() {
 		try {
-			/**
-			 * if turn off tracing function, 
-			 * then return immediate.
-			 */
-			if (Switcher.isClose()) {
+			if (SWITCHER.isClose()) {
 				return null;
 			}
 			return TraceContext.getContext();
@@ -235,11 +237,7 @@ public class Tracer {
 	 */
 	public static void setContext(Trace trace) {
 		try {
-			/**
-			 * if turn off tracing function, 
-			 * then return immediate.
-			 */
-			if (Switcher.isClose()) {
+			if (SWITCHER.isClose()) {
 				return;
 			}
 			TraceContext.setContext(trace);
@@ -253,11 +251,7 @@ public class Tracer {
 	 */
 	public static void cleanContext() {
 		try {
-			/**
-			 * if turn off tracing function, 
-			 * then return immediate.
-			 */
-			if (Switcher.isClose()) {
+			if (SWITCHER.isClose()) {
 				return;
 			}
 			TraceContext.cleanContext();
@@ -273,11 +267,7 @@ public class Tracer {
 	 */
 	public static String getTraceId() {
 		try {
-			/**
-			 * if turn off tracing function, 
-			 * then return immediate.
-			 */
-			if (Switcher.isClose()) {
+			if (SWITCHER.isClose()) {
 				return null;
 			}
 			return TraceContext.getTraceIdFromThreadLocal();
@@ -293,11 +283,7 @@ public class Tracer {
 	 */
 	public static String getSpanId() {
 		try {
-			/**
-			 * if turn off tracing function, 
-			 * then return immediate.
-			 */
-			if (Switcher.isClose()) {
+			if (SWITCHER.isClose()) {
 				return null;
 			}
 			return TraceContext.getSpanIdFromThreadLocal();

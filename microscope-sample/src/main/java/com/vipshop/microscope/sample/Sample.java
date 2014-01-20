@@ -16,4 +16,10 @@ public class Sample {
 		
 		new UserHttpClient().insertRequest();
 	}
+	
+	public static void main(String[] args) throws Exception {
+		Sample sample = new Sample();
+		sample.startSample();
+		TimeUnit.SECONDS.sleep(5);
+	}
 }

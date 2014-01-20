@@ -1,4 +1,4 @@
-package com.vipshop.microscope.trace.queue;
+package com.vipshop.microscope.trace.stoarge;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;

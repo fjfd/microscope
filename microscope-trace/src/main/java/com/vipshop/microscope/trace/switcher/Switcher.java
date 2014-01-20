@@ -1,24 +1,18 @@
 package com.vipshop.microscope.trace.switcher;
 
-import com.vipshop.microscope.trace.Tracer;
-
 /**
- * A flag to judge trace function is on/off.
+ * A flag to turn trace function on/off.
  * 
  * @author Xu Fei
  * @version 1.0
  */
-public class Switcher {
+public interface Switcher {
 	
-	private static final int OPEN = 1;
-	private static final int CLOSE = 0;
+	public void open();
 	
+	public void close();
 	
-	public static boolean isOpen() { 
-		return Tracer.SWITCH == OPEN;
-	}
+	public boolean isOpen();
 	
-	public static boolean isClose() { 
-		return Tracer.SWITCH == CLOSE;
-	}
+	public boolean isClose();
 }

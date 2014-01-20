@@ -1,5 +1,5 @@
 package com.vipshop.microscope.trace.sample;
 
-public class SelfAdaptSampler {
+public class AdaptedSampler {
 
 }
