@@ -1,12 +1,5 @@
 #!/bin/sh
 
-program="collector"    
-
-sn=`ps -ef | grep $program | grep -v grep |awk '{print $2}'`  
-if [ "${sn}" != "" ]    
-then
-kill -9 $sn
-
 JVM_OPTIONS="-server 
              -Xmx8000M 
 			 -Xms8000M 
@@ -14,9 +7,8 @@ JVM_OPTIONS="-server
 			 -XX:PermSize=500M 
 			 -XX:MaxPermSize=500M 
 			 -Xss256K 
-			 -XX:+UseCompressedOops
 			 -XX:+DisableExplicitGC  
-			 -XX:SurvivorRatio=8 
+			 -XX:SurvivorRatio=8
 			 -XX:+UseConcMarkSweepGC  
 			 -XX:+UseParNewGC  
 			 -XX:+CMSParallelRemarkEnabled  
@@ -27,21 +19,11 @@ JVM_OPTIONS="-server
 			 -XX:+UseFastAccessorMethods  
 			 -XX:+UseCMSInitiatingOccupancyOnly  
 			 -XX:CMSInitiatingOccupancyFraction=70 
-			 -XX:SoftRefLRUPolicyMSPerMB=0
-			 -XX:+HeapDumpOnOutOfMemoryError 
-			 -XX:HeapDumpPath=./
+			 -XX:SoftRefLRUPolicyMSPerMB=0 
 			 -XX:+PrintClassHistogram  
 			 -XX:+PrintGCDetails  
 			 -XX:+PrintGCTimeStamps  
 			 -XX:+PrintHeapAtGC  
-			 -XX:+PrintGCApplicationConcurrentTime
-			 -XX:+PrintGCApplicationStoppedTime
              -Xloggc:./log/gc.log"; 
-
-nohup java -Dcom.sun.management.jmxremote.port="1088" 
-		   -Dcom.sun.management.jmxremote.ssl=false 
-		   -Dcom.sun.management.jmxremote.authenticate=false 
-		   $JVM_OPTIONS 
-		   -jar microscope-collector-1.1.3.jar &
-
-echo running collector service ...
+             
+nohup java $JVM_OPTIONS -Dport=8888 -jar microscope-query-1.1.3.jar &

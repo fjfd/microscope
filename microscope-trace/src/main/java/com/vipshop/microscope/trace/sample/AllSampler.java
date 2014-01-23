@@ -1,16 +1,14 @@
 package com.vipshop.microscope.trace.sample;
 
-public class FixedSampler implements Sampler {
+public class AllSampler implements Sampler {
 
 	@Override
 	public boolean sample() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean notSample() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

@@ -7,6 +7,10 @@ package com.vipshop.microscope.trace.sample;
  * @author Xu Fei
  * @version 1.0
  */
-public class Sampler {
+public interface Sampler {
 	
+	public boolean sample();
+	
+	public boolean notSample();
+
 }

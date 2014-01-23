@@ -13,7 +13,7 @@ import org.eclipse.jetty.webapp.*;
 public class WebServer {
 
 	private static final String WEB_XML = "WEB-INF/web.xml";
-	private static final String LOG_PATH = "./target/logs/yyyy_mm_dd.request.log";
+//	private static final String LOG_PATH = "./target/logs/yyyy_mm_dd.request.log";
 	private static final String CLASS_ONLY_AVAILABLE_IN_IDE = "com.sjl.IDE";
 	private static final String PROJECT_RELATIVE_PATH_TO_WEBAPP = "src/main/java/META-INF/webapp";
 
@@ -86,7 +86,7 @@ public class WebServer {
 		contexts.setHandlers(handlers.toArray(new Handler[0]));
 
 		RequestLogHandler log = new RequestLogHandler();
-		log.setRequestLog(createRequestLog());
+//		log.setRequestLog(createRequestLog());
 
 		HandlerCollection result = new HandlerCollection();
 		result.setHandlers(new Handler[] { contexts, log });
@@ -94,20 +94,20 @@ public class WebServer {
 		return result;
 	}
 
-	private RequestLog createRequestLog() {
-		NCSARequestLog log = new NCSARequestLog();
-
-		File logPath = new File(LOG_PATH);
-		logPath.getParentFile().mkdirs();
-
-		log.setFilename(logPath.getPath());
-		log.setRetainDays(90);
-		log.setExtended(false);
-		log.setAppend(true);
-		log.setLogTimeZone("GMT");
-		log.setLogLatency(true);
-		return log;
-	}
+//	private RequestLog createRequestLog() {
+//		NCSARequestLog log = new NCSARequestLog();
+//
+//		File logPath = new File(LOG_PATH);
+//		logPath.getParentFile().mkdirs();
+//
+//		log.setFilename(logPath.getPath());
+//		log.setRetainDays(90);
+//		log.setExtended(false);
+//		log.setAppend(true);
+//		log.setLogTimeZone("GMT");
+//		log.setLogLatency(true);
+//		return log;
+//	}
 
 	private boolean isRunningInShadedJar() {
 		try {

@@ -1,16 +1,14 @@
 package com.vipshop.microscope.trace;
 
-import java.util.concurrent.ExecutorService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.vipshop.micorscope.framework.span.Category;
 import com.vipshop.micorscope.framework.util.ConfigurationUtil;
-import com.vipshop.micorscope.framework.util.ThreadPoolUtil;
 import com.vipshop.microscope.trace.switcher.ConfigSwitcher;
 import com.vipshop.microscope.trace.switcher.Switcher;
-import com.vipshop.microscope.trace.transport.ThriftTransporter;
+import com.vipshop.microscope.trace.transport.QueueTransporter;
+import com.vipshop.microscope.trace.transport.Transporter;
 
 /**
  * Trace client API for Java.
@@ -58,18 +56,18 @@ public class Tracer {
 	public static final int SEND_WAIT_TIME = config.getInt("send_wait_time");
 	
 	private static final Switcher SWITCHER = new ConfigSwitcher();
-
+	private static final Transporter TRANSPORTER = new QueueTransporter();
+	
 	/**
 	 * Start transporter.
 	 */
 	static {
 		try {
 			if (SWITCHER.isOpen()) {
-				ExecutorService executor = ThreadPoolUtil.newSingleDaemonThreadExecutor("transporter-pool");
-				executor.execute(new ThriftTransporter());
+				TRANSPORTER.transport();
 			}
 		} catch (Exception e) {
-			logger.info("start ThriftTransporter faile, ", e);
+			logger.error("start thrift transporter faile, ", e.getCause());
 		}
 	}
 	
