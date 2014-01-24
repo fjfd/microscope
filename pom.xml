@@ -66,6 +66,10 @@
 		<module>microscope-test</module>
 		<module>microscope-trace</module>
 		<module>microscope-web</module>
+		<module>microscope-maven</module>
+		<module>microscope-adapter-soa</module>
+		<module>microscope-adapter-jdbc</module>
+		<module>microscope-adapter-httpclient</module>
 	</modules>
 
 	<!-- deploy jar to nexus server -->
