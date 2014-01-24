@@ -9,7 +9,9 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
+import com.vipshop.micorscope.framework.span.Category;
 import com.vipshop.microscope.trace.Tracer;
+import com.vipshop.microscope.trace.span.HTTPHeader;
 
 /**
  * Use for trace Servlet.
@@ -28,8 +30,19 @@ public class MicroscopeFilter implements Filter{
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		Tracer.cleanContext();
+//		Tracer.cleanContext();
+		String traceId = request.getAttribute(HTTPHeader.X_B3_SPAN_ID).toString();
+		String spanId = request.getAttribute(HTTPHeader.X_B3_SPAN_ID).toString();
+
+//		String name = buildName(request, handler);
+		String name = request.toString();
+		
+		Tracer.clientSend(traceId, spanId, name, Category.Action);
+		Tracer.record("Action", request.toString());
+		
 		chain.doFilter(request, response);
+		
+		Tracer.clientReceive();
 		
 	}
 
