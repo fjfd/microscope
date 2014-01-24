@@ -114,11 +114,6 @@
 		</dependency>
 		<dependency>
 			<groupId>com.vipshop</groupId>
-			<artifactId>microscope-adapter-hibernate</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-adapter-servlet</artifactId>
 			<version>${project.version}</version>
 		</dependency>
