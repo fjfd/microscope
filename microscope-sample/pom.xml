@@ -130,7 +130,7 @@
 		<dependency>
 			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-adapter-httpclient</artifactId>
-			<version>1.1.7</version>
+			<version>${project.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.apache.httpcomponents</groupId>
