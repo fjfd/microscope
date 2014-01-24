@@ -10,7 +10,7 @@
 	<artifactId>microscope-maven</artifactId>
 	<name>microscope-maven</name>
 	<version>${parent.version}</version>
-	<packaging>maven-plugin</packaging>
+	<packaging>jar</packaging>
 	
 	<dependencies>
 		<dependency>

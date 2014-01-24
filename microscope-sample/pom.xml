@@ -128,10 +128,9 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-			<version>4.2</version>
-			<classifier>microscope-1.1.2</classifier>
+			<groupId>com.vipshop</groupId>
+			<artifactId>microscope-adapter-httpclient</artifactId>
+			<version>1.1.7</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.apache.httpcomponents</groupId>

@@ -26,6 +26,7 @@ public class MicroscopeSpringMVCInterceptor extends HandlerInterceptorAdapter {
 		String name = buildName(request, handler);
 		
 		Tracer.clientSend(traceId, spanId, name, Category.Action);
+		Tracer.record("Action", request.toString());
 		return super.preHandle(request, response, handler);
 	}
 
