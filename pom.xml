@@ -68,6 +68,7 @@
 		<module>microscope-trace</module>
 		<module>microscope-thrift</module>
 		<module>microscope-storm</module>
+		<module>microscope-transport</module>
 	</modules>
 
 	<!-- deploy jar to nexus server -->
