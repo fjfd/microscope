@@ -17,7 +17,6 @@
  * under the License.
  */
 
-
 package org.apache.thrift.transport;
 
 import java.nio.channels.Selector;
@@ -27,5 +26,5 @@ import java.nio.channels.Selector;
  */
 public abstract class TNonblockingServerTransport extends TServerTransport {
 
-  public abstract void registerSelector(Selector selector);
+	public abstract void registerSelector(Selector selector);
 }

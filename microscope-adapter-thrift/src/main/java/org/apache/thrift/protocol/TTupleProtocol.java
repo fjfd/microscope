@@ -26,73 +26,76 @@ import org.apache.thrift.scheme.TupleScheme;
 import org.apache.thrift.transport.TTransport;
 
 public final class TTupleProtocol extends TCompactProtocol {
-  public static class Factory implements TProtocolFactory {
-    public Factory() {}
+	@SuppressWarnings("serial")
+	public static class Factory implements TProtocolFactory {
+		public Factory() {
+		}
 
-    public TProtocol getProtocol(TTransport trans) {
-      return new TTupleProtocol(trans);
-    }
-  }
+		public TProtocol getProtocol(TTransport trans) {
+			return new TTupleProtocol(trans);
+		}
+	}
 
-  public TTupleProtocol(TTransport transport) {
-    super(transport);
-  }
+	public TTupleProtocol(TTransport transport) {
+		super(transport);
+	}
 
-  @Override
-  public Class<? extends IScheme> getScheme() {
-    return TupleScheme.class;
-  }
+	@SuppressWarnings("rawtypes")
+	@Override
+	public Class<? extends IScheme> getScheme() {
+		return TupleScheme.class;
+	}
 
-  public void writeBitSet(BitSet bs, int vectorWidth) throws TException {
-    byte[] bytes = toByteArray(bs, vectorWidth);
-    for (byte b : bytes) {
-      writeByte(b);
-    }
-  }
+	public void writeBitSet(BitSet bs, int vectorWidth) throws TException {
+		byte[] bytes = toByteArray(bs, vectorWidth);
+		for (byte b : bytes) {
+			writeByte(b);
+		}
+	}
 
-  public BitSet readBitSet(int i) throws TException {
-    int length = (int) Math.ceil(i/8.0);
-    byte[] bytes = new byte[length];
-    for (int j = 0; j < length; j++) {
-      bytes[j] = readByte();
-    }
-    BitSet bs = fromByteArray(bytes);
-    return bs;
-  }
+	public BitSet readBitSet(int i) throws TException {
+		int length = (int) Math.ceil(i / 8.0);
+		byte[] bytes = new byte[length];
+		for (int j = 0; j < length; j++) {
+			bytes[j] = readByte();
+		}
+		BitSet bs = fromByteArray(bytes);
+		return bs;
+	}
 
-  /**
-   * Returns a bitset containing the values in bytes. The byte-ordering must be
-   * big-endian.
-   */
-  public static BitSet fromByteArray(byte[] bytes) {
-    BitSet bits = new BitSet();
-    for (int i = 0; i < bytes.length * 8; i++) {
-      if ((bytes[bytes.length - i / 8 - 1] & (1 << (i % 8))) > 0) {
-        bits.set(i);
-      }
-    }
-    return bits;
-  }
+	/**
+	 * Returns a bitset containing the values in bytes. The byte-ordering must
+	 * be big-endian.
+	 */
+	public static BitSet fromByteArray(byte[] bytes) {
+		BitSet bits = new BitSet();
+		for (int i = 0; i < bytes.length * 8; i++) {
+			if ((bytes[bytes.length - i / 8 - 1] & (1 << (i % 8))) > 0) {
+				bits.set(i);
+			}
+		}
+		return bits;
+	}
 
-  /**
-   * Returns a byte array of at least length 1. The most significant bit in the
-   * result is guaranteed not to be a 1 (since BitSet does not support sign
-   * extension). The byte-ordering of the result is big-endian which means the
-   * most significant bit is in element 0. The bit at index 0 of the bit set is
-   * assumed to be the least significant bit.
-   * 
-   * @param bits
-   * @param vectorWidth 
-   * @return a byte array of at least length 1
-   */
-  public static byte[] toByteArray(BitSet bits, int vectorWidth) {
-    byte[] bytes = new byte[(int) Math.ceil(vectorWidth/8.0)];
-    for (int i = 0; i < bits.length(); i++) {
-      if (bits.get(i)) {
-        bytes[bytes.length - i / 8 - 1] |= 1 << (i % 8);
-      }
-    }
-    return bytes;
-  }
+	/**
+	 * Returns a byte array of at least length 1. The most significant bit in
+	 * the result is guaranteed not to be a 1 (since BitSet does not support
+	 * sign extension). The byte-ordering of the result is big-endian which
+	 * means the most significant bit is in element 0. The bit at index 0 of the
+	 * bit set is assumed to be the least significant bit.
+	 * 
+	 * @param bits
+	 * @param vectorWidth
+	 * @return a byte array of at least length 1
+	 */
+	public static byte[] toByteArray(BitSet bits, int vectorWidth) {
+		byte[] bytes = new byte[(int) Math.ceil(vectorWidth / 8.0)];
+		for (int i = 0; i < bits.length(); i++) {
+			if (bits.get(i)) {
+				bytes[bytes.length - i / 8 - 1] |= 1 << (i % 8);
+			}
+		}
+		return bytes;
+	}
 
 }

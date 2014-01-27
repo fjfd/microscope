@@ -28,138 +28,141 @@ import org.apache.thrift.transport.TTransportFactory;
 
 /**
  * Generic interface for a Thrift server.
- *
+ * 
  */
 public abstract class TServer {
 
-  public static class Args extends AbstractServerArgs<Args> {
-    public Args(TServerTransport transport) {
-      super(transport);
-    }
-  }
+	public static class Args extends AbstractServerArgs<Args> {
+		public Args(TServerTransport transport) {
+			super(transport);
+		}
+	}
+	@SuppressWarnings("unchecked")
+	public static abstract class AbstractServerArgs<T extends AbstractServerArgs<T>> {
+		final TServerTransport serverTransport;
+		TProcessorFactory processorFactory;
+		TTransportFactory inputTransportFactory = new TTransportFactory();
+		TTransportFactory outputTransportFactory = new TTransportFactory();
+		TProtocolFactory inputProtocolFactory = new TBinaryProtocol.Factory();
+		TProtocolFactory outputProtocolFactory = new TBinaryProtocol.Factory();
 
-  public static abstract class AbstractServerArgs<T extends AbstractServerArgs<T>> {
-    final TServerTransport serverTransport;
-    TProcessorFactory processorFactory;
-    TTransportFactory inputTransportFactory = new TTransportFactory();
-    TTransportFactory outputTransportFactory = new TTransportFactory();
-    TProtocolFactory inputProtocolFactory = new TBinaryProtocol.Factory();
-    TProtocolFactory outputProtocolFactory = new TBinaryProtocol.Factory();
+		public AbstractServerArgs(TServerTransport transport) {
+			serverTransport = transport;
+		}
 
-    public AbstractServerArgs(TServerTransport transport) {
-      serverTransport = transport;
-    }
+		
+		public T processorFactory(TProcessorFactory factory) {
+			this.processorFactory = factory;
+			return (T) this;
+		}
 
-    public T processorFactory(TProcessorFactory factory) {
-      this.processorFactory = factory;
-      return (T) this;
-    }
+		public T processor(TProcessor processor) {
+			this.processorFactory = new TProcessorFactory(processor);
+			return (T) this;
+		}
 
-    public T processor(TProcessor processor) {
-      this.processorFactory = new TProcessorFactory(processor);
-      return (T) this;
-    }
+		public T transportFactory(TTransportFactory factory) {
+			this.inputTransportFactory = factory;
+			this.outputTransportFactory = factory;
+			return (T) this;
+		}
 
-    public T transportFactory(TTransportFactory factory) {
-      this.inputTransportFactory = factory;
-      this.outputTransportFactory = factory;
-      return (T) this;
-    }
+		public T inputTransportFactory(TTransportFactory factory) {
+			this.inputTransportFactory = factory;
+			return (T) this;
+		}
 
-    public T inputTransportFactory(TTransportFactory factory) {
-      this.inputTransportFactory = factory;
-      return (T) this;
-    }
+		public T outputTransportFactory(TTransportFactory factory) {
+			this.outputTransportFactory = factory;
+			return (T) this;
+		}
 
-    public T outputTransportFactory(TTransportFactory factory) {
-      this.outputTransportFactory = factory;
-      return (T) this;
-    }
+		public T protocolFactory(TProtocolFactory factory) {
+			this.inputProtocolFactory = factory;
+			this.outputProtocolFactory = factory;
+			return (T) this;
+		}
 
-    public T protocolFactory(TProtocolFactory factory) {
-      this.inputProtocolFactory = factory;
-      this.outputProtocolFactory = factory;
-      return (T) this;
-    }
+		public T inputProtocolFactory(TProtocolFactory factory) {
+			this.inputProtocolFactory = factory;
+			return (T) this;
+		}
 
-    public T inputProtocolFactory(TProtocolFactory factory) {
-      this.inputProtocolFactory = factory;
-      return (T) this;
-    }
+		public T outputProtocolFactory(TProtocolFactory factory) {
+			this.outputProtocolFactory = factory;
+			return (T) this;
+		}
+	}
 
-    public T outputProtocolFactory(TProtocolFactory factory) {
-      this.outputProtocolFactory = factory;
-      return (T) this;
-    }
-  }
+	/**
+	 * Core processor
+	 */
+	protected TProcessorFactory processorFactory_;
 
-  /**
-   * Core processor
-   */
-  protected TProcessorFactory processorFactory_;
+	/**
+	 * Server transport
+	 */
+	protected TServerTransport serverTransport_;
 
-  /**
-   * Server transport
-   */
-  protected TServerTransport serverTransport_;
+	/**
+	 * Input Transport Factory
+	 */
+	protected TTransportFactory inputTransportFactory_;
 
-  /**
-   * Input Transport Factory
-   */
-  protected TTransportFactory inputTransportFactory_;
+	/**
+	 * Output Transport Factory
+	 */
+	protected TTransportFactory outputTransportFactory_;
 
-  /**
-   * Output Transport Factory
-   */
-  protected TTransportFactory outputTransportFactory_;
+	/**
+	 * Input Protocol Factory
+	 */
+	protected TProtocolFactory inputProtocolFactory_;
 
-  /**
-   * Input Protocol Factory
-   */
-  protected TProtocolFactory inputProtocolFactory_;
+	/**
+	 * Output Protocol Factory
+	 */
+	protected TProtocolFactory outputProtocolFactory_;
 
-  /**
-   * Output Protocol Factory
-   */
-  protected TProtocolFactory outputProtocolFactory_;
+	private boolean isServing;
 
-  private boolean isServing;
+	protected TServerEventHandler eventHandler_;
 
-  protected TServerEventHandler eventHandler_;
+	@SuppressWarnings("rawtypes")
+	protected TServer(AbstractServerArgs args) {
+		processorFactory_ = args.processorFactory;
+		serverTransport_ = args.serverTransport;
+		inputTransportFactory_ = args.inputTransportFactory;
+		outputTransportFactory_ = args.outputTransportFactory;
+		inputProtocolFactory_ = args.inputProtocolFactory;
+		outputProtocolFactory_ = args.outputProtocolFactory;
+	}
 
-  protected TServer(AbstractServerArgs args) {
-    processorFactory_ = args.processorFactory;
-    serverTransport_ = args.serverTransport;
-    inputTransportFactory_ = args.inputTransportFactory;
-    outputTransportFactory_ = args.outputTransportFactory;
-    inputProtocolFactory_ = args.inputProtocolFactory;
-    outputProtocolFactory_ = args.outputProtocolFactory;
-  }
+	/**
+	 * The run method fires up the server and gets things going.
+	 */
+	public abstract void serve();
 
-  /**
-   * The run method fires up the server and gets things going.
-   */
-  public abstract void serve();
+	/**
+	 * Stop the server. This is optional on a per-implementation basis. Not all
+	 * servers are required to be cleanly stoppable.
+	 */
+	public void stop() {
+	}
 
-  /**
-   * Stop the server. This is optional on a per-implementation basis. Not
-   * all servers are required to be cleanly stoppable.
-   */
-  public void stop() {}
+	public boolean isServing() {
+		return isServing;
+	}
 
-  public boolean isServing() {
-    return isServing;
-  }
+	protected void setServing(boolean serving) {
+		isServing = serving;
+	}
 
-  protected void setServing(boolean serving) {
-    isServing = serving;
-  }
+	public void setServerEventHandler(TServerEventHandler eventHandler) {
+		eventHandler_ = eventHandler;
+	}
 
-  public void setServerEventHandler(TServerEventHandler eventHandler) {
-    eventHandler_ = eventHandler;
-  }
-
-  public TServerEventHandler getEventHandler() {
-    return eventHandler_;
-  }
+	public TServerEventHandler getEventHandler() {
+		return eventHandler_;
+	}
 }

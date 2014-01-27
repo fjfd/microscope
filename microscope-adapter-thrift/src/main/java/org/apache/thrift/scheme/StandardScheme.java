@@ -20,6 +20,7 @@ package org.apache.thrift.scheme;
 
 import org.apache.thrift.TBase;
 
+@SuppressWarnings("rawtypes")
 public abstract class StandardScheme<T extends TBase> implements IScheme<T> {
 
 }

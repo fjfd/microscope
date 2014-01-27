@@ -28,33 +28,33 @@ import java.io.FileOutputStream;
 
 public class TStandardFile implements TSeekableFile {
 
-  protected String path_ = null;
-  protected RandomAccessFile inputFile_ = null;
+	protected String path_ = null;
+	protected RandomAccessFile inputFile_ = null;
 
-  public TStandardFile(String path) throws IOException {
-    path_ = path;
-    inputFile_ = new RandomAccessFile(path_, "r");
-  }
+	public TStandardFile(String path) throws IOException {
+		path_ = path;
+		inputFile_ = new RandomAccessFile(path_, "r");
+	}
 
-  public InputStream getInputStream() throws IOException {
-    return new FileInputStream(inputFile_.getFD());
-  }
+	public InputStream getInputStream() throws IOException {
+		return new FileInputStream(inputFile_.getFD());
+	}
 
-  public OutputStream getOutputStream() throws IOException {
-    return new FileOutputStream(path_);
-  }
+	public OutputStream getOutputStream() throws IOException {
+		return new FileOutputStream(path_);
+	}
 
-  public void close() throws IOException {
-    if(inputFile_ != null) {
-      inputFile_.close();
-    }
-  }
+	public void close() throws IOException {
+		if (inputFile_ != null) {
+			inputFile_.close();
+		}
+	}
 
-  public long length() throws IOException {
-    return inputFile_.length();
-  }
+	public long length() throws IOException {
+		return inputFile_.length();
+	}
 
-  public void seek(long pos) throws IOException {
-    inputFile_.seek(pos);
-  }
+	public void seek(long pos) throws IOException {
+		inputFile_.seek(pos);
+	}
 }

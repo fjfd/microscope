@@ -20,6 +20,7 @@ package org.apache.thrift.scheme;
 
 public interface SchemeFactory {
 
-  public <S extends IScheme> S getScheme();
+	@SuppressWarnings("rawtypes")
+	public <S extends IScheme> S getScheme();
 
 }

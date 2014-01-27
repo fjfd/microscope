@@ -29,92 +29,93 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Simple singlethreaded server for testing.
- *
+ * 
  */
 public class TSimpleServer extends TServer {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(TSimpleServer.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(TSimpleServer.class.getName());
 
-  private boolean stopped_ = false;
+	private boolean stopped_ = false;
 
-  public TSimpleServer(AbstractServerArgs args) {
-    super(args);
-  }
+	@SuppressWarnings("rawtypes")
+	public TSimpleServer(AbstractServerArgs args) {
+		super(args);
+	}
 
-  public void serve() {
-    stopped_ = false;
-    try {
-      serverTransport_.listen();
-    } catch (TTransportException ttx) {
-      LOGGER.error("Error occurred during listening.", ttx);
-      return;
-    }
+	public void serve() {
+		stopped_ = false;
+		try {
+			serverTransport_.listen();
+		} catch (TTransportException ttx) {
+			LOGGER.error("Error occurred during listening.", ttx);
+			return;
+		}
 
-    // Run the preServe event
-    if (eventHandler_ != null) {
-      eventHandler_.preServe();
-    }
+		// Run the preServe event
+		if (eventHandler_ != null) {
+			eventHandler_.preServe();
+		}
 
-    setServing(true);
+		setServing(true);
 
-    while (!stopped_) {
-      TTransport client = null;
-      TProcessor processor = null;
-      TTransport inputTransport = null;
-      TTransport outputTransport = null;
-      TProtocol inputProtocol = null;
-      TProtocol outputProtocol = null;
-      ServerContext connectionContext = null;
-      try {
-        client = serverTransport_.accept();
-        if (client != null) {
-          processor = processorFactory_.getProcessor(client);
-          inputTransport = inputTransportFactory_.getTransport(client);
-          outputTransport = outputTransportFactory_.getTransport(client);
-          inputProtocol = inputProtocolFactory_.getProtocol(inputTransport);
-          outputProtocol = outputProtocolFactory_.getProtocol(outputTransport);
-          if (eventHandler_ != null) {
-            connectionContext = eventHandler_.createContext(inputProtocol, outputProtocol);
-          }
-          while (true) {
-            if (eventHandler_ != null) {
-              eventHandler_.processContext(connectionContext, inputTransport, outputTransport);
-            }
-            if(!processor.process(inputProtocol, outputProtocol)) {
-              break;
-            }
-          }
-        }
-      } catch (TTransportException ttx) {
-        // Client died, just move on
-      } catch (TException tx) {
-        if (!stopped_) {
-          LOGGER.error("Thrift error occurred during processing of message.", tx);
-        }
-      } catch (Exception x) {
-        if (!stopped_) {
-          LOGGER.error("Error occurred during processing of message.", x);
-        }
-      }
+		while (!stopped_) {
+			TTransport client = null;
+			TProcessor processor = null;
+			TTransport inputTransport = null;
+			TTransport outputTransport = null;
+			TProtocol inputProtocol = null;
+			TProtocol outputProtocol = null;
+			ServerContext connectionContext = null;
+			try {
+				client = serverTransport_.accept();
+				if (client != null) {
+					processor = processorFactory_.getProcessor(client);
+					inputTransport = inputTransportFactory_.getTransport(client);
+					outputTransport = outputTransportFactory_.getTransport(client);
+					inputProtocol = inputProtocolFactory_.getProtocol(inputTransport);
+					outputProtocol = outputProtocolFactory_.getProtocol(outputTransport);
+					if (eventHandler_ != null) {
+						connectionContext = eventHandler_.createContext(inputProtocol, outputProtocol);
+					}
+					while (true) {
+						if (eventHandler_ != null) {
+							eventHandler_.processContext(connectionContext, inputTransport, outputTransport);
+						}
+						if (!processor.process(inputProtocol, outputProtocol)) {
+							break;
+						}
+					}
+				}
+			} catch (TTransportException ttx) {
+				// Client died, just move on
+			} catch (TException tx) {
+				if (!stopped_) {
+					LOGGER.error("Thrift error occurred during processing of message.", tx);
+				}
+			} catch (Exception x) {
+				if (!stopped_) {
+					LOGGER.error("Error occurred during processing of message.", x);
+				}
+			}
 
-      if (eventHandler_ != null) {
-        eventHandler_.deleteContext(connectionContext, inputProtocol, outputProtocol);
-      }
+			if (eventHandler_ != null) {
+				eventHandler_.deleteContext(connectionContext, inputProtocol, outputProtocol);
+			}
 
-      if (inputTransport != null) {
-        inputTransport.close();
-      }
+			if (inputTransport != null) {
+				inputTransport.close();
+			}
 
-      if (outputTransport != null) {
-        outputTransport.close();
-      }
+			if (outputTransport != null) {
+				outputTransport.close();
+			}
 
-    }
-    setServing(false);
-  }
+		}
+		setServing(false);
+	}
 
-  public void stop() {
-    stopped_ = true;
-    serverTransport_.interrupt();
-  }
+	public void stop() {
+		stopped_ = true;
+		serverTransport_.interrupt();
+	}
 }

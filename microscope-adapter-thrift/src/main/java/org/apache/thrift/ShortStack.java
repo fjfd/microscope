@@ -25,58 +25,58 @@ package org.apache.thrift;
  */
 public class ShortStack {
 
-  private short[] vector;
-  private int top = -1;
+	private short[] vector;
+	private int top = -1;
 
-  public ShortStack(int initialCapacity) {
-    vector = new short[initialCapacity];
-  }
+	public ShortStack(int initialCapacity) {
+		vector = new short[initialCapacity];
+	}
 
-  public short pop() {
-    return vector[top--];
-  }
+	public short pop() {
+		return vector[top--];
+	}
 
-  public void push(short pushed) {
-    if (vector.length == top + 1) {
-      grow();
-    }
-    vector[++top] = pushed;
-  }
+	public void push(short pushed) {
+		if (vector.length == top + 1) {
+			grow();
+		}
+		vector[++top] = pushed;
+	}
 
-  private void grow() {
-    short[] newVector = new short[vector.length * 2];
-    System.arraycopy(vector, 0, newVector, 0, vector.length);
-    vector = newVector;
-  }
+	private void grow() {
+		short[] newVector = new short[vector.length * 2];
+		System.arraycopy(vector, 0, newVector, 0, vector.length);
+		vector = newVector;
+	}
 
-  public short peek() {
-    return vector[top];
-  }
+	public short peek() {
+		return vector[top];
+	}
 
-  public void clear() {
-    top = -1;
-  }
+	public void clear() {
+		top = -1;
+	}
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("<ShortStack vector:[");
-    for (int i = 0; i < vector.length; i++) {
-      if (i != 0) {
-        sb.append(" ");
-      }
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("<ShortStack vector:[");
+		for (int i = 0; i < vector.length; i++) {
+			if (i != 0) {
+				sb.append(" ");
+			}
 
-      if (i == top) {
-        sb.append(">>");
-      }
+			if (i == top) {
+				sb.append(">>");
+			}
 
-      sb.append(vector[i]);
+			sb.append(vector[i]);
 
-      if (i == top) {
-        sb.append("<<");
-      }
-    }
-    sb.append("]>");
-    return sb.toString();
-  }
+			if (i == top) {
+				sb.append("<<");
+			}
+		}
+		sb.append("]>");
+		return sb.toString();
+	}
 }

@@ -111,11 +111,10 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-	<groupId>asm</groupId>
-	<artifactId>asm-all</artifactId>
-	<version>3.3.1</version>
-</dependency>
-            
+			<groupId>asm</groupId>
+			<artifactId>asm-all</artifactId>
+			<version>3.3.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>

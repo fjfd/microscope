@@ -22,24 +22,24 @@ package org.apache.thrift;
 import java.io.ByteArrayOutputStream;
 
 /**
- * Class that allows access to the underlying buf without doing deep
- * copies on it.
- *
+ * Class that allows access to the underlying buf without doing deep copies on
+ * it.
+ * 
  */
 public class TByteArrayOutputStream extends ByteArrayOutputStream {
-  public TByteArrayOutputStream(int size) {
-    super(size);
-  }
+	public TByteArrayOutputStream(int size) {
+		super(size);
+	}
 
-  public TByteArrayOutputStream() {
-    super();
-  }
+	public TByteArrayOutputStream() {
+		super();
+	}
 
-  public byte[] get() {
-    return buf;
-  }
+	public byte[] get() {
+		return buf;
+	}
 
-  public int len() {
-    return count;
-  }
+	public int len() {
+		return count;
+	}
 }

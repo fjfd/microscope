@@ -14,6 +14,7 @@ import com.vipshop.microscope.sample.domain.User;
 import com.vipshop.microscope.sample.jsonp.MapResult;
 import com.vipshop.microscope.sample.service.UserService;
 import com.vipshop.microscope.sample.service.impl.UserServiceImpl;
+import com.vipshop.microscope.trace.span.HTTPHeader;
 
 @Controller
 public class UserController {
@@ -71,5 +72,13 @@ public class UserController {
 	public void deleteUser(HttpServletRequest request, String callback) {
 		service.delete();
 	}
+	
+	@RequestMapping("/thrift/hand")
+	@ResponseBody
+	public void thriftHand(HttpServletRequest request, String callback) {
+		String traceid = request.getHeader(HTTPHeader.X_B3_TRACE_ID);
+		System.out.println(traceid);
+	}
+
 
 }

@@ -25,57 +25,59 @@ import org.apache.thrift.protocol.TProtocol;
 
 /**
  * Generic base interface for generated Thrift objects.
- *
+ * 
  */
-public interface TBase<T extends TBase<?,?>, F extends TFieldIdEnum> extends Comparable<T>,  Serializable {
+public interface TBase<T extends TBase<?, ?>, F extends TFieldIdEnum> extends Comparable<T>, Serializable {
 
-  /**
-   * Reads the TObject from the given input protocol.
-   *
-   * @param iprot Input protocol
-   */
-  public void read(TProtocol iprot) throws TException;
+	/**
+	 * Reads the TObject from the given input protocol.
+	 * 
+	 * @param iprot
+	 *            Input protocol
+	 */
+	public void read(TProtocol iprot) throws TException;
 
-  /**
-   * Writes the objects out to the protocol
-   *
-   * @param oprot Output protocol
-   */
-  public void write(TProtocol oprot) throws TException;
+	/**
+	 * Writes the objects out to the protocol
+	 * 
+	 * @param oprot
+	 *            Output protocol
+	 */
+	public void write(TProtocol oprot) throws TException;
 
-  /**
-   * Get the F instance that corresponds to fieldId.
-   */
-  public F fieldForId(int fieldId);
+	/**
+	 * Get the F instance that corresponds to fieldId.
+	 */
+	public F fieldForId(int fieldId);
 
-  /**
-   * Check if a field is currently set or unset.
-   *
-   * @param field
-   */
-  public boolean isSet(F field);
+	/**
+	 * Check if a field is currently set or unset.
+	 * 
+	 * @param field
+	 */
+	public boolean isSet(F field);
 
-  /**
-   * Get a field's value by field variable. Primitive types will be wrapped in 
-   * the appropriate "boxed" types.
-   *
-   * @param field
-   */
-  public Object getFieldValue(F field);
+	/**
+	 * Get a field's value by field variable. Primitive types will be wrapped in
+	 * the appropriate "boxed" types.
+	 * 
+	 * @param field
+	 */
+	public Object getFieldValue(F field);
 
-  /**
-   * Set a field's value by field variable. Primitive types must be "boxed" in
-   * the appropriate object wrapper type.
-   *
-   * @param field
-   */
-  public void setFieldValue(F field, Object value);
+	/**
+	 * Set a field's value by field variable. Primitive types must be "boxed" in
+	 * the appropriate object wrapper type.
+	 * 
+	 * @param field
+	 */
+	public void setFieldValue(F field, Object value);
 
-  public TBase<T, F> deepCopy();
+	public TBase<T, F> deepCopy();
 
-  /**
-   * Return to the state of having just been initialized, as though you had just
-   * called the default constructor.
-   */
-  public void clear();
+	/**
+	 * Return to the state of having just been initialized, as though you had
+	 * just called the default constructor.
+	 */
+	public void clear();
 }

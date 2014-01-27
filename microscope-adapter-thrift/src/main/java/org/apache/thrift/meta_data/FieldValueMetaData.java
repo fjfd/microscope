@@ -22,51 +22,52 @@ package org.apache.thrift.meta_data;
 import org.apache.thrift.protocol.TType;
 
 /**
- * FieldValueMetaData and collection of subclasses to store metadata about
- * the value(s) of a field
+ * FieldValueMetaData and collection of subclasses to store metadata about the
+ * value(s) of a field
  */
+@SuppressWarnings({"serial"})
 public class FieldValueMetaData implements java.io.Serializable {
-  public final byte type;  
+	public final byte type;
 
-  private final boolean isTypedefType;
-  private final String typedefName;
-  private final boolean isBinary;
+	private final boolean isTypedefType;
+	private final String typedefName;
+	private final boolean isBinary;
 
-  public FieldValueMetaData(byte type, boolean binary) {
-    this.type = type;
-    this.isTypedefType = false;
-    this.typedefName = null;
-    this.isBinary = binary;
-  }
+	public FieldValueMetaData(byte type, boolean binary) {
+		this.type = type;
+		this.isTypedefType = false;
+		this.typedefName = null;
+		this.isBinary = binary;
+	}
 
-  public FieldValueMetaData(byte type) {
-    this(type, false);
-  }
+	public FieldValueMetaData(byte type) {
+		this(type, false);
+	}
 
-  public FieldValueMetaData(byte type, String typedefName) {
-    this.type = type;
-    this.isTypedefType = true;
-    this.typedefName = typedefName;
-    this.isBinary = false;
-  }
+	public FieldValueMetaData(byte type, String typedefName) {
+		this.type = type;
+		this.isTypedefType = true;
+		this.typedefName = typedefName;
+		this.isBinary = false;
+	}
 
-  public boolean isTypedef() {
-    return isTypedefType;
-  }
+	public boolean isTypedef() {
+		return isTypedefType;
+	}
 
-  public String getTypedefName() {
-    return typedefName;
-  }
+	public String getTypedefName() {
+		return typedefName;
+	}
 
-  public boolean isStruct() {
-    return type == TType.STRUCT; 
-  }
+	public boolean isStruct() {
+		return type == TType.STRUCT;
+	}
 
-  public boolean isContainer() {
-    return type == TType.LIST || type == TType.MAP || type == TType.SET;
-  }
+	public boolean isContainer() {
+		return type == TType.LIST || type == TType.MAP || type == TType.SET;
+	}
 
-  public boolean isBinary() {
-    return isBinary;
-  }
+	public boolean isBinary() {
+		return isBinary;
+	}
 }

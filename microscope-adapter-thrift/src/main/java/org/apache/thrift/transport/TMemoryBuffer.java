@@ -26,77 +26,78 @@ import java.io.UnsupportedEncodingException;
  * Memory buffer-based implementation of the TTransport interface.
  */
 public class TMemoryBuffer extends TTransport {
-  /**
-   * Create a TMemoryBuffer with an initial buffer size of <i>size</i>. The
-   * internal buffer will grow as necessary to accommodate the size of the data
-   * being written to it.
-   */
-  public TMemoryBuffer(int size) {
-    arr_ = new TByteArrayOutputStream(size);
-  }
+	/**
+	 * Create a TMemoryBuffer with an initial buffer size of <i>size</i>. The
+	 * internal buffer will grow as necessary to accommodate the size of the
+	 * data being written to it.
+	 */
+	public TMemoryBuffer(int size) {
+		arr_ = new TByteArrayOutputStream(size);
+	}
 
-  @Override
-  public boolean isOpen() {
-    return true;
-  }
+	@Override
+	public boolean isOpen() {
+		return true;
+	}
 
-  @Override
-  public void open() {
-    /* Do nothing */
-  }
+	@Override
+	public void open() {
+		/* Do nothing */
+	}
 
-  @Override
-  public void close() {
-    /* Do nothing */
-  }
+	@Override
+	public void close() {
+		/* Do nothing */
+	}
 
-  @Override
-  public int read(byte[] buf, int off, int len) {
-    byte[] src = arr_.get();
-    int amtToRead = (len > arr_.len() - pos_ ? arr_.len() - pos_ : len);
-    if (amtToRead > 0) {
-      System.arraycopy(src, pos_, buf, off, amtToRead);
-      pos_ += amtToRead;
-    }
-    return amtToRead;
-  }
+	@Override
+	public int read(byte[] buf, int off, int len) {
+		byte[] src = arr_.get();
+		int amtToRead = (len > arr_.len() - pos_ ? arr_.len() - pos_ : len);
+		if (amtToRead > 0) {
+			System.arraycopy(src, pos_, buf, off, amtToRead);
+			pos_ += amtToRead;
+		}
+		return amtToRead;
+	}
 
-  @Override
-  public void write(byte[] buf, int off, int len) {
-    arr_.write(buf, off, len);
-  }
+	@Override
+	public void write(byte[] buf, int off, int len) {
+		arr_.write(buf, off, len);
+	}
 
-  /**
-   * Output the contents of the memory buffer as a String, using the supplied
-   * encoding
-   * @param enc  the encoding to use
-   * @return the contents of the memory buffer as a String
-   */
-  public String toString(String enc) throws UnsupportedEncodingException {
-    return arr_.toString(enc);
-  }
+	/**
+	 * Output the contents of the memory buffer as a String, using the supplied
+	 * encoding
+	 * 
+	 * @param enc
+	 *            the encoding to use
+	 * @return the contents of the memory buffer as a String
+	 */
+	public String toString(String enc) throws UnsupportedEncodingException {
+		return arr_.toString(enc);
+	}
 
-  public String inspect() {
-    String buf = "";
-    byte[] bytes = arr_.toByteArray();
-    for (int i = 0; i < bytes.length; i++) {
-      buf += (pos_ == i ? "==>" : "" ) + Integer.toHexString(bytes[i] & 0xff) + " ";
-    }
-    return buf;
-  }
+	public String inspect() {
+		String buf = "";
+		byte[] bytes = arr_.toByteArray();
+		for (int i = 0; i < bytes.length; i++) {
+			buf += (pos_ == i ? "==>" : "") + Integer.toHexString(bytes[i] & 0xff) + " ";
+		}
+		return buf;
+	}
 
-  // The contents of the buffer
-  private TByteArrayOutputStream arr_;
+	// The contents of the buffer
+	private TByteArrayOutputStream arr_;
 
-  // Position to read next byte from
-  private int pos_;
+	// Position to read next byte from
+	private int pos_;
 
-  public int length() {
-    return arr_.size();
-  }
+	public int length() {
+		return arr_.size();
+	}
 
-  public byte[] getArray() {
-    return arr_.get();
-  }
+	public byte[] getArray() {
+		return arr_.get();
+	}
 }
-

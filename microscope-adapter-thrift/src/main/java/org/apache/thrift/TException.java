@@ -21,25 +21,25 @@ package org.apache.thrift;
 
 /**
  * Generic exception class for Thrift.
- *
+ * 
  */
 public class TException extends Exception {
 
-  private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-  public TException() {
-    super();
-  }
+	public TException() {
+		super();
+	}
 
-  public TException(String message) {
-    super(message);
-  }
+	public TException(String message) {
+		super(message);
+	}
 
-  public TException(Throwable cause) {
-    super(cause);
-  }
+	public TException(Throwable cause) {
+		super(cause);
+	}
 
-  public TException(String message, Throwable cause) {
-    super(message, cause);
-  }
+	public TException(String message, Throwable cause) {
+		super(message, cause);
+	}
 }

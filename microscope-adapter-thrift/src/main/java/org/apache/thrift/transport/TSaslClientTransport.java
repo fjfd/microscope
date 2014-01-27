@@ -36,72 +36,66 @@ import org.slf4j.LoggerFactory;
  */
 public class TSaslClientTransport extends TSaslTransport {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(TSaslClientTransport.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(TSaslClientTransport.class);
 
-  /**
-   * The name of the mechanism this client supports.
-   */
-  private final String mechanism;
+	/**
+	 * The name of the mechanism this client supports.
+	 */
+	private final String mechanism;
 
-  /**
-   * Uses the given <code>SaslClient</code>.
-   * 
-   * @param saslClient
-   *          The <code>SaslClient</code> to use for the subsequent SASL
-   *          negotiation.
-   * @param transport
-   *          Transport underlying this one.
-   */
-  public TSaslClientTransport(SaslClient saslClient, TTransport transport) {
-    super(saslClient, transport);
-    mechanism = saslClient.getMechanismName();
-  }
+	/**
+	 * Uses the given <code>SaslClient</code>.
+	 * 
+	 * @param saslClient
+	 *            The <code>SaslClient</code> to use for the subsequent SASL
+	 *            negotiation.
+	 * @param transport
+	 *            Transport underlying this one.
+	 */
+	public TSaslClientTransport(SaslClient saslClient, TTransport transport) {
+		super(saslClient, transport);
+		mechanism = saslClient.getMechanismName();
+	}
 
-  /**
-   * Creates a <code>SaslClient</code> using the given SASL-specific parameters.
-   * See the Java documentation for <code>Sasl.createSaslClient</code> for the
-   * details of the parameters.
-   * 
-   * @param transport
-   *          The underlying Thrift transport.
-   * @throws SaslException
-   */
-  public TSaslClientTransport(String mechanism, String authorizationId, String protocol,
-      String serverName, Map<String, String> props, CallbackHandler cbh, TTransport transport)
-      throws SaslException {
-    super(Sasl.createSaslClient(new String[] { mechanism }, authorizationId, protocol, serverName,
-        props, cbh), transport);
-    this.mechanism = mechanism;
-  }
+	/**
+	 * Creates a <code>SaslClient</code> using the given SASL-specific
+	 * parameters. See the Java documentation for
+	 * <code>Sasl.createSaslClient</code> for the details of the parameters.
+	 * 
+	 * @param transport
+	 *            The underlying Thrift transport.
+	 * @throws SaslException
+	 */
+	public TSaslClientTransport(String mechanism, String authorizationId, String protocol, String serverName, Map<String, String> props, CallbackHandler cbh, TTransport transport)
+			throws SaslException {
+		super(Sasl.createSaslClient(new String[] { mechanism }, authorizationId, protocol, serverName, props, cbh), transport);
+		this.mechanism = mechanism;
+	}
 
+	@Override
+	protected SaslRole getRole() {
+		return SaslRole.CLIENT;
+	}
 
-  @Override
-  protected SaslRole getRole() {
-    return SaslRole.CLIENT;
-  }
+	/**
+	 * Performs the client side of the initial portion of the Thrift SASL
+	 * protocol. Generates and sends the initial response to the server,
+	 * including which mechanism this client wants to use.
+	 */
+	@Override
+	protected void handleSaslStartMessage() throws TTransportException, SaslException {
+		SaslClient saslClient = getSaslClient();
 
-  /**
-   * Performs the client side of the initial portion of the Thrift SASL
-   * protocol. Generates and sends the initial response to the server, including
-   * which mechanism this client wants to use.
-   */
-  @Override
-  protected void handleSaslStartMessage() throws TTransportException, SaslException {
-    SaslClient saslClient = getSaslClient();
+		byte[] initialResponse = new byte[0];
+		if (saslClient.hasInitialResponse())
+			initialResponse = saslClient.evaluateChallenge(initialResponse);
 
-    byte[] initialResponse = new byte[0];
-    if (saslClient.hasInitialResponse())
-      initialResponse = saslClient.evaluateChallenge(initialResponse);
+		LOGGER.debug("Sending mechanism name {} and initial response of length {}", mechanism, initialResponse.length);
 
-    LOGGER.debug("Sending mechanism name {} and initial response of length {}", mechanism,
-        initialResponse.length);
-
-    byte[] mechanismBytes = mechanism.getBytes();
-    sendSaslMessage(NegotiationStatus.START,
-                    mechanismBytes);
-    // Send initial response
-    sendSaslMessage(saslClient.isComplete() ? NegotiationStatus.COMPLETE : NegotiationStatus.OK,
-                    initialResponse);
-    underlyingTransport.flush();
-  }
+		byte[] mechanismBytes = mechanism.getBytes();
+		sendSaslMessage(NegotiationStatus.START, mechanismBytes);
+		// Send initial response
+		sendSaslMessage(saslClient.isComplete() ? NegotiationStatus.COMPLETE : NegotiationStatus.OK, initialResponse);
+		underlyingTransport.flush();
+	}
 }

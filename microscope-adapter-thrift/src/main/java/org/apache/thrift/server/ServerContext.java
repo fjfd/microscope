@@ -20,7 +20,8 @@
 /**
  * Interface for storing server's connection context
  */
- 
+
 package org.apache.thrift.server;
 
-public interface ServerContext {}
+public interface ServerContext {
+}

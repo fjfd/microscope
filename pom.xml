@@ -51,6 +51,7 @@
 		<module>microscope-adapter-jdbc</module>
 		<module>microscope-adapter-mybatis</module>
 		<module>microscope-adapter-resteasy</module>
+		<module>microscope-adapter-sample</module>
 		<module>microscope-adapter-servlet</module>
 		<module>microscope-adapter-soa</module>
 		<module>microscope-adapter-spring</module>
@@ -62,11 +63,11 @@
 		<module>microscope-job</module>
 		<module>microscope-query</module>
 		<module>microscope-report</module>
-		<module>microscope-sample</module>
 		<module>microscope-storage</module>
 		<module>microscope-test</module>
 		<module>microscope-trace</module>
-		<module>microscope-web</module>
+		<module>microscope-thrift</module>
+		<module>microscope-storm</module>
 	</modules>
 
 	<!-- deploy jar to nexus server -->
