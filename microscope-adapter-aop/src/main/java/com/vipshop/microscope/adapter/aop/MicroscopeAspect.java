@@ -8,7 +8,7 @@ import com.vipshop.microscope.trace.Tracer;
 /**
  * Use for trace Service.
  * 
- * Programmer show define aop pointcut expression
+ * Programmer should define aop pointcut expression
  * in spring config xml.
  * 
  * @author Xu Fei

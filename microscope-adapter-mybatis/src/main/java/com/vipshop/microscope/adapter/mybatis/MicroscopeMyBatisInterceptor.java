@@ -39,7 +39,7 @@ public class MicroscopeMyBatisInterceptor implements Interceptor {
 			String serverIP = properties.getProperty("serverIP");
 			String name = buildName(serverIP, handler);
 			Tracer.clientSend(name, serverIP, Category.DB);
-			Tracer.addDebug(Category.DB.getStrValue(), handler.getBoundSql().getSql().trim());
+			Tracer.addDebug("sql", handler.getBoundSql().getSql().trim());
 			object = invocation.proceed();  
 		} catch (Exception e) {
 			Tracer.setResultCode(ResultCode.EXCEPTION);

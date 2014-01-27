@@ -155,4 +155,8 @@ public class WebServer implements Runnable {
 		}
 		
 	}
+	
+	public static void main(String[] args) throws Exception {
+		new WebServer(9090).start();
+	}
 }

@@ -821,21 +821,8 @@ public abstract class AbstractHttpClient implements HttpClient {
             throw new IllegalArgumentException
                 ("Request must not be null.");
         }
-        
-       	String name = request.getURI().toString();
-    	if (name.contains("?")) {
-    		int index = name.indexOf("?");
-    		name = name.substring(0, index);
-    	}
-    	
-    	Tracer.clientSend(name, Category.URL);
-
-    	request.addHeader(HTTPHeader.X_B3_TRACE_ID, Tracer.getTraceId());
-		request.addHeader(HTTPHeader.X_B3_SPAN_ID, Tracer.getSpanId());
 
 		HttpResponse response = execute(determineTarget(request), request, context);
-		
-		Tracer.clientReceive();
 		
 		return response;
     }

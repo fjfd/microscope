@@ -40,14 +40,4 @@
 		<property name="suffixCallback" value=");" />
 	</bean>
 	
-	<bean id="controllerInterception" class="com.vipshop.microscope.adapter.spring.MicroscopeSpringMVCInterceptor" />
-
-	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
-        <property name="interceptors">
-            <list>
-                <ref bean="controllerInterception"/>
-            </list>
-        </property>
-    </bean>
-    
 </beans>

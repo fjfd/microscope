@@ -19,7 +19,7 @@ import com.vipshop.microscope.trace.span.HTTPHeader;
 public class MicroscopeSpringMVCInterceptor extends HandlerInterceptorAdapter {
 
 	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception{
 		String traceId = request.getHeader(HTTPHeader.X_B3_TRACE_ID);
 		String spanId = request.getHeader(HTTPHeader.X_B3_SPAN_ID);
 

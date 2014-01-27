@@ -37,6 +37,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.span.HTTPHeader;
@@ -67,6 +69,8 @@ import com.vipshop.microscope.trace.span.HTTPHeader;
  */
 
 public class THttpClient extends TTransport {
+	
+	private static final Logger logger = LoggerFactory.getLogger(THttpClient.class);
 
 	private URL url_ = null;
 
@@ -227,7 +231,14 @@ public class THttpClient extends TTransport {
 			post.setHeader("Content-Type", "application/x-thrift");
 			post.setHeader("Accept", "application/x-thrift");
 			post.setHeader("User-Agent", "Java/THttpClient/HC");
-
+			
+			logger.info("****************************************************************");
+			logger.info("set trace id " + Tracer.getTraceId() + " on http header");
+			logger.info("set span id " + Tracer.getSpanId() + " on http header");
+			logger.info("****************************************************************");
+			post.setHeader(HTTPHeader.X_B3_TRACE_ID, Tracer.getTraceId());
+			post.setHeader(HTTPHeader.X_B3_SPAN_ID, Tracer.getSpanId());
+			
 			if (null != customHeaders_) {
 				for (Map.Entry<String, String> header : customHeaders_.entrySet()) {
 					post.setHeader(header.getKey(), header.getValue());
@@ -331,6 +342,12 @@ public class THttpClient extends TTransport {
 			connection.setRequestProperty("Content-Type", "application/x-thrift");
 			connection.setRequestProperty("Accept", "application/x-thrift");
 			connection.setRequestProperty("User-Agent", "Java/THttpClient");
+			
+			logger.info("****************************************************************");
+			logger.info("set trace id " + Tracer.getTraceId() + " on http header");
+			logger.info("set span id " + Tracer.getSpanId() + " on http header");
+			logger.info("****************************************************************");
+			
 			connection.setRequestProperty(HTTPHeader.X_B3_TRACE_ID, Tracer.getTraceId());
 			connection.setRequestProperty(HTTPHeader.X_B3_SPAN_ID, Tracer.getSpanId());
 			

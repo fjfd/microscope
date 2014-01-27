@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.vipshop</groupId>
 		<artifactId>microscope</artifactId>
-		<version>1.1.7</version>
+		<version>1.1.9</version>
 	</parent>
 
 	<artifactId>microscope-test</artifactId>
@@ -110,6 +110,12 @@
 			<artifactId>microscope-adapter-servlet</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+	<groupId>asm</groupId>
+	<artifactId>asm-all</artifactId>
+	<version>3.3.1</version>
+</dependency>
+            
 	</dependencies>
 
 	<build>

@@ -9,12 +9,21 @@ import com.vipshop.microscope.sample.server.WebServer;
 public class Sample {
 	
 	public void startSample() throws Exception {
-		new Thread(new CollectorServer()).start();
-		new WebServer(9090).start();
-		
-		TimeUnit.SECONDS.sleep(1);
+//		boolean startCollector = true;
+//		boolean startWebServer = true;
+
+		boolean startCollector = false;
+		boolean startWebServer = false;
+
+		if (startCollector) {
+			new Thread(new CollectorServer()).start();
+		}
+		if (startWebServer) {
+			new WebServer(9090).start();
+		}
 		
 		new UserHttpClient().insertRequest();
+		TimeUnit.SECONDS.sleep(1);
 	}
 	
 	public static void main(String[] args) throws Exception {

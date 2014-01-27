@@ -6,7 +6,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.vipshop</groupId>
 	<artifactId>microscope</artifactId>
-	<version>1.1.7</version>
+	<version>1.1.9</version>
 	<packaging>pom</packaging>
 
 	<properties>
@@ -67,7 +67,6 @@
 		<module>microscope-test</module>
 		<module>microscope-trace</module>
 		<module>microscope-web</module>
-		<module>microscope-maven</module>
 	</modules>
 
 	<!-- deploy jar to nexus server -->
