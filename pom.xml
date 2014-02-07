@@ -46,16 +46,12 @@
 
 	<modules>
 		<module>microscope-adapter-aop</module>
-		<module>microscope-adapter-cache</module>
 		<module>microscope-adapter-httpclient</module>
 		<module>microscope-adapter-jdbc</module>
 		<module>microscope-adapter-mybatis</module>
 		<module>microscope-adapter-sample</module>
 		<module>microscope-adapter-servlet</module>
-		<module>microscope-adapter-soa</module>
 		<module>microscope-adapter-thrift</module>
-		<module>microscope-alert</module>
-		<module>microscope-benchmark</module>
 		<module>microscope-collector</module>
 		<module>microscope-framework</module>
 		<module>microscope-job</module>
@@ -64,9 +60,6 @@
 		<module>microscope-storage</module>
 		<module>microscope-test</module>
 		<module>microscope-trace</module>
-		<module>microscope-thrift</module>
-		<module>microscope-storm</module>
-		<module>microscope-transport</module>
 	</modules>
 
 	<!-- deploy jar to nexus server -->

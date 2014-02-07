@@ -1,7 +1,6 @@
 package com.vipshop.microscope.collector.alerter;
 
 import com.vipshop.micorscope.framework.thrift.Span;
-import com.vipshop.microscope.alert.Alerter;
 
 /**
  * Alert span when serious problem happens.
@@ -11,9 +10,6 @@ import com.vipshop.microscope.alert.Alerter;
  */
 public class MessageAlerter {
 	
-	private Alerter alert = new Alerter();
-	
 	public void alert(Span span) {
-		alert.alert(span);
 	}
 }
