@@ -46,7 +46,14 @@
 				<!-- <value>leo/test/dao/CustBasic.hbm.xml</value> -->
 			</list>
 		</property>
+		
+		<property name="entityInterceptor">   
+            <ref bean="microscopeHibernateInterceptor"/>  
+        </property>  
+        
 	</bean>
+	
+	<bean id="microscopeHibernateInterceptor" class="com.vipshop.microscope.adapter.hibernate.MicroscopeHibernateInterceptor" ></bean>
 	
 	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">  
         <property name="sessionFactory" ref="sessionFactory"></property>  

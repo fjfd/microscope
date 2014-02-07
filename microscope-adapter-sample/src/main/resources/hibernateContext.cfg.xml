@@ -25,4 +25,5 @@
 		<listener type="post-load"
 			class="com.vipshop.microscope.adapter.hibernate.MicroscopeHibernatePostEventListener" />
 	</session-factory>
+	
 </hibernate-configuration>

@@ -1,13 +1,15 @@
 package com.vipshop.microscope.sample.dao;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
+import com.vipshop.micorscope.framework.span.Category;
 import com.vipshop.microscope.sample.domain.Person;
-import com.vipshop.microscope.sample.domain.User;
+import com.vipshop.microscope.trace.Tracer;
 
 public class HibernateUserDao {
 	
@@ -24,21 +26,22 @@ public class HibernateUserDao {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<User> find() {
+	public List<Person> find() {
 		return hibernateTemplate.find("from Person as person");
 	}
 
-	public void update(User user) {
-		// TODO Auto-generated method stub
+	public void update(Person user) {
+		hibernateTemplate.update(user);
 		
 	}
 
-	public void delete(User user) {
-		// TODO Auto-generated method stub
-		
+	public void delete(Person user) {
+		hibernateTemplate.delete(user);
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
+		
+		Tracer.clientSend("hibernate", Category.Method);
 		HibernateUserDao dao = new HibernateUserDao();
 		Person person = new Person();
 		person.setEmail("xufei@vipshop.com");
@@ -46,7 +49,12 @@ public class HibernateUserDao {
 		person.setUsername("xufei");
 		dao.insert(person);
 		
-		dao.find();
+		dao.update(person);
+		dao.delete(person);
+		
+		Tracer.clientReceive();
+		
+		TimeUnit.SECONDS.sleep(10);
 	}
 
 }

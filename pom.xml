@@ -47,10 +47,12 @@
 	<modules>
 		<module>microscope-adapter-aop</module>
 		<module>microscope-adapter-httpclient</module>
+		<module>microscope-adapter-hibernate</module>
 		<module>microscope-adapter-jdbc</module>
 		<module>microscope-adapter-mybatis</module>
 		<module>microscope-adapter-sample</module>
 		<module>microscope-adapter-servlet</module>
+		<module>microscope-adapter-thread</module>
 		<module>microscope-adapter-thrift</module>
 		<module>microscope-collector</module>
 		<module>microscope-framework</module>
