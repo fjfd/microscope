@@ -50,11 +50,9 @@
 		<module>microscope-adapter-httpclient</module>
 		<module>microscope-adapter-jdbc</module>
 		<module>microscope-adapter-mybatis</module>
-		<module>microscope-adapter-resteasy</module>
 		<module>microscope-adapter-sample</module>
 		<module>microscope-adapter-servlet</module>
 		<module>microscope-adapter-soa</module>
-		<module>microscope-adapter-spring</module>
 		<module>microscope-adapter-thrift</module>
 		<module>microscope-alert</module>
 		<module>microscope-benchmark</module>
