@@ -104,12 +104,12 @@
 		</dependency>
 		<dependency>
 			<groupId>com.vipshop</groupId>
-			<artifactId>microscope-adapter-spring</artifactId>
+			<artifactId>microscope-adapter-mybatis</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.vipshop</groupId>
-			<artifactId>microscope-adapter-mybatis</artifactId>
+			<artifactId>microscope-adapter-hibernate</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
