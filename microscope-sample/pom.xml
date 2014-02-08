@@ -7,7 +7,7 @@
 		<version>1.1.9</version>
 	</parent>
 
-	<artifactId>microscope-adapter-sample</artifactId>
+	<artifactId>microscope-sample</artifactId>
 	<version>${parent.version}</version>
 
 	<dependencies>
@@ -120,11 +120,6 @@
 		<dependency>
 			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-adapter-aop</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.vipshop</groupId>
-			<artifactId>microscope-adapter-hibernate</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

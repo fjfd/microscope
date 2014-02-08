@@ -7,9 +7,4 @@ public class AllSampler implements Sampler {
 		return true;
 	}
 
-	@Override
-	public boolean notSample() {
-		return false;
-	}
-
 }

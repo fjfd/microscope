@@ -2,6 +2,7 @@ package com.vipshop.microscope.adapter.thread;
 
 import java.util.concurrent.Callable;
 
+import com.vipshop.micorscope.framework.span.Category;
 import com.vipshop.microscope.trace.Trace;
 import com.vipshop.microscope.trace.Tracer;
 
@@ -25,7 +26,10 @@ public class TraceCallable<V> implements Callable<V> {
         if (parent != null) {
             Tracer.setContext(parent);
         }
-        return impl.call();
+        Tracer.clientSend(Thread.currentThread().getName() + "-" + Thread.currentThread().getId(), Category.Method);
+        V v =  impl.call();
+        Tracer.clientReceive();
+        return v;
     }
 
     public Callable<V> getImpl() {
