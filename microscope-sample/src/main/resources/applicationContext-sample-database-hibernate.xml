@@ -51,6 +51,35 @@
             <ref bean="microscopeHibernateInterceptor"/>  
         </property>  
         
+        <property name="eventListeners">
+        	<map>
+	            <entry key="pre-load">
+	                <bean class="com.vipshop.microscope.adapter.hibernate.MicroscopeHibernatePreEventListener" />
+	            </entry>
+	            <entry key="pre-insert">
+	                <bean class="com.vipshop.microscope.adapter.hibernate.MicroscopeHibernatePreEventListener" />
+	            </entry>
+	            <entry key="pre-update">
+	                <bean class="com.vipshop.microscope.adapter.hibernate.MicroscopeHibernatePreEventListener" />
+	            </entry>
+	            <entry key="pre-delete">
+	                <bean class="com.vipshop.microscope.adapter.hibernate.MicroscopeHibernatePreEventListener" />
+	            </entry>
+	            <entry key="post-load">
+	                <bean class="com.vipshop.microscope.adapter.hibernate.MicroscopeHibernatePostEventListener" />
+	            </entry>
+	            <entry key="post-insert">
+	                <bean class="com.vipshop.microscope.adapter.hibernate.MicroscopeHibernatePostEventListener" />
+	            </entry>
+	            <entry key="post-update">
+	                <bean class="com.vipshop.microscope.adapter.hibernate.MicroscopeHibernatePostEventListener" />
+	            </entry>
+	            <entry key="post-delete">
+	                <bean class="com.vipshop.microscope.adapter.hibernate.MicroscopeHibernatePostEventListener" />
+	            </entry>
+        	</map>
+    	</property>
+        
 	</bean>
 	
 	<bean id="microscopeHibernateInterceptor" class="com.vipshop.microscope.adapter.hibernate.MicroscopeHibernateInterceptor" ></bean>

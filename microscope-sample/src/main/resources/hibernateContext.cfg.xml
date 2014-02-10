@@ -8,22 +8,6 @@
 		
 		<mapping resource="com/vipshop/microscope/sample/dao/person.hbm.xml" />
 
-		<listener type="pre-insert"
-			class="com.vipshop.microscope.adapter.hibernate.MicroscopeHibernatePreEventListener" />
-		<listener type="post-insert"
-			class="com.vipshop.microscope.adapter.hibernate.MicroscopeHibernatePostEventListener" />
-		<listener type="pre-update"
-			class="com.vipshop.microscope.adapter.hibernate.MicroscopeHibernatePreEventListener" />
-		<listener type="post-update"
-			class="com.vipshop.microscope.adapter.hibernate.MicroscopeHibernatePostEventListener" />
-		<listener type="pre-delete"
-			class="com.vipshop.microscope.adapter.hibernate.MicroscopeHibernatePreEventListener" />
-		<listener type="post-delete"
-			class="com.vipshop.microscope.adapter.hibernate.MicroscopeHibernatePostEventListener" />
-		<listener type="pre-load"
-			class="com.vipshop.microscope.adapter.hibernate.MicroscopeHibernatePreEventListener" />
-		<listener type="post-load"
-			class="com.vipshop.microscope.adapter.hibernate.MicroscopeHibernatePostEventListener" />
 	</session-factory>
 	
 </hibernate-configuration>
