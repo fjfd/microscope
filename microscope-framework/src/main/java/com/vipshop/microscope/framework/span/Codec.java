@@ -1,4 +1,4 @@
-package com.vipshop.micorscope.framework.span;
+package com.vipshop.microscope.framework.span;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -10,8 +10,8 @@ import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.protocol.TProtocolFactory;
 import org.apache.thrift.transport.TIOStreamTransport;
 
-import com.vipshop.micorscope.framework.thrift.LogEntry;
-import com.vipshop.micorscope.framework.thrift.Span;
+import com.vipshop.microscope.framework.thrift.LogEntry;
+import com.vipshop.microscope.framework.thrift.Span;
 
 public class Codec {
 

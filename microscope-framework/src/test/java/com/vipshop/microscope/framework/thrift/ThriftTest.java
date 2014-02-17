@@ -9,12 +9,12 @@ import org.apache.thrift.transport.TTransportException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.vipshop.micorscope.framework.thrift.LogEntry;
-import com.vipshop.micorscope.framework.thrift.ResultCode;
-import com.vipshop.micorscope.framework.thrift.Send;
-import com.vipshop.micorscope.framework.thrift.ThriftCategory;
-import com.vipshop.micorscope.framework.thrift.ThriftClient;
-import com.vipshop.micorscope.framework.thrift.ThriftServer;
+import com.vipshop.microscope.framework.thrift.LogEntry;
+import com.vipshop.microscope.framework.thrift.ResultCode;
+import com.vipshop.microscope.framework.thrift.Send;
+import com.vipshop.microscope.framework.thrift.ThriftCategory;
+import com.vipshop.microscope.framework.thrift.ThriftClient;
+import com.vipshop.microscope.framework.thrift.ThriftServer;
 
 public class ThriftTest {
 

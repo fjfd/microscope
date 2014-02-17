@@ -1,6 +1,6 @@
 package com.vipshop.microscope.collector.consumer;
 
-import com.vipshop.micorscope.framework.thrift.Span;
+import com.vipshop.microscope.framework.thrift.Span;
 
 /**
  * MessageConsumer responsible for consumer spans.

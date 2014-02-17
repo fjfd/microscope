@@ -2,12 +2,12 @@ package com.vipshop.microscope.collector.server;
 
 import org.apache.thrift.transport.TTransportException;
 
-import com.vipshop.micorscope.framework.thrift.ThriftCategory;
-import com.vipshop.micorscope.framework.util.ConfigurationUtil;
 import com.vipshop.microscope.collector.consumer.MessageConsumer;
 import com.vipshop.microscope.collector.consumer.DisruptorMessageConsumer;
 import com.vipshop.microscope.collector.receiver.MessageReceiver;
 import com.vipshop.microscope.collector.receiver.ThriftMessageReceiver;
+import com.vipshop.microscope.framework.thrift.ThriftCategory;
+import com.vipshop.microscope.framework.util.ConfigurationUtil;
 
 /**
  * Span collector server.

@@ -21,11 +21,10 @@ package org.apache.thrift.transport;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.io.IOException;
-
-import java.net.URL;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,11 +36,9 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.util.EntityUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+import com.vipshop.microscope.framework.span.Category;
 import com.vipshop.microscope.trace.Tracer;
-import com.vipshop.microscope.trace.span.HTTPHeader;
 
 /**
  * HTTP implementation of the TTransport interface. Used for working with a
@@ -69,8 +66,6 @@ import com.vipshop.microscope.trace.span.HTTPHeader;
  */
 
 public class THttpClient extends TTransport {
-
-	private static final Logger logger = LoggerFactory.getLogger(THttpClient.class);
 
 	private URL url_ = null;
 
@@ -231,13 +226,9 @@ public class THttpClient extends TTransport {
 			post.setHeader("Content-Type", "application/x-thrift");
 			post.setHeader("Accept", "application/x-thrift");
 			post.setHeader("User-Agent", "Java/THttpClient/HC");
-
-			logger.info("****************************************************************");
-			logger.info("set trace id " + Tracer.getTraceId() + " on http header");
-			logger.info("set span id " + Tracer.getSpanId() + " on http header");
-			logger.info("****************************************************************");
-			post.setHeader(HTTPHeader.X_B3_TRACE_ID, Tracer.getTraceId());
-			post.setHeader(HTTPHeader.X_B3_SPAN_ID, Tracer.getSpanId());
+			
+			post.setHeader(Tracer.X_B3_TRACE_ID, Tracer.getTraceId());
+			post.setHeader(Tracer.X_B3_SPAN_ID, Tracer.getSpanId());
 
 			if (null != customHeaders_) {
 				for (Map.Entry<String, String> header : customHeaders_.entrySet()) {
@@ -317,14 +308,23 @@ public class THttpClient extends TTransport {
 	public void flush() throws TTransportException {
 
 		if (null != this.client) {
-			flushUsingHttpClient();
+			Tracer.clientSend(url_.toString(), Category.URL);
+			try {
+				flushUsingHttpClient();
+			} catch (Exception e) {
+				Tracer.setResultCode(e);
+			} finally {
+				Tracer.clientReceive();
+			}
 			return;
 		}
 
 		// Extract request and reset buffer
 		byte[] data = requestBuffer_.toByteArray();
 		requestBuffer_.reset();
-
+		
+		Tracer.clientSend(url_.toString(), Category.URL);
+		
 		try {
 			// Create connection object
 			HttpURLConnection connection = (HttpURLConnection) url_.openConnection();
@@ -343,13 +343,8 @@ public class THttpClient extends TTransport {
 			connection.setRequestProperty("Accept", "application/x-thrift");
 			connection.setRequestProperty("User-Agent", "Java/THttpClient");
 
-			logger.info("****************************************************************");
-			logger.info("set trace id " + Tracer.getTraceId() + " on http header");
-			logger.info("set span id " + Tracer.getSpanId() + " on http header");
-			logger.info("****************************************************************");
-
-			connection.setRequestProperty(HTTPHeader.X_B3_TRACE_ID, Tracer.getTraceId());
-			connection.setRequestProperty(HTTPHeader.X_B3_SPAN_ID, Tracer.getSpanId());
+			connection.setRequestProperty(Tracer.X_B3_TRACE_ID, Tracer.getTraceId());
+			connection.setRequestProperty(Tracer.X_B3_SPAN_ID, Tracer.getSpanId());
 
 			if (customHeaders_ != null) {
 				for (Map.Entry<String, String> header : customHeaders_.entrySet()) {
@@ -369,7 +364,10 @@ public class THttpClient extends TTransport {
 			inputStream_ = connection.getInputStream();
 
 		} catch (IOException iox) {
+			Tracer.setResultCode(iox);
 			throw new TTransportException(iox);
+		} finally {
+			Tracer.clientReceive();
 		}
 	}
 }

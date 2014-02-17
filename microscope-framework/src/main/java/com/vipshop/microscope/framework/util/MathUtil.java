@@ -1,4 +1,4 @@
-package com.vipshop.micorscope.framework.util;
+package com.vipshop.microscope.framework.util;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

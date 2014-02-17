@@ -2,8 +2,8 @@ package com.vipshop.microscope.test.mock;
 
 import java.util.concurrent.TimeUnit;
 
-import com.vipshop.micorscope.framework.span.Category;
 import com.vipshop.microscope.collector.server.CollectorServer;
+import com.vipshop.microscope.framework.span.Category;
 import com.vipshop.microscope.trace.Tracer;
 
 public class MockData {
@@ -35,7 +35,7 @@ public class MockData {
 				Tracer.clientReceive();
 				Tracer.clientReceive();
 			} catch (Exception e) {
-				Tracer.setResultCode("EXCEPTION");
+				Tracer.setResultCode(e);
 			} finally {
 				Tracer.clientReceive();
 			}

@@ -1,6 +1,6 @@
 package com.vipshop.microscope.collector.analyzer;
 
-import com.vipshop.micorscope.framework.thrift.Span;
+import com.vipshop.microscope.framework.thrift.Span;
 import com.vipshop.microscope.report.ReportAnalyzer;
 
 /**

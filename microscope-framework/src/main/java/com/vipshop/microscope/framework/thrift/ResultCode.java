@@ -4,7 +4,7 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-package com.vipshop.micorscope.framework.thrift;
+package com.vipshop.microscope.framework.thrift;
 
 public enum ResultCode implements org.apache.thrift.TEnum {
   OK(0),

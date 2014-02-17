@@ -10,10 +10,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import com.vipshop.micorscope.framework.span.Category;
+import com.vipshop.microscope.framework.span.Category;
 import com.vipshop.microscope.trace.Tracer;
-import com.vipshop.microscope.trace.span.HTTPHeader;
-import com.vipshop.microscope.trace.span.ResultCode;
 
 /**
  * Use for trace http servlet request.
@@ -49,8 +47,8 @@ public class MicroscopeFilter implements Filter{
 		/**
 		 * Get trace id and span id from http header.
 		 */
-		String traceId = ((HttpServletRequest) request).getHeader(HTTPHeader.X_B3_TRACE_ID);
-		String spanId = ((HttpServletRequest) request).getHeader(HTTPHeader.X_B3_SPAN_ID);
+		String traceId = ((HttpServletRequest) request).getHeader(Tracer.X_B3_TRACE_ID);
+		String spanId = ((HttpServletRequest) request).getHeader(Tracer.X_B3_SPAN_ID);
 		
 		String name = buildName((HttpServletRequest) request);
 		
@@ -61,8 +59,7 @@ public class MicroscopeFilter implements Filter{
 		try {
 			chain.doFilter(request, response);
 		} catch (Exception e) {
-			Tracer.setResultCode(ResultCode.EXCEPTION);
-			Tracer.record("exception", e.getCause().toString());
+			Tracer.setResultCode(e);
 		} finally {
 			Tracer.clientReceive();
 		}

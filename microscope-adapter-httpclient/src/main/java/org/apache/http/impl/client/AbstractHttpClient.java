@@ -96,9 +96,8 @@ import org.apache.http.protocol.HttpRequestExecutor;
 import org.apache.http.protocol.ImmutableHttpProcessor;
 import org.apache.http.util.EntityUtils;
 
-import com.vipshop.micorscope.framework.span.Category;
+import com.vipshop.microscope.framework.span.Category;
 import com.vipshop.microscope.trace.Tracer;
-import com.vipshop.microscope.trace.span.HTTPHeader;
 
 /**
  * Base class for {@link HttpClient} implementations. This class acts as
@@ -794,8 +793,8 @@ public abstract class AbstractHttpClient implements HttpClient {
     	Tracer.clientSend(name, Category.URL);
     	Tracer.record("URL", request.getURI().toString());
 
-    	request.addHeader(HTTPHeader.X_B3_TRACE_ID, Tracer.getTraceId());
-		request.addHeader(HTTPHeader.X_B3_SPAN_ID, Tracer.getSpanId());
+    	request.addHeader(Tracer.X_B3_TRACE_ID, Tracer.getTraceId());
+		request.addHeader(Tracer.X_B3_SPAN_ID, Tracer.getSpanId());
         
     	HttpResponse response = execute(request, (HttpContext) null);
         
@@ -854,8 +853,8 @@ public abstract class AbstractHttpClient implements HttpClient {
 
     	Tracer.clientSend(name, Category.URL);
     	
-    	request.addHeader(HTTPHeader.X_B3_TRACE_ID, Tracer.getTraceId());
-		request.addHeader(HTTPHeader.X_B3_SPAN_ID, Tracer.getSpanId());
+    	request.addHeader(Tracer.X_B3_TRACE_ID, Tracer.getTraceId());
+		request.addHeader(Tracer.X_B3_SPAN_ID, Tracer.getSpanId());
 		
         HttpResponse response = execute(target, request, (HttpContext) null);
         

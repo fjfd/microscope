@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import com.vipshop.micorscope.framework.thrift.Span;
-import com.vipshop.micorscope.framework.util.SpanMockUtil;
+import com.vipshop.microscope.framework.thrift.Span;
+import com.vipshop.microscope.framework.util.SpanMockUtil;
 import com.vipshop.microscope.report.ReportAnalyzer;
 
 public class ReportAnalyzerTest {

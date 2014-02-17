@@ -11,9 +11,8 @@ import org.apache.ibatis.plugin.Invocation;
 import org.apache.ibatis.plugin.Plugin;
 import org.apache.ibatis.plugin.Signature;
 
-import com.vipshop.micorscope.framework.span.Category;
+import com.vipshop.microscope.framework.span.Category;
 import com.vipshop.microscope.trace.Tracer;
-import com.vipshop.microscope.trace.span.ResultCode;
 
 /**
  * Use for trace MyBatis framework.
@@ -39,10 +38,10 @@ public class MicroscopeMyBatisInterceptor implements Interceptor {
 			String serverIP = properties.getProperty("serverIP");
 			String name = buildName(serverIP, handler);
 			Tracer.clientSend(name, serverIP, Category.DB);
-			Tracer.addDebug("sql", handler.getBoundSql().getSql().trim());
+			Tracer.record("sql", handler.getBoundSql().getSql().trim());
 			object = invocation.proceed();  
 		} catch (Exception e) {
-			Tracer.setResultCode(ResultCode.EXCEPTION);
+			Tracer.setResultCode(e);
 		} finally {
 			Tracer.clientReceive();
 		}

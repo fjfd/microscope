@@ -4,7 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.testng.annotations.Test;
 
-import com.vipshop.micorscope.framework.span.Category;
+import com.vipshop.microscope.framework.span.Category;
 import com.vipshop.microscope.trace.Tracer;
 
 public class TraceRunableTest {

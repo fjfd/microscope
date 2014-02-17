@@ -7,7 +7,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.vipshop.micorscope.framework.util.HttpClientUtil;
+import com.vipshop.microscope.framework.util.HttpClientUtil;
 import com.vipshop.microscope.query.server.WebServer;
 
 public class ReportControllerTest {

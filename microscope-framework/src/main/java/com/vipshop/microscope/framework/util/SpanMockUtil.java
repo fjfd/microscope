@@ -1,9 +1,9 @@
-package com.vipshop.micorscope.framework.util;
+package com.vipshop.microscope.framework.util;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vipshop.micorscope.framework.thrift.Span;
+import com.vipshop.microscope.framework.thrift.Span;
 
 public class SpanMockUtil {
 	

@@ -2,11 +2,11 @@ package com.vipshop.microscope.adapter.aop;
 
 import org.aspectj.lang.JoinPoint;
 
-import com.vipshop.micorscope.framework.span.Category;
+import com.vipshop.microscope.framework.span.Category;
 import com.vipshop.microscope.trace.Tracer;
 
 /**
- * Use for trace Service.
+ * Use for trace method.
  * 
  * Programmer should define aop pointcut expression
  * in spring config xml.

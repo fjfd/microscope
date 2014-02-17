@@ -44,6 +44,7 @@ public abstract class AbstraceHbaseRepository implements InitializingBean {
 				HColumnDescriptor columnDescriptor = new HColumnDescriptor(cfName);
 				columnDescriptor.setMaxVersions(1);
 				columnDescriptor.setCompressionType(Algorithm.SNAPPY);
+				columnDescriptor.setTimeToLive(7 * 24 * 60 * 60);
 				tableDescriptor.addFamily(columnDescriptor);
 				
 				admin.createTable(tableDescriptor);

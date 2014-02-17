@@ -1,4 +1,4 @@
-package com.vipshop.micorscope.framework.thrift;
+package com.vipshop.microscope.framework.thrift;
 
 /**
  * Server category

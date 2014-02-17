@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
-import com.vipshop.micorscope.framework.span.Category;
-import com.vipshop.micorscope.framework.thrift.Span;
-import com.vipshop.micorscope.framework.util.IPAddressUtil;
+import com.vipshop.microscope.framework.span.Category;
+import com.vipshop.microscope.framework.thrift.Span;
+import com.vipshop.microscope.framework.util.IPAddressUtil;
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.stoarge.QueueStorage;
 import com.vipshop.microscope.trace.stoarge.Storage;
@@ -68,7 +68,7 @@ public class SpanBuilder {
 		span.setSpanName(spanName);
 		span.setSpanType(category.getStrValue());
 		span.setStartTime(System.currentTimeMillis());
-		span.setResultCode(ResultCode.OK);
+		span.setResultCode(Tracer.OK);
 		
 		/*
 		 * The topmost span in a trace has its span id 
@@ -110,7 +110,7 @@ public class SpanBuilder {
 		span.setSpanName(spanName);
 		span.setSpanType(category.getStrValue());
 		span.setStartTime(System.currentTimeMillis());
-		span.setResultCode(ResultCode.OK);
+		span.setResultCode(Tracer.OK);
 		span.setServerName(service);
 		span.setServerIp(service);
 		/*

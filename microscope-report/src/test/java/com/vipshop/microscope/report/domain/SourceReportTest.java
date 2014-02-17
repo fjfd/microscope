@@ -2,7 +2,7 @@ package com.vipshop.microscope.report.domain;
 
 import org.testng.annotations.Test;
 
-import com.vipshop.micorscope.framework.util.IPAddressUtil;
+import com.vipshop.microscope.framework.util.IPAddressUtil;
 import com.vipshop.microscope.report.factory.MySQLFactory;
 
 public class SourceReportTest {

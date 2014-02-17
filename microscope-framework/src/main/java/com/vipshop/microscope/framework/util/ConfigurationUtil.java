@@ -1,4 +1,4 @@
-package com.vipshop.micorscope.framework.util;
+package com.vipshop.microscope.framework.util;
 
 import java.util.Properties;
 
@@ -19,6 +19,10 @@ public final class ConfigurationUtil {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ConfigurationUtil.class);
 	private static final Properties properties = new Properties();
+	
+	public static boolean fileExist(String propertiesFile) {
+		return ConfigurationUtil.class.getClassLoader().getResourceAsStream(propertiesFile) != null ? true : false;
+	}
 	
 	public static ConfigurationUtil getConfiguration(String file){
 		return new ConfigurationUtil(file);

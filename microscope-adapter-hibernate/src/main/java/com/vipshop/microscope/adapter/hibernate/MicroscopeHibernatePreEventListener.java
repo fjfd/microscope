@@ -9,7 +9,7 @@ import org.hibernate.event.PreLoadEventListener;
 import org.hibernate.event.PreUpdateEvent;
 import org.hibernate.event.PreUpdateEventListener;
 
-import com.vipshop.micorscope.framework.span.Category;
+import com.vipshop.microscope.framework.span.Category;
 import com.vipshop.microscope.trace.Tracer;
 
 public class MicroscopeHibernatePreEventListener implements PreInsertEventListener, PreLoadEventListener, PreUpdateEventListener, PreDeleteEventListener {

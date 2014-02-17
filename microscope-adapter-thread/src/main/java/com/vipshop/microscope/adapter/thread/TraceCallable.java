@@ -2,7 +2,7 @@ package com.vipshop.microscope.adapter.thread;
 
 import java.util.concurrent.Callable;
 
-import com.vipshop.micorscope.framework.span.Category;
+import com.vipshop.microscope.framework.span.Category;
 import com.vipshop.microscope.trace.Trace;
 import com.vipshop.microscope.trace.Tracer;
 

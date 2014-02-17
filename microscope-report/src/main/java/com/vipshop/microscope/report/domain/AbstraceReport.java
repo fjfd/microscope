@@ -1,7 +1,7 @@
 package com.vipshop.microscope.report.domain;
 
-import com.vipshop.micorscope.framework.thrift.Span;
-import com.vipshop.micorscope.framework.util.CalendarUtil;
+import com.vipshop.microscope.framework.thrift.Span;
+import com.vipshop.microscope.framework.util.CalendarUtil;
 
 /**
  * Abstrace report common date.

@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.vipshop</groupId>
 		<artifactId>microscope</artifactId>
-		<version>1.1.9</version>
+		<version>1.2.2</version>
 	</parent>
 
 	<artifactId>microscope-storage</artifactId>

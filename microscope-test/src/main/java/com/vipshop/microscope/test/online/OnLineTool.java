@@ -2,15 +2,14 @@ package com.vipshop.microscope.test.online;
 
 import java.util.concurrent.TimeUnit;
 
-import com.vipshop.micorscope.framework.span.Category;
-import com.vipshop.micorscope.framework.thrift.Span;
-import com.vipshop.micorscope.framework.util.CalendarUtil;
-import com.vipshop.micorscope.framework.util.SpanMockUtil;
+import com.vipshop.microscope.framework.span.Category;
+import com.vipshop.microscope.framework.thrift.Span;
+import com.vipshop.microscope.framework.util.CalendarUtil;
+import com.vipshop.microscope.framework.util.SpanMockUtil;
 import com.vipshop.microscope.report.domain.TopReport;
 import com.vipshop.microscope.report.factory.MySQLFactory;
 import com.vipshop.microscope.storage.hbase.HbaseRepository;
 import com.vipshop.microscope.trace.Tracer;
-import com.vipshop.microscope.trace.span.ResultCode;
 
 /**
  * Test tool online
@@ -42,7 +41,7 @@ public class OnLineTool {
 		try {
 			TimeUnit.MILLISECONDS.sleep(1000);
 		} catch (Exception e) {
-			Tracer.setResultCode(ResultCode.EXCEPTION);
+			Tracer.setResultCode(e);
 		} finally {
 			Tracer.clientReceive();
 		}

@@ -2,7 +2,7 @@ package com.vipshop.microscope.storage.domain;
 
 import java.io.Serializable;
 
-import com.vipshop.micorscope.framework.thrift.Span;
+import com.vipshop.microscope.framework.thrift.Span;
 
 /**
  * Every trace detail info.
@@ -32,11 +32,9 @@ public class TraceTable implements Serializable, Comparable<TraceTable> {
 	 * @return
 	 */
 	public String rowKey() {
-		return this.getAppName()
-			   + "-" + this.getType() 
-			   + "-" + this.getTraceId() 
-			   + "-" + this.getTraceName() 
-			   + "-" + (Long.MAX_VALUE -System.currentTimeMillis());
+		return (Long.MAX_VALUE -System.currentTimeMillis())
+			   + "-" + this.getTraceId()
+			   + "-" + this.getTraceName();
 	}
 
 

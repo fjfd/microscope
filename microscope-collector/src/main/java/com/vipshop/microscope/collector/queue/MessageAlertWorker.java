@@ -3,9 +3,9 @@ package com.vipshop.microscope.collector.queue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-import com.vipshop.micorscope.framework.thrift.Span;
 import com.vipshop.microscope.collector.alerter.MessageAlerter;
 import com.vipshop.microscope.collector.server.CollectorServer;
+import com.vipshop.microscope.framework.thrift.Span;
 
 /**
  * A thread worker alert span. 

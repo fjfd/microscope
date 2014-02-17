@@ -1,6 +1,6 @@
 package com.vipshop.microscope.trace;
 
-import com.vipshop.micorscope.framework.span.Category;
+import com.vipshop.microscope.framework.span.Category;
 import com.vipshop.microscope.trace.span.SpanBuilder;
 import com.vipshop.microscope.trace.span.SpanContext;
 import com.vipshop.microscope.trace.span.SpanId;
@@ -21,7 +21,7 @@ public class Trace {
 	/**
 	 * A new trace with default null context.
 	 */
-	public Trace() {
+	Trace() {
 		this.spanBuilder = new SpanBuilder();
 	}
 	
@@ -30,7 +30,7 @@ public class Trace {
 	 * 
 	 * @param context deliver context
 	 */
-	public Trace(SpanContext context) {
+	Trace(SpanContext context) {
 		this.spanBuilder = new SpanBuilder(context);
 	}
 	
@@ -39,7 +39,7 @@ public class Trace {
 	 * 
 	 * @return
 	 */
-	public SpanId getSpanId() {
+	SpanId getSpanId() {
 		return spanBuilder.getSpanId();
 	}
 	
@@ -49,7 +49,7 @@ public class Trace {
 	 * @param spanName span name
 	 * @param category span category
 	 */
-	public void clientSend(String spanName, Category category) {
+	void clientSend(String spanName, Category category) {
 		spanBuilder.clientSend(spanName, category);
 	}
 	
@@ -60,7 +60,7 @@ public class Trace {
 	 * @param server server name/IP
 	 * @param category span category
 	 */
-	public void clientSend(String spanName, String server, Category category) {
+	void clientSend(String spanName, String server, Category category) {
 		spanBuilder.clientSend(spanName, server, category);
 	}
 	
@@ -72,24 +72,24 @@ public class Trace {
 	 *
 	 * @param result
 	 */
-	public void setResutlCode(String result) {
+	void setResutlCode(String result) {
 		spanBuilder.setResultCode(result);
 	}
 	
 	/**
 	 * Complete a Span.
 	 */
-	public void clientReceive() {
+	void clientReceive() {
 		spanBuilder.clientReceive();
 	}
 	
 	/**
-	 * Add debug info
+	 * Add key/value info
 	 * 
 	 * @param key
 	 * @param value
 	 */
-	public void addDebug(String key, String value) {
+	void record(String key, String value) {
 		spanBuilder.addDebug(key, value);
 	}
 	
