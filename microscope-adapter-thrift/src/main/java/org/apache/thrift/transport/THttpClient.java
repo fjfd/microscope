@@ -308,7 +308,8 @@ public class THttpClient extends TTransport {
 	public void flush() throws TTransportException {
 
 		if (null != this.client) {
-			Tracer.clientSend(url_.toString(), Category.URL);
+			Tracer.clientSend(url_.getPath() + "@THttpClient", Category.URL);
+			Tracer.record("url", url_.toString());
 			try {
 				flushUsingHttpClient();
 			} catch (Exception e) {
@@ -323,8 +324,8 @@ public class THttpClient extends TTransport {
 		byte[] data = requestBuffer_.toByteArray();
 		requestBuffer_.reset();
 		
-		Tracer.clientSend(url_.toString(), Category.URL);
-		
+		Tracer.clientSend(url_.getPath() + "@THttpClient", Category.URL);
+		Tracer.record("url", url_.toString());
 		try {
 			// Create connection object
 			HttpURLConnection connection = (HttpURLConnection) url_.openConnection();

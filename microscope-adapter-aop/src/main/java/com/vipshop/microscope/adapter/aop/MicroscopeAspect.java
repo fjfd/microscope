@@ -15,14 +15,27 @@ import com.vipshop.microscope.trace.Tracer;
  * @version 1.0
  */
 public class MicroscopeAspect {
-
+	
+	public void deBefore(String name) {
+		Tracer.clientSend(name, Category.Service);
+	}
+	
 	public void doBefore(JoinPoint jp) {
 		Tracer.clientSend(buildName(jp), Category.Service);
 	}
+	
+    public void doAfter(String name) {
+        Tracer.clientReceive();
+    }
 
     public void doAfter(JoinPoint jp) {
         Tracer.clientReceive();
     }
+    
+    public void doAfter() {
+        Tracer.clientReceive();
+    }
+
     
 	public static String buildName(JoinPoint jp) {
 		String method = jp.getSignature().getName(); 
