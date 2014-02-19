@@ -45,19 +45,12 @@
 	</properties>
 
 	<modules>
-		<module>microscope-adapter-aop</module>
-		<module>microscope-adapter-httpclient</module>
-		<module>microscope-adapter-hibernate</module>
-		<module>microscope-adapter-mybatis</module>
-		<module>microscope-adapter-servlet</module>
-		<module>microscope-adapter-thread</module>
-		<module>microscope-adapter-thrift</module>
 		<module>microscope-collector</module>
 		<module>microscope-framework</module>
 		<module>microscope-job</module>
+		<module>microscope-maven</module>
 		<module>microscope-query</module>
 		<module>microscope-report</module>
-		<module>microscope-sample</module>
 		<module>microscope-storage</module>
 		<module>microscope-test</module>
 		<module>microscope-trace</module>
