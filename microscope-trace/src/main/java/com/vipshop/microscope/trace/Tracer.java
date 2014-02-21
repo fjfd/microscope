@@ -3,9 +3,9 @@ package com.vipshop.microscope.trace;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.vipshop.microscope.framework.span.Category;
-import com.vipshop.microscope.framework.util.ConfigurationUtil;
-import com.vipshop.microscope.framework.util.DateUtil;
+import com.vipshop.microscope.common.span.Category;
+import com.vipshop.microscope.common.util.ConfigurationUtil;
+import com.vipshop.microscope.common.util.DateUtil;
 import com.vipshop.microscope.trace.switcher.ConfigSwitcher;
 import com.vipshop.microscope.trace.switcher.Switcher;
 import com.vipshop.microscope.trace.transport.QueueTransporter;

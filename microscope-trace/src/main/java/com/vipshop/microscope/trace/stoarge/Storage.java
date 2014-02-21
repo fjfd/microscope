@@ -1,6 +1,6 @@
 package com.vipshop.microscope.trace.stoarge;
 
-import com.vipshop.microscope.framework.thrift.Span;
+import com.vipshop.microscope.common.thrift.Span;
 
 /**
  * Storge span in client.

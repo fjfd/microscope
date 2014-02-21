@@ -2,7 +2,7 @@ package com.vipshop.microscope.report.domain;
 
 import org.testng.annotations.Test;
 
-import com.vipshop.microscope.framework.util.CalendarUtil;
+import com.vipshop.microscope.common.util.CalendarUtil;
 import com.vipshop.microscope.report.domain.DepenReport;
 
 public class DepenReportTest {

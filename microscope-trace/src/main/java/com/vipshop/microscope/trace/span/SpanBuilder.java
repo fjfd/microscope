@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
-import com.vipshop.microscope.framework.span.Category;
-import com.vipshop.microscope.framework.thrift.Span;
-import com.vipshop.microscope.framework.util.IPAddressUtil;
+import com.vipshop.microscope.common.span.Category;
+import com.vipshop.microscope.common.thrift.Span;
+import com.vipshop.microscope.common.util.IPAddressUtil;
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.stoarge.QueueStorage;
 import com.vipshop.microscope.trace.stoarge.Storage;

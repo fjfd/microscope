@@ -2,8 +2,8 @@ package com.vipshop.microscope.report.condition;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.vipshop.microscope.framework.span.Category;
-import com.vipshop.microscope.framework.util.IPAddressUtil;
+import com.vipshop.microscope.common.span.Category;
+import com.vipshop.microscope.common.util.IPAddressUtil;
 
 public class TraceReportCondition {
 	

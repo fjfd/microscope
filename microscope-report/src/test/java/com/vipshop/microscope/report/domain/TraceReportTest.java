@@ -6,9 +6,9 @@ import java.util.List;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.vipshop.microscope.framework.span.Category;
-import com.vipshop.microscope.framework.util.CalendarUtil;
-import com.vipshop.microscope.framework.util.IPAddressUtil;
+import com.vipshop.microscope.common.span.Category;
+import com.vipshop.microscope.common.util.CalendarUtil;
+import com.vipshop.microscope.common.util.IPAddressUtil;
 import com.vipshop.microscope.report.condition.TraceReportCondition;
 import com.vipshop.microscope.report.factory.MySQLFactory;
 
@@ -78,7 +78,7 @@ public class TraceReportTest {
 		report.setDay(1);
 		report.setHour(1);
 		report.setAppName("passport");
-		report.setAppIp(IPAddressUtil.intIPAddress("localhost"));
+		report.setAppIp(12324312);
 		report.setType(Category.getIntValue("Action"));
 		report.setName("query:select * from trace_report");
 		report.setTotalCount(100);

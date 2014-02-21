@@ -6,13 +6,13 @@ import org.apache.thrift.TException;
 import org.apache.thrift.transport.TTransportException;
 
 import com.vipshop.microscope.collector.consumer.MessageConsumer;
-import com.vipshop.microscope.framework.span.Codec;
-import com.vipshop.microscope.framework.thrift.LogEntry;
-import com.vipshop.microscope.framework.thrift.ResultCode;
-import com.vipshop.microscope.framework.thrift.Send;
-import com.vipshop.microscope.framework.thrift.Span;
-import com.vipshop.microscope.framework.thrift.ThriftCategory;
-import com.vipshop.microscope.framework.thrift.ThriftServer;
+import com.vipshop.microscope.common.span.Codec;
+import com.vipshop.microscope.common.thrift.LogEntry;
+import com.vipshop.microscope.common.thrift.ResultCode;
+import com.vipshop.microscope.common.thrift.Send;
+import com.vipshop.microscope.common.thrift.Span;
+import com.vipshop.microscope.common.thrift.ThriftCategory;
+import com.vipshop.microscope.common.thrift.ThriftServer;
 
 /**
  * Use {@code NoneBlockingThriftServer} receive spans.

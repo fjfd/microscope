@@ -3,8 +3,8 @@ package com.vipshop.microscope.report;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vipshop.microscope.framework.thrift.Span;
-import com.vipshop.microscope.framework.util.CalendarUtil;
+import com.vipshop.microscope.common.thrift.Span;
+import com.vipshop.microscope.common.util.CalendarUtil;
 import com.vipshop.microscope.report.domain.AbstraceReport;
 import com.vipshop.microscope.report.domain.DepenReport;
 import com.vipshop.microscope.report.domain.MsgReport;

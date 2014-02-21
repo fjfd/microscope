@@ -1,6 +1,6 @@
 package com.vipshop.microscope.trace;
 
-import com.vipshop.microscope.framework.span.Category;
+import com.vipshop.microscope.common.span.Category;
 import com.vipshop.microscope.trace.span.SpanBuilder;
 import com.vipshop.microscope.trace.span.SpanContext;
 import com.vipshop.microscope.trace.span.SpanId;

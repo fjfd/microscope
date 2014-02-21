@@ -7,10 +7,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.vipshop.microscope.framework.thrift.Span;
-import com.vipshop.microscope.framework.util.CalendarUtil;
-import com.vipshop.microscope.framework.util.MathUtil;
-import com.vipshop.microscope.framework.util.TimeStampUtil;
+import com.vipshop.microscope.common.thrift.Span;
+import com.vipshop.microscope.common.util.CalendarUtil;
+import com.vipshop.microscope.common.util.MathUtil;
+import com.vipshop.microscope.common.util.TimeStampUtil;
 import com.vipshop.microscope.report.factory.MySQLRepository;
 
 /**

@@ -2,10 +2,10 @@ package com.vipshop.microscope.test.online;
 
 import java.util.concurrent.TimeUnit;
 
-import com.vipshop.microscope.framework.span.Category;
-import com.vipshop.microscope.framework.thrift.Span;
-import com.vipshop.microscope.framework.util.CalendarUtil;
-import com.vipshop.microscope.framework.util.SpanMockUtil;
+import com.vipshop.microscope.common.span.Category;
+import com.vipshop.microscope.common.thrift.Span;
+import com.vipshop.microscope.common.util.CalendarUtil;
+import com.vipshop.microscope.common.util.SpanMockUtil;
 import com.vipshop.microscope.report.domain.TopReport;
 import com.vipshop.microscope.report.factory.MySQLFactory;
 import com.vipshop.microscope.storage.hbase.HbaseRepository;

@@ -1,6 +1,6 @@
 package com.vipshop.microscope.collector.storager;
 
-import com.vipshop.microscope.framework.thrift.Span;
+import com.vipshop.microscope.common.thrift.Span;
 import com.vipshop.microscope.storage.StorageRepository;
 
 /**

@@ -1,6 +1,6 @@
 package com.vipshop.microscope.storage;
 
-import com.vipshop.microscope.framework.thrift.Span;
+import com.vipshop.microscope.common.thrift.Span;
 import com.vipshop.microscope.storage.domain.AppTable;
 import com.vipshop.microscope.storage.domain.TraceTable;
 import com.vipshop.microscope.storage.hbase.HbaseRepository;

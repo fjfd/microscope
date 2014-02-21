@@ -9,12 +9,12 @@ import org.apache.thrift.TException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.vipshop.microscope.framework.span.Codec;
-import com.vipshop.microscope.framework.thrift.LogEntry;
-import com.vipshop.microscope.framework.thrift.Span;
-import com.vipshop.microscope.framework.thrift.ThriftCategory;
-import com.vipshop.microscope.framework.thrift.ThriftClient;
-import com.vipshop.microscope.framework.util.ThreadPoolUtil;
+import com.vipshop.microscope.common.span.Codec;
+import com.vipshop.microscope.common.thrift.LogEntry;
+import com.vipshop.microscope.common.thrift.Span;
+import com.vipshop.microscope.common.thrift.ThriftCategory;
+import com.vipshop.microscope.common.thrift.ThriftClient;
+import com.vipshop.microscope.common.util.ThreadPoolUtil;
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.stoarge.QueueStorage;
 import com.vipshop.microscope.trace.stoarge.Storage;

@@ -13,8 +13,8 @@ import com.vipshop.microscope.collector.disruptor.MessageAlertHandler;
 import com.vipshop.microscope.collector.disruptor.MessageAnalyzeHandler;
 import com.vipshop.microscope.collector.disruptor.MessageStorageHandler;
 import com.vipshop.microscope.collector.disruptor.SpanEvent;
-import com.vipshop.microscope.framework.thrift.Span;
-import com.vipshop.microscope.framework.util.ThreadPoolUtil;
+import com.vipshop.microscope.common.thrift.Span;
+import com.vipshop.microscope.common.util.ThreadPoolUtil;
 
 /**
  * A version use {@code Disruptor} to consume spans.

@@ -7,12 +7,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.vipshop.microscope.framework.span.Category;
-import com.vipshop.microscope.framework.thrift.Span;
-import com.vipshop.microscope.framework.util.CalendarUtil;
-import com.vipshop.microscope.framework.util.IPAddressUtil;
-import com.vipshop.microscope.framework.util.MathUtil;
-import com.vipshop.microscope.framework.util.TimeStampUtil;
+import com.vipshop.microscope.common.span.Category;
+import com.vipshop.microscope.common.thrift.Span;
+import com.vipshop.microscope.common.util.CalendarUtil;
+import com.vipshop.microscope.common.util.IPAddressUtil;
+import com.vipshop.microscope.common.util.MathUtil;
+import com.vipshop.microscope.common.util.TimeStampUtil;
 import com.vipshop.microscope.report.factory.MySQLRepository;
 
 /**
@@ -91,12 +91,14 @@ public class TraceReport extends AbstraceReport {
 				try {
 					prevReport.saveReport();
 				} catch (Exception e) {
-					logger.error("save trace report to mysql error ... " + e);
+					logger.error("save trace report --> [" + prevReport.toString() + "] to mysql error ... " + e);
 				} finally {
 					traceContainer.remove(prevKey);
 				}
 			}
 		}
+		
+		
 
 	}
 	

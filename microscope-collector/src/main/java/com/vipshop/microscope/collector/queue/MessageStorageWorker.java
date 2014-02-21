@@ -5,7 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.vipshop.microscope.collector.server.CollectorServer;
 import com.vipshop.microscope.collector.storager.MessageStorager;
-import com.vipshop.microscope.framework.thrift.Span;
+import com.vipshop.microscope.common.thrift.Span;
 
 /**
  * A thread worker store span.

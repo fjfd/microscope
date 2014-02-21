@@ -1,6 +1,6 @@
 package com.vipshop.microscope.trace.span;
 
-import com.vipshop.microscope.framework.thrift.Span;
+import com.vipshop.microscope.common.thrift.Span;
 
 /**
  * A helper class when process a trace.

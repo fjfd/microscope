@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.vipshop.microscope.framework.thrift.Span;
+import com.vipshop.microscope.common.thrift.Span;
 import com.vipshop.microscope.storage.domain.AppTable;
 import com.vipshop.microscope.storage.domain.TraceTable;
 

@@ -6,8 +6,8 @@ import com.vipshop.microscope.collector.consumer.MessageConsumer;
 import com.vipshop.microscope.collector.consumer.DisruptorMessageConsumer;
 import com.vipshop.microscope.collector.receiver.MessageReceiver;
 import com.vipshop.microscope.collector.receiver.ThriftMessageReceiver;
-import com.vipshop.microscope.framework.thrift.ThriftCategory;
-import com.vipshop.microscope.framework.util.ConfigurationUtil;
+import com.vipshop.microscope.common.thrift.ThriftCategory;
+import com.vipshop.microscope.common.util.ConfigurationUtil;
 
 /**
  * Span collector server.

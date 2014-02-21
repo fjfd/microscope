@@ -6,8 +6,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.vipshop.microscope.framework.span.Category;
-import com.vipshop.microscope.framework.util.IPAddressUtil;
+import com.vipshop.microscope.common.span.Category;
+import com.vipshop.microscope.common.util.IPAddressUtil;
 import com.vipshop.microscope.report.condition.DepenReportCondition;
 import com.vipshop.microscope.report.condition.MarketReportCondition;
 import com.vipshop.microscope.report.condition.MsgReportCondition;

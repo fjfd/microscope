@@ -3,7 +3,7 @@ package com.vipshop.microscope.test.mock;
 import java.util.concurrent.TimeUnit;
 
 import com.vipshop.microscope.collector.server.CollectorServer;
-import com.vipshop.microscope.framework.span.Category;
+import com.vipshop.microscope.common.span.Category;
 import com.vipshop.microscope.trace.Tracer;
 
 public class MockData {

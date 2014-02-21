@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import com.vipshop.microscope.framework.thrift.Span;
-import com.vipshop.microscope.framework.util.CalendarUtil;
-import com.vipshop.microscope.framework.util.SpanMockUtil;
+import com.vipshop.microscope.common.thrift.Span;
+import com.vipshop.microscope.common.util.CalendarUtil;
+import com.vipshop.microscope.common.util.SpanMockUtil;
 
 public class ProblemReportTest {
 	

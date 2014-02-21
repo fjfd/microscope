@@ -1,12 +1,11 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		       xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
 	     			   			   http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.vipshop</groupId>
 	<artifactId>microscope</artifactId>
-	<version>1.2.3</version>
+	<version>1.2.5</version>
 	<packaging>pom</packaging>
 
 	<properties>
@@ -46,11 +45,11 @@
 
 	<modules>
 		<module>microscope-collector</module>
-		<module>microscope-framework</module>
+		<module>microscope-common</module>
 		<module>microscope-job</module>
-		<module>microscope-maven</module>
 		<module>microscope-query</module>
 		<module>microscope-report</module>
+		<module>microscope-stats</module>
 		<module>microscope-storage</module>
 		<module>microscope-test</module>
 		<module>microscope-trace</module>
@@ -67,7 +66,7 @@
 			<url>http://10.101.0.2:8081/nexus/content/repositories/releases</url>
 		</repository>
 	</distributionManagement>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>org.testng</groupId>
@@ -146,6 +145,7 @@
 					<skip>true</skip>
 				</configuration>
 			</plugin>
+			
 		</plugins>
 	</build>
 
