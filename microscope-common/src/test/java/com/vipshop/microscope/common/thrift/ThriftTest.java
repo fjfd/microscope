@@ -1,4 +1,4 @@
-package com.vipshop.microscope.framework.thrift;
+package com.vipshop.microscope.common.thrift;
 
 import java.util.Arrays;
 import java.util.List;

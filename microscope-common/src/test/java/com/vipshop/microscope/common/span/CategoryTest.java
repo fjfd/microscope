@@ -1,4 +1,4 @@
-package com.vipshop.microscope.framework.span;
+package com.vipshop.microscope.common.span;
 
 import org.testng.annotations.Test;
 
