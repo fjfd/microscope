@@ -1,4 +1,4 @@
-package com.vipshop.microscope.stats;
+package com.vipshop.microscope.stats.gauges;
 
 import java.util.HashMap;
 import java.util.Iterator;
