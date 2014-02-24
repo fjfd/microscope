@@ -2,11 +2,17 @@ package com.vipshop.microscope.trace;
 
 import java.util.concurrent.TimeUnit;
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.vipshop.microscope.common.span.Category;
 
 public class TracerTest {
+	
+	@Test
+	public void testIsTraceEnable() {
+		Assert.assertEquals(true, Tracer.isTraceEnable());
+	}
 	
 	@Test
 	public void traceUseExample1() throws InterruptedException {

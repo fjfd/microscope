@@ -102,7 +102,7 @@ public class Tracer {
 	 * developer want to monitor by microscope. Read values from file
 	 * and start transporter.
 	 * 
-	 * If trace.properties not exist, means DO NOT monitor and do nothing.
+	 * If trace.properties not exist, means DO NOT trace and do nothing.
 	 */
 	static {
 		if (ConfigurationUtil.fileExist("trace.properties")) {
@@ -133,6 +133,15 @@ public class Tracer {
 		throw new UnsupportedOperationException();
 	}
 	
+	/**
+	 * Is trace function open or close. 
+	 * 
+	 * @return {@code true} if trace enable, {@code false} if not 
+	 */
+	public static boolean isTraceEnable() {
+		return SWITCHER.isOpen();
+	}
+
 	// ******* methods for send and receive span ******* //
 	
 	/**
