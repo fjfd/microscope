@@ -42,6 +42,12 @@ public class AppTable {
 		if (traceId.equals(spanId)) {
 			String appName = span.getAppName();
 			String traceName = span.getSpanName();
+			
+			// remove user id from span name
+			if (appName.equals("user_info")) {
+				traceName = traceName.replaceAll("\\d", "");
+				traceName = traceName.substring(7);
+			}
 			return new AppTable(appName, traceName);
 		}
 		
@@ -53,5 +59,12 @@ public class AppTable {
 	public String toString() {
 		return "App [appName=" + appName + ", traceName=" + traceName + "]";
 	}
-
+	
+	public static void main(String[] args) {
+		String traceName = "/users/11111111111/info/@system";
+		traceName = traceName.replaceAll("\\d", "");
+		traceName = traceName.substring(7);
+		System.out.println(traceName);
+	}
+	
 }

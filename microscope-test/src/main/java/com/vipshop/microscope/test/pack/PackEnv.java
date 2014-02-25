@@ -2,7 +2,7 @@ package com.vipshop.microscope.test.pack;
 
 public class PackEnv {
 
-	public static String version = "1.2.5";
+	public static String version = "1.2.6";
 
 	public static String collectorJarPath = "E:\\Workspace\\microscope\\microscope-collector\\target\\microscope-collector-" + version + ".jar";
 	public static String collectorLibPath = "E:\\Workspace\\microscope\\microscope-collector\\target\\lib\\";

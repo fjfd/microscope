@@ -16,7 +16,7 @@ public class TraceService {
 	
 	public Map<String, Object> getApps() {
 		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("app", HbaseRepository.findApps());
+		result.put("app", HbaseRepository.findAll());
 		
 		List<Map<String, Object>> traceLists = new ArrayList<Map<String, Object>>();
 		

@@ -153,13 +153,9 @@ public class TraceTableRepository extends AbstraceHbaseRepository {
 		PageFilter pageFilter = new PageFilter(limit);
 		SingleColumnValueFilter singleColumnValueFilter = new SingleColumnValueFilter(CF, CF_APP_NAME, CompareFilter.CompareOp.EQUAL, Bytes.toBytes(query.get("appName")));
 		
-		FilterList filterList = null;
-		if (query.get("traceName").equals("")) {
-			filterList = new FilterList(pageFilter, singleColumnValueFilter);
-		} else {
-			RowFilter traceFilter = new RowFilter(CompareFilter.CompareOp.EQUAL, new RegexStringComparator(".*" + query.get("traceName") + ".*"));
-			filterList = new FilterList(pageFilter, traceFilter, singleColumnValueFilter);
-		}
+		RowFilter traceFilter = new RowFilter(CompareFilter.CompareOp.EQUAL, new RegexStringComparator(".*" + query.get("traceName")));
+		FilterList filterList = new FilterList(pageFilter, traceFilter, singleColumnValueFilter);;
+		
 		scan.setFilter(filterList);
 		try {
 			String start = query.get("startTime");

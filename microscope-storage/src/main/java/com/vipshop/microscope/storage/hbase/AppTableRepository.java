@@ -40,6 +40,8 @@ public class AppTableRepository extends AbstraceHbaseRepository {
 				HTableDescriptor tableDescriptor = new HTableDescriptor(tableName);
 				HColumnDescriptor columnDescriptor = new HColumnDescriptor(cf_app);
 				HColumnDescriptor traceDescriptor = new HColumnDescriptor(cf_trace);
+				columnDescriptor.setTimeToLive(7 * 24 * 60 * 60);
+				traceDescriptor.setTimeToLive(7 * 24 * 60 * 60);
 				tableDescriptor.addFamily(columnDescriptor);
 				tableDescriptor.addFamily(traceDescriptor);
 				admin.createTable(tableDescriptor);
