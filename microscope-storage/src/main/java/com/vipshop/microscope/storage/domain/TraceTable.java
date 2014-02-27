@@ -32,11 +32,17 @@ public class TraceTable implements Serializable, Comparable<TraceTable> {
 	 * @return
 	 */
 	public String rowKey() {
-		return (Long.MAX_VALUE -System.currentTimeMillis())
-			   + "-" + this.getTraceId()
-			   + "-" + this.getTraceName();
+		String app = this.getAppName();
+		String trace = this.getTraceName();
+		// remove user id from span name
+		if (app.equals("user_info")) {
+			trace = trace.replaceAll("\\d", "");
+			trace = trace.substring(7);
+		} 
+		return app + "-" + trace
+				   + "-" + (Long.MAX_VALUE - System.currentTimeMillis())
+				   + "-" + this.getTraceId();
 	}
-
 
 	public String getStartTimestamp() {
 		return startTimestamp;
@@ -87,8 +93,8 @@ public class TraceTable implements Serializable, Comparable<TraceTable> {
 		String traceId = String.valueOf(span.getTraceId());
 		String spanId = String.valueOf(span.getSpanId());
 		if (traceId.equals(spanId)) {
-			String traceName = span.getSpanName();
 			String appName = span.getAppName();
+			String traceName = span.getSpanName();
 			String appIPAd = span.getAppIp();
 			String type = span.getSpanType();
 			long startTime = span.getStartTime();
@@ -137,7 +143,7 @@ public class TraceTable implements Serializable, Comparable<TraceTable> {
 	public void setAppName(String appName) {
 		this.appName = appName;
 	}
-	
+
 	public String getResultCode() {
 		return resultCode;
 	}

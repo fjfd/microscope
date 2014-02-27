@@ -46,8 +46,10 @@ public abstract class AbstraceHbaseRepository implements InitializingBean {
 				columnDescriptor.setCompressionType(Algorithm.SNAPPY);
 				columnDescriptor.setTimeToLive(7 * 24 * 60 * 60);
 				tableDescriptor.addFamily(columnDescriptor);
-				
+
 				admin.createTable(tableDescriptor);
+				
+				hbaseTemplate.setAutoFlush(false);
 				
 				logger.info("init hbase table " + tableName);
 			}

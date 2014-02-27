@@ -1,10 +1,18 @@
 package com.vipshop.microscope.storage.repository;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.apache.hadoop.hbase.client.Scan;
+import org.apache.hadoop.hbase.filter.CompareFilter;
+import org.apache.hadoop.hbase.filter.PageFilter;
+import org.apache.hadoop.hbase.filter.RegexStringComparator;
+import org.apache.hadoop.hbase.filter.RowFilter;
+import org.apache.hadoop.hbase.filter.SingleColumnValueFilter;
+import org.apache.hadoop.hbase.util.Bytes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -63,5 +71,63 @@ public class HbaseRepositoryTest {
 	public void testFindApps() {
 		System.out.println(HbaseRepository.findApps());
 	}
+	
+	@Test
+	public void testFindByScan1() {
+		Scan scan = new Scan();
+		int limit = 10;
+		PageFilter pageFilter = new PageFilter(limit);
+		scan.setFilter(pageFilter);
+		
+		HbaseRepository.findByScan(scan);
+	}
+	
+	@Test
+	public void testFindByScan2() throws IOException {
+		Scan scan = new Scan();
+		int limit = 20;
+		PageFilter pageFilter = new PageFilter(limit);
+		byte[] CF = Bytes.toBytes("cf");
+		byte[] CF_APP_NAME = Bytes.toBytes("app_name");
+		SingleColumnValueFilter singleColumnValueFilter = new SingleColumnValueFilter(CF, CF_APP_NAME, CompareFilter.CompareOp.EQUAL, Bytes.toBytes("trace"));
+		scan.setFilter(pageFilter);
+		scan.setFilter(singleColumnValueFilter);
+		scan.setTimeRange(System.currentTimeMillis() - 60 * 1000, System.currentTimeMillis());
+		HbaseRepository.findByScan(scan);
+	}
+	
+	@Test
+	public void testFindByScan3() throws IOException {
+		Scan scan = new Scan();
+		int limit = 20;
+		PageFilter pageFilter = new PageFilter(limit);
+		scan.setFilter(pageFilter);
+//		scan.setFilter(traceFilter);
+//		scan.setTimeRange(System.currentTimeMillis() - 60 * 1000, System.currentTimeMillis());
+		long startKey = Long.MAX_VALUE - System.currentTimeMillis();
+		long endKey = Long.MAX_VALUE - (System.currentTimeMillis() - 60 * 60 * 1000);
+		scan.setStartRow(Bytes.toBytes("trace-http://www.huohu123.com-" + startKey));
+		scan.setStopRow(Bytes.toBytes("trace-http://www.huohu123.com-" + endKey));
+		System.out.println(HbaseRepository.findByScan(scan));
+		
+	}
+	
+	@Test
+	public void testFindByScan4() throws IOException {
+		Scan scan = new Scan();
+		int limit = 20;
+		PageFilter pageFilter = new PageFilter(limit);
+		RowFilter traceFilter = new RowFilter(CompareFilter.CompareOp.EQUAL, new RegexStringComparator("example3-trace"));
+		scan.setFilter(pageFilter);
+		scan.setFilter(traceFilter);
+		String startKey = String.valueOf(Long.MAX_VALUE - 1393404390834l);
+		String endKey = String.valueOf(Long.MAX_VALUE - 1393404392544l);
+		scan.setStartRow(Bytes.toBytes(endKey));
+		scan.setStopRow(Bytes.toBytes(startKey));
+		
+		System.out.println(HbaseRepository.findByScan(scan));
+		
+	}
+
 	
 }

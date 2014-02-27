@@ -18,25 +18,25 @@ public class TraceService {
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("app", HbaseRepository.findAll());
 		
-		List<Map<String, Object>> traceLists = new ArrayList<Map<String, Object>>();
+//		List<Map<String, Object>> traceLists = new ArrayList<Map<String, Object>>();
+//		
+//		List<TraceTable> tableTraces = HbaseRepository.findByQuery();
+//		
+//		for (TraceTable tableTrace : tableTraces) {
+//			Map<String, Object> trace = new LinkedHashMap<String, Object>();
+//			String traceId = tableTrace.getTraceId();
+//			String stmp = tableTrace.getStartTimestamp();
+//			String etmp = tableTrace.getEndTimestamp();
+//			String dura = tableTrace.getDuration();
+//			trace.put("traceId", traceId);
+//			trace.put("startTimestamp", stmp);
+//			trace.put("endTimestamp", etmp);
+//			trace.put("durationMicro", dura);
+//			trace.put("serviceCounts", HbaseRepository.findSpanNameByTraceId(traceId));
+//			traceLists.add(trace);
+//		}
 		
-		List<TraceTable> tableTraces = HbaseRepository.findByQuery();
-		
-		for (TraceTable tableTrace : tableTraces) {
-			Map<String, Object> trace = new LinkedHashMap<String, Object>();
-			String traceId = tableTrace.getTraceId();
-			String stmp = tableTrace.getStartTimestamp();
-			String etmp = tableTrace.getEndTimestamp();
-			String dura = tableTrace.getDuration();
-			trace.put("traceId", traceId);
-			trace.put("startTimestamp", stmp);
-			trace.put("endTimestamp", etmp);
-			trace.put("durationMicro", dura);
-			trace.put("serviceCounts", HbaseRepository.findSpanNameByTraceId(traceId));
-			traceLists.add(trace);
-		}
-		
-		result.put("traceList", traceLists);
+		result.put("traceList", null);
 		return result;
 	}
 	

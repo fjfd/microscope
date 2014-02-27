@@ -3,6 +3,7 @@ package com.vipshop.microscope.storage.hbase;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.hadoop.hbase.client.Scan;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -59,6 +60,10 @@ public class HbaseRepository {
 	
 	public static List<TraceTable> findByQuery(Map<String, String> query) {
 		return TRACE.findByQuery(query);
+	}
+	
+	public static List<TraceTable> findByScan(Scan scan) {
+		return TRACE.findByScan(scan);
 	}
 	
 	public static Map<String, Integer> findSpanNameByTraceId(String traceId) {
