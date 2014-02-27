@@ -44,9 +44,11 @@
 	</properties>
 
 	<modules>
+		<module>microscope-benchmark</module>
 		<module>microscope-collector</module>
 		<module>microscope-common</module>
 		<module>microscope-job</module>
+		<module>microscope-maven</module>
 		<module>microscope-query</module>
 		<module>microscope-report</module>
 		<module>microscope-stats</module>
@@ -54,6 +56,7 @@
 		<module>microscope-test</module>
 		<module>microscope-trace</module>
 		<module>microscope-warn</module>
+		<module>microscope-web</module>
 	</modules>
 
 	<!-- deploy jar to nexus server -->
