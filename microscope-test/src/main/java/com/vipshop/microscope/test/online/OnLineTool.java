@@ -1,10 +1,12 @@
 package com.vipshop.microscope.test.online;
 
+import java.net.UnknownHostException;
 import java.util.concurrent.TimeUnit;
 
 import com.vipshop.microscope.common.span.Category;
 import com.vipshop.microscope.common.thrift.Span;
 import com.vipshop.microscope.common.util.CalendarUtil;
+import com.vipshop.microscope.common.util.IPAddressUtil;
 import com.vipshop.microscope.common.util.SpanMockUtil;
 import com.vipshop.microscope.report.domain.TopReport;
 import com.vipshop.microscope.report.factory.MySQLFactory;
@@ -22,6 +24,8 @@ public class OnLineTool {
 	public static final String TRACE = "trace";
 	public static final String HBASE = "hbase";
 	public static final String MYSQL = "mysql";
+	public static final String IP = "ip";
+	public static final String IPCahe = "cache";
 	
 	public static void main(String[] args) throws Exception {
 		String app = System.getProperty("app");
@@ -34,6 +38,13 @@ public class OnLineTool {
 		if (app.equals(MYSQL)) {
 			mysql();
 		}
+		if (app.contains("ip")) {
+			ipadress(app);
+		}
+		if (app.contains("cache")) {
+			ipadressCache(app);
+		}
+		
 	}
 	
 	public static void trace() throws InterruptedException {
@@ -67,4 +78,28 @@ public class OnLineTool {
 		
 		MySQLFactory.TOP.empty();
 	}
+	
+	public static void ipadress(String app) throws UnknownHostException {
+		int count = Integer.valueOf(app.split(":")[1]);
+		long start = System.currentTimeMillis();
+		for (int i = 0; i < count; i++) {
+			IPAddressUtil.getLocalHost().getHostAddress();
+		}
+		long end = System.currentTimeMillis();
+		
+		System.out.println("get " + count + "  IPAdress time takes " + (end - start));
+	}
+	
+	public static void ipadressCache(String app) throws UnknownHostException {
+		int count = Integer.valueOf(app.split(":")[1]);
+		long start = System.currentTimeMillis();
+		for (int i = 0; i < count; i++) {
+			IPAddressUtil.IPAddress();
+		}
+		long end = System.currentTimeMillis();
+		
+		System.out.println("get " + count + "  IPAdress time takes " + (end - start));
+	}
+
+	
 }

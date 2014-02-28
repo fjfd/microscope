@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.vipshop</groupId>
     <artifactId>microscope</artifactId>
-    <version>1.2.8</version>
+    <version>1.2.9</version>
   </parent>
   <artifactId>microscope-web</artifactId>
 </project>

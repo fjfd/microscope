@@ -7,6 +7,8 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A util class to get IPAdress.
@@ -16,23 +18,36 @@ import java.util.Enumeration;
  */
 public class IPAddressUtil {
 	
+	private static final Map<String, String> IPCache = new HashMap<String, String>();
 	private static final String LOCAL_ADDRESS_IPV4 = "127.0.0.1";
 
 	public static String IPAddress() {
-        String osName = System.getProperty("os.name");
-        try {
-        	if (osName != null && osName.toLowerCase().indexOf("linux") > -1) {
-        		return getLocalHost().getHostAddress();
-        	} else {
-        		return InetAddress.getLocalHost().getHostAddress();
-        	}
-		} catch (Exception e) {
-			// TODO: handle exception
+		if (IPCache.get("IP") == null) {
+			
+			String osName = System.getProperty("os.name");
+			try {
+				if (osName != null && osName.toLowerCase().indexOf("linux") > -1) {
+					String IP = getLocalHost().getHostAddress();
+					IPCache.put("IP", IP);
+					return IP;
+				} else {
+					String IP = InetAddress.getLocalHost().getHostAddress();
+					IPCache.put("IP", IP);
+					return IP;
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			
+			IPCache.put("IP", LOCAL_ADDRESS_IPV4);
+			return LOCAL_ADDRESS_IPV4;
+			
+		} else {
+			return IPCache.get("IP");
 		}
-        return LOCAL_ADDRESS_IPV4;
 	}
 	
-	private static InetAddress getLocalHost() throws UnknownHostException {
+	public static InetAddress getLocalHost() throws UnknownHostException {
 		InetAddress localHost = InetAddress.getLocalHost();
 		if (!localHost.isLoopbackAddress()) {
 			return localHost;

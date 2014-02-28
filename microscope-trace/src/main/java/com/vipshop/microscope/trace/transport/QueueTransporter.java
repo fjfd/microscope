@@ -77,7 +77,7 @@ public class QueueTransporter implements Transporter {
 						try {
 							TimeUnit.MICROSECONDS.sleep(Tracer.SEND_WAIT_TIME);
 						} catch (InterruptedException e) {
-
+							// TODO 
 						}
 					}
 				}
