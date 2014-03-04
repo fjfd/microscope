@@ -12,12 +12,12 @@ public class Pack {
 	public static void main(String[] args) throws Exception {
 		MavenUtil.execute("versions:set -DnewVersion=" + PackEnv.version);
 
-		MavenUtil.execute("clean package -Denv=dev");
-		pack(PackPath.devPackPath());
+//		MavenUtil.execute("clean package -Denv=dev");
+//		pack(PackPath.devPackPath());
 
 //		MavenUtil.execute("clean package -Denv=qa");
 //		pack(PackPath.qaPackPath());
-//
+
 //		MavenUtil.execute("clean package -Denv=prod");
 //		pack(PackPath.prodPackPath());
 	}
