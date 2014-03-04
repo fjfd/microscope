@@ -27,9 +27,9 @@ import com.vipshop.microscope.report.condition.TraceReportCondition;
  */
 @Controller
 public class ReportController {
-	
+
 	private ReportService service = new ReportService();
-	
+
 	@RequestMapping("/report/marketReport")
 	@ResponseBody
 	public MapResult marketReport(HttpServletRequest request, String callback) {
@@ -39,8 +39,8 @@ public class ReportController {
 		result.setResult(data);
 		result.setCallback(callback);
 		return result;
-	}	
-	
+	}
+
 	@RequestMapping("/report/topReport")
 	@ResponseBody
 	public MapResult topReport(HttpServletRequest request, String callback) {
@@ -50,7 +50,7 @@ public class ReportController {
 		result.setCallback(callback);
 		return result;
 	}
-	
+
 	@RequestMapping("/report/mostReport")
 	@ResponseBody
 	public MapResult mostReport(HttpServletRequest request, String callback) {
@@ -81,7 +81,7 @@ public class ReportController {
 		result.setCallback(callback);
 		return result;
 	}
-	
+
 	@RequestMapping("/report/overTimeReport")
 	@ResponseBody
 	public MapResult overTimeReport(HttpServletRequest request, String callback) {
@@ -92,7 +92,7 @@ public class ReportController {
 		result.setCallback(callback);
 		return result;
 	}
-	
+
 	@RequestMapping("/report/problemReport")
 	@ResponseBody
 	public MapResult problemReport(HttpServletRequest request, String callback) {
@@ -103,7 +103,7 @@ public class ReportController {
 		result.setCallback(callback);
 		return result;
 	}
-	
+
 	@RequestMapping("/report/problemOverTimeReport")
 	@ResponseBody
 	public MapResult problemOverTimeReport(HttpServletRequest request, String callback) {
@@ -125,7 +125,7 @@ public class ReportController {
 		result.setCallback(callback);
 		return result;
 	}
-	
+
 	@RequestMapping("/report/depenReport")
 	@ResponseBody
 	public MapResult depenReport(HttpServletRequest request, String callback) {
@@ -136,7 +136,7 @@ public class ReportController {
 		result.setCallback(callback);
 		return result;
 	}
-	
+
 	@RequestMapping("/report/msgReport")
 	@ResponseBody
 	public MapResult msgReport(HttpServletRequest request, String callback) {
@@ -147,5 +147,5 @@ public class ReportController {
 		result.setCallback(callback);
 		return result;
 	}
-	
+
 }

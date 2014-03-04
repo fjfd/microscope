@@ -5,7 +5,7 @@ import java.io.Serializable;
 import com.vipshop.microscope.common.thrift.Span;
 
 /**
- * Every trace detail info.
+ * Trace detail info.
  * 
  * @author Xu Fei
  * @version 1.0
@@ -15,33 +15,92 @@ public class TraceTable implements Serializable, Comparable<TraceTable> {
 	private static final long serialVersionUID = -2609783475042433846L;
 	
 	private String appName;
-	private String type;
-	private String traceId;
-	private String traceName;
-	private String startTimestamp;
-	private String endTimestamp;
-	private String duration;
-	private String resultCode;
+	
 	private String IPAdress;
+	
+	private String traceName;
+
+	private String traceId;
+	
+	private String startTimestamp;
+	
+	private String endTimestamp;
+	
+	private String duration;
+	
+	private String resultCode;
+	
+	private String type;
+	
+	public static TraceTable build(Span span) {
+		String appName = span.getAppName();
+		String appIPAdress = span.getAppIp();
+		String traceName = span.getSpanName();
+		String traceId = String.valueOf(span.getTraceId());
+		long startTime = span.getStartTime();
+		long endTime = startTime + span.getDuration();
+		String duration = String.valueOf(span.getDuration());
+		String resultCode = span.getResultCode();
+		String type = span.getSpanType();
+		return new TraceTable(appName, appIPAdress, traceName, traceId, String.valueOf(startTime), String.valueOf(endTime), duration, resultCode, type);
+	}
 	
 	/**
 	 * Use reverse timestamp as part of rowkey
 	 * can make data query as new as possible.
 	 * 
-	 * @param tableTrace
-	 * @return
+	 * @return rowkey of TraceTable
 	 */
 	public String rowKey() {
-		String app = this.getAppName();
-		String trace = this.getTraceName();
-		// remove user id from span name
-		if (app.equals("user_info")) {
-			trace = trace.replaceAll("\\d", "");
-			trace = trace.substring(7);
-		} 
-		return app + "-" + trace
-				   + "-" + (Long.MAX_VALUE - System.currentTimeMillis())
-				   + "-" + this.getTraceId();
+		return this.getAppName() + "-" +
+		       this.getIPAdress() + "-" +
+	           this.getTraceName() + "-" + 
+			   (Long.MAX_VALUE - System.currentTimeMillis()) + "-" + 
+			   this.getTraceId();
+	}
+	
+	public TraceTable(String appName, String iPAdress, String traceName, String traceId, String startTimestamp, String endTimestamp, String duration, String resultCode, String type) {
+		this.appName = appName;
+		this.IPAdress = iPAdress;
+		this.traceName = traceName;
+		this.traceId = traceId;
+		this.startTimestamp = startTimestamp;
+		this.endTimestamp = endTimestamp;
+		this.duration = duration;
+		this.resultCode = resultCode;
+		this.type = type;
+	}
+
+	public String getAppName() {
+		return appName;
+	}
+
+	public void setAppName(String appName) {
+		this.appName = appName;
+	}
+
+	public String getIPAdress() {
+		return IPAdress;
+	}
+
+	public void setIPAdress(String iPAdress) {
+		IPAdress = iPAdress;
+	}
+
+	public String getTraceName() {
+		return traceName;
+	}
+
+	public void setTraceName(String traceName) {
+		this.traceName = traceName;
+	}
+
+	public String getTraceId() {
+		return traceId;
+	}
+
+	public void setTraceId(String traceId) {
+		this.traceId = traceId;
 	}
 
 	public String getStartTimestamp() {
@@ -68,82 +127,6 @@ public class TraceTable implements Serializable, Comparable<TraceTable> {
 		this.duration = duration;
 	}
 
-	public TraceTable(String traceName) {
-		this.traceName = traceName;
-	}
-	
-	public TraceTable(String traceId, String traceName) {
-		this.traceId = traceId;
-		this.traceName = traceName;
-	}
-
-	public TraceTable(String appName, String type, String traceId, String traceName, String startTimestamp, String endTimestamp, String duration, String resultCode, String iPAdress) {
-		this.appName = appName;
-		this.type = type;
-		this.traceId = traceId;
-		this.traceName = traceName;
-		this.startTimestamp = startTimestamp;
-		this.endTimestamp = endTimestamp;
-		this.duration = duration;
-		this.resultCode = resultCode;
-		this.IPAdress = iPAdress;
-	}
-	
-	public static TraceTable build(Span span) {
-		String traceId = String.valueOf(span.getTraceId());
-		String spanId = String.valueOf(span.getSpanId());
-		if (traceId.equals(spanId)) {
-			String appName = span.getAppName();
-			String traceName = span.getSpanName();
-			String appIPAd = span.getAppIp();
-			String type = span.getSpanType();
-			long startTime = span.getStartTime();
-			long endTime = startTime + span.getDuration();
-			String duration = String.valueOf(span.getDuration());
-			String resultCode = span.getResultCode();
-			return new TraceTable(appName, type, traceId, traceName, String.valueOf(startTime), String.valueOf(endTime), duration, resultCode, appIPAd);
-		}
-		return null;
-	}
-
-	public String getTraceId() {
-		return traceId;
-	}
-	
-	public String getTraceName() {
-		return traceName;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-
-	@Override
-	public int compareTo(TraceTable o) {
-		if (Long.valueOf(this.getStartTimestamp()) > Long.valueOf(o.getStartTimestamp())) {
-			return -1;
-		}
-		
-		if (Long.valueOf(this.getStartTimestamp()) < Long.valueOf(o.getStartTimestamp())) {
-			return 1;
-		}
-		
-		return 0;
-	}
-	
-	public String getAppName() {
-		return appName;
-	}
-
-	public void setAppName(String appName) {
-		this.appName = appName;
-	}
-
 	public String getResultCode() {
 		return resultCode;
 	}
@@ -152,17 +135,30 @@ public class TraceTable implements Serializable, Comparable<TraceTable> {
 		this.resultCode = resultCode;
 	}
 
-	public String getIPAdress() {
-		return IPAdress;
+	public String getType() {
+		return type;
+	}
+	
+	public void setType(String type) {
+		this.type = type;
 	}
 
-	public void setIPAdress(String iPAdress) {
-		IPAdress = iPAdress;
+	@Override
+	public int compareTo(TraceTable o) {
+		if (Long.valueOf(this.getStartTimestamp()) > Long.valueOf(o.getStartTimestamp())) {
+			return -1;
+		} else if (Long.valueOf(this.getStartTimestamp()) < Long.valueOf(o.getStartTimestamp())) {
+			return 1;
+		} else {
+			return 0;
+		}
 	}
 
 	@Override
 	public String toString() {
-		return "TraceTable [appName=" + appName + ", type=" + type + ", traceId=" + traceId + ", traceName=" + traceName + ", startTimestamp=" + startTimestamp + ", endTimestamp=" + endTimestamp
-				+ ", duration=" + duration + "]";
+		return "TraceTable [appName=" + appName + ", IPAdress=" + IPAdress + ", traceName=" + traceName + ", traceId=" 
+	           + traceId + ", startTimestamp=" + startTimestamp + ", endTimestamp="
+			   + endTimestamp + ", duration=" + duration + ", resultCode=" + resultCode + ", type=" + type + "]";
 	}
+	
 }

@@ -142,7 +142,7 @@ public class ThriftClient {
         	transport.close();
         	resend(logEntries);
         } 
-        logger.info("send " + logEntries.size() + " logEntry to collector " + host);
+        logger.debug("send " + logEntries.size() + " logEntry to collector " + host);
     }
     
     /**

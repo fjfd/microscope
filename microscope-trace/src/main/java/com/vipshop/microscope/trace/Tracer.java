@@ -381,4 +381,23 @@ public class Tracer {
 		}
 	}
 	
+	//************************** methods for record exceptions ********************* //
+	
+	/**
+	 * 
+	 * @param e
+	 */
+	public static void record(Exception e) {
+		
+	}
+	
+	/**
+	 * 
+	 * @param info
+	 * @param e
+	 */
+	public static void record(String info, Exception e) {
+		
+	}
+	
 }

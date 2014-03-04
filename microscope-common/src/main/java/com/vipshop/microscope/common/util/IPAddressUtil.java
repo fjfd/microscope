@@ -36,11 +36,10 @@ public class IPAddressUtil {
 					return IP;
 				}
 			} catch (Exception e) {
-				// TODO: handle exception
+				// if exception happens, use default ip address
+				IPCache.put("IP", LOCAL_ADDRESS_IPV4);
+				return LOCAL_ADDRESS_IPV4;
 			}
-			
-			IPCache.put("IP", LOCAL_ADDRESS_IPV4);
-			return LOCAL_ADDRESS_IPV4;
 			
 		} else {
 			return IPCache.get("IP");

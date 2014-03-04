@@ -14,28 +14,40 @@ import com.vipshop.microscope.storage.hbase.HbaseRepository;
 public class HbaseStoragerRepository {
 	
 	public void storage(Span span) {
-		AppTable appTable = AppTable.build(span);
-		TraceTable traceTable = TraceTable.build(span);
-		this.save(appTable);
-		this.save(traceTable);
+		if (span == null) {
+			return;
+		}
+		
+		String traceId = String.valueOf(span.getTraceId());
+		String spanId = String.valueOf(span.getSpanId());
+		
+		if (traceId.equals(spanId)) {
+			
+			String appName = span.getAppName();
+			String traceName = span.getSpanName();
+
+			// remove user id from span name
+			if (appName.equals("user_info") && traceName.matches(".*\\d.*")) {
+				traceName = traceName.replaceAll("\\d", "");
+				traceName = traceName.substring(7);
+				span.setSpanName(traceName);
+			}
+			this.save(AppTable.build(span));
+			this.save(TraceTable.build(span));
+		}
+		
 		this.save(span);
 	}
 	
 	private void save(AppTable appTable) {
-		if (appTable != null) {
-			HbaseRepository.save(appTable);
-		}
+		HbaseRepository.save(appTable);
 	}
 	
 	private void save(TraceTable traceTable) {
-		if (traceTable != null) {
-			HbaseRepository.save(traceTable);
-		}
+		HbaseRepository.save(traceTable);
 	}
 
 	private void save(Span span) {
-		if (span != null) {
-			HbaseRepository.save(span);
-		}
+		HbaseRepository.save(span);
 	}
 }

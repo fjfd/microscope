@@ -16,7 +16,7 @@ public class TracerTest {
 	
 	@Test
 	public void traceUseExample1() throws InterruptedException {
-		Tracer.clientSend("example1", Category.Method);
+		Tracer.clientSend("example-one", Category.Method);
 		try {
 			Tracer.record("this is a example");
 			Tracer.record("queue size", "100");
@@ -31,7 +31,7 @@ public class TracerTest {
 	
 	@Test
 	public void traceUseExampleWithException() throws InterruptedException {
-		Tracer.clientSend("example-1-with-exception", Category.Method);
+		Tracer.clientSend("example-with-exception", Category.Method);
 		try {
 			TimeUnit.MILLISECONDS.sleep(1000);
 			throw new RuntimeException();
@@ -45,7 +45,7 @@ public class TracerTest {
 
 	@Test
 	public void traceUseExample2() throws InterruptedException {
-		Tracer.clientSend("http://www.huohu123.com", Category.URL);
+		Tracer.clientSend("http://www.huohu.com", Category.URL);
 		try {
 			TimeUnit.MILLISECONDS.sleep(1000);
 			Tracer.clientSend("getNew@newService", Category.Service);
@@ -73,7 +73,7 @@ public class TracerTest {
 	public void traceUseExample3() throws InterruptedException {
 		for (int i = 0; i < 10; i++) {
 			Tracer.cleanContext();
-			Tracer.clientSend("example3", Category.Method);
+			Tracer.clientSend("example-three", Category.Method);
 			try {
 				TimeUnit.MILLISECONDS.sleep(10);
 			} catch (Exception e) {
@@ -89,7 +89,7 @@ public class TracerTest {
 	public void traceUseExample4() throws InterruptedException {
 		for (int i = 0; i < 10; i++)  {
 			Tracer.cleanContext();
-			Tracer.clientSend("http://www.huohu123.com", Category.URL);
+			Tracer.clientSend("http://www.huohu.com", Category.URL);
 			try {
 				TimeUnit.MILLISECONDS.sleep(1000);
 				Tracer.clientSend("getNew@newService", Category.Service);
@@ -118,7 +118,7 @@ public class TracerTest {
 	public void traceUseExample5() throws InterruptedException {
 		for (;;)  {
 			Tracer.cleanContext();
-			Tracer.clientSend("http://www.huohu123.com", Category.URL);
+			Tracer.clientSend("http://www.huohu.com", Category.URL);
 			try {
 				TimeUnit.MILLISECONDS.sleep(1000);
 				Tracer.clientSend("getNew@newService", Category.Service);

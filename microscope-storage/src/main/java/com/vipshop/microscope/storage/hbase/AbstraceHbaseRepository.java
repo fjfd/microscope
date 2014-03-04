@@ -23,6 +23,8 @@ import org.springframework.stereotype.Component;
 public abstract class AbstraceHbaseRepository implements InitializingBean {
 	
 	private static final Logger logger = LoggerFactory.getLogger(AbstraceHbaseRepository.class);
+
+	public static final int TIME_TO_LIVE = 2 * 7 * 24 * 60 * 60; 
 	
 	@Resource(name = "hbaseConfiguration")
 	protected Configuration config;
@@ -37,14 +39,14 @@ public abstract class AbstraceHbaseRepository implements InitializingBean {
 		admin = new HBaseAdmin(config);
 	}
 	
-	public void initialize(String tableName, String cfName) { 
+	protected void initialize(String tableName, String cfName) { 
 		try {
 			if (!admin.tableExists(tableName)) {
 				HTableDescriptor tableDescriptor = new HTableDescriptor(tableName);
 				HColumnDescriptor columnDescriptor = new HColumnDescriptor(cfName);
 				columnDescriptor.setMaxVersions(1);
 				columnDescriptor.setCompressionType(Algorithm.SNAPPY);
-				columnDescriptor.setTimeToLive(7 * 24 * 60 * 60);
+				columnDescriptor.setTimeToLive(TIME_TO_LIVE);
 				tableDescriptor.addFamily(columnDescriptor);
 
 				admin.createTable(tableDescriptor);
@@ -58,7 +60,29 @@ public abstract class AbstraceHbaseRepository implements InitializingBean {
 		}
 	}
 	
-	public void drop(String tableName) {
+	protected void initialize(String tableName, String[] cfName) { 
+		try {
+			if (!admin.tableExists(tableName)) {
+				HTableDescriptor tableDescriptor = new HTableDescriptor(tableName);
+				for (int i = 0; i < cfName.length; i++) {
+					HColumnDescriptor columnDescriptor = new HColumnDescriptor(cfName[i]);
+					columnDescriptor.setMaxVersions(1);
+					columnDescriptor.setCompressionType(Algorithm.SNAPPY);
+					columnDescriptor.setTimeToLive(TIME_TO_LIVE);
+					tableDescriptor.addFamily(columnDescriptor);
+				}
+
+				admin.createTable(tableDescriptor);
+				hbaseTemplate.setAutoFlush(false);
+				
+				logger.info("init hbase table " + tableName);
+			}
+		} catch (IOException e) {
+			throw new RuntimeException("initialize " + tableName, e);
+		}
+	}
+	
+	protected void drop(String tableName) {
 		byte[] tableNameAsBytes = Bytes.toBytes(tableName);
 		try {
 			if (!admin.isTableDisabled(tableNameAsBytes)) {
@@ -72,11 +96,7 @@ public abstract class AbstraceHbaseRepository implements InitializingBean {
 		}
 	}
 	
-	public Configuration getConfiguration() {
-		return config;
-	}
-	
-	public String[] getColumnsInColumnFamily(Result r, String ColumnFamily) {
+	protected String[] getColumnsInColumnFamily(Result r, String ColumnFamily) {
 		NavigableMap<byte[], byte[]> familyMap = r.getFamilyMap(Bytes.toBytes(ColumnFamily));
 		String[] Quantifers = new String[familyMap.size()];
 

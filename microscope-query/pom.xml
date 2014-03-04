@@ -9,7 +9,7 @@
 
 	<artifactId>microscope-query</artifactId>
 	<version>${parent.version}</version>
-	
+
 	<properties>
 		<maven-site-plugin.skip>true</maven-site-plugin.skip>
 	</properties>
@@ -67,16 +67,16 @@
 			<version>${jetty.version}</version>
 		</dependency>
 		<dependency>
-            <groupId>org.jasig.cas.client</groupId>
-            <artifactId>cas-client-core</artifactId>
-            <version>3.2.1</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>servlet-api</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+			<groupId>org.jasig.cas.client</groupId>
+			<artifactId>cas-client-core</artifactId>
+			<version>3.2.1</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>servlet-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 	</dependencies>
 
 	<build>

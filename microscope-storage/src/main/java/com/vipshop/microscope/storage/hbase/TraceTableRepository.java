@@ -1,6 +1,5 @@
 package com.vipshop.microscope.storage.hbase;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -10,10 +9,7 @@ import org.apache.hadoop.hbase.client.HTableInterface;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.Scan;
-import org.apache.hadoop.hbase.filter.CompareFilter;
 import org.apache.hadoop.hbase.filter.PageFilter;
-import org.apache.hadoop.hbase.filter.RegexStringComparator;
-import org.apache.hadoop.hbase.filter.RowFilter;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.springframework.data.hadoop.hbase.RowMapper;
 import org.springframework.data.hadoop.hbase.TableCallback;
@@ -52,14 +48,14 @@ public class TraceTableRepository extends AbstraceHbaseRepository {
 			public TraceTable doInTable(HTableInterface table) throws Throwable {
 				Put p = new Put(Bytes.toBytes(tableTrace.rowKey()));
 				p.add(CF, CF_APP_NAME, Bytes.toBytes(tableTrace.getAppName()));
-				p.add(CF, CF_TYPE, Bytes.toBytes(tableTrace.getType()));
-				p.add(CF, CF_TRACE_ID, Bytes.toBytes(tableTrace.getTraceId()));
+				p.add(CF, CF_IP_ADDRESS, Bytes.toBytes(tableTrace.getIPAdress()));
 				p.add(CF, CF_TRACE_NAME, Bytes.toBytes(tableTrace.getTraceName()));
+				p.add(CF, CF_TRACE_ID, Bytes.toBytes(tableTrace.getTraceId()));
 				p.add(CF, CF_START_TIMESTAMP, Bytes.toBytes(tableTrace.getStartTimestamp()));
 				p.add(CF, CF_END_TIMESTAMP, Bytes.toBytes(tableTrace.getEndTimestamp()));
 				p.add(CF, CF_DURATION, Bytes.toBytes(tableTrace.getDuration()));
-				p.add(CF, CF_IP_ADDRESS, Bytes.toBytes(tableTrace.getIPAdress()));
 				p.add(CF, CF_RESULT_CODE, Bytes.toBytes(tableTrace.getResultCode()));
+				p.add(CF, CF_TYPE, Bytes.toBytes(tableTrace.getType()));
 				table.put(p);
 				return tableTrace;
 			}
@@ -74,15 +70,14 @@ public class TraceTableRepository extends AbstraceHbaseRepository {
 				for (TraceTable tableTrace : tableTraces) {
 					Put p = new Put(Bytes.toBytes(tableTrace.getTraceId()));
 					p.add(CF, CF_APP_NAME, Bytes.toBytes(tableTrace.getAppName()));
-					p.add(CF, CF_TYPE, Bytes.toBytes(tableTrace.getType()));
-					p.add(CF, CF_TRACE_ID, Bytes.toBytes(tableTrace.getTraceId()));
+					p.add(CF, CF_IP_ADDRESS, Bytes.toBytes(tableTrace.getIPAdress()));
 					p.add(CF, CF_TRACE_NAME, Bytes.toBytes(tableTrace.getTraceName()));
+					p.add(CF, CF_TRACE_ID, Bytes.toBytes(tableTrace.getTraceId()));
 					p.add(CF, CF_START_TIMESTAMP, Bytes.toBytes(tableTrace.getStartTimestamp()));
 					p.add(CF, CF_END_TIMESTAMP, Bytes.toBytes(tableTrace.getEndTimestamp()));
 					p.add(CF, CF_DURATION, Bytes.toBytes(tableTrace.getDuration()));
 					p.add(CF, CF_RESULT_CODE, Bytes.toBytes(tableTrace.getResultCode()));
-					p.add(CF, CF_IP_ADDRESS, Bytes.toBytes(tableTrace.getIPAdress()));
-					table.put(p);
+					p.add(CF, CF_TYPE, Bytes.toBytes(tableTrace.getType()));
 					puts.add(p);
 				}
 				table.put(puts);
@@ -91,57 +86,7 @@ public class TraceTableRepository extends AbstraceHbaseRepository {
 		});
 	}
 	
-	public List<TraceTable> findByTraceId(String traceId) {
-		Scan scan = new Scan();
-		RowFilter filter = new RowFilter(CompareFilter.CompareOp.EQUAL, new RegexStringComparator(traceId + ".*"));
-		scan.setFilter(filter);
-		return hbaseTemplate.find(tableName, scan, new RowMapper<TraceTable>() {
-			@Override
-			public TraceTable mapRow(Result result, int rowNum) throws Exception {
-				return new TraceTable(Bytes.toString(result.getValue(CF, CF_APP_NAME)), 
-									  Bytes.toString(result.getValue(CF, CF_TYPE)),
-									  Bytes.toString(result.getValue(CF, CF_TRACE_ID)), 
-									  Bytes.toString(result.getValue(CF, CF_TRACE_NAME)),
-									  Bytes.toString(result.getValue(CF, CF_START_TIMESTAMP)),
-									  Bytes.toString(result.getValue(CF, CF_END_TIMESTAMP)),
-									  Bytes.toString(result.getValue(CF, CF_DURATION)),
-									  Bytes.toString(result.getValue(CF, CF_RESULT_CODE)),
-									  Bytes.toString(result.getValue(CF, CF_IP_ADDRESS))); 
-			}
-		});
-	}
-	
-	public List<TraceTable> findByQuery() {
-		Scan scan = new Scan();
-		PageFilter pageFilter = new PageFilter(100);
-		scan.setFilter(pageFilter);
-		try {
-			scan.setTimeRange(System.currentTimeMillis() - 60 * 1000, System.currentTimeMillis());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		List<TraceTable> tableTraces = hbaseTemplate.find(tableName, scan, new RowMapper<TraceTable>() {
-			@Override
-			public TraceTable mapRow(Result result, int rowNum) throws Exception {
-				return new TraceTable(Bytes.toString(result.getValue(CF, CF_APP_NAME)), 
-						  Bytes.toString(result.getValue(CF, CF_TYPE)),
-						  Bytes.toString(result.getValue(CF, CF_TRACE_ID)), 
-						  Bytes.toString(result.getValue(CF, CF_TRACE_NAME)),
-						  Bytes.toString(result.getValue(CF, CF_START_TIMESTAMP)),
-						  Bytes.toString(result.getValue(CF, CF_END_TIMESTAMP)),
-						  Bytes.toString(result.getValue(CF, CF_DURATION)),
-						  Bytes.toString(result.getValue(CF, CF_RESULT_CODE)),
-						  Bytes.toString(result.getValue(CF, CF_IP_ADDRESS)));
-			}
-		});
-		
-		Collections.sort(tableTraces);
-		return tableTraces;
-		
-	}
-	
-	public List<TraceTable> findByQuery(Map<String, String> query) {
+	public List<TraceTable> find(Map<String, String> query) {
 		Scan scan = new Scan();
 		
 		/**
@@ -159,42 +104,17 @@ public class TraceTableRepository extends AbstraceHbaseRepository {
 		
 		PageFilter pageFilter = new PageFilter(limit);
 		scan.setFilter(pageFilter);
-//		SingleColumnValueFilter singleColumnValueFilter = new SingleColumnValueFilter(CF, CF_APP_NAME, CompareFilter.CompareOp.EQUAL, Bytes.toBytes(query.get("appName")));
-		
-//		RowFilter rowFilter = new RowFilter(CompareFilter.CompareOp.EQUAL, new RegexStringComparator(query.get("traceName") + "-" + query.get("appName")));
-//		FilterList filterList = new FilterList(pageFilter, traceFilter, singleColumnValueFilter);
-//		FilterList filterList = new FilterList(pageFilter, rowFilter);
-		
-//		try {
-//			String start = query.get("startTime");
-//			String end = query.get("endTime");
-//			if (start.equals("NaN") || end.equals("NaN")) {
-//				scan.setTimeRange(System.currentTimeMillis() - 60 * 1000, System.currentTimeMillis());
-//			} else {
-//				scan.setTimeRange(Long.valueOf(query.get("startTime")), Long.valueOf(query.get("endTime")));
-//			}
-//		} catch (IOException e) {
-//			throw new RuntimeException("set time range exception", e);
-//		}
-		
-//		long startKey = Long.MAX_VALUE - System.currentTimeMillis();
-//		long endKey = Long.MAX_VALUE - (System.currentTimeMillis() - 10 * 60 * 1000);
-
 		
 		long startTime = Long.valueOf(query.get("startTime"));
 		long endTime = Long.valueOf(query.get("endTime"));
 		
-//		if (start.equals("NaN") || end.equals("NaN")) {
-//			long startKey = Long.MAX_VALUE - System.currentTimeMillis();
-//			long endKey = Long.MAX_VALUE - (System.currentTimeMillis() - 10 * 60 * 1000);
-//			scan.setStartRow(Bytes.toBytes(query.get("appName") + "-" + query.get("traceName") + "-" + startKey));
-//			scan.setStopRow(Bytes.toBytes(query.get("appName") + "-" + query.get("traceName") + "-" + endKey));
-//		} else {
-//			
-//		}
-		
-		String startKey = query.get("appName") + "-" + query.get("traceName") + "-" + (Long.MAX_VALUE - endTime);
-		String endKey = query.get("appName") + "-" + query.get("traceName") + "-" + (Long.MAX_VALUE - startTime);
+		/**
+		 * Query by rowKey : appName-ipAdress-traceName-timestamp
+		 */
+		String startKey = query.get("appName") + "-" + query.get("ipAddress") + "-" + query.get("traceName") + "-" + (Long.MAX_VALUE - endTime);
+		String endKey = query.get("appName") + "-" + query.get("ipAddress") + "-" + query.get("traceName") + "-" + (Long.MAX_VALUE - startTime);
+//		String startKey = query.get("appName") + "-" + query.get("traceName") + "-" + (Long.MAX_VALUE - endTime);
+//		String endKey = query.get("appName") + "-" + query.get("traceName") + "-" + (Long.MAX_VALUE - startTime);
 		
 		scan.setStartRow(Bytes.toBytes(startKey));
 		scan.setStopRow(Bytes.toBytes(endKey));
@@ -203,36 +123,39 @@ public class TraceTableRepository extends AbstraceHbaseRepository {
 			@Override
 			public TraceTable mapRow(Result result, int rowNum) throws Exception {
 				return new TraceTable(Bytes.toString(result.getValue(CF, CF_APP_NAME)), 
-						  Bytes.toString(result.getValue(CF, CF_TYPE)),
-						  Bytes.toString(result.getValue(CF, CF_TRACE_ID)), 
+						  Bytes.toString(result.getValue(CF, CF_IP_ADDRESS)),
 						  Bytes.toString(result.getValue(CF, CF_TRACE_NAME)),
+						  Bytes.toString(result.getValue(CF, CF_TRACE_ID)), 
 						  Bytes.toString(result.getValue(CF, CF_START_TIMESTAMP)),
 						  Bytes.toString(result.getValue(CF, CF_END_TIMESTAMP)),
 						  Bytes.toString(result.getValue(CF, CF_DURATION)),
 						  Bytes.toString(result.getValue(CF, CF_RESULT_CODE)),
-						  Bytes.toString(result.getValue(CF, CF_IP_ADDRESS)));
+						  Bytes.toString(result.getValue(CF, CF_TYPE)));
 			}
 		});
 		
-//		Collections.sort(tableTraces);
+		Collections.sort(tableTraces);
 		return tableTraces;
 	}
 	
-	public List<TraceTable> findByScan(Scan scan) {
-		return hbaseTemplate.find(tableName, scan, new RowMapper<TraceTable>() {
+	public List<TraceTable> find(Scan scan) { 
+		List<TraceTable> tableTraces = hbaseTemplate.find(tableName, scan, new RowMapper<TraceTable>() {
 			@Override
 			public TraceTable mapRow(Result result, int rowNum) throws Exception {
 				return new TraceTable(Bytes.toString(result.getValue(CF, CF_APP_NAME)), 
-						  Bytes.toString(result.getValue(CF, CF_TYPE)),
-						  Bytes.toString(result.getValue(CF, CF_TRACE_ID)), 
+						  Bytes.toString(result.getValue(CF, CF_IP_ADDRESS)),
 						  Bytes.toString(result.getValue(CF, CF_TRACE_NAME)),
+						  Bytes.toString(result.getValue(CF, CF_TRACE_ID)), 
 						  Bytes.toString(result.getValue(CF, CF_START_TIMESTAMP)),
 						  Bytes.toString(result.getValue(CF, CF_END_TIMESTAMP)),
 						  Bytes.toString(result.getValue(CF, CF_DURATION)),
 						  Bytes.toString(result.getValue(CF, CF_RESULT_CODE)),
-						  Bytes.toString(result.getValue(CF, CF_IP_ADDRESS)));
+						  Bytes.toString(result.getValue(CF, CF_TYPE)));
 			}
 		});
+		
+		Collections.sort(tableTraces);
+		return tableTraces;
 	}
 	
 }

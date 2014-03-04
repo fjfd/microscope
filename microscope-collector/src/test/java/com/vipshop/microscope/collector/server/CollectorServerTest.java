@@ -30,7 +30,6 @@ import com.vipshop.microscope.common.thrift.ThriftCategory;
 import com.vipshop.microscope.common.thrift.ThriftClient;
 import com.vipshop.microscope.common.util.SpanMockUtil;
 import com.vipshop.microscope.common.util.ThreadPoolUtil;
-import com.vipshop.microscope.storage.domain.TraceTable;
 import com.vipshop.microscope.storage.hbase.HbaseRepository;
 
 public class CollectorServerTest {
@@ -49,7 +48,7 @@ public class CollectorServerTest {
 
 		TimeUnit.SECONDS.sleep(1);
 
-		List<Map<String, Object>> apps = HbaseRepository.findAll();
+		List<Map<String, Object>> apps = HbaseRepository.findAppIPTrace();
 		for (Map<String, Object> map : apps) {
 			Set<Entry<String, Object>> entry = map.entrySet();
 			int size = 0;
@@ -64,16 +63,11 @@ public class CollectorServerTest {
 			}
 		}
 
-		List<Span> spans = HbaseRepository.findSpanByTraceId("8053381312019065847");
+		List<Span> spans = HbaseRepository.find("8053381312019065847");
 		for (Span tmpspan : spans) {
 			Assert.assertEquals("localhost", tmpspan.getAppIp());
 		}
 
-		List<TraceTable> tables = HbaseRepository.findByTraceId("8053381312019065847");
-		for (TraceTable traceTable : tables) {
-			Assert.assertEquals("appname", traceTable.getAppName());
-		}
-		
 	}
 	
 	static class SimpleDisruptorMessageConsumer implements MessageConsumer {

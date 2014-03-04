@@ -45,8 +45,24 @@ public class SpanTableRepository extends AbstraceHbaseRepository {
 			}
 		});
 	}
+	
+	public void save(final List<Span> spans) {
+		hbaseTemplate.execute(tableName, new TableCallback<List<Span>>() {
+			@Override
+			public List<Span> doInTable(HTableInterface table) throws Throwable {
+				List<Put> puts = new ArrayList<Put>();
+				for (Span span : spans) {
+					Put p = new Put(Bytes.toBytes(String.valueOf(span.getTraceId())));
+					p.add(CF, Bytes.toBytes(span.getSpanName() + "#" + span.getSpanId()), SerializationUtils.serialize(span));
+					puts.add(p);
+				}
+				table.put(puts);
+				return spans;
+			}
+		});
+	}
 
-	public List<Span> findSpanByTraceId(String traceId) {
+	public List<Span> find(String traceId) {
 		final List<Span> spans = new ArrayList<Span>();
 		return hbaseTemplate.get(tableName, traceId, new RowMapper<List<Span>>() {
 			@Override
@@ -62,11 +78,11 @@ public class SpanTableRepository extends AbstraceHbaseRepository {
 					public int compare(Span o1, Span o2) {
 						if(o1.getStartTime() < o2.getStartTime()){
 							return -1;
-						}
-						if(o1.getStartTime() > o2.getStartTime()){
+						} else if(o1.getStartTime() > o2.getStartTime()){
 							return 1;
+						} else {
+							return 0;
 						}
-						return 0;
 					}
 				});
 				return spans;
@@ -74,7 +90,7 @@ public class SpanTableRepository extends AbstraceHbaseRepository {
 		});
 	}
 	
-	public Map<String, Integer> findSpanNameByTraceId(String traceId) {
+	public Map<String, Integer> findSpanName(String traceId) {
 		final Map<String, Integer> span = new HashMap<String, Integer>();
 		return hbaseTemplate.get(tableName, traceId, new RowMapper<Map<String, Integer>>() {
 			@Override

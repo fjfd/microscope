@@ -26,17 +26,6 @@ public class TraceController {
 	
 	@RequestMapping("/trace/apps")
 	@ResponseBody
-	public MapResult traceApps(String callback) {
-		MapResult result = new MapResult();
-		Map<String, Object> condition = service.getApps();
-		result.setResult(condition);
-		result.setCallback(callback);
-		return result;
-	}
-
-	@Deprecated
-	@RequestMapping("/trace/queryCondition")
-	@ResponseBody
 	public ListResult traceQueryCondition(String callback) {
 		ListResult result = new ListResult();
 		List<Map<String, Object>> condition = service.getQueryCondition();

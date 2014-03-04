@@ -41,7 +41,7 @@ public class HbaseRepositoryTest {
 		HbaseRepository.save(TraceTable.build(span));
 		HbaseRepository.save(span);
 		
-		List<Map<String, Object>> apps = HbaseRepository.findAll();
+		List<Map<String, Object>> apps = HbaseRepository.findAppIPTrace();
 		for (Map<String, Object> map : apps) {
 			Set<Entry<String, Object>> entry = map.entrySet();
 			int size = 0;
@@ -56,20 +56,11 @@ public class HbaseRepositoryTest {
 			}
 		}
 		
-		List<Span> spans = HbaseRepository.findSpanByTraceId("8053381312019065847");
+		List<Span> spans = HbaseRepository.find("8053381312019065847");
 		for (Span tmpspan : spans) {
 			Assert.assertEquals("localhost", tmpspan.getAppIp());
 		}
 		
-		List<TraceTable> tables = HbaseRepository.findByTraceId("8053381312019065847");
-		for (TraceTable traceTable : tables) {
-			Assert.assertEquals("appname", traceTable.getAppName());
-		}
-	}
-	
-	@Test
-	public void testFindApps() {
-		System.out.println(HbaseRepository.findApps());
 	}
 	
 	@Test
@@ -79,7 +70,7 @@ public class HbaseRepositoryTest {
 		PageFilter pageFilter = new PageFilter(limit);
 		scan.setFilter(pageFilter);
 		
-		HbaseRepository.findByScan(scan);
+		HbaseRepository.find(scan);
 	}
 	
 	@Test
@@ -93,7 +84,7 @@ public class HbaseRepositoryTest {
 		scan.setFilter(pageFilter);
 		scan.setFilter(singleColumnValueFilter);
 		scan.setTimeRange(System.currentTimeMillis() - 60 * 1000, System.currentTimeMillis());
-		HbaseRepository.findByScan(scan);
+		HbaseRepository.find(scan);
 	}
 	
 	@Test
@@ -108,7 +99,7 @@ public class HbaseRepositoryTest {
 		long endKey = Long.MAX_VALUE - (System.currentTimeMillis() - 60 * 60 * 1000);
 		scan.setStartRow(Bytes.toBytes("trace-http://www.huohu123.com-" + startKey));
 		scan.setStopRow(Bytes.toBytes("trace-http://www.huohu123.com-" + endKey));
-		System.out.println(HbaseRepository.findByScan(scan));
+		System.out.println(HbaseRepository.find(scan));
 		
 	}
 	
@@ -125,7 +116,7 @@ public class HbaseRepositoryTest {
 		scan.setStartRow(Bytes.toBytes(endKey));
 		scan.setStopRow(Bytes.toBytes(startKey));
 		
-		System.out.println(HbaseRepository.findByScan(scan));
+		System.out.println(HbaseRepository.find(scan));
 		
 	}
 

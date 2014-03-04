@@ -1,6 +1,5 @@
 package com.vipshop.microscope.storage.hbase;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -8,15 +7,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.hadoop.hbase.HColumnDescriptor;
-import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.client.HTableInterface;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
-import org.apache.hadoop.hbase.client.Scan;
-import org.apache.hadoop.hbase.filter.FilterList;
-import org.apache.hadoop.hbase.filter.FirstKeyOnlyFilter;
-import org.apache.hadoop.hbase.filter.KeyOnlyFilter;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.springframework.data.hadoop.hbase.RowMapper;
 import org.springframework.data.hadoop.hbase.TableCallback;
@@ -29,26 +22,15 @@ public class AppTableRepository extends AbstraceHbaseRepository {
 	
 	private String tableName = "app";
 	private String cf_app = "cf_app";
+	private String cf_ip = "cf_ip";
 	private String cf_trace = "cf_trace";
 
 	private byte[] BYTE_CF_APP = Bytes.toBytes(cf_app);
+	private byte[] BYTE_CF_IP = Bytes.toBytes(cf_ip);
 	private byte[] BYTE_CF_TRACE = Bytes.toBytes(cf_trace);
 	
 	public void initialize() {
-		try {
-			if (!admin.tableExists(tableName)) {
-				HTableDescriptor tableDescriptor = new HTableDescriptor(tableName);
-				HColumnDescriptor columnDescriptor = new HColumnDescriptor(cf_app);
-				HColumnDescriptor traceDescriptor = new HColumnDescriptor(cf_trace);
-				columnDescriptor.setTimeToLive(7 * 24 * 60 * 60);
-				traceDescriptor.setTimeToLive(7 * 24 * 60 * 60);
-				tableDescriptor.addFamily(columnDescriptor);
-				tableDescriptor.addFamily(traceDescriptor);
-				admin.createTable(tableDescriptor);
-			}
-		} catch (IOException e) {
-			throw new RuntimeException("initialize " + tableName, e);
-		}
+		super.initialize(tableName, new String[]{cf_app, cf_ip, cf_trace});
 	}
 	
 	public void drop() {
@@ -56,11 +38,14 @@ public class AppTableRepository extends AbstraceHbaseRepository {
 	}
 	
 	/**
-	 * Save app name and trace name in format.
+	 * Save appName, IPAdress, traceName(URL) to AppTable.
 	 * 
-	 * app name   trace name
-	 * "app1"     "trace1", "tarce2", "trace3" 
-	 * "app2"     "trace21", "tarce22", "trace23" 
+	 * for example
+	 * 
+	 * ROW                COLUMN+CELL                                                                                                                                                                                              
+     * user_info          column=cf_app   :user_info,        timestamp=1393830202990,   value=user_info                                                                                                                                        
+     * user_info          column=cf_ip    :12456789,         timestamp=1393829977044,   value=12456789                                                                                                                                                    
+     * user_info          column=cf_trace :www.huohu.com,    timestamp=1393830202990,   value=www.huohu.com   
 	 * 
 	 * @param app
 	 */
@@ -70,6 +55,7 @@ public class AppTableRepository extends AbstraceHbaseRepository {
 			public AppTable doInTable(HTableInterface table) throws Throwable {
 				Put p = new Put(Bytes.toBytes(app.getAppName()));
 				p.add(BYTE_CF_APP, Bytes.toBytes(app.getAppName()), Bytes.toBytes(app.getAppName()));
+				p.add(BYTE_CF_IP, Bytes.toBytes(app.getIpAdress()), Bytes.toBytes(app.getIpAdress()));
 				p.add(BYTE_CF_TRACE, Bytes.toBytes(app.getTraceName()), Bytes.toBytes(app.getTraceName()));
 				table.put(p);
 				return app;
@@ -78,42 +64,48 @@ public class AppTableRepository extends AbstraceHbaseRepository {
 	}
 	
 	/**
-	 * Return app names.
+	 * Save appName, IPAdress, traceName(URL) to AppTable.
 	 * 
-	 * @return
+	 * for example
+	 * 
+	 * ROW                COLUMN+CELL                                                                                                                                                                                              
+     * user_info          column=cf_app   :user_info,        timestamp=1393830202990,   value=user_info                                                                                                                                        
+     * user_info          column=cf_ip    :12456789,         timestamp=1393829977044,   value=12456789                                                                                                                                                    
+     * user_info          column=cf_trace :www.huohu.com,    timestamp=1393830202990,   value=www.huohu.com   
+	 * 
+	 * @param app
 	 */
-	public List<String> findApps() {
-		final List<String> apps = new ArrayList<String>();
-		
-		Scan s = new Scan();
-		FilterList fl = new FilterList();
-		// returns first instance of a row, then skip to next row
-		fl.addFilter(new FirstKeyOnlyFilter());
-		// only return the Key, don't return the value
-		fl.addFilter(new KeyOnlyFilter());
-		s.setFilter(fl);
-		
-		hbaseTemplate.find(tableName, s, new RowMapper<List<String>>() {
+	public void save(final List<AppTable> appTables) {
+		hbaseTemplate.execute(tableName, new TableCallback<List<AppTable>>() {
 			@Override
-			public List<String> mapRow(Result result, int rowNum) throws Exception {
-				apps.add(Bytes.toString(result.getRow()));
-				return apps;
+			public List<AppTable> doInTable(HTableInterface table) throws Throwable {
+				List<Put> puts = new ArrayList<Put>();
+				for (AppTable appTable : appTables) {
+					Put p = new Put(Bytes.toBytes(appTable.getAppName()));
+					p.add(BYTE_CF_APP, Bytes.toBytes(appTable.getAppName()), Bytes.toBytes(appTable.getAppName()));
+					p.add(BYTE_CF_IP, Bytes.toBytes(appTable.getIpAdress()), Bytes.toBytes(appTable.getIpAdress()));
+					p.add(BYTE_CF_TRACE, Bytes.toBytes(appTable.getTraceName()), Bytes.toBytes(appTable.getTraceName()));
+					puts.add(p);
+				}
+				table.put(puts);
+				return appTables;
 			}
 		});
-		
-		return apps;
 	}
+
 	
 	/**
-	 * Returns app name and trace name in format:
+	 * Returns appName, IPAdress, traceName in follow format:
+	 * 
 	 * [
-	 * "app name1" : ["trace name1", "trace name2", ...]
-	 * "app name2" : ["trace name21", "trace name22", ...]
+	 * "app"   :   app name,
+	 * "ip"    :   ["ip adress 1", "ip adress 2", ...], 
+	 * "trace" :   ["trace name 1", "trace name 2", ...],
 	 * ]
 	 * 
 	 * @return
 	 */
-	public List<Map<String, Object>> findAll() {
+	public List<Map<String, Object>> findAppIPTrace() {
 		
 		final List<String> appList = new ArrayList<String>();
 		final List<Map<String, Object>> appTraceList = new ArrayList<Map<String,Object>>();
@@ -136,8 +128,10 @@ public class AppTableRepository extends AbstraceHbaseRepository {
 				@Override
 				public Map<String, Object> mapRow(Result result, int rowNum) throws Exception {
 					Map<String, Object> appTrace = new HashMap<String, Object>();
+					String[] ipQunitifer = getColumnsInColumnFamily(result, cf_ip);
 					String[] traceQunitifer = getColumnsInColumnFamily(result, cf_trace);
 					appTrace.put("app", row);
+					appTrace.put("ip", Arrays.asList(ipQunitifer));
 					appTrace.put("trace", Arrays.asList(traceQunitifer));
 					appTraceList.add(appTrace);
 					return appTrace;
