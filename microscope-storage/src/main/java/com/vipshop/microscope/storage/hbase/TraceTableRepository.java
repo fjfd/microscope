@@ -105,16 +105,18 @@ public class TraceTableRepository extends AbstraceHbaseRepository {
 		PageFilter pageFilter = new PageFilter(limit);
 		scan.setFilter(pageFilter);
 		
-		long startTime = Long.valueOf(query.get("startTime"));
-		long endTime = Long.valueOf(query.get("endTime"));
-		
 		/**
 		 * Query by rowKey : appName-ipAdress-traceName-timestamp
 		 */
-		String startKey = query.get("appName") + "-" + query.get("ipAddress") + "-" + query.get("traceName") + "-" + (Long.MAX_VALUE - endTime);
-		String endKey = query.get("appName") + "-" + query.get("ipAddress") + "-" + query.get("traceName") + "-" + (Long.MAX_VALUE - startTime);
-//		String startKey = query.get("appName") + "-" + query.get("traceName") + "-" + (Long.MAX_VALUE - endTime);
-//		String endKey = query.get("appName") + "-" + query.get("traceName") + "-" + (Long.MAX_VALUE - startTime);
+		String appName = query.get("appName");
+		String ipAddress = query.get("ipAddress");
+		String traceName = query.get("traceName");
+		
+		long startTime = Long.valueOf(query.get("startTime"));
+		long endTime = Long.valueOf(query.get("endTime"));
+		
+		String startKey = appName + "-" + ipAddress + "-" + traceName + "-" + (Long.MAX_VALUE - endTime);
+		String endKey = appName + "-" + ipAddress + "-" + traceName + "-" + (Long.MAX_VALUE - startTime);
 		
 		scan.setStartRow(Bytes.toBytes(startKey));
 		scan.setStopRow(Bytes.toBytes(endKey));
