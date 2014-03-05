@@ -5,8 +5,6 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
-import com.vipshop.microscope.query.service.TraceService;
-
 public class TraceServiceTest {
 	
 	TraceService service = new TraceService();

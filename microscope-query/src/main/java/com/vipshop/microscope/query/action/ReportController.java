@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.vipshop.microscope.query.result.ListResult;
 import com.vipshop.microscope.query.result.MapResult;
 import com.vipshop.microscope.query.service.ReportService;
-import com.vipshop.microscope.report.condition.DepenReportCondition;
-import com.vipshop.microscope.report.condition.MarketReportCondition;
-import com.vipshop.microscope.report.condition.MsgReportCondition;
-import com.vipshop.microscope.report.condition.ProblemReportCondition;
-import com.vipshop.microscope.report.condition.SourceReportCondition;
-import com.vipshop.microscope.report.condition.TraceReportCondition;
+import com.vipshop.microscope.storage.mysql.condition.DepenReportCondition;
+import com.vipshop.microscope.storage.mysql.condition.MarketReportCondition;
+import com.vipshop.microscope.storage.mysql.condition.MsgReportCondition;
+import com.vipshop.microscope.storage.mysql.condition.ProblemReportCondition;
+import com.vipshop.microscope.storage.mysql.condition.SourceReportCondition;
+import com.vipshop.microscope.storage.mysql.condition.TraceReportCondition;
 
 /**
  * Responsible for report data.

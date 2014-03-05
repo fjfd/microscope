@@ -8,9 +8,9 @@ import com.vipshop.microscope.common.thrift.Span;
 import com.vipshop.microscope.common.util.CalendarUtil;
 import com.vipshop.microscope.common.util.IPAddressUtil;
 import com.vipshop.microscope.common.util.SpanMockUtil;
-import com.vipshop.microscope.report.domain.TopReport;
-import com.vipshop.microscope.report.factory.MySQLFactory;
 import com.vipshop.microscope.storage.hbase.factory.HbaseFactory;
+import com.vipshop.microscope.storage.mysql.domain.TopReport;
+import com.vipshop.microscope.storage.mysql.factory.MySQLFactory;
 import com.vipshop.microscope.trace.Tracer;
 
 /**

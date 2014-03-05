@@ -5,7 +5,7 @@ import java.io.Serializable;
 import com.vipshop.microscope.common.thrift.Span;
 
 /**
- * Trace detail info.
+ * TraceTable store trace info.
  * 
  * @author Xu Fei
  * @version 1.0

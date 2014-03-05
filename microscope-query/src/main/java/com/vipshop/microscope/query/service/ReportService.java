@@ -8,19 +8,19 @@ import java.util.Map;
 
 import com.vipshop.microscope.common.span.Category;
 import com.vipshop.microscope.common.util.IPAddressUtil;
-import com.vipshop.microscope.report.condition.DepenReportCondition;
-import com.vipshop.microscope.report.condition.MarketReportCondition;
-import com.vipshop.microscope.report.condition.MsgReportCondition;
-import com.vipshop.microscope.report.condition.ProblemReportCondition;
-import com.vipshop.microscope.report.condition.SourceReportCondition;
-import com.vipshop.microscope.report.condition.TraceReportCondition;
-import com.vipshop.microscope.report.domain.MostReport;
-import com.vipshop.microscope.report.domain.MsgReport;
-import com.vipshop.microscope.report.domain.SourceReport;
-import com.vipshop.microscope.report.domain.TopReport;
-import com.vipshop.microscope.report.domain.TraceOverTimeReport;
-import com.vipshop.microscope.report.domain.TraceReport;
-import com.vipshop.microscope.report.factory.MySQLRepository;
+import com.vipshop.microscope.storage.mysql.condition.DepenReportCondition;
+import com.vipshop.microscope.storage.mysql.condition.MarketReportCondition;
+import com.vipshop.microscope.storage.mysql.condition.MsgReportCondition;
+import com.vipshop.microscope.storage.mysql.condition.ProblemReportCondition;
+import com.vipshop.microscope.storage.mysql.condition.SourceReportCondition;
+import com.vipshop.microscope.storage.mysql.condition.TraceReportCondition;
+import com.vipshop.microscope.storage.mysql.domain.MostReport;
+import com.vipshop.microscope.storage.mysql.domain.MsgReport;
+import com.vipshop.microscope.storage.mysql.domain.SourceReport;
+import com.vipshop.microscope.storage.mysql.domain.TopReport;
+import com.vipshop.microscope.storage.mysql.domain.TraceOverTimeReport;
+import com.vipshop.microscope.storage.mysql.domain.TraceReport;
+import com.vipshop.microscope.storage.mysql.factory.MySQLRepository;
 
 public class ReportService {
 	

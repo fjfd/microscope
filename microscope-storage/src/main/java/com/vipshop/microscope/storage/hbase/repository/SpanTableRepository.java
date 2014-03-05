@@ -1,8 +1,6 @@
 package com.vipshop.microscope.storage.hbase.repository;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +15,7 @@ import org.springframework.data.hadoop.hbase.TableCallback;
 import org.springframework.stereotype.Repository;
 
 import com.vipshop.microscope.common.thrift.Span;
+import com.vipshop.microscope.storage.hbase.domain.SpanTable;
 
 @Repository
 public class SpanTableRepository extends AbstraceTableRepository {
@@ -73,19 +72,7 @@ public class SpanTableRepository extends AbstraceTableRepository {
 					Span span = (Span) SerializationUtils.deserialize(data);
 					spans.add(span);
 				}
-				Collections.sort(spans, new Comparator<Span>() {
-					@Override
-					public int compare(Span o1, Span o2) {
-						if(o1.getStartTime() < o2.getStartTime()){
-							return -1;
-						} else if(o1.getStartTime() > o2.getStartTime()){
-							return 1;
-						} else {
-							return 0;
-						}
-					}
-				});
-				return spans;
+				return SpanTable.doSort(spans);
 			}
 		});
 	}

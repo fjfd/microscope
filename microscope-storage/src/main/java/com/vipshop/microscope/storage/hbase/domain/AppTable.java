@@ -5,7 +5,7 @@ import org.apache.hadoop.hbase.util.Bytes;
 import com.vipshop.microscope.common.thrift.Span;
 
 /**
- * AppTable stands for app name, ip adress, trace name.
+ * AppTable store app name, ip adress, trace name.
  * 
  * @author Xu Fei
  * @version 1.0
