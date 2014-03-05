@@ -1,4 +1,4 @@
-package com.vipshop.microscope.storage.hbase;
+package com.vipshop.microscope.storage.hbase.repository;
 
 import java.io.IOException;
 import java.util.NavigableMap;
@@ -20,9 +20,9 @@ import org.springframework.data.hadoop.hbase.HbaseTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-public abstract class AbstraceHbaseRepository implements InitializingBean {
+public abstract class AbstraceTableRepository implements InitializingBean {
 	
-	private static final Logger logger = LoggerFactory.getLogger(AbstraceHbaseRepository.class);
+	private static final Logger logger = LoggerFactory.getLogger(AbstraceTableRepository.class);
 
 	public static final int TIME_TO_LIVE = 2 * 7 * 24 * 60 * 60; 
 	

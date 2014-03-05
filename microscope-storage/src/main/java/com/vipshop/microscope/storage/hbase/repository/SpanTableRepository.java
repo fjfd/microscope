@@ -1,4 +1,4 @@
-package com.vipshop.microscope.storage.hbase;
+package com.vipshop.microscope.storage.hbase.repository;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
 import com.vipshop.microscope.common.thrift.Span;
 
 @Repository
-public class SpanTableRepository extends AbstraceHbaseRepository {
+public class SpanTableRepository extends AbstraceTableRepository {
 
 	private String tableName = "span";
 	private String cf = "cf";

@@ -1,4 +1,4 @@
-package com.vipshop.microscope.storage.domain;
+package com.vipshop.microscope.storage.hbase.domain;
 
 import java.io.Serializable;
 

@@ -89,7 +89,7 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>com.vipshop.microscope.query.server.QueryServer</mainClass>
+							<mainClass>com.vipshop.microscope.query.server.QueryEngine</mainClass>
 						</manifest>
 					</archive>
 				</configuration>

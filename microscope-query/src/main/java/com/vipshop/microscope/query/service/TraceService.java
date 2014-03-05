@@ -9,13 +9,13 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import com.vipshop.microscope.common.thrift.Span;
-import com.vipshop.microscope.storage.domain.TraceTable;
-import com.vipshop.microscope.storage.hbase.HbaseRepository;
+import com.vipshop.microscope.storage.hbase.domain.TraceTable;
+import com.vipshop.microscope.storage.hbase.factory.HbaseFactory;
 
 public class TraceService {
 	
 	public List<Map<String, Object>> getQueryCondition() {
-		return HbaseRepository.findAppIPTrace();
+		return HbaseFactory.findAppIPTrace();
 	}
 	
 	public List<Map<String, Object>> getTraceList(HttpServletRequest request) {
@@ -36,7 +36,7 @@ public class TraceService {
 		query.put("endTime", endTime);
 		query.put("limit", limit);
 		
-		List<TraceTable> tableTraces = HbaseRepository.find(query);
+		List<TraceTable> tableTraces = HbaseFactory.find(query);
 		for (TraceTable tableTrace : tableTraces) {
 			Map<String, Object> trace = new LinkedHashMap<String, Object>();
 			String traceId = tableTrace.getTraceId();
@@ -47,7 +47,7 @@ public class TraceService {
 			trace.put("startTimestamp", stmp);
 			trace.put("endTimestamp", etmp);
 			trace.put("durationMicro", dura);
-			trace.put("serviceCounts", HbaseRepository.findSpanName(traceId));
+			trace.put("serviceCounts", HbaseFactory.findSpanName(traceId));
 			traceLists.add(trace);
 		}
 		return traceLists;
@@ -57,7 +57,7 @@ public class TraceService {
 		Map<String, Object> traceSpan = new LinkedHashMap<String, Object>();
 		traceSpan.put("traceId", traceId);
 		List<Map<String, Object>> spans = new ArrayList<Map<String,Object>>();
-		List<Span> spanTables = HbaseRepository.find(traceId);
+		List<Span> spanTables = HbaseFactory.find(traceId);
 		for (Span span : spanTables) {
 			Map<String, Object> spanInfo = new LinkedHashMap<String, Object>();
 			spanInfo.put("app", span.getAppName());

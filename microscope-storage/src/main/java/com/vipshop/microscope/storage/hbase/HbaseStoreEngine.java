@@ -1,17 +1,11 @@
-package com.vipshop.microscope.storage;
+package com.vipshop.microscope.storage.hbase;
 
 import com.vipshop.microscope.common.thrift.Span;
-import com.vipshop.microscope.storage.domain.AppTable;
-import com.vipshop.microscope.storage.domain.TraceTable;
-import com.vipshop.microscope.storage.hbase.HbaseRepository;
+import com.vipshop.microscope.storage.hbase.domain.AppTable;
+import com.vipshop.microscope.storage.hbase.domain.TraceTable;
+import com.vipshop.microscope.storage.hbase.factory.HbaseFactory;
 
-/**
- * Store span to hbase.
- * 
- * @author Xu Fei
- * @version 1.0
- */
-public class HbaseStoragerRepository {
+public class HbaseStoreEngine {
 	
 	public void storage(Span span) {
 		if (span == null) {
@@ -39,15 +33,15 @@ public class HbaseStoragerRepository {
 		this.save(span);
 	}
 	
-	private void save(AppTable appTable) {
-		HbaseRepository.save(appTable);
+	public void save(AppTable appTable) {
+		HbaseFactory.getAppTableRepository().save(appTable);
 	}
 	
-	private void save(TraceTable traceTable) {
-		HbaseRepository.save(traceTable);
+	public void save(TraceTable traceTable) {
+		HbaseFactory.getTraceTableRepository().save(traceTable);
 	}
-
-	private void save(Span span) {
-		HbaseRepository.save(span);
+	
+	public void save(Span span) {
+		HbaseFactory.getSpanTableRepository().save(span);
 	}
 }

@@ -1,7 +1,7 @@
 package com.vipshop.microscope.query.server;
 
 
-public class QueryServer {
+public class QueryEngine {
 	
 	public static void main(String[] args) throws Exception {
 		int port = 8080;

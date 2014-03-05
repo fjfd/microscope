@@ -1,4 +1,4 @@
-package com.vipshop.microscope.storage.repository;
+package com.vipshop.microscope.storage;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,9 +20,9 @@ import org.testng.annotations.Test;
 
 import com.vipshop.microscope.common.thrift.Span;
 import com.vipshop.microscope.common.util.SpanMockUtil;
-import com.vipshop.microscope.storage.domain.AppTable;
-import com.vipshop.microscope.storage.domain.TraceTable;
-import com.vipshop.microscope.storage.hbase.HbaseRepository;
+import com.vipshop.microscope.storage.hbase.domain.AppTable;
+import com.vipshop.microscope.storage.hbase.domain.TraceTable;
+import com.vipshop.microscope.storage.hbase.factory.HbaseFactory;
 
 public class HbaseRepositoryTest {
 
@@ -30,18 +30,18 @@ public class HbaseRepositoryTest {
 	
 	@Test(priority = 1)
 	public void reinit() {
-		HbaseRepository.drop();
-		HbaseRepository.init();
+		HbaseFactory.drop();
+		HbaseFactory.init();
 	}
 	
 	@Test(priority = 2)
 	public void save() {
 		Span span = SpanMockUtil.mockSpan();
-		HbaseRepository.save(AppTable.build(span));
-		HbaseRepository.save(TraceTable.build(span));
-		HbaseRepository.save(span);
+		HbaseFactory.save(AppTable.build(span));
+		HbaseFactory.save(TraceTable.build(span));
+		HbaseFactory.save(span);
 		
-		List<Map<String, Object>> apps = HbaseRepository.findAppIPTrace();
+		List<Map<String, Object>> apps = HbaseFactory.findAppIPTrace();
 		for (Map<String, Object> map : apps) {
 			Set<Entry<String, Object>> entry = map.entrySet();
 			int size = 0;
@@ -56,7 +56,7 @@ public class HbaseRepositoryTest {
 			}
 		}
 		
-		List<Span> spans = HbaseRepository.find("8053381312019065847");
+		List<Span> spans = HbaseFactory.find("8053381312019065847");
 		for (Span tmpspan : spans) {
 			Assert.assertEquals("localhost", tmpspan.getAppIp());
 		}
@@ -70,7 +70,7 @@ public class HbaseRepositoryTest {
 		PageFilter pageFilter = new PageFilter(limit);
 		scan.setFilter(pageFilter);
 		
-		HbaseRepository.find(scan);
+		HbaseFactory.find(scan);
 	}
 	
 	@Test
@@ -84,7 +84,7 @@ public class HbaseRepositoryTest {
 		scan.setFilter(pageFilter);
 		scan.setFilter(singleColumnValueFilter);
 		scan.setTimeRange(System.currentTimeMillis() - 60 * 1000, System.currentTimeMillis());
-		HbaseRepository.find(scan);
+		HbaseFactory.find(scan);
 	}
 	
 	@Test
@@ -99,7 +99,7 @@ public class HbaseRepositoryTest {
 		long endKey = Long.MAX_VALUE - (System.currentTimeMillis() - 60 * 60 * 1000);
 		scan.setStartRow(Bytes.toBytes("trace-http://www.huohu123.com-" + startKey));
 		scan.setStopRow(Bytes.toBytes("trace-http://www.huohu123.com-" + endKey));
-		System.out.println(HbaseRepository.find(scan));
+		System.out.println(HbaseFactory.find(scan));
 		
 	}
 	
@@ -116,7 +116,7 @@ public class HbaseRepositoryTest {
 		scan.setStartRow(Bytes.toBytes(endKey));
 		scan.setStopRow(Bytes.toBytes(startKey));
 		
-		System.out.println(HbaseRepository.find(scan));
+		System.out.println(HbaseFactory.find(scan));
 		
 	}
 

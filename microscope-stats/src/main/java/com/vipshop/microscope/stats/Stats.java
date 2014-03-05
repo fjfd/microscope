@@ -8,15 +8,16 @@ package com.vipshop.microscope.stats;
  */
 public class Stats {
 	
-	public static void recordJVM(){
+	public static void record() {
+		
+	}
+
+	public static void record(Exception e){
 		
 	}
 	
-	public static void recordEhcache() {
+	public static void record(String info, Exception e) {
 		
 	}
 	
-	public static void recordCPU() {
-		
-	}
 }

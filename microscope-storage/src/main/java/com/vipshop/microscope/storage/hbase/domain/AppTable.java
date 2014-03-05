@@ -1,4 +1,4 @@
-package com.vipshop.microscope.storage.domain;
+package com.vipshop.microscope.storage.hbase.domain;
 
 import org.apache.hadoop.hbase.util.Bytes;
 

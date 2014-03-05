@@ -1,4 +1,4 @@
-package com.vipshop.microscope.storage.hbase;
+package com.vipshop.microscope.storage.hbase.repository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,10 +15,10 @@ import org.springframework.data.hadoop.hbase.RowMapper;
 import org.springframework.data.hadoop.hbase.TableCallback;
 import org.springframework.stereotype.Repository;
 
-import com.vipshop.microscope.storage.domain.AppTable;
+import com.vipshop.microscope.storage.hbase.domain.AppTable;
 
 @Repository
-public class AppTableRepository extends AbstraceHbaseRepository {
+public class AppTableRepository extends AbstraceTableRepository {
 	
 	private String tableName = "app";
 	private String cf_app = "cf_app";

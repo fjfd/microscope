@@ -1,13 +1,14 @@
 package com.vipshop.microscope.storage;
 
 import com.vipshop.microscope.common.thrift.Span;
+import com.vipshop.microscope.storage.hbase.HbaseStoreEngine;
 
 public class StorageRepository {
 	
-	private HbaseStoragerRepository hbaseStorager = new HbaseStoragerRepository();
+	private HbaseStoreEngine hbaseStoreEngine = new HbaseStoreEngine();
 	
 	public void storage(Span span) {
-		hbaseStorager.storage(span);
+		hbaseStoreEngine.storage(span);
 	}
 	
 }

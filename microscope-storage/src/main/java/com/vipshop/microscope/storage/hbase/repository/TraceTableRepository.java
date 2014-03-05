@@ -1,4 +1,4 @@
-package com.vipshop.microscope.storage.hbase;
+package com.vipshop.microscope.storage.hbase.repository;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,10 +15,10 @@ import org.springframework.data.hadoop.hbase.RowMapper;
 import org.springframework.data.hadoop.hbase.TableCallback;
 import org.springframework.stereotype.Repository;
 
-import com.vipshop.microscope.storage.domain.TraceTable;
+import com.vipshop.microscope.storage.hbase.domain.TraceTable;
 
 @Repository
-public class TraceTableRepository extends AbstraceHbaseRepository {
+public class TraceTableRepository extends AbstraceTableRepository {
 	
 	private String tableName = "trace";
 	private String cf = "cf";

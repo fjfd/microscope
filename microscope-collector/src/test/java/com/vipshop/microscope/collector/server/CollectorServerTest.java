@@ -30,14 +30,14 @@ import com.vipshop.microscope.common.thrift.ThriftCategory;
 import com.vipshop.microscope.common.thrift.ThriftClient;
 import com.vipshop.microscope.common.util.SpanMockUtil;
 import com.vipshop.microscope.common.util.ThreadPoolUtil;
-import com.vipshop.microscope.storage.hbase.HbaseRepository;
+import com.vipshop.microscope.storage.hbase.factory.HbaseFactory;
 
 public class CollectorServerTest {
 
 	@BeforeClass
 	public void setUp() {
 		new Thread(new CollectorServer()).start();
-		HbaseRepository.reinit();
+		HbaseFactory.reinit();
 	}
 
 	@Test
@@ -48,7 +48,7 @@ public class CollectorServerTest {
 
 		TimeUnit.SECONDS.sleep(1);
 
-		List<Map<String, Object>> apps = HbaseRepository.findAppIPTrace();
+		List<Map<String, Object>> apps = HbaseFactory.findAppIPTrace();
 		for (Map<String, Object> map : apps) {
 			Set<Entry<String, Object>> entry = map.entrySet();
 			int size = 0;
@@ -63,7 +63,7 @@ public class CollectorServerTest {
 			}
 		}
 
-		List<Span> spans = HbaseRepository.find("8053381312019065847");
+		List<Span> spans = HbaseFactory.find("8053381312019065847");
 		for (Span tmpspan : spans) {
 			Assert.assertEquals("localhost", tmpspan.getAppIp());
 		}

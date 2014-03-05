@@ -1,4 +1,4 @@
-package com.vipshop.microscope.storage.hbase;
+package com.vipshop.microscope.storage.hbase.factory;
 
 import java.util.List;
 import java.util.Map;
@@ -8,21 +8,24 @@ import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.vipshop.microscope.common.thrift.Span;
-import com.vipshop.microscope.storage.domain.AppTable;
-import com.vipshop.microscope.storage.domain.TraceTable;
+import com.vipshop.microscope.storage.hbase.domain.AppTable;
+import com.vipshop.microscope.storage.hbase.domain.TraceTable;
+import com.vipshop.microscope.storage.hbase.repository.AppTableRepository;
+import com.vipshop.microscope.storage.hbase.repository.SpanTableRepository;
+import com.vipshop.microscope.storage.hbase.repository.TraceTableRepository;
 
-public class HbaseRepository {
+public class HbaseFactory {
 	
 	private static AppTableRepository APP;
 	private static TraceTableRepository TRACE;
 	private static SpanTableRepository SPAN;
 	
 	static {
-		AbstractApplicationContext context = new ClassPathXmlApplicationContext("/applicationContext-storage-hbase.xml", HbaseRepository.class);
+		AbstractApplicationContext context = new ClassPathXmlApplicationContext("/applicationContext-storage-hbase.xml", HbaseFactory.class);
 		APP = context.getBean(AppTableRepository.class);
 		TRACE = context.getBean(TraceTableRepository.class);
 		SPAN = context.getBean(SpanTableRepository.class);
-		synchronized (HbaseRepository.class) {
+		synchronized (HbaseFactory.class) {
 			APP.initialize();
 			TRACE.initialize();
 			SPAN.initialize();
@@ -45,6 +48,18 @@ public class HbaseRepository {
 		APP.drop();
 		TRACE.drop();
 		SPAN.drop();
+	}
+	
+	public static AppTableRepository getAppTableRepository() {
+		return APP;
+	}
+	
+	public static TraceTableRepository getTraceTableRepository() {
+		return TRACE;
+	}
+	
+	public static SpanTableRepository getSpanTableRepository() {
+		return SPAN;
 	}
 	
 	public static void save(AppTable appTable) {

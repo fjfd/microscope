@@ -10,7 +10,7 @@ import com.vipshop.microscope.common.util.IPAddressUtil;
 import com.vipshop.microscope.common.util.SpanMockUtil;
 import com.vipshop.microscope.report.domain.TopReport;
 import com.vipshop.microscope.report.factory.MySQLFactory;
-import com.vipshop.microscope.storage.hbase.HbaseRepository;
+import com.vipshop.microscope.storage.hbase.factory.HbaseFactory;
 import com.vipshop.microscope.trace.Tracer;
 
 /**
@@ -60,7 +60,7 @@ public class OnLineTool {
 	}
 	
 	public static void hbase() {
-		HbaseRepository.reinit();
+		HbaseFactory.reinit();
 	}
 	
 	public static void mysql() {
