@@ -55,7 +55,7 @@
 		<module>microscope-storage</module>
 		<module>microscope-test</module>
 		<module>microscope-trace</module>
-		<module>microscope-warn</module>
+		<module>microscope-alert</module>
 	</modules>
 
 	<!-- deploy jar to nexus server -->
