@@ -49,7 +49,6 @@
 		<module>microscope-common</module>
 		<module>microscope-job</module>
 		<module>microscope-maven</module>
-		<module>microscope-metrics</module>
 		<module>microscope-query</module>
 		<module>microscope-report</module>
 		<module>microscope-stats</module>

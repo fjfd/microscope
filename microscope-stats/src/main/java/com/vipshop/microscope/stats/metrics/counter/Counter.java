@@ -1,4 +1,4 @@
-package com.vipshop.microscope.stats.counters;
+package com.vipshop.microscope.stats.metrics.counter;
 
 import java.util.concurrent.atomic.AtomicLong;
 
