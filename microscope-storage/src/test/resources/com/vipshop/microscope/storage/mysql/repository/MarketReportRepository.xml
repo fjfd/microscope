@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vipshop.microscope.storage.mysql.repository.MarketReportRepository">
+	
+	<select id="find" parameterType="int">
+		select app_name, name, sum(total_count) as total_count 
+		from trace_report 
+		where type = #{type}
+		group by name 
+		order by total_count desc 
+		limit 20
+	</select>
+	
+</mapper>

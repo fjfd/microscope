@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vipshop.microscope.storage.mysql.repository.TraceReportRepository">
+
+	<resultMap id="TraceReportList" type="TraceReport">
+		<result column="year" property="year" />
+		<result column="month" property="month" />
+		<result column="week" property="week" />
+		<result column="day" property="day" />
+		<result column="hour" property="hour" />
+		<result column="app_name" property="appName" />
+		<result column="app_ip" property="appIp" />
+		<result column="type" property="type" />
+		<result column="name" property="name" />
+		<result column="total_count" property="totalCount" />
+		<result column="fail_count" property="failCount" />
+		<result column="fail_percent" property="failPrecent" />
+		<result column="min" property="min" />
+		<result column="max" property="max" />
+		<result column="avg" property="avg" />
+		<result column="tps" property="tps" />
+		<result column="region_0" property="region_0" />
+		<result column="region_1" property="region_1" />
+		<result column="region_2" property="region_2" />
+		<result column="region_3" property="region_3" />
+		<result column="region_4" property="region_4" />
+		<result column="region_5" property="region_5" />
+		<result column="region_6" property="region_6" />
+		<result column="region_7" property="region_7" />
+		<result column="region_8" property="region_8" />
+		<result column="region_9" property="region_9" />
+		<result column="region_10" property="region_10" />
+		<result column="region_11" property="region_11" />
+		<result column="region_12" property="region_12" />
+		<result column="region_13" property="region_13" />
+		<result column="region_14" property="region_14" />
+		<result column="region_15" property="region_15" />
+		<result column="region_16" property="region_16" />
+	</resultMap>
+	
+	<insert id="saveTraceReport" parameterType="TraceReport">
+		insert into 
+		trace_report
+		(year, month, week, day, hour, 
+		 app_name, app_ip, type, name, 
+		 total_count, fail_count, fail_percent, 
+		 min, max, avg, qps, 
+		 region_0, region_1, region_2, region_3, 
+		 region_4, region_5, region_6, region_7, 
+		 region_8, region_9, region_10, region_11, 
+		 region_12, region_13, region_14, region_15, 
+		 region_16)
+		values
+		(#{year},#{month},#{week},#{day},#{hour},
+		 #{appName},#{appIp},#{type},#{name},
+		 #{totalCount},#{failCount},#{failPercent},
+		 #{min},#{max},#{avg},#{qps},
+		 #{region_0},#{region_1},#{region_2},#{region_3},
+		 #{region_4},#{region_5},#{region_6},#{region_7},
+		 #{region_8},#{region_9},#{region_10},#{region_11},
+		 #{region_12},#{region_13},#{region_14},#{region_15},
+		 #{region_16})
+	</insert>
+
+	<select id="countTraceReport" resultType="Long">
+		select count(*) from trace_report;
+	</select>
+	
+	<select id="findTraceReport" parameterType="TraceReportCondition"
+		resultMap="TraceReportList">
+		select type, name, 
+		SUM(total_count) AS total_count, 
+		SUM(fail_count) AS fail_count, 
+		MIN(MIN) AS min, MAX(MAX) AS max, 
+		AVG(AVG) AS avg, 
+		AVG(qps) AS qps
+		From trace_report
+		WHERE app_name = #{appName}
+		<if test="appIp != -1"> and app_ip = #{appIp} </if>
+		<if test="type != -1"> and type = #{type} </if>
+		<if test="name != null"> and name = #{name}</if>
+		<if test="year != -1"> and year = #{year} </if>
+		<if test="month != -1"> and month = #{month} </if>
+		<if test="week != -1"> and week = #{week} </if>
+		<if test="day != -1"> and day = #{day} </if>
+		<if test="hour != -1"> and hour = #{hour} </if>
+		<if test="groupBy == 'type'"> GROUP BY type </if>
+		<if test="groupBy == 'name'"> GROUP BY name </if>
+	</select>
+	
+	<delete id="empty">
+		delete from trace_report;
+	</delete>
+	
+	<select id="findTraceDuration" parameterType="TraceReportCondition"
+			resultType="TraceReport">
+		SELECT 
+		SUM(region_0) as region_0, SUM(region_1) as region_1, 
+		SUM(region_2) as region_2, SUM(region_3) as region_3, 
+		SUM(region_4) as region_4, SUM(region_5) as region_5,
+		SUM(region_6) as region_6, SUM(region_7) as region_7, 
+		SUM(region_8) as region_8, SUM(region_9) as region_9, 
+		SUM(region_10) as region_10, SUM(region_11) as region_11,
+		SUM(region_12) as region_12, SUM(region_13) as region_13, 
+		SUM(region_14) as region_14, SUM(region_15) as region_15, 
+		SUM(region_16) as region_16
+		FROM trace_report
+		WHERE app_name = #{appName}
+		<if test="appIp != -1"> and app_ip = #{appIp} </if>
+		<if test="type != -1"> and type = #{type} </if>
+		<if test="name != null"> and name = #{name}</if>
+		<if test="year != -1"> and year = #{year} </if>
+		<if test="month != -1"> and month = #{month} </if>
+		<if test="week != -1"> and week = #{week} </if>
+		<if test="day != -1"> and day = #{day} </if>
+		<if test="hour != -1"> and hour = #{hour} </if>
+	</select>
+	
+	<select id="findAppName" parameterType="TraceReport" resultMap="TraceReportList">
+		select app_name from trace_report group by app_name
+	</select>
+	
+	<select id="findIPAdress" parameterType="String" resultMap="TraceReportList">
+		select app_ip from trace_report where app_name = #{appName} group by app_ip
+	</select>
+	
+	<resultMap id="OverTimeReportList" type="TraceOverTimeReport">
+		<result column="year" property="year" />
+		<result column="month" property="month" />
+		<result column="week" property="week" />
+		<result column="day" property="day" />
+		<result column="hour" property="hour" />
+		<result column="minute" property="minute" />
+		<result column="app_name" property="appName" />
+		<result column="app_ip" property="appIp" />
+		<result column="type" property="type" />
+		<result column="name" property="name" />
+		<result column="avg" property="avg" />
+		<result column="hit" property="hit" />
+		<result column="fail" property="fail" />
+	</resultMap>
+	
+	<insert id="saveOverTimeReport" parameterType="TraceOverTimeReport">
+		insert into 
+		trace_overtime_report
+		(year, month, week, day, hour, minute, app_name, app_ip, type, name, avg, hit, fail)
+		values
+		(#{year},#{month},#{week},#{day},#{hour},#{minute},#{appName},#{appIp},#{type},#{name},#{avg},#{hit},#{fail})
+	</insert>
+	
+	<select id="findOverTimeReport" parameterType="TraceReportCondition" resultMap="OverTimeReportList">
+		SELECT minute, AVG(avg) as avg,
+			   SUM(hit) as hit,
+			   SUM(fail) as fail
+		
+		From trace_overtime_report 
+		
+		WHERE app_name = #{appName}
+		<if test="appIp != -1"> and app_ip = #{appIp} </if>
+		<if test="type != -1"> and type = #{type} </if>
+		<if test="name != null"> and name = #{name}</if>
+		<if test="year != -1"> and year = #{year} </if>
+		<if test="month != -1"> and month = #{month} </if>
+		<if test="week != -1"> and week = #{week} </if>
+		<if test="day != -1"> and day = #{day} </if>
+		<if test="hour != -1"> and hour = #{hour} </if>
+		
+		GROUP BY minute
+		order by minute
+	</select>
+	
+	<select id="countTraceOverTimeReport" resultType="Long">
+		select count(*) from trace_overtime_report
+	</select>
+	
+	<delete id="emptyOverTime">
+		DELETE FROM trace_overtime_report;
+	</delete>
+	
+	
+</mapper>

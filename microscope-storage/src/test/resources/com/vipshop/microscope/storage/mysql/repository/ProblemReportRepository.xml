@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vipshop.microscope.storage.mysql.repository.ProblemReportRepository">
+	
+	<insert id="saveProblemReport" parameterType="ProblemReport">
+		insert into 
+		problem_report
+		(year, month, week, day, hour, app_name, app_ip, pro_type, pro_time, pro_count, pro_desc)
+		values
+		(#{year},#{month},#{week},#{day},#{hour},#{appName},#{appIp},#{proType},#{proTime},#{proCount},#{proDesc})
+	</insert>
+
+	<delete id="empty">
+		delete from problem_report;
+	</delete>
+	
+	<!-- 
+	<insert id="saveProblemOverTimeReport" parameterType="ProblemOverTimeReport">
+		insert into 
+		problem_overtime_report
+		(year, month, week, day, hour, app_name, app_ip, pro_type, pro_time, pro_count, pro_desc)
+		values
+		(#{year},#{month},#{week},#{day},#{hour},#{appName},#{appIp},#{proType},#{proTime},#{proCount},#{proDesc})
+	</insert>
+	
+	<delete id="emptyOverTime">
+		delete from problem_overtime_report;
+	</delete>
+	 -->
+	 
+</mapper>
