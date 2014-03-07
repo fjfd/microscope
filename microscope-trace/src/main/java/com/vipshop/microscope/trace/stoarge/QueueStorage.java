@@ -40,6 +40,10 @@ public class QueueStorage implements Storage {
 	 * @param span {@link Span}
 	 */
 	public void add(LogEntry logEntry) { 
+		if (logEntry == null) {
+			return;
+		}
+		
 		boolean isFull = !queue.offer(logEntry);
 		
 		if (isFull) {

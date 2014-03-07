@@ -22,6 +22,7 @@ public class HbaseStorageRepository {
 		RepositoryFactory.getAppTableRepository().initialize();
 		RepositoryFactory.getTraceTableRepository().initialize();
 		RepositoryFactory.getSpanTableRepository().initialize();
+		RepositoryFactory.getExceptionTableRepository().initialize();
 	}
 	
 	/**
@@ -31,6 +32,7 @@ public class HbaseStorageRepository {
 		RepositoryFactory.getAppTableRepository().drop();
 		RepositoryFactory.getTraceTableRepository().drop();
 		RepositoryFactory.getSpanTableRepository().drop();
+		RepositoryFactory.getExceptionTableRepository().drop();
 	}
 	
 	/**

@@ -115,35 +115,6 @@ public class TracerTest {
 	}
 	
 	@Test
-	public void traceUseExample5() throws InterruptedException {
-		for (;;)  {
-			Tracer.cleanContext();
-			Tracer.clientSend("http://www.huohu.com", Category.URL);
-			try {
-				TimeUnit.MILLISECONDS.sleep(1000);
-				Tracer.clientSend("getNew@newService", Category.Service);
-				TimeUnit.MILLISECONDS.sleep(400);
-				Tracer.clientSend("get@DB", Category.DB);
-				TimeUnit.MILLISECONDS.sleep(100);
-				Tracer.clientReceive();
-				Tracer.clientReceive();
-				
-				Tracer.clientSend("buyNew@buyService", Category.Service);
-				TimeUnit.MILLISECONDS.sleep(200);
-				Tracer.clientSend("buy@Cache", Category.Cache);
-				TimeUnit.MILLISECONDS.sleep(10);
-				Tracer.clientReceive();
-				Tracer.clientReceive();
-			} catch (Exception e) {
-				Tracer.setResultCode(e);
-			} finally {
-				Tracer.clientReceive();
-			}
-		}
-	}
-
-	
-	@Test
 	public void traceUserInfoExample() throws InterruptedException {
 		for (int i = 0; i < 10; i++)  {
 			Tracer.cleanContext();

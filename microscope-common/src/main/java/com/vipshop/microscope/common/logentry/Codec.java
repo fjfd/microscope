@@ -21,21 +21,29 @@ public class Codec {
 	private static final TProtocolFactory protocolFactory = new TBinaryProtocol.Factory();
 	private static final Base64 base64 = new Base64();
 
-	public static LogEntry encodeToLogEntry(Span span) throws TException {
+	public static LogEntry encodeToLogEntry(Span span) {
 		final ByteArrayOutputStream buf = new ByteArrayOutputStream();
 		final TProtocol proto = protocolFactory.getProtocol(new TIOStreamTransport(buf));
-		span.write(proto);
+		try {
+			span.write(proto);
+		} catch (TException e) {
+			return null;
+		}
 		String spanAsString = base64.encodeToString(buf.toByteArray());
 		LogEntry logEntry = new LogEntry(LogEntryCategory.TRACE, spanAsString);
 		return logEntry;
 	}
 
-	public static Span decodeToSpan(final String msg) throws TException {
+	public static Span decodeToSpan(final String msg) {
 		byte[] tmp = Base64.decodeBase64(msg);
 		final ByteArrayInputStream buf = new ByteArrayInputStream(tmp);
 		final TProtocol proto = protocolFactory.getProtocol(new TIOStreamTransport(buf));
 		Span span = new Span();
-		span.read(proto);
+		try {
+			span.read(proto);
+		} catch (TException e) {
+			return null;
+		}
 		span.setResultSize(msg.length());
 		return span;
 	}

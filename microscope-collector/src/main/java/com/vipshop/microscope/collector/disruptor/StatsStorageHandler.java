@@ -12,5 +12,6 @@ public class StatsStorageHandler implements EventHandler<StatsEvent> {
 	
 	@Override
 	public void onEvent(StatsEvent event, long sequence, boolean endOfBatch) throws Exception {
+		
 	}
 }
