@@ -14,7 +14,7 @@ import com.vipshop.microscope.common.span.Category;
 import com.vipshop.microscope.common.thrift.Span;
 import com.vipshop.microscope.common.util.CalendarUtil;
 import com.vipshop.microscope.common.util.TimeStampUtil;
-import com.vipshop.microscope.storage.mysql.factory.MySQLFactory;
+import com.vipshop.microscope.storage.mysql.factory.RepositoryFactory;
 
 /**
  * Top 10 slow report
@@ -205,7 +205,7 @@ public class TopReport extends AbstraceReport {
 			}
 		}
 		
-		MySQLFactory.TOP.save(this);
+		RepositoryFactory.getTopReportRepository().save(this);
 	}
 	
 	public String getKey(CalendarUtil calendar, Span span) {

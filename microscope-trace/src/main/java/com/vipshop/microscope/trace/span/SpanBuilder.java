@@ -4,7 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
+import org.apache.thrift.TException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.vipshop.microscope.common.span.Category;
+import com.vipshop.microscope.common.span.Codec;
 import com.vipshop.microscope.common.thrift.Span;
 import com.vipshop.microscope.common.util.IPAddressUtil;
 import com.vipshop.microscope.trace.Tracer;
@@ -19,6 +24,8 @@ import com.vipshop.microscope.trace.stoarge.Storage;
  * @version 1.0
  */
 public class SpanBuilder {
+	
+	private final Logger logger = LoggerFactory.getLogger(SpanBuilder.class);
 	
 	private final Storage storage = QueueStorage.getStorage();
 	
@@ -180,7 +187,11 @@ public class SpanBuilder {
 		/*
     	 * put span to queue
     	 */
-		storage.add(span);
+		try {
+			storage.add(Codec.encodeToLogEntry(span));
+		} catch (TException e) {
+			logger.warn("encode Span to LogEntry error, program will ingnore this span");
+		}
     	
     	/*
     	 * check stack, if span exist,

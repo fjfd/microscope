@@ -12,7 +12,6 @@ import com.vipshop.microscope.common.thrift.Span;
 import com.vipshop.microscope.common.util.CalendarUtil;
 import com.vipshop.microscope.common.util.IPAddressUtil;
 import com.vipshop.microscope.common.util.TimeStampUtil;
-import com.vipshop.microscope.storage.mysql.factory.MySQLRepository;
 
 /**
  * Problem Report.
@@ -123,7 +122,6 @@ public class ProblemReport extends AbstraceReport {
 	
 	@Override
 	public void saveReport() {
-		MySQLRepository.getRepository().save(this);
 	}
 	
 	public String getKey(CalendarUtil calendar, Span span) {

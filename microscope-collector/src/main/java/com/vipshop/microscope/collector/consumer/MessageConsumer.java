@@ -1,6 +1,8 @@
 package com.vipshop.microscope.collector.consumer;
 
-import com.vipshop.microscope.common.thrift.Span;
+import com.vipshop.microscope.collector.analyzer.MessageAnalyzer;
+import com.vipshop.microscope.collector.storager.MessageStorager;
+import com.vipshop.microscope.common.thrift.LogEntry;
 
 /**
  * MessageConsumer responsible for consumer spans.
@@ -21,11 +23,11 @@ public interface MessageConsumer {
 	public void start();
 
 	/**
-	 * Publish span to consumer.
+	 * Publish logEntry to consumer.
 	 * 
-	 * @param span span object
+	 * @param logEntry
 	 */
-	public void publish(Span span);
+	public void publish(LogEntry logEntry);
 	
 	/**
 	 * Stop consumer.

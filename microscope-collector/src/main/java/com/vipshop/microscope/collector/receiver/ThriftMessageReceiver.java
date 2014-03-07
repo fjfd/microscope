@@ -6,11 +6,9 @@ import org.apache.thrift.TException;
 import org.apache.thrift.transport.TTransportException;
 
 import com.vipshop.microscope.collector.consumer.MessageConsumer;
-import com.vipshop.microscope.common.span.Codec;
 import com.vipshop.microscope.common.thrift.LogEntry;
 import com.vipshop.microscope.common.thrift.ResultCode;
 import com.vipshop.microscope.common.thrift.Send;
-import com.vipshop.microscope.common.thrift.Span;
 import com.vipshop.microscope.common.thrift.ThriftCategory;
 import com.vipshop.microscope.common.thrift.ThriftServer;
 
@@ -43,8 +41,6 @@ public class ThriftMessageReceiver implements MessageReceiver {
 	 */
 	static class ThriftReceiveHandler implements Send.Iface {
 		
-		final Codec encoder = new Codec();
-		
 		final MessageConsumer consumer;
 
 		public ThriftReceiveHandler(MessageConsumer consumer) {
@@ -54,13 +50,7 @@ public class ThriftMessageReceiver implements MessageReceiver {
 		@Override
 		public ResultCode send(List<LogEntry> messages) throws TException {
 			for (LogEntry logEntry : messages) {
-				Span span = null;
-				try {
-					span = encoder.decodeToSpan(logEntry.getMessage());
-				} catch (TException e) {
-					return null;
-				} 
-				consumer.publish(span);
+				consumer.publish(logEntry);
 			}
 			return ResultCode.OK;
 		}

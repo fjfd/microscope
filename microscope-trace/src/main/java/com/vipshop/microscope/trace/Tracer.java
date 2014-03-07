@@ -4,8 +4,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.vipshop.microscope.common.span.Category;
+import com.vipshop.microscope.common.thrift.LogEntry;
 import com.vipshop.microscope.common.util.ConfigurationUtil;
 import com.vipshop.microscope.common.util.DateUtil;
+import com.vipshop.microscope.trace.exception.ExceptionBuilder;
+import com.vipshop.microscope.trace.stoarge.QueueStorage;
+import com.vipshop.microscope.trace.stoarge.Storage;
 import com.vipshop.microscope.trace.switcher.ConfigSwitcher;
 import com.vipshop.microscope.trace.switcher.Switcher;
 import com.vipshop.microscope.trace.transport.QueueTransporter;
@@ -383,21 +387,27 @@ public class Tracer {
 	
 	//************************** methods for record exceptions ********************* //
 	
+	private static final Storage storage = QueueStorage.getStorage();
+	
 	/**
+	 * Record exception.
 	 * 
 	 * @param e
 	 */
-	public static void record(Exception e) {
-		
+	public static void record(Throwable t) {
+		LogEntry logEntry = ExceptionBuilder.record(t);
+		storage.add(logEntry);
 	}
 	
 	/**
+	 * Record debug info and exception.
 	 * 
 	 * @param info
 	 * @param e
 	 */
-	public static void record(String info, Exception e) {
-		
+	public static void record(Throwable t, String info) {
+		LogEntry logEntry = ExceptionBuilder.record(t, info);
+		storage.add(logEntry);
 	}
 	
 }

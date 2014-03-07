@@ -48,7 +48,6 @@
 		<module>microscope-collector</module>
 		<module>microscope-common</module>
 		<module>microscope-job</module>
-		<module>microscope-maven</module>
 		<module>microscope-query</module>
 		<module>microscope-stats</module>
 		<module>microscope-storage</module>

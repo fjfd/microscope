@@ -11,7 +11,6 @@ import com.vipshop.microscope.common.thrift.Span;
 import com.vipshop.microscope.common.util.CalendarUtil;
 import com.vipshop.microscope.common.util.MathUtil;
 import com.vipshop.microscope.common.util.TimeStampUtil;
-import com.vipshop.microscope.storage.mysql.factory.MySQLRepository;
 
 /**
  * DepenReport.
@@ -107,7 +106,6 @@ public class DepenReport extends AbstraceReport {
 		this.setFailPercent(MathUtil.calculateFailPre(this.getTotalCount(), this.getFailCount()));
 		this.setAvg(MathUtil.calculateAvgDura(this.getTotalCount(), this.getSum()));
 		this.setQps(MathUtil.calculateQPS(this.getTotalCount() * 1000, this.getEndTime() - this.getStartTime()));
-		MySQLRepository.getRepository().save(this);
 	}
 	
 	public String getKey(CalendarUtil calendar, Span span) {

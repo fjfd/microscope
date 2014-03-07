@@ -13,7 +13,6 @@ import com.vipshop.microscope.common.util.CalendarUtil;
 import com.vipshop.microscope.common.util.IPAddressUtil;
 import com.vipshop.microscope.common.util.MathUtil;
 import com.vipshop.microscope.common.util.TimeStampUtil;
-import com.vipshop.microscope.storage.mysql.factory.MySQLRepository;
 
 /**
  * Stat spans in trace
@@ -152,7 +151,6 @@ public class TraceReport extends AbstraceReport {
 		this.setAvg(MathUtil.calculateAvgDura(count, sum));
 		this.setQps(MathUtil.calculateQPS(count, time));
 		
-		MySQLRepository.getRepository().save(this);
 	}
 	
 	/**

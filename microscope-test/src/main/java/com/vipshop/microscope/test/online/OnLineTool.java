@@ -8,9 +8,9 @@ import com.vipshop.microscope.common.thrift.Span;
 import com.vipshop.microscope.common.util.CalendarUtil;
 import com.vipshop.microscope.common.util.IPAddressUtil;
 import com.vipshop.microscope.common.util.SpanMockUtil;
-import com.vipshop.microscope.storage.hbase.factory.HbaseFactory;
+import com.vipshop.microscope.storage.StorageRepository;
 import com.vipshop.microscope.storage.mysql.domain.TopReport;
-import com.vipshop.microscope.storage.mysql.factory.MySQLFactory;
+import com.vipshop.microscope.storage.mysql.factory.RepositoryFactory;
 import com.vipshop.microscope.trace.Tracer;
 
 /**
@@ -60,7 +60,7 @@ public class OnLineTool {
 	}
 	
 	public static void hbase() {
-		HbaseFactory.reinit();
+		StorageRepository.getStorageRepository().reInitalizeHbaseTable();
 	}
 	
 	public static void mysql() {
@@ -70,13 +70,13 @@ public class OnLineTool {
 
 		report.updateReportInit(calendarUtil, span);
 		report.updateReportNext(span);
-		MySQLFactory.TOP.empty();
+		RepositoryFactory.getTopReportRepository().empty();
 
 		report.saveReport();
 		
-		System.out.println(MySQLFactory.TOP.find(6));
+		System.out.println(RepositoryFactory.getTopReportRepository().find(6));
 		
-		MySQLFactory.TOP.empty();
+		RepositoryFactory.getTopReportRepository().empty();
 	}
 	
 	public static void ipadress(String app) throws UnknownHostException {

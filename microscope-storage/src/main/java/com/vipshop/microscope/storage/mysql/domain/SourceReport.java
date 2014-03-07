@@ -12,7 +12,6 @@ import com.vipshop.microscope.common.util.CalendarUtil;
 import com.vipshop.microscope.common.util.IPAddressUtil;
 import com.vipshop.microscope.common.util.MathUtil;
 import com.vipshop.microscope.common.util.TimeStampUtil;
-import com.vipshop.microscope.storage.mysql.factory.MySQLRepository;
 
 /**
  * DB invoke source dist report.
@@ -108,7 +107,6 @@ public class SourceReport extends AbstraceReport {
 		this.setQps(MathUtil.calculateQPS(count, time));
 		this.setFailPercent(MathUtil.calculateFailPre(count, fail));
 		
-		MySQLRepository.getRepository().save(this);
 	}
 	
 	public String getKey(CalendarUtil calendar, Span span) {

@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import com.vipshop.microscope.common.thrift.Span;
 import com.vipshop.microscope.common.util.CalendarUtil;
 import com.vipshop.microscope.common.util.TimeStampUtil;
-import com.vipshop.microscope.storage.mysql.factory.MySQLRepository;
 
 /**
  * Stat msg number and msg size.
@@ -95,7 +94,6 @@ public class MsgReport extends AbstraceReport{
 	
 	@Override
 	public void saveReport() {
-		MySQLRepository.getRepository().save(this);
 	}
 	
 	public String getKey(CalendarUtil calendar, Span span) {

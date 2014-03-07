@@ -1,6 +1,6 @@
 package com.vipshop.microscope.trace.stoarge;
 
-import com.vipshop.microscope.common.thrift.Span;
+import com.vipshop.microscope.common.thrift.LogEntry;
 
 /**
  * Storge span in client.
@@ -10,9 +10,9 @@ import com.vipshop.microscope.common.thrift.Span;
  */
 public interface Storage {
 	
-	public void add(Span span);
+	public void add(LogEntry logEntry);
 	
-	public Span poll();
+	public LogEntry poll();
 	
 	public int size();
 }

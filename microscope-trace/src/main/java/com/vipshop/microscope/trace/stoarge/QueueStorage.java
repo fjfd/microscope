@@ -6,6 +6,7 @@ import java.util.concurrent.BlockingQueue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.vipshop.microscope.common.thrift.LogEntry;
 import com.vipshop.microscope.common.thrift.Span;
 import com.vipshop.microscope.trace.Tracer;
 
@@ -19,7 +20,7 @@ public class QueueStorage implements Storage {
 	
 	private static final Logger logger = LoggerFactory.getLogger(QueueStorage.class);
 	
-	private static final BlockingQueue<Span> queue = new ArrayBlockingQueue<Span>(Tracer.QUEUE_SIZE);
+	private static final BlockingQueue<LogEntry> queue = new ArrayBlockingQueue<LogEntry>(Tracer.QUEUE_SIZE);
 
 	private static final QueueStorage STORAGE = new QueueStorage();
 	
@@ -38,8 +39,8 @@ public class QueueStorage implements Storage {
 	 * 
 	 * @param span {@link Span}
 	 */
-	public void add(Span span) { 
-		boolean isFull = !queue.offer(span);
+	public void add(LogEntry logEntry) { 
+		boolean isFull = !queue.offer(logEntry);
 		
 		if (isFull) {
 			queue.clear();
@@ -52,7 +53,7 @@ public class QueueStorage implements Storage {
 	 * 
 	 * @return {@link Span}
 	 */
-	public Span poll() {
+	public LogEntry poll() {
 		return queue.poll();
 	}
 	

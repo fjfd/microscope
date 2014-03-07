@@ -13,7 +13,6 @@ import com.vipshop.microscope.common.util.CalendarUtil;
 import com.vipshop.microscope.common.util.IPAddressUtil;
 import com.vipshop.microscope.common.util.MathUtil;
 import com.vipshop.microscope.common.util.TimeStampUtil;
-import com.vipshop.microscope.storage.mysql.factory.MySQLRepository;
 
 /**
  * Stat span in trace over time(5 minute).
@@ -101,7 +100,6 @@ public class TraceOverTimeReport extends AbstraceReport {
 		long time = this.getSum();
 		this.setAvg(MathUtil.calculateAvgDura(count, time));
 		
-		MySQLRepository.getRepository().save(this);
 	}
 	
 	public String getKey(CalendarUtil calendar, Span span) {

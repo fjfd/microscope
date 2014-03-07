@@ -5,13 +5,10 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.thrift.TException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.vipshop.microscope.common.span.Codec;
 import com.vipshop.microscope.common.thrift.LogEntry;
-import com.vipshop.microscope.common.thrift.Span;
 import com.vipshop.microscope.common.thrift.ThriftCategory;
 import com.vipshop.microscope.common.thrift.ThriftClient;
 import com.vipshop.microscope.common.util.ThreadPoolUtil;
@@ -40,7 +37,6 @@ public class QueueTransporter implements Transporter {
 														 ThriftCategory.THREAD_SELECTOR);
 	
 	private final List<LogEntry> logEntries = new ArrayList<LogEntry>();
-	private final Codec encode = new Codec();
 	
 	private final int MAX_BATCH_SIZE = Tracer.MAX_BATCH_SIZE;
 	private final int MAX_EMPTY_SIZE = Tracer.MAX_EMPTY_SIZE;
@@ -55,15 +51,11 @@ public class QueueTransporter implements Transporter {
 				int emptySize = 0;
 				
 				while (true) {
-					Span span = storage.poll();
-					if (span == null)
+					LogEntry logEntry = storage.poll();
+					if (logEntry == null)
 						emptySize++;
 					else {
-						try {
-							logEntries.add(encode.encodeToLogEntry(span));
-						} catch (TException e) {
-							logger.error("encode Span to LogEntry error, program will ingnore this span");
-						}
+						logEntries.add(logEntry);
 					}
 					
 					boolean emptySizeFlag = emptySize >= MAX_EMPTY_SIZE && !logEntries.isEmpty();
@@ -77,7 +69,7 @@ public class QueueTransporter implements Transporter {
 						try {
 							TimeUnit.MICROSECONDS.sleep(Tracer.SEND_WAIT_TIME);
 						} catch (InterruptedException e) {
-							// TODO 
+							logger.info("Ignore Thread Interrupted");
 						}
 					}
 				}

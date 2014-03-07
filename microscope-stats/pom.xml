@@ -26,5 +26,15 @@
 			<artifactId>metrics-healthchecks</artifactId>
 			<version>${metrics.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.codahale.metrics</groupId>
+			<artifactId>metrics-jvm</artifactId>
+			<version>${metrics.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vipshop</groupId>
+			<artifactId>microscope-common</artifactId>
+			<version>${parent.version}</version>
+		</dependency>
 	</dependencies>
 </project>
