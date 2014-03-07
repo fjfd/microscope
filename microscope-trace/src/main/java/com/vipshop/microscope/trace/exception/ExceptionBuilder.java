@@ -22,6 +22,7 @@ public class ExceptionBuilder {
 		map.put("Name", t.getClass().getName());
 		map.put("Message", ExceptionUtils.getMessage(t));
 		map.put("Stack", ExceptionUtils.getStackTrace(t));
+		map.put("TraceId", Tracer.getTraceId());
 		
 		return Codec.encodeToLogEntry(map);
 	}
@@ -32,10 +33,11 @@ public class ExceptionBuilder {
 		map.put("IP", IPAddressUtil.IPAddress());
 		map.put("APP", Tracer.APP_NAME);
 		map.put("Date", TimeStampUtil.currentTimeMillis());
-		map.put("Info", info);
 		map.put("Name", t.getClass().getName());
 		map.put("Message", ExceptionUtils.getMessage(t));
 		map.put("Stack", ExceptionUtils.getStackTrace(t));
+		map.put("TraceId", Tracer.getTraceId());
+		map.put("Debug", info);
 		
 		return Codec.encodeToLogEntry(map);
 	}

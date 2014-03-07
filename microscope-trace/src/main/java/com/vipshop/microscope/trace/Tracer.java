@@ -236,9 +236,9 @@ public class Tracer {
 	 * 
 	 * If exception happens. set ResultCode = EXCEPTION.
 	 * 
-	 * @param result
+	 * @param Throwable
 	 */
-	public static void setResultCode(Exception exception) {
+	public static void setResultCode(Throwable t) {
 		if (SWITCHER.isClose()) 
 			return;
 		
@@ -246,12 +246,13 @@ public class Tracer {
 			Trace trace = TraceContext.getContext();
 			if (trace != null) {
 				trace.setResutlCode("Exception");
-				trace.record("Exception", exception.getClass().getName());
+				record(t);
 			}
 		} catch (Exception e) {
 			logger.info("set resultcode error", e);
 		}
 	}
+
 	
 	// ********* methods for record debug info on spans *********** // 
 	
@@ -395,6 +396,9 @@ public class Tracer {
 	 * @param e
 	 */
 	public static void record(Throwable t) {
+		if (SWITCHER.isClose()) 
+			return;
+		
 		LogEntry logEntry = ExceptionBuilder.record(t);
 		storage.add(logEntry);
 	}
@@ -406,6 +410,9 @@ public class Tracer {
 	 * @param e
 	 */
 	public static void record(Throwable t, String info) {
+		if (SWITCHER.isClose()) 
+			return;
+		
 		LogEntry logEntry = ExceptionBuilder.record(t, info);
 		storage.add(logEntry);
 	}
