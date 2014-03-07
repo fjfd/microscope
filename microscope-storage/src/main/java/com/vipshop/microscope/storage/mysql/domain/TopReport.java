@@ -10,8 +10,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.vipshop.microscope.common.span.Category;
-import com.vipshop.microscope.common.thrift.Span;
+import com.vipshop.microscope.common.trace.Category;
+import com.vipshop.microscope.common.trace.Span;
 import com.vipshop.microscope.common.util.CalendarUtil;
 import com.vipshop.microscope.common.util.TimeStampUtil;
 import com.vipshop.microscope.storage.mysql.factory.RepositoryFactory;

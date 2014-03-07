@@ -8,9 +8,9 @@ import org.apache.thrift.TException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.vipshop.microscope.common.span.Category;
-import com.vipshop.microscope.common.span.Codec;
-import com.vipshop.microscope.common.thrift.Span;
+import com.vipshop.microscope.common.logentry.Codec;
+import com.vipshop.microscope.common.trace.Category;
+import com.vipshop.microscope.common.trace.Span;
 import com.vipshop.microscope.common.util.IPAddressUtil;
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.stoarge.QueueStorage;

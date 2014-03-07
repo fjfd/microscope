@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.codahale.metrics.Metric;
-import com.vipshop.microscope.common.thrift.LogEntry;
+import com.vipshop.microscope.common.logentry.LogEntry;
 import com.vipshop.microscope.common.thrift.ThriftCategory;
 import com.vipshop.microscope.common.thrift.ThriftClient;
 

@@ -3,11 +3,11 @@ package com.vipshop.microscope.test.online;
 import java.net.UnknownHostException;
 import java.util.concurrent.TimeUnit;
 
-import com.vipshop.microscope.common.span.Category;
-import com.vipshop.microscope.common.thrift.Span;
+import com.vipshop.microscope.common.trace.Category;
+import com.vipshop.microscope.common.trace.Span;
+import com.vipshop.microscope.common.trace.SpanMockUtil;
 import com.vipshop.microscope.common.util.CalendarUtil;
 import com.vipshop.microscope.common.util.IPAddressUtil;
-import com.vipshop.microscope.common.util.SpanMockUtil;
 import com.vipshop.microscope.storage.StorageRepository;
 import com.vipshop.microscope.storage.mysql.domain.TopReport;
 import com.vipshop.microscope.storage.mysql.factory.RepositoryFactory;

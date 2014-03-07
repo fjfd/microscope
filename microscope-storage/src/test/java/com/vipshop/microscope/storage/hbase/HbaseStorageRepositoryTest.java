@@ -18,8 +18,8 @@ import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.vipshop.microscope.common.thrift.Span;
-import com.vipshop.microscope.common.util.SpanMockUtil;
+import com.vipshop.microscope.common.trace.Span;
+import com.vipshop.microscope.common.trace.SpanMockUtil;
 import com.vipshop.microscope.storage.QueryRepository;
 import com.vipshop.microscope.storage.StorageRepository;
 import com.vipshop.microscope.storage.hbase.domain.AppTable;

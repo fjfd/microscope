@@ -14,15 +14,16 @@ import com.lmax.disruptor.SleepingWaitStrategy;
 import com.vipshop.microscope.collector.disruptor.ExceptionEvent;
 import com.vipshop.microscope.collector.disruptor.ExceptionStorageHandler;
 import com.vipshop.microscope.collector.disruptor.TraceAnalyzeHandler;
-import com.vipshop.microscope.collector.disruptor.TraceStorageHandler;
 import com.vipshop.microscope.collector.disruptor.TraceEvent;
-import com.vipshop.microscope.common.span.Codec;
-import com.vipshop.microscope.common.thrift.LogEntry;
-import com.vipshop.microscope.common.thrift.Span;
+import com.vipshop.microscope.collector.disruptor.TraceStorageHandler;
+import com.vipshop.microscope.common.logentry.Codec;
+import com.vipshop.microscope.common.logentry.LogEntry;
+import com.vipshop.microscope.common.logentry.LogEntryCategory;
+import com.vipshop.microscope.common.trace.Span;
 import com.vipshop.microscope.common.util.ThreadPoolUtil;
 
 /**
- * A version use {@code Disruptor} to consume spans.
+ * A version use {@code Disruptor} to consume msg.
  * 
  * @author Xu Fei
  * @version 1.0
@@ -94,17 +95,17 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 		String category = logEntry.getCategory();
 		
 		// handle trace message
-		if (category.equals("trace")) {
+		if (category.equals(LogEntryCategory.TRACE)) {
 			publishTrace(logEntry);
 		} 
 		
 		// handle stats message
-		if (category.equals("stats")) {
+		if (category.equals(LogEntryCategory.STATS)) {
 			publishStats(logEntry);
 		}
 		
 		// handle exception message
-		if (category.equals("exception")) {
+		if (category.equals(LogEntryCategory.EXCEP)) {
 			publishException(logEntry);
 		}
 	}

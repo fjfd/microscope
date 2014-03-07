@@ -12,7 +12,9 @@ import org.apache.thrift.transport.TTransportException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.vipshop.microscope.common.thrift.Send.AsyncClient.send_call;
+import com.vipshop.microscope.common.logentry.LogEntry;
+import com.vipshop.microscope.common.logentry.Send;
+import com.vipshop.microscope.common.logentry.Send.AsyncClient.send_call;
 
 /**
  * Async thrift client.

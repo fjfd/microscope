@@ -6,8 +6,8 @@ import java.util.concurrent.BlockingQueue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.vipshop.microscope.common.thrift.LogEntry;
-import com.vipshop.microscope.common.thrift.Span;
+import com.vipshop.microscope.common.logentry.LogEntry;
+import com.vipshop.microscope.common.trace.Span;
 import com.vipshop.microscope.trace.Tracer;
 
 /**

@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.apache.hadoop.hbase.client.Scan;
 
-import com.vipshop.microscope.common.thrift.Span;
+import com.vipshop.microscope.common.trace.Span;
 import com.vipshop.microscope.storage.hbase.domain.TraceTable;
 import com.vipshop.microscope.storage.hbase.factory.RepositoryFactory;
 

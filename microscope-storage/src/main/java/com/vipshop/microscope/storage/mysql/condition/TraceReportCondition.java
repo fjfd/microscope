@@ -2,7 +2,7 @@ package com.vipshop.microscope.storage.mysql.condition;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.vipshop.microscope.common.span.Category;
+import com.vipshop.microscope.common.trace.Category;
 import com.vipshop.microscope.common.util.IPAddressUtil;
 
 public class TraceReportCondition {

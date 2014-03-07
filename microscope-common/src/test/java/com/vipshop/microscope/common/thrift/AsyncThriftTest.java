@@ -16,13 +16,13 @@ import org.apache.thrift.transport.TTransportException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.vipshop.microscope.common.thrift.LogEntry;
-import com.vipshop.microscope.common.thrift.ResultCode;
-import com.vipshop.microscope.common.thrift.Send;
-import com.vipshop.microscope.common.thrift.Span;
+import com.vipshop.microscope.common.logentry.LogEntry;
+import com.vipshop.microscope.common.logentry.ResultCode;
+import com.vipshop.microscope.common.logentry.Send;
 import com.vipshop.microscope.common.thrift.ThriftAsyncClient;
 import com.vipshop.microscope.common.thrift.ThriftCategory;
 import com.vipshop.microscope.common.thrift.ThriftServer;
+import com.vipshop.microscope.common.trace.Span;
 
 public class AsyncThriftTest {
 

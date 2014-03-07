@@ -2,7 +2,7 @@ package com.vipshop.microscope.storage.hbase.domain;
 
 import org.apache.hadoop.hbase.util.Bytes;
 
-import com.vipshop.microscope.common.thrift.Span;
+import com.vipshop.microscope.common.trace.Span;
 
 /**
  * AppTable store app name, ip adress, trace name.

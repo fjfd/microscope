@@ -5,8 +5,8 @@ import java.util.Map;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
-import com.vipshop.microscope.common.span.Codec;
-import com.vipshop.microscope.common.thrift.LogEntry;
+import com.vipshop.microscope.common.logentry.Codec;
+import com.vipshop.microscope.common.logentry.LogEntry;
 import com.vipshop.microscope.common.util.IPAddressUtil;
 import com.vipshop.microscope.common.util.TimeStampUtil;
 import com.vipshop.microscope.trace.Tracer;

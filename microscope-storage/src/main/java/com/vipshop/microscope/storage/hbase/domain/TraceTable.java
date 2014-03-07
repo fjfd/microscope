@@ -2,7 +2,7 @@ package com.vipshop.microscope.storage.hbase.domain;
 
 import java.io.Serializable;
 
-import com.vipshop.microscope.common.thrift.Span;
+import com.vipshop.microscope.common.trace.Span;
 
 /**
  * TraceTable store trace info.

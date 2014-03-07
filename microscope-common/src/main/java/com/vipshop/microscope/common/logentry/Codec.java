@@ -1,4 +1,4 @@
-package com.vipshop.microscope.common.span;
+package com.vipshop.microscope.common.logentry;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -14,11 +14,10 @@ import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.protocol.TProtocolFactory;
 import org.apache.thrift.transport.TIOStreamTransport;
 
-import com.vipshop.microscope.common.thrift.LogEntry;
-import com.vipshop.microscope.common.thrift.Span;
+import com.vipshop.microscope.common.trace.Span;
 
 public class Codec {
-
+	
 	private static final TProtocolFactory protocolFactory = new TBinaryProtocol.Factory();
 	private static final Base64 base64 = new Base64();
 
@@ -27,7 +26,7 @@ public class Codec {
 		final TProtocol proto = protocolFactory.getProtocol(new TIOStreamTransport(buf));
 		span.write(proto);
 		String spanAsString = base64.encodeToString(buf.toByteArray());
-		LogEntry logEntry = new LogEntry("trace", spanAsString);
+		LogEntry logEntry = new LogEntry(LogEntryCategory.TRACE, spanAsString);
 		return logEntry;
 	}
 
@@ -45,7 +44,7 @@ public class Codec {
 		byte[] bytes = SerializationUtils.serialize((Serializable) map);
 		String message = Base64.encodeBase64String(bytes);
 		
-		LogEntry logEntry = new LogEntry("exception", message);
+		LogEntry logEntry = new LogEntry(LogEntryCategory.EXCEP, message);
 		return logEntry;
 	}
 	
@@ -54,11 +53,6 @@ public class Codec {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> map = (HashMap<String, Object>) SerializationUtils.deserialize(bytes);
 		return map;
-	}
-	
-	public static byte[] decodeToByte(final String msg) {
-		byte[] bytes = Base64.decodeBase64(msg);
-		return bytes;
 	}
 	
 }

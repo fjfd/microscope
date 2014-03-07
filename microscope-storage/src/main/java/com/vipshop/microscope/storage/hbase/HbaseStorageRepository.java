@@ -2,7 +2,7 @@ package com.vipshop.microscope.storage.hbase;
 
 import java.util.Map;
 
-import com.vipshop.microscope.common.thrift.Span;
+import com.vipshop.microscope.common.trace.Span;
 import com.vipshop.microscope.storage.hbase.domain.AppTable;
 import com.vipshop.microscope.storage.hbase.domain.TraceTable;
 import com.vipshop.microscope.storage.hbase.factory.RepositoryFactory;

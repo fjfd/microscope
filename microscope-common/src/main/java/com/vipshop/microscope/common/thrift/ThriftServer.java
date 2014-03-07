@@ -22,6 +22,10 @@ import org.apache.thrift.transport.TTransportFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.vipshop.microscope.common.logentry.LogEntry;
+import com.vipshop.microscope.common.logentry.ResultCode;
+import com.vipshop.microscope.common.logentry.Send;
+
 
 /**
  * Thrift server.

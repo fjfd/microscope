@@ -8,7 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.vipshop.microscope.common.thrift.Span;
+import com.vipshop.microscope.common.trace.Span;
 import com.vipshop.microscope.storage.QueryRepository;
 import com.vipshop.microscope.storage.hbase.domain.TraceTable;
 

@@ -3,8 +3,8 @@ package com.vipshop.microscope.trace;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.vipshop.microscope.common.span.Category;
-import com.vipshop.microscope.common.thrift.LogEntry;
+import com.vipshop.microscope.common.logentry.LogEntry;
+import com.vipshop.microscope.common.trace.Category;
 import com.vipshop.microscope.common.util.ConfigurationUtil;
 import com.vipshop.microscope.common.util.DateUtil;
 import com.vipshop.microscope.trace.exception.ExceptionBuilder;

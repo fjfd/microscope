@@ -1,6 +1,6 @@
 package com.vipshop.microscope.storage.mysql.domain;
 
-import com.vipshop.microscope.common.thrift.Span;
+import com.vipshop.microscope.common.trace.Span;
 import com.vipshop.microscope.common.util.CalendarUtil;
 
 /**

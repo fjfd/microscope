@@ -1,6 +1,6 @@
 package com.vipshop.microscope.collector.analyzer;
 
-import com.vipshop.microscope.common.thrift.Span;
+import com.vipshop.microscope.common.trace.Span;
 
 /**
  * Analyze spans and create report.

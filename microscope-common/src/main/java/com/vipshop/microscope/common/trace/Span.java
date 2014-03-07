@@ -4,7 +4,7 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-package com.vipshop.microscope.common.thrift;
+package com.vipshop.microscope.common.trace;
 
 import java.util.BitSet;
 import java.util.Collections;

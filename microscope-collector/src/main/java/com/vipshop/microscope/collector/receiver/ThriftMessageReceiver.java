@@ -6,9 +6,9 @@ import org.apache.thrift.TException;
 import org.apache.thrift.transport.TTransportException;
 
 import com.vipshop.microscope.collector.consumer.MessageConsumer;
-import com.vipshop.microscope.common.thrift.LogEntry;
-import com.vipshop.microscope.common.thrift.ResultCode;
-import com.vipshop.microscope.common.thrift.Send;
+import com.vipshop.microscope.common.logentry.LogEntry;
+import com.vipshop.microscope.common.logentry.ResultCode;
+import com.vipshop.microscope.common.logentry.Send;
 import com.vipshop.microscope.common.thrift.ThriftCategory;
 import com.vipshop.microscope.common.thrift.ThriftServer;
 

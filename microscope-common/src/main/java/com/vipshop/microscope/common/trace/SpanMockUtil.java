@@ -1,9 +1,8 @@
-package com.vipshop.microscope.common.util;
+package com.vipshop.microscope.common.trace;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vipshop.microscope.common.thrift.Span;
 
 public class SpanMockUtil {
 	

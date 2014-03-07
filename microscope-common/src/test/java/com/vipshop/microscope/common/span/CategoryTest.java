@@ -2,7 +2,7 @@ package com.vipshop.microscope.common.span;
 
 import org.testng.annotations.Test;
 
-import com.vipshop.microscope.common.span.Category;
+import com.vipshop.microscope.common.trace.Category;
 
 public class CategoryTest {
 	

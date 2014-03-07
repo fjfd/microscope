@@ -12,12 +12,12 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.vipshop.microscope.common.span.Codec;
-import com.vipshop.microscope.common.thrift.LogEntry;
-import com.vipshop.microscope.common.thrift.Span;
+import com.vipshop.microscope.common.logentry.Codec;
+import com.vipshop.microscope.common.logentry.LogEntry;
 import com.vipshop.microscope.common.thrift.ThriftCategory;
 import com.vipshop.microscope.common.thrift.ThriftClient;
-import com.vipshop.microscope.common.util.SpanMockUtil;
+import com.vipshop.microscope.common.trace.Span;
+import com.vipshop.microscope.common.trace.SpanMockUtil;
 import com.vipshop.microscope.storage.QueryRepository;
 import com.vipshop.microscope.storage.StorageRepository;
 

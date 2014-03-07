@@ -14,7 +14,7 @@ import org.springframework.data.hadoop.hbase.RowMapper;
 import org.springframework.data.hadoop.hbase.TableCallback;
 import org.springframework.stereotype.Repository;
 
-import com.vipshop.microscope.common.thrift.Span;
+import com.vipshop.microscope.common.trace.Span;
 import com.vipshop.microscope.storage.hbase.domain.SpanTable;
 
 @Repository
