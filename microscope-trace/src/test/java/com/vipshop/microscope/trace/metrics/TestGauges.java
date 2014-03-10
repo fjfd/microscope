@@ -1,4 +1,4 @@
-package com.vipshop.microscope.stats.metrics;
+package com.vipshop.microscope.trace.metrics;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;

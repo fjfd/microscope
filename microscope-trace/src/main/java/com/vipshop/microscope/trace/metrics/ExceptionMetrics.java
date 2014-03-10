@@ -1,20 +1,23 @@
-package com.vipshop.microscope.trace.exception;
+package com.vipshop.microscope.trace.metrics;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
-import com.vipshop.microscope.common.logentry.Codec;
-import com.vipshop.microscope.common.logentry.LogEntry;
 import com.vipshop.microscope.common.util.IPAddressUtil;
 import com.vipshop.microscope.common.util.TimeStampUtil;
 import com.vipshop.microscope.trace.Tracer;
 
-public class ExceptionBuilder {
+/**
+ * A ExceptionBuilder use for build exception info.
+ * 
+ * @author Xu Fei
+ * @version 1.0
+ */
+public class ExceptionMetrics {
 	
-	public static LogEntry record(final Throwable t) {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public static HashMap<String, Object> record(final Throwable t) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		
 		map.put("IP", IPAddressUtil.IPAddress());
 		map.put("APP", Tracer.APP_NAME);
@@ -24,11 +27,11 @@ public class ExceptionBuilder {
 		map.put("Stack", ExceptionUtils.getStackTrace(t));
 		map.put("TraceId", Tracer.getTraceId());
 		
-		return Codec.encodeToLogEntry(map);
+		return map;
 	}
 	
-	public static LogEntry record(final Throwable t, String info) {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public static HashMap<String, Object> record(final Throwable t, String info) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		
 		map.put("IP", IPAddressUtil.IPAddress());
 		map.put("APP", Tracer.APP_NAME);
@@ -39,7 +42,7 @@ public class ExceptionBuilder {
 		map.put("TraceId", Tracer.getTraceId());
 		map.put("Debug", info);
 		
-		return Codec.encodeToLogEntry(map);
+		return map;
 	}
 	
 }

@@ -49,7 +49,6 @@
 		<module>microscope-common</module>
 		<module>microscope-job</module>
 		<module>microscope-query</module>
-		<module>microscope-stats</module>
 		<module>microscope-storage</module>
 		<module>microscope-test</module>
 		<module>microscope-trace</module>

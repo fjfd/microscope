@@ -1,4 +1,5 @@
-package com.vipshop.microscope.stats.metrics;
+package com.vipshop.microscope.trace.metrics;
+
 import static com.codahale.metrics.MetricRegistry.name;
 
 import java.util.LinkedList;
@@ -6,7 +7,7 @@ import java.util.Queue;
 
 import com.codahale.metrics.Counter;
 import com.codahale.metrics.MetricRegistry;
-import com.vipshop.microscope.stats.Stats;
+import com.vipshop.microscope.trace.stats.Stats;
 /**
  * User: hzwangxx
  * Date: 14-2-14

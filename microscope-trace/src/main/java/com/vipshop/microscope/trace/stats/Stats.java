@@ -1,4 +1,4 @@
-package com.vipshop.microscope.stats;
+package com.vipshop.microscope.trace.stats;
 
 import static com.codahale.metrics.MetricRegistry.name;
 
@@ -8,7 +8,7 @@ import com.codahale.metrics.Counter;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.jvm.MemoryUsageGaugeSet;
 import com.codahale.metrics.jvm.ThreadStatesGaugeSet;
-import com.vipshop.microscope.stats.report.MicroscopeReporter;
+import com.vipshop.microscope.trace.metrics.MetricsReporter;
 
 /**
  * Collect performance data API.
@@ -20,10 +20,18 @@ public class Stats {
 	
 	private static final MetricRegistry metrics = new MetricRegistry();
 	
-	private static MicroscopeReporter reporter = MicroscopeReporter.forRegistry(metrics).build();
+	private static MetricsReporter reporter = MetricsReporter.forRegistry(metrics).build();
 
 	static {
+		start();
+	}
+
+	public static void start() {
 		reporter.start(1, TimeUnit.SECONDS);
+	}
+	
+	public static void start(long period, TimeUnit unit) {
+		reporter.start(period, unit);
 	}
 	
 	public static Counter getCounter(String name) {

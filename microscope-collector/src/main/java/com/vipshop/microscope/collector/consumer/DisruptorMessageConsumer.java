@@ -34,8 +34,8 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 	
 	private static final Logger logger = LoggerFactory.getLogger(DisruptorMessageConsumer.class);
 
-	private final int TRACE_BUFFER_SIZE = 1024 * 8 * 8 * 1;
-	private final int STATS_BUFFER_SIZE = 1024 * 8 * 8 * 1;
+	private final int TRACE_BUFFER_SIZE = 1024 * 8 * 8 * 4;
+	private final int STATS_BUFFER_SIZE = 1024 * 8 * 8 * 3;
 	private final int EXCEP_BUFFER_SIZE = 1024 * 8 * 1 * 1;
 	
 	private volatile boolean start = false;
@@ -88,21 +88,21 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 	public void start() {
 		logger.info("use message consumer base on disruptor");
 		
-//		logger.info("start trace message alert thread pool with size 1");
-//		ExecutorService alertExecutor = ThreadPoolUtil.newFixedThreadPool(1, "alert-trace-pool");
-//		alertExecutor.execute(this.traceAlertEventProcessor);
+		logger.info("start trace message alert thread pool with size 1");
+		ExecutorService alertExecutor = ThreadPoolUtil.newFixedThreadPool(1, "alert-trace-pool");
+		alertExecutor.execute(this.traceAlertEventProcessor);
 
-//		logger.info("start trace message analyze thread pool with size 1");
-//		ExecutorService traceAnalyzeExecutor = ThreadPoolUtil.newFixedThreadPool(1, "analyze-trace-pool");
-//		traceAnalyzeExecutor.execute(this.traceAnalyzeEventProcessor);
+		logger.info("start trace message analyze thread pool with size 1");
+		ExecutorService traceAnalyzeExecutor = ThreadPoolUtil.newFixedThreadPool(1, "analyze-trace-pool");
+		traceAnalyzeExecutor.execute(this.traceAnalyzeEventProcessor);
 		
 		logger.info("start trace message storage thread pool with size 1");
 		ExecutorService traceStorageExecutor = ThreadPoolUtil.newFixedThreadPool(1, "store-trace-pool");
 		traceStorageExecutor.execute(this.traceStorageEventProcessor);
 		
-//		logger.info("start stats message storage thread pool with size 1");
-//		ExecutorService statsStorageExecutor = ThreadPoolUtil.newFixedThreadPool(1, "store-stats-pool");
-//		statsStorageExecutor.execute(this.statsStorageEventProcessor);
+		logger.info("start stats message storage thread pool with size 1");
+		ExecutorService statsStorageExecutor = ThreadPoolUtil.newFixedThreadPool(1, "store-stats-pool");
+		statsStorageExecutor.execute(this.statsStorageEventProcessor);
 		
 		logger.info("start excep message storage thread pool with size 1");
 		ExecutorService excepStorageExecutor = ThreadPoolUtil.newFixedThreadPool(1, "store-excep-pool");
@@ -144,7 +144,13 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 	}
 	
 	private void publishStats(LogEntry logEntry) {
-		// TODO
+		String message = logEntry.getMessage();
+		String result = Codec.decodeToString(message);
+		if (start && result != null) {
+			long sequence = this.statsRingBuffer.next();
+			this.statsRingBuffer.get(sequence).setResult(result);
+			this.statsRingBuffer.publish(sequence);
+		}
 	}
 	
 	private void publishException(LogEntry logEntry) {
@@ -159,12 +165,10 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 	
 	@Override
 	public void shutdown() {
-//		traceAlertEventProcessor.halt();
-//		traceAnalyzeEventProcessor.halt();
+		traceAlertEventProcessor.halt();
+		traceAnalyzeEventProcessor.halt();
 		traceStorageEventProcessor.halt();
-		
-//		statsStorageEventProcessor.halt();
-		
+		statsStorageEventProcessor.halt();
 		excepStorageEventProcessor.halt();
 	}
 

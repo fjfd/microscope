@@ -16,6 +16,7 @@ public class TracerTest {
 	
 	@Test
 	public void traceUseExample1() throws InterruptedException {
+		Tracer.cleanContext();
 		Tracer.clientSend("example-one", Category.Method);
 		try {
 			Tracer.record("this is a example");
@@ -31,6 +32,7 @@ public class TracerTest {
 	
 	@Test
 	public void traceUseExampleWithException() throws InterruptedException {
+		Tracer.cleanContext();
 		Tracer.clientSend("example-with-exception", Category.Method);
 		try {
 			TimeUnit.MILLISECONDS.sleep(1000);
@@ -45,6 +47,7 @@ public class TracerTest {
 
 	@Test
 	public void traceUseExample2() throws InterruptedException {
+		Tracer.cleanContext();
 		Tracer.clientSend("http://www.huohu.com", Category.URL);
 		try {
 			TimeUnit.MILLISECONDS.sleep(1000);
@@ -71,6 +74,7 @@ public class TracerTest {
 	
 	@Test
 	public void traceUseExample3() throws InterruptedException {
+		Tracer.cleanContext();
 		for (int i = 0; i < 10; i++) {
 			Tracer.cleanContext();
 			Tracer.clientSend("example-three", Category.Method);
@@ -87,6 +91,7 @@ public class TracerTest {
 	
 	@Test
 	public void traceUseExample4() throws InterruptedException {
+		Tracer.cleanContext();
 		for (int i = 0; i < 10; i++)  {
 			Tracer.cleanContext();
 			Tracer.clientSend("http://www.huohu.com", Category.URL);
@@ -116,6 +121,7 @@ public class TracerTest {
 	
 	@Test
 	public void traceUserInfoExample() throws InterruptedException {
+		Tracer.cleanContext();
 		for (int i = 0; i < 10; i++)  {
 			Tracer.cleanContext();
 			Tracer.clientSend("users/2432424/info/addition/bankcard@resteasy", Category.URL);
@@ -145,6 +151,7 @@ public class TracerTest {
 	
 	@Test
 	public void traceUserInfoExample1() throws InterruptedException {
+		Tracer.cleanContext();
 		for (int i = 0; i < 10; i++)  {
 			Tracer.cleanContext();
 			Tracer.clientSend("users/2432424/info/addition/callback@resteasy", Category.URL);
@@ -171,6 +178,5 @@ public class TracerTest {
 		}
 		TimeUnit.SECONDS.sleep(1);
 	}
-	
 	
 }

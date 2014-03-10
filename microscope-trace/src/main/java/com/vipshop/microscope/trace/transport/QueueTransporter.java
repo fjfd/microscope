@@ -36,22 +36,24 @@ public class QueueTransporter implements Transporter {
 														 Tracer.RECONNECT_WAIT_TIME,
 														 ThriftCategory.THREAD_SELECTOR);
 	
-	private final List<LogEntry> logEntries = new ArrayList<LogEntry>();
-	
 	private final int MAX_BATCH_SIZE = Tracer.MAX_BATCH_SIZE;
 	private final int MAX_EMPTY_SIZE = Tracer.MAX_EMPTY_SIZE;
 	
+	private final List<LogEntry> logEntries = new ArrayList<LogEntry>(MAX_BATCH_SIZE);
+
 	@Override
 	public void transport() {
+		
 		ExecutorService executor = ThreadPoolUtil.newSingleDaemonThreadExecutor("queue-transporter");
+		
 		executor.execute(new Runnable() {
-			
 			@Override
 			public void run() {
 				int emptySize = 0;
 				
 				while (true) {
 					LogEntry logEntry = storage.poll();
+
 					if (logEntry == null)
 						emptySize++;
 					else {
@@ -69,11 +71,10 @@ public class QueueTransporter implements Transporter {
 						try {
 							TimeUnit.MICROSECONDS.sleep(Tracer.SEND_WAIT_TIME);
 						} catch (InterruptedException e) {
-							logger.info("Ignore Thread Interrupted");
+							logger.debug("Ignore Thread Interrupted exception", e);
 						}
 					}
 				}
-				
 			}
 		});
 	}

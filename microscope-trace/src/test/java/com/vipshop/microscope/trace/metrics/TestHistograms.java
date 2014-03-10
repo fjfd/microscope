@@ -1,4 +1,4 @@
-package com.vipshop.microscope.stats.metrics;
+package com.vipshop.microscope.trace.metrics;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 

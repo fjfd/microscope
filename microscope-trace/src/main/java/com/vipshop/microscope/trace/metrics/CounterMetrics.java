@@ -1,4 +1,4 @@
-package com.vipshop.microscope.stats.metrics.counter;
+package com.vipshop.microscope.trace.metrics;
 
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -9,11 +9,11 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author Xu Fei
  * @version 1.0
  */
-public class Counter {
+public class CounterMetrics {
 	
 	private AtomicLong atomicLong;
 	
-	public Counter() {
+	public CounterMetrics() {
 		this.atomicLong = new AtomicLong(0);
 	}
 	

@@ -4,7 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Map;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.SerializationUtils;
@@ -17,7 +16,7 @@ import org.apache.thrift.transport.TIOStreamTransport;
 import com.vipshop.microscope.common.trace.Span;
 
 public class Codec {
-	
+
 	private static final TProtocolFactory protocolFactory = new TBinaryProtocol.Factory();
 	private static final Base64 base64 = new Base64();
 
@@ -48,19 +47,31 @@ public class Codec {
 		return span;
 	}
 
-	public static LogEntry encodeToLogEntry(Map<String, Object> map) {
+	public static LogEntry encodeToLogEntry(HashMap<String, Object> map) {
 		byte[] bytes = SerializationUtils.serialize((Serializable) map);
 		String message = Base64.encodeBase64String(bytes);
-		
 		LogEntry logEntry = new LogEntry(LogEntryCategory.EXCEP, message);
 		return logEntry;
 	}
-	
-	public static Map<String, Object> decodeToMap(final String msg) { 
+
+	public static HashMap<String, Object> decodeToMap(final String msg) {
 		byte[] bytes = Base64.decodeBase64(msg);
 		@SuppressWarnings("unchecked")
-		Map<String, Object> map = (HashMap<String, Object>) SerializationUtils.deserialize(bytes);
+		HashMap<String, Object> map = (HashMap<String, Object>) SerializationUtils.deserialize(bytes);
 		return map;
 	}
+
+	public static LogEntry encodeToLogEntry(String msg) {
+		byte[] bytes = SerializationUtils.serialize(msg);
+		String message = Base64.encodeBase64String(bytes);
+		LogEntry logEntry = new LogEntry(LogEntryCategory.STATS, message);
+		return logEntry;
+	}
 	
+	public static String decodeToString(String msg) {
+		byte[] bytes = Base64.decodeBase64(msg);
+		String result = (String) SerializationUtils.deserialize(bytes);
+		return result;
+	}
+
 }

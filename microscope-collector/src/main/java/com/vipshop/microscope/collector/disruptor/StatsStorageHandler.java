@@ -12,6 +12,7 @@ public class StatsStorageHandler implements EventHandler<StatsEvent> {
 	
 	@Override
 	public void onEvent(StatsEvent event, long sequence, boolean endOfBatch) throws Exception {
-		
+		String result = event.getResult();
+		System.out.println(result);
 	}
 }

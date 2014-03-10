@@ -1,8 +1,10 @@
-package com.vipshop.microscope.stats.report;
+package com.vipshop.microscope.trace.metrics;
 
 import java.io.PrintStream;
 import java.text.DateFormat;
+import java.util.Date;
 import java.util.Locale;
+import java.util.Map;
 import java.util.SortedMap;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
@@ -17,30 +19,32 @@ import com.codahale.metrics.MetricFilter;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.ScheduledReporter;
 import com.codahale.metrics.Timer;
+import com.vipshop.microscope.trace.stoarge.QueueStorage;
 
 /**
  * A reporter which outputs measurements to {@code Microscope Collector}.
  */
 @SuppressWarnings("unused")
-public class MicroscopeReporter extends ScheduledReporter {
-    /**
-     * Returns a new {@link Builder} for {@link MicroscopeReporter}.
+public class MetricsReporter extends ScheduledReporter {
+    
+	/**
+     * Returns a new {@link Builder} for {@link MetricsReporter}.
      *
      * @param registry the registry to report
-     * @return a {@link Builder} instance for a {@link MicroscopeReporter}
+     * @return a {@link Builder} instance for a {@link MetricsReporter}
      */
     public static Builder forRegistry(MetricRegistry registry) {
         return new Builder(registry);
     }
 
     /**
-     * A builder for {@link MicroscopeReporter} instances. Defaults to using the default locale and
+     * A builder for {@link MetricsReporter} instances. Defaults to using the default locale and
      * time zone, writing to {@code Microscope collector}, converting rates to events/second, converting
      * durations to milliseconds, and not filtering metrics.
      */
     public static class Builder {
         private final MetricRegistry registry;
-        private ReportStorage output;
+        private QueueStorage output;
         private Locale locale;
         private Clock clock;
         private TimeZone timeZone;
@@ -50,7 +54,7 @@ public class MicroscopeReporter extends ScheduledReporter {
 
         private Builder(MetricRegistry registry) {
             this.registry = registry;
-            this.output = ReportStorage.getReportStorage();
+            this.output = QueueStorage.getStorage();
             this.locale = Locale.getDefault();
             this.clock = Clock.defaultClock();
             this.timeZone = TimeZone.getDefault();
@@ -65,7 +69,7 @@ public class MicroscopeReporter extends ScheduledReporter {
          * @param output a {@link PrintStream} instance.
          * @return {@code this}
          */
-        public Builder outputTo(ReportStorage output) {
+        public Builder outputTo(QueueStorage output) {
             this.output = output;
             return this;
         }
@@ -141,8 +145,8 @@ public class MicroscopeReporter extends ScheduledReporter {
          *
          * @return a {@link ConsoleReporter}
          */
-        public MicroscopeReporter build() {
-            return new MicroscopeReporter(registry,
+        public MetricsReporter build() {
+            return new MetricsReporter(registry,
                                        output,
                                        locale,
                                        clock,
@@ -155,20 +159,20 @@ public class MicroscopeReporter extends ScheduledReporter {
 
 	private static final int CONSOLE_WIDTH = 80;
 
-    private final ReportStorage output;
+    private final QueueStorage output;
     private final Locale locale;
     private final Clock clock;
     private final DateFormat dateFormat;
 
-    private MicroscopeReporter(MetricRegistry registry,
-    						ReportStorage output,
+    private MetricsReporter(MetricRegistry registry,
+    		                QueueStorage output,
                             Locale locale,
                             Clock clock,
                             TimeZone timeZone,
                             TimeUnit rateUnit,
                             TimeUnit durationUnit,
                             MetricFilter filter) {
-        super(registry, "microscope-reporter", filter, rateUnit, durationUnit);
+        super(registry, "metrics-reporter", filter, rateUnit, durationUnit);
         this.output = output;
         this.locale = locale;
         this.clock = clock;
@@ -185,7 +189,7 @@ public class MicroscopeReporter extends ScheduledReporter {
                        SortedMap<String, Histogram> histograms,
                        SortedMap<String, Meter> meters,
                        SortedMap<String, Timer> timers) {
-//        final String dateTime = dateFormat.format(new Date(clock.getTime()));
+        final String dateTime = dateFormat.format(new Date(clock.getTime()));
 //        printWithBanner(dateTime, '=');
 //        output.println();
 
@@ -196,7 +200,9 @@ public class MicroscopeReporter extends ScheduledReporter {
 //                printGauge(entry);
 //            }
 //            output.println();
-        	output.add(gauges);
+//        	output.add(gauges);
+//        	output.addGauge(gauges);
+        	output.addGauge(gauges, dateTime);
         }
 
         if (!counters.isEmpty()) {
@@ -206,7 +212,7 @@ public class MicroscopeReporter extends ScheduledReporter {
 //                printCounter(entry);
 //            }
 //            output.println();
-        	output.add(counters);
+        	output.addCounter(counters, dateTime);
         }
 
         if (!histograms.isEmpty()) {
@@ -216,7 +222,7 @@ public class MicroscopeReporter extends ScheduledReporter {
 //                printHistogram(entry.getValue());
 //            }
 //            output.println();
-        	output.add(histograms);
+//        	output.add(histograms);
         }
 
         if (!meters.isEmpty()) {
@@ -226,7 +232,7 @@ public class MicroscopeReporter extends ScheduledReporter {
 //                printMeter(entry.getValue());
 //            }
 //            output.println();
-        	output.add(meters);
+//        	output.add(meters);
         }
 
         if (!timers.isEmpty()) {
@@ -236,7 +242,7 @@ public class MicroscopeReporter extends ScheduledReporter {
 //                printTimer(entry.getValue());
 //            }
 //            output.println();
-        	output.add(timers);
+//        	output.add(timers);
         }
 
 //        output.println();

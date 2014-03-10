@@ -1,4 +1,4 @@
-package com.vipshop.microscope.stats.metrics;
+package com.vipshop.microscope.trace.metrics;
 import com.codahale.metrics.ConsoleReporter;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.Timer;

@@ -13,6 +13,7 @@
 
 	<properties>
 		<maven-site-plugin.skip>true</maven-site-plugin.skip>
+		<metrics.version>3.0.1</metrics.version>
 	</properties>
 
 	<dependencies>
@@ -20,6 +21,21 @@
 			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-common</artifactId>
 			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.codahale.metrics</groupId>
+			<artifactId>metrics-core</artifactId>
+			<version>${metrics.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.codahale.metrics</groupId>
+			<artifactId>metrics-healthchecks</artifactId>
+			<version>${metrics.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.codahale.metrics</groupId>
+			<artifactId>metrics-jvm</artifactId>
+			<version>${metrics.version}</version>
 		</dependency>
 	</dependencies>
 

@@ -10,6 +10,7 @@ public class TracerExceptionTest {
 	
 	@Test
 	public void testRecordException() throws InterruptedException {
+		Tracer.cleanContext();
 		Tracer.clientSend("testRecordException", Category.Method);
 		int sum = 0;
 		for (int i = 0; i < 1000; i++) {

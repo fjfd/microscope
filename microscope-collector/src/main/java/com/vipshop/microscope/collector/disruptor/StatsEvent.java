@@ -1,19 +1,17 @@
 package com.vipshop.microscope.collector.disruptor;
 
-import java.util.Map;
-
 import com.lmax.disruptor.EventFactory;
 
 public class StatsEvent {
 	
-	private Map<String, String> map;
+	private String result;
 
-	public Map<String, String> getMap() {
-		return map;
+	public String getResult() {
+		return result;
 	}
 
-	public void setMap(Map<String, String> map) {
-		this.map = map;
+	public void setResult(String map) {
+		this.result = map;
 	}
 
 	public final static EventFactory<StatsEvent> EVENT_FACTORY = new EventFactory<StatsEvent>() {

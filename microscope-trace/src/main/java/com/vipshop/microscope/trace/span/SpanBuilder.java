@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
-import com.vipshop.microscope.common.logentry.Codec;
 import com.vipshop.microscope.common.trace.Category;
 import com.vipshop.microscope.common.trace.Span;
 import com.vipshop.microscope.common.util.IPAddressUtil;
@@ -181,7 +180,7 @@ public class SpanBuilder {
 		/*
     	 * put span to queue
     	 */
-		storage.add(Codec.encodeToLogEntry(span));
+		storage.add(span);
 
 		/*
     	 * check stack, if span exist,
