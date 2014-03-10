@@ -20,6 +20,8 @@ import com.vipshop.microscope.storage.hbase.domain.AppTable;
 @Repository
 public class AppTableRepository extends AbstraceTableRepository {
 	
+	
+	
 	private String tableName = "app";
 	private String cf_app = "cf_app";
 	private String cf_ip = "cf_ip";

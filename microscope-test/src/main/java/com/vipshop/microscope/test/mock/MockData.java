@@ -2,7 +2,6 @@ package com.vipshop.microscope.test.mock;
 
 import java.util.concurrent.TimeUnit;
 
-import com.vipshop.microscope.collector.server.CollectorServer;
 import com.vipshop.microscope.common.trace.Category;
 import com.vipshop.microscope.trace.Tracer;
 
@@ -11,8 +10,6 @@ public class MockData {
 	public static final int size = 1;
 	
 	public static void main(String[] args) throws InterruptedException {
-		
-		new Thread(new CollectorServer()).start();
 		
 		TimeUnit.SECONDS.sleep(3);
 		

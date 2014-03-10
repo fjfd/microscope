@@ -3,7 +3,7 @@ package com.vipshop.microscope.collector.alerter;
 import com.vipshop.microscope.common.trace.Span;
 
 /**
- * Alert span when serious problem happens.
+ * Message Alert API.
  * 
  * @author Xu Fei
  * @version 1.0
@@ -11,5 +11,6 @@ import com.vipshop.microscope.common.trace.Span;
 public class MessageAlerter {
 	
 	public void alert(Span span) {
+		
 	}
 }

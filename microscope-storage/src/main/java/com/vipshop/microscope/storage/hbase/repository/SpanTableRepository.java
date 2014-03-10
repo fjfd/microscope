@@ -19,7 +19,7 @@ import com.vipshop.microscope.storage.hbase.domain.SpanTable;
 
 @Repository
 public class SpanTableRepository extends AbstraceTableRepository {
-
+	
 	private String tableName = "span";
 	private String cf = "cf";
 

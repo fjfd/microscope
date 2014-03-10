@@ -8,14 +8,24 @@ import com.vipshop.microscope.storage.hbase.domain.AppTable;
 import com.vipshop.microscope.storage.hbase.domain.TraceTable;
 
 /**
- * Store spans.
- * 
- * @see com.vipshop.microscope.storage.StorageRepository
+ * Message Store API.
  * 
  * @author Xu Fei
  * @version 1.0
  */
 public class MessageStorager {
+	
+	public static class MessageStoragerHolder {
+		private static final MessageStorager messageStorager = new MessageStorager();
+	}
+	
+	public static MessageStorager getMessageStorager() {
+		return MessageStoragerHolder.messageStorager;
+	}
+	
+	private MessageStorager() {
+		
+	}
 	
 	/**
 	 * main storage executor.

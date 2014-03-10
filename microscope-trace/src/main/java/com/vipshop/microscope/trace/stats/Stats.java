@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.codahale.metrics.Counter;
 import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.jvm.GarbageCollectorMetricSet;
 import com.codahale.metrics.jvm.MemoryUsageGaugeSet;
 import com.codahale.metrics.jvm.ThreadStatesGaugeSet;
 import com.vipshop.microscope.trace.metrics.MetricsReporter;
@@ -48,6 +49,10 @@ public class Stats {
 	
 	public static void registMemory() {
 		metrics.register("Memory", new MemoryUsageGaugeSet());
+	}
+	
+	public static void registGC() {
+		metrics.register("GC", new GarbageCollectorMetricSet());
 	}
 	
 	public void inc(String name){

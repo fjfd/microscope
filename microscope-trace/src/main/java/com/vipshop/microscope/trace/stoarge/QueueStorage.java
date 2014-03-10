@@ -51,7 +51,7 @@ public class QueueStorage implements Storage {
 	}
 	
 	/**
-	 * Add Exception map to queue.
+	 * Add hash map to queue.
 	 * 
 	 */
 	public void add(HashMap<String, Object> map) {
@@ -59,9 +59,10 @@ public class QueueStorage implements Storage {
 		add(logEntry);
 	}
 	
-	public void addCounter(SortedMap<String, Counter> counters, String date) {
+	public void addCounter(SortedMap<String, Counter> counters, long date) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("date=").append(date).append(":");
+		builder.append("metrics.type=").append("counter:");
 		for (Entry<String, Counter> entry : counters.entrySet()) {
 			builder.append(entry.getKey()).append("=");
 			builder.append(entry.getValue().getCount()).append(":");
@@ -73,9 +74,10 @@ public class QueueStorage implements Storage {
 	}
 	
 	@SuppressWarnings("rawtypes")
-	public void addGauge(SortedMap<String, Gauge> gauges, String date) {
+	public void addGauge(SortedMap<String, Gauge> gauges, long date) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("date=").append(date).append(":");
+		builder.append("metrics.type=").append("gauge:");
 		for (Entry<String, Gauge> entry : gauges.entrySet()) {
 			builder.append(entry.getKey()).append("=");
 			builder.append(entry.getValue().getValue()).append(":");

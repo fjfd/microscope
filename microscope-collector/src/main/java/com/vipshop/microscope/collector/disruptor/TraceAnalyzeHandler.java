@@ -4,7 +4,7 @@ import com.lmax.disruptor.EventHandler;
 import com.vipshop.microscope.collector.analyzer.MessageAnalyzer;
 
 /**
- * Analyze span handler for disruptor.
+ * Trace analyze handler.
  * 
  * @author Xu Fei
  * @version 1.0

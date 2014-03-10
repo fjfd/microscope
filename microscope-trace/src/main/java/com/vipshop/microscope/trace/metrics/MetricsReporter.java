@@ -19,6 +19,7 @@ import com.codahale.metrics.MetricFilter;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.ScheduledReporter;
 import com.codahale.metrics.Timer;
+import com.vipshop.microscope.common.util.TimeStampUtil;
 import com.vipshop.microscope.trace.stoarge.QueueStorage;
 
 /**
@@ -189,7 +190,7 @@ public class MetricsReporter extends ScheduledReporter {
                        SortedMap<String, Histogram> histograms,
                        SortedMap<String, Meter> meters,
                        SortedMap<String, Timer> timers) {
-        final String dateTime = dateFormat.format(new Date(clock.getTime()));
+        final long dateTime = TimeStampUtil.currentTimeMillis();
 //        printWithBanner(dateTime, '=');
 //        output.println();
 

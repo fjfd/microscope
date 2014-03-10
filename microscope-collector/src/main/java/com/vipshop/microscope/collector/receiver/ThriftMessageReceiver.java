@@ -13,7 +13,7 @@ import com.vipshop.microscope.common.thrift.ThriftCategory;
 import com.vipshop.microscope.common.thrift.ThriftServer;
 
 /**
- * Use {@code NoneBlockingThriftServer} receive spans.
+ * Use {@code NoneBlockingThriftServer} receive {@code LogEntry}.
  * 
  * @author Xu Fei
  * @version 1.0
@@ -24,17 +24,29 @@ public class ThriftMessageReceiver implements MessageReceiver {
 	
 	private ThriftCategory category;
 	
+	/**
+	 * Construct {@code ThriftMessageReceiver}.
+	 * 
+	 * @param consumer 
+	 * @param port
+	 * @param category
+	 */
 	public ThriftMessageReceiver(MessageConsumer consumer, int port, ThriftCategory category) {
 		this.thriftServer = new ThriftServer(new ThriftReceiveHandler(consumer), port);
 		this.category = category;
 	}
 	
+	/**
+	 * Start thrift server.
+	 */
 	public void start() throws TTransportException {
 		thriftServer.startServer(category);
 	}
 	
 	/**
 	 * Thrift handler.
+	 * 
+	 * publish message to consumer.
 	 * 
 	 * @author Xu Fei
 	 * @version 1.0

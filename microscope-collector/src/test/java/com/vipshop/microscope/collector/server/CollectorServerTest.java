@@ -29,7 +29,6 @@ public class CollectorServerTest {
 	
 	@BeforeClass
 	public void setUp() {
-		new Thread(new CollectorServer()).start();
 		storageRepository.reInitalizeHbaseTable();
 	}
 

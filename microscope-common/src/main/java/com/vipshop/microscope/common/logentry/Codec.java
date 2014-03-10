@@ -64,7 +64,7 @@ public class Codec {
 	public static LogEntry encodeToLogEntry(String msg) {
 		byte[] bytes = SerializationUtils.serialize(msg);
 		String message = Base64.encodeBase64String(bytes);
-		LogEntry logEntry = new LogEntry(LogEntryCategory.STATS, message);
+		LogEntry logEntry = new LogEntry(LogEntryCategory.METRICS, message);
 		return logEntry;
 	}
 	

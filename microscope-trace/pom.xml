@@ -37,6 +37,21 @@
 			<artifactId>metrics-jvm</artifactId>
 			<version>${metrics.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.codahale.metrics</groupId>
+			<artifactId>metrics-servlet</artifactId>
+			<version>${metrics.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.codahale.metrics</groupId>
+			<artifactId>metrics-servlets</artifactId>
+			<version>${metrics.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.codahale.metrics</groupId>
+			<artifactId>metrics-ehcache</artifactId>
+			<version>${metrics.version}</version>
+		</dependency>
 	</dependencies>
-
+	
 </project>

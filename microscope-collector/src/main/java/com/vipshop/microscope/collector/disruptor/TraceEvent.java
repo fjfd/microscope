@@ -4,7 +4,7 @@ import com.lmax.disruptor.EventFactory;
 import com.vipshop.microscope.common.trace.Span;
 
 /**
- * Use for disruptor to process.
+ * Trace Event.
  * 
  * @author Xu Fei
  * @version 1.0

@@ -10,17 +10,12 @@ import com.vipshop.microscope.common.thrift.ThriftCategory;
 import com.vipshop.microscope.common.util.ConfigurationUtil;
 
 /**
- * Span collector server.
- * 
- * <p>Server collect spans from client,
- * process spans in async mode by queue.
- * 
- * <p>Store spans and analyze spans.
+ * Message collector server.
  * 
  * @author Xu Fei
  * @version 1.0
  */
-public class CollectorServer implements Runnable {
+public class CollectorServer {
 	
 	private static final ConfigurationUtil config = ConfigurationUtil.getConfiguration("collector.properties");
 	
@@ -28,8 +23,14 @@ public class CollectorServer implements Runnable {
 	public static final int CONSUMER_POOL_SIZE = config.getInt("consumer_pool_size");
 	public static final int SLEEP_TIME = config.getInt("sleep_time");
 	
+	/**
+	 * Consume message to {@code RingBuffer}.
+	 */
 	private MessageConsumer consumer;
 	
+	/**
+	 * Receive message from client.
+	 */
 	private MessageReceiver receiver;
 	
 	/**
@@ -61,21 +62,15 @@ public class CollectorServer implements Runnable {
 		receiver.start();
 	}
 	
-	@Override
-	public void run() {
-		CollectorServer server = new CollectorServer();
-		try {
-			server.start();
-		} catch (TTransportException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
+	/**
+	 * Main collector entrance.
+	 * 
+	 * @param args
+	 * @throws TTransportException
+	 */
 	public static void main(String[] args) throws TTransportException {
 		CollectorServer server = new CollectorServer();
 		server.start();
 	}
-
 	
 }
