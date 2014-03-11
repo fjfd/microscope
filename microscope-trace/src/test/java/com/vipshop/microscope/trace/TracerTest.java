@@ -179,4 +179,36 @@ public class TracerTest {
 		TimeUnit.SECONDS.sleep(1);
 	}
 	
+	@Test
+	public void testJVM() throws InterruptedException {
+		Tracer.cleanContext();
+		for (int i = 0; i < 10; i++)  {
+			Tracer.cleanContext();
+			Tracer.clientSend("users/2432424/info/addition/jvm@resteasy", Category.Method);
+			
+			String traceId = Tracer.getTraceId();
+			String spanId = Tracer.getSpanId();
+//			System.out.println("Trace id ---> " + traceId);
+//			System.out.println("Span  id ---> " + spanId);
+			
+//			TimeUnit.SECONDS.sleep(1);
+//			// mock a remote request
+			TimeUnit.SECONDS.sleep(1);
+			Tracer.clientSend(traceId, spanId, "sendtwo", Category.Method);
+			
+//			String traceId1 = Tracer.getTraceId();
+//			String spanId1 = Tracer.getSpanId();
+//			System.out.println("Trace id 1 ---> " + traceId1);
+//			System.out.println("Span  id 1 ---> " + spanId1);
+			TimeUnit.SECONDS.sleep(1);
+			
+			Tracer.clientReceive();
+			TimeUnit.SECONDS.sleep(1);
+			Tracer.clientReceive();
+			
+		}
+		
+		TimeUnit.SECONDS.sleep(3);
+	}
+	
 }

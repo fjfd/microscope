@@ -1,66 +1,95 @@
 package com.vipshop.microscope.trace.stats;
 
-import static com.codahale.metrics.MetricRegistry.name;
-
 import java.util.concurrent.TimeUnit;
 
-import com.codahale.metrics.Counter;
 import com.codahale.metrics.MetricRegistry;
-import com.codahale.metrics.jvm.GarbageCollectorMetricSet;
-import com.codahale.metrics.jvm.MemoryUsageGaugeSet;
-import com.codahale.metrics.jvm.ThreadStatesGaugeSet;
+import com.vipshop.microscope.trace.metrics.CounterMetrics;
+import com.vipshop.microscope.trace.metrics.ExceptionMetrics;
+import com.vipshop.microscope.trace.metrics.JVMMetrics;
+import com.vipshop.microscope.trace.metrics.MetricsContainer;
 import com.vipshop.microscope.trace.metrics.MetricsReporter;
 
 /**
- * Collect performance data API.
+ * Collect data API.
  * 
  * @author Xu Fei
  * @version 1.0
  */
 public class Stats {
 	
-	private static final MetricRegistry metrics = new MetricRegistry();
+	private static final MetricRegistry metrics = MetricsContainer.getMetricRegistry();
 	
-	private static MetricsReporter reporter = MetricsReporter.forRegistry(metrics).build();
-
 	static {
-		start();
-	}
-
-	public static void start() {
+		MetricsReporter reporter = MetricsReporter.forRegistry(metrics).build();
 		reporter.start(1, TimeUnit.SECONDS);
 	}
 	
-	public static void start(long period, TimeUnit unit) {
-		reporter.start(period, unit);
+	/**
+	 * Collect JVM data 1 second a time.
+	 */
+	public static void statsJVM() {
+		JVMMetrics.registerJVM();
 	}
 	
-	public static Counter getCounter(String name) {
-		return metrics.counter(name);
+	/**
+	 * Collect JVM data by given time.
+	 * 
+	 * @param period send period
+	 * @param unit   timeunit
+	 */
+	public static void statsJVM(long period, TimeUnit unit) {
+		JVMMetrics.registerJVM(period, unit);
+	}
+	
+	/**
+	 * Collect exception info.
+	 * 
+	 * @param t
+	 */
+	public static void statsException(Throwable t) {
+		ExceptionMetrics.record(t);
+	}
+	
+	/**
+	 * Collect exception and debug info.
+	 * 
+	 * @param t
+	 * @param info
+	 */
+	public static void statsException(Throwable t, String info) {
+		ExceptionMetrics.record(t, info);
+	}
+	
+	public static void inc(String name) {
+		CounterMetrics.getCounter(name).inc();
+	}
+	
+	public static void inc(String name, long n) {
+		CounterMetrics.getCounter(name).inc(n);
+	}
+	
+	public static void inc(Class<?> klass, String name) {
+		CounterMetrics.getCounter(klass, name).inc();
+	}
+	
+	public static void inc(Class<?> klass, String name, long n) {
+		CounterMetrics.getCounter(klass, name).inc(n);
+	}
+	
+	public static void dec(String name) {
+		CounterMetrics.getCounter(name).dec();
+	}
+	
+	public static void dec(String name, long n) {
+		CounterMetrics.getCounter(name).dec(n);
+	}
+	
+	public static void dec(Class<?> klass, String name) {
+		CounterMetrics.getCounter(klass, name).dec();
+	}
+	
+	public static void dec(Class<?> klass, String name, long n) {
+		CounterMetrics.getCounter(klass, name).dec();
 	}
 
-	public static Counter getCounter(Class<?> klass, String... names) {
-		return metrics.counter(name(klass, names));
-	}
-	
-	public static void registThread() {
-		metrics.register("Thread", new ThreadStatesGaugeSet());
-	}
-	
-	public static void registMemory() {
-		metrics.register("Memory", new MemoryUsageGaugeSet());
-	}
-	
-	public static void registGC() {
-		metrics.register("GC", new GarbageCollectorMetricSet());
-	}
-	
-	public void inc(String name){
-		metrics.counter(name).inc();
-	}
-	
-	public void dec(String name) {
-		metrics.counter(name).dec();
-	}
-	
 }

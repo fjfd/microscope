@@ -7,6 +7,8 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import com.vipshop.microscope.common.util.IPAddressUtil;
 import com.vipshop.microscope.common.util.TimeStampUtil;
 import com.vipshop.microscope.trace.Tracer;
+import com.vipshop.microscope.trace.stoarge.QueueStorage;
+import com.vipshop.microscope.trace.stoarge.Storage;
 
 /**
  * A ExceptionBuilder use for build exception info.
@@ -16,7 +18,9 @@ import com.vipshop.microscope.trace.Tracer;
  */
 public class ExceptionMetrics {
 	
-	public static HashMap<String, Object> record(final Throwable t) {
+	private static final Storage storage = QueueStorage.getStorage();
+	
+	public static void record(final Throwable t) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		
 		map.put("IP", IPAddressUtil.IPAddress());
@@ -27,10 +31,10 @@ public class ExceptionMetrics {
 		map.put("Stack", ExceptionUtils.getStackTrace(t));
 		map.put("TraceId", Tracer.getTraceId());
 		
-		return map;
+		storage.addException(map);
 	}
 	
-	public static HashMap<String, Object> record(final Throwable t, String info) {
+	public static void record(final Throwable t, String info) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		
 		map.put("IP", IPAddressUtil.IPAddress());
@@ -42,7 +46,7 @@ public class ExceptionMetrics {
 		map.put("TraceId", Tracer.getTraceId());
 		map.put("Debug", info);
 		
-		return map;
+		storage.addException(map);
 	}
 	
 }

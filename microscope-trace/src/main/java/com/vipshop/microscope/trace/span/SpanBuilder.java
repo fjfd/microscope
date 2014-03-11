@@ -84,9 +84,12 @@ public class SpanBuilder {
 		} else {
 			/*
 			 * if this coming span is a sub span.
+			 * create a new span id
 			 * set the parent span id
 			 */
-			span.setSpanId(SpanId.createId());
+			long spanId = SpanId.createId();
+			spanContext.getSpanId().setSpanId(spanId);
+			span.setSpanId(spanId);
 			span.setParentId(spanContext.getCurrentSpanId());
 		}
 		
@@ -126,9 +129,12 @@ public class SpanBuilder {
 		} else {
 			/*
 			 * if this coming span is a sub span.
+			 * create a new span id 
 			 * set the parent span id
 			 */
-			span.setSpanId(SpanId.createId());
+			long spanId = SpanId.createId();
+			spanContext.getSpanId().setSpanId(spanId);
+			span.setSpanId(spanId);
 			span.setParentId(spanContext.getCurrentSpanId());
 		}
 		

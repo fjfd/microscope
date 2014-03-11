@@ -53,6 +53,11 @@ public class Codec {
 		LogEntry logEntry = new LogEntry(LogEntryCategory.EXCEP, message);
 		return logEntry;
 	}
+	
+	public static String encodeToString(HashMap<String, Object> map) {
+		byte[] bytes = SerializationUtils.serialize((Serializable) map);
+		return Base64.encodeBase64String(bytes);
+	}
 
 	public static HashMap<String, Object> decodeToMap(final String msg) {
 		byte[] bytes = Base64.decodeBase64(msg);

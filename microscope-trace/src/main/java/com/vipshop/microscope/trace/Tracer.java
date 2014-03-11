@@ -1,16 +1,12 @@
 package com.vipshop.microscope.trace;
 
-import java.util.HashMap;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.vipshop.microscope.common.trace.Category;
 import com.vipshop.microscope.common.util.ConfigurationUtil;
 import com.vipshop.microscope.common.util.DateUtil;
-import com.vipshop.microscope.trace.metrics.ExceptionMetrics;
-import com.vipshop.microscope.trace.stoarge.QueueStorage;
-import com.vipshop.microscope.trace.stoarge.Storage;
+import com.vipshop.microscope.trace.stats.Stats;
 import com.vipshop.microscope.trace.switcher.ConfigSwitcher;
 import com.vipshop.microscope.trace.switcher.Switcher;
 import com.vipshop.microscope.trace.transport.QueueTransporter;
@@ -387,9 +383,7 @@ public class Tracer {
 		}
 	}
 	
-	//************************** methods for record exceptions ********************* //
-	
-	private static final Storage storage = QueueStorage.getStorage();
+	//************************** methods for stats exceptions ********************* //
 	
 	/**
 	 * Record exception.
@@ -399,9 +393,11 @@ public class Tracer {
 	public static void record(Throwable t) {
 		if (SWITCHER.isClose()) 
 			return;
-		
-		HashMap<String, Object> map = ExceptionMetrics.record(t);
-		storage.add(map);
+		Trace trace = TraceContext.getContext();
+		if (trace != null) {
+			trace.setResutlCode("Exception");
+		}
+		Stats.statsException(t);
 	}
 	
 	/**
@@ -413,9 +409,11 @@ public class Tracer {
 	public static void record(Throwable t, String info) {
 		if (SWITCHER.isClose()) 
 			return;
-		
-		HashMap<String, Object> map = ExceptionMetrics.record(t, info);
-		storage.add(map);
+		Trace trace = TraceContext.getContext();
+		if (trace != null) {
+			trace.setResutlCode("Exception");
+		}
+		Stats.statsException(t, info);
 	}
 	
 }

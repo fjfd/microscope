@@ -1,44 +1,24 @@
 package com.vipshop.microscope.trace.metrics;
 
-import java.util.concurrent.atomic.AtomicLong;
+import com.codahale.metrics.Counter;
+import com.codahale.metrics.MetricRegistry;
 
 /**
- * A Counter simply keeps track of how many times an event occurred.
- * All operations are atomic and thread-safe.
+ * Counter Metrics
  * 
  * @author Xu Fei
  * @version 1.0
  */
 public class CounterMetrics {
 	
-	private AtomicLong atomicLong;
+	private static final MetricRegistry metrics = MetricsContainer.getMetricRegistry();
 	
-	public CounterMetrics() {
-		this.atomicLong = new AtomicLong(0);
+	public static Counter getCounter(String name) {
+		return metrics.counter(name);
 	}
 	
-	public long incr() {
-		return this.atomicLong.incrementAndGet();
+	public static Counter getCounter(Class<?> klass, String... names) {
+		return metrics.counter(MetricRegistry.name(klass, names));
 	}
 	
-	public long incr(int n) {
-		return this.atomicLong.addAndGet(n);
-	}
-	
-	public long get() {
-		return this.atomicLong.get();
-	}
-	
-	public void update(long n) {
-		this.atomicLong.set(n);
-	}
-	
-	public void reset() {
-		update(0);
-	}
-	
-	@Override
-	public String toString() {
-		return "Counter " + atomicLong.get();
-	}
 }
