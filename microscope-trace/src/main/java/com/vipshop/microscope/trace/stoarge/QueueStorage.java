@@ -41,44 +41,33 @@ public class QueueStorage implements Storage {
 		return QueueStorageHolder.storage;
 	}
 	
+	/**
+	 * Private construct
+	 */
 	private QueueStorage() {
 		
 	}
 	
 	/**
-	 * Add Span to queue.
-	 * 
-	 * @param span
-	 */
-	public void add(Span span) {
-		LogEntry logEntry = Codec.encodeToLogEntry(span);
-		add(logEntry);
-	}
-	
-	public void add(String msg) {
-		LogEntry logEntry = Codec.encodeToLogEntry(msg);
-		add(logEntry);
-	}
-
-	/**
-	 * Add exception metrics to queue.
+	 * Add exception metrics.
 	 * 
 	 */
 	public void addException(HashMap<String, Object> map) {
 		StringBuilder builder = new StringBuilder();
-		builder.append("metrics.type=").append("exception:");
+		builder.append("exception:");
 		builder.append("stack=").append(Codec.encodeToString(map));
 		add(builder.toString());
 	}
 	
 	/**
+	 * Add counter metrics.
 	 * 
 	 * @param counters
 	 * @param date
 	 */
 	public void addCounter(SortedMap<String, Counter> counters, long date) {
 		StringBuilder builder = new StringBuilder();
-		builder.append("metrics.type=").append("counter:");
+		builder.append("counter:");
 		builder.append("date=").append(date).append(":");
 		for (Entry<String, Counter> entry : counters.entrySet()) {
 			builder.append(entry.getKey()).append("=");
@@ -90,10 +79,13 @@ public class QueueStorage implements Storage {
 			   
 	}
 	
+	/**
+	 * Add guage metrics.
+	 */
 	@SuppressWarnings("rawtypes")
 	public void addGauge(SortedMap<String, Gauge> gauges, long date) {
 		StringBuilder builder = new StringBuilder();
-		builder.append("metrics.type=").append("gauge:");
+		builder.append("gauge:");
 		builder.append("date=").append(date).append(":");
 		for (Entry<String, Gauge> entry : gauges.entrySet()) {
 			builder.append(entry.getKey()).append("=");
@@ -105,9 +97,12 @@ public class QueueStorage implements Storage {
 			   
 	}
 	
+	/**
+	 * Add histogram metrics
+	 */
 	public void addHistogram(SortedMap<String, Histogram> histograms, long date) {
 		StringBuilder builder = new StringBuilder();
-		builder.append("metrics.type=").append("histogram:");
+		builder.append("histogram:");
 		builder.append("date=").append(date).append(":");
 		for (Map.Entry<String, Histogram> entry : histograms.entrySet()) {
 			builder.append(entry.getKey()).append("=");
@@ -133,17 +128,50 @@ public class QueueStorage implements Storage {
 		add(histogram.substring(0, histogram.length() - 1));
 	}
 	
+	/**
+	 * Add meter metrics.
+	 */
 	public void addMeter(SortedMap<String, Meter> meters, long date) {
 		StringBuilder builder = new StringBuilder();
-		builder.append("metrics.type=").append("meter:");
+		builder.append("meter:");
 		builder.append("date=").append(date).append(":");
 		for (Map.Entry<String, Meter> entry : meters.entrySet()) {
 			builder.append(entry.getKey()).append("=");
 		}
+		
+		String meter = builder.toString();
+		add(meter.substring(0, meter.length() - 1));
 	}
 	
+	/**
+	 * Add timer metrics
+	 */
 	public void addTimer(SortedMap<String, Timer> timers, long date) {
+		StringBuilder builder = new StringBuilder();
+		builder.append("timer:");
 		
+		String timer = builder.toString();
+		add(timer.substring(0, timer.length() - 1));
+	}
+	
+	/**
+	 * Add span metrics.
+	 * 
+	 * @param span
+	 */
+	public void add(Span span) {
+		LogEntry logEntry = Codec.encodeToLogEntry(span);
+		add(logEntry);
+	}
+	
+	/**
+	 * Add string metrics.
+	 * 
+	 * @param msg
+	 */
+	public void add(String msg) {
+		LogEntry logEntry = Codec.encodeToLogEntry(msg);
+		add(logEntry);
 	}
 
 	/**
@@ -167,7 +195,7 @@ public class QueueStorage implements Storage {
 	}
 	
 	/**
-	 * Get span from queue.
+	 * Get logEntry from queue.
 	 * 
 	 * @return {@link Span}
 	 */

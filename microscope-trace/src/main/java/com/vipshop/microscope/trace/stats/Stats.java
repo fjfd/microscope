@@ -3,6 +3,7 @@ package com.vipshop.microscope.trace.stats;
 import java.util.concurrent.TimeUnit;
 
 import com.codahale.metrics.MetricRegistry;
+import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.metrics.CounterMetrics;
 import com.vipshop.microscope.trace.metrics.ExceptionMetrics;
 import com.vipshop.microscope.trace.metrics.JVMMetrics;
@@ -20,8 +21,10 @@ public class Stats {
 	private static final MetricRegistry metrics = MetricsContainer.getMetricRegistry();
 	
 	static {
-		MetricsReporter reporter = MetricsReporter.forRegistry(metrics).build();
-		reporter.start(1, TimeUnit.SECONDS);
+		if (Tracer.isTraceEnable()) {
+			MetricsReporter reporter = MetricsReporter.forRegistry(metrics).build();
+			reporter.start(10, TimeUnit.SECONDS);
+		}
 	}
 	
 	/**
