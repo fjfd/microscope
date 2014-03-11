@@ -1,7 +1,7 @@
 package com.vipshop.microscope.trace.stoarge;
 
 /**
- * Get singleton message storage
+ * Get singleton message storage.
  * 
  * @author Xu Fei
  * @version 1.0
