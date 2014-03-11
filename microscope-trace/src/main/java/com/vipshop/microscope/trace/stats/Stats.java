@@ -35,16 +35,6 @@ public class Stats {
 	}
 	
 	/**
-	 * Collect JVM data by given time.
-	 * 
-	 * @param period send period
-	 * @param unit   timeunit
-	 */
-	public static void statsJVM(long period, TimeUnit unit) {
-		JVMMetrics.registerJVM(period, unit);
-	}
-	
-	/**
 	 * Collect exception info.
 	 * 
 	 * @param t
