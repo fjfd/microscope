@@ -22,30 +22,30 @@ import com.vipshop.microscope.common.trace.Span;
 import com.vipshop.microscope.trace.Tracer;
 
 /**
- *  A {@link BlockingQueue} store spans in client memory.
+ * Storge metrics in client use {@code ArrayBlockingQueue}.
  *  
  * @author Xu Fei
  * @version 1.0
  */
-public class QueueStorage implements Storage {
+public class ArrayBlockingQueueStorage implements Storage {
 	
-	private static final Logger logger = LoggerFactory.getLogger(QueueStorage.class);
+	private static final Logger logger = LoggerFactory.getLogger(ArrayBlockingQueueStorage.class);
 	
 	private static final BlockingQueue<LogEntry> queue = new ArrayBlockingQueue<LogEntry>(Tracer.QUEUE_SIZE);
 	
-	public static class QueueStorageHolder {
-		private static final Storage storage = new QueueStorage();
-	}
-	
-	public static Storage getStorage() {
-		return QueueStorageHolder.storage;
-	}
-	
 	/**
-	 * Private construct
+	 * Package access construct
 	 */
-	private QueueStorage() {
-		
+	ArrayBlockingQueueStorage() {}
+
+	/**
+	 * Add span metrics.
+	 * 
+	 * @param span
+	 */
+	public void addSpan(Span span) {
+		LogEntry logEntry = Codec.encodeToLogEntry(span);
+		add(logEntry);
 	}
 	
 	/**
@@ -152,16 +152,6 @@ public class QueueStorage implements Storage {
 		
 		String timer = builder.toString();
 		add(timer.substring(0, timer.length() - 1));
-	}
-	
-	/**
-	 * Add span metrics.
-	 * 
-	 * @param span
-	 */
-	public void add(Span span) {
-		LogEntry logEntry = Codec.encodeToLogEntry(span);
-		add(logEntry);
 	}
 	
 	/**

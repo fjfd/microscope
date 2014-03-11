@@ -15,8 +15,8 @@ public class Pack {
 //		MavenUtil.execute("clean package -Denv=dev");
 //		pack(PackPath.devPackPath());
 
-//		MavenUtil.execute("clean package -Denv=qa");
-//		pack(PackPath.qaPackPath());
+		MavenUtil.execute("clean package -Denv=qa");
+		pack(PackPath.qaPackPath());
 
 //		MavenUtil.execute("clean package -Denv=prod");
 //		pack(PackPath.prodPackPath());

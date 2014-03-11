@@ -7,8 +7,8 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import com.vipshop.microscope.common.util.IPAddressUtil;
 import com.vipshop.microscope.common.util.TimeStampUtil;
 import com.vipshop.microscope.trace.Tracer;
-import com.vipshop.microscope.trace.stoarge.QueueStorage;
 import com.vipshop.microscope.trace.stoarge.Storage;
+import com.vipshop.microscope.trace.stoarge.StorageHolder;
 
 /**
  * A ExceptionBuilder use for build exception info.
@@ -18,7 +18,7 @@ import com.vipshop.microscope.trace.stoarge.Storage;
  */
 public class ExceptionMetrics {
 	
-	private static final Storage storage = QueueStorage.getStorage();
+	private static final Storage storage = StorageHolder.getStorage();
 	
 	public static void record(final Throwable t) {
 		HashMap<String, Object> map = new HashMap<String, Object>();

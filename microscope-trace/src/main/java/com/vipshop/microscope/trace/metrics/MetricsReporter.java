@@ -2,9 +2,7 @@ package com.vipshop.microscope.trace.metrics;
 
 import java.io.PrintStream;
 import java.text.DateFormat;
-import java.util.Date;
 import java.util.Locale;
-import java.util.Map;
 import java.util.SortedMap;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
@@ -20,8 +18,9 @@ import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.ScheduledReporter;
 import com.codahale.metrics.Timer;
 import com.vipshop.microscope.common.util.TimeStampUtil;
-import com.vipshop.microscope.trace.stoarge.QueueStorage;
+import com.vipshop.microscope.trace.stoarge.ArrayBlockingQueueStorage;
 import com.vipshop.microscope.trace.stoarge.Storage;
+import com.vipshop.microscope.trace.stoarge.StorageHolder;
 
 /**
  * A reporter which outputs measurements to {@code Microscope Collector}.
@@ -56,7 +55,7 @@ public class MetricsReporter extends ScheduledReporter {
 
         private Builder(MetricRegistry registry) {
             this.registry = registry;
-            this.output = QueueStorage.getStorage();
+            this.output = StorageHolder.getStorage();
             this.locale = Locale.getDefault();
             this.clock = Clock.defaultClock();
             this.timeZone = TimeZone.getDefault();
@@ -71,7 +70,7 @@ public class MetricsReporter extends ScheduledReporter {
          * @param output a {@link PrintStream} instance.
          * @return {@code this}
          */
-        public Builder outputTo(QueueStorage output) {
+        public Builder outputTo(ArrayBlockingQueueStorage output) {
             this.output = output;
             return this;
         }

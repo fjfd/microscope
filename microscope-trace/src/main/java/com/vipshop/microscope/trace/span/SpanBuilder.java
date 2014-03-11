@@ -8,8 +8,8 @@ import com.vipshop.microscope.common.trace.Category;
 import com.vipshop.microscope.common.trace.Span;
 import com.vipshop.microscope.common.util.IPAddressUtil;
 import com.vipshop.microscope.trace.Tracer;
-import com.vipshop.microscope.trace.stoarge.QueueStorage;
 import com.vipshop.microscope.trace.stoarge.Storage;
+import com.vipshop.microscope.trace.stoarge.StorageHolder;
 
 /**
  * A {@code SpanBuilder} responsible for build
@@ -20,7 +20,7 @@ import com.vipshop.microscope.trace.stoarge.Storage;
  */
 public class SpanBuilder {
 	
-	private final Storage storage = QueueStorage.getStorage();
+	private final Storage storage = StorageHolder.getStorage();
 	
 	/**
 	 * The context of span.
@@ -186,7 +186,7 @@ public class SpanBuilder {
 		/*
     	 * put span to queue
     	 */
-		storage.add(span);
+		storage.addSpan(span);
 
 		/*
     	 * check stack, if span exist,

@@ -13,8 +13,8 @@ import com.vipshop.microscope.common.thrift.ThriftCategory;
 import com.vipshop.microscope.common.thrift.ThriftClient;
 import com.vipshop.microscope.common.util.ThreadPoolUtil;
 import com.vipshop.microscope.trace.Tracer;
-import com.vipshop.microscope.trace.stoarge.QueueStorage;
 import com.vipshop.microscope.trace.stoarge.Storage;
+import com.vipshop.microscope.trace.stoarge.StorageHolder;
 
 /**
  * Use a {@code Thread} transport message to collector.
@@ -26,10 +26,10 @@ public class QueueTransporter implements Transporter {
 	
 	private final Logger logger = LoggerFactory.getLogger(QueueTransporter.class);
 	
-	private final Storage storage = QueueStorage.getStorage();
+	private final Storage storage = StorageHolder.getStorage();
 	
 	/**
-	 * thrift client
+	 * use thrift client send {@code LogEntry}
 	 */
 	private final ThriftClient client = new ThriftClient(Tracer.COLLECTOR_HOST, 
 														 Tracer.COLLECTOR_PORT, 
@@ -39,8 +39,13 @@ public class QueueTransporter implements Transporter {
 	private final int MAX_BATCH_SIZE = Tracer.MAX_BATCH_SIZE;
 	private final int MAX_EMPTY_SIZE = Tracer.MAX_EMPTY_SIZE;
 	
+	/**
+	 * use for batch send
+	 */
 	private final List<LogEntry> logEntries = new ArrayList<LogEntry>(MAX_BATCH_SIZE);
-
+	
+	private int emptySize = 0;
+	
 	@Override
 	public void transport() {
 		
@@ -49,8 +54,6 @@ public class QueueTransporter implements Transporter {
 		executor.execute(new Runnable() {
 			@Override
 			public void run() {
-				int emptySize = 0;
-				
 				while (true) {
 					LogEntry logEntry = storage.poll();
 
