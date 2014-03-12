@@ -166,7 +166,7 @@ public class ThriftClient {
     			transport.close();
     			
     			logger.debug("ThriftClient will try to reconnect after " 
-    			           + reconnect + " MILLISECONDS");
+    			             + reconnect + " MILLISECONDS");
     	    	
     			try {
 					TimeUnit.MILLISECONDS.sleep(reconnect);

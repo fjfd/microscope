@@ -11,13 +11,17 @@ public class StorageHolder {
 	private static final int key = 1;
 	
 	public static Storage getStorage() {
+		return getStorage(key);
+	}
+	
+	public static Storage getStorage(int key) {
 		switch (key) {
 		case 1:
 			return getArrayBlockingQueueStorage();
 		case 2:
-			return getDisruptorStorage();
+			return getDisruptorQueueStorage();
 		case 3:
-			return getLog4jStorageHolder();
+			return getNonBlockingQueueStorage();
 		default:
 			return getArrayBlockingQueueStorage();
 		}
@@ -31,20 +35,20 @@ public class StorageHolder {
 		return ArrayBlockingQueueStorageHolder.storage;
 	}
 	
-	private static class DisruptorStorageHolder {
-		private static final Storage storage = new DisruptorStorage();
+	private static class DisruptorQueueStorageHolder {
+		private static final Storage storage = new DisruptorQueueStorage();
 	}
 	
-	private static Storage getDisruptorStorage() {
-		return DisruptorStorageHolder.storage;
+	private static Storage getDisruptorQueueStorage() {
+		return DisruptorQueueStorageHolder.storage;
 	}
 	
-	private static class Log4jStorageHolder {
-		private static final Storage storage = new Log4jStorage();
+	private static class NonBlockingQueueStorageHolder {
+		private static final Storage storage = new NonBlockingQueueStorage();
 	}
 	
-	private static Storage getLog4jStorageHolder() {
-		return Log4jStorageHolder.storage;
+	private static Storage getNonBlockingQueueStorage() {
+		return NonBlockingQueueStorageHolder.storage;
 	}
 
 }

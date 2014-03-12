@@ -31,7 +31,8 @@ public class ArrayBlockingQueueStorage implements Storage {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ArrayBlockingQueueStorage.class);
 	
-	private static final BlockingQueue<LogEntry> queue = new ArrayBlockingQueue<LogEntry>(Tracer.QUEUE_SIZE);
+	@SuppressWarnings("rawtypes")
+	private static final BlockingQueue queue = new ArrayBlockingQueue(Tracer.QUEUE_SIZE);
 	
 	/**
 	 * Package access construct
@@ -43,9 +44,15 @@ public class ArrayBlockingQueueStorage implements Storage {
 	 * 
 	 * @param span
 	 */
+	@SuppressWarnings("unchecked")
 	public void addSpan(Span span) {
-		LogEntry logEntry = Codec.encodeToLogEntry(span);
-		add(logEntry);
+		boolean isFull = !queue.offer(span);
+		
+		if (isFull) {
+			queue.clear();
+			logger.info("client queue is full, clean queue now");
+		}
+
 	}
 	
 	/**
@@ -159,9 +166,15 @@ public class ArrayBlockingQueueStorage implements Storage {
 	 * 
 	 * @param msg
 	 */
+	@SuppressWarnings("unchecked")
 	public void add(String msg) {
-		LogEntry logEntry = Codec.encodeToLogEntry(msg);
-		add(logEntry);
+		boolean isFull = !queue.offer(msg);
+		
+		if (isFull) {
+			queue.clear();
+			logger.info("client queue is full, clean queue now");
+		}
+
 	}
 
 	/**
@@ -171,11 +184,13 @@ public class ArrayBlockingQueueStorage implements Storage {
 	 * 
 	 * @param span {@link Span}
 	 */
+	@Deprecated
 	public void add(LogEntry logEntry) { 
 		if (logEntry == null) {
 			return;
 		}
 		
+		@SuppressWarnings("unchecked")
 		boolean isFull = !queue.offer(logEntry);
 		
 		if (isFull) {
@@ -189,15 +204,30 @@ public class ArrayBlockingQueueStorage implements Storage {
 	 * 
 	 * @return {@link Span}
 	 */
+	@Override
 	public LogEntry poll() {
-		return queue.poll();
+		Object object = queue.poll();
+		
+		if (object instanceof Span) {
+			LogEntry logEntry = Codec.encodeToLogEntry((Span)object);
+			return logEntry;
+		}
+		
+		if (object instanceof String) {
+			LogEntry logEntry = Codec.encodeToLogEntry((String)object);
+			return logEntry;
+		}
+		
+		return null;
 	}
 	
 	/**
 	 * Get size of queue.
 	 */
+	@Override
 	public int size() {
 		return queue.size();
 	}
+
 
 }

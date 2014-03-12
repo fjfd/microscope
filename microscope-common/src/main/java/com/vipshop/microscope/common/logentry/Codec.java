@@ -29,6 +29,8 @@ public class Codec {
 			return null;
 		}
 		String spanAsString = base64.encodeToString(buf.toByteArray());
+//		byte[] bytes = SerializationUtils.serialize(span);
+//		String spanAsString = base64.encodeToString(bytes);
 		LogEntry logEntry = new LogEntry(LogEntryCategory.TRACE, spanAsString);
 		return logEntry;
 	}

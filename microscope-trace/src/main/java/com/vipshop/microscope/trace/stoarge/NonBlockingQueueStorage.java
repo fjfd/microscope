@@ -11,7 +11,7 @@ import com.codahale.metrics.Timer;
 import com.vipshop.microscope.common.logentry.LogEntry;
 import com.vipshop.microscope.common.trace.Span;
 
-public class Log4jStorage implements Storage {
+public class NonBlockingQueueStorage implements Storage {
 
 	@Override
 	public void addSpan(Span span) {
