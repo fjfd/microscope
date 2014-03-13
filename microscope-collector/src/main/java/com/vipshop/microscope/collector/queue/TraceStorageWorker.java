@@ -13,12 +13,12 @@ import com.vipshop.microscope.common.trace.Span;
  * @author Xu Fei
  * @version 1.0
  */
-public class MessageStorageWorker implements Runnable {
+public class TraceStorageWorker implements Runnable {
 	
 	private final MessageStorager storager = MessageStorager.getMessageStorager();
 	private final LinkedBlockingQueue<Span> queue;
 	
-	public MessageStorageWorker(LinkedBlockingQueue<Span> queue) {
+	public TraceStorageWorker(LinkedBlockingQueue<Span> queue) {
 		this.queue = queue;
 	}
 	

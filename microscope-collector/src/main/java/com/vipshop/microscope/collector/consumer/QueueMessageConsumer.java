@@ -6,9 +6,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.vipshop.microscope.collector.queue.MessageAlertWorker;
-import com.vipshop.microscope.collector.queue.MessageAnalyzeWorker;
-import com.vipshop.microscope.collector.queue.MessageStorageWorker;
+import com.vipshop.microscope.collector.queue.TraceAlertWorker;
+import com.vipshop.microscope.collector.queue.TraceAnalyzeWorker;
+import com.vipshop.microscope.collector.queue.TraceStorageWorker;
 import com.vipshop.microscope.common.logentry.LogEntry;
 import com.vipshop.microscope.common.trace.Span;
 import com.vipshop.microscope.common.util.ThreadPoolUtil;
@@ -43,16 +43,16 @@ public class QueueMessageConsumer implements MessageConsumer {
 		
 		logger.info("start alert thread pool with size 1");
 		alertExecutor = ThreadPoolUtil.newFixedThreadPool(1, "alert-span-pool");
-		alertExecutor.execute(new MessageAlertWorker(alertQueue));
+		alertExecutor.execute(new TraceAlertWorker(alertQueue));
 
 		logger.info("start analyze thread pool with size 1");
 		analyzeExecutor = ThreadPoolUtil.newFixedThreadPool(1, "analyze-span-pool");
-		analyzeExecutor.execute(new MessageAnalyzeWorker(analyzeQueue));
+		analyzeExecutor.execute(new TraceAnalyzeWorker(analyzeQueue));
 
 		logger.info("start storage thread pool with size " + poolSize);
 		storageExecutor = ThreadPoolUtil.newFixedThreadPool(poolSize, "store-span-pool");
 		for (int i = 0; i < poolSize; i++) {
-			storageExecutor.execute(new MessageStorageWorker(storageQueue));
+			storageExecutor.execute(new TraceStorageWorker(storageQueue));
 		}
 		
 	}
