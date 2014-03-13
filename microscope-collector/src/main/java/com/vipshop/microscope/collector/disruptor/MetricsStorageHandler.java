@@ -27,9 +27,9 @@ public class MetricsStorageHandler implements EventHandler<MetricsEvent> {
 			HashMap<String, Object> stack = Codec.decodeToMap(stackValue(kevValue));
 			messageStorager.storage(stack);
 		} else {
-			for (int i = 1; i < kevValue.length; i++) {
+//			for (int i = 1; i < kevValue.length; i++) {
 //				System.out.println(kevValue[i]);
-			}
+//			}
 		}
 	}
 	

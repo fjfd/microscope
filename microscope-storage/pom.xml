@@ -93,6 +93,7 @@
 			<build>
 				<filters>
 					<filter>src/main/resources/filters/hbase-dev.properties</filter>
+					<filter>src/main/resources/filters/jdbc-dev.properties</filter>
 				</filters>
 				<resources>
 					<resource>
@@ -119,6 +120,7 @@
 			<build>
 				<filters>
 					<filter>src/main/resources/filters/hbase-qa.properties</filter>
+					<filter>src/main/resources/filters/jdbc-qa.properties</filter>
 				</filters>
 				<resources>
 					<resource>
@@ -144,6 +146,7 @@
 			<build>
 				<filters>
 					<filter>src/main/resources/filters/hbase-prod.properties</filter>
+					<filter>src/main/resources/filters/jdbc-prod.properties</filter>
 				</filters>
 				<resources>
 					<resource>

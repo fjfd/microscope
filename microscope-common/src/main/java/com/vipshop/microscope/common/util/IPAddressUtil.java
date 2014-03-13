@@ -22,6 +22,7 @@ public class IPAddressUtil {
 	private static final String LOCAL_ADDRESS_IPV4 = "127.0.0.1";
 
 	public static String IPAddress() {
+//		java.security.Security.setProperty("networkaddress.cache.ttl", "-1");
 		if (IPCache.get("IP") == null) {
 			
 			String osName = System.getProperty("os.name");
@@ -47,6 +48,7 @@ public class IPAddressUtil {
 	}
 	
 	public static InetAddress getLocalHost() throws UnknownHostException {
+//		java.security.Security.setProperty("networkaddress.cache.ttl", "-1");
 		InetAddress localHost = InetAddress.getLocalHost();
 		if (!localHost.isLoopbackAddress()) {
 			return localHost;
@@ -95,7 +97,6 @@ public class IPAddressUtil {
 	}
 
 	public static String stringIPAdress(long ip) {
-
 		long mask[] = { 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000 };
 		long num = 0;
 		StringBuffer ipInfo = new StringBuffer();
@@ -106,6 +107,14 @@ public class IPAddressUtil {
 			ipInfo.insert(0, Long.toString(num, 10));
 		}
 		return ipInfo.toString();
+	}
+	
+	public static void main(String[] args) throws UnknownHostException {
+		for (int i = 0; i < 100; i++) {
+			long start = System.currentTimeMillis();
+			getLocalHost();
+			System.out.println(System.currentTimeMillis() - start);
+		}
 	}
 	
 }

@@ -23,7 +23,7 @@ public class Stats {
 	static {
 		if (Tracer.isTraceEnable()) {
 			MetricsReporter reporter = MetricsReporter.forRegistry(metrics).build();
-			reporter.start(10, TimeUnit.SECONDS);
+			reporter.start(1, TimeUnit.SECONDS);
 		}
 	}
 	

@@ -17,6 +17,7 @@ import com.vipshop.microscope.collector.disruptor.TraceAlertHandler;
 import com.vipshop.microscope.collector.disruptor.TraceAnalyzeHandler;
 import com.vipshop.microscope.collector.disruptor.TraceEvent;
 import com.vipshop.microscope.collector.disruptor.TraceStorageHandler;
+import com.vipshop.microscope.collector.validater.MessageValidater;
 import com.vipshop.microscope.common.logentry.Codec;
 import com.vipshop.microscope.common.logentry.LogEntry;
 import com.vipshop.microscope.common.logentry.LogEntryCategory;
@@ -132,13 +133,22 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 	}
 	
 	/**
-	 * Publish trace to traceRingBuffer.
+	 * Publish trace to {@code TraceRingBuffer}.
 	 * 
 	 * @param msg
 	 */
 	private void publishTrace(String msg) {
 		Span span = Codec.decodeToSpan(msg);
 		if (start && span != null) {
+			
+			/*
+			 * validate span message
+			 */
+			span = MessageValidater.getMessageValidater().validateMessage(span);
+			
+			/*
+			 * publish span to ringbuffer
+			 */
 			long sequence = this.traceRingBuffer.next();
 			this.traceRingBuffer.get(sequence).setSpan(span);
 			this.traceRingBuffer.publish(sequence);
@@ -146,13 +156,22 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 	}
 	
 	/**
-	 * Publish metrics to metricsRingBuffer.
+	 * Publish metrics to {@code MetricsRingBuffer}.
 	 * 
 	 * @param msg
 	 */
 	private void publishMetrics(String msg) {
 		String metrics = Codec.decodeToString(msg);
 		if (start && metrics != null) {
+			
+			/*
+			 * validat metrics message 
+			 */
+			metrics = MessageValidater.getMessageValidater().validateMessage(metrics);
+			
+			/*
+			 * publish metrics to ringbuffer
+			 */
 			long sequence = this.metricsRingBuffer.next();
 			this.metricsRingBuffer.get(sequence).setResult(metrics);
 			this.metricsRingBuffer.publish(sequence);
@@ -164,10 +183,17 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 	 */
 	@Override
 	public void shutdown() {
+		
+		/*
+		 * close trace process thread
+		 */
 		traceAlertEventProcessor.halt();
 		traceAnalyzeEventProcessor.halt();
 		traceStorageEventProcessor.halt();
 		
+		/*
+		 * close metrics process thread
+		 */
 		metricsAlertEventProcessor.halt();
 		metricsAnalyzeEventProcessor.halt();
 		metricsStorageEventProcessor.halt();
