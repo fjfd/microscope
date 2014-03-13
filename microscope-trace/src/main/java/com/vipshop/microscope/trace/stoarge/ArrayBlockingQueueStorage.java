@@ -31,8 +31,7 @@ public class ArrayBlockingQueueStorage implements Storage {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ArrayBlockingQueueStorage.class);
 	
-	@SuppressWarnings("rawtypes")
-	private static final BlockingQueue queue = new ArrayBlockingQueue(Tracer.QUEUE_SIZE);
+	private static final BlockingQueue<Object> queue = new ArrayBlockingQueue<Object>(Tracer.QUEUE_SIZE);
 	
 	/**
 	 * Package access construct
@@ -44,7 +43,6 @@ public class ArrayBlockingQueueStorage implements Storage {
 	 * 
 	 * @param span
 	 */
-	@SuppressWarnings("unchecked")
 	public void addSpan(Span span) {
 		boolean isFull = !queue.offer(span);
 		
@@ -166,7 +164,6 @@ public class ArrayBlockingQueueStorage implements Storage {
 	 * 
 	 * @param msg
 	 */
-	@SuppressWarnings("unchecked")
 	public void add(String msg) {
 		boolean isFull = !queue.offer(msg);
 		
@@ -190,7 +187,6 @@ public class ArrayBlockingQueueStorage implements Storage {
 			return;
 		}
 		
-		@SuppressWarnings("unchecked")
 		boolean isFull = !queue.offer(logEntry);
 		
 		if (isFull) {
@@ -228,6 +224,5 @@ public class ArrayBlockingQueueStorage implements Storage {
 	public int size() {
 		return queue.size();
 	}
-
 
 }

@@ -94,8 +94,8 @@ public class TraceTableRepository extends AbstraceTableRepository {
 		 */
 		long limit = Long.valueOf(query.get("limit"));
 		
-		if (limit > 100) {
-			limit = 100;
+		if (limit > 1000) {
+			limit = 1000;
 		}
 		
 		if (limit < 1) {
