@@ -13,13 +13,16 @@ import com.vipshop.microscope.trace.stoarge.StorageHolder;
 
 /**
  * A {@code SpanBuilder} responsible for build
- * span and store span to {@code MessageQueue}.
+ * span and store span to {@code Storage}.
  * 
  * @author Xu Fei
  * @version 1.0
  */
 public class SpanBuilder {
 	
+	/**
+	 * Store span
+	 */
 	private final Storage storage = StorageHolder.getStorage();
 	
 	/**
@@ -32,18 +35,31 @@ public class SpanBuilder {
      */
     private final Stack<Span> spanStack;
     
+    /**
+     * Default SpanBuilder
+     */
 	public SpanBuilder() {
-		this.spanContext = new SpanContext(new SpanId());
+		this.spanContext = new SpanContext(new SpanID());
 		this.spanStack = new Stack<Span>();
 	} 
     
+	/**
+	 * Cross JVM SpanBuilder
+	 * 
+	 * @param spanContext
+	 */
 	public SpanBuilder(SpanContext spanContext) {
 		this.spanContext = spanContext;
 		this.spanStack = new Stack<Span>();
 	}
 	
-	public SpanId getSpanId() {
-		return spanContext.getSpanId();
+	/**
+	 * Return current {@code SpanID}.
+	 * 
+	 * @return
+	 */
+	public SpanID getSpanId() {
+		return spanContext.getSpanID();
 	}
 	
 	/**
@@ -70,27 +86,40 @@ public class SpanBuilder {
 		span.setStartTime(System.currentTimeMillis());
 		span.setResultCode(Tracer.OK);
 		
-		/*
-		 * The topmost span in a trace has its span id 
-		 * equal to trace id and parent span id is null.
-		 */
+		// if this is a root span
 		if (spanContext.isRootSpan()) {
-			// set span id equal to trace id for top span.
-			span.setSpanId(spanContext.getTraceId());
-			span.setParentId(0);
-			spanContext.getSpanId().setSpanId(spanContext.getTraceId());
-			// make top span flag to be false.
-			spanContext.setRootSpanFlagFalse();
-		} else {
 			/*
-			 * if this coming span is a sub span.
-			 * create a new span id
-			 * set the parent span id
+			 * set parentId = 0
 			 */
-			long spanId = SpanId.createId();
-			spanContext.getSpanId().setSpanId(spanId);
+			span.setParentId(0);
+			
+			/* 
+			 * set spanId = traceId
+			 */
+			span.setSpanId(spanContext.getTraceId());
+			
+			/*
+			 * set spanId in spanContext
+			 */
+			spanContext.setSpanId(spanContext.getTraceId());
+			/*
+			 * make top span flag to be false.
+			 */
+			spanContext.setSubSpan();
+		} else {
+			//if this is a sub span.
+			
+			/*
+			 * set parentId = parent's spanId
+			 */
+			span.setParentId(spanContext.getSpanId());
+			
+			/*
+			 * set new spanId 
+			 */
+			long spanId = SpanID.createId();
 			span.setSpanId(spanId);
-			span.setParentId(spanContext.getCurrentSpanId());
+			spanContext.setSpanId(spanId);
 		}
 		
 		/*
@@ -116,26 +145,41 @@ public class SpanBuilder {
 		span.setResultCode(Tracer.OK);
 		span.setServerName(service);
 		span.setServerIp(service);
-		/*
-		 * The topmost span in a trace has its span id 
-		 * equal to trace id and parent span id is null.
-		 */
+		
+		// if this is a root span
 		if (spanContext.isRootSpan()) {
-			// set span id equal to trace id for top span.
-			span.setSpanId(spanContext.getTraceId());
-			spanContext.getSpanId().setSpanId(spanContext.getTraceId());
-			// make top span flag to be false.
-			spanContext.setRootSpanFlagFalse();
-		} else {
 			/*
-			 * if this coming span is a sub span.
-			 * create a new span id 
-			 * set the parent span id
+			 * set parentId = 0
 			 */
-			long spanId = SpanId.createId();
-			spanContext.getSpanId().setSpanId(spanId);
+			span.setParentId(0);
+			
+			/* 
+			 * set spanId = traceId
+			 */
+			span.setSpanId(spanContext.getTraceId());
+			
+			/*
+			 * set spanId in spanContext
+			 */
+			spanContext.setSpanId(spanContext.getTraceId());
+			/*
+			 * make top span flag to be false.
+			 */
+			spanContext.setSubSpan();
+		} else {
+			//if this is a sub span.
+			
+			/*
+			 * set parentId = parent's spanId
+			 */
+			span.setParentId(spanContext.getSpanId());
+			
+			/*
+			 * set new spanId 
+			 */
+			long spanId = SpanID.createId();
 			span.setSpanId(spanId);
-			span.setParentId(spanContext.getCurrentSpanId());
+			spanContext.setSpanId(spanId);
 		}
 		
 		/*

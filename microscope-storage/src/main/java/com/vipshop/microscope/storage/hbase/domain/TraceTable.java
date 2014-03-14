@@ -53,9 +53,9 @@ public class TraceTable implements Serializable, Comparable<TraceTable> {
 	 */
 	public String rowKey() {
 		return this.getAppName() + "-" +
-		       this.getIPAdress() + "-" +
-	           this.getTraceName() + "-" + 
+			   this.getTraceName() + "-" + 
 			   (Long.MAX_VALUE - System.currentTimeMillis()) + "-" + 
+			   this.getIPAdress() + "-" +
 			   this.getTraceId();
 	}
 	

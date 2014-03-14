@@ -105,9 +105,6 @@ public class TraceTableRepository extends AbstraceTableRepository {
 		PageFilter pageFilter = new PageFilter(limit);
 		scan.setFilter(pageFilter);
 		
-		/**
-		 * Query by rowKey : appName-ipAdress-traceName-timestamp
-		 */
 		String appName = query.get("appName");
 		String ipAddress = query.get("ipAddress");
 		String traceName = query.get("traceName");
@@ -115,8 +112,22 @@ public class TraceTableRepository extends AbstraceTableRepository {
 		long startTime = Long.valueOf(query.get("startTime"));
 		long endTime = Long.valueOf(query.get("endTime"));
 		
-		String startKey = appName + "-" + ipAddress + "-" + traceName + "-" + (Long.MAX_VALUE - endTime);
-		String endKey = appName + "-" + ipAddress + "-" + traceName + "-" + (Long.MAX_VALUE - startTime);
+		/*
+		 * Query by rowKey : appName-traceName-timestamp-ipAddress-******
+		 */
+		String startKey = appName + "-" + traceName + "-" + (Long.MAX_VALUE - endTime) + "-" + ipAddress;
+		String endKey = appName + "-" + traceName + "-" + (Long.MAX_VALUE - startTime) + "-" + ipAddress;
+		
+		/*
+		 * if ipAdress equals "All", remove ipAddress from query condition.
+		 */
+		if (ipAddress.equals("All")) {
+			/*
+			 * Query by rowKey : appName-traceName-timestamp-******
+			 */
+			startKey = appName + "-" + traceName + "-" + (Long.MAX_VALUE - endTime);
+			endKey = appName + "-" + traceName + "-" + (Long.MAX_VALUE - startTime);
+		}
 		
 		scan.setStartRow(Bytes.toBytes(startKey));
 		scan.setStopRow(Bytes.toBytes(endKey));

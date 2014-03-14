@@ -5,6 +5,12 @@ import com.codahale.metrics.jvm.GarbageCollectorMetricSet;
 import com.codahale.metrics.jvm.MemoryUsageGaugeSet;
 import com.codahale.metrics.jvm.ThreadStatesGaugeSet;
 
+/**
+ * JVM metrics
+ * 
+ * @author Xu Fei
+ * @version 1.0
+ */
 public class JVMMetrics {
 	
 	private static final MetricRegistry metrics = MetricsContainer.getMetricRegistry();

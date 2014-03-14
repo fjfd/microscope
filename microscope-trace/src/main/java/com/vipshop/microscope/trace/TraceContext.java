@@ -1,7 +1,7 @@
 package com.vipshop.microscope.trace;
 
 import com.vipshop.microscope.trace.span.SpanContext;
-import com.vipshop.microscope.trace.span.SpanId;
+import com.vipshop.microscope.trace.span.SpanID;
 
 /**
  * A context factory use for generate and deliver
@@ -119,11 +119,11 @@ public class TraceContext {
 		/*
 		 * If this is some part of exist trace.
 		 */
-		SpanId spanID = new SpanId();
+		SpanID spanID = new SpanID();
 		spanID.setTraceId(Long.valueOf(traceId));
 		spanID.setSpanId(Long.valueOf(spanId));
 		SpanContext context = new SpanContext(spanID);
-		context.setRootSpanFlagFalse();
+		context.setSubSpan();
 
 		Trace trace = new Trace(context);
 		TRACE.set(trace);
@@ -141,7 +141,7 @@ public class TraceContext {
 		if (TRACE.get() == null) {
 			return null;
 		}
-		SpanId spanID = TRACE.get().getSpanId();
+		SpanID spanID = TRACE.get().getSpanId();
 		return String.valueOf(spanID.getTraceId());
 	}
 	
@@ -154,7 +154,7 @@ public class TraceContext {
 		if (TRACE.get() == null) {
 			return null;
 		}
-		SpanId spanID = TRACE.get().getSpanId();
+		SpanID spanID = TRACE.get().getSpanId();
 		return String.valueOf(spanID.getSpanId());
 	}
 	

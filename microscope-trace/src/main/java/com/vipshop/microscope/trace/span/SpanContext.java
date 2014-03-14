@@ -37,10 +37,19 @@ public class SpanContext {
     /**
      * Store previous spanId info for spans share trace id.
      */
-    private SpanId currentSpanId;
+    private SpanID currentSpanID;
     
-    public SpanContext(SpanId spanId) {
-    	this.currentSpanId = spanId;
+    public SpanContext(SpanID spanId) {
+    	this.currentSpanID = spanId;
+    }
+    
+    /**
+     * Gets current {@code SpanID}.
+     * 
+     * @return
+     */
+    public SpanID getSpanID() {
+    	return currentSpanID;
     }
     
     /**
@@ -49,23 +58,20 @@ public class SpanContext {
      * @return trace id
      */
     public long getTraceId() {
-    	return currentSpanId.getTraceId();
-    }
-    
-    public SpanId getSpanId() {
-    	return currentSpanId;
+    	return currentSpanID.getTraceId();
     }
     
     /**
-     * Gets the span if of current span.
+     * Gets the current span id.
      * 
      * @return span id
      */
-    public long getCurrentSpanId() {
-    	if (currentSpan != null) {
-    		currentSpanId.setSpanId(currentSpan.getSpanId());
-		}
-    	return currentSpanId.getSpanId();
+    public long getSpanId() {
+    	return currentSpanID.getSpanId();
+    }
+    
+    public void setSpanId(long spanId) {
+    	this.currentSpanID.setSpanId(spanId);
     }
     
     /**
@@ -97,9 +103,9 @@ public class SpanContext {
     }
     
     /**
-     * set root span flag be false
+     * set span be sub.
      */
-    public void setRootSpanFlagFalse() {
+    public void setSubSpan() {
     	isRootSpan = false;
     }
 

@@ -3,10 +3,10 @@ package com.vipshop.microscope.trace.span;
 import java.util.UUID;
 
 /**
- * A {@code SpanId} represents one particular span identifier.
+ * A {@code SpanID} represents one particular span identifier.
  * 
  * <p>A {@code SpanId} includes: 1) trace id 
- *                  		     2) parent span id
+ *                  		     2) parent id
  *                  		     3) span id
  *                  		     4) flag
  *                               5) sampled
@@ -14,7 +14,7 @@ import java.util.UUID;
  * @version 1.0
  * 
  */
-public class SpanId {
+public class SpanID {
 	
 	/**
 	 * A UUID generator.
@@ -66,7 +66,7 @@ public class SpanId {
     /**
      * SpanId with new traceId
      */
-    public SpanId() {
+    public SpanID() {
         this.traceId = UUIDGenerator.createId();
     }
     
@@ -75,7 +75,7 @@ public class SpanId {
      * 
      * @param traceId deliver traceId.
      */
-    public SpanId(long traceId) {
+    public SpanID(long traceId) {
     	this.traceId = traceId;
     }
 
@@ -147,7 +147,7 @@ public class SpanId {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		SpanId other = (SpanId) obj;
+		SpanID other = (SpanID) obj;
 		if (flag != other.flag)
 			return false;
 		if (parentId == null) {
@@ -170,11 +170,11 @@ public class SpanId {
 	 */
 	@Override
 	public String toString() {
-		return "Span Identifier [traceId=" + traceId + ", " +
-				                "parentId=" + parentId + ", " +
-				                "spanId=" + spanId + ", " +
-				                "sampled=" + sampled + ", " +
-				                "flag=" + flag + "]";
+		return "Span Identifier [traceId="  + traceId   + ", " +
+				                "parentId=" + parentId  + ", " +
+				                "spanId="   + spanId    + ", " +
+				                "sampled="  + sampled   + ", " +
+				                "flag="     + flag      + "]";
 	}
 
 }

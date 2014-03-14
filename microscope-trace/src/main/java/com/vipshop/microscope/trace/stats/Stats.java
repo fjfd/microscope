@@ -2,6 +2,7 @@ package com.vipshop.microscope.trace.stats;
 
 import java.util.concurrent.TimeUnit;
 
+import com.codahale.metrics.Gauge;
 import com.codahale.metrics.MetricRegistry;
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.metrics.CounterMetrics;
@@ -9,6 +10,7 @@ import com.vipshop.microscope.trace.metrics.ExceptionMetrics;
 import com.vipshop.microscope.trace.metrics.JVMMetrics;
 import com.vipshop.microscope.trace.metrics.MetricsContainer;
 import com.vipshop.microscope.trace.metrics.MetricsReporter;
+import com.vipshop.microscope.trace.stoarge.StorageHolder;
 
 /**
  * Collect data API.
@@ -23,7 +25,7 @@ public class Stats {
 	static {
 		if (Tracer.isTraceEnable()) {
 			MetricsReporter reporter = MetricsReporter.forRegistry(metrics).build();
-			reporter.start(1, TimeUnit.SECONDS);
+			reporter.start(5, TimeUnit.SECONDS);
 		}
 	}
 	
@@ -131,6 +133,18 @@ public class Stats {
 	 */
 	public static void dec(Class<?> klass, String name, long n) {
 		CounterMetrics.getCounter(klass, name).dec();
+	}
+	
+	/**
+	 * Stats the size of client queue.
+	 */
+	public static void statsQueue() {
+		metrics.register(Tracer.APP_NAME + "-queue-size", new Gauge<Integer>() {
+			@Override
+			public Integer getValue() {
+				return StorageHolder.getStorage().size();
+			}
+		});
 	}
 
 }

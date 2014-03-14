@@ -3,7 +3,7 @@ package com.vipshop.microscope.trace;
 import com.vipshop.microscope.common.trace.Category;
 import com.vipshop.microscope.trace.span.SpanBuilder;
 import com.vipshop.microscope.trace.span.SpanContext;
-import com.vipshop.microscope.trace.span.SpanId;
+import com.vipshop.microscope.trace.span.SpanID;
 
 /**
  * Trace operations.
@@ -39,7 +39,7 @@ public class Trace {
 	 * 
 	 * @return
 	 */
-	SpanId getSpanId() {
+	SpanID getSpanId() {
 		return spanBuilder.getSpanId();
 	}
 	
