@@ -150,6 +150,36 @@ public class TracerTest {
 	}
 	
 	@Test
+	public void traceWMS20Example() throws InterruptedException {
+		Tracer.cleanContext();
+		for (int i = 0; i < 10; i++)  {
+			Tracer.cleanContext();
+			Tracer.clientSend("/vipshop_wms_inb/dwr/call/plaincall/BasItemService.loadByItemCode.dwr;jsessionid=678DD5EFB1DCBFFE6074A67C65C0A5EA-n2@Controller", Category.URL);
+			try {
+				TimeUnit.MILLISECONDS.sleep(1000);
+				Tracer.clientSend("getNew@newService", Category.Service);
+				TimeUnit.MILLISECONDS.sleep(400);
+				Tracer.clientSend("get@DB", Category.DB);
+				TimeUnit.MILLISECONDS.sleep(100);
+				Tracer.clientReceive();
+				Tracer.clientReceive();
+				
+				Tracer.clientSend("buyNew@buyService", Category.Service);
+				TimeUnit.MILLISECONDS.sleep(200);
+				Tracer.clientSend("buy@Cache", Category.Cache);
+				TimeUnit.MILLISECONDS.sleep(10);
+				Tracer.clientReceive();
+				Tracer.clientReceive();
+			} catch (Exception e) {
+				Tracer.setResultCode(e);
+			} finally {
+				Tracer.clientReceive();
+			}
+		}
+		TimeUnit.SECONDS.sleep(1);
+	}
+	
+	@Test
 	public void traceUserInfoExample1() throws InterruptedException {
 		Tracer.cleanContext();
 		for (int i = 0; i < 10; i++)  {
