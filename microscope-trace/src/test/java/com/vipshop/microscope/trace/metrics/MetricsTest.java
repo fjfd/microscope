@@ -6,15 +6,14 @@ import java.util.concurrent.TimeUnit;
 
 import org.testng.annotations.Test;
 
-
-public class StatsTest {
+public class MetricsTest {
 	
 	@Test
     public void testCounter() throws InterruptedException {
 		Queue<String> queue = new LinkedList<String>();
         while(true){
             queue.add("1");
-            MetricsStats.inc(StatsTest.class, "queue-size");
+            MetricsStats.inc(MetricsTest.class, "queue-size");
             Thread.sleep(1000);
         }
     }

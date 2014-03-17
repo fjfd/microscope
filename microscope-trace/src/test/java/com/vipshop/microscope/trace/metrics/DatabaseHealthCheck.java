@@ -11,6 +11,7 @@ import java.util.Random;
  * Time: 9:57
  */
 public class DatabaseHealthCheck extends HealthCheck{
+	
     private final Database database;
 
     public DatabaseHealthCheck(Database database) {
