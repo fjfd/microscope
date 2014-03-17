@@ -1,5 +1,6 @@
 package com.vipshop.microscope.collector.consumer;
 
+import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 
 import org.slf4j.Logger;
@@ -161,7 +162,7 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 	 * @param msg
 	 */
 	private void publishMetrics(String msg) {
-		String metrics = Codec.decodeToString(msg);
+		HashMap<String, Object> metrics = Codec.decodeToMap(msg);
 		if (start && metrics != null) {
 			
 			/*

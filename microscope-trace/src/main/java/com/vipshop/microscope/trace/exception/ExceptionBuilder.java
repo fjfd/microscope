@@ -1,4 +1,4 @@
-package com.vipshop.microscope.trace.metrics;
+package com.vipshop.microscope.trace.exception;
 
 import java.util.HashMap;
 
@@ -16,7 +16,7 @@ import com.vipshop.microscope.trace.stoarge.StorageHolder;
  * @author Xu Fei
  * @version 1.0
  */
-public class ExceptionMetrics {
+public class ExceptionBuilder {
 	
 	private static final Storage storage = StorageHolder.getStorage();
 	

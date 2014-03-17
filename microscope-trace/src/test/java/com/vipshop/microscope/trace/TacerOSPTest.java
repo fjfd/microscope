@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 import com.vipshop.microscope.common.trace.Category;
 import com.vipshop.microscope.trace.Tracer;
 
-public class OSPTacerTest {
+public class TacerOSPTest {
 	static class TaskB implements Runnable{
 		CountDownLatch taskBCountDownLatch = null;
 		String traceId;

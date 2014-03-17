@@ -3,10 +3,10 @@ package com.vipshop.microscope.trace.span;
 import java.util.UUID;
 
 /**
- * A {@code SpanID} represents one particular span identifier.
+ * A {@code SpanID} represents a particular span identifier.
  * 
- * <p>A {@code SpanId} includes: 1) trace id 
- *                  		     2) parent id
+ * <p>A {@code SpanID} includes: 1) trace id 
+ *                  		     2) parent span id
  *                  		     3) span id
  *                  		     4) flag
  *                               5) sampled
@@ -52,16 +52,16 @@ public class SpanID {
     private long spanId;
     
     /**
-     * a boolean flag tells whether 
-     * sample or not sample this span
-     */
-    private boolean sampled;
-    
-    /**
      * a int flag used in debug mode to 
      * turn tracing function on/off.
      */
     private int flag;
+    
+    /**
+     * a boolean flag tells whether 
+     * sample or not sample this span
+     */
+    private boolean sampled;
     
     /**
      * SpanId with new traceId
@@ -170,11 +170,11 @@ public class SpanID {
 	 */
 	@Override
 	public String toString() {
-		return "Span Identifier [traceId="  + traceId   + ", " +
-				                "parentId=" + parentId  + ", " +
-				                "spanId="   + spanId    + ", " +
-				                "sampled="  + sampled   + ", " +
-				                "flag="     + flag      + "]";
+		return "Span Identifier [traceId=" + traceId + ", " +
+				                "parentId=" + parentId + ", " +
+				                "spanId=" + spanId + ", " +
+				                "sampled=" + sampled + ", " +
+				                "flag=" + flag + "]";
 	}
 
 }

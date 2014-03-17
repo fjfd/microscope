@@ -89,16 +89,49 @@ public class ArrayBlockingQueueStorage implements Storage {
 	 */
 	@SuppressWarnings("rawtypes")
 	public void addGauge(SortedMap<String, Gauge> gauges, long date) {
-		StringBuilder builder = new StringBuilder();
-		builder.append("gauge:");
-		builder.append("date=").append(date).append(":");
+//		StringBuilder builder = new StringBuilder();
+//		builder.append("gauge:");
+//		builder.append("date=").append(date).append(":");
+//		for (Entry<String, Gauge> entry : gauges.entrySet()) {
+//			builder.append(entry.getKey()).append("=");
+//			builder.append(entry.getValue().getValue()).append(":");
+//		}
+//		
+//		String gauge = builder.toString();
+//		add(gauge.substring(0, gauge.length() - 1));
+		
+		HashMap<String, Object> threadMetrics = new HashMap<String, Object>();
+		HashMap<String, Object> memoryMetrics = new HashMap<String, Object>();
+		HashMap<String, Object> gcMetrics = new HashMap<String, Object>();
+		
+		threadMetrics.put("type", "thread");
+		threadMetrics.put("date", date);
+		
+		memoryMetrics.put("type", "memory");
+		memoryMetrics.put("date", date);
+		
+		gcMetrics.put("type", "gc");
+		gcMetrics.put("date", date);
+		
 		for (Entry<String, Gauge> entry : gauges.entrySet()) {
-			builder.append(entry.getKey()).append("=");
-			builder.append(entry.getValue().getValue()).append(":");
+			if (entry.getKey().startsWith("Thread")) {
+				threadMetrics.put(entry.getKey(), entry.getValue().getValue());
+				continue;
+			}
+			
+			if (entry.getKey().startsWith("Thread")) {
+				threadMetrics.put(entry.getKey(), entry.getValue().getValue());
+				continue;
+			}
+			if (entry.getKey().startsWith("Thread")) {
+				threadMetrics.put(entry.getKey(), entry.getValue().getValue());
+				continue;
+			}
 		}
 		
-		String gauge = builder.toString();
-		add(gauge.substring(0, gauge.length() - 1));
+		add(threadMetrics);
+		add(memoryMetrics);
+		add(gcMetrics);
 			   
 	}
 	
@@ -164,16 +197,15 @@ public class ArrayBlockingQueueStorage implements Storage {
 	 * 
 	 * @param msg
 	 */
-	public void add(String msg) {
-		boolean isFull = !queue.offer(msg);
+	public void add(Object object) {
+		boolean isFull = !queue.offer(object);
 		
 		if (isFull) {
 			queue.clear();
 			logger.info("client queue is full, clean queue now");
 		}
-
 	}
-
+	
 	/**
 	 * Add LogEntry to queue.
 	 * 
@@ -209,8 +241,9 @@ public class ArrayBlockingQueueStorage implements Storage {
 			return logEntry;
 		}
 		
-		if (object instanceof String) {
-			LogEntry logEntry = Codec.encodeToLogEntry((String)object);
+		if (object instanceof HashMap) {
+			@SuppressWarnings("unchecked")
+			LogEntry logEntry = Codec.encodeToLogEntry((HashMap<String, Object>)object);
 			return logEntry;
 		}
 		

@@ -1,10 +1,12 @@
 package com.vipshop.microscope.collector.validater;
 
+import java.util.HashMap;
+
 public class MetricsMessageValidater {
 
-	public String validate(String msg) {
+	public HashMap<String, Object> validate(HashMap<String, Object> metrics) {
 		// TODO Auto-generated method stub
-		return msg;
+		return metrics;
 	}
 
 }

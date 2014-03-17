@@ -123,7 +123,7 @@ public class TraceContext {
 		spanID.setTraceId(Long.valueOf(traceId));
 		spanID.setSpanId(Long.valueOf(spanId));
 		SpanContext context = new SpanContext(spanID);
-		context.setSubSpan();
+		context.setRootSpanFlagFalse();
 
 		Trace trace = new Trace(context);
 		TRACE.set(trace);

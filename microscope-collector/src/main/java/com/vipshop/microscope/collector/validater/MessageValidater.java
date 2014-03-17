@@ -1,5 +1,7 @@
 package com.vipshop.microscope.collector.validater;
 
+import java.util.HashMap;
+
 import com.vipshop.microscope.common.trace.Span;
 
 /**
@@ -27,7 +29,7 @@ public class MessageValidater {
 		return traceMessageValidater.validate(span);
 	}
 	
-	public String validateMessage(String msg) {
-		return metricsMessageValidater.validate(msg);
+	public HashMap<String, Object> validateMessage(HashMap<String, Object> metrics) {
+		return metricsMessageValidater.validate(metrics);
 	}
 }

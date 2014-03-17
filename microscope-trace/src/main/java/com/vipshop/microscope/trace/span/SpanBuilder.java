@@ -13,16 +13,13 @@ import com.vipshop.microscope.trace.stoarge.StorageHolder;
 
 /**
  * A {@code SpanBuilder} responsible for build
- * span and store span to {@code Storage}.
+ * span and store span to {@code MessageQueue}.
  * 
  * @author Xu Fei
  * @version 1.0
  */
 public class SpanBuilder {
 	
-	/**
-	 * Store span
-	 */
 	private final Storage storage = StorageHolder.getStorage();
 	
 	/**
@@ -35,29 +32,16 @@ public class SpanBuilder {
      */
     private final Stack<Span> spanStack;
     
-    /**
-     * Default SpanBuilder
-     */
 	public SpanBuilder() {
 		this.spanContext = new SpanContext(new SpanID());
 		this.spanStack = new Stack<Span>();
 	} 
     
-	/**
-	 * Cross JVM SpanBuilder
-	 * 
-	 * @param spanContext
-	 */
 	public SpanBuilder(SpanContext spanContext) {
 		this.spanContext = spanContext;
 		this.spanStack = new Stack<Span>();
 	}
 	
-	/**
-	 * Return current {@code SpanID}.
-	 * 
-	 * @return
-	 */
 	public SpanID getSpanId() {
 		return spanContext.getSpanID();
 	}
@@ -86,37 +70,25 @@ public class SpanBuilder {
 		span.setStartTime(System.currentTimeMillis());
 		span.setResultCode(Tracer.OK);
 		
-		// if this is a root span
+		/*
+		 * The topmost span in a trace has its span id 
+		 * equal to trace id and parent span id is null.
+		 */
 		if (spanContext.isRootSpan()) {
-			/*
-			 * set parentId = 0
-			 */
+			// set span id equal to trace id for top span.
 			span.setParentId(0);
-			
-			/* 
-			 * set spanId = traceId
-			 */
 			span.setSpanId(spanContext.getTraceId());
 			
-			/*
-			 * set spanId in spanContext
-			 */
 			spanContext.setSpanId(spanContext.getTraceId());
-			/*
-			 * make top span flag to be false.
-			 */
-			spanContext.setSubSpan();
+			// make top span flag to be false.
+			spanContext.setRootSpanFlagFalse();
 		} else {
-			//if this is a sub span.
-			
 			/*
-			 * set parentId = parent's spanId
+			 * if this coming span is a sub span.
+			 * create a new span id
+			 * set the parent span id
 			 */
 			span.setParentId(spanContext.getSpanId());
-			
-			/*
-			 * set new spanId 
-			 */
 			long spanId = SpanID.createId();
 			span.setSpanId(spanId);
 			spanContext.setSpanId(spanId);
@@ -145,38 +117,25 @@ public class SpanBuilder {
 		span.setResultCode(Tracer.OK);
 		span.setServerName(service);
 		span.setServerIp(service);
-		
-		// if this is a root span
+		/*
+		 * The topmost span in a trace has its span id 
+		 * equal to trace id and parent span id is null.
+		 */
 		if (spanContext.isRootSpan()) {
-			/*
-			 * set parentId = 0
-			 */
+			// set span id equal to trace id for top span.
 			span.setParentId(0);
-			
-			/* 
-			 * set spanId = traceId
-			 */
 			span.setSpanId(spanContext.getTraceId());
 			
-			/*
-			 * set spanId in spanContext
-			 */
 			spanContext.setSpanId(spanContext.getTraceId());
-			/*
-			 * make top span flag to be false.
-			 */
-			spanContext.setSubSpan();
+			// make top span flag to be false.
+			spanContext.setRootSpanFlagFalse();
 		} else {
-			//if this is a sub span.
-			
 			/*
-			 * set parentId = parent's spanId
+			 * if this coming span is a sub span.
+			 * create a new span id 
+			 * set the parent span id
 			 */
 			span.setParentId(spanContext.getSpanId());
-			
-			/*
-			 * set new spanId 
-			 */
 			long spanId = SpanID.createId();
 			span.setSpanId(spanId);
 			spanContext.setSpanId(spanId);

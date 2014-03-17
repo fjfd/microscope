@@ -3,10 +3,9 @@ package com.vipshop.microscope.trace.span;
 import com.vipshop.microscope.common.trace.Span;
 
 /**
- * A helper class when process a trace.
+ * A helper class use for propagate {@code SpanID} in {@code Thread}.
  * 
- * <p>In a trace process, we have spans, the problems
- * we may have as follow:
+ * <p>In a trace process, there are some questions:
  * 
  * <pre>
  * 1) how to decide the span is root span or sub span?
@@ -39,17 +38,13 @@ public class SpanContext {
      */
     private SpanID currentSpanID;
     
-    public SpanContext(SpanID spanId) {
-    	this.currentSpanID = spanId;
-    }
-    
     /**
-     * Gets current {@code SpanID}.
+     * Create new SpanContext
      * 
-     * @return
+     * @param spanID
      */
-    public SpanID getSpanID() {
-    	return currentSpanID;
+    public SpanContext(SpanID spanID) {
+    	this.currentSpanID = spanID;
     }
     
     /**
@@ -67,20 +62,30 @@ public class SpanContext {
      * @return span id
      */
     public long getSpanId() {
+    	if (currentSpan != null) {
+    		currentSpanID.setSpanId(currentSpan.getSpanId());
+    	}
     	return currentSpanID.getSpanId();
     }
     
     public void setSpanId(long spanId) {
-    	this.currentSpanID.setSpanId(spanId);
+    	currentSpanID.setSpanId(spanId);
     }
     
+    public SpanID getSpanID() {
+    	return currentSpanID;
+    }
+    
+    
     /**
-     * Set current span, and put span 
-     * to {@code spanStack}.
+     * Set current {@code Span} {@code SpanID}
      * 
      * @param span span object
      */
     public void setCurrentSpan(Span span) {
+    	if (span != null) {
+    		currentSpanID.setSpanId(span.getSpanId());
+    	}
     	this.currentSpan = span;
     }
     
@@ -103,9 +108,9 @@ public class SpanContext {
     }
     
     /**
-     * set span be sub.
+     * set root span flag be false
      */
-    public void setSubSpan() {
+    public void setRootSpanFlagFalse() {
     	isRootSpan = false;
     }
 
