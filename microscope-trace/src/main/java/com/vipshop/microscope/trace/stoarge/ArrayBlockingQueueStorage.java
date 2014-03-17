@@ -14,7 +14,6 @@ import com.codahale.metrics.Counter;
 import com.codahale.metrics.Gauge;
 import com.codahale.metrics.Histogram;
 import com.codahale.metrics.Meter;
-import com.codahale.metrics.Snapshot;
 import com.codahale.metrics.Timer;
 import com.vipshop.microscope.common.logentry.Codec;
 import com.vipshop.microscope.common.logentry.LogEntry;
@@ -56,17 +55,13 @@ public class ArrayBlockingQueueStorage implements Storage {
 	 * @param date
 	 */
 	public void addCounter(SortedMap<String, Counter> counters, long date) {
-		StringBuilder builder = new StringBuilder();
-		builder.append("counter:");
-		builder.append("date=").append(date).append(":");
+		HashMap<String, Object> metrics = new HashMap<String, Object>();
+		metrics.put("type", "counter");
+		metrics.put("date", date);
 		for (Entry<String, Counter> entry : counters.entrySet()) {
-			builder.append(entry.getKey()).append("=");
-			builder.append(entry.getValue().getCount()).append(":");
+			metrics.put(entry.getKey(), entry.getValue().getCount());
 		}
-		
-		String counter = builder.toString();
-		add(counter.substring(0, counter.length() - 1));
-			   
+		add(metrics);
 	}
 	
 	/**
@@ -74,17 +69,6 @@ public class ArrayBlockingQueueStorage implements Storage {
 	 */
 	@SuppressWarnings("rawtypes")
 	public void addGauge(SortedMap<String, Gauge> gauges, long date) {
-//		StringBuilder builder = new StringBuilder();
-//		builder.append("gauge:");
-//		builder.append("date=").append(date).append(":");
-//		for (Entry<String, Gauge> entry : gauges.entrySet()) {
-//			builder.append(entry.getKey()).append("=");
-//			builder.append(entry.getValue().getValue()).append(":");
-//		}
-//		
-//		String gauge = builder.toString();
-//		add(gauge.substring(0, gauge.length() - 1));
-		
 		HashMap<String, Object> threadMetrics = new HashMap<String, Object>();
 		HashMap<String, Object> memoryMetrics = new HashMap<String, Object>();
 		HashMap<String, Object> gcMetrics = new HashMap<String, Object>();
@@ -124,57 +108,39 @@ public class ArrayBlockingQueueStorage implements Storage {
 	 * Add histogram metrics
 	 */
 	public void addHistogram(SortedMap<String, Histogram> histograms, long date) {
-		StringBuilder builder = new StringBuilder();
-		builder.append("histogram:");
-		builder.append("date=").append(date).append(":");
+		HashMap<String, Object> metrics = new HashMap<String, Object>();
+		metrics.put("type", "histogram");
+		metrics.put("date", date);
 		for (Map.Entry<String, Histogram> entry : histograms.entrySet()) {
-			builder.append(entry.getKey()).append("=");
-			
-			Histogram histogram = entry.getValue();
-			Snapshot snapshot = histogram.getSnapshot();
-			StringBuilder hBuilder = new StringBuilder();
-			hBuilder.append("count;").append(histogram.getCount()).append(";");
-			hBuilder.append("min;").append(snapshot.getMin()).append(";");
-			hBuilder.append("max;").append(snapshot.getMax()).append(";");
-			hBuilder.append("mean;").append(snapshot.getMean()).append(";");
-			hBuilder.append("stddev;").append(snapshot.getStdDev()).append(";");
-			hBuilder.append("median;").append(snapshot.getMedian()).append(";");
-			hBuilder.append("75%%;").append(snapshot.get75thPercentile()).append(";");
-			hBuilder.append("95%%;").append(snapshot.get95thPercentile()).append(";");
-			hBuilder.append("98%%;").append(snapshot.get98thPercentile()).append(";");
-			hBuilder.append("99%%;").append(snapshot.get99thPercentile()).append(";");
-			hBuilder.append("99.9%%;").append(snapshot.get999thPercentile()).append(";");
-			builder.append(hBuilder.toString()).append(":");
+			metrics.put(entry.getKey(), entry.getValue().getSnapshot());
 		}
-		
-		String histogram = builder.toString();
-		add(histogram.substring(0, histogram.length() - 1));
+		add(metrics);
 	}
 	
 	/**
 	 * Add meter metrics.
 	 */
 	public void addMeter(SortedMap<String, Meter> meters, long date) {
-		StringBuilder builder = new StringBuilder();
-		builder.append("meter:");
-		builder.append("date=").append(date).append(":");
+		HashMap<String, Object> metrics = new HashMap<String, Object>();
+		metrics.put("type", "meter");
+		metrics.put("date", date);
 		for (Map.Entry<String, Meter> entry : meters.entrySet()) {
-			builder.append(entry.getKey()).append("=");
+			metrics.put(entry.getKey(), entry.getValue());
 		}
-		
-		String meter = builder.toString();
-		add(meter.substring(0, meter.length() - 1));
+		add(metrics);
 	}
 	
 	/**
 	 * Add timer metrics
 	 */
 	public void addTimer(SortedMap<String, Timer> timers, long date) {
-		StringBuilder builder = new StringBuilder();
-		builder.append("timer:");
-		
-		String timer = builder.toString();
-		add(timer.substring(0, timer.length() - 1));
+		HashMap<String, Object> metrics = new HashMap<String, Object>();
+		metrics.put("type", "timer");
+		metrics.put("date", date);
+		for (Map.Entry<String, Timer> entry : timers.entrySet()) {
+			metrics.put(entry.getKey(), entry.getValue().getSnapshot());
+		}
+		add(metrics);
 	}
 	
 	/**
