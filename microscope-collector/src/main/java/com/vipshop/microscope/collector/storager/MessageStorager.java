@@ -54,4 +54,8 @@ public class MessageStorager {
 		storageRepository.save(map);
 	}
 	
+	public void storage() {
+		
+	}
+	
 }

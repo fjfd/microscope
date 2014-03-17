@@ -9,15 +9,8 @@ import com.codahale.metrics.Histogram;
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.Timer;
 import com.vipshop.microscope.common.logentry.LogEntry;
-import com.vipshop.microscope.common.trace.Span;
 
 public class NonBlockingQueueStorage implements Storage {
-
-	@Override
-	public void addSpan(Span span) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void addException(HashMap<String, Object> map) {
@@ -57,7 +50,7 @@ public class NonBlockingQueueStorage implements Storage {
 	}
 
 	@Override
-	public void add(LogEntry logEntry) {
+	public void add(Object object) {
 		// TODO Auto-generated method stub
 		
 	}

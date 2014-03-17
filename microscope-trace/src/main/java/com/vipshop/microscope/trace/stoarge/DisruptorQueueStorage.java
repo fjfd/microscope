@@ -16,7 +16,6 @@ import com.lmax.disruptor.RingBuffer;
 import com.lmax.disruptor.SequenceBarrier;
 import com.lmax.disruptor.SleepingWaitStrategy;
 import com.vipshop.microscope.common.logentry.LogEntry;
-import com.vipshop.microscope.common.trace.Span;
 import com.vipshop.microscope.common.util.ThreadPoolUtil;
 import com.vipshop.microscope.trace.transport.Transporter;
 
@@ -63,8 +62,6 @@ public class DisruptorQueueStorage implements Storage, Transporter {
 	
 	private final int LOGENTRY_BUFFER_SIZE = 1024 * 8 * 1 * 1;
 	
-	private volatile boolean start = false;
-	
 	/**
 	 * LogEntry RingBuffer
 	 */
@@ -76,13 +73,6 @@ public class DisruptorQueueStorage implements Storage, Transporter {
 		this.logEntryRingBuffer = RingBuffer.createSingleProducer(LogEntryEvent.EVENT_FACTORY, LOGENTRY_BUFFER_SIZE, new SleepingWaitStrategy());
 		this.logEntrySequenceBarrier = logEntryRingBuffer.newBarrier();
 		this.logEntryEventProcessor = new BatchEventProcessor<LogEntryEvent>(logEntryRingBuffer, logEntrySequenceBarrier, new LogEntryEventHandler());
-		this.start = true;
-	}
-
-	@Override
-	public void addSpan(Span span) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -123,15 +113,6 @@ public class DisruptorQueueStorage implements Storage, Transporter {
 	}
 
 	@Override
-	public void add(LogEntry logEntry) {
-		if (start && logEntry != null) {
-			long sequence = this.logEntryRingBuffer.next();
-			this.logEntryRingBuffer.get(sequence).setLogEntry(logEntry);
-			this.logEntryRingBuffer.publish(sequence);
-		}
-	}
-
-	@Override
 	public LogEntry poll() {
 		// TODO Auto-generated method stub
 		return null;
@@ -147,6 +128,12 @@ public class DisruptorQueueStorage implements Storage, Transporter {
 	public void transport() {
 		ExecutorService logEntryExecutor = ThreadPoolUtil.newSingleDaemonThreadExecutor("disruptor-transporter");
 		logEntryExecutor.execute(this.logEntryEventProcessor);
+	}
+
+	@Override
+	public void add(Object object) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

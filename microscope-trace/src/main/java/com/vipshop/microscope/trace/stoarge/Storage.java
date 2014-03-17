@@ -9,7 +9,6 @@ import com.codahale.metrics.Histogram;
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.Timer;
 import com.vipshop.microscope.common.logentry.LogEntry;
-import com.vipshop.microscope.common.trace.Span;
 
 /**
  * Storge metrics in client queue.
@@ -18,13 +17,6 @@ import com.vipshop.microscope.common.trace.Span;
  * @version 1.0
  */
 public interface Storage {
-	
-	/**
-	 * Trace metrics
-	 * 
-	 * @param span
-	 */
-	public void addSpan(Span span);
 	
 	/**
 	 * Exception metrics
@@ -75,11 +67,11 @@ public interface Storage {
 	public void addTimer(SortedMap<String, Timer> timers, long date);
 	
 	/**
-	 * Put LogEntry to queue
+	 * Put object to queue
 	 * 
 	 * @param logEntry
 	 */
-	public void add(LogEntry logEntry);
+	public void add(Object object);
 
 	/**
 	 * Get LogEntry from queue

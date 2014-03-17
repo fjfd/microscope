@@ -10,6 +10,8 @@ import com.lmax.disruptor.BatchEventProcessor;
 import com.lmax.disruptor.RingBuffer;
 import com.lmax.disruptor.SequenceBarrier;
 import com.lmax.disruptor.SleepingWaitStrategy;
+import com.vipshop.microscope.collector.disruptor.ExceptionEvent;
+import com.vipshop.microscope.collector.disruptor.ExceptionStorageHandler;
 import com.vipshop.microscope.collector.disruptor.MetricsAlertHandler;
 import com.vipshop.microscope.collector.disruptor.MetricsAnalyzeHandler;
 import com.vipshop.microscope.collector.disruptor.MetricsEvent;
@@ -37,6 +39,7 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 
 	private final int TRACE_BUFFER_SIZE   = 1024 * 8 * 8 * 4;
 	private final int METRICS_BUFFER_SIZE = 1024 * 8 * 8 * 4;
+	private final int EXCEP_BUFFER_SIZE   = 1024 * 1 * 1 * 1;
 	
 	private volatile boolean start = false;
 	
@@ -59,6 +62,13 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 	private final BatchEventProcessor<MetricsEvent> metricsStorageEventProcessor;
 	
 	/**
+	 * Exception RingBuffer
+	 */
+	private final RingBuffer<ExceptionEvent> excepRingBuffer;
+	private final SequenceBarrier excepSequenceBarrier;
+	private final BatchEventProcessor<ExceptionEvent> excepStorageEventProcessor;
+
+	/**
 	 * Construct DisruptorMessageConsumer
 	 */
 	public DisruptorMessageConsumer() {
@@ -79,6 +89,11 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 		this.metricsRingBuffer.addGatingSequences(metricsAlertEventProcessor.getSequence());
 		this.metricsRingBuffer.addGatingSequences(metricsAnalyzeEventProcessor.getSequence());
 		this.metricsRingBuffer.addGatingSequences(metricsStorageEventProcessor.getSequence());
+		
+		this.excepRingBuffer = RingBuffer.createSingleProducer(ExceptionEvent.EVENT_FACTORY, EXCEP_BUFFER_SIZE, new SleepingWaitStrategy());
+		this.excepSequenceBarrier = excepRingBuffer.newBarrier();
+		this.excepStorageEventProcessor = new BatchEventProcessor<ExceptionEvent>(excepRingBuffer, excepSequenceBarrier, new ExceptionStorageHandler());
+		this.excepRingBuffer.addGatingSequences(excepStorageEventProcessor.getSequence());
 	}
 	
 	/**
@@ -111,6 +126,10 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 		logger.info("start metrics store thread");
 		ExecutorService metricsStoreExecutor = ThreadPoolUtil.newSingleThreadExecutor("metrics-store-pool");
 		metricsStoreExecutor.execute(this.metricsStorageEventProcessor);
+
+		logger.info("start excep store thread");
+		ExecutorService excepStoreExecutor = ThreadPoolUtil.newSingleThreadExecutor("excep-store-pool");
+		excepStoreExecutor.execute(this.excepStorageEventProcessor);
 		
 		start = true;
 	}
@@ -130,6 +149,11 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 		// handle metrics message
 		if (category.equals(LogEntryCategory.METRICS)){
 			publishMetrics(logEntry.getMessage());
+		}
+		
+		// handle exception message
+		if (category.equals(LogEntryCategory.EXCEP)) {
+			publishException(logEntry.getMessage());
 		}
 	}
 	
@@ -162,7 +186,15 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 	 * @param msg
 	 */
 	private void publishMetrics(String msg) {
-		HashMap<String, Object> metrics = Codec.decodeToMap(msg);
+		HashMap<String, Object> metrics = null;
+		try {
+			metrics = Codec.decodeToMap(msg);
+		} catch (Exception e) {
+			// compatible client code before version 1.3.4 
+			publishException(msg);
+			return;
+		}
+		
 		if (start && metrics != null) {
 			
 			/*
@@ -178,6 +210,22 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 			this.metricsRingBuffer.publish(sequence);
 		}
 	}
+	
+	/**
+	 * Publish exception to {@code ExcepRingBuffer}.
+	 * 
+	 * @param message
+	 */
+	private void publishException(String message) {
+		String exception = Codec.decodeToString(message);
+		if (start && exception != null) {
+			long sequence = this.excepRingBuffer.next();
+			this.excepRingBuffer.get(sequence).setResult(exception);
+			this.excepRingBuffer.publish(sequence);
+		}
+		
+	}
+
 	
 	/**
 	 * Stop all event processors.
@@ -198,6 +246,11 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 		metricsAlertEventProcessor.halt();
 		metricsAnalyzeEventProcessor.halt();
 		metricsStorageEventProcessor.halt();
+		
+		/*
+		 * close exception process thread 
+		 */
+		excepStorageEventProcessor.halt();
 	}
 
 }

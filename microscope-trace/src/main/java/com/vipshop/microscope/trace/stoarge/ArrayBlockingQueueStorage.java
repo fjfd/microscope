@@ -39,21 +39,6 @@ public class ArrayBlockingQueueStorage implements Storage {
 	ArrayBlockingQueueStorage() {}
 
 	/**
-	 * Add span metrics.
-	 * 
-	 * @param span
-	 */
-	public void addSpan(Span span) {
-		boolean isFull = !queue.offer(span);
-		
-		if (isFull) {
-			queue.clear();
-			logger.info("client queue is full, clean queue now");
-		}
-
-	}
-	
-	/**
 	 * Add exception metrics.
 	 * 
 	 */
@@ -207,27 +192,6 @@ public class ArrayBlockingQueueStorage implements Storage {
 	}
 	
 	/**
-	 * Add LogEntry to queue.
-	 * 
-	 * If client queue is full, empty queue.
-	 * 
-	 * @param span {@link Span}
-	 */
-	@Deprecated
-	public void add(LogEntry logEntry) { 
-		if (logEntry == null) {
-			return;
-		}
-		
-		boolean isFull = !queue.offer(logEntry);
-		
-		if (isFull) {
-			queue.clear();
-			logger.info("client queue is full, clean queue now");
-		}
-	}
-	
-	/**
 	 * Get logEntry from queue.
 	 * 
 	 * @return {@link Span}
@@ -244,6 +208,11 @@ public class ArrayBlockingQueueStorage implements Storage {
 		if (object instanceof HashMap) {
 			@SuppressWarnings("unchecked")
 			LogEntry logEntry = Codec.encodeToLogEntry((HashMap<String, Object>)object);
+			return logEntry;
+		}
+		
+		if (object instanceof String) {
+			LogEntry logEntry = Codec.encodeToLogEntry((String)object);
 			return logEntry;
 		}
 		
