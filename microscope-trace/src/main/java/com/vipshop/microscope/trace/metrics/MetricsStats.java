@@ -112,7 +112,7 @@ public class MetricsStats {
 	}
 
 	/**
-	 * Decrement the counter by one.
+	 * Decrement the counter by n.
 	 * 
 	 * @param klass
 	 *            class name
