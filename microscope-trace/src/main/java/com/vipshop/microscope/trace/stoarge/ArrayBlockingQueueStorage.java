@@ -42,10 +42,10 @@ public class ArrayBlockingQueueStorage implements Storage {
 	 * 
 	 */
 	public void addException(HashMap<String, Object> map) {
-		StringBuilder builder = new StringBuilder();
-		builder.append("exception:");
-		builder.append("stack=").append(LogEntryCodec.encodeToString(map));
-		add(builder.toString());
+		HashMap<String, Object> metrics = new HashMap<String, Object>();
+		metrics.put("type", "exception");
+		metrics.put("stack", map);
+		add(metrics);
 	}
 	
 	/**
@@ -173,11 +173,6 @@ public class ArrayBlockingQueueStorage implements Storage {
 		if (object instanceof HashMap) {
 			@SuppressWarnings("unchecked")
 			LogEntry logEntry = LogEntryCodec.encodeToLogEntry((HashMap<String, Object>)object);
-			return logEntry;
-		}
-		
-		if (object instanceof String) {
-			LogEntry logEntry = LogEntryCodec.encodeToLogEntry((String)object);
 			return logEntry;
 		}
 		

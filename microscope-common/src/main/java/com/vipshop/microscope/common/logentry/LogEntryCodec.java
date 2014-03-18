@@ -109,31 +109,4 @@ public class LogEntryCodec {
 		return map;
 	}
 
-	//************************  string to logEntry  ***************************//
-	
-	/**
-	 * Encode string to {@code LogEntry}.
-	 * 
-	 * @param msg
-	 * @return
-	 */
-	public static LogEntry encodeToLogEntry(String msg) {
-		byte[] bytes = SerializationUtils.serialize(msg);
-		String message = Base64.encodeBase64String(bytes);
-		LogEntry logEntry = new LogEntry(LogEntryCategory.EXCEP, message);
-		return logEntry;
-	}
-	
-	/**
-	 * Decode string to string.
-	 * 
-	 * @param msg
-	 * @return
-	 */
-	public static String decodeToString(String msg) {
-		byte[] bytes = Base64.decodeBase64(msg);
-		String result = (String) SerializationUtils.deserialize(bytes);
-		return result;
-	}
-	
 }

@@ -1,29 +1,27 @@
-#!/bin/sh
+#! /bin/bash
 
-JVM_OPTIONS="-server 
-             -Xmx8000M 
-			 -Xms8000M 
-			 -Xmn3000M 
-			 -XX:PermSize=500M 
-			 -XX:MaxPermSize=500M 
-			 -Xss256K 
-			 -XX:+DisableExplicitGC  
-			 -XX:SurvivorRatio=8
-			 -XX:+UseConcMarkSweepGC  
-			 -XX:+UseParNewGC  
-			 -XX:+CMSParallelRemarkEnabled  
-			 -XX:+UseCMSCompactAtFullCollection  
-			 -XX:CMSFullGCsBeforeCompaction=0 
-			 -XX:+CMSClassUnloadingEnabled  
-			 -XX:LargePageSizeInBytes=128M  
-			 -XX:+UseFastAccessorMethods  
-			 -XX:+UseCMSInitiatingOccupancyOnly  
-			 -XX:CMSInitiatingOccupancyFraction=70 
-			 -XX:SoftRefLRUPolicyMSPerMB=0 
-			 -XX:+PrintClassHistogram  
-			 -XX:+PrintGCDetails  
-			 -XX:+PrintGCTimeStamps  
-			 -XX:+PrintHeapAtGC  
-             -Xloggc:./log/gc.log"; 
-             
-nohup java $JVM_OPTIONS -Dport=8888 -jar microscope-query-1.1.3.jar &
+source /etc/profile
+lockfile=/apps/svr/microscope-publish/.lock
+function restart()
+{
+  ps -ef | grep microscope-query-  | grep -v grep  | awk '{print $2}'| xargs kill
+  sleep 5
+  still=`ps -ef  | grep -v grep | grep -c microscope-query-`
+  if [ $still -ne 0 ];then
+        echo "[WARN]$(date) microscope-query is still running after killed 5 seconds. kill -9 is running"
+        ps -ef | grep microscope-query-  | grep -v grep  | awk '{print $2}'| xargs kill -9
+        rm -f ${lockfile}
+  fi
+  echo "[INFO]$(date) starting microscope-query"
+  mv nohup.out nohup.out.$(date +"%Y%m%d-%H%M").log 
+  nohup java -server -Xmx8000M -Xms8000M -Xmn3000M -XX:PermSize=512M -XX:MaxPermSize=512M -Xss256K -XX:SurvivorRatio=8 -XX:+UseCompressedOops -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -XX:+UseCMSCompactAtFullCollection -XX:CMSFullGCsBeforeCompaction=0 -XX:+CMSParallelRemarkEnabled -XX:+DisableExplicitGC -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=70 -XX:SoftRefLRUPolicyMSPerMB=0 -Xnoclassgc -Xloggc:query-$(date +%Y%m%d-%H%M%S).log -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Dport=8888 -jar microscope-query-1.3.4.jar  &
+}
+
+if [ ! -e $lockfile ];then
+  trap "rm -f $lockfile; exit" INT TERM EXIT
+  touch $lockfile
+  restart
+  rm -f ${lockfile}
+else
+  echo "[WARN]$(date) microscope query is running ..." 
+fi

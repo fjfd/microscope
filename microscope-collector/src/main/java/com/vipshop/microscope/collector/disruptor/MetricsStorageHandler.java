@@ -38,12 +38,22 @@ public class MetricsStorageHandler implements EventHandler<MetricsEvent> {
 			return;
 		}
 		
+		if (metricsType.equals(MetricsCategory.EXCEPTION)) {
+			processExceptionMetrics(metrics);
+			return;
+		}
+		
 	}
 	
+	@SuppressWarnings("unchecked")
+	private void processExceptionMetrics(HashMap<String, Object> metrics) {
+		HashMap<String, Object> stack = (HashMap<String, Object>) metrics.get("stack");
+		messageStorager.storage(stack);
+	}
+
 	private void processGCMetrics(HashMap<String, Object> metrics) {
 		// TODO Auto-generated method stub
-		messageStorager.storage();
-		
+
 	}
 
 	private void processMemoryMetrics(HashMap<String, Object> metrics) {

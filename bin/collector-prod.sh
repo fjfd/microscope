@@ -1,7 +1,7 @@
 #! /bin/bash
 
 source /etc/profile
-lockfile=/apps/svr/microscope-publish/microscope-collector.lock
+lockfile=/apps/svr/microscope-publish/.lock
 function restart()
 {
   ps -ef | grep microscope-collector-  | grep -v grep  | awk '{print $2}'| xargs kill
@@ -14,7 +14,7 @@ function restart()
   fi
   echo "[INFO]$(date) starting microscope-collector"
   mv nohup.out nohup.out.$(date +"%Y%m%d-%H%M").log 
-  nohup java -server -Xmx8000M -Xms8000M -Xmn2000M -XX:PermSize=128M -XX:MaxPermSize=500M -Xss256K -XX:SurvivorRatio=8 -XX:+UseCompressedOops -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -XX:+UseCMSCompactAtFullCollection -XX:CMSFullGCsBeforeCompaction=0 -XX:+CMSParallelRemarkEnabled -XX:+DisableExplicitGC -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=70 -XX:SoftRefLRUPolicyMSPerMB=0 -Xnoclassgc -Xloggc:collector-$(date +%Y%m%d-%H%M%S).log -XX:+PrintGCDetails -XX:+PrintGCDateStamps -jar microscope-collector-1.1.7.jar  &
+  nohup java -server -Xmx8000M -Xms8000M -Xmn3000M -XX:PermSize=512M -XX:MaxPermSize=512M -Xss256K -XX:SurvivorRatio=8 -XX:+UseCompressedOops -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -XX:+UseCMSCompactAtFullCollection -XX:CMSFullGCsBeforeCompaction=0 -XX:+CMSParallelRemarkEnabled -XX:+DisableExplicitGC -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=70 -XX:SoftRefLRUPolicyMSPerMB=0 -Xnoclassgc -Xloggc:collector-$(date +%Y%m%d-%H%M%S).log -XX:+PrintGCDetails -XX:+PrintGCDateStamps -jar microscope-collector-1.3.4.jar  &
 }
 
 if [ ! -e $lockfile ];then
