@@ -44,7 +44,6 @@
 	</properties>
 
 	<modules>
-		<module>microscope-benchmark</module>
 		<module>microscope-collector</module>
 		<module>microscope-common</module>
 		<module>microscope-job</module>
