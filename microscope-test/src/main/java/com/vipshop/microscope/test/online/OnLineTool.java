@@ -1,13 +1,10 @@
 package com.vipshop.microscope.test.online;
 
-import java.net.UnknownHostException;
 import java.util.concurrent.TimeUnit;
 
 import com.vipshop.microscope.common.trace.Category;
 import com.vipshop.microscope.common.trace.Span;
-import com.vipshop.microscope.common.trace.SpanMockUtil;
 import com.vipshop.microscope.common.util.CalendarUtil;
-import com.vipshop.microscope.common.util.IPAddressUtil;
 import com.vipshop.microscope.storage.StorageRepository;
 import com.vipshop.microscope.storage.mysql.domain.TopReport;
 import com.vipshop.microscope.storage.mysql.factory.RepositoryFactory;
@@ -38,13 +35,6 @@ public class OnLineTool {
 		if (app.equals(MYSQL)) {
 			mysql();
 		}
-		if (app.contains("ip")) {
-			ipadress(app);
-		}
-		if (app.contains("cache")) {
-			ipadressCache(app);
-		}
-		
 	}
 	
 	public static void trace() throws InterruptedException {
@@ -66,7 +56,7 @@ public class OnLineTool {
 	public static void mysql() {
 		TopReport report = new TopReport();
 		CalendarUtil calendarUtil = new CalendarUtil();
-		Span span = SpanMockUtil.mockSpan();
+		Span span = new Span();
 
 		report.updateReportInit(calendarUtil, span);
 		report.updateReportNext(span);
@@ -78,28 +68,5 @@ public class OnLineTool {
 		
 		RepositoryFactory.getTopReportRepository().empty();
 	}
-	
-	public static void ipadress(String app) throws UnknownHostException {
-		int count = Integer.valueOf(app.split(":")[1]);
-		long start = System.currentTimeMillis();
-		for (int i = 0; i < count; i++) {
-			IPAddressUtil.getLocalHost().getHostAddress();
-		}
-		long end = System.currentTimeMillis();
-		
-		System.out.println("get " + count + "  IPAdress time takes " + (end - start));
-	}
-	
-	public static void ipadressCache(String app) throws UnknownHostException {
-		int count = Integer.valueOf(app.split(":")[1]);
-		long start = System.currentTimeMillis();
-		for (int i = 0; i < count; i++) {
-			IPAddressUtil.IPAddress();
-		}
-		long end = System.currentTimeMillis();
-		
-		System.out.println("get " + count + "  IPAdress time takes " + (end - start));
-	}
-
 	
 }

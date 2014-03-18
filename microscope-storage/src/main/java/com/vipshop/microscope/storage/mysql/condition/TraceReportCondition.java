@@ -42,7 +42,7 @@ public class TraceReportCondition {
 		
 		if (ipAdress != null) {
 			if (!ipAdress.equals("All")) {
-				this.setAppIp(IPAddressUtil.intIPAddress(ipAdress));
+				this.setAppIp(IPAddressUtil.stringToInt(ipAdress));
 			}
 		}
 		

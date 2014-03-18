@@ -19,7 +19,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.vipshop.microscope.common.trace.Span;
-import com.vipshop.microscope.common.trace.SpanMockUtil;
 import com.vipshop.microscope.storage.QueryRepository;
 import com.vipshop.microscope.storage.StorageRepository;
 import com.vipshop.microscope.storage.hbase.domain.AppTable;
@@ -39,7 +38,7 @@ public class HbaseStorageRepositoryTest {
 	
 	@Test(priority = 2)
 	public void save() {
-		Span span = SpanMockUtil.mockSpan();
+		Span span = new Span();
 		storageRepository.save(AppTable.build(span));
 		storageRepository.save(TraceTable.build(span));
 		storageRepository.save(span);

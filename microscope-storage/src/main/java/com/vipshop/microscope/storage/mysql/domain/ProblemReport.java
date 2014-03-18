@@ -108,7 +108,7 @@ public class ProblemReport extends AbstraceReport {
 	public void updateReportInit(CalendarUtil calendarUtil, Span span) {
 		this.setDateByHour(calendarUtil);
 		this.setAppName(span.getAppName());
-		this.setAppIp(IPAddressUtil.intIPAddress(span.getAppIp()));
+		this.setAppIp(IPAddressUtil.stringToInt(span.getAppIp()));
 		this.setProType(getTimeZone(span));
 		this.setProTime(getTimeZone(span));
 		this.setProDesc(span.getSpanName());

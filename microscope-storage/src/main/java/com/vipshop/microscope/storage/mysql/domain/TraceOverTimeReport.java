@@ -78,7 +78,7 @@ public class TraceOverTimeReport extends AbstraceReport {
 		
 		this.setDateBy5Minute(calendarUtil);
 		this.setAppName(app);
-		this.setAppIp(IPAddressUtil.intIPAddress(ipAdress));
+		this.setAppIp(IPAddressUtil.stringToInt(ipAdress));
 		this.setType(Category.getIntValue(span));
 		this.setName(name);
 		this.setStartTime(System.currentTimeMillis());

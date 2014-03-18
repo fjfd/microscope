@@ -21,13 +21,6 @@ public class IPAdressUtilTest {
 	}
 	
 	@Test
-	public void testGetIPAdress2() throws UnknownHostException {
-		for (int i = 0; i < 100000; i++) {
-			IPAddressUtil.getLocalHost().getHostAddress();
-		}
-	}
-	
-	@Test
 	public void testGetIPAddress3() throws UnknownHostException, InterruptedException {
 		int size = Runtime.getRuntime().availableProcessors();
 		ExecutorService executor = Executors.newFixedThreadPool(size);

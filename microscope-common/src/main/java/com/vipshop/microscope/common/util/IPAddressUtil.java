@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * A util class to get IPAdress.
+ * A util class to get IP Adress.
  * 
  * @author Xu Fei
  * @version 1.0
@@ -20,19 +20,32 @@ public class IPAddressUtil {
 	
 	private static final Map<String, String> IPCache = new HashMap<String, String>();
 	private static final String LOCAL_ADDRESS_IPV4 = "127.0.0.1";
+	
+	/**
+	 * Get IP address int format
+	 * 
+	 * @return
+	 */
+	public static int intIPAddress() {
+		return ByteBuffer.wrap(IPAddress().getBytes()).getInt();
+	}
 
+	/**
+	 * Get IP address string format
+	 * 
+	 * @return
+	 */
 	public static String IPAddress() {
-//		java.security.Security.setProperty("networkaddress.cache.ttl", "-1");
 		if (IPCache.get("IP") == null) {
 			
 			String osName = System.getProperty("os.name");
 			try {
 				if (osName != null && osName.toLowerCase().indexOf("linux") > -1) {
-					String IP = getLocalHost().getHostAddress();
+					String IP = getLinuxLocalHost().getHostAddress();
 					IPCache.put("IP", IP);
 					return IP;
 				} else {
-					String IP = InetAddress.getLocalHost().getHostAddress();
+					String IP = getWindowLocalHost().getHostAddress();
 					IPCache.put("IP", IP);
 					return IP;
 				}
@@ -47,8 +60,13 @@ public class IPAddressUtil {
 		}
 	}
 	
-	public static InetAddress getLocalHost() throws UnknownHostException {
-//		java.security.Security.setProperty("networkaddress.cache.ttl", "-1");
+	/**
+	 * Linux platform
+	 * 
+	 * @return
+	 * @throws UnknownHostException
+	 */
+	private static InetAddress getLinuxLocalHost() throws UnknownHostException {
 		InetAddress localHost = InetAddress.getLocalHost();
 		if (!localHost.isLoopbackAddress()) {
 			return localHost;
@@ -75,18 +93,24 @@ public class IPAddressUtil {
 
 		return localHost;
 	}
-
-	public static int intIPAddress() {
-		InetAddress inetAddress = null;
-		try {
-			inetAddress = InetAddress.getByName(Inet4Address.getLocalHost().getHostAddress());
-		} catch (final UnknownHostException e) {
-			throw new IllegalArgumentException(e);
-		}
-		return ByteBuffer.wrap(inetAddress.getAddress()).getInt();
+	
+	/**
+	 * Window platform
+	 * 
+	 * @return
+	 * @throws UnknownHostException
+	 */
+	private static InetAddress getWindowLocalHost() throws UnknownHostException {
+		return InetAddress.getLocalHost();
 	}
-
-	public static int intIPAddress(final String ip) {
+	
+	/**
+	 * IP address from string format to int format.
+	 * 
+	 * @param ip
+	 * @return
+	 */
+	public static int stringToInt(final String ip) {
 		InetAddress inetAddress = null;
 		try {
 			inetAddress = InetAddress.getByName(ip);
@@ -95,8 +119,14 @@ public class IPAddressUtil {
 		}
 		return ByteBuffer.wrap(inetAddress.getAddress()).getInt();
 	}
-
-	public static String stringIPAdress(long ip) {
+	
+	/**
+	 * IP address from int format to string format.
+	 * 
+	 * @param ip
+	 * @return
+	 */
+	public static String intToString(long ip) {
 		long mask[] = { 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000 };
 		long num = 0;
 		StringBuffer ipInfo = new StringBuffer();
@@ -107,14 +137,6 @@ public class IPAddressUtil {
 			ipInfo.insert(0, Long.toString(num, 10));
 		}
 		return ipInfo.toString();
-	}
-	
-	public static void main(String[] args) throws UnknownHostException {
-		for (int i = 0; i < 100; i++) {
-			long start = System.currentTimeMillis();
-			getLocalHost();
-			System.out.println(System.currentTimeMillis() - start);
-		}
 	}
 	
 }

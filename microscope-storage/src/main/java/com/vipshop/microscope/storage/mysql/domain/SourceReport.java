@@ -81,7 +81,7 @@ public class SourceReport extends AbstraceReport {
 		String name = span.getSpanName();
 		this.setDateByHour(calendarUtil);
 		this.setAppName(span.getAppName());
-		this.setAppIp(IPAddressUtil.intIPAddress(span.getAppIp()));
+		this.setAppIp(IPAddressUtil.stringToInt(span.getAppIp()));
 		this.setServerName(span.getServerName());
 		this.setSqlType(buildSQLType(name));
 		this.setStartTime(System.currentTimeMillis());
