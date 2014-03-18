@@ -29,5 +29,21 @@ public class FixedSampler implements Sampler {
 		}
 		return isSample;
 	}
-
+	
+	/**
+	 * Fixed 10% precentage
+	 * 
+	 * @param traceId
+	 * @return
+	 */
+	public boolean sample(long traceId) {
+		boolean isSample = false;
+		
+		if (traceId % 10 == 0) {
+			isSample = true;
+		}
+		
+		return isSample;
+	}
+	
 }

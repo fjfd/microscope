@@ -21,7 +21,7 @@ import com.vipshop.microscope.collector.disruptor.TraceAnalyzeHandler;
 import com.vipshop.microscope.collector.disruptor.TraceEvent;
 import com.vipshop.microscope.collector.disruptor.TraceStorageHandler;
 import com.vipshop.microscope.collector.validater.MessageValidater;
-import com.vipshop.microscope.common.logentry.Codec;
+import com.vipshop.microscope.common.logentry.LogEntryCodec;
 import com.vipshop.microscope.common.logentry.LogEntry;
 import com.vipshop.microscope.common.logentry.LogEntryCategory;
 import com.vipshop.microscope.common.trace.Span;
@@ -163,7 +163,7 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 	 * @param msg
 	 */
 	private void publishTrace(String msg) {
-		Span span = Codec.decodeToSpan(msg);
+		Span span = LogEntryCodec.decodeToSpan(msg);
 		if (start && span != null) {
 			
 			/*
@@ -188,7 +188,7 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 	private void publishMetrics(String msg) {
 		HashMap<String, Object> metrics = null;
 		try {
-			metrics = Codec.decodeToMap(msg);
+			metrics = LogEntryCodec.decodeToMap(msg);
 		} catch (Exception e) {
 			// compatible client code before version 1.3.4 
 			publishException(msg);
@@ -217,7 +217,7 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 	 * @param message
 	 */
 	private void publishException(String message) {
-		String exception = Codec.decodeToString(message);
+		String exception = LogEntryCodec.decodeToString(message);
 		if (start && exception != null) {
 			long sequence = this.excepRingBuffer.next();
 			this.excepRingBuffer.get(sequence).setResult(exception);

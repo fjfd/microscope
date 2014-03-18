@@ -12,7 +12,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.vipshop.microscope.common.logentry.Codec;
+import com.vipshop.microscope.common.logentry.LogEntryCodec;
 import com.vipshop.microscope.common.logentry.LogEntry;
 import com.vipshop.microscope.common.thrift.ThriftCategory;
 import com.vipshop.microscope.common.thrift.ThriftClient;
@@ -34,7 +34,7 @@ public class CollectorServerTest {
 
 	@Test
 	public void testCollectorServer() throws TException, InterruptedException {
-		LogEntry logEntry = Codec.encodeToLogEntry(SpanMockUtil.mockSpan());
+		LogEntry logEntry = LogEntryCodec.encodeToLogEntry(SpanMockUtil.mockSpan());
 
 		new ThriftClient("localhost", 9410, 3000, ThriftCategory.THREAD_SELECTOR).send(Arrays.asList(logEntry));
 

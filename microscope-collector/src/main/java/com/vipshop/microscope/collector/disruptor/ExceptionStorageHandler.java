@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import com.lmax.disruptor.EventHandler;
 import com.vipshop.microscope.collector.storager.MessageStorager;
-import com.vipshop.microscope.common.logentry.Codec;
+import com.vipshop.microscope.common.logentry.LogEntryCodec;
 
 /**
  * Exception store handler.
@@ -24,7 +24,7 @@ public class ExceptionStorageHandler implements EventHandler<ExceptionEvent> {
 		String type = type(keyValue);
 		
 		if (type.equals("exception")) {
-			HashMap<String, Object> stack = Codec.decodeToMap(keyValue[1].split("=")[1]);
+			HashMap<String, Object> stack = LogEntryCodec.decodeToMap(keyValue[1].split("=")[1]);
 			messageStorager.storage(stack);
 		} 
 		

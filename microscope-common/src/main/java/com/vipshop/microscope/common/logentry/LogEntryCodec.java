@@ -15,7 +15,13 @@ import org.apache.thrift.transport.TIOStreamTransport;
 
 import com.vipshop.microscope.common.trace.Span;
 
-public class Codec {
+/**
+ * A codec for {@code LogEntry}
+ * 
+ * @author Xu Fei
+ * @version 1.0
+ */
+public class LogEntryCodec {
 
 	private static final TProtocolFactory protocolFactory = new TBinaryProtocol.Factory();
 	private static final Base64 base64 = new Base64();
@@ -23,6 +29,12 @@ public class Codec {
 	
 	//************************  span to logEntry  ***************************//
 	
+	/**
+	 * Encode span to {@code LogEntry}.
+	 * 
+	 * @param span
+	 * @return
+	 */
 	public static LogEntry encodeToLogEntry(Span span) {
 		final ByteArrayOutputStream buf = new ByteArrayOutputStream();
 		final TProtocol proto = protocolFactory.getProtocol(new TIOStreamTransport(buf));
@@ -36,6 +48,12 @@ public class Codec {
 		return logEntry;
 	}
 
+	/**
+	 * Decode string to {@code Span}.
+	 * 
+	 * @param msg
+	 * @return
+	 */
 	public static Span decodeToSpan(final String msg) {
 		byte[] tmp = Base64.decodeBase64(msg);
 		final ByteArrayInputStream buf = new ByteArrayInputStream(tmp);
@@ -52,6 +70,12 @@ public class Codec {
 	
 	//************************  map to logEntry  ***************************//
 	
+	/**
+	 * Encode map to {@code LogEntry}.
+	 * 
+	 * @param map
+	 * @return
+	 */
 	public static LogEntry encodeToLogEntry(HashMap<String, Object> map) {
 		byte[] bytes = SerializationUtils.serialize((Serializable) map);
 		String message = Base64.encodeBase64String(bytes);
@@ -59,6 +83,25 @@ public class Codec {
 		return logEntry;
 	}
 	
+	//************************  map to string  ***************************//
+	
+	/**
+	 * Encode map to string.
+	 * 
+	 * @param map
+	 * @return
+	 */
+	public static String encodeToString(HashMap<String, Object> map) {
+		byte[] bytes = SerializationUtils.serialize((Serializable) map);
+		return Base64.encodeBase64String(bytes);
+	}
+
+	/**
+	 * Decode string to map.
+	 * 
+	 * @param msg
+	 * @return
+	 */
 	public static HashMap<String, Object> decodeToMap(final String msg) {
 		byte[] bytes = Base64.decodeBase64(msg);
 		@SuppressWarnings("unchecked")
@@ -68,6 +111,12 @@ public class Codec {
 
 	//************************  string to logEntry  ***************************//
 	
+	/**
+	 * Encode string to {@code LogEntry}.
+	 * 
+	 * @param msg
+	 * @return
+	 */
 	public static LogEntry encodeToLogEntry(String msg) {
 		byte[] bytes = SerializationUtils.serialize(msg);
 		String message = Base64.encodeBase64String(bytes);
@@ -75,16 +124,16 @@ public class Codec {
 		return logEntry;
 	}
 	
+	/**
+	 * Decode string to string.
+	 * 
+	 * @param msg
+	 * @return
+	 */
 	public static String decodeToString(String msg) {
 		byte[] bytes = Base64.decodeBase64(msg);
 		String result = (String) SerializationUtils.deserialize(bytes);
 		return result;
 	}
 	
-	//************************  map to string  ***************************//
-	
-	public static String encodeToString(HashMap<String, Object> map) {
-		byte[] bytes = SerializationUtils.serialize((Serializable) map);
-		return Base64.encodeBase64String(bytes);
-	}
 }

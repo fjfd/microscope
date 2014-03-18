@@ -15,7 +15,7 @@ import com.codahale.metrics.Gauge;
 import com.codahale.metrics.Histogram;
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.Timer;
-import com.vipshop.microscope.common.logentry.Codec;
+import com.vipshop.microscope.common.logentry.LogEntryCodec;
 import com.vipshop.microscope.common.logentry.LogEntry;
 import com.vipshop.microscope.common.trace.Span;
 import com.vipshop.microscope.trace.Tracer;
@@ -44,7 +44,7 @@ public class ArrayBlockingQueueStorage implements Storage {
 	public void addException(HashMap<String, Object> map) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("exception:");
-		builder.append("stack=").append(Codec.encodeToString(map));
+		builder.append("stack=").append(LogEntryCodec.encodeToString(map));
 		add(builder.toString());
 	}
 	
@@ -150,7 +150,6 @@ public class ArrayBlockingQueueStorage implements Storage {
 	 */
 	public void add(Object object) {
 		boolean isFull = !queue.offer(object);
-		
 		if (isFull) {
 			queue.clear();
 			logger.info("client queue is full, clean queue now");
@@ -167,18 +166,18 @@ public class ArrayBlockingQueueStorage implements Storage {
 		Object object = queue.poll();
 		
 		if (object instanceof Span) {
-			LogEntry logEntry = Codec.encodeToLogEntry((Span)object);
+			LogEntry logEntry = LogEntryCodec.encodeToLogEntry((Span)object);
 			return logEntry;
 		}
 		
 		if (object instanceof HashMap) {
 			@SuppressWarnings("unchecked")
-			LogEntry logEntry = Codec.encodeToLogEntry((HashMap<String, Object>)object);
+			LogEntry logEntry = LogEntryCodec.encodeToLogEntry((HashMap<String, Object>)object);
 			return logEntry;
 		}
 		
 		if (object instanceof String) {
-			LogEntry logEntry = Codec.encodeToLogEntry((String)object);
+			LogEntry logEntry = LogEntryCodec.encodeToLogEntry((String)object);
 			return logEntry;
 		}
 		
