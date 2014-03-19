@@ -1,5 +1,5 @@
 package com.vipshop.microscope.query.action;
 
-public class WarnController {
+public class AlertController {
 
 }

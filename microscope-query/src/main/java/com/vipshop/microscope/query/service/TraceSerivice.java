@@ -12,7 +12,7 @@ import com.vipshop.microscope.common.trace.Span;
 import com.vipshop.microscope.storage.QueryRepository;
 import com.vipshop.microscope.storage.hbase.domain.TraceTable;
 
-public class QuerySerivice {
+public class TraceSerivice {
 	
 	private final QueryRepository queryRepository = QueryRepository.getQueryRepository();
 	

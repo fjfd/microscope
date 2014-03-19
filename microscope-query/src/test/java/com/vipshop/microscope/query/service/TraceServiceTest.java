@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 
 public class TraceServiceTest {
 	
-	QuerySerivice service = new QuerySerivice();
+	TraceSerivice service = new TraceSerivice();
 	
 	@Test
 	public void testGetQueryCondition() {

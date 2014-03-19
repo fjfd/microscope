@@ -1,6 +1,5 @@
 package com.vipshop.microscope.query.server;
 
-
 public class QueryEngine {
 	
 	public static void main(String[] args) throws Exception {

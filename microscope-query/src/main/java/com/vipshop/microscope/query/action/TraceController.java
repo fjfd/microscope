@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.vipshop.microscope.query.result.ListResult;
 import com.vipshop.microscope.query.result.MapResult;
-import com.vipshop.microscope.query.service.QuerySerivice;
+import com.vipshop.microscope.query.service.TraceSerivice;
 
 /**
  * Query Data API.
@@ -20,9 +20,9 @@ import com.vipshop.microscope.query.service.QuerySerivice;
  * @version 1.0
  */
 @Controller
-public class QueryController {
+public class TraceController {
 
-	QuerySerivice service = new QuerySerivice();
+	TraceSerivice service = new TraceSerivice();
 	
 	// ********************************** home      relative query **************************************** //
 

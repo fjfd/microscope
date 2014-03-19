@@ -1,5 +1,5 @@
 package com.vipshop.microscope.query.service;
 
-public class WarnService {
+public class AlertService {
 
 }

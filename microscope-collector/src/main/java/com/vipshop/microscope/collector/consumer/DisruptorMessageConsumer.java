@@ -79,7 +79,6 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 		this.metricsRingBuffer.addGatingSequences(metricsAlertEventProcessor.getSequence());
 		this.metricsRingBuffer.addGatingSequences(metricsAnalyzeEventProcessor.getSequence());
 		this.metricsRingBuffer.addGatingSequences(metricsStorageEventProcessor.getSequence());
-		
 	}
 	
 	/**
@@ -132,7 +131,6 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 		if (category.equals(LogEntryCategory.METRICS)){
 			publishMetrics(logEntry.getMessage());
 		}
-		
 	}
 	
 	/**
@@ -143,7 +141,6 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 	private void publishTrace(String msg) {
 		Span span = LogEntryCodec.decodeToSpan(msg);
 		if (start && span != null) {
-			
 			/*
 			 * validate span message
 			 */
@@ -166,12 +163,10 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 	private void publishMetrics(String msg) {
 		HashMap<String, Object> metrics = LogEntryCodec.decodeToMap(msg);
 		if (start && metrics != null) {
-			
 			/*
 			 * validat metrics message 
 			 */
 			metrics = MessageValidater.getMessageValidater().validateMessage(metrics);
-			
 			/*
 			 * publish metrics to ringbuffer
 			 */
@@ -186,21 +181,18 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 	 */
 	@Override
 	public void shutdown() {
-		
 		/*
 		 * close trace process thread
 		 */
 		traceAlertEventProcessor.halt();
 		traceAnalyzeEventProcessor.halt();
 		traceStorageEventProcessor.halt();
-		
 		/*
 		 * close metrics process thread
 		 */
 		metricsAlertEventProcessor.halt();
 		metricsAnalyzeEventProcessor.halt();
 		metricsStorageEventProcessor.halt();
-		
 	}
 
 }
