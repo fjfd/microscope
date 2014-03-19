@@ -13,7 +13,7 @@ import com.vipshop.microscope.trace.Tracer;
  */
 public class MetricsStats {
 
-	private static final MetricRegistry metrics = MetricsContainer.getMetricRegistry();
+	private static final MetricRegistry metrics = MetricsHolder.getMetricRegistry();
 
 	static {
 		if (Tracer.isTraceEnable()) {

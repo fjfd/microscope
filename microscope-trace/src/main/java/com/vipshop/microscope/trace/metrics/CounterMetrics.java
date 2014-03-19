@@ -11,7 +11,7 @@ import com.codahale.metrics.MetricRegistry;
  */
 public class CounterMetrics {
 	
-	private static final MetricRegistry metrics = MetricsContainer.getMetricRegistry();
+	private static final MetricRegistry metrics = MetricsHolder.getMetricRegistry();
 	
 	public static Counter getCounter(String name) {
 		return metrics.counter(name);

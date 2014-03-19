@@ -8,7 +8,7 @@ import com.codahale.metrics.MetricRegistry;
  * @author Xu Fei
  * @version 1.0
  */
-public class MetricsContainer {
+public class MetricsHolder {
 	
 	private static class MetricRegistryHolder {
 		private static final MetricRegistry metrics = new MetricRegistry();

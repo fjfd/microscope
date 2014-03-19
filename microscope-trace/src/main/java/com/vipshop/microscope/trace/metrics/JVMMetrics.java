@@ -13,7 +13,7 @@ import com.vipshop.microscope.common.metrics.MetricsCategory;
 
 public class JVMMetrics {
 
-	private static final MetricRegistry metrics = MetricsContainer.getMetricRegistry();
+	private static final MetricRegistry metrics = MetricsHolder.getMetricRegistry();
 
 	public static void registerJVM() {
 		metrics.register(MetricsCategory.THREAD, new ThreadStatesGaugeSet());
