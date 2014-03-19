@@ -212,6 +212,14 @@ public class SpanBuilder {
 		if (spanStack.isEmpty()) {
 			return;
 		}
+		
+		/*
+		 * if key/value equals null, return
+		 */
+		if (key == null || value == null) {
+			return;
+		}
+		
 		/*
     	 * get span from stack
     	 */

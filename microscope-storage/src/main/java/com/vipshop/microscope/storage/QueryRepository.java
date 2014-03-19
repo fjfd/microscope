@@ -50,7 +50,7 @@ public class QueryRepository {
 	}
 	
 	public List<Map<String, Object>> findAppIP() {
-		return hbaseQueryRepository.findAppIP();
+		return hbaseQueryRepository.findAppIPName();
 	}
 	
 	public List<Map<String, Object>> findExcepList(Map<String, String> query) {

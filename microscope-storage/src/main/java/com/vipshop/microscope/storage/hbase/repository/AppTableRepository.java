@@ -20,23 +20,12 @@ import com.vipshop.microscope.storage.hbase.domain.AppTable;
 @Repository
 public class AppTableRepository extends AbstraceTableRepository {
 	
-	
-	
-	private String tableName = "app";
-	private String cf_app = "cf_app";
-	private String cf_ip = "cf_ip";
-	private String cf_trace = "cf_trace";
-
-	private byte[] BYTE_CF_APP = Bytes.toBytes(cf_app);
-	private byte[] BYTE_CF_IP = Bytes.toBytes(cf_ip);
-	private byte[] BYTE_CF_TRACE = Bytes.toBytes(cf_trace);
-	
 	public void initialize() {
-		super.initialize(tableName, new String[]{cf_app, cf_ip, cf_trace});
+		super.initialize(AppTable.TABLE_NAME, new String[]{AppTable.CF_APP, AppTable.CF_IP, AppTable.CF_TRACE});
 	}
 	
 	public void drop() {
-		super.drop(tableName);
+		super.drop(AppTable.TABLE_NAME);
 	}
 	
 	/**
@@ -52,13 +41,13 @@ public class AppTableRepository extends AbstraceTableRepository {
 	 * @param app
 	 */
 	public void save(final AppTable app) {
-		hbaseTemplate.execute(tableName, new TableCallback<AppTable>() {
+		hbaseTemplate.execute(AppTable.TABLE_NAME, new TableCallback<AppTable>() {
 			@Override
 			public AppTable doInTable(HTableInterface table) throws Throwable {
 				Put p = new Put(Bytes.toBytes(app.getAppName()));
-				p.add(BYTE_CF_APP, Bytes.toBytes(app.getAppName()), Bytes.toBytes(app.getAppName()));
-				p.add(BYTE_CF_IP, Bytes.toBytes(app.getIpAdress()), Bytes.toBytes(app.getIpAdress()));
-				p.add(BYTE_CF_TRACE, Bytes.toBytes(app.getTraceName()), Bytes.toBytes(app.getTraceName()));
+				p.add(AppTable.BYTE_CF_APP, Bytes.toBytes(app.getAppName()), Bytes.toBytes(app.getAppName()));
+				p.add(AppTable.BYTE_CF_IP, Bytes.toBytes(app.getIpAdress()), Bytes.toBytes(app.getIpAdress()));
+				p.add(AppTable.BYTE_CF_TRACE, Bytes.toBytes(app.getTraceName()), Bytes.toBytes(app.getTraceName()));
 				table.put(p);
 				return app;
 			}
@@ -78,15 +67,15 @@ public class AppTableRepository extends AbstraceTableRepository {
 	 * @param app
 	 */
 	public void save(final List<AppTable> appTables) {
-		hbaseTemplate.execute(tableName, new TableCallback<List<AppTable>>() {
+		hbaseTemplate.execute(AppTable.TABLE_NAME, new TableCallback<List<AppTable>>() {
 			@Override
 			public List<AppTable> doInTable(HTableInterface table) throws Throwable {
 				List<Put> puts = new ArrayList<Put>();
 				for (AppTable appTable : appTables) {
 					Put p = new Put(Bytes.toBytes(appTable.getAppName()));
-					p.add(BYTE_CF_APP, Bytes.toBytes(appTable.getAppName()), Bytes.toBytes(appTable.getAppName()));
-					p.add(BYTE_CF_IP, Bytes.toBytes(appTable.getIpAdress()), Bytes.toBytes(appTable.getIpAdress()));
-					p.add(BYTE_CF_TRACE, Bytes.toBytes(appTable.getTraceName()), Bytes.toBytes(appTable.getTraceName()));
+					p.add(AppTable.BYTE_CF_APP, Bytes.toBytes(appTable.getAppName()), Bytes.toBytes(appTable.getAppName()));
+					p.add(AppTable.BYTE_CF_IP, Bytes.toBytes(appTable.getIpAdress()), Bytes.toBytes(appTable.getIpAdress()));
+					p.add(AppTable.BYTE_CF_TRACE, Bytes.toBytes(appTable.getTraceName()), Bytes.toBytes(appTable.getTraceName()));
 					puts.add(p);
 				}
 				table.put(puts);
@@ -112,10 +101,10 @@ public class AppTableRepository extends AbstraceTableRepository {
 		final List<String> appList = new ArrayList<String>();
 		final List<Map<String, Object>> appTraceList = new ArrayList<Map<String,Object>>();
 		
-		hbaseTemplate.find(tableName, cf_app, new RowMapper<List<String>>() {
+		hbaseTemplate.find(AppTable.TABLE_NAME, AppTable.CF_APP, new RowMapper<List<String>>() {
 			@Override
 			public List<String> mapRow(Result result, int rowNum) throws Exception {
-				String[] appQunitifer = getColumnsInColumnFamily(result, cf_app);
+				String[] appQunitifer = getColumnsInColumnFamily(result, AppTable.CF_APP);
 				for (int i = 0; i < appQunitifer.length; i++) {
 					appList.add(appQunitifer[i]);
 				}
@@ -126,12 +115,12 @@ public class AppTableRepository extends AbstraceTableRepository {
 		for (Iterator<String> iterator = appList.iterator(); iterator.hasNext();) {
 			final String row = iterator.next();
 			
-			hbaseTemplate.get(tableName, row, new RowMapper<Map<String, Object>>() {
+			hbaseTemplate.get(AppTable.TABLE_NAME, row, new RowMapper<Map<String, Object>>() {
 				@Override
 				public Map<String, Object> mapRow(Result result, int rowNum) throws Exception {
 					Map<String, Object> appTrace = new HashMap<String, Object>();
-					String[] ipQunitifer = getColumnsInColumnFamily(result, cf_ip);
-					String[] traceQunitifer = getColumnsInColumnFamily(result, cf_trace);
+					String[] ipQunitifer = getColumnsInColumnFamily(result, AppTable.CF_IP);
+					String[] traceQunitifer = getColumnsInColumnFamily(result, AppTable.CF_TRACE);
 					appTrace.put("app", row);
 					appTrace.put("ip", Arrays.asList(ipQunitifer));
 					appTrace.put("trace", Arrays.asList(traceQunitifer));

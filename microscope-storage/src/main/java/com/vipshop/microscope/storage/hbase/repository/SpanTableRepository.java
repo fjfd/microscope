@@ -20,25 +20,20 @@ import com.vipshop.microscope.storage.hbase.domain.SpanTable;
 @Repository
 public class SpanTableRepository extends AbstraceTableRepository {
 	
-	private String tableName = "span";
-	private String cf = "cf";
-
-	private byte[] CF = Bytes.toBytes(cf);
-
 	public void initialize() {
-		super.initialize(tableName, cf);
+		super.initialize(SpanTable.TABLE_NAME, SpanTable.CF);
 	}
 
 	public void drop() {
-		super.drop(tableName);
+		super.drop(SpanTable.TABLE_NAME);
 	}
 
 	public void save(final Span span) {
-		hbaseTemplate.execute(tableName, new TableCallback<Span>() {
+		hbaseTemplate.execute(SpanTable.TABLE_NAME, new TableCallback<Span>() {
 			@Override
 			public Span doInTable(HTableInterface table) throws Throwable {
 				Put p = new Put(Bytes.toBytes(String.valueOf(span.getTraceId())));
-				p.add(CF, Bytes.toBytes(span.getSpanName() + "#" + span.getSpanId()), SerializationUtils.serialize(span));
+				p.add(SpanTable.BYTE_CF, Bytes.toBytes(span.getSpanName() + "#" + span.getSpanId()), SerializationUtils.serialize(span));
 				table.put(p);
 				return span;
 			}
@@ -46,13 +41,13 @@ public class SpanTableRepository extends AbstraceTableRepository {
 	}
 	
 	public void save(final List<Span> spans) {
-		hbaseTemplate.execute(tableName, new TableCallback<List<Span>>() {
+		hbaseTemplate.execute(SpanTable.TABLE_NAME, new TableCallback<List<Span>>() {
 			@Override
 			public List<Span> doInTable(HTableInterface table) throws Throwable {
 				List<Put> puts = new ArrayList<Put>();
 				for (Span span : spans) {
 					Put p = new Put(Bytes.toBytes(String.valueOf(span.getTraceId())));
-					p.add(CF, Bytes.toBytes(span.getSpanName() + "#" + span.getSpanId()), SerializationUtils.serialize(span));
+					p.add(SpanTable.BYTE_CF, Bytes.toBytes(span.getSpanName() + "#" + span.getSpanId()), SerializationUtils.serialize(span));
 					puts.add(p);
 				}
 				table.put(puts);
@@ -63,12 +58,12 @@ public class SpanTableRepository extends AbstraceTableRepository {
 
 	public List<Span> find(String traceId) {
 		final List<Span> spans = new ArrayList<Span>();
-		return hbaseTemplate.get(tableName, traceId, new RowMapper<List<Span>>() {
+		return hbaseTemplate.get(SpanTable.TABLE_NAME, traceId, new RowMapper<List<Span>>() {
 			@Override
 			public List<Span> mapRow(Result result, int rowNum) throws Exception {
-				String[] qunitifer = getColumnsInColumnFamily(result, cf);
+				String[] qunitifer = getColumnsInColumnFamily(result, SpanTable.CF);
 				for (int i = 0; i < qunitifer.length; i++) {
-					byte[] data = result.getValue(CF, Bytes.toBytes(qunitifer[i]));
+					byte[] data = result.getValue(SpanTable.BYTE_CF, Bytes.toBytes(qunitifer[i]));
 					Span span = (Span) SerializationUtils.deserialize(data);
 					spans.add(span);
 				}
@@ -79,10 +74,10 @@ public class SpanTableRepository extends AbstraceTableRepository {
 	
 	public Map<String, Integer> findSpanName(String traceId) {
 		final Map<String, Integer> span = new HashMap<String, Integer>();
-		return hbaseTemplate.get(tableName, traceId, new RowMapper<Map<String, Integer>>() {
+		return hbaseTemplate.get(SpanTable.TABLE_NAME, traceId, new RowMapper<Map<String, Integer>>() {
 			@Override
 			public Map<String, Integer> mapRow(Result result, int rowNum) throws Exception {
-				String[] qunitifer = getColumnsInColumnFamily(result, cf);
+				String[] qunitifer = getColumnsInColumnFamily(result, SpanTable.CF);
 				for (int i = 0; i < qunitifer.length; i++) {
 					String key = qunitifer[i].split("#")[0];
 					if (span.containsKey(key)) {

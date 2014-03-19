@@ -26,7 +26,6 @@ import com.vipshop.microscope.common.logentry.LogEntry;
 import com.vipshop.microscope.common.logentry.ResultCode;
 import com.vipshop.microscope.common.logentry.Send;
 
-
 /**
  * Thrift server.
  * 

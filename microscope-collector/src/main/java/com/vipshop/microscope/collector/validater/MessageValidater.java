@@ -2,6 +2,7 @@ package com.vipshop.microscope.collector.validater;
 
 import java.util.HashMap;
 
+import com.vipshop.microscope.common.logentry.LogEntry;
 import com.vipshop.microscope.common.trace.Span;
 
 /**
@@ -24,6 +25,10 @@ public class MessageValidater {
 	private final MetricsMessageValidater metricsMessageValidater = new MetricsMessageValidater();
 	
 	private MessageValidater() {}
+	
+	public void validate(LogEntry logEntry) {
+		
+	}
 	
 	public Span validateMessage(Span span) {
 		return traceMessageValidater.validate(span);

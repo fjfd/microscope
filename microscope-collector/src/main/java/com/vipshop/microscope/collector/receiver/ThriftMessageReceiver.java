@@ -62,7 +62,11 @@ public class ThriftMessageReceiver implements MessageReceiver {
 		@Override
 		public ResultCode send(List<LogEntry> messages) throws TException {
 			for (LogEntry logEntry : messages) {
-				consumer.publish(logEntry);
+				try {
+					consumer.publish(logEntry);
+				} catch (Exception e) {
+					// discard this logEntry.
+				}
 			}
 			return ResultCode.OK;
 		}

@@ -20,42 +20,28 @@ import com.vipshop.microscope.storage.hbase.domain.TraceTable;
 @Repository
 public class TraceTableRepository extends AbstraceTableRepository {
 	
-	private String tableName = "trace";
-	private String cf = "cf";
-
-	private byte[] CF = Bytes.toBytes(cf);
-	private byte[] CF_APP_NAME = Bytes.toBytes("app_name");
-	private byte[] CF_TYPE = Bytes.toBytes("type");
-	private byte[] CF_TRACE_ID = Bytes.toBytes("trace_id");
-	private byte[] CF_TRACE_NAME = Bytes.toBytes("trace_name");
-	private byte[] CF_START_TIMESTAMP = Bytes.toBytes("start_timestamp");
-	private byte[] CF_END_TIMESTAMP = Bytes.toBytes("end_timestamp");
-	private byte[] CF_DURATION = Bytes.toBytes("duration");
-	private byte[] CF_IP_ADDRESS = Bytes.toBytes("ip_address");
-	private byte[] CF_RESULT_CODE = Bytes.toBytes("result_code");
-	
 	public void initialize() {
-		super.initialize(tableName, cf);
+		super.initialize(TraceTable.TABLE_NAME, TraceTable.CF);
 	}
 	
 	public void drop() {
-		super.drop(tableName);
+		super.drop(TraceTable.TABLE_NAME);
 	}
 	
 	public void save(final TraceTable tableTrace) {
-		hbaseTemplate.execute(tableName, new TableCallback<TraceTable>() {
+		hbaseTemplate.execute(TraceTable.TABLE_NAME, new TableCallback<TraceTable>() {
 			@Override
 			public TraceTable doInTable(HTableInterface table) throws Throwable {
 				Put p = new Put(Bytes.toBytes(tableTrace.rowKey()));
-				p.add(CF, CF_APP_NAME, Bytes.toBytes(tableTrace.getAppName()));
-				p.add(CF, CF_IP_ADDRESS, Bytes.toBytes(tableTrace.getIPAdress()));
-				p.add(CF, CF_TRACE_NAME, Bytes.toBytes(tableTrace.getTraceName()));
-				p.add(CF, CF_TRACE_ID, Bytes.toBytes(tableTrace.getTraceId()));
-				p.add(CF, CF_START_TIMESTAMP, Bytes.toBytes(tableTrace.getStartTimestamp()));
-				p.add(CF, CF_END_TIMESTAMP, Bytes.toBytes(tableTrace.getEndTimestamp()));
-				p.add(CF, CF_DURATION, Bytes.toBytes(tableTrace.getDuration()));
-				p.add(CF, CF_RESULT_CODE, Bytes.toBytes(tableTrace.getResultCode()));
-				p.add(CF, CF_TYPE, Bytes.toBytes(tableTrace.getType()));
+				p.add(TraceTable.BYTE_CF, TraceTable.BYTE_C_APP_NAME, Bytes.toBytes(tableTrace.getAppName()));
+				p.add(TraceTable.BYTE_CF, TraceTable.BYTE_C_IP_ADDRESS, Bytes.toBytes(tableTrace.getIPAdress()));
+				p.add(TraceTable.BYTE_CF, TraceTable.BYTE_C_TRACE_NAME, Bytes.toBytes(tableTrace.getTraceName()));
+				p.add(TraceTable.BYTE_CF, TraceTable.BYTE_C_TRACE_ID, Bytes.toBytes(tableTrace.getTraceId()));
+				p.add(TraceTable.BYTE_CF, TraceTable.BYTE_C_START_TIMESTAMP, Bytes.toBytes(tableTrace.getStartTimestamp()));
+				p.add(TraceTable.BYTE_CF, TraceTable.BYTE_C_END_TIMESTAMP, Bytes.toBytes(tableTrace.getEndTimestamp()));
+				p.add(TraceTable.BYTE_CF, TraceTable.BYTE_C_DURATION, Bytes.toBytes(tableTrace.getDuration()));
+				p.add(TraceTable.BYTE_CF, TraceTable.BYTE_C_RESULT_CODE, Bytes.toBytes(tableTrace.getResultCode()));
+				p.add(TraceTable.BYTE_CF, TraceTable.BYTE_C_TYPE, Bytes.toBytes(tableTrace.getType()));
 				table.put(p);
 				return tableTrace;
 			}
@@ -63,21 +49,21 @@ public class TraceTableRepository extends AbstraceTableRepository {
 	}
 	
 	public void save(final List<TraceTable> tableTraces) {
-		hbaseTemplate.execute(tableName, new TableCallback<List<TraceTable>>() {
+		hbaseTemplate.execute(TraceTable.TABLE_NAME, new TableCallback<List<TraceTable>>() {
 			@Override
 			public List<TraceTable> doInTable(HTableInterface table) throws Throwable {
 				List<Put> puts = new ArrayList<Put>();
 				for (TraceTable tableTrace : tableTraces) {
 					Put p = new Put(Bytes.toBytes(tableTrace.getTraceId()));
-					p.add(CF, CF_APP_NAME, Bytes.toBytes(tableTrace.getAppName()));
-					p.add(CF, CF_IP_ADDRESS, Bytes.toBytes(tableTrace.getIPAdress()));
-					p.add(CF, CF_TRACE_NAME, Bytes.toBytes(tableTrace.getTraceName()));
-					p.add(CF, CF_TRACE_ID, Bytes.toBytes(tableTrace.getTraceId()));
-					p.add(CF, CF_START_TIMESTAMP, Bytes.toBytes(tableTrace.getStartTimestamp()));
-					p.add(CF, CF_END_TIMESTAMP, Bytes.toBytes(tableTrace.getEndTimestamp()));
-					p.add(CF, CF_DURATION, Bytes.toBytes(tableTrace.getDuration()));
-					p.add(CF, CF_RESULT_CODE, Bytes.toBytes(tableTrace.getResultCode()));
-					p.add(CF, CF_TYPE, Bytes.toBytes(tableTrace.getType()));
+					p.add(TraceTable.BYTE_CF, TraceTable.BYTE_C_APP_NAME, Bytes.toBytes(tableTrace.getAppName()));
+					p.add(TraceTable.BYTE_CF, TraceTable.BYTE_C_IP_ADDRESS, Bytes.toBytes(tableTrace.getIPAdress()));
+					p.add(TraceTable.BYTE_CF, TraceTable.BYTE_C_TRACE_NAME, Bytes.toBytes(tableTrace.getTraceName()));
+					p.add(TraceTable.BYTE_CF, TraceTable.BYTE_C_TRACE_ID, Bytes.toBytes(tableTrace.getTraceId()));
+					p.add(TraceTable.BYTE_CF, TraceTable.BYTE_C_START_TIMESTAMP, Bytes.toBytes(tableTrace.getStartTimestamp()));
+					p.add(TraceTable.BYTE_CF, TraceTable.BYTE_C_END_TIMESTAMP, Bytes.toBytes(tableTrace.getEndTimestamp()));
+					p.add(TraceTable.BYTE_CF, TraceTable.BYTE_C_DURATION, Bytes.toBytes(tableTrace.getDuration()));
+					p.add(TraceTable.BYTE_CF, TraceTable.BYTE_C_RESULT_CODE, Bytes.toBytes(tableTrace.getResultCode()));
+					p.add(TraceTable.BYTE_CF, TraceTable.BYTE_C_TYPE, Bytes.toBytes(tableTrace.getType()));
 					puts.add(p);
 				}
 				table.put(puts);
@@ -90,7 +76,7 @@ public class TraceTableRepository extends AbstraceTableRepository {
 		Scan scan = new Scan();
 		
 		/**
-		 * limit the size of result in [10, 100]
+		 * limit the size of result in [10, 1000]
 		 */
 		long limit = Long.valueOf(query.get("limit"));
 		
@@ -132,18 +118,20 @@ public class TraceTableRepository extends AbstraceTableRepository {
 		scan.setStartRow(Bytes.toBytes(startKey));
 		scan.setStopRow(Bytes.toBytes(endKey));
 					
-		List<TraceTable> tableTraces = hbaseTemplate.find(tableName, scan, new RowMapper<TraceTable>() {
+		List<TraceTable> tableTraces = hbaseTemplate.find(TraceTable.TABLE_NAME, scan, new RowMapper<TraceTable>() {
 			@Override
 			public TraceTable mapRow(Result result, int rowNum) throws Exception {
-				return new TraceTable(Bytes.toString(result.getValue(CF, CF_APP_NAME)), 
-						  Bytes.toString(result.getValue(CF, CF_IP_ADDRESS)),
-						  Bytes.toString(result.getValue(CF, CF_TRACE_NAME)),
-						  Bytes.toString(result.getValue(CF, CF_TRACE_ID)), 
-						  Bytes.toString(result.getValue(CF, CF_START_TIMESTAMP)),
-						  Bytes.toString(result.getValue(CF, CF_END_TIMESTAMP)),
-						  Bytes.toString(result.getValue(CF, CF_DURATION)),
-						  Bytes.toString(result.getValue(CF, CF_RESULT_CODE)),
-						  Bytes.toString(result.getValue(CF, CF_TYPE)));
+				return new TraceTable(
+				  Bytes.toString(result.getValue(TraceTable.BYTE_CF, TraceTable.BYTE_C_APP_NAME)), 
+				  Bytes.toString(result.getValue(TraceTable.BYTE_CF, TraceTable.BYTE_C_IP_ADDRESS)),
+				  Bytes.toString(result.getValue(TraceTable.BYTE_CF, TraceTable.BYTE_C_TRACE_NAME)),
+				  Bytes.toString(result.getValue(TraceTable.BYTE_CF, TraceTable.BYTE_C_TRACE_ID)), 
+				  Bytes.toString(result.getValue(TraceTable.BYTE_CF, TraceTable.BYTE_C_START_TIMESTAMP)),
+				  Bytes.toString(result.getValue(TraceTable.BYTE_CF, TraceTable.BYTE_C_END_TIMESTAMP)),
+				  Bytes.toString(result.getValue(TraceTable.BYTE_CF, TraceTable.BYTE_C_DURATION)),
+				  Bytes.toString(result.getValue(TraceTable.BYTE_CF, TraceTable.BYTE_C_RESULT_CODE)),
+				  Bytes.toString(result.getValue(TraceTable.BYTE_CF, TraceTable.BYTE_C_TYPE))
+			  );
 			}
 		});
 		
@@ -152,18 +140,19 @@ public class TraceTableRepository extends AbstraceTableRepository {
 	}
 	
 	public List<TraceTable> find(Scan scan) { 
-		List<TraceTable> tableTraces = hbaseTemplate.find(tableName, scan, new RowMapper<TraceTable>() {
+		List<TraceTable> tableTraces = hbaseTemplate.find(TraceTable.TABLE_NAME, scan, new RowMapper<TraceTable>() {
 			@Override
 			public TraceTable mapRow(Result result, int rowNum) throws Exception {
-				return new TraceTable(Bytes.toString(result.getValue(CF, CF_APP_NAME)), 
-						  Bytes.toString(result.getValue(CF, CF_IP_ADDRESS)),
-						  Bytes.toString(result.getValue(CF, CF_TRACE_NAME)),
-						  Bytes.toString(result.getValue(CF, CF_TRACE_ID)), 
-						  Bytes.toString(result.getValue(CF, CF_START_TIMESTAMP)),
-						  Bytes.toString(result.getValue(CF, CF_END_TIMESTAMP)),
-						  Bytes.toString(result.getValue(CF, CF_DURATION)),
-						  Bytes.toString(result.getValue(CF, CF_RESULT_CODE)),
-						  Bytes.toString(result.getValue(CF, CF_TYPE)));
+				return new TraceTable(
+						  Bytes.toString(result.getValue(TraceTable.BYTE_CF, TraceTable.BYTE_C_APP_NAME)), 
+						  Bytes.toString(result.getValue(TraceTable.BYTE_CF, TraceTable.BYTE_C_IP_ADDRESS)),
+						  Bytes.toString(result.getValue(TraceTable.BYTE_CF, TraceTable.BYTE_C_TRACE_NAME)),
+						  Bytes.toString(result.getValue(TraceTable.BYTE_CF, TraceTable.BYTE_C_TRACE_ID)), 
+						  Bytes.toString(result.getValue(TraceTable.BYTE_CF, TraceTable.BYTE_C_START_TIMESTAMP)),
+						  Bytes.toString(result.getValue(TraceTable.BYTE_CF, TraceTable.BYTE_C_END_TIMESTAMP)),
+						  Bytes.toString(result.getValue(TraceTable.BYTE_CF, TraceTable.BYTE_C_DURATION)),
+						  Bytes.toString(result.getValue(TraceTable.BYTE_CF, TraceTable.BYTE_C_RESULT_CODE)),
+						  Bytes.toString(result.getValue(TraceTable.BYTE_CF, TraceTable.BYTE_C_TYPE)));
 			}
 		});
 		

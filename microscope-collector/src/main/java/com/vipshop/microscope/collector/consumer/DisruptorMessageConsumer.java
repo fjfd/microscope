@@ -35,10 +35,12 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 	
 	private static final Logger logger = LoggerFactory.getLogger(DisruptorMessageConsumer.class);
 
-	private final int TRACE_BUFFER_SIZE   = 1024 * 8 * 8 * 4;
-	private final int METRICS_BUFFER_SIZE = 1024 * 8 * 8 * 4;
+	private final int TRACE_BUFFER_SIZE    = 1024 * 8 * 8 * 4;
+	private final int METRICS_BUFFER_SIZE  = 1024 * 8 * 8 * 4;
 	
 	private volatile boolean start = false;
+	
+	private final MessageValidater messageValidater = MessageValidater.getMessageValidater();
 	
 	/**
 	 * Trace RingBuffer
@@ -144,7 +146,7 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 			/*
 			 * validate span message
 			 */
-			span = MessageValidater.getMessageValidater().validateMessage(span);
+			span = messageValidater.validateMessage(span);
 			
 			/*
 			 * publish span to ringbuffer
@@ -166,7 +168,7 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 			/*
 			 * validat metrics message 
 			 */
-			metrics = MessageValidater.getMessageValidater().validateMessage(metrics);
+			metrics = messageValidater.validateMessage(metrics);
 			/*
 			 * publish metrics to ringbuffer
 			 */

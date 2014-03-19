@@ -68,17 +68,20 @@ public class HbaseQueryRepository {
 	}
 	
 	/**
-	 * Get App name, IP address
-	 * from AppTable.
+	 * Get App name, IP address, Exception name
+	 * 
+	 * from exception_index table.
 	 * 
 	 * @return
 	 */
-	public List<Map<String, Object>> findAppIP() {
-		return RepositoryFactory.getExceptionTableRepository().findAppIP();
+	public List<Map<String, Object>> findAppIPName() {
+		return RepositoryFactory.getExceptionTableRepository().findAppIPName();
 	}
 
 	/**
 	 * Get Exception list by query.
+	 * from exception table.
+	 * 
 	 * @param query
 	 * @return
 	 */

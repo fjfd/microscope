@@ -11,6 +11,27 @@ import com.vipshop.microscope.common.trace.Span;
  * @version 1.0
  */
 public class AppTable {
+	
+	// ******* Hbase schema for app table ******** //
+	
+	/*
+	 * table name
+	 */
+	public static final String TABLE_NAME = "app";
+	
+	/*
+	 * column family
+	 */
+	public static final String CF_APP = "cf_app";
+	public static final String CF_IP = "cf_ip";
+	public static final String CF_TRACE = "cf_trace";
+	
+	/*
+	 * column family in byte[] fromat
+	 */
+	public static final byte[] BYTE_CF_APP = Bytes.toBytes(CF_APP);
+	public static final byte[] BYTE_CF_IP = Bytes.toBytes(CF_IP);
+	public static final byte[] BYTE_CF_TRACE = Bytes.toBytes(CF_TRACE);
 
 	private String appName;
 	

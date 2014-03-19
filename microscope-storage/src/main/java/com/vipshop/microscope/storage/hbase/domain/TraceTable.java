@@ -2,6 +2,8 @@ package com.vipshop.microscope.storage.hbase.domain;
 
 import java.io.Serializable;
 
+import org.apache.hadoop.hbase.util.Bytes;
+
 import com.vipshop.microscope.common.trace.Span;
 
 /**
@@ -12,6 +14,28 @@ import com.vipshop.microscope.common.trace.Span;
  */
 public class TraceTable implements Serializable, Comparable<TraceTable> {
 	
+	// ********* hbase schema for trace table ************ //
+	
+	/*
+	 * table name adn cloumn family
+	 */
+	public static final String TABLE_NAME = "trace";
+	public static final String CF = "cf";
+
+	/*
+	 * cloumns
+	 */
+	public static final byte[] BYTE_CF = Bytes.toBytes(CF);
+	public static final byte[] BYTE_C_APP_NAME = Bytes.toBytes("app_name");
+	public static final byte[] BYTE_C_TYPE = Bytes.toBytes("type");
+	public static final byte[] BYTE_C_TRACE_ID = Bytes.toBytes("trace_id");
+	public static final byte[] BYTE_C_TRACE_NAME = Bytes.toBytes("trace_name");
+	public static final byte[] BYTE_C_START_TIMESTAMP = Bytes.toBytes("start_timestamp");
+	public static final byte[] BYTE_C_END_TIMESTAMP = Bytes.toBytes("end_timestamp");
+	public static final byte[] BYTE_C_DURATION = Bytes.toBytes("duration");
+	public static final byte[] BYTE_C_IP_ADDRESS = Bytes.toBytes("ip_address");
+	public static final byte[] BYTE_C_RESULT_CODE = Bytes.toBytes("result_code");
+
 	private static final long serialVersionUID = -2609783475042433846L;
 	
 	private String appName;

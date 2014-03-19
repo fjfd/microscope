@@ -30,6 +30,7 @@ public class TraceSerivice {
 		
 		String appName = request.getParameter("appName");
 		String ipAdress = request.getParameter("ipAddress");
+		String name = request.getParameter("name");
 		String startTime = request.getParameter("startTime");
 		String endTime = request.getParameter("endTime");
 		
@@ -38,6 +39,7 @@ public class TraceSerivice {
 		Map<String, String> query = new HashMap<String, String>();
 		query.put("appName", appName);
 		query.put("ipAddress", ipAdress);
+		query.put("name", name);
 		query.put("startTime", startTime);
 		query.put("endTime", endTime);
 		query.put("limit", limit);
