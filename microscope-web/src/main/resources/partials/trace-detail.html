@@ -1,0 +1,76 @@
+﻿<div class="container-full">
+    <div class="page-header">
+        <h1>Trace detail</h1>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="gantt-container">
+                <div class="gantt-grid">
+                    <div class="gantt-head gantt-task-name">
+                        方法名
+                    </div>
+                    <div id="gantt-tree-wrap">
+                    </div>
+                </div>
+                <div class="gantt-task">
+                    <div class="gantt-head">
+                        <div class="gantt-task-type">类型</div>
+                        <div class="gantt-task-status">状态</div>
+                        <div class="gantt-task-ip">IP地址</div>
+                        <div class="gantt-task-time">开始时间</div>
+                        <div class="gantt-task-timeline">时间轴</div>
+                    </div>
+                    <div class="gantt-timeline">
+                        <ul id="gantt-time">
+                            <li ng-repeat='i in ganttItem'>
+                                <div class="gantt-task-type">{{i.type}}</div>
+                                <div class="gantt-task-status">{{i.status}}</div>
+                                <div class="gantt-task-ip">{{i.ipadress}}</div>
+                                <div class="gantt-task-time">{{i.start_time}}</div>
+                                <div class="gantt-bar">
+                                    <i ng-style='i.style'>
+                                        <span> {{i.duration + 'ms'}} </span>
+                                    </i>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    (function ($) {
+        var interval = window.setInterval(function bindEvent() {
+            var lis = $('#gantt-tree-wrap').find('li');
+            if (lis.length > 0) {
+                window.clearInterval(interval);
+
+                lis.last().children('a').css('border', 0);
+
+                for (var i = 0; i < lis.length; i++) {
+                    (function (index) {
+                        $(lis[index]).children('a').bind('mouseenter', function () {
+                            $('#gantt-time').children('li:eq(' + index + ')').addClass('hover');
+                        }).bind('mouseleave', function () {
+                            $('#gantt-time').children('li:eq(' + index + ')').removeClass('hover');
+                        });
+                    })(i);
+                }
+
+                $('#gantt-time').children('li').hover(function () {
+                    var index = $(this).addClass('hover').index();
+                    $('#gantt-tree-wrap').find('li:eq(' + index + ')').children('a').addClass('hover')
+                }, function () {
+                    var index = $(this).removeClass('hover').index();
+                    $('#gantt-tree-wrap').find('li:eq(' + index + ')').children('a').removeClass('hover')
+                });
+            }
+
+
+        }, 100);
+
+    })(window.jQuery)
+</script>
+<script src="js/common/frame.js"></script>

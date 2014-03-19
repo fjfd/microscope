@@ -8,11 +8,11 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.vipshop.microscope.common.util.HttpClientUtil;
-import com.vipshop.microscope.query.server.WebServer;
+import com.vipshop.microscope.query.server.QueryServer;
 
 public class ReportControllerTest {
 	
-	WebServer webServer = new WebServer(8080);
+	QueryServer webServer = new QueryServer(8080);
 	
 	@BeforeClass
 	public void setUpBeforeClass() throws Exception {

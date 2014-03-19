@@ -1,6 +1,5 @@
 package com.vipshop.microscope.collector.consumer;
 
-import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 
 import org.slf4j.Logger;
@@ -10,6 +9,8 @@ import com.lmax.disruptor.BatchEventProcessor;
 import com.lmax.disruptor.RingBuffer;
 import com.lmax.disruptor.SequenceBarrier;
 import com.lmax.disruptor.SleepingWaitStrategy;
+import com.vipshop.microscope.collector.disruptor.LogEntryEvent;
+import com.vipshop.microscope.collector.disruptor.LogEntryValidateHandler;
 import com.vipshop.microscope.collector.disruptor.MetricsAlertHandler;
 import com.vipshop.microscope.collector.disruptor.MetricsAnalyzeHandler;
 import com.vipshop.microscope.collector.disruptor.MetricsEvent;
@@ -18,11 +19,7 @@ import com.vipshop.microscope.collector.disruptor.TraceAlertHandler;
 import com.vipshop.microscope.collector.disruptor.TraceAnalyzeHandler;
 import com.vipshop.microscope.collector.disruptor.TraceEvent;
 import com.vipshop.microscope.collector.disruptor.TraceStorageHandler;
-import com.vipshop.microscope.collector.validater.MessageValidater;
 import com.vipshop.microscope.common.logentry.LogEntry;
-import com.vipshop.microscope.common.logentry.LogEntryCategory;
-import com.vipshop.microscope.common.logentry.LogEntryCodec;
-import com.vipshop.microscope.common.trace.Span;
 import com.vipshop.microscope.common.util.ThreadPoolUtil;
 
 /**
@@ -35,12 +32,11 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 	
 	private static final Logger logger = LoggerFactory.getLogger(DisruptorMessageConsumer.class);
 
-	private final int TRACE_BUFFER_SIZE    = 1024 * 8 * 8 * 4;
-	private final int METRICS_BUFFER_SIZE  = 1024 * 8 * 8 * 4;
+	private final int LOGENTRY_BUFFER_SIZE    = 1024 * 8 * 8 * 4;
+	private final int TRACE_BUFFER_SIZE       = 1024 * 8 * 8 * 2;
+	private final int METRICS_BUFFER_SIZE     = 1024 * 8 * 8 * 2;
 	
 	private volatile boolean start = false;
-	
-	private final MessageValidater messageValidater = MessageValidater.getMessageValidater();
 	
 	/**
 	 * Trace RingBuffer
@@ -59,6 +55,13 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 	private final BatchEventProcessor<MetricsEvent> metricsAlertEventProcessor;
 	private final BatchEventProcessor<MetricsEvent> metricsAnalyzeEventProcessor;
 	private final BatchEventProcessor<MetricsEvent> metricsStorageEventProcessor;
+	
+	/**
+	 * LogEntry RingBuffer
+	 */
+	private final RingBuffer<LogEntryEvent> logEntryRingBuffer;
+	private final SequenceBarrier logEntrySequenceBarrier;
+	private final BatchEventProcessor<LogEntryEvent> logEntryValidateEventProcessor;
 	
 	/**
 	 * Construct DisruptorMessageConsumer
@@ -81,6 +84,10 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 		this.metricsRingBuffer.addGatingSequences(metricsAlertEventProcessor.getSequence());
 		this.metricsRingBuffer.addGatingSequences(metricsAnalyzeEventProcessor.getSequence());
 		this.metricsRingBuffer.addGatingSequences(metricsStorageEventProcessor.getSequence());
+
+		this.logEntryRingBuffer = RingBuffer.createSingleProducer(LogEntryEvent.EVENT_FACTORY, LOGENTRY_BUFFER_SIZE, new SleepingWaitStrategy());
+		this.logEntrySequenceBarrier = logEntryRingBuffer.newBarrier();
+		this.logEntryValidateEventProcessor = new BatchEventProcessor<LogEntryEvent>(logEntryRingBuffer, logEntrySequenceBarrier, new LogEntryValidateHandler(traceRingBuffer, metricsRingBuffer));
 	}
 	
 	/**
@@ -89,6 +96,10 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 	@Override
 	public void start() {
 		logger.info("use message consumer base on disruptor");
+		
+		logger.info("start logentry validate thread");
+		ExecutorService logEntryValidateExecutor = ThreadPoolUtil.newSingleThreadExecutor("logentry-validate-pool");
+		logEntryValidateExecutor.execute(this.logEntryValidateEventProcessor);
 		
 		logger.info("start trace alert thread");
 		ExecutorService traceAlertExecutor = ThreadPoolUtil.newSingleThreadExecutor("trace-alert-pool");
@@ -118,63 +129,14 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 	}
 	
 	/**
-	 * Publish message to ringbuffer
+	 * Publish LogEntry to logentry ringbuffer
 	 */
 	@Override
 	public void publish(LogEntry logEntry) {
-		String category = logEntry.getCategory();
-		
-		// handle trace message
-		if (category.equals(LogEntryCategory.TRACE)) {
-			publishTrace(logEntry.getMessage());
-		} 
-
-		// handle metrics message
-		if (category.equals(LogEntryCategory.METRICS)){
-			publishMetrics(logEntry.getMessage());
-		}
-	}
-	
-	/**
-	 * Publish trace to {@code TraceRingBuffer}.
-	 * 
-	 * @param msg
-	 */
-	private void publishTrace(String msg) {
-		Span span = LogEntryCodec.decodeToSpan(msg);
-		if (start && span != null) {
-			/*
-			 * validate span message
-			 */
-			span = messageValidater.validateMessage(span);
-			
-			/*
-			 * publish span to ringbuffer
-			 */
-			long sequence = this.traceRingBuffer.next();
-			this.traceRingBuffer.get(sequence).setSpan(span);
-			this.traceRingBuffer.publish(sequence);
-		}
-	}
-	
-	/**
-	 * Publish metrics to {@code MetricsRingBuffer}.
-	 * 
-	 * @param msg
-	 */
-	private void publishMetrics(String msg) {
-		HashMap<String, Object> metrics = LogEntryCodec.decodeToMap(msg);
-		if (start && metrics != null) {
-			/*
-			 * validat metrics message 
-			 */
-			metrics = messageValidater.validateMessage(metrics);
-			/*
-			 * publish metrics to ringbuffer
-			 */
-			long sequence = this.metricsRingBuffer.next();
-			this.metricsRingBuffer.get(sequence).setResult(metrics);
-			this.metricsRingBuffer.publish(sequence);
+		if (start && logEntry != null) {
+			long sequence = this.logEntryRingBuffer.next();
+			this.logEntryRingBuffer.get(sequence).setResult(logEntry);
+			this.logEntryRingBuffer.publish(sequence);
 		}
 	}
 	
@@ -195,6 +157,10 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 		metricsAlertEventProcessor.halt();
 		metricsAnalyzeEventProcessor.halt();
 		metricsStorageEventProcessor.halt();
+		/*
+		 * close logentry validate thread
+		 */
+		logEntryValidateEventProcessor.halt();
 	}
 
 }

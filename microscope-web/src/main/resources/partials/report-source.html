@@ -1,0 +1,97 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-content">
+                <form class="form-horizontal trace-search" role="form">
+                    <div ui-date-time-selector class="form-group last">
+                        <label class="control-label">时间</label>
+                        <div class="controls search-date">
+                            <select ng-model="queryYear" class="selector-year form-control input-sm"></select>
+                        </div>
+                        <label class="control-label text-left">年</label>
+                        <div class="controls search-date">
+                            <select ng-model="queryMonth" class="selector-month form-control input-sm"></select>
+                        </div>
+                        <label class="control-label">月</label>
+                        <div class="controls search-date">
+                            <select ng-model="queryDay" class="selector-day form-control input-sm"></select>
+                        </div>
+                        <label class="control-label">日</label>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-left col-top">
+        <div class="chart-box">
+            <div class="chart-title"><i class="icon-bar-chart"></i>{{queryYear}}-{{queryMonth}}-{{queryDay}} 的数据库访问量</div>
+            <div class="chart-content" id="trace-source-line"></div>
+        </div>
+    </div>
+    <div class="col-md-6 col-right col-top">
+        <div class="chart-box">
+            <div class="chart-title"><i class="icon-bar-chart"></i>{{queryYear}}-{{queryMonth}}-{{queryDay}} 的数据库访问量分布</div>
+            <div class="chart-content" id="trace-source-pie"></div>
+        </div>
+    </div>
+    <div class="col-md-12 col-mg-top">
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered table-service table-trace">
+                <thead>
+                    <tr>
+                        <th>应用</th>
+
+                        <th style="width:10%" class="sorting"
+                            ng-click="predicate = 'FailureCount'; reverse=!reverse;"
+                            ng-class="{'sorting': predicate!='count', sorting_asc:predicate==='count' && reverse, sorting_desc:predicate==='count' && !reverse}">
+                            总调用次数
+                        </th>
+                        <th style="width:10%" class="sorting"
+                            ng-click="predicate = 'TotalCount'; reverse=!reverse;"
+                            ng-class="{'sorting': predicate!='fail', sorting_asc:predicate==='fail' && reverse, sorting_desc:predicate==='fail' && !reverse}">
+                            失败次数
+                        </th>
+                        <th style="width:10%" class="sorting"
+                            ng-click="predicate = 'FailurePrecent'; reverse=!reverse;"
+                            ng-class="{'sorting': predicate!='failpre', sorting_asc:predicate==='failpre' && reverse, sorting_desc:predicate==='failpre' && !reverse}">
+                            失败百分比 (%)
+                        </th>
+                        <th style="width:10%" class="sorting"
+                            ng-click="predicate = 'Min'; reverse=!reverse;"
+                            ng-class="{'sorting': predicate!='avg_dura', sorting_asc:predicate==='avg_dura' && reverse, sorting_desc:predicate==='avg_dura' && !reverse}">
+                            平均调用时间 (ms)
+                        </th>
+                        <th style="width:10%" class="sorting"
+                            ng-click="predicate = 'TPS'; reverse=!reverse;"
+                            ng-class="{'sorting': predicate!='tps', sorting_asc:predicate==='tps' && reverse, sorting_desc:predicate==='tps' && !reverse}">
+                            每秒并发量
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in detailResult  | orderBy:predicate:!reverse">
+                        <td>
+                            {{ item.app }}
+                        </td>
+
+                        <td>
+                            {{item.count}}
+                        </td>
+                        <td>
+                            {{item.fail}}
+                        </td>
+                        <td>
+                            {{item.failpre}}
+                        </td>
+                        <td>
+                            {{item.avg_dura}}
+                        </td>
+                        <td>
+                            {{item.tps}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+﻿<div id="left">
+    <div class="report-side">
+        <div class="subnav">
+            <div class="subnav-title">
+                <span>Report</span>
+            </div>
+            <ul class="subnav-menu">
+                <!--<li><a ui-sref="report.monitor" ng-class="{ active: $state.includes('report.monitor') }">应用监控大盘</a></li>-->
+                <!--<li><a ui-sref="report.top10" ng-class="{ active: $state.includes('report.top10') }">Top10</a></li>-->
+                <li><a ui-sref="report.trace" ng-class="{ active: $state.includes('report.trace') }">Trace报表</a></li>
+                <li><a ui-sref="report.source" ng-class="{ active: $state.includes('report.source') }">调用来源</a></li>
+                <!--<li><a ui-sref="report.depend" ng-class="{ active: $state.includes('report.depend') }">调用依赖</a></li>-->
+                <li><a ui-sref="report.msg" ng-class="{ active: $state.includes('report.msg') }">消息报表</a></li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+<div id="main">
+    <div ui-view class="container-fluid">
+    </div>
+</div>
+<script src="js/common/frame.js"></script>

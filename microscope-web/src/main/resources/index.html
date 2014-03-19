@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+    <title>Microscope</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="css/datepicker.css" rel="stylesheet"/>
+    <link href="css/timepicker.css" rel="stylesheet"/>
+    <link href="css/style.css" rel="stylesheet"/>
+    <script src="js/lib/lab.min.js"></script>
+    <script src="js/app.js"></script>
+    <!--[if IE 7]>
+    <link href="css/font-awesome-ie7.min.css" rel="stylesheet"/>
+    <![endif]-->
+    <!--[if lt IE 9]>
+    <script src="http://cdn.bootcss.com/html5shiv/3.7.0/html5shiv.min.js"></script>
+    <script src="http://cdn.bootcss.com/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<header id="navigation">
+    <nav class="container-fluid">
+        <a href="#/" id="brand">Microscope</a>
+        <a href="javascript:;" class="toggle-sidebar" rel="tooltip"
+           data-placement="bottom" title=""
+           data-original-title="Toggle navigation">
+            <i class="icon-reorder"></i>
+        </a>
+        <ul class="main-nav">
+            <li ng-class="{ active: $state.includes('home') }">
+                <a href="#/home">
+                    <span>Home</span>
+                </a>
+            </li>
+            <li ng-class="{ active: $state.includes('report') }">
+                <a href="#/report">
+                    <span>Report</span>
+                </a>
+            </li>
+            <li ng-class="{ active: $state.includes('alert') }">
+                <a href="#/alert">
+                    <span>Alert</span>
+                </a>
+            </li>
+            <li ng-class="{ active: $state.includes('exception') }">
+                <a href="#/exception">
+                    <span>Exception</span>
+                </a>
+            </li>
+            <li ng-class="{ active: $state.includes('trace') || $state.includes('trace-detail') }">
+                <a href="#/trace">
+                    <span>Trace</span>
+                </a>
+            </li>
+            <!--                 <li>
+            <a class="dropdown-toggle">
+                <span>Report</span>
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a href="#">应用监控大盘</a>
+                </li>
+                <li>
+                    <a href="#">Top10</a>
+                </li>
+                <li>
+                    <a href="#">Trace报表</a>
+                </li>
+                <li>
+                    <a href="#">调用来源</a>
+                </li>
+                <li>
+                    <a href="#">调用依赖</a>
+                </li>
+                <li>
+                    <a href="#">MSG报表</a>
+                </li>
+            </ul>
+            </li> -->
+        </ul>
+        <a href="#" class="toggle-mobile"><i class="icon-reorder"></i></a>
+    </nav>
+</header>
+<div ui-view class="container-fluid" id="content"></div>
+</body>
+</html>

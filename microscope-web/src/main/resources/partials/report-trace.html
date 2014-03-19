@@ -1,0 +1,154 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <div class="box">
+            <!--<div class="box-title">
+                <h3><i class="icon-search"></i>Query</h3>
+            </div>-->
+            <div class="box-content">
+                <form class="form-horizontal trace-search" role="form">
+                    <div ui-date-time-selector class="form-group last">
+                        <label for="app-list" class="control-label">APP</label>
+                        <div class="controls">
+                            <select id="app-list" class="form-control input-sm" ng-model="queryApp" ng-options="a for a in appList"></select>
+                        </div>
+                        <label for="ip-list" class="control-label">IP</label>
+                        <div class="controls">
+                            <select id="ip-list" ng-model="queryIp" ng-options="a for a in ipList" class="form-control input-sm"></select>
+                        </div>
+                        <label class="control-label"></label>
+                        <label class="control-label">时间</label>
+                        <div class="controls search-date">
+                            <select ng-model="queryYear" class="selector-year form-control input-sm"></select>
+                        </div>
+                        <label class="control-label text-left">年</label>
+                        <div class="controls search-date">
+                            <select ng-model="queryMonth" class="selector-month form-control input-sm"></select>
+                        </div>
+                        <label class="control-label">月</label>
+                        <div class="controls search-date">
+                            <select ng-model="queryDay" class="selector-day form-control input-sm"></select>
+                        </div>
+                        <label class="control-label">日</label>
+                        <div class="controls search-date">
+                            <select ng-model="queryHour" class="selector-hour form-control input-sm"></select>
+                        </div>
+                        <label class="control-label">时</label>
+                    </div>
+                </form>
+            </div>
+            <div class="trace-report-tab ng-cloak">
+                <ul>
+                    <li ng-click="showTraceType()" ng-class="{'active':!traceType}"><a>{{ queryApp }}</a></li>
+                    <li ng-repeat="item in typeArr"
+                        ng-class="{'active':traceType==item,'hide':!visibleTab.contains(item)}"><a ng-click="showTraceType(item)">{{ queryApp +' > '+ item }}</a><a class="del" ng-click="hideTab(item)">X</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered table-service table-trace">
+                <thead>
+                    <tr>
+                        <th>服务类型</th>
+                        <th style="width:10%" class="sorting"
+                            ng-click="predicate = 'TotalCount'; reverse=!reverse;"
+                            ng-class="{'sorting': predicate!='TotalCount', sorting_asc:predicate==='TotalCount' && reverse, sorting_desc:predicate==='TotalCount' && !reverse}">
+                            总调用次数
+                        </th>
+                        <th style="width:10%" class="sorting"
+                            ng-click="predicate = 'FailureCount'; reverse=!reverse;"
+                            ng-class="{'sorting': predicate!='FailureCount', sorting_asc:predicate==='FailureCount' && reverse, sorting_desc:predicate==='FailureCount' && !reverse}">
+                            失败调用次数
+                        </th>
+                        <th style="width:10%" class="sorting"
+                            ng-click="predicate = 'FailurePrecent'; reverse=!reverse;"
+                            ng-class="{'sorting': predicate!='FailurePrecent', sorting_asc:predicate==='FailurePrecent' && reverse, sorting_desc:predicate==='FailurePrecent' && !reverse}">
+                            失败百分比 (%)
+                        </th>
+                        <th style="width:10%" class="sorting"
+                            ng-click="predicate = 'Min'; reverse=!reverse;"
+                            ng-class="{'sorting': predicate!='Min', sorting_asc:predicate==='Min' && reverse, sorting_desc:predicate==='Min' && !reverse}">
+                            最小调用时间 (ms)
+                        </th>
+                        <th style="width:10%" class="sorting"
+                            ng-click="predicate = 'Max'; reverse=!reverse;"
+                            ng-class="{'sorting': predicate!='Max', sorting_asc:predicate==='Max' && reverse, sorting_desc:predicate==='Max' && !reverse}">
+                            最大调用时间 (ms)
+                        </th>
+                        <th style="width:10%" class="sorting"
+                            ng-click="predicate = 'Avg'; reverse=!reverse;"
+                            ng-class="{'sorting': predicate!='Avg', sorting_asc:predicate==='Avg' && reverse, sorting_desc:predicate==='Avg' && !reverse}">
+                            平均调用时间 (ms)
+                        </th>
+                        <th style="width:10%" class="sorting"
+                            ng-click="predicate = 'TPS'; reverse=!reverse;"
+                            ng-class="{'sorting': predicate!='TPS', sorting_asc:predicate==='TPS' && reverse, sorting_desc:predicate==='TPS' && !reverse}">
+                            每秒并发量
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat-start="item in traceReportList  | orderBy:predicate:!reverse">
+                        <td>
+                            <a href="javascript:;" ng-click="showChart(item.Type,!traceType ? '' : item.Name)">图表</a><span>&nbsp;&nbsp;</span>
+                            <a href="javascript:;" ng-click="showTraceType(item.Type)" ng-show="!traceType">{{ item.Type }}</a>
+                            <span ng-show="traceType">{{ item.Name }}</span>
+                        </td>
+                        <td>
+                            {{item.TotalCount}}
+                        </td>
+                        <td>
+                            {{item.FailureCount}}
+                        </td>
+                        <td>
+                            {{item.FailurePrecent}}
+                        </td>
+                        <td>
+                            {{item.Min}}
+                        </td>
+                        <td>
+                            {{item.Max}}
+                        </td>
+                        <td>
+                            {{item.Avg}}
+                        </td>
+                        <td>
+                            {{item.TPS}}
+                        </td>
+                    </tr>
+                    <tr ng-repeat-end class="tr-nohover tr-chat" id="{{ 'trace-id-' + item.Type }}">
+                        <td colspan="8">
+                            <div class="row">
+                                <div class="col-md-6 col-left col-top">
+                                    <div class="chart-box">
+                                        <div class="chart-title"><i class="icon-bar-chart"></i>请求时间分布</div>
+                                        <div class="chart-content"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-right col-top">
+                                    <div class="chart-box">
+                                        <div class="chart-title"><i class="icon-bar-chart"></i>平均请求时间分布</div>
+                                        <div class="chart-content"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-left">
+                                    <div class="chart-box">
+                                        <div class="chart-title"><i class="icon-bar-chart"></i>请求次数分布</div>
+                                        <div class="chart-content"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-right">
+                                    <div class="chart-box">
+                                        <div class="chart-title"><i class="icon-bar-chart"></i>失败请求次数分布</div>
+                                        <div class="chart-content"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
