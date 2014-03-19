@@ -141,7 +141,7 @@ public class TraceContext {
 		if (TRACE.get() == null) {
 			return null;
 		}
-		SpanID spanID = TRACE.get().getSpanId();
+		SpanID spanID = TRACE.get().getSpanID();
 		return String.valueOf(spanID.getTraceId());
 	}
 	
@@ -154,7 +154,7 @@ public class TraceContext {
 		if (TRACE.get() == null) {
 			return null;
 		}
-		SpanID spanID = TRACE.get().getSpanId();
+		SpanID spanID = TRACE.get().getSpanID();
 		return String.valueOf(spanID.getSpanId());
 	}
 	

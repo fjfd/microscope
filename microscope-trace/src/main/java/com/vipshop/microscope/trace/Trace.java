@@ -35,12 +35,12 @@ public class Trace {
 	}
 	
 	/**
-	 * Get {@code SpanId} for current thread.
+	 * Get {@code SpanID} for current thread.
 	 * 
 	 * @return
 	 */
-	SpanID getSpanId() {
-		return spanBuilder.getSpanId();
+	SpanID getSpanID() {
+		return spanBuilder.getSpanID();
 	}
 	
 	/**

@@ -42,7 +42,7 @@ public class SpanBuilder {
 		this.spanStack = new Stack<Span>();
 	}
 	
-	public SpanID getSpanId() {
+	public SpanID getSpanID() {
 		return spanContext.getSpanID();
 	}
 	
