@@ -101,8 +101,8 @@ public class TraceTableRepository extends AbstraceTableRepository {
 		/*
 		 * Query by rowKey : appName-traceName-timestamp-ipAddress-******
 		 */
-		String startKey = appName + "-" + traceName + "-" + (Long.MAX_VALUE - endTime) + "-" + ipAddress;
-		String endKey = appName + "-" + traceName + "-" + (Long.MAX_VALUE - startTime) + "-" + ipAddress;
+		String startKey = appName + "-" + traceName + "-" + ipAddress + "-" + (Long.MAX_VALUE - endTime);
+		String endKey = appName + "-" + traceName + "-" + ipAddress + "-" + (Long.MAX_VALUE - startTime);
 		
 		/*
 		 * if ipAdress equals "All", remove ipAddress from query condition.
