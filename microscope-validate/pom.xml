@@ -6,6 +6,8 @@
 		<artifactId>microscope</artifactId>
 		<version>1.3.4</version>
 	</parent>
-	<artifactId>microscope-analyze</artifactId>
+	
+	<artifactId>microscope-validate</artifactId>
 	<version>${project.parent.version}</version>
+	
 </project>
