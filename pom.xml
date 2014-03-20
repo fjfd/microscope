@@ -12,12 +12,10 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<spring.version>3.2.2.RELEASE</spring.version>
-		<resteasy.version>2.3.5.Final</resteasy.version>
 		<testng.version>6.8.5</testng.version>
 		<slf4j.version>1.7.5</slf4j.version>
 		<libthrift.version>0.9.1</libthrift.version>
 		<mybatis.version>3.2.2</mybatis.version>
-		<struts.version>1.2.8</struts.version>
 		<hadoop.core.version>1.2.1</hadoop.core.version>
 		<hbase.version>0.94.6</hbase.version>
 		<spring.data.version>1.0.0.RELEASE</spring.data.version>
@@ -44,6 +42,8 @@
 	</properties>
 
 	<modules>
+		<module>microscope-alert</module>
+		<module>microscope-analyze</module>
 		<module>microscope-collector</module>
 		<module>microscope-common</module>
 		<module>microscope-job</module>

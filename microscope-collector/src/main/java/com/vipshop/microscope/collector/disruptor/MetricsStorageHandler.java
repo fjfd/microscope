@@ -67,6 +67,4 @@ public class MetricsStorageHandler implements EventHandler<MetricsEvent> {
 		});
 	}
 
-
-
 }

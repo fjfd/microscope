@@ -51,8 +51,11 @@ public abstract class AbstraceTableRepository implements InitializingBean {
 
 				admin.createTable(tableDescriptor);
 				
+				/*
+				 * close auto flush function.
+				 */
 				hbaseTemplate.setAutoFlush(false);
-				
+
 				logger.info("init hbase table " + tableName);
 			}
 		} catch (IOException e) {

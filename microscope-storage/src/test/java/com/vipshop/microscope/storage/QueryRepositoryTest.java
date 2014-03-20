@@ -31,5 +31,6 @@ public class QueryRepositoryTest {
 		query.put("appName", "trace");
 		query.put("ipAddress", "10.101.3.111");
 		System.out.println(QueryRepository.getQueryRepository().findJVMList(query));
+		
 	}
 }
