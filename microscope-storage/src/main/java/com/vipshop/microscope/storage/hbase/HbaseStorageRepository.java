@@ -24,6 +24,7 @@ public class HbaseStorageRepository {
 		RepositoryFactory.getSpanTableRepository().initialize();
 		RepositoryFactory.getExceptionTableRepository().initialize();
 		RepositoryFactory.getJVMTableRepository().initialize();
+		RepositoryFactory.getTopTableRepository().initialize();
 	}
 	
 	/**
@@ -35,6 +36,7 @@ public class HbaseStorageRepository {
 		RepositoryFactory.getSpanTableRepository().drop();
 		RepositoryFactory.getExceptionTableRepository().drop();
 		RepositoryFactory.getJVMTableRepository().drop();
+		RepositoryFactory.getTopTableRepository().drop();
 	}
 	
 	/**
@@ -88,6 +90,15 @@ public class HbaseStorageRepository {
 	 */
 	public void saveJVM(Map<String, Object> jvm) {
 		RepositoryFactory.getJVMTableRepository().save(jvm);
+	}
+	
+	/**
+	 * Store top report to top table.
+	 * 
+	 * @param top
+	 */
+	public void saveTop(Map<String, Object> top) {
+		RepositoryFactory.getTopTableRepository().save(top);
 	}
 	
 }

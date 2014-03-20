@@ -1,5 +1,5 @@
 package com.vipshop.microscope.analyzer;
 
-public class AanlyzeEngine {
+public class AnalyzeEngineTest {
 
 }

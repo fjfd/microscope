@@ -33,4 +33,9 @@ public class QueryRepositoryTest {
 		System.out.println(QueryRepository.getQueryRepository().findJVMList(query));
 		
 	}
+	
+	@Test
+	public void testFindTop() {
+		System.out.println(QueryRepository.getQueryRepository().findTop());
+	}
 }

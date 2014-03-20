@@ -64,4 +64,8 @@ public class QueryRepository {
 	public List<Map<String, Object>> findJVMList(Map<String, String> query) {
 		return hbaseQueryRepository.findJVMList(query);
 	}
+	
+	public Map<String, Object> findTop() {
+		return hbaseQueryRepository.findTop();
+	}
 }

@@ -19,6 +19,21 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.vipshop</groupId>
+			<artifactId>microscope-validater</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vipshop</groupId>
+			<artifactId>microscope-alerter</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vipshop</groupId>
+			<artifactId>microscope-analyzer</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vipshop</groupId>
 			<artifactId>microscope-storage</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>

@@ -8,4 +8,16 @@
 	</parent>
 	<artifactId>microscope-analyzer</artifactId>
 	<version>${project.parent.version}</version>
+	<dependencies>
+		<dependency>
+			<groupId>com.vipshop</groupId>
+			<artifactId>microscope-common</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vipshop</groupId>
+			<artifactId>microscope-storage</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+	</dependencies>
 </project>

@@ -96,5 +96,9 @@ public class HbaseQueryRepository {
 	public List<Map<String, Object>> findJVMList(Map<String, String> query) {
 		return RepositoryFactory.getJVMTableRepository().find(query);
 	}
+	
+	public Map<String, Object> findTop() {
+		return RepositoryFactory.getTopTableRepository().findTopReport();
+	}
 
 }
