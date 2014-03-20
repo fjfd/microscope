@@ -23,6 +23,7 @@ public class HbaseStorageRepository {
 		RepositoryFactory.getTraceTableRepository().initialize();
 		RepositoryFactory.getSpanTableRepository().initialize();
 		RepositoryFactory.getExceptionTableRepository().initialize();
+		RepositoryFactory.getJVMTableRepository().initialize();
 	}
 	
 	/**
@@ -33,6 +34,7 @@ public class HbaseStorageRepository {
 		RepositoryFactory.getTraceTableRepository().drop();
 		RepositoryFactory.getSpanTableRepository().drop();
 		RepositoryFactory.getExceptionTableRepository().drop();
+		RepositoryFactory.getJVMTableRepository().drop();
 	}
 	
 	/**
@@ -71,12 +73,21 @@ public class HbaseStorageRepository {
 	}
 	
 	/**
-	 * Store Map ojbect to hbase, exception table.
+	 * Store Map ojbect to exception table.
 	 * 
 	 * @param map
 	 */
-	public void save(Map<String, Object> map) {
-		RepositoryFactory.getExceptionTableRepository().save(map);
+	public void saveException(Map<String, Object> excption) {
+		RepositoryFactory.getExceptionTableRepository().save(excption);
+	}
+	
+	/**
+	 * Store jvm metrics to jvm table.
+	 * 
+	 * @param jvm
+	 */
+	public void saveJVM(Map<String, Object> jvm) {
+		RepositoryFactory.getJVMTableRepository().save(jvm);
 	}
 	
 }

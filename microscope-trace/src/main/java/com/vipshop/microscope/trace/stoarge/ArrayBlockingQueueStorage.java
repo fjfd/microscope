@@ -1,6 +1,7 @@
 package com.vipshop.microscope.trace.stoarge;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.SortedMap;
@@ -17,7 +18,9 @@ import com.codahale.metrics.Meter;
 import com.codahale.metrics.Timer;
 import com.vipshop.microscope.common.logentry.LogEntryCodec;
 import com.vipshop.microscope.common.logentry.LogEntry;
+import com.vipshop.microscope.common.metrics.MetricsCategory;
 import com.vipshop.microscope.common.trace.Span;
+import com.vipshop.microscope.common.util.IPAddressUtil;
 import com.vipshop.microscope.trace.Tracer;
 
 /**
@@ -69,38 +72,24 @@ public class ArrayBlockingQueueStorage implements Storage {
 	 */
 	@SuppressWarnings("rawtypes")
 	public void addGauge(SortedMap<String, Gauge> gauges, long date) {
-		HashMap<String, Object> threadMetrics = new HashMap<String, Object>();
-		HashMap<String, Object> memoryMetrics = new HashMap<String, Object>();
-		HashMap<String, Object> gcMetrics = new HashMap<String, Object>();
+		HashMap<String, Object> jvmMetrics = new LinkedHashMap<String, Object>();
 		
-		threadMetrics.put("type", "thread");
-		threadMetrics.put("date", date);
-		
-		memoryMetrics.put("type", "memory");
-		memoryMetrics.put("date", date);
-		
-		gcMetrics.put("type", "gc");
-		gcMetrics.put("date", date);
+		jvmMetrics.put("type", "jvm");
+		jvmMetrics.put("date", date);
+		jvmMetrics.put("app", Tracer.APP_NAME);
+		jvmMetrics.put("ip", IPAddressUtil.IPAddress());
 		
 		for (Entry<String, Gauge> entry : gauges.entrySet()) {
-			if (entry.getKey().startsWith("Thread")) {
-				threadMetrics.put(entry.getKey(), entry.getValue().getValue());
+			if (entry.getKey().startsWith(MetricsCategory.Thread) ||
+				entry.getKey().startsWith(MetricsCategory.Memory) ||
+				entry.getKey().startsWith(MetricsCategory.GC)) {
+				jvmMetrics.put(entry.getKey(), entry.getValue().getValue());
 				continue;
 			}
 			
-			if (entry.getKey().startsWith("Thread")) {
-				threadMetrics.put(entry.getKey(), entry.getValue().getValue());
-				continue;
-			}
-			if (entry.getKey().startsWith("Thread")) {
-				threadMetrics.put(entry.getKey(), entry.getValue().getValue());
-				continue;
-			}
 		}
 		
-		add(threadMetrics);
-		add(memoryMetrics);
-		add(gcMetrics);
+		add(jvmMetrics);
 			   
 	}
 	

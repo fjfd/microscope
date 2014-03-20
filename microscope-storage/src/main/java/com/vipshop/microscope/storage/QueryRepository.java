@@ -49,7 +49,7 @@ public class QueryRepository {
 		return hbaseQueryRepository.findSpanName(traceId);
 	}
 	
-	public List<Map<String, Object>> findAppIP() {
+	public List<Map<String, Object>> findAppIPName() {
 		return hbaseQueryRepository.findAppIPName();
 	}
 	
@@ -57,4 +57,11 @@ public class QueryRepository {
 		return hbaseQueryRepository.findExcepList(query);
 	}
 	
+	public List<Map<String, Object>> findAppIP() {
+		return hbaseQueryRepository.findAppIP();
+	}
+	
+	public List<Map<String, Object>> findJVMList(Map<String, String> query) {
+		return hbaseQueryRepository.findJVMList(query);
+	}
 }

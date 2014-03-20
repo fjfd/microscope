@@ -88,5 +88,13 @@ public class HbaseQueryRepository {
 	public List<Map<String, Object>> findExcepList(Map<String, String> query) {
 		return RepositoryFactory.getExceptionTableRepository().find(query);
 	}
+	
+	public List<Map<String, Object>> findAppIP() {
+		return RepositoryFactory.getJVMTableRepository().findAppIP();
+	}
+	
+	public List<Map<String, Object>> findJVMList(Map<String, String> query) {
+		return RepositoryFactory.getJVMTableRepository().find(query);
+	}
 
 }

@@ -54,8 +54,12 @@ public class StorageRepository {
 		hbaseStorageRepository.save(span);
 	}
 	
-	public void save(Map<String, Object> map) {
-		hbaseStorageRepository.save(map);
+	public void saveException(Map<String, Object> exception) {
+		hbaseStorageRepository.saveException(exception);
+	}
+	
+	public void saveJVM(Map<String, Object> jvm) {
+		hbaseStorageRepository.saveJVM(jvm);
 	}
 	
 	public void createMySQLTable() {

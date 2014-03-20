@@ -23,7 +23,7 @@ public class TraceSerivice {
 	// ********************************** exception relative query **************************************** //
 
 	public List<Map<String, Object>> getExcepCondition() {
-		return queryRepository.findAppIP();
+		return queryRepository.findAppIPName();
 	}
 
 	public List<Map<String, Object>> getExceptionList(HttpServletRequest request) {

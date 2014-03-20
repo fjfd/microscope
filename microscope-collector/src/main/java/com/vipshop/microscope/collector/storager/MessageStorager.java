@@ -35,7 +35,7 @@ public class MessageStorager {
 	 * 
 	 * @param span
 	 */
-	public void storage(Span span) {
+	public void storageTrace(Span span) {
 		String traceId = String.valueOf(span.getTraceId());
 		String spanId = String.valueOf(span.getSpanId());
 		if (traceId.equals(spanId)) {
@@ -50,12 +50,12 @@ public class MessageStorager {
 	 * 
 	 * @param map
 	 */
-	public void storage(Map<String, Object> map) {
-		storageRepository.save(map);
+	public void storageException(Map<String, Object> map) {
+		storageRepository.saveException(map);
 	}
 	
-	public void storage() {
-		
+	public void storageJVM(Map<String, Object> jvm) {
+		storageRepository.saveJVM(jvm);
 	}
 	
 }

@@ -23,4 +23,13 @@ public class QueryRepositoryTest {
 		
 		System.out.println(result);
 	}
+	
+	@Test
+	public void testFindJVMList() {
+		Map<String, String> query = new HashMap<String, String>();
+		
+		query.put("appName", "trace");
+		query.put("ipAddress", "10.101.3.111");
+		System.out.println(QueryRepository.getQueryRepository().findJVMList(query));
+	}
 }

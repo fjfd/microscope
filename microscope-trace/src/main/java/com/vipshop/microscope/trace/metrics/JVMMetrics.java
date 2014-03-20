@@ -16,9 +16,9 @@ public class JVMMetrics {
 	private static final MetricRegistry metrics = MetricsHolder.getMetricRegistry();
 
 	public static void registerJVM() {
-		metrics.register(MetricsCategory.THREAD, new ThreadStatesGaugeSet());
+		metrics.register(MetricsCategory.Thread, new ThreadStatesGaugeSet());
 		metrics.register(MetricsCategory.Memory, new MemoryUsageGaugeSet());
-		metrics.register(MetricsCategory.GG, new GarbageCollectorMetricSet());
+		metrics.register(MetricsCategory.GC, new GarbageCollectorMetricSet());
 	}
 
 	private static final ThreadDump threadDump = new ThreadDump(ManagementFactory.getThreadMXBean());

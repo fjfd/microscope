@@ -1,6 +1,16 @@
 package com.vipshop.microscope.query.action;
 
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.vipshop.microscope.query.result.ListResult;
+import com.vipshop.microscope.query.service.ReportService;
 
 /**
  * Responsible for report data.
@@ -11,8 +21,18 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class ReportController {
 
-//	private ReportService service = new ReportService();
-//
+	private ReportService service = new ReportService();
+	
+	@RequestMapping("/report/jvmMetrics")
+	@ResponseBody
+	public ListResult marketReport(HttpServletRequest request, String callback) {
+		ListResult result = new ListResult();
+		List<Map<String, Object>> data = service.getJVMMetrics(request);
+		result.setResult(data);
+		result.setCallback(callback);
+		return result;
+	}
+	
 //	@RequestMapping("/report/marketReport")
 //	@ResponseBody
 //	public MapResult marketReport(HttpServletRequest request, String callback) {

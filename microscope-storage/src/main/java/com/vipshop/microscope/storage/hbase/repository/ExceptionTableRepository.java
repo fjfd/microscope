@@ -43,27 +43,27 @@ public class ExceptionTableRepository extends AbstraceTableRepository {
 	           UUID.randomUUID().getLeastSignificantBits();
 	}
 
-	public void save(final Map<String, Object> map) {
+	public void save(final Map<String, Object> exception) {
 		
 		hbaseTemplate.execute(ExceptionTable.INDEX_TABLE_NAME, new TableCallback<Map<String, Object>>() {
 			@Override
 			public Map<String, Object> doInTable(HTableInterface table) throws Throwable {
-				Put p = new Put(Bytes.toBytes((String)map.get("APP")));
-				p.add(ExceptionTable.BYTE_CF_APP, Bytes.toBytes((String)map.get("APP")), Bytes.toBytes((String)map.get("APP")));
-				p.add(ExceptionTable.BYTE_CF_IP, Bytes.toBytes((String)map.get("IP")), Bytes.toBytes((String)map.get("IP")));
-				p.add(ExceptionTable.BYTE_CF_NAME, Bytes.toBytes((String)map.get("Name")), Bytes.toBytes((String)map.get("Name")));
+				Put p = new Put(Bytes.toBytes((String)exception.get("APP")));
+				p.add(ExceptionTable.BYTE_CF_APP, Bytes.toBytes((String)exception.get("APP")), Bytes.toBytes((String)exception.get("APP")));
+				p.add(ExceptionTable.BYTE_CF_IP, Bytes.toBytes((String)exception.get("IP")), Bytes.toBytes((String)exception.get("IP")));
+				p.add(ExceptionTable.BYTE_CF_NAME, Bytes.toBytes((String)exception.get("Name")), Bytes.toBytes((String)exception.get("Name")));
 				table.put(p);
-				return map;
+				return exception;
 			}
 		});
 		
 		hbaseTemplate.execute(ExceptionTable.TABLE_NAME, new TableCallback<Map<String, Object>>() {
 			@Override
 			public Map<String, Object> doInTable(HTableInterface table) throws Throwable {
-				Put p = new Put(Bytes.toBytes(rowKey(map)));
-				p.add(ExceptionTable.BYTE_CF, ExceptionTable.BYTE_C_STACK, SerializationUtils.serialize((Serializable) map));
+				Put p = new Put(Bytes.toBytes(rowKey(exception)));
+				p.add(ExceptionTable.BYTE_CF, ExceptionTable.BYTE_C_STACK, SerializationUtils.serialize((Serializable) exception));
 				table.put(p);
-				return map;
+				return exception;
 			}
 		});
 	}
@@ -81,7 +81,7 @@ public class ExceptionTableRepository extends AbstraceTableRepository {
 	 */
 	public List<Map<String, Object>> findAppIPName() {
 		final List<String> appList = new ArrayList<String>();
-		final List<Map<String, Object>> appTraceList = new ArrayList<Map<String,Object>>();
+		final List<Map<String, Object>> appIPNameList = new ArrayList<Map<String,Object>>();
 		
 		hbaseTemplate.find(ExceptionTable.INDEX_TABLE_NAME, ExceptionTable.CF_APP, new RowMapper<List<String>>() {
 			@Override
@@ -106,13 +106,13 @@ public class ExceptionTableRepository extends AbstraceTableRepository {
 					appTrace.put("app", row);
 					appTrace.put("ip", Arrays.asList(ipQunitifer));
 					appTrace.put("name", Arrays.asList(nameQunitifer));
-					appTraceList.add(appTrace);
+					appIPNameList.add(appTrace);
 					return appTrace;
 				}
 			});
 		}
 		
-		return appTraceList;
+		return appIPNameList;
 	}
 	
 	public List<Map<String, Object>> find(Map<String, String> query) {
@@ -150,7 +150,7 @@ public class ExceptionTableRepository extends AbstraceTableRepository {
 		scan.setStartRow(Bytes.toBytes(startKey));
 		scan.setStopRow(Bytes.toBytes(endKey));
 		
-		List<Map<String, Object>> excepList = hbaseTemplate.find(ExceptionTable.TABLE_NAME, scan, new RowMapper<Map<String, Object>>() {
+		List<Map<String, Object>> exceptionList = hbaseTemplate.find(ExceptionTable.TABLE_NAME, scan, new RowMapper<Map<String, Object>>() {
 			@SuppressWarnings("unchecked")
 			@Override
 			public Map<String, Object> mapRow(Result result, int rowNum) throws Exception {
@@ -158,6 +158,6 @@ public class ExceptionTableRepository extends AbstraceTableRepository {
 			}
 		});
 		
-		return excepList;
+		return exceptionList;
 	}
 }

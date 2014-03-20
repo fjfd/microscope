@@ -5,6 +5,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.vipshop.microscope.storage.hbase.repository.AppTableRepository;
 import com.vipshop.microscope.storage.hbase.repository.ExceptionTableRepository;
+import com.vipshop.microscope.storage.hbase.repository.JVMTableRepository;
 import com.vipshop.microscope.storage.hbase.repository.SpanTableRepository;
 import com.vipshop.microscope.storage.hbase.repository.TraceTableRepository;
 
@@ -21,6 +22,7 @@ public class RepositoryFactory {
 	private static final SpanTableRepository  SPAN_TABLE;
 	
 	private static final ExceptionTableRepository EXCEPTION_TABLE;
+	private static final JVMTableRepository JVM_TABLB;
 	
 	/**
 	 * Initialize hbase tables. 
@@ -31,12 +33,14 @@ public class RepositoryFactory {
 		TRACE_TABLE = context.getBean(TraceTableRepository.class);
 		SPAN_TABLE  = context.getBean(SpanTableRepository.class);
 		EXCEPTION_TABLE = context.getBean(ExceptionTableRepository.class);
-
+		JVM_TABLB = context.getBean(JVMTableRepository.class);
+		
 		APP_TABLE.initialize();
 		TRACE_TABLE.initialize();
 		SPAN_TABLE.initialize();
 		
 		EXCEPTION_TABLE.initialize();
+		JVM_TABLB.initialize();
 		
 		context.close();
 	}
@@ -70,10 +74,20 @@ public class RepositoryFactory {
 	
 	/**
 	 * Return {@link ExceptionTableRepository}
+	 * 
 	 * @return
 	 */
 	public static ExceptionTableRepository getExceptionTableRepository() {
 		return EXCEPTION_TABLE;
+	}
+	
+	/**
+	 * Return {@link JVMTableRepository}
+	 * 
+	 * @return
+	 */
+	public static JVMTableRepository getJVMTableRepository() {
+		return JVM_TABLB;
 	}
 	
 }

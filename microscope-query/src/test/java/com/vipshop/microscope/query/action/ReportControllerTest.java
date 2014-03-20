@@ -1,6 +1,7 @@
 package com.vipshop.microscope.query.action;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.http.client.ClientProtocolException;
 import org.testng.annotations.AfterClass;
@@ -71,6 +72,16 @@ public class ReportControllerTest {
 		String url = "http://localhost:8080/report/sourceReport?year=2013&month=11&week=4&day=25&callback=jQuery11020021555292898187584";
 		String result = HttpClientUtil.request(url);
 		System.out.println(result);
+	}
+	
+	@Test
+	public void testJVMMetrics() throws ClientProtocolException, IOException, InterruptedException {
+		while (true) {
+			String url = "http://localhost:8080/report/jvmMetrics?appName=trace&ipAddress=10.101.3.111&callback=jQuery11020021555292898187584";
+			String result = HttpClientUtil.request(url);
+			System.out.println(result);
+			TimeUnit.SECONDS.sleep(5);
+		}
 	}
 	
 }
