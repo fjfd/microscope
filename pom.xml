@@ -42,8 +42,8 @@
 	</properties>
 
 	<modules>
-		<module>microscope-alert</module>
-		<module>microscope-analyze</module>
+		<module>microscope-alerter</module>
+		<module>microscope-analyzer</module>
 		<module>microscope-collector</module>
 		<module>microscope-common</module>
 		<module>microscope-job</module>
@@ -51,7 +51,7 @@
 		<module>microscope-storage</module>
 		<module>microscope-test</module>
 		<module>microscope-trace</module>
-		<module>microscope-validate</module>
+		<module>microscope-validater</module>
 		<module>microscope-web</module>
 	</modules>
 
