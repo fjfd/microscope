@@ -2,14 +2,34 @@ package com.vipshop.microscope.query.user;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.HashMap;
 import java.util.Map;
+
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
 import org.jasig.cas.client.authentication.AttributePrincipal;
 import org.jasig.cas.client.util.AssertionHolder;
 import org.jasig.cas.client.validation.Assertion;
 
-public class UserService {
+import com.vipshop.microscope.storage.StorageRepository;
 
+public class UserService {
+	
+	public static void recoreUserHistory(ServletRequest request) {
+		Assertion assertion = AssertionHolder.getAssertion();
+		AttributePrincipal principal = assertion.getPrincipal();
+		String infoSnapshot = principal.getName();
+		String[] info = infoSnapshot.split("\\|");
+		
+		HashMap<String, String> user = new HashMap<String, String>();
+		user.put("username", info[0]);
+		user.put("history", ((HttpServletRequest)request).getRequestURL().toString());
+
+		StorageRepository.getStorageRepository().saveUser(user);
+
+	}
+	
 	public User fetchLogin() {
 		User user = new User();
 		Assertion assertion = AssertionHolder.getAssertion();
@@ -31,6 +51,7 @@ public class UserService {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
+		
 		return user;
 	}
 

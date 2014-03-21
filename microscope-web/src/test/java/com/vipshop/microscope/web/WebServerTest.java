@@ -2,12 +2,14 @@ package com.vipshop.microscope.web;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ResourceHandler;
+import org.testng.annotations.Test;
 
 import com.vipshop.microscope.query.server.QueryServer;
 
 public class WebServerTest {
 
-	public static void main(String[] args) throws Exception {
+	@Test
+	public void testWebServer() throws Exception {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -24,6 +26,8 @@ public class WebServerTest {
 		resourceHandler.setResourceBase("E:\\Workspace\\microscope-web");
 		server.setHandler(resourceHandler);
 		server.start();
+		
+		Thread.currentThread().join();
 		
 	}
 }
