@@ -8,10 +8,13 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.stereotype.Service;
+
 import com.vipshop.microscope.common.trace.Span;
 import com.vipshop.microscope.storage.QueryRepository;
 import com.vipshop.microscope.storage.hbase.domain.TraceTable;
 
+@Service
 public class TraceSerivice {
 	
 	private final QueryRepository queryRepository = QueryRepository.getQueryRepository();

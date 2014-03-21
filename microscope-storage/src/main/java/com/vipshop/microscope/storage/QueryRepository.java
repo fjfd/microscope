@@ -69,7 +69,7 @@ public class QueryRepository {
 		return hbaseQueryRepository.findTop();
 	}
 	
-	public List<Map<String, String>> findUserHistory() {
+	public List<Map<String, Object>> findUserHistory() {
 		return hbaseQueryRepository.findUserHistory();
 	}
  }

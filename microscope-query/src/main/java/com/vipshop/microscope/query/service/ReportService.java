@@ -6,9 +6,11 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.stereotype.Service;
+
 import com.vipshop.microscope.storage.QueryRepository;
 
-
+@Service
 public class ReportService {
 	
 	private final QueryRepository queryRepository = QueryRepository.getQueryRepository();

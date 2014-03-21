@@ -32,7 +32,8 @@ public class UserTableRepository extends AbstraceTableRepository {
 			public Map<String, String> doInTable(HTableInterface table) throws Throwable {
 				Put p = new Put(UserTable.rowKey(user));
 				p.add(UserTable.BYTE_CF_INFO, UserTable.BYTE_C_INFO_USER, Bytes.toBytes(user.get("username")));
-				p.add(UserTable.BYTE_CF_HISTORY, Bytes.toBytes(System.currentTimeMillis()), Bytes.toBytes(user.get("history")));
+				String timestamp = String.valueOf(System.currentTimeMillis());
+				p.add(UserTable.BYTE_CF_HISTORY, Bytes.toBytes(timestamp), Bytes.toBytes(user.get("history")));
 				
 				table.put(p);
 				return user;
@@ -40,12 +41,12 @@ public class UserTableRepository extends AbstraceTableRepository {
 		});
 	}
 	
-	public List<Map<String, String>> findUserHistory() {
+	public List<Map<String, Object>> findUserHistory() {
 		Scan scan = new Scan();
-		return hbaseTemplate.find(UserTable.TABLE_NAME, scan, new RowMapper<Map<String, String>>() {
+		return hbaseTemplate.find(UserTable.TABLE_NAME, scan, new RowMapper<Map<String, Object>>() {
 			@Override
-			public Map<String, String> mapRow(Result result, int rowNum) throws Exception {
-				Map<String, String> user = new HashMap<String, String>();
+			public Map<String, Object> mapRow(Result result, int rowNum) throws Exception {
+				Map<String, Object> user = new HashMap<String, Object>();
 				user.put("username", Bytes.toString(result.getValue(UserTable.BYTE_CF_INFO, UserTable.BYTE_C_INFO_USER)));
 				String[] historyQunitifer = getColumnsInColumnFamily(result, UserTable.CF_HISTORY);
 				StringBuilder builder = new StringBuilder();
@@ -55,7 +56,7 @@ public class UserTableRepository extends AbstraceTableRepository {
 					builder.append(";");
 				}
 				user.put("history", builder.toString());
-				return null;
+				return user;
 			}
 		});
 	}

@@ -27,7 +27,7 @@ public class TracerTest {
 		} finally {
 			Tracer.clientReceive();
 		}
-		TimeUnit.SECONDS.sleep(1);
+		TimeUnit.SECONDS.sleep(3);
 	}
 	
 	@Test
@@ -42,7 +42,7 @@ public class TracerTest {
 		} finally {
 			Tracer.clientReceive();
 		}
-		TimeUnit.SECONDS.sleep(10);
+		TimeUnit.SECONDS.sleep(3);
 	}
 
 	@Test

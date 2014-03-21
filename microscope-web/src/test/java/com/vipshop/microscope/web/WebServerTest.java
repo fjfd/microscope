@@ -9,7 +9,7 @@ import com.vipshop.microscope.query.server.QueryServer;
 public class WebServerTest {
 
 	@Test
-	public void testWebServer() throws Exception {
+	public void testWebServer1() throws Exception {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -30,4 +30,17 @@ public class WebServerTest {
 		Thread.currentThread().join();
 		
 	}
+	
+	@Test
+	public void testWebServer2() throws Exception {
+		Server server = new Server(80);
+		ResourceHandler resourceHandler = new ResourceHandler();
+		resourceHandler.setResourceBase("E:\\Workspace\\microscope-web");
+		server.setHandler(resourceHandler);
+		server.start();
+		
+		Thread.currentThread().join();
+		
+	}
+
 }
