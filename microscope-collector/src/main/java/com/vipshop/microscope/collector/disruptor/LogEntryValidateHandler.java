@@ -18,7 +18,7 @@ import com.vipshop.microscope.common.trace.Span;
  */
 public class LogEntryValidateHandler implements EventHandler<LogEntryEvent> {
 
-	private final MessageValidater messageValidater = MessageValidater.getMessageValidater();
+	private final MessageValidater messageValidater = new MessageValidater();
 
 	private RingBuffer<TraceEvent> traceRingBuffer;
 	private RingBuffer<MetricsEvent> metricsRingBuffer;
@@ -35,29 +35,15 @@ public class LogEntryValidateHandler implements EventHandler<LogEntryEvent> {
 
 		// handle trace message
 		if (category.equals(LogEntryCategory.TRACE)) {
-
 			Span span = LogEntryCodec.decodeToSpan(logEntry.getMessage());
-			/*
-			 * validate span message
-			 */
 			span = messageValidater.validateMessage(span);
-			/*
-			 * publish span to ringbuffer
-			 */
 			publish(span);
 		}
 
 		// handle metrics message
 		if (category.equals(LogEntryCategory.METRICS)) {
-
 			HashMap<String, Object> metrics = LogEntryCodec.decodeToMap(logEntry.getMessage());
-			/*
-			 * validat metrics message
-			 */
 			metrics = messageValidater.validateMessage(metrics);
-			/*
-			 * publish metrics to ringbuffer
-			 */
 			publish(metrics);
 		}
 	}

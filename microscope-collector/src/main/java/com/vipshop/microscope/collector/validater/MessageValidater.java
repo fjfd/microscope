@@ -2,8 +2,8 @@ package com.vipshop.microscope.collector.validater;
 
 import java.util.HashMap;
 
-import com.vipshop.microscope.common.logentry.LogEntry;
 import com.vipshop.microscope.common.trace.Span;
+import com.vipshop.microscope.validater.ValidateEngine;
 
 /**
  * Validate message from client.
@@ -13,28 +13,13 @@ import com.vipshop.microscope.common.trace.Span;
  */
 public class MessageValidater {
 	
-	private static class MessageValidaterHolder {
-		private static MessageValidater messageValidater = new MessageValidater();
-	}
-	
-	public static MessageValidater getMessageValidater() {
-		return MessageValidaterHolder.messageValidater;
-	}
-
-	private final TraceMessageValidater traceMessageValidater = new TraceMessageValidater();
-	private final MetricsMessageValidater metricsMessageValidater = new MetricsMessageValidater();
-	
-	private MessageValidater() {}
-	
-	public void validate(LogEntry logEntry) {
-		
-	}
+	private ValidateEngine validateEngine = new ValidateEngine();
 	
 	public Span validateMessage(Span span) {
-		return traceMessageValidater.validate(span);
+		return validateEngine.validate(span);
 	}
 	
 	public HashMap<String, Object> validateMessage(HashMap<String, Object> metrics) {
-		return metricsMessageValidater.validate(metrics);
+		return validateEngine.validate(metrics);
 	}
 }

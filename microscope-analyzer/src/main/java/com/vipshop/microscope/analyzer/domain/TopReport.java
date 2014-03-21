@@ -1,6 +1,9 @@
 package com.vipshop.microscope.analyzer.domain;
 
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.PriorityQueue;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
@@ -9,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import com.vipshop.microscope.common.queue.FixedPriorityQueue;
 import com.vipshop.microscope.common.trace.Category;
 import com.vipshop.microscope.common.trace.Span;
+import com.vipshop.microscope.storage.StorageRepository;
 
 /**
  * Top 10 slow report
@@ -30,6 +34,8 @@ import com.vipshop.microscope.common.trace.Span;
 public class TopReport extends AbstraceReport {
 	
 	private static final Logger logger = LoggerFactory.getLogger(TopReport.class);
+	
+	private StorageRepository repository = StorageRepository.getStorageRepository();
 	
 	private ConcurrentHashMap<Category, FixedPriorityQueue<Span>> container;
 
@@ -64,10 +70,27 @@ public class TopReport extends AbstraceReport {
 		logger.info("analyze top report for span --> " + span);
 		FixedPriorityQueue<Span> queue = container.get(Category.valueOf(span.getSpanType()));
 		queue.add(span);
+		writeReport();
 	}
 	
 	public ConcurrentHashMap<Category, FixedPriorityQueue<Span>> getContainer() {
 		return container;
+	}
+	
+	private void writeReport() {
+		HashMap<String, Object> top = new HashMap<String, Object>();
+		for (Entry<Category, FixedPriorityQueue<Span>> entry : container.entrySet()) {
+			StringBuilder builder = new StringBuilder();
+			PriorityQueue<Span> queue = entry.getValue().getQueue();
+			for (Span span : queue) {
+				builder.append(span.getAppName()).append("=")
+				 	   .append(span.getTraceId()).append("=")
+				 	   .append(span.getDuration()).append("=")
+				 	   .append(span.getStartTime()).append(";");
+			}
+			top.put(entry.getKey().getStrValue(), builder.toString());
+		}
+		repository.saveTop(top);
 	}
 	
 }

@@ -6,8 +6,21 @@
 		<artifactId>microscope</artifactId>
 		<version>1.4.0</version>
 	</parent>
-	
+
 	<artifactId>microscope-validater</artifactId>
 	<version>${project.parent.version}</version>
-	
+
+	<dependencies>
+		<dependency>
+			<groupId>com.vipshop</groupId>
+			<artifactId>microscope-common</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vipshop</groupId>
+			<artifactId>microscope-storage</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+	</dependencies>
+
 </project>

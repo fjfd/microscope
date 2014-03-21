@@ -1,4 +1,4 @@
-package com.vipshop.microscope.collector.validater;
+package com.vipshop.microscope.validater.metrics;
 
 import java.util.HashMap;
 

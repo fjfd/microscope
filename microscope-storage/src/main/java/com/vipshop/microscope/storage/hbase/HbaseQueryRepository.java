@@ -100,5 +100,9 @@ public class HbaseQueryRepository {
 	public Map<String, Object> findTop() {
 		return RepositoryFactory.getTopTableRepository().findTopReport();
 	}
+	
+	public List<Map<String, String>> findUserHistory() {
+		return RepositoryFactory.getUserTableRepository().findUserHistory();
+	}
 
 }

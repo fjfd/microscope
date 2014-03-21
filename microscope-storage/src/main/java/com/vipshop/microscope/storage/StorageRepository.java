@@ -66,6 +66,10 @@ public class StorageRepository {
 		hbaseStorageRepository.saveTop(top);
 	}
 	
+	public void saveUser(Map<String, String> user) {
+		hbaseStorageRepository.saveUser(user);
+	}
+	
 	public void createMySQLTable() {
 		mysqlStorageRepository.create();
 	}

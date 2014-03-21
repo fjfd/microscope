@@ -1,4 +1,4 @@
-package com.vipshop.microscope.collector.validater;
+package com.vipshop.microscope.validater.trace;
 
 import com.vipshop.microscope.common.trace.Span;
 

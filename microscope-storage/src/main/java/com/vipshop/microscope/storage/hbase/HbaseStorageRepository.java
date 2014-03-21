@@ -25,6 +25,7 @@ public class HbaseStorageRepository {
 		RepositoryFactory.getExceptionTableRepository().initialize();
 		RepositoryFactory.getJVMTableRepository().initialize();
 		RepositoryFactory.getTopTableRepository().initialize();
+		RepositoryFactory.getUserTableRepository().initialize();
 	}
 	
 	/**
@@ -37,6 +38,7 @@ public class HbaseStorageRepository {
 		RepositoryFactory.getExceptionTableRepository().drop();
 		RepositoryFactory.getJVMTableRepository().drop();
 		RepositoryFactory.getTopTableRepository().drop();
+		RepositoryFactory.getUserTableRepository().drop();
 	}
 	
 	/**
@@ -99,6 +101,15 @@ public class HbaseStorageRepository {
 	 */
 	public void saveTop(Map<String, Object> top) {
 		RepositoryFactory.getTopTableRepository().save(top);
+	}
+	
+	/**
+	 * Store user query info to hbase.
+	 * 
+	 * @param user
+	 */
+	public void saveUser(Map<String, String> user) {
+		RepositoryFactory.getUserTableRepository().save(user);
 	}
 	
 }

@@ -1,5 +1,7 @@
 package com.vipshop.microscope.collector.analyzer;
 
+import java.util.Map;
+
 import com.vipshop.microscope.analyzer.AnalyzeEngine;
 import com.vipshop.microscope.common.trace.Span;
 
@@ -15,5 +17,9 @@ public class MessageAnalyzer {
 	
 	public void analyze(Span span) {
 		engine.analyze(span);
+	}
+	
+	public void analyze(Map<String, Object> metrics) {
+		engine.analyze(metrics);
 	}
 }

@@ -1,5 +1,8 @@
 package com.vipshop.microscope.collector.alerter;
 
+import java.util.Map;
+
+import com.vipshop.microscope.alerter.AlertEngine;
 import com.vipshop.microscope.common.trace.Span;
 
 /**
@@ -10,7 +13,13 @@ import com.vipshop.microscope.common.trace.Span;
  */
 public class MessageAlerter {
 	
+	private AlertEngine alertEngine = new AlertEngine();
+	
 	public void alert(Span span) {
-		
+		alertEngine.alert(span);
+	}
+	
+	public void alert(Map<String, Object> metrics) {
+		alertEngine.alert(metrics);
 	}
 }

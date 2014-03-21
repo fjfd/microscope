@@ -20,6 +20,10 @@ public class ReportService {
 		return queryRepository.findJVMList(query);
 	}
 	
+	public Map<String, Object> getTopReport() {
+		return queryRepository.findTop();
+	}
+	
 //	public Map<String, Object> getMarketReport(MarketReportCondition condition) {
 //		Map<String, Object> result = new HashMap<String, Object>();
 //		return result;

@@ -9,6 +9,7 @@ import com.vipshop.microscope.storage.hbase.repository.JVMTableRepository;
 import com.vipshop.microscope.storage.hbase.repository.SpanTableRepository;
 import com.vipshop.microscope.storage.hbase.repository.TopTableRepository;
 import com.vipshop.microscope.storage.hbase.repository.TraceTableRepository;
+import com.vipshop.microscope.storage.hbase.repository.UserTableRepository;
 
 /**
  * Hbase Factory responsible for create Repository.
@@ -27,6 +28,8 @@ public class RepositoryFactory {
 	
 	private static final TopTableRepository TOP_TABLE;
 	
+	private static final UserTableRepository USER_TABLE;
+	
 	/**
 	 * Initialize hbase tables. 
 	 */
@@ -38,6 +41,7 @@ public class RepositoryFactory {
 		EXCEPTION_TABLE = context.getBean(ExceptionTableRepository.class);
 		JVM_TABLB = context.getBean(JVMTableRepository.class);
 		TOP_TABLE = context.getBean(TopTableRepository.class);
+		USER_TABLE = context.getBean(UserTableRepository.class);
 		
 		APP_TABLE.initialize();
 		TRACE_TABLE.initialize();
@@ -47,6 +51,7 @@ public class RepositoryFactory {
 		JVM_TABLB.initialize();
 		TOP_TABLE.initialize();
 		
+		USER_TABLE.initialize();
 		context.close();
 	}
 	
@@ -95,8 +100,21 @@ public class RepositoryFactory {
 		return JVM_TABLB;
 	}
 	
+	/**
+	 * Return {@link TopTableRepository}
+	 * 
+	 * @return
+	 */
 	public static TopTableRepository getTopTableRepository() {
 		return TOP_TABLE;
+	}
+	
+	/**
+	 * Return {@link UserTableRepository}
+	 * @return
+	 */
+	public static UserTableRepository getUserTableRepository() {
+		return USER_TABLE;
 	}
 	
 }

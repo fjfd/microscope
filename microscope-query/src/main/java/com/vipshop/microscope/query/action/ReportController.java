@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.vipshop.microscope.query.result.ListResult;
+import com.vipshop.microscope.query.result.MapResult;
 import com.vipshop.microscope.query.service.ReportService;
 
 /**
@@ -23,11 +24,21 @@ public class ReportController {
 
 	private ReportService service = new ReportService();
 	
-	@RequestMapping("/report/jvmMetrics")
+	@RequestMapping("/report/jvmReport")
 	@ResponseBody
-	public ListResult marketReport(HttpServletRequest request, String callback) {
+	public ListResult jvmReport(HttpServletRequest request, String callback) {
 		ListResult result = new ListResult();
 		List<Map<String, Object>> data = service.getJVMMetrics(request);
+		result.setResult(data);
+		result.setCallback(callback);
+		return result;
+	}
+	
+	@RequestMapping("/report/topReport")
+	@ResponseBody
+	public MapResult topReport(HttpServletRequest request, String callback) {
+		MapResult result = new MapResult();
+		Map<String, Object> data = service.getTopReport();
 		result.setResult(data);
 		result.setCallback(callback);
 		return result;
