@@ -1,6 +1,5 @@
-package com.vipshop.microscope.analyzer.domain;
+package com.vipshop.microscope.analyzer.report;
 
-import com.vipshop.microscope.common.trace.Span;
 import com.vipshop.microscope.common.util.CalendarUtil;
 
 /**
@@ -95,8 +94,6 @@ public abstract class AbstraceReport {
 		this.setHour(calendarUtil.currentHour());
 		this.setMinute((calendarUtil.currentMinute()));
 	}
-	
-	public abstract void analyze(Span span);
 	
 	/**
 	 * Getter and setter method for mybatis ORM map.

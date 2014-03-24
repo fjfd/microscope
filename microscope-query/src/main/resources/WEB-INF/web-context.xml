@@ -6,14 +6,9 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
-	<context:component-scan base-package="com.vipshop.microscope.query.action" use-default-filters="false">
-		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	<context:component-scan base-package="com.vipshop.microscope.query" use-default-filters="true">
 	</context:component-scan>
 	
-	<context:component-scan base-package="com.vipshop.microscope.query.service" use-default-filters="false">
-		<context:include-filter type="annotation" expression="org.springframework.stereotype.Service" />
-	</context:component-scan>
-
 	<bean
 		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<property name="messageConverters">

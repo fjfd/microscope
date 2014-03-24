@@ -1,62 +1,52 @@
 package com.vipshop.microscope.common.queue;
 
 import java.util.Comparator;
-import java.util.PriorityQueue;
+import java.util.TreeMap;
 
-public class FixedPriorityQueue<E> {
+import com.vipshop.microscope.common.trace.Span;
+
+public class FixedPriorityQueue {
 	
-	private PriorityQueue<E> queue;
-	private int maxSize; 
+	private int initialCapacity;
 	
-	private Comparator<E> comparator;
-
-	public FixedPriorityQueue(int maxSize, Comparator<E> comparator) {
-		if (maxSize <= 0)
-			throw new IllegalArgumentException();
-		this.maxSize = maxSize;
-		this.queue = new PriorityQueue<E>(maxSize);
-		this.comparator = comparator;
-	}
-
-	public void add(E e) {
-		if (queue.size() < maxSize) {
-			queue.add(e);
-		} else { 
-			E peek = queue.peek();
-			if (comparator.compare(e, peek) < 0) {
-				queue.poll();
-				queue.add(e);
-				
+	/**
+	 * A sorted map store top 10 data<K,V>
+	 * 
+	 * key   --> span duration
+	 * value --> app name
+	 */
+	private TreeMap<Integer, Span> container = new TreeMap<Integer, Span>(new Comparator<Integer>() {
+		@Override
+		public int compare(Integer o1, Integer o2) {
+			if(o1.intValue() > o2.intValue()){
+				return -1;
 			}
+			if(o1.intValue() < o2.intValue()){
+				return 1;
+			}
+			return 0;
+		}
+	});
+	
+	public FixedPriorityQueue(int initialCapacity) {
+		this.initialCapacity = initialCapacity;
+	}
+	
+	public void add(Span span) {
+		container.put(span.getDuration(), span);
+		
+		if (container.size() > this.initialCapacity) {
+			container.pollLastEntry();
 		}
 	}
 	
-	public PriorityQueue<E> getQueue() {
-		return queue;
+	public TreeMap<Integer, Span> getQueue() {
+		return container;
+	}
+	
+	@Override
+	public String toString() {
+		return container.toString();
 	}
 
-	public static void main(String[] args) {
-		Comparator<Integer> comparator = new Comparator<Integer>() {
-
-			@Override
-			public int compare(Integer o1, Integer o2) {
-				if (o1.intValue() > o2.intValue()) {
-					return -1;
-				} else if (o1.intValue() == o2.intValue()) {
-					return 0;
-				} else {
-					return 1;
-				}
-			}
-		};
-		
-		final FixedPriorityQueue<Integer> pq = new FixedPriorityQueue<Integer>(10, comparator);
-		for (int i = 0; i < 100; i++) {
-			pq.add(i);
-		}
-		
-		System.out.println(pq.queue.toString());
-		
-		
-	}
 }

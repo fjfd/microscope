@@ -10,22 +10,19 @@ import com.vipshop.microscope.common.trace.Category;
 import com.vipshop.microscope.trace.Tracer;
 
 public class PerfTest {
-	
+
 	@Test
-	public void traceUseExampleWithException() throws InterruptedException {
+	public void testTrace() throws InterruptedException {
 		ExecutorService executor = Executors.newFixedThreadPool(10);
 		for (int i = 0; i < 10; i++) {
 			executor.execute(new Runnable() {
-				
 				@Override
 				public void run() {
-					// TODO Auto-generated method stub
 					while (true) {
 						Tracer.cleanContext();
-						Tracer.clientSend("example-with-exception", Category.Method);
+						Tracer.clientSend("trace-perf-test", Category.Method);
 						try {
-							TimeUnit.MILLISECONDS.sleep(0);
-							throw new RuntimeException();
+							TimeUnit.MILLISECONDS.sleep(1);
 						} catch (Exception e) {
 							Tracer.setResultCode(e);
 						} finally {
