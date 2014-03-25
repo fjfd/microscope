@@ -118,6 +118,9 @@ public class TraceTableRepository extends AbstraceTableRepository {
 		scan.setStartRow(Bytes.toBytes(startKey));
 		scan.setStopRow(Bytes.toBytes(endKey));
 					
+		scan.setCaching(100);
+		scan.setCacheBlocks(true);
+		
 		List<TraceTable> tableTraces = hbaseTemplate.find(TraceTable.TABLE_NAME, scan, new RowMapper<TraceTable>() {
 			@Override
 			public TraceTable mapRow(Result result, int rowNum) throws Exception {

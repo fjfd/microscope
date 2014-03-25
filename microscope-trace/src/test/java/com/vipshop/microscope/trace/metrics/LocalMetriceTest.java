@@ -66,7 +66,7 @@ public class LocalMetriceTest {
     	Random rand = new Random();
         while(true){
             randomNums.update((int) (rand.nextDouble()*100));
-            Thread.sleep(100);
+            Thread.sleep(1000);
         }
     }
     

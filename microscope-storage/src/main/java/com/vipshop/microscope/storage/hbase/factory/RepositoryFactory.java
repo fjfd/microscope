@@ -1,5 +1,6 @@
 package com.vipshop.microscope.storage.hbase.factory;
 
+import org.apache.hadoop.conf.Configuration;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -115,6 +116,10 @@ public class RepositoryFactory {
 	 */
 	public static UserTableRepository getUserTableRepository() {
 		return USER_TABLE;
+	}
+	
+	public static Configuration getConfiguration() {
+		return USER_TABLE.getConfiguration();
 	}
 	
 }

@@ -19,6 +19,7 @@ public class AnalyzeEngine {
 	public AnalyzeEngine() {}
 	
 	public void analyze(final Span span) {
+
 		topExecutor.execute(new Runnable() {
 			@Override
 			public void run() {

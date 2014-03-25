@@ -2,6 +2,9 @@ package com.vipshop.microscope.collector.disruptor;
 
 import java.util.HashMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.lmax.disruptor.EventHandler;
 import com.lmax.disruptor.RingBuffer;
 import com.vipshop.microscope.collector.validater.MessageValidater;
@@ -18,6 +21,8 @@ import com.vipshop.microscope.common.trace.Span;
  */
 public class LogEntryValidateHandler implements EventHandler<LogEntryEvent> {
 
+	public final Logger logger = LoggerFactory.getLogger(LogEntryValidateHandler.class);
+	
 	private final MessageValidater messageValidater = new MessageValidater();
 
 	private RingBuffer<TraceEvent> traceRingBuffer;
@@ -35,14 +40,27 @@ public class LogEntryValidateHandler implements EventHandler<LogEntryEvent> {
 
 		// handle trace message
 		if (category.equals(LogEntryCategory.TRACE)) {
-			Span span = LogEntryCodec.decodeToSpan(logEntry.getMessage());
+			Span span = null;
+			try {
+				span = LogEntryCodec.decodeToSpan(logEntry.getMessage());
+			} catch (Exception e) {
+				logger.error("decode to Span error, ignore this message ", e);
+				return;
+			}
 			span = messageValidater.validateMessage(span);
 			publish(span);
 		}
 
 		// handle metrics message
 		if (category.equals(LogEntryCategory.METRICS)) {
-			HashMap<String, Object> metrics = LogEntryCodec.decodeToMap(logEntry.getMessage());
+			HashMap<String, Object> metrics = null;
+			try {
+				metrics = LogEntryCodec.decodeToMap(logEntry.getMessage());
+			} catch (Exception e) {
+				logger.error("decode to Metrics error, ignore this message ", e);
+				// TODO: handle exception
+				return;
+			}
 			metrics = messageValidater.validateMessage(metrics);
 			publish(metrics);
 		}

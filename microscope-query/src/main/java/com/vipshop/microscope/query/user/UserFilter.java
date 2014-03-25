@@ -21,7 +21,7 @@ import org.jasig.cas.client.validation.Assertion;
 import com.vipshop.microscope.storage.StorageRepository;
 
 public class UserFilter implements Filter {
-
+	
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 	
