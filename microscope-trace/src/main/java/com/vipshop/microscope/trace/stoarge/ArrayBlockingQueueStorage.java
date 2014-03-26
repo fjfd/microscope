@@ -80,17 +80,12 @@ public class ArrayBlockingQueueStorage implements Storage {
 		jvmMetrics.put("ip", IPAddressUtil.IPAddress());
 		
 		for (Entry<String, Gauge> entry : gauges.entrySet()) {
-			if (entry.getKey().startsWith(MetricsCategory.Thread) ||
-				entry.getKey().startsWith(MetricsCategory.Memory) ||
-				entry.getKey().startsWith(MetricsCategory.GC)) {
+			if (entry.getKey().startsWith(MetricsCategory.JVM)) {
 				jvmMetrics.put(entry.getKey(), entry.getValue().getValue());
 				continue;
 			}
-			
 		}
-		
 		add(jvmMetrics);
-			   
 	}
 	
 	/**

@@ -8,10 +8,6 @@ package com.vipshop.microscope.trace.switcher;
  */
 public interface Switcher {
 	
-	public void open();
-	
-	public void close();
-	
 	public boolean isOpen();
 	
 	public boolean isClose();

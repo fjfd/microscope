@@ -13,6 +13,16 @@ import com.vipshop.microscope.common.trace.Span;
  */
 public class MessageAlerter {
 	
+	private static final class MessageAlerterHolder {
+		private static final MessageAlerter MESSAGE_ALERTER = new MessageAlerter();
+	}
+	
+	public static MessageAlerter getMessageAlerter() {
+		return MessageAlerterHolder.MESSAGE_ALERTER;
+	}
+	
+	private MessageAlerter() {}
+	
 	private AlertEngine alertEngine = new AlertEngine();
 	
 	public void alert(Span span) {

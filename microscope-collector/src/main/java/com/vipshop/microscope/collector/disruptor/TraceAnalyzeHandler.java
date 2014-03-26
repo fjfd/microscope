@@ -11,7 +11,7 @@ import com.vipshop.microscope.collector.analyzer.MessageAnalyzer;
  */
 public class TraceAnalyzeHandler implements EventHandler<TraceEvent> {
 	
-	private final MessageAnalyzer messageAnalyzer = new MessageAnalyzer();
+	private final MessageAnalyzer messageAnalyzer = MessageAnalyzer.getMessageAnalyzer();
 	
 	public void onEvent(TraceEvent event, long sequence, boolean endOfBatch) throws Exception {
 		messageAnalyzer.analyze(event.getSpan());

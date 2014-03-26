@@ -11,7 +11,7 @@ import com.vipshop.microscope.collector.alerter.MessageAlerter;
  */
 public class TraceAlertHandler implements EventHandler<TraceEvent>{
 	
-	private MessageAlerter alerter = new MessageAlerter();
+	private MessageAlerter alerter = MessageAlerter.getMessageAlerter();
 	
 	@Override
 	public void onEvent(TraceEvent event, long sequence, boolean endOfBatch) throws Exception {

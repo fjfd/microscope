@@ -14,16 +14,6 @@ public class ConfigSwitcher implements Switcher {
 	private static final int CLOSE = 0;
 
 	@Override
-	public void open() {
-		throw new UnsupportedOperationException("can't change switcher state to open");
-	}
-
-	@Override
-	public void close() {
-		throw new UnsupportedOperationException("can't change switcher state to close");
-	}
-
-	@Override
 	public boolean isOpen() {
 		return Tracer.SWITCH == OPEN;
 	}

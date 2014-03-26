@@ -15,7 +15,7 @@ import com.vipshop.microscope.common.trace.Span;
  */
 public class TraceAnalyzeWorker implements Runnable {
 	
-	private final MessageAnalyzer analyzer = new MessageAnalyzer();
+	private final MessageAnalyzer analyzer = MessageAnalyzer.getMessageAnalyzer();
 	private final LinkedBlockingQueue<Span> queue;
 	
 	public TraceAnalyzeWorker(LinkedBlockingQueue<Span> queue) {

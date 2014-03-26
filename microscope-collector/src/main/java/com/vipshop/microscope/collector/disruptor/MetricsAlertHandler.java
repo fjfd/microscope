@@ -1,6 +1,7 @@
 package com.vipshop.microscope.collector.disruptor;
 
 import com.lmax.disruptor.EventHandler;
+import com.vipshop.microscope.collector.alerter.MessageAlerter;
 
 /**
  * Metrice alert handler.
@@ -10,8 +11,10 @@ import com.lmax.disruptor.EventHandler;
  */
 public class MetricsAlertHandler implements EventHandler<MetricsEvent> {
 	
+	private MessageAlerter alerter = MessageAlerter.getMessageAlerter();
+	
 	@Override
 	public void onEvent(MetricsEvent event, long sequence, boolean endOfBatch) throws Exception {
-		
+		alerter.alert(event.getResult());
 	}
 }

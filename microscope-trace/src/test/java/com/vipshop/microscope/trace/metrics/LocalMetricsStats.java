@@ -2,6 +2,7 @@ package com.vipshop.microscope.trace.metrics;
 
 import java.util.concurrent.TimeUnit;
 
+import com.codahale.metrics.ConsoleReporter;
 import com.codahale.metrics.Histogram;
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.Metric;
@@ -16,13 +17,13 @@ import com.vipshop.microscope.trace.metrics.jvm.JVMMetrics;
  * @author Xu Fei
  * @version 1.0
  */
-public class MetricsStats {
-	
+public class LocalMetricsStats {
+
 	private static final MetricRegistry metrics = MetricsHolder.getMetricRegistry();
 
 	static {
 		if (Tracer.isTraceEnable()) {
-			MetricsReporter reporter = MetricsReporter.forRegistry(metrics).build();
+			ConsoleReporter reporter = ConsoleReporter.forRegistry(metrics).build();
 			reporter.start(5, TimeUnit.SECONDS);
 		}
 	}
@@ -93,4 +94,5 @@ public class MetricsStats {
 	public static Timer timer(String name) {
 		return metrics.timer(name);
 	}
+
 }

@@ -13,6 +13,16 @@ import com.vipshop.microscope.common.trace.Span;
  */
 public class MessageAnalyzer {
 	
+	private static class MessageAnalyzerHolder {
+		private static MessageAnalyzer messageAnalyzer = new MessageAnalyzer();
+	}
+	
+	public static MessageAnalyzer getMessageAnalyzer() {
+		return MessageAnalyzerHolder.messageAnalyzer;
+	}
+	
+	private MessageAnalyzer() {}
+	
 	private AnalyzeEngine engine = new AnalyzeEngine();
 	
 	public void analyze(Span span) {

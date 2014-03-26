@@ -15,7 +15,7 @@ import com.vipshop.microscope.common.trace.Span;
  */
 public class TraceAlertWorker implements Runnable {
 	
-	private final MessageAlerter alerter = new MessageAlerter();
+	private final MessageAlerter alerter = MessageAlerter.getMessageAlerter();
 	private final LinkedBlockingQueue<Span> queue;
 	
 	public TraceAlertWorker(LinkedBlockingQueue<Span> queue) {

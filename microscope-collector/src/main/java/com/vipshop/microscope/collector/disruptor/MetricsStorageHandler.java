@@ -19,7 +19,7 @@ import com.vipshop.microscope.common.util.ThreadPoolUtil;
  */
 public class MetricsStorageHandler implements EventHandler<MetricsEvent> {
 	
-	private static final Logger logger = LoggerFactory.getLogger(MetricsStorageHandler.class);
+	public static final Logger logger = LoggerFactory.getLogger(MetricsStorageHandler.class);
 	
 	private final MessageStorager messageStorager = MessageStorager.getMessageStorager();
 	
@@ -27,9 +27,16 @@ public class MetricsStorageHandler implements EventHandler<MetricsEvent> {
 	private final ExecutorService metricsStorageWorkerExecutor = ThreadPoolUtil.newFixedThreadPool(size, "metrics-store-worker-pool");
 
 	@Override
-	public void onEvent(MetricsEvent event, long sequence, boolean endOfBatch) throws Exception {
-		
-		HashMap<String, Object> metrics = event.getResult();
+	public void onEvent(final MetricsEvent event, long sequence, boolean endOfBatch) throws Exception {
+		metricsStorageWorkerExecutor.execute(new Runnable() {
+			@Override
+			public void run() {
+				processMetrics(event.getResult());
+			}
+		});
+	}
+	
+	private void processMetrics(final HashMap<String, Object> metrics) {
 		
 		String metricsType = (String) metrics.get("type");
 		
@@ -42,29 +49,16 @@ public class MetricsStorageHandler implements EventHandler<MetricsEvent> {
 			processExceptionMetrics(metrics);
 			return;
 		}
-		
 	}
 	
 	private void processJVMMetrics(final HashMap<String, Object> jvm) {
-		metricsStorageWorkerExecutor.execute(new Runnable() {
-			@Override
-			public void run() {
-				logger.debug("save to jvm table --> " + jvm);
-				messageStorager.storageJVM(jvm);
-			}
-		});
+		messageStorager.storageJVM(jvm);
 	}
 	
 	@SuppressWarnings("unchecked")
 	private void processExceptionMetrics(HashMap<String, Object> metrics) {
 		final HashMap<String, Object> stack = (HashMap<String, Object>) metrics.get("stack");
-		metricsStorageWorkerExecutor.execute(new Runnable() {
-			@Override
-			public void run() {
-				logger.debug("save to exception table --> " + stack);
-				messageStorager.storageException(stack);
-			}
-		});
+		messageStorager.storageException(stack);
 	}
 
 }

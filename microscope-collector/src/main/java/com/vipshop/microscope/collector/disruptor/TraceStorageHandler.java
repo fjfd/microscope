@@ -17,7 +17,7 @@ import com.vipshop.microscope.common.util.ThreadPoolUtil;
  */
 public class TraceStorageHandler implements EventHandler<TraceEvent> {
 	
-	private static final Logger logger = LoggerFactory.getLogger(TraceStorageHandler.class);
+	public static final Logger logger = LoggerFactory.getLogger(TraceStorageHandler.class);
 	
 	private final MessageStorager messageStorager = MessageStorager.getMessageStorager();
 	
@@ -29,7 +29,6 @@ public class TraceStorageHandler implements EventHandler<TraceEvent> {
 		traceStorageWorkerExecutor.execute(new Runnable() {
 			@Override
 			public void run() {
-				logger.debug("save to trace table --> " + event.getSpan());
 				messageStorager.storageTrace(event.getSpan());
 			}
 		});

@@ -6,6 +6,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.testng.annotations.Test;
 
+import com.vipshop.microscope.trace.metrics.MetricsStats;
+
 public class MetricsTest {
 	
 	@Test
@@ -13,7 +15,7 @@ public class MetricsTest {
 		Queue<String> queue = new LinkedList<String>();
         while(true){
             queue.add("1");
-            MetricsStats.inc(MetricsTest.class, "queue-size");
+            MetricsStats.inc("queue-size");
             Thread.sleep(1000);
         }
     }
