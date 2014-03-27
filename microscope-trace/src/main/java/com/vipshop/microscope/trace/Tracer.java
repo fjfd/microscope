@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import com.vipshop.microscope.common.trace.Category;
 import com.vipshop.microscope.common.util.ConfigurationUtil;
 import com.vipshop.microscope.common.util.DateUtil;
-import com.vipshop.microscope.trace.metrics.exception.ExceptionBuilder;
+import com.vipshop.microscope.trace.exception.ExceptionBuilder;
 import com.vipshop.microscope.trace.switcher.ConfigSwitcher;
 import com.vipshop.microscope.trace.switcher.Switcher;
 import com.vipshop.microscope.trace.transport.QueueTransporter;

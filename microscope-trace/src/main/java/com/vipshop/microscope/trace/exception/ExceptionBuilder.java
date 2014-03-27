@@ -1,4 +1,4 @@
-package com.vipshop.microscope.trace.metrics.exception;
+package com.vipshop.microscope.trace.exception;
 
 import java.util.HashMap;
 
@@ -11,7 +11,7 @@ import com.vipshop.microscope.trace.stoarge.Storage;
 import com.vipshop.microscope.trace.stoarge.StorageHolder;
 
 /**
- * A ExceptionBuilder use for build exception info.
+ * Record exception API.
  * 
  * @author Xu Fei
  * @version 1.0

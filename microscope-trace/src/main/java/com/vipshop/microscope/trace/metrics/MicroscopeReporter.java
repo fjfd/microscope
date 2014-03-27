@@ -26,20 +26,20 @@ import com.vipshop.microscope.trace.stoarge.StorageHolder;
  * A reporter which outputs measurements to {@code Microscope Collector}.
  */
 @SuppressWarnings("unused")
-public class MetricsReporter extends ScheduledReporter {
+public class MicroscopeReporter extends ScheduledReporter {
     
 	/**
-     * Returns a new {@link Builder} for {@link MetricsReporter}.
+     * Returns a new {@link Builder} for {@link MicroscopeReporter}.
      *
      * @param registry the registry to report
-     * @return a {@link Builder} instance for a {@link MetricsReporter}
+     * @return a {@link Builder} instance for a {@link MicroscopeReporter}
      */
     public static Builder forRegistry(MetricRegistry registry) {
         return new Builder(registry);
     }
 
     /**
-     * A builder for {@link MetricsReporter} instances. Defaults to using the default locale and
+     * A builder for {@link MicroscopeReporter} instances. Defaults to using the default locale and
      * time zone, writing to {@code Microscope collector}, converting rates to events/second, converting
      * durations to milliseconds, and not filtering metrics.
      */
@@ -146,8 +146,8 @@ public class MetricsReporter extends ScheduledReporter {
          *
          * @return a {@link ConsoleReporter}
          */
-        public MetricsReporter build() {
-            return new MetricsReporter(registry,
+        public MicroscopeReporter build() {
+            return new MicroscopeReporter(registry,
                                        output,
                                        locale,
                                        clock,
@@ -165,7 +165,7 @@ public class MetricsReporter extends ScheduledReporter {
     private final Clock clock;
     private final DateFormat dateFormat;
 
-    private MetricsReporter(MetricRegistry registry,
+    private MicroscopeReporter(MetricRegistry registry,
     		                Storage output,
                             Locale locale,
                             Clock clock,
