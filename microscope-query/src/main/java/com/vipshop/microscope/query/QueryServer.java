@@ -1,4 +1,4 @@
-package com.vipshop.microscope.query.server;
+package com.vipshop.microscope.query;
 
 import java.io.File;
 import java.net.URL;

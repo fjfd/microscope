@@ -7,7 +7,6 @@ import com.codahale.metrics.Meter;
 import com.codahale.metrics.Metric;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.Timer;
-import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.metrics.jvm.JVMMetrics;
 
 /**
@@ -17,14 +16,12 @@ import com.vipshop.microscope.trace.metrics.jvm.JVMMetrics;
  * @version 1.0
  */
 public class MetricsStats {
-	
+
 	private static final MetricRegistry metrics = MetricsHolder.getMetricRegistry();
 
-	static {
-		if (Tracer.isTraceEnable()) {
-			MetricsReporter reporter = MetricsReporter.forRegistry(metrics).build();
-			reporter.start(5, TimeUnit.SECONDS);
-		}
+	public static void start() {
+		MetricsReporter reporter = MetricsReporter.forRegistry(metrics).build();
+		reporter.start(5, TimeUnit.SECONDS);
 	}
 
 	/**
@@ -81,15 +78,15 @@ public class MetricsStats {
 	public static <T extends Metric> T register(String name, T metric) {
 		return metrics.register(name, metric);
 	}
-	
+
 	public static Histogram histogram(String name) {
 		return metrics.histogram(name);
 	}
-	
+
 	public static Meter meter(String name) {
 		return metrics.meter(name);
 	}
-	
+
 	public static Timer timer(String name) {
 		return metrics.timer(name);
 	}

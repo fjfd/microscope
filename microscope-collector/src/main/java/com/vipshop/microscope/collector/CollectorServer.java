@@ -1,9 +1,9 @@
-package com.vipshop.microscope.collector.server;
+package com.vipshop.microscope.collector;
 
 import org.apache.thrift.transport.TTransportException;
 
-import com.vipshop.microscope.collector.consumer.MessageConsumer;
 import com.vipshop.microscope.collector.consumer.DisruptorMessageConsumer;
+import com.vipshop.microscope.collector.consumer.MessageConsumer;
 import com.vipshop.microscope.collector.receiver.MessageReceiver;
 import com.vipshop.microscope.collector.receiver.ThriftMessageReceiver;
 import com.vipshop.microscope.common.thrift.ThriftCategory;

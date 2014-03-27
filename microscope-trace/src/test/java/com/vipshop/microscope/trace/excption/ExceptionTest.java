@@ -39,6 +39,35 @@ public class ExceptionTest {
 	}
 	
 	@Test
+	public void testRecordException1() throws InterruptedException {
+		for (int i = 0; i < 10; i++) {
+			Tracer.cleanContext();
+			Tracer.clientSend("testRecordException", Category.URL);
+			try {
+				TimeUnit.MILLISECONDS.sleep(1000);
+				Tracer.clientSend("getNew@newService", Category.Service);
+				TimeUnit.MILLISECONDS.sleep(400);
+				Tracer.clientSend("get@DB", Category.DB);
+				TimeUnit.MILLISECONDS.sleep(100);
+				Tracer.clientReceive();
+				Tracer.clientReceive();
+				Tracer.clientSend("buyNew@buyService", Category.Service);
+				TimeUnit.MILLISECONDS.sleep(200);
+				Tracer.clientSend("buy@Cache", Category.Cache);
+				TimeUnit.MILLISECONDS.sleep(10);
+				Tracer.clientReceive();
+				Tracer.clientReceive();
+				throw new IllegalAccessException("testRecordException exception");
+			} catch (Exception e) {
+				Tracer.record(e);
+			} finally {
+				Tracer.clientReceive();
+			}
+		}
+		TimeUnit.SECONDS.sleep(3);
+	}
+	
+	@Test
 	public void testRecordExceptionWithInfo() throws InterruptedException {
 		for (int i = 0; i < 10; i++) {
 			Tracer.cleanContext();

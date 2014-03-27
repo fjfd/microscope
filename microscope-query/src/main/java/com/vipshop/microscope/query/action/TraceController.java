@@ -26,38 +26,7 @@ public class TraceController {
 	@Autowired
 	TraceSerivice service;
 	
-	// ********************************** home      relative query **************************************** //
-
-	// ********************************** report    relative query **************************************** //
-	
-	// ********************************** exception relative query **************************************** //
-	
-	@RequestMapping("/trace/excepCondition")
-	@ResponseBody
-	public ListResult queryExcepCondition(String callback) {
-		ListResult result = new ListResult();
-		List<Map<String, Object>> condition = service.getExcepCondition();
-		result.setResult(condition);
-		result.setCallback(callback);
-		return result;
-	}
-
-	
-	@RequestMapping("/trace/excepList")
-	@ResponseBody
-	public ListResult queryExceptionList(HttpServletRequest request, String callback) {
-		ListResult result = new ListResult();
-		List<Map<String, Object>> condition = service.getExceptionList(request);
-		result.setResult(condition);
-		result.setCallback(callback);
-		return result;
-	}
-	
-	// ********************************** alerts    relative query **************************************** //
-	
-	// ********************************** trace     relative query **************************************** //
-	
-	@RequestMapping("/trace/apps")
+	@RequestMapping("/trace/queryCondition")
 	@ResponseBody
 	public ListResult traceQueryCondition(String callback) {
 		ListResult result = new ListResult();

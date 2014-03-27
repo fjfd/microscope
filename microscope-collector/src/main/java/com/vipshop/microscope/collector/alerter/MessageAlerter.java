@@ -32,4 +32,5 @@ public class MessageAlerter {
 	public void alert(Map<String, Object> metrics) {
 		alertEngine.alert(metrics);
 	}
+	
 }

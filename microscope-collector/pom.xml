@@ -133,7 +133,7 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>com.vipshop.microscope.collector.server.CollectorServer</mainClass>
+							<mainClass>com.vipshop.microscope.collector.CollectorServer</mainClass>
 						</manifest>
 					</archive>
 				</configuration>

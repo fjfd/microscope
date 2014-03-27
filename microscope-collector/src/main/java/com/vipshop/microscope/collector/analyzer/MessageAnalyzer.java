@@ -32,4 +32,5 @@ public class MessageAnalyzer {
 	public void analyze(Map<String, Object> metrics) {
 		engine.analyze(metrics);
 	}
+	
 }
