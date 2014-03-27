@@ -23,8 +23,8 @@ public class MetricsTest {
     
     @BeforeMethod
     public void setUp() {
-    	MetricsStats.startLocal(1, TimeUnit.SECONDS);
-//    	MetricsStats.start();
+    	MetricsStats.startSlf4jReporter(1, TimeUnit.SECONDS);
+//    	MetricsStats.startMicroscopeReporter();
     }
     
     @Test

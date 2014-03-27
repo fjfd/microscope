@@ -173,7 +173,7 @@ public class MicroscopeReporter extends ScheduledReporter {
                             TimeUnit rateUnit,
                             TimeUnit durationUnit,
                             MetricFilter filter) {
-        super(registry, "metrics-reporter", filter, rateUnit, durationUnit);
+        super(registry, "microscope-reporter", filter, rateUnit, durationUnit);
         this.output = output;
         this.locale = locale;
         this.clock = clock;

@@ -2,12 +2,12 @@ package com.vipshop.microscope.trace.metrics;
 
 import java.util.concurrent.TimeUnit;
 
-import com.codahale.metrics.ConsoleReporter;
 import com.codahale.metrics.Histogram;
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.Metric;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.ScheduledReporter;
+import com.codahale.metrics.Slf4jReporter;
 import com.codahale.metrics.Timer;
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.metrics.jvm.JVMMetrics;
@@ -27,7 +27,7 @@ public class MetricsStats {
 	/**
 	 * Start MicroscopeReporter with default period and time.
 	 */
-	public static void start() {
+	public static void startMicroscopeReporter() {
 		if (Tracer.isTraceEnable() && !start) {
 			ScheduledReporter reporter = MicroscopeReporter.forRegistry(metrics).build();
 			reporter.start(5, TimeUnit.SECONDS);
@@ -38,7 +38,7 @@ public class MetricsStats {
 	/**
 	 * Start MicroscopeReporter with given period and time.
 	 */
-	public static void start(long period, TimeUnit unit) {
+	public static void startMicroscopeReporter(long period, TimeUnit unit) {
 		if (Tracer.isTraceEnable() && !start) {
 			ScheduledReporter reporter = MicroscopeReporter.forRegistry(metrics).build();
 			reporter.start(period, unit);
@@ -49,9 +49,9 @@ public class MetricsStats {
 	/**
 	 * Start ConsoleReporter with default period and time.
 	 */
-	public static void startLocal() {
+	public static void startSlf4jReporter() {
 		if (!start) {
-			ScheduledReporter reporter = ConsoleReporter.forRegistry(metrics).build();
+			ScheduledReporter reporter = Slf4jReporter.forRegistry(metrics).build();
 			reporter.start(5, TimeUnit.SECONDS);
 			start = true;
 		}
@@ -60,9 +60,9 @@ public class MetricsStats {
 	/**
 	 * Start ConsoleReporter with default period and time.
 	 */
-	public static void startLocal(long period, TimeUnit unit) {
+	public static void startSlf4jReporter(long period, TimeUnit unit) {
 		if (!start) {
-			ScheduledReporter reporter = ConsoleReporter.forRegistry(metrics).build();
+			ScheduledReporter reporter = Slf4jReporter.forRegistry(metrics).build();
 			reporter.start(period, unit);
 			start = true;
 		}
