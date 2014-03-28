@@ -29,7 +29,6 @@
     		org.springframework.web.context.ContextLoaderListener
   		</listener-class>
 	</listener>
-	
 	<!-- <listener>
   		<listener-class>org.jasig.cas.client.session.SingleSignOutHttpSessionListener</listener-class> 
   	</listener>
