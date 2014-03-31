@@ -3,6 +3,7 @@ package com.vipshop.microscope.trace.metrics;
 import java.io.PrintStream;
 import java.text.DateFormat;
 import java.util.Locale;
+import java.util.Map;
 import java.util.SortedMap;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
@@ -17,6 +18,7 @@ import com.codahale.metrics.MetricFilter;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.ScheduledReporter;
 import com.codahale.metrics.Timer;
+import com.codahale.metrics.health.HealthCheck;
 import com.vipshop.microscope.common.util.TimeStampUtil;
 import com.vipshop.microscope.trace.stoarge.ArrayBlockingQueueStorage;
 import com.vipshop.microscope.trace.stoarge.Storage;
@@ -211,6 +213,12 @@ public class MicroscopeReporter extends ScheduledReporter {
         if (!timers.isEmpty()) {
         	output.addTimer(timers, dateTime);
         }
+        
+        Map<String, HealthCheck.Result> results = MetricsStats.runHealthChecks();
+        if (!results.isEmpty()) {
+			output.addHealthCheck(results, dateTime);
+		}
+        
 
     }
 

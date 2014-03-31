@@ -1,6 +1,7 @@
 package com.vipshop.microscope.trace.stoarge;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.SortedMap;
 import java.util.concurrent.ExecutorService;
 
@@ -9,6 +10,7 @@ import com.codahale.metrics.Gauge;
 import com.codahale.metrics.Histogram;
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.Timer;
+import com.codahale.metrics.health.HealthCheck.Result;
 import com.lmax.disruptor.BatchEventProcessor;
 import com.lmax.disruptor.EventFactory;
 import com.lmax.disruptor.EventHandler;
@@ -111,6 +113,13 @@ public class DisruptorQueueStorage implements Storage, Transporter {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	public void addHealthCheck(Map<String, Result> results, long date) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 	@Override
 	public LogEntry poll() {

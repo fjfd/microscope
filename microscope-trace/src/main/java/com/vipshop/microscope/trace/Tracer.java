@@ -7,9 +7,10 @@ import com.vipshop.microscope.common.trace.Category;
 import com.vipshop.microscope.common.util.ConfigurationUtil;
 import com.vipshop.microscope.common.util.DateUtil;
 import com.vipshop.microscope.trace.exception.ExceptionBuilder;
+import com.vipshop.microscope.trace.metrics.MetricsStats;
 import com.vipshop.microscope.trace.switcher.ConfigSwitcher;
 import com.vipshop.microscope.trace.switcher.Switcher;
-import com.vipshop.microscope.trace.transport.QueueTransporter;
+import com.vipshop.microscope.trace.transport.TransporterHolder;
 
 /**
  * Trace client API for Java.
@@ -121,17 +122,28 @@ public class Tracer {
 			
 			try {
 				if (SWITCHER.isOpen()) {
-					new QueueTransporter().transport();
+					
+					/*
+					 * start queue transporter
+					 */
+					TransporterHolder.startQueueTransporter();
+					
+					/*
+					 * start metrics reporter 
+					 */
+					MetricsStats.startMicroscopeReporter();
+					MetricsStats.registerJVM();
 				}
 			} catch (Exception e) {
-				logger.error("start thrift transporter faile, ", e);
+				SWITCH = 0;
+				logger.error("start microscope client error, close client", e);
 			}
 		}
 		
 	}
 	
 	private Tracer() {
-		throw new UnsupportedOperationException();
+//		throw new UnsupportedOperationException();
 	}
 	
 	/**
@@ -218,14 +230,14 @@ public class Tracer {
 	 * 
 	 */
 	public static void serverSend() {
-		throw new UnsupportedOperationException();
+//		throw new UnsupportedOperationException();
 	}
 	
 	/**
 	 * Server side receive request.
 	 */
 	public static void serverRecv() {
-		throw new UnsupportedOperationException();
+//		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -401,7 +413,7 @@ public class Tracer {
 	}
 	
 	/**
-	 * Record debug info and exception.
+	 * Record exception and debug info.
 	 * 
 	 * @param info
 	 * @param e

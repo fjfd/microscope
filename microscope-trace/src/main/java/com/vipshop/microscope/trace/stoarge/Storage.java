@@ -1,6 +1,7 @@
 package com.vipshop.microscope.trace.stoarge;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.SortedMap;
 
 import com.codahale.metrics.Counter;
@@ -8,6 +9,7 @@ import com.codahale.metrics.Gauge;
 import com.codahale.metrics.Histogram;
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.Timer;
+import com.codahale.metrics.health.HealthCheck;
 import com.vipshop.microscope.common.logentry.LogEntry;
 
 /**
@@ -65,6 +67,14 @@ public interface Storage {
 	 * @param date
 	 */
 	public void addTimer(SortedMap<String, Timer> timers, long date);
+	
+	/**
+	 * Health check metrics
+	 * 
+	 * @param results
+	 * @param date
+	 */
+	public void addHealthCheck(Map<String, HealthCheck.Result> results, long date);
 	
 	/**
 	 * Put object to queue

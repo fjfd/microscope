@@ -84,4 +84,15 @@ public class ReportControllerTest {
 		}
 	}
 	
+	@Test
+	public void testTopMetrics() throws ClientProtocolException, IOException, InterruptedException {
+		while (true) {
+			String url = "http://localhost:8080/report/topReport?callback=jQuery11020021555292898187584";
+			String result = HttpClientUtil.request(url);
+			System.out.println(result);
+			TimeUnit.SECONDS.sleep(5);
+		}
+	}
+
+	
 }

@@ -10,7 +10,7 @@ import com.codahale.metrics.Metric;
 import com.codahale.metrics.MetricSet;
 
 public class RuntimeMetricsSet implements MetricSet {
-	
+
 	RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
 
 	@Override
@@ -35,6 +35,25 @@ public class RuntimeMetricsSet implements MetricSet {
 			@Override
 			public String getValue() {
 				return runtimeMXBean.getClassPath();
+			}
+		});
+
+		gauges.put("process.name", new Gauge<String>() {
+			@Override
+			public String getValue() {
+				return runtimeMXBean.getName();
+			}
+		});
+
+		gauges.put("process.id", new Gauge<Integer>() {
+			@Override
+			public Integer getValue() {
+				String name = runtimeMXBean.getName();
+				int index = name.indexOf("@");
+				if (index != -1) {
+					return Integer.parseInt(name.substring(0, index));
+				}
+				return 0;
 			}
 		});
 

@@ -53,7 +53,7 @@ public class MetricsTest {
 	
 	@Test
 	public void testJVMMetrics() throws InterruptedException {
-		MetricsStats.statsJVM();
+		MetricsStats.registerJVM();
 		for (int i = 0; i < 5; i++) {
 			TimeUnit.SECONDS.sleep(1);
 		}

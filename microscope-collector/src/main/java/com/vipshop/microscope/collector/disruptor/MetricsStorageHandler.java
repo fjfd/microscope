@@ -40,25 +40,63 @@ public class MetricsStorageHandler implements EventHandler<MetricsEvent> {
 		
 		String metricsType = (String) metrics.get("type");
 		
-		if (metricsType.equals(MetricsCategory.JVM)) {
-			processJVMMetrics(metrics);
-			return;
-		}
-		
 		if (metricsType.equals(MetricsCategory.Exception)) {
 			processExceptionMetrics(metrics);
 			return;
+		} 
+		
+		if (metricsType.equals(MetricsCategory.Counter)) {
+			processCounterMetrics(metrics);
+			return;
 		}
+		
+		if (metricsType.equals(MetricsCategory.Gauge)) {
+			processGaugeMetrics(metrics);
+			return;
+		}
+		
+		if (metricsType.equals(MetricsCategory.Histogram)) {
+			processHistogramMetrics(metrics);
+			return;
+		}
+		
+		if (metricsType.equals(MetricsCategory.Meter)) {
+			processMeterMetrics(metrics);
+			return;
+		}
+		
+		if (metricsType.equals(MetricsCategory.Counter)) {
+			processTimerMetrics(metrics);
+			return;
+		}
+		
 	}
 	
-	private void processJVMMetrics(final HashMap<String, Object> jvm) {
-		messageStorager.storageJVM(jvm);
-	}
 	
 	@SuppressWarnings("unchecked")
 	private void processExceptionMetrics(HashMap<String, Object> metrics) {
 		final HashMap<String, Object> stack = (HashMap<String, Object>) metrics.get("stack");
 		messageStorager.storageException(stack);
+	}
+	
+	private void processCounterMetrics(HashMap<String, Object> metrics) {
+		
+	}
+	
+	private void processGaugeMetrics(HashMap<String, Object> metrics) {
+		
+	}
+
+	private void processHistogramMetrics(HashMap<String, Object> metrics) {
+		
+	}
+
+	private void processMeterMetrics(HashMap<String, Object> metrics) {
+		
+	}
+
+	private void processTimerMetrics(HashMap<String, Object> metrics) {
+		
 	}
 
 }

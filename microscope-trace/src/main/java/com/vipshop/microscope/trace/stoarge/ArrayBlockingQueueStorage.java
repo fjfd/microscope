@@ -16,8 +16,9 @@ import com.codahale.metrics.Gauge;
 import com.codahale.metrics.Histogram;
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.Timer;
-import com.vipshop.microscope.common.logentry.LogEntryCodec;
+import com.codahale.metrics.health.HealthCheck.Result;
 import com.vipshop.microscope.common.logentry.LogEntry;
+import com.vipshop.microscope.common.logentry.LogEntryCodec;
 import com.vipshop.microscope.common.metrics.MetricsCategory;
 import com.vipshop.microscope.common.trace.Span;
 import com.vipshop.microscope.common.util.IPAddressUtil;
@@ -46,7 +47,7 @@ public class ArrayBlockingQueueStorage implements Storage {
 	 */
 	public void addException(HashMap<String, Object> map) {
 		HashMap<String, Object> metrics = new HashMap<String, Object>();
-		metrics.put("type", "exception");
+		metrics.put("type", MetricsCategory.Exception);
 		metrics.put("stack", map);
 		add(metrics);
 	}
@@ -59,8 +60,11 @@ public class ArrayBlockingQueueStorage implements Storage {
 	 */
 	public void addCounter(SortedMap<String, Counter> counters, long date) {
 		HashMap<String, Object> metrics = new HashMap<String, Object>();
-		metrics.put("type", "counter");
+		metrics.put("type", MetricsCategory.Counter);
 		metrics.put("date", date);
+		metrics.put("app", Tracer.APP_NAME);
+		metrics.put("ip", IPAddressUtil.IPAddress());
+
 		for (Entry<String, Counter> entry : counters.entrySet()) {
 			metrics.put(entry.getKey(), entry.getValue().getCount());
 		}
@@ -72,20 +76,17 @@ public class ArrayBlockingQueueStorage implements Storage {
 	 */
 	@SuppressWarnings("rawtypes")
 	public void addGauge(SortedMap<String, Gauge> gauges, long date) {
-		HashMap<String, Object> jvmMetrics = new LinkedHashMap<String, Object>();
+		HashMap<String, Object> metrics = new LinkedHashMap<String, Object>();
 		
-		jvmMetrics.put("type", "jvm");
-		jvmMetrics.put("date", date);
-		jvmMetrics.put("app", Tracer.APP_NAME);
-		jvmMetrics.put("ip", IPAddressUtil.IPAddress());
+		metrics.put("type", MetricsCategory.Gauge);
+		metrics.put("date", date);
+		metrics.put("app", Tracer.APP_NAME);
+		metrics.put("ip", IPAddressUtil.IPAddress());
 		
 		for (Entry<String, Gauge> entry : gauges.entrySet()) {
-			if (entry.getKey().startsWith(MetricsCategory.JVM)) {
-				jvmMetrics.put(entry.getKey(), entry.getValue().getValue());
-				continue;
-			}
+			metrics.put(entry.getKey(), entry.getValue().getValue());
 		}
-		add(jvmMetrics);
+		add(metrics);
 	}
 	
 	/**
@@ -93,10 +94,13 @@ public class ArrayBlockingQueueStorage implements Storage {
 	 */
 	public void addHistogram(SortedMap<String, Histogram> histograms, long date) {
 		HashMap<String, Object> metrics = new HashMap<String, Object>();
-		metrics.put("type", "histogram");
+		metrics.put("type", MetricsCategory.Histogram);
 		metrics.put("date", date);
+		metrics.put("app", Tracer.APP_NAME);
+		metrics.put("ip", IPAddressUtil.IPAddress());
+
 		for (Map.Entry<String, Histogram> entry : histograms.entrySet()) {
-			metrics.put(entry.getKey(), entry.getValue().getSnapshot());
+			metrics.put(entry.getKey(), entry.getValue());
 		}
 		add(metrics);
 	}
@@ -106,8 +110,11 @@ public class ArrayBlockingQueueStorage implements Storage {
 	 */
 	public void addMeter(SortedMap<String, Meter> meters, long date) {
 		HashMap<String, Object> metrics = new HashMap<String, Object>();
-		metrics.put("type", "meter");
+		metrics.put("type", MetricsCategory.Meter);
 		metrics.put("date", date);
+		metrics.put("app", Tracer.APP_NAME);
+		metrics.put("ip", IPAddressUtil.IPAddress());
+
 		for (Map.Entry<String, Meter> entry : meters.entrySet()) {
 			metrics.put(entry.getKey(), entry.getValue());
 		}
@@ -119,16 +126,47 @@ public class ArrayBlockingQueueStorage implements Storage {
 	 */
 	public void addTimer(SortedMap<String, Timer> timers, long date) {
 		HashMap<String, Object> metrics = new HashMap<String, Object>();
-		metrics.put("type", "timer");
+		metrics.put("type", MetricsCategory.Timer);
 		metrics.put("date", date);
+		metrics.put("app", Tracer.APP_NAME);
+		metrics.put("ip", IPAddressUtil.IPAddress());
+
 		for (Map.Entry<String, Timer> entry : timers.entrySet()) {
-			metrics.put(entry.getKey(), entry.getValue().getSnapshot());
+			metrics.put(entry.getKey(), entry.getValue());
 		}
 		add(metrics);
 	}
 	
 	/**
-	 * Add string metrics.
+	 * Add health check result
+	 */
+	@Override
+	public void addHealthCheck(Map<String, Result> results, long date) {
+		HashMap<String, Object> metrics = new HashMap<String, Object>();
+		metrics.put("type", MetricsCategory.Health);
+		metrics.put("date", date);
+		metrics.put("app", Tracer.APP_NAME);
+		metrics.put("ip", IPAddressUtil.IPAddress());
+		metrics.put("result", results);
+		
+		add(metrics);
+		
+//		for (Entry<String, HealthCheck.Result> entry : results.entrySet()) {
+//	    if (entry.getValue().isHealthy()) {
+//	        System.out.println(entry.getKey() + " is healthy");
+//	    } else {
+//	        System.err.println(entry.getKey() + " is UNHEALTHY: " + entry.getValue().getMessage());
+//	        final Throwable e = entry.getValue().getError();
+//	        if (e != null) {
+//	            e.printStackTrace();
+//	        }
+//	    }
+//	}
+
+	}
+
+	/**
+	 * Put object to queue.
 	 * 
 	 * @param msg
 	 */
@@ -146,17 +184,29 @@ public class ArrayBlockingQueueStorage implements Storage {
 	 * @return {@link Span}
 	 */
 	@Override
+	@SuppressWarnings("unchecked")
 	public LogEntry poll() {
 		Object object = queue.poll();
 		
 		if (object instanceof Span) {
-			LogEntry logEntry = LogEntryCodec.encodeToLogEntry((Span)object);
+			LogEntry logEntry = null;
+			try {
+				logEntry = LogEntryCodec.encodeToLogEntry((Span)object);
+			} catch (Exception e) {
+				logger.debug("encode span to logEntry error", e);
+				return null;
+			}
 			return logEntry;
 		}
 		
 		if (object instanceof HashMap) {
-			@SuppressWarnings("unchecked")
-			LogEntry logEntry = LogEntryCodec.encodeToLogEntry((HashMap<String, Object>)object);
+			LogEntry logEntry = null;
+			try {
+				logEntry = LogEntryCodec.encodeToLogEntry((HashMap<String, Object>)object);
+			} catch (Exception e) {
+				logger.debug("encode hashmap to logEntry error", e);
+				return null;
+			}
 			return logEntry;
 		}
 		
@@ -170,5 +220,6 @@ public class ArrayBlockingQueueStorage implements Storage {
 	public int size() {
 		return queue.size();
 	}
+
 
 }

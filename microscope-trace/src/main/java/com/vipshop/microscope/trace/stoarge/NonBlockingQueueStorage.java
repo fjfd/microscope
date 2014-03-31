@@ -1,6 +1,7 @@
 package com.vipshop.microscope.trace.stoarge;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.SortedMap;
 
 import com.codahale.metrics.Counter;
@@ -8,6 +9,7 @@ import com.codahale.metrics.Gauge;
 import com.codahale.metrics.Histogram;
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.Timer;
+import com.codahale.metrics.health.HealthCheck.Result;
 import com.vipshop.microscope.common.logentry.LogEntry;
 
 public class NonBlockingQueueStorage implements Storage {
@@ -45,6 +47,12 @@ public class NonBlockingQueueStorage implements Storage {
 
 	@Override
 	public void addTimer(SortedMap<String, Timer> timers, long date) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void addHealthCheck(Map<String, Result> results, long date) {
 		// TODO Auto-generated method stub
 		
 	}
