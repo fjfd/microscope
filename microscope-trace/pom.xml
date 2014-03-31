@@ -49,11 +49,6 @@
 		</dependency>
 		<dependency>
 			<groupId>com.codahale.metrics</groupId>
-			<artifactId>metrics-servlets</artifactId>
-			<version>${metrics.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.codahale.metrics</groupId>
 			<artifactId>metrics-ehcache</artifactId>
 			<version>${metrics.version}</version>
 		</dependency>
@@ -70,6 +65,16 @@
 		<dependency>
 			<groupId>com.codahale.metrics</groupId>
 			<artifactId>metrics-jdbi</artifactId>
+			<version>${metrics.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.codahale.metrics</groupId>
+			<artifactId>metrics-ganglia</artifactId>
+			<version>${metrics.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.codahale.metrics</groupId>
+			<artifactId>metrics-graphite</artifactId>
 			<version>${metrics.version}</version>
 		</dependency>
 	</dependencies>

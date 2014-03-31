@@ -23,8 +23,9 @@ public class MetricsTest {
     
     @BeforeMethod
     public void setUp() {
-    	MetricsStats.startSlf4jReporter(1, TimeUnit.SECONDS);
+//    	MetricsStats.startSlf4jReporter(1, TimeUnit.SECONDS);
 //    	MetricsStats.startMicroscopeReporter();
+    	MetricsStats.startJmxReporter();
     }
     
     @Test
@@ -58,6 +59,15 @@ public class MetricsTest {
 			TimeUnit.SECONDS.sleep(1);
 		}
 	}
+	
+	@Test
+	public void testJVMMetricsLong() throws InterruptedException {
+		MetricsStats.registerJVM();
+		for (;;) {
+			TimeUnit.SECONDS.sleep(1);
+		}
+	}
+
 	
     @Test
     public void testHistogram() throws InterruptedException {

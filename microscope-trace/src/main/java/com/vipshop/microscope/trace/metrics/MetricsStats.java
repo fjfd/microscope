@@ -1,6 +1,11 @@
 package com.vipshop.microscope.trace.metrics;
 
+import info.ganglia.gmetric4j.gmetric.GMetric;
+import info.ganglia.gmetric4j.gmetric.GMetric.UDPAddressingMode;
+
 import java.io.File;
+import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -8,12 +13,17 @@ import com.codahale.metrics.ConsoleReporter;
 import com.codahale.metrics.Counter;
 import com.codahale.metrics.CsvReporter;
 import com.codahale.metrics.Histogram;
+import com.codahale.metrics.JmxReporter;
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.Metric;
+import com.codahale.metrics.MetricFilter;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.ScheduledReporter;
 import com.codahale.metrics.Slf4jReporter;
 import com.codahale.metrics.Timer;
+import com.codahale.metrics.ganglia.GangliaReporter;
+import com.codahale.metrics.graphite.Graphite;
+import com.codahale.metrics.graphite.GraphiteReporter;
 import com.codahale.metrics.health.HealthCheck;
 import com.codahale.metrics.health.HealthCheckRegistry;
 import com.codahale.metrics.jvm.GarbageCollectorMetricSet;
@@ -42,7 +52,10 @@ public class MetricsStats {
 	 */
 	public static void startMicroscopeReporter() {
 		if (Tracer.isTraceEnable() && !start) {
-			ScheduledReporter reporter = MicroscopeReporter.forRegistry(metrics).build();
+			ScheduledReporter reporter = MicroscopeReporter.forRegistry(metrics)
+														   .convertRatesTo(TimeUnit.SECONDS)
+														   .convertDurationsTo(TimeUnit.MILLISECONDS)
+														   .build();
 			reporter.start(5, TimeUnit.SECONDS);
 			start = true;
 		}
@@ -53,7 +66,10 @@ public class MetricsStats {
 	 */
 	public static void startMicroscopeReporter(long period, TimeUnit unit) {
 		if (Tracer.isTraceEnable() && !start) {
-			ScheduledReporter reporter = MicroscopeReporter.forRegistry(metrics).build();
+			ScheduledReporter reporter = MicroscopeReporter.forRegistry(metrics)
+					   									   .convertRatesTo(TimeUnit.SECONDS)
+					   									   .convertDurationsTo(TimeUnit.MILLISECONDS)
+					   									   .build();
 			reporter.start(period, unit);
 			start = true;
 		}
@@ -63,8 +79,11 @@ public class MetricsStats {
 	 * Start Slf4jReporter with default period and time.
 	 */
 	public static void startSlf4jReporter() {
-		if (!start) {
-			ScheduledReporter reporter = Slf4jReporter.forRegistry(metrics).build();
+		if (Tracer.isTraceEnable() && !start) {
+			ScheduledReporter reporter = Slf4jReporter.forRegistry(metrics)
+													  .convertRatesTo(TimeUnit.SECONDS)
+													  .convertDurationsTo(TimeUnit.MILLISECONDS)
+													  .build();
 			reporter.start(5, TimeUnit.SECONDS);
 			start = true;
 		}
@@ -74,8 +93,11 @@ public class MetricsStats {
 	 * Start Slf4jReporter with default period and time.
 	 */
 	public static void startSlf4jReporter(long period, TimeUnit unit) {
-		if (!start) {
-			ScheduledReporter reporter = Slf4jReporter.forRegistry(metrics).build();
+		if (Tracer.isTraceEnable() && !start) {
+			ScheduledReporter reporter = Slf4jReporter.forRegistry(metrics)
+												      .convertRatesTo(TimeUnit.SECONDS)
+												      .convertDurationsTo(TimeUnit.MILLISECONDS)
+												      .build();
 			reporter.start(period, unit);
 			start = true;
 		}
@@ -85,8 +107,11 @@ public class MetricsStats {
 	 * Start ConsoleReporter with default period and time.
 	 */
 	public static void startConsoleReporter() {
-		if (!start) {
-			ScheduledReporter reporter = ConsoleReporter.forRegistry(metrics).build();
+		if (Tracer.isTraceEnable() && !start) {
+			ScheduledReporter reporter = ConsoleReporter.forRegistry(metrics)
+													    .convertRatesTo(TimeUnit.SECONDS)
+													    .convertDurationsTo(TimeUnit.MILLISECONDS)
+													    .build();
 			reporter.start(5, TimeUnit.SECONDS);
 			start = true;
 		}
@@ -96,8 +121,11 @@ public class MetricsStats {
 	 * Start ConsoleReporter with default period and time.
 	 */
 	public static void startConsoleReporter(long period, TimeUnit unit) {
-		if (!start) {
-			ScheduledReporter reporter = ConsoleReporter.forRegistry(metrics).build();
+		if (Tracer.isTraceEnable() && !start) {
+			ScheduledReporter reporter = ConsoleReporter.forRegistry(metrics)
+				    								    .convertRatesTo(TimeUnit.SECONDS)
+				    								    .convertDurationsTo(TimeUnit.MILLISECONDS)
+				    								    .build();
 			reporter.start(period, unit);
 			start = true;
 		}
@@ -107,7 +135,7 @@ public class MetricsStats {
 	 * Start CsvReporter with default period and time.
 	 */
 	public static void startCsvReporter() {
-		if (!start) {
+		if (Tracer.isTraceEnable() && !start) {
 			ScheduledReporter reporter = CsvReporter.forRegistry(metrics).build(new File("."));
 			reporter.start(5, TimeUnit.SECONDS);
 			start = true;
@@ -118,13 +146,85 @@ public class MetricsStats {
 	 * Start CsvReporter with default period and time.
 	 */
 	public static void startCsvReporter(long period, TimeUnit unit) {
-		if (!start) {
+		if (Tracer.isTraceEnable() && !start) {
 			ScheduledReporter reporter = CsvReporter.forRegistry(metrics).build(new File("."));
 			reporter.start(period, unit);
 			start = true;
 		}
 	}
-
+	
+	/**
+	 * Start jmx reporter
+	 */
+	public static void startJmxReporter() {
+		if (Tracer.isTraceEnable() && !start) {
+			JmxReporter reporter = JmxReporter.forRegistry(metrics).build();
+			reporter.start();
+			start = true;
+		}
+	}
+	
+	/**
+	 * Start GraphiteReporter
+	 */
+	public static void startGraphiteReporter() {
+		if (Tracer.isTraceEnable() && !start) {
+			final Graphite graphite = new Graphite(new InetSocketAddress("graphite.example.com", 2003));
+			final GraphiteReporter reporter = GraphiteReporter.forRegistry(metrics)
+					.prefixedWith("web1.example.com")
+					.convertRatesTo(TimeUnit.SECONDS)
+					.convertDurationsTo(TimeUnit.MILLISECONDS)
+					.filter(MetricFilter.ALL)
+					.build(graphite);
+			reporter.start(5, TimeUnit.MINUTES);
+			start = true;
+		}
+	}
+	
+	/**
+	 * Start GraphiteReporter
+	 * 
+	 * @param period
+	 * @param unit
+	 */
+	public static void startGraphiteReporter(long period, TimeUnit unit) {
+		if (!start) {
+			final Graphite graphite = new Graphite(new InetSocketAddress("graphite.example.com", 2003));
+			final GraphiteReporter reporter = GraphiteReporter.forRegistry(metrics)
+					.prefixedWith("web1.example.com")
+					.convertRatesTo(TimeUnit.SECONDS)
+					.convertDurationsTo(TimeUnit.MILLISECONDS)
+					.filter(MetricFilter.ALL)
+					.build(graphite);
+			reporter.start(period, unit);
+			start = true;
+		}
+	}
+	
+	public static void startGangliaReporter() throws IOException {
+		if (!start) {
+			final GMetric ganglia = new GMetric("ganglia.example.com", 8649, UDPAddressingMode.MULTICAST, 1);
+			final GangliaReporter reporter = GangliaReporter.forRegistry(metrics)
+					.convertRatesTo(TimeUnit.SECONDS)
+					.convertDurationsTo(TimeUnit.MILLISECONDS)
+					.build(ganglia);
+			reporter.start(5, TimeUnit.MINUTES);
+			start = true;
+		}
+	}
+	
+	public static void startGangliaReporter(long period, TimeUnit unit) throws IOException {
+		if (!start) {
+			final GMetric ganglia = new GMetric("ganglia.example.com", 8649, UDPAddressingMode.MULTICAST, 1);
+			final GangliaReporter reporter = GangliaReporter.forRegistry(metrics)
+					.convertRatesTo(TimeUnit.SECONDS)
+					.convertDurationsTo(TimeUnit.MILLISECONDS)
+					.build(ganglia);
+			reporter.start(period, unit);
+			start = true;
+		}
+	}
+	
     /**
      * Given a {@link Metric}, registers it under the given name.
      *
