@@ -1,16 +1,9 @@
 package com.vipshop.microscope.trace.stoarge;
 
 import java.util.HashMap;
-import java.util.Map;
-import java.util.SortedMap;
 
-import com.codahale.metrics.Counter;
-import com.codahale.metrics.Gauge;
-import com.codahale.metrics.Histogram;
-import com.codahale.metrics.Meter;
-import com.codahale.metrics.Timer;
-import com.codahale.metrics.health.HealthCheck;
 import com.vipshop.microscope.common.logentry.LogEntry;
+import com.vipshop.microscope.common.trace.Span;
 
 /**
  * Storge metrics in client queue.
@@ -21,60 +14,18 @@ import com.vipshop.microscope.common.logentry.LogEntry;
 public interface Storage {
 	
 	/**
-	 * Exception metrics
+	 * Metrics
 	 * 
-	 * @param map
+	 * @param metrics
 	 */
-	public void addException(HashMap<String, Object> map);
+	public void addMetrics(HashMap<String, Object> metrics);
 	
 	/**
-	 * Counter metrics
+	 * Trace
 	 * 
-	 * @param counters
-	 * @param date
+	 * @param span
 	 */
-	public void addCounter(SortedMap<String, Counter> counters, long date);
-	
-	/**
-	 * Gauge metrics
-	 * 
-	 * @param gauges
-	 * @param date
-	 */
-	@SuppressWarnings("rawtypes")
-	public void addGauge(SortedMap<String, Gauge> gauges, long date);
-	
-	/**
-	 * Histogram metrics
-	 * 
-	 * @param histograms
-	 * @param date
-	 */
-	public void addHistogram(SortedMap<String, Histogram> histograms, long date);
-	
-	/**
-	 * Meter metrics
-	 * 
-	 * @param meters
-	 * @param date
-	 */
-	public void addMeter(SortedMap<String, Meter> meters, long date);
-	
-	/**
-	 * Timer metrics
-	 * 
-	 * @param timers
-	 * @param date
-	 */
-	public void addTimer(SortedMap<String, Timer> timers, long date);
-	
-	/**
-	 * Health check metrics
-	 * 
-	 * @param results
-	 * @param date
-	 */
-	public void addHealthCheck(Map<String, HealthCheck.Result> results, long date);
+	public void addSpan(Span span);
 	
 	/**
 	 * Put object to queue

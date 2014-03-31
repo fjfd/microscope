@@ -189,7 +189,7 @@ public class SpanBuilder {
 		/*
     	 * put span to queue
     	 */
-		storage.add(span);
+		storage.addSpan(span);
 
 		/*
     	 * check stack, if span exist,

@@ -2,10 +2,13 @@ package com.vipshop.microscope.trace.metrics;
 
 import java.io.PrintStream;
 import java.text.DateFormat;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TimeZone;
+import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
 import com.codahale.metrics.Clock;
@@ -17,9 +20,13 @@ import com.codahale.metrics.Meter;
 import com.codahale.metrics.MetricFilter;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.ScheduledReporter;
+import com.codahale.metrics.Snapshot;
 import com.codahale.metrics.Timer;
 import com.codahale.metrics.health.HealthCheck;
+import com.vipshop.microscope.common.metrics.MetricsCategory;
+import com.vipshop.microscope.common.util.IPAddressUtil;
 import com.vipshop.microscope.common.util.TimeStampUtil;
+import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.stoarge.ArrayBlockingQueueStorage;
 import com.vipshop.microscope.trace.stoarge.Storage;
 import com.vipshop.microscope.trace.stoarge.StorageHolder;
@@ -193,33 +200,110 @@ public class MicroscopeReporter extends ScheduledReporter {
                        SortedMap<String, Meter> meters,
                        SortedMap<String, Timer> timers) {
         final long dateTime = TimeStampUtil.currentTimeMillis();
+        
+        if (!counters.isEmpty()) {
+        	HashMap<String, Object> metrics = new HashMap<String, Object>();
+    		metrics.put("type", MetricsCategory.Counter);
+    		metrics.put("date", dateTime);
+    		metrics.put("app", Tracer.APP_NAME);
+    		metrics.put("ip", IPAddressUtil.IPAddress());
 
-        if (!gauges.isEmpty()) {
-        	output.addGauge(gauges, dateTime);
+    		for (Entry<String, Counter> entry : counters.entrySet()) {
+    			metrics.put(entry.getKey(), entry.getValue().getCount());
+    		}
+    		output.addMetrics(metrics);
         }
 
-        if (!counters.isEmpty()) {
-        	output.addCounter(counters, dateTime);
+        if (!gauges.isEmpty()) {
+        	HashMap<String, Object> metrics = new LinkedHashMap<String, Object>();
+    		
+    		metrics.put("type", MetricsCategory.Gauge);
+    		metrics.put("date", dateTime);
+    		metrics.put("app", Tracer.APP_NAME);
+    		metrics.put("ip", IPAddressUtil.IPAddress());
+    		
+    		for (Entry<String, Gauge> entry : gauges.entrySet()) {
+    			metrics.put(entry.getKey(), entry.getValue().getValue());
+    		}
+        	output.addMetrics(metrics);
         }
 
         if (!histograms.isEmpty()) {
-        	output.addHistogram(histograms, dateTime);
+        	HashMap<String, Object> metrics = new HashMap<String, Object>();
+    		metrics.put("type", MetricsCategory.Histogram);
+    		metrics.put("date", dateTime);
+    		metrics.put("app", Tracer.APP_NAME);
+    		metrics.put("ip", IPAddressUtil.IPAddress());
+
+    		for (Map.Entry<String, Histogram> entry : histograms.entrySet()) {
+    			Histogram histogram = entry.getValue();
+    			Snapshot snapshot = histogram.getSnapshot();
+    			HashMap<String, Object> values = new HashMap<String, Object>();
+    			values.put("count", histogram.getCount());
+    			values.put("min", snapshot.getMin());
+    			values.put("max", snapshot.getMax());
+    			values.put("mean", snapshot.getMean());
+    			values.put("stddev", snapshot.getStdDev());
+    			values.put("median", snapshot.getMedian());
+    			values.put("75%", snapshot.get75thPercentile());
+    			values.put("95%", snapshot.get95thPercentile());
+    			values.put("98%", snapshot.get98thPercentile());
+    			values.put("99%", snapshot.get99thPercentile());
+    			values.put("99.9%", snapshot.get999thPercentile());
+    			metrics.put(entry.getKey(), values);
+    		}
+    		output.addMetrics(metrics);
         }
 
         if (!meters.isEmpty()) {
-        	output.addMeter(meters, dateTime);
+        	HashMap<String, Object> metrics = new HashMap<String, Object>();
+        	metrics.put("type", MetricsCategory.Meter);
+    		metrics.put("date", dateTime);
+    		metrics.put("app", Tracer.APP_NAME);
+    		metrics.put("ip", IPAddressUtil.IPAddress());
+        	for (Map.Entry<String, Meter> entry : meters.entrySet()) {
+    			Meter meter = entry.getValue();
+    			HashMap<String, Object> values = new HashMap<String, Object>();
+    			values.put("count", meter.getCount());
+    			values.put("mean rate", convertRate(meter.getMeanRate()));
+    			values.put("1-minute rate", convertRate(meter.getOneMinuteRate()));
+    			values.put("5-minute rate", convertRate(meter.getFiveMinuteRate()));
+    			values.put("15-minute rate", convertRate(meter.getFifteenMinuteRate()));
+    			metrics.put(entry.getKey(), values);
+    		}
+        	output.addMetrics(metrics);
         }
 
         if (!timers.isEmpty()) {
-        	output.addTimer(timers, dateTime);
+        	HashMap<String, Object> metrics = new HashMap<String, Object>();
+        	metrics.put("type", MetricsCategory.Timer);
+    		metrics.put("date", dateTime);
+    		metrics.put("app", Tracer.APP_NAME);
+    		metrics.put("ip", IPAddressUtil.IPAddress());
+    		for (Map.Entry<String, Timer> entry : timers.entrySet()) {
+    			Timer timer = entry.getValue();
+    			Snapshot snapshot = timer.getSnapshot();
+    			HashMap<String, Object> values = new HashMap<String, Object>();
+    			values.put("count", timer.getCount());
+    			values.put("mean rate", convertRate(timer.getMeanRate()));
+    			values.put("1-minute rate", convertRate(timer.getOneMinuteRate()));
+    			values.put("5-minute rate", convertRate(timer.getFiveMinuteRate()));
+    			values.put("15-minute rate", convertRate(timer.getFifteenMinuteRate()));
+    			values.put("min", snapshot.getMin());
+    			values.put("max", snapshot.getMax());
+    			values.put("mean", snapshot.getMean());
+    			values.put("stddev", snapshot.getStdDev());
+    			values.put("median", snapshot.getMedian());
+    			values.put("75%", snapshot.get75thPercentile());
+    			values.put("95%", snapshot.get95thPercentile());
+    			values.put("98%", snapshot.get98thPercentile());
+    			values.put("99%", snapshot.get99thPercentile());
+    			values.put("99.9%", snapshot.get999thPercentile());
+    			metrics.put(entry.getKey(), values);
+    		}
+    		output.addMetrics(metrics);
         }
         
-        Map<String, HealthCheck.Result> results = MetricsStats.runHealthChecks();
-        if (!results.isEmpty()) {
-			output.addHealthCheck(results, dateTime);
-		}
-        
-
     }
 
 }

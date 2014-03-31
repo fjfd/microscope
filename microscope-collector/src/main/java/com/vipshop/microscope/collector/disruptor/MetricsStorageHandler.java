@@ -40,6 +40,8 @@ public class MetricsStorageHandler implements EventHandler<MetricsEvent> {
 		
 		String metricsType = (String) metrics.get("type");
 		
+//		System.out.println(metrics);
+		
 		if (metricsType.equals(MetricsCategory.Exception)) {
 			processExceptionMetrics(metrics);
 			return;
@@ -65,18 +67,15 @@ public class MetricsStorageHandler implements EventHandler<MetricsEvent> {
 			return;
 		}
 		
-		if (metricsType.equals(MetricsCategory.Counter)) {
+		if (metricsType.equals(MetricsCategory.Timer)) {
 			processTimerMetrics(metrics);
 			return;
 		}
 		
 	}
 	
-	
-	@SuppressWarnings("unchecked")
 	private void processExceptionMetrics(HashMap<String, Object> metrics) {
-		final HashMap<String, Object> stack = (HashMap<String, Object>) metrics.get("stack");
-		messageStorager.storageException(stack);
+		messageStorager.storageException(metrics);
 	}
 	
 	private void processCounterMetrics(HashMap<String, Object> metrics) {
