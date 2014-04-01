@@ -3,6 +3,7 @@ package com.vipshop.microscope.trace.metrics.jvm;
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.codahale.metrics.Gauge;
@@ -31,13 +32,6 @@ public class RuntimeMetricsSet implements MetricSet {
 			}
 		});
 
-		gauges.put("java.classpath", new Gauge<String>() {
-			@Override
-			public String getValue() {
-				return runtimeMXBean.getClassPath();
-			}
-		});
-
 		gauges.put("process.name", new Gauge<String>() {
 			@Override
 			public String getValue() {
@@ -63,7 +57,16 @@ public class RuntimeMetricsSet implements MetricSet {
 				return runtimeMXBean.getSystemProperties();
 			}
 		});
+		
+		gauges.put("arguments", new Gauge<List<String>>() {
+
+			@Override
+			public List<String> getValue() {
+				return runtimeMXBean.getInputArguments();
+			}
+		});
 
 		return gauges;
 	}
+	
 }

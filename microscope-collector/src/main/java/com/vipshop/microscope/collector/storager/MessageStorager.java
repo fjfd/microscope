@@ -1,7 +1,10 @@
 package com.vipshop.microscope.collector.storager;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
+import com.vipshop.microscope.common.metrics.MetricsCategory;
 import com.vipshop.microscope.common.trace.Span;
 import com.vipshop.microscope.storage.StorageRepository;
 import com.vipshop.microscope.storage.hbase.domain.AppTable;
@@ -54,8 +57,40 @@ public class MessageStorager {
 		storageRepository.saveException(map);
 	}
 	
-	public void storageJVM(Map<String, Object> jvm) {
+	public void storageCounter(HashMap<String, Object> counter) {
+		
+	}
+	
+	public void storageGauge(HashMap<String, Object> gauge) {
+		HashMap<String, Object> jvm = new HashMap<String, Object>();
+		
+		for (Entry<String, Object> entry : gauge.entrySet()) {
+			if (entry.getKey().startsWith(MetricsCategory.JVM)) {
+				jvm.put(entry.getKey(), entry.getValue());
+			}
+		}
+		
+		jvm.put("ip", gauge.get("ip"));
+		jvm.put("app", gauge.get("app"));
+		jvm.put("date", gauge.get("date"));
+		
 		storageRepository.saveJVM(jvm);
+	}
+	
+	public void storageHistogram(HashMap<String, Object> histogram) {
+		
+	}
+	
+	public void storageMeter(HashMap<String, Object> meter) {
+		
+	}
+	
+	public void storageTimer(HashMap<String, Object> timer) {
+		
+	}
+	
+	public void storageHealth(HashMap<String, Object> health) {
+		
 	}
 	
 }

@@ -30,6 +30,8 @@ import com.codahale.metrics.jvm.GarbageCollectorMetricSet;
 import com.codahale.metrics.jvm.MemoryUsageGaugeSet;
 import com.vipshop.microscope.common.metrics.MetricsCategory;
 import com.vipshop.microscope.trace.Tracer;
+import com.vipshop.microscope.trace.metrics.jvm.DiskMetricsSet;
+import com.vipshop.microscope.trace.metrics.jvm.IOMetricsSet;
 import com.vipshop.microscope.trace.metrics.jvm.OSMetricsSet;
 import com.vipshop.microscope.trace.metrics.jvm.RuntimeMetricsSet;
 import com.vipshop.microscope.trace.metrics.jvm.ThreadMetricsSet;
@@ -79,7 +81,7 @@ public class MetricsStats {
 	 * Start Slf4jReporter with default period and time.
 	 */
 	public static void startSlf4jReporter() {
-		if (Tracer.isTraceEnable() && !start) {
+		if (!start) {
 			ScheduledReporter reporter = Slf4jReporter.forRegistry(metrics)
 													  .convertRatesTo(TimeUnit.SECONDS)
 													  .convertDurationsTo(TimeUnit.MILLISECONDS)
@@ -93,7 +95,7 @@ public class MetricsStats {
 	 * Start Slf4jReporter with default period and time.
 	 */
 	public static void startSlf4jReporter(long period, TimeUnit unit) {
-		if (Tracer.isTraceEnable() && !start) {
+		if (!start) {
 			ScheduledReporter reporter = Slf4jReporter.forRegistry(metrics)
 												      .convertRatesTo(TimeUnit.SECONDS)
 												      .convertDurationsTo(TimeUnit.MILLISECONDS)
@@ -107,7 +109,7 @@ public class MetricsStats {
 	 * Start ConsoleReporter with default period and time.
 	 */
 	public static void startConsoleReporter() {
-		if (Tracer.isTraceEnable() && !start) {
+		if (!start) {
 			ScheduledReporter reporter = ConsoleReporter.forRegistry(metrics)
 													    .convertRatesTo(TimeUnit.SECONDS)
 													    .convertDurationsTo(TimeUnit.MILLISECONDS)
@@ -121,7 +123,7 @@ public class MetricsStats {
 	 * Start ConsoleReporter with default period and time.
 	 */
 	public static void startConsoleReporter(long period, TimeUnit unit) {
-		if (Tracer.isTraceEnable() && !start) {
+		if (!start) {
 			ScheduledReporter reporter = ConsoleReporter.forRegistry(metrics)
 				    								    .convertRatesTo(TimeUnit.SECONDS)
 				    								    .convertDurationsTo(TimeUnit.MILLISECONDS)
@@ -135,7 +137,7 @@ public class MetricsStats {
 	 * Start CsvReporter with default period and time.
 	 */
 	public static void startCsvReporter() {
-		if (Tracer.isTraceEnable() && !start) {
+		if (!start) {
 			ScheduledReporter reporter = CsvReporter.forRegistry(metrics).build(new File("."));
 			reporter.start(5, TimeUnit.SECONDS);
 			start = true;
@@ -146,7 +148,7 @@ public class MetricsStats {
 	 * Start CsvReporter with default period and time.
 	 */
 	public static void startCsvReporter(long period, TimeUnit unit) {
-		if (Tracer.isTraceEnable() && !start) {
+		if (!start) {
 			ScheduledReporter reporter = CsvReporter.forRegistry(metrics).build(new File("."));
 			reporter.start(period, unit);
 			start = true;
@@ -157,7 +159,7 @@ public class MetricsStats {
 	 * Start jmx reporter
 	 */
 	public static void startJmxReporter() {
-		if (Tracer.isTraceEnable() && !start) {
+		if (!start) {
 			JmxReporter reporter = JmxReporter.forRegistry(metrics).build();
 			reporter.start();
 			start = true;
@@ -168,14 +170,14 @@ public class MetricsStats {
 	 * Start GraphiteReporter
 	 */
 	public static void startGraphiteReporter() {
-		if (Tracer.isTraceEnable() && !start) {
+		if (!start) {
 			final Graphite graphite = new Graphite(new InetSocketAddress("graphite.example.com", 2003));
 			final GraphiteReporter reporter = GraphiteReporter.forRegistry(metrics)
-					.prefixedWith("web1.example.com")
-					.convertRatesTo(TimeUnit.SECONDS)
-					.convertDurationsTo(TimeUnit.MILLISECONDS)
-					.filter(MetricFilter.ALL)
-					.build(graphite);
+															  .prefixedWith("web1.example.com")
+															  .convertRatesTo(TimeUnit.SECONDS)
+															  .convertDurationsTo(TimeUnit.MILLISECONDS)
+															  .filter(MetricFilter.ALL)
+															  .build(graphite);
 			reporter.start(5, TimeUnit.MINUTES);
 			start = true;
 		}
@@ -247,6 +249,8 @@ public class MetricsStats {
 		metrics.register(MetricsCategory.JVM_GC, new GarbageCollectorMetricSet());
 		metrics.register(MetricsCategory.JVM_Runtime, new RuntimeMetricsSet());
 		metrics.register(MetricsCategory.JVM_OS, new OSMetricsSet());
+		metrics.register(MetricsCategory.JVM_IO, new IOMetricsSet());
+		metrics.register(MetricsCategory.JVM_DISK, new DiskMetricsSet());
 	}
 	
 	/**

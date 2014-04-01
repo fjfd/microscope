@@ -23,7 +23,7 @@ public class MetricsStorageHandler implements EventHandler<MetricsEvent> {
 	
 	private final MessageStorager messageStorager = MessageStorager.getMessageStorager();
 	
-	private final int size = Runtime.getRuntime().availableProcessors();
+	private final int size = Runtime.getRuntime().availableProcessors() * 1;
 	private final ExecutorService metricsStorageWorkerExecutor = ThreadPoolUtil.newFixedThreadPool(size, "metrics-store-worker-pool");
 
 	@Override
@@ -39,8 +39,6 @@ public class MetricsStorageHandler implements EventHandler<MetricsEvent> {
 	private void processMetrics(final HashMap<String, Object> metrics) {
 		
 		String metricsType = (String) metrics.get("type");
-		
-//		System.out.println(metrics);
 		
 		if (metricsType.equals(MetricsCategory.Exception)) {
 			processExceptionMetrics(metrics);
@@ -72,6 +70,11 @@ public class MetricsStorageHandler implements EventHandler<MetricsEvent> {
 			return;
 		}
 		
+		if (metricsType.equals(MetricsCategory.Health)) {
+			processHealthMetrics(metrics);
+			return;
+		}
+		
 	}
 	
 	private void processExceptionMetrics(HashMap<String, Object> metrics) {
@@ -79,23 +82,27 @@ public class MetricsStorageHandler implements EventHandler<MetricsEvent> {
 	}
 	
 	private void processCounterMetrics(HashMap<String, Object> metrics) {
-		
+		messageStorager.storageCounter(metrics);
 	}
 	
 	private void processGaugeMetrics(HashMap<String, Object> metrics) {
-		
+		messageStorager.storageGauge(metrics);
 	}
 
 	private void processHistogramMetrics(HashMap<String, Object> metrics) {
-		
+		messageStorager.storageHistogram(metrics);
 	}
 
 	private void processMeterMetrics(HashMap<String, Object> metrics) {
-		
+		messageStorager.storageMeter(metrics);
 	}
 
 	private void processTimerMetrics(HashMap<String, Object> metrics) {
-		
+		messageStorager.storageTimer(metrics);
+	}
+	
+	private void processHealthMetrics(HashMap<String, Object> metrics) {
+		messageStorager.storageHealth(metrics);
 	}
 
 }

@@ -13,6 +13,8 @@ public class MetricsCategory {
 	public static final String JVM_GC = "jvm_gc";
 	public static final String JVM_Runtime = "jvm_runtime";
 	public static final String JVM_OS = "jvm_os";
+	public static final String JVM_IO = "jvm_io";
+	public static final String JVM_DISK = "jvm_disk";
 	
 	/**
 	 * Http request response
