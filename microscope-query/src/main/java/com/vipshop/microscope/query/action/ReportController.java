@@ -46,4 +46,54 @@ public class ReportController {
 		return result;
 	}
 	
+	@RequestMapping("/report/httpReport")
+	@ResponseBody
+	public ListResult httpReport(HttpServletRequest request, String callback) {
+		ListResult result = new ListResult();
+		List<Map<String, Object>> data = service.getJVMMetrics(request);
+		result.setResult(data);
+		result.setCallback(callback);
+		return result;
+	}
+	
+	@RequestMapping("/report/cacheReport")
+	@ResponseBody
+	public ListResult cacheReport(HttpServletRequest request, String callback) {
+		ListResult result = new ListResult();
+		List<Map<String, Object>> data = service.getJVMMetrics(request);
+		result.setResult(data);
+		result.setCallback(callback);
+		return result;
+	}
+	
+	@RequestMapping("/report/dbReport")
+	@ResponseBody
+	public ListResult dbReport(HttpServletRequest request, String callback) {
+		ListResult result = new ListResult();
+		List<Map<String, Object>> data = service.getJVMMetrics(request);
+		result.setResult(data);
+		result.setCallback(callback);
+		return result;
+	}
+	
+	@RequestMapping("/report/traceReport")
+	@ResponseBody
+	public ListResult traceReport(HttpServletRequest request, String callback) {
+		ListResult result = new ListResult();
+		List<Map<String, Object>> data = service.getJVMMetrics(request);
+		result.setResult(data);
+		result.setCallback(callback);
+		return result;
+	}
+	
+	@RequestMapping("/report/msgReport")
+	@ResponseBody
+	public ListResult msgReport(HttpServletRequest request, String callback) {
+		ListResult result = new ListResult();
+		List<Map<String, Object>> data = service.getJVMMetrics(request);
+		result.setResult(data);
+		result.setCallback(callback);
+		return result;
+	}
+	
 }

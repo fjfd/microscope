@@ -5,6 +5,7 @@ import java.lang.management.RuntimeMXBean;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.codahale.metrics.Gauge;
 import com.codahale.metrics.Metric;
@@ -54,7 +55,17 @@ public class RuntimeMetricsSet implements MetricSet {
 		gauges.put("system.properties", new Gauge<Map<String, String>>() {
 			@Override
 			public Map<String, String> getValue() {
-				return runtimeMXBean.getSystemProperties();
+				Map<String, String> value = runtimeMXBean.getSystemProperties();
+				Map<String, String> newvalue = new HashMap<String, String>();
+				for (Entry<String, String> entry : value.entrySet()) {
+					String key = entry.getKey();
+					if (key.contains(".")) {
+						key = key.replace(".", "_");
+					}
+					newvalue.put(key, entry.getValue());
+				}
+				return newvalue;
+//				return runtimeMXBean.getSystemProperties();
 			}
 		});
 		

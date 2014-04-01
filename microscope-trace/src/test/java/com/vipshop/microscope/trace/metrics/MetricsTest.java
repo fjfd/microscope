@@ -15,7 +15,6 @@ import com.codahale.metrics.Gauge;
 import com.codahale.metrics.Histogram;
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.Timer;
-import com.vipshop.microscope.trace.metrics.MetricsStats;
 
 public class MetricsTest {
 	
@@ -24,7 +23,7 @@ public class MetricsTest {
     @BeforeMethod
     public void setUp() {
 //    	MetricsStats.startSlf4jReporter(1, TimeUnit.SECONDS);
-    	MetricsStats.startMicroscopeReporter();
+//    	MetricsStats.startMicroscopeReporter();
 //    	MetricsStats.startJmxReporter();
     }
     
@@ -54,6 +53,7 @@ public class MetricsTest {
 	
 	@Test
 	public void testJVMMetrics() throws InterruptedException {
+		MetricsStats.startSlf4jReporter();
 		MetricsStats.registerJVM();
 		for (int i = 0; i < 5; i++) {
 			TimeUnit.SECONDS.sleep(1);
@@ -62,12 +62,13 @@ public class MetricsTest {
 	
 	@Test
 	public void testMicroscopeJVMMetrics() throws InterruptedException {
+		MetricsStats.startMicroscopeReporter();
+		MetricsStats.registerJVM();
 		for (;;) {
 			TimeUnit.SECONDS.sleep(1);
 		}
 	}
 
-	
     @Test
     public void testHistogram() throws InterruptedException {
     	Histogram randomNums = MetricsStats.histogram(name(MetricsTest.class, "random"));

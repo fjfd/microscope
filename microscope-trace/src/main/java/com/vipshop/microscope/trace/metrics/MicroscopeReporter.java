@@ -223,7 +223,11 @@ public class MicroscopeReporter extends ScheduledReporter {
     		metrics.put("ip", IPAddressUtil.IPAddress());
     		
     		for (Entry<String, Gauge> entry : gauges.entrySet()) {
-    			metrics.put(entry.getKey(), entry.getValue().getValue());
+    			String key = entry.getKey();
+    			if (key.contains(".")) {
+					key = key.replace(".", "_");
+				}
+    			metrics.put(key, entry.getValue().getValue());
     		}
         	output.addMetrics(metrics);
         }

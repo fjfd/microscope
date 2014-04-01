@@ -19,6 +19,7 @@ public class MetricsCategory {
 	/**
 	 * Http request response
 	 */
+	public static final String HttpClient = "httpclient";
 	public static final String Servlet = "servlet";
 
 	/**

@@ -1,5 +1,6 @@
 package com.vipshop.microscope.trace.metrics.exception;
 
+import java.lang.management.ManagementFactory;
 import java.util.HashMap;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -32,24 +33,26 @@ public class ExceptionBuilder {
 		exception.put("Message", ExceptionUtils.getMessage(t));
 		exception.put("Stack", ExceptionUtils.getStackTrace(t));
 		exception.put("TraceId", Tracer.getTraceId());
+		exception.put("Thread", ManagementFactory.getThreadMXBean().getThreadInfo(Thread.currentThread().getId()).toString());
 		
 		storage.addMetrics(exception);
 	}
 	
 	public static void record(final Throwable t, String info) {
-		HashMap<String, Object> excetpion = new HashMap<String, Object>();
+		HashMap<String, Object> exception = new HashMap<String, Object>();
 		
-		excetpion.put("type", MetricsCategory.Exception);
-		excetpion.put("IP", IPAddressUtil.IPAddress());
-		excetpion.put("APP", Tracer.APP_NAME);
-		excetpion.put("Date", TimeStampUtil.currentTimeMillis());
-		excetpion.put("Name", t.getClass().getName());
-		excetpion.put("Message", ExceptionUtils.getMessage(t));
-		excetpion.put("Stack", ExceptionUtils.getStackTrace(t));
-		excetpion.put("TraceId", Tracer.getTraceId());
-		excetpion.put("Debug", info);
+		exception.put("type", MetricsCategory.Exception);
+		exception.put("IP", IPAddressUtil.IPAddress());
+		exception.put("APP", Tracer.APP_NAME);
+		exception.put("Date", TimeStampUtil.currentTimeMillis());
+		exception.put("Name", t.getClass().getName());
+		exception.put("Message", ExceptionUtils.getMessage(t));
+		exception.put("Stack", ExceptionUtils.getStackTrace(t));
+		exception.put("TraceId", Tracer.getTraceId());
+		exception.put("Debug", info);
+		exception.put("Thread", ManagementFactory.getThreadMXBean().getThreadInfo(Thread.currentThread().getId()).toString());
 		
-		storage.addMetrics(excetpion);
+		storage.addMetrics(exception);
 	}
 	
 }

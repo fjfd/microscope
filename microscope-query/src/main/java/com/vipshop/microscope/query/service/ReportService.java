@@ -15,15 +15,15 @@ public class ReportService {
 	
 	private final QueryRepository queryRepository = QueryRepository.getQueryRepository();
 	
+	public Map<String, Object> getTopReport() {
+		return queryRepository.findTop();
+	}
+
 	public List<Map<String, Object>> getJVMMetrics(HttpServletRequest request) {
 		Map<String, String> query = new HashMap<String, String>();
 		query.put("appName", request.getParameter("appName"));
 		query.put("ipAddress", request.getParameter("ipAddress"));
 		return queryRepository.findJVMList(query);
-	}
-	
-	public Map<String, Object> getTopReport() {
-		return queryRepository.findTop();
 	}
 	
 }
