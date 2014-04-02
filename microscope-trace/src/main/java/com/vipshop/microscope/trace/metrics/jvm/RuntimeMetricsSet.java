@@ -1,8 +1,10 @@
 package com.vipshop.microscope.trace.metrics.jvm;
 
+import java.io.File;
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -13,11 +15,12 @@ import com.codahale.metrics.MetricSet;
 
 public class RuntimeMetricsSet implements MetricSet {
 
-	RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
-
+	private final RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
+	private final File[] roots = File.listRoots();
+	
 	@Override
 	public Map<String, Metric> getMetrics() {
-		final Map<String, Metric> gauges = new HashMap<String, Metric>();
+		final Map<String, Metric> gauges = new LinkedHashMap<String, Metric>();
 
 		gauges.put("start.time", new Gauge<Long>() {
 			@Override
@@ -74,6 +77,39 @@ public class RuntimeMetricsSet implements MetricSet {
 			@Override
 			public List<String> getValue() {
 				return runtimeMXBean.getInputArguments();
+			}
+		});
+		
+		gauges.put("total.space", new Gauge<Long>() {
+			@Override
+			public Long getValue() {
+				long space = 0l;
+				for (File root : roots) {
+					space += root.getTotalSpace();
+				}
+				return space;
+			}
+		});
+
+		gauges.put("free.space", new Gauge<Long>() {
+			@Override
+			public Long getValue() {
+				long space = 0l;
+				for (File root : roots) {
+					space += root.getFreeSpace();
+				}
+				return space;
+			}
+		});
+
+		gauges.put("usable.space", new Gauge<Long>() {
+			@Override
+			public Long getValue() {
+				long space = 0l;
+				for (File root : roots) {
+					space += root.getUsableSpace();
+				}
+				return space;
 			}
 		});
 

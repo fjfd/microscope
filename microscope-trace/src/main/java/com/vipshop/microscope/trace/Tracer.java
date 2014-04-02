@@ -1,11 +1,14 @@
 package com.vipshop.microscope.trace;
 
+import java.util.concurrent.TimeUnit;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.vipshop.microscope.common.trace.Category;
 import com.vipshop.microscope.common.util.ConfigurationUtil;
 import com.vipshop.microscope.common.util.DateUtil;
+import com.vipshop.microscope.trace.metrics.MetricsStats;
 import com.vipshop.microscope.trace.metrics.exception.ExceptionBuilder;
 import com.vipshop.microscope.trace.switcher.ConfigSwitcher;
 import com.vipshop.microscope.trace.switcher.Switcher;
@@ -130,8 +133,8 @@ public class Tracer {
 					/*
 					 * start metrics reporter 
 					 */
-//					MetricsStats.startMicroscopeReporter();
-//					MetricsStats.registerJVM();
+					MetricsStats.startMicroscopeReporter(60, TimeUnit.SECONDS);
+					MetricsStats.registerJVM();
 				}
 			} catch (Exception e) {
 				SWITCH = 0;

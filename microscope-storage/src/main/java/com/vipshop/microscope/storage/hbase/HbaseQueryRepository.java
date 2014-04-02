@@ -97,6 +97,10 @@ public class HbaseQueryRepository {
 		return RepositoryFactory.getJVMTableRepository().find(query);
 	}
 	
+	public List<Map<String, Object>> findServletList(Map<String, String> query) {
+		return RepositoryFactory.getServletTableRepository().find(query);
+	}
+	
 	public Map<String, Object> findTop() {
 		return RepositoryFactory.getTopTableRepository().findTopReport();
 	}

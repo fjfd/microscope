@@ -34,9 +34,7 @@ public class JVMTableRepository extends AbstraceTableRepository {
 														   JVMTable.CF_GC,
 														   JVMTable.CF_MEMORY,
 														   JVMTable.CF_RUNTIME,
-														   JVMTable.CF_DISK,
-														   JVMTable.CF_IO,
-														   JVMTable.CF_OS});
+														   JVMTable.CF_OVERVIEW});
 	}
 
 	public void drop() {
@@ -52,13 +50,11 @@ public class JVMTableRepository extends AbstraceTableRepository {
 	}
 
 	public void save(final Map<String, Object> jvm) {
-		final HashMap<String, Object> gc = new HashMap<String, Object>();
+		final HashMap<String, Object> overview = new HashMap<String, Object>();
+		final HashMap<String, Object> runtime = new HashMap<String, Object>();
 		final HashMap<String, Object> thread = new HashMap<String, Object>();
 		final HashMap<String, Object> memory = new HashMap<String, Object>();
-		final HashMap<String, Object> disk = new HashMap<String, Object>();
-		final HashMap<String, Object> io = new HashMap<String, Object>();
-		final HashMap<String, Object> runtime = new HashMap<String, Object>();
-		final HashMap<String, Object> os = new HashMap<String, Object>();
+		final HashMap<String, Object> gc = new HashMap<String, Object>();
 		
 		for (Entry<String, Object> entry : jvm.entrySet()) {
 			if (entry.getKey().startsWith(MetricsCategory.JVM_GC)) {
@@ -70,27 +66,19 @@ public class JVMTableRepository extends AbstraceTableRepository {
 			if (entry.getKey().startsWith(MetricsCategory.JVM_Memory)) {
 				memory.put(entry.getKey(), entry.getValue());
 			}
-			if (entry.getKey().startsWith(MetricsCategory.JVM_DISK)) {
-				disk.put(entry.getKey(), entry.getValue());
-			}
-			if (entry.getKey().startsWith(MetricsCategory.JVM_IO)) {
-				io.put(entry.getKey(), entry.getValue());
-			}
 			if (entry.getKey().startsWith(MetricsCategory.JVM_Runtime)) {
 				runtime.put(entry.getKey(), entry.getValue());
 			}
-			if (entry.getKey().startsWith(MetricsCategory.JVM_OS)) {
-				os.put(entry.getKey(), entry.getValue());
+			if (entry.getKey().startsWith(MetricsCategory.JVM_Overview)) {
+				overview.put(entry.getKey(), entry.getValue());
 			}
 		}
 		
-		gc.put("date", DateUtil.dateToString(new Date(Long.valueOf(jvm.get("date").toString()))));
+		overview.put("date", DateUtil.dateToString(new Date(Long.valueOf(jvm.get("date").toString()))));
+		runtime.put("date", DateUtil.dateToString(new Date(Long.valueOf(jvm.get("date").toString()))));
 		thread.put("date", DateUtil.dateToString(new Date(Long.valueOf(jvm.get("date").toString()))));
 		memory.put("date", DateUtil.dateToString(new Date(Long.valueOf(jvm.get("date").toString()))));
-		os.put("date", DateUtil.dateToString(new Date(Long.valueOf(jvm.get("date").toString()))));
-		disk.put("date", DateUtil.dateToString(new Date(Long.valueOf(jvm.get("date").toString()))));
-		runtime.put("date", DateUtil.dateToString(new Date(Long.valueOf(jvm.get("date").toString()))));
-		io.put("date", DateUtil.dateToString(new Date(Long.valueOf(jvm.get("date").toString()))));
+		gc.put("date", DateUtil.dateToString(new Date(Long.valueOf(jvm.get("date").toString()))));
 		
 		hbaseTemplate.execute(JVMTable.INDEX_TABLE_NAME, new TableCallback<Map<String, Object>>() {
 			@Override
@@ -110,10 +98,8 @@ public class JVMTableRepository extends AbstraceTableRepository {
 				p.add(JVMTable.BYTE_CF_THREAD, JVMTable.BYTE_C_THREAD, SerializationUtils.serialize((Serializable) thread));
 				p.add(JVMTable.BYTE_CF_GC, JVMTable.BYTE_C_GC, SerializationUtils.serialize((Serializable) gc));
 				p.add(JVMTable.BYTE_CF_MEMORY, JVMTable.BYTE_C_MEMORY, SerializationUtils.serialize((Serializable) memory));
-				p.add(JVMTable.BYTE_CF_DISK, JVMTable.BYTE_C_DISK, SerializationUtils.serialize((Serializable) disk));
 				p.add(JVMTable.BYTE_CF_RUNTIME, JVMTable.BYTE_C_RUNTIME, SerializationUtils.serialize((Serializable) runtime));
-				p.add(JVMTable.BYTE_CF_IO, JVMTable.BYTE_C_IO, SerializationUtils.serialize((Serializable) io));
-				p.add(JVMTable.BYTE_CF_OS, JVMTable.BYTE_C_OS, SerializationUtils.serialize((Serializable) os));
+				p.add(JVMTable.BYTE_CF_OVERVIEW, JVMTable.BYTE_C_OVERVIEW, SerializationUtils.serialize((Serializable) overview));
 				table.put(p);
 				return jvm;
 			}
@@ -206,10 +192,8 @@ public class JVMTableRepository extends AbstraceTableRepository {
 				jvmMap.put("thread", (Map<String, Object>) SerializationUtils.deserialize(result.getValue(JVMTable.BYTE_CF_THREAD, JVMTable.BYTE_C_THREAD)));
 				jvmMap.put("gc", (Map<String, Object>) SerializationUtils.deserialize(result.getValue(JVMTable.BYTE_CF_GC, JVMTable.BYTE_C_GC)));
 				jvmMap.put("memory", (Map<String, Object>) SerializationUtils.deserialize(result.getValue(JVMTable.BYTE_CF_MEMORY, JVMTable.BYTE_C_MEMORY)));
-				jvmMap.put("io", (Map<String, Object>) SerializationUtils.deserialize(result.getValue(JVMTable.BYTE_CF_IO, JVMTable.BYTE_C_IO)));
-				jvmMap.put("disk", (Map<String, Object>) SerializationUtils.deserialize(result.getValue(JVMTable.BYTE_CF_DISK, JVMTable.BYTE_C_DISK)));
 				jvmMap.put("runtime", (Map<String, Object>) SerializationUtils.deserialize(result.getValue(JVMTable.BYTE_CF_RUNTIME, JVMTable.BYTE_C_RUNTIME)));
-				jvmMap.put("os", (Map<String, Object>) SerializationUtils.deserialize(result.getValue(JVMTable.BYTE_CF_OS, JVMTable.BYTE_C_OS)));
+				jvmMap.put("os", (Map<String, Object>) SerializationUtils.deserialize(result.getValue(JVMTable.BYTE_CF_OVERVIEW, JVMTable.BYTE_C_OVERVIEW)));
 				return jvmMap;
 			}
 		});

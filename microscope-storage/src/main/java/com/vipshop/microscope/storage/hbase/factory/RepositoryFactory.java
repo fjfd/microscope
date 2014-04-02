@@ -7,6 +7,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import com.vipshop.microscope.storage.hbase.repository.AppTableRepository;
 import com.vipshop.microscope.storage.hbase.repository.ExceptionTableRepository;
 import com.vipshop.microscope.storage.hbase.repository.JVMTableRepository;
+import com.vipshop.microscope.storage.hbase.repository.ServletTableRepository;
 import com.vipshop.microscope.storage.hbase.repository.SpanTableRepository;
 import com.vipshop.microscope.storage.hbase.repository.TopTableRepository;
 import com.vipshop.microscope.storage.hbase.repository.TraceTableRepository;
@@ -26,6 +27,8 @@ public class RepositoryFactory {
 	
 	private static final ExceptionTableRepository EXCEPTION_TABLE;
 	private static final JVMTableRepository JVM_TABLB;
+	private static final ServletTableRepository SERVLET_TABLB;
+	
 	
 	private static final TopTableRepository TOP_TABLE;
 	
@@ -43,16 +46,17 @@ public class RepositoryFactory {
 		JVM_TABLB = context.getBean(JVMTableRepository.class);
 		TOP_TABLE = context.getBean(TopTableRepository.class);
 		USER_TABLE = context.getBean(UserTableRepository.class);
+		SERVLET_TABLB = context.getBean(ServletTableRepository.class);
 		
 		APP_TABLE.initialize();
 		TRACE_TABLE.initialize();
 		SPAN_TABLE.initialize();
-		
 		EXCEPTION_TABLE.initialize();
-		JVM_TABLB.initialize();
 		TOP_TABLE.initialize();
-		
+		JVM_TABLB.initialize();
 		USER_TABLE.initialize();
+		SERVLET_TABLB.initialize();
+		
 		context.close();
 	}
 	
@@ -116,6 +120,14 @@ public class RepositoryFactory {
 	 */
 	public static UserTableRepository getUserTableRepository() {
 		return USER_TABLE;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static ServletTableRepository getServletTableRepository() {
+		return SERVLET_TABLB;
 	}
 	
 	public static Configuration getConfiguration() {

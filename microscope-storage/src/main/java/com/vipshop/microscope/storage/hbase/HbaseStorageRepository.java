@@ -26,6 +26,7 @@ public class HbaseStorageRepository {
 		RepositoryFactory.getJVMTableRepository().initialize();
 		RepositoryFactory.getTopTableRepository().initialize();
 		RepositoryFactory.getUserTableRepository().initialize();
+		RepositoryFactory.getServletTableRepository().initialize();
 	}
 	
 	/**
@@ -39,6 +40,7 @@ public class HbaseStorageRepository {
 		RepositoryFactory.getJVMTableRepository().drop();
 		RepositoryFactory.getTopTableRepository().drop();
 		RepositoryFactory.getUserTableRepository().drop();
+		RepositoryFactory.getServletTableRepository().drop();
 	}
 	
 	/**
@@ -92,6 +94,18 @@ public class HbaseStorageRepository {
 	 */
 	public void saveJVM(Map<String, Object> jvm) {
 		RepositoryFactory.getJVMTableRepository().save(jvm);
+	}
+	
+	public void saveServletActiveRequest(Map<String, Object> activeRequest) {
+		RepositoryFactory.getServletTableRepository().saveActiveRequest(activeRequest);
+	}
+	
+	public void saveServletResponseCode(Map<String, Object> responseCode) {
+		RepositoryFactory.getServletTableRepository().saveResponseCode(responseCode);
+	}
+	
+	public void saveServletRequest(Map<String, Object> request) {
+		RepositoryFactory.getServletTableRepository().saveRequest(request);
 	}
 	
 	/**

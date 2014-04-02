@@ -9,7 +9,8 @@ import com.codahale.metrics.Gauge;
 import com.codahale.metrics.Metric;
 import com.codahale.metrics.MetricSet;
 
-public class OSMetricsSet implements MetricSet {
+public class OverviewMetricsSet implements MetricSet {
+	
 	OperatingSystemMXBean bean = ManagementFactory.getOperatingSystemMXBean();
 
 	@SuppressWarnings("restriction")

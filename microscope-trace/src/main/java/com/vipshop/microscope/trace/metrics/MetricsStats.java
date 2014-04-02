@@ -26,13 +26,11 @@ import com.codahale.metrics.graphite.Graphite;
 import com.codahale.metrics.graphite.GraphiteReporter;
 import com.codahale.metrics.health.HealthCheck;
 import com.codahale.metrics.health.HealthCheckRegistry;
-import com.codahale.metrics.jvm.GarbageCollectorMetricSet;
-import com.codahale.metrics.jvm.MemoryUsageGaugeSet;
 import com.vipshop.microscope.common.metrics.MetricsCategory;
 import com.vipshop.microscope.trace.Tracer;
-import com.vipshop.microscope.trace.metrics.jvm.DiskMetricsSet;
-import com.vipshop.microscope.trace.metrics.jvm.IOMetricsSet;
-import com.vipshop.microscope.trace.metrics.jvm.OSMetricsSet;
+import com.vipshop.microscope.trace.metrics.jvm.GCMetricSet;
+import com.vipshop.microscope.trace.metrics.jvm.MemeoryMetricsSet;
+import com.vipshop.microscope.trace.metrics.jvm.OverviewMetricsSet;
 import com.vipshop.microscope.trace.metrics.jvm.RuntimeMetricsSet;
 import com.vipshop.microscope.trace.metrics.jvm.ThreadMetricsSet;
 
@@ -244,13 +242,11 @@ public class MetricsStats {
 	 * Collect JVM data.
 	 */
 	public static void registerJVM() {
-		metrics.register(MetricsCategory.JVM_Thread, new ThreadMetricsSet());
-		metrics.register(MetricsCategory.JVM_Memory, new MemoryUsageGaugeSet());
-		metrics.register(MetricsCategory.JVM_GC, new GarbageCollectorMetricSet());
+		metrics.register(MetricsCategory.JVM_Overview, new OverviewMetricsSet());
 		metrics.register(MetricsCategory.JVM_Runtime, new RuntimeMetricsSet());
-		metrics.register(MetricsCategory.JVM_OS, new OSMetricsSet());
-		metrics.register(MetricsCategory.JVM_IO, new IOMetricsSet());
-		metrics.register(MetricsCategory.JVM_DISK, new DiskMetricsSet());
+		metrics.register(MetricsCategory.JVM_Thread, new ThreadMetricsSet());
+		metrics.register(MetricsCategory.JVM_Memory, new MemeoryMetricsSet());
+		metrics.register(MetricsCategory.JVM_GC, new GCMetricSet());
 	}
 	
 	/**

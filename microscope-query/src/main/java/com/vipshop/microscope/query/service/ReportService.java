@@ -26,4 +26,11 @@ public class ReportService {
 		return queryRepository.findJVMList(query);
 	}
 	
+	public List<Map<String, Object>> getServletMetrics(HttpServletRequest request) {
+		Map<String, String> query = new HashMap<String, String>();
+		query.put("appName", request.getParameter("appName"));
+		query.put("ipAddress", request.getParameter("ipAddress"));
+		return queryRepository.findServletList(query);
+	}
+	
 }

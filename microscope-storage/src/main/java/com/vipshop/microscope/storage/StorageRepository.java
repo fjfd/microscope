@@ -62,6 +62,18 @@ public class StorageRepository {
 		hbaseStorageRepository.saveJVM(jvm);
 	}
 	
+	public void saveServletActiveRequest(Map<String, Object> counter) {
+		hbaseStorageRepository.saveServletActiveRequest(counter);
+	}
+	
+	public void saveServletResponseCode(Map<String, Object> meter) {
+		hbaseStorageRepository.saveServletResponseCode(meter);
+	}
+	
+	public void saveServletRequest(Map<String, Object> timer) {
+		hbaseStorageRepository.saveServletRequest(timer);
+	}
+	
 	public void saveTop(Map<String, Object> top) {
 		hbaseStorageRepository.saveTop(top);
 	}

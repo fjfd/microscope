@@ -56,6 +56,17 @@ public class ReportController {
 		return result;
 	}
 	
+	@RequestMapping("/report/servletReport")
+	@ResponseBody
+	public ListResult servletReport(HttpServletRequest request, String callback) {
+		ListResult result = new ListResult();
+		List<Map<String, Object>> data = service.getServletMetrics(request);
+		result.setResult(data);
+		result.setCallback(callback);
+		return result;
+	}
+
+	
 	@RequestMapping("/report/cacheReport")
 	@ResponseBody
 	public ListResult cacheReport(HttpServletRequest request, String callback) {

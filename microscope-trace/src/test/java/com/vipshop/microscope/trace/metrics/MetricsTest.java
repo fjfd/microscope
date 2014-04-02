@@ -15,6 +15,7 @@ import com.codahale.metrics.Gauge;
 import com.codahale.metrics.Histogram;
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.Timer;
+import com.vipshop.microscope.trace.Tracer;
 
 public class MetricsTest {
 	
@@ -62,8 +63,7 @@ public class MetricsTest {
 	
 	@Test
 	public void testMicroscopeJVMMetrics() throws InterruptedException {
-		MetricsStats.startMicroscopeReporter();
-		MetricsStats.registerJVM();
+		Tracer.cleanContext();
 		for (;;) {
 			TimeUnit.SECONDS.sleep(1);
 		}
