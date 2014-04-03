@@ -14,6 +14,7 @@ import org.springframework.data.hadoop.hbase.RowMapper;
 import org.springframework.data.hadoop.hbase.TableCallback;
 import org.springframework.stereotype.Repository;
 
+import com.vipshop.microscope.common.logentry.Constants;
 import com.vipshop.microscope.storage.hbase.table.ExceptionIndexTable;
 
 @Repository
@@ -25,7 +26,7 @@ public class ExceptionIndexRepository extends AbstraceRepository {
 	public void initialize() {
 		super.initialize(ExceptionIndexTable.TABLE_NAME, new String[]{ExceptionIndexTable.CF_APP, 
 																	  ExceptionIndexTable.CF_IP, 
-																	  ExceptionIndexTable.CF_NAME});
+																	  ExceptionIndexTable.CF_EXCEPTION});
 	}
 
 	/**
@@ -44,10 +45,10 @@ public class ExceptionIndexRepository extends AbstraceRepository {
 		hbaseTemplate.execute(ExceptionIndexTable.TABLE_NAME, new TableCallback<Map<String, Object>>() {
 			@Override
 			public Map<String, Object> doInTable(HTableInterface table) throws Throwable {
-				Put p = new Put(Bytes.toBytes((String)exception.get("APP")));
-				p.add(ExceptionIndexTable.BYTE_CF_APP, Bytes.toBytes((String)exception.get("APP")), Bytes.toBytes((String)exception.get("APP")));
-				p.add(ExceptionIndexTable.BYTE_CF_IP, Bytes.toBytes((String)exception.get("IP")), Bytes.toBytes((String)exception.get("IP")));
-				p.add(ExceptionIndexTable.BYTE_CF_NAME, Bytes.toBytes((String)exception.get("Name")), Bytes.toBytes((String)exception.get("Name")));
+				Put p = new Put(ExceptionIndexTable.rowKey(exception));
+				p.add(ExceptionIndexTable.BYTE_CF_APP, Bytes.toBytes((String)exception.get(Constants.APP)), Bytes.toBytes((String)exception.get(Constants.APP)));
+				p.add(ExceptionIndexTable.BYTE_CF_IP, Bytes.toBytes((String)exception.get(Constants.IP)), Bytes.toBytes((String)exception.get(Constants.IP)));
+				p.add(ExceptionIndexTable.BYTE_CF_EXCEPTION, Bytes.toBytes((String)exception.get(Constants.EXCEPTION_NAME)), Bytes.toBytes((String)exception.get(Constants.EXCEPTION_NAME)));
 				table.put(p);
 				return exception;
 			}
@@ -93,7 +94,7 @@ public class ExceptionIndexRepository extends AbstraceRepository {
 				public Map<String, Object> mapRow(Result result, int rowNum) throws Exception {
 					Map<String, Object> appTrace = new HashMap<String, Object>();
 					String[] ipQunitifer = getColumnsInColumnFamily(result, ExceptionIndexTable.CF_IP);
-					String[] nameQunitifer = getColumnsInColumnFamily(result, ExceptionIndexTable.CF_NAME);
+					String[] nameQunitifer = getColumnsInColumnFamily(result, ExceptionIndexTable.CF_EXCEPTION);
 					appTrace.put("app", row);
 					appTrace.put("ip", Arrays.asList(ipQunitifer));
 					appTrace.put("name", Arrays.asList(nameQunitifer));

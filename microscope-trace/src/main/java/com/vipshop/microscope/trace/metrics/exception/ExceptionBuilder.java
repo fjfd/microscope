@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
+import com.vipshop.microscope.common.logentry.Constants;
 import com.vipshop.microscope.common.metrics.MetricsCategory;
 import com.vipshop.microscope.common.util.IPAddressUtil;
 import com.vipshop.microscope.common.util.TimeStampUtil;
@@ -25,15 +26,15 @@ public class ExceptionBuilder {
 	public static void record(final Throwable t) {
 		HashMap<String, Object> exception = new HashMap<String, Object>();
 		
-		exception.put("type", MetricsCategory.Exception);
-		exception.put("IP", IPAddressUtil.IPAddress());
-		exception.put("APP", Tracer.APP_NAME);
-		exception.put("Date", TimeStampUtil.currentTimeMillis());
-		exception.put("Name", t.getClass().getName());
-		exception.put("Message", ExceptionUtils.getMessage(t));
-		exception.put("Stack", ExceptionUtils.getStackTrace(t));
-		exception.put("TraceId", Tracer.getTraceId());
-		exception.put("Thread", ManagementFactory.getThreadMXBean().getThreadInfo(Thread.currentThread().getId()).toString());
+		exception.put(Constants.TYPE, MetricsCategory.Exception);
+		exception.put(Constants.APP, Tracer.APP_NAME);
+		exception.put(Constants.IP, IPAddressUtil.IPAddress());
+		exception.put(Constants.DATE, TimeStampUtil.currentTimeMillis());
+		exception.put(Constants.EXCEPTION_NAME, t.getClass().getName());
+		exception.put(Constants.EXCEPTION_MESSAGE, ExceptionUtils.getMessage(t));
+		exception.put(Constants.EXCEPTION_STACK, ExceptionUtils.getStackTrace(t));
+		exception.put(Constants.TRACE_ID, Tracer.getTraceId());
+		exception.put(Constants.THREAD_INFO, ManagementFactory.getThreadMXBean().getThreadInfo(Thread.currentThread().getId()).toString());
 		
 		storage.addMetrics(exception);
 	}
@@ -41,17 +42,17 @@ public class ExceptionBuilder {
 	public static void record(final Throwable t, String info) {
 		HashMap<String, Object> exception = new HashMap<String, Object>();
 		
-		exception.put("type", MetricsCategory.Exception);
-		exception.put("IP", IPAddressUtil.IPAddress());
-		exception.put("APP", Tracer.APP_NAME);
-		exception.put("Date", TimeStampUtil.currentTimeMillis());
-		exception.put("Name", t.getClass().getName());
-		exception.put("Message", ExceptionUtils.getMessage(t));
-		exception.put("Stack", ExceptionUtils.getStackTrace(t));
-		exception.put("TraceId", Tracer.getTraceId());
-		exception.put("Debug", info);
-		exception.put("Thread", ManagementFactory.getThreadMXBean().getThreadInfo(Thread.currentThread().getId()).toString());
-		
+		exception.put(Constants.TYPE, MetricsCategory.Exception);
+		exception.put(Constants.APP, Tracer.APP_NAME);
+		exception.put(Constants.IP, IPAddressUtil.IPAddress());
+		exception.put(Constants.DATE, TimeStampUtil.currentTimeMillis());
+		exception.put(Constants.EXCEPTION_NAME, t.getClass().getName());
+		exception.put(Constants.EXCEPTION_MESSAGE, ExceptionUtils.getMessage(t));
+		exception.put(Constants.EXCEPTION_STACK, ExceptionUtils.getStackTrace(t));
+		exception.put(Constants.TRACE_ID, Tracer.getTraceId());
+		exception.put(Constants.THREAD_INFO, ManagementFactory.getThreadMXBean().getThreadInfo(Thread.currentThread().getId()).toString());
+		exception.put(Constants.DEBUG, info);
+
 		storage.addMetrics(exception);
 	}
 	

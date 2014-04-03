@@ -4,6 +4,8 @@ import java.util.Map;
 
 import org.apache.hadoop.hbase.util.Bytes;
 
+import com.vipshop.microscope.common.logentry.Constants;
+
 public class ReportIndexTable {
 	
 	// ********** HBase schema for report index table ******** //
@@ -24,12 +26,9 @@ public class ReportIndexTable {
 	public static final byte[] BYTE_CF_IP = Bytes.toBytes(CF_IP);
 	public static final byte[] BYTE_CF_REPORT = Bytes.toBytes(CF_REPORT);
 	
-	public static String rowKey(Map<String, Object> map) {
-		return map.get("APP") + "-" +
-	           map.get("IP") + "-" +
-	           map.get("Report") + "-" +
-			   (Long.MAX_VALUE - Long.valueOf(map.get("Date").toString()));
-//	           UUID.randomUUID().getLeastSignificantBits();
+	public static byte[] rowKey(Map<String, Object> report) {
+		return Bytes.toBytes((String)report.get(Constants.APP));
 	}
+
 
 }

@@ -14,6 +14,7 @@ import org.springframework.data.hadoop.hbase.RowMapper;
 import org.springframework.data.hadoop.hbase.TableCallback;
 import org.springframework.stereotype.Repository;
 
+import com.vipshop.microscope.common.logentry.Constants;
 import com.vipshop.microscope.storage.hbase.table.ReportIndexTable;
 
 @Repository
@@ -44,10 +45,10 @@ public class ReportIndexRepository extends AbstraceRepository {
 		hbaseTemplate.execute(ReportIndexTable.TABLE_NAME, new TableCallback<Map<String, Object>>() {
 			@Override
 			public Map<String, Object> doInTable(HTableInterface table) throws Throwable {
-				Put p = new Put(Bytes.toBytes((String)report.get("APP")));
-				p.add(ReportIndexTable.BYTE_CF_APP, Bytes.toBytes((String)report.get("APP")), Bytes.toBytes((String)report.get("APP")));
-				p.add(ReportIndexTable.BYTE_CF_IP, Bytes.toBytes((String)report.get("IP")), Bytes.toBytes((String)report.get("IP")));
-				p.add(ReportIndexTable.BYTE_CF_REPORT, Bytes.toBytes((String)report.get("Report")), Bytes.toBytes((String)report.get("Report")));
+				Put p = new Put(ReportIndexTable.rowKey(report));
+				p.add(ReportIndexTable.BYTE_CF_APP, Bytes.toBytes((String)report.get(Constants.APP)), Bytes.toBytes((String)report.get(Constants.APP)));
+				p.add(ReportIndexTable.BYTE_CF_IP, Bytes.toBytes((String)report.get(Constants.IP)), Bytes.toBytes((String)report.get(Constants.IP)));
+				p.add(ReportIndexTable.BYTE_CF_REPORT, Bytes.toBytes((String)report.get(Constants.REPORT)), Bytes.toBytes((String)report.get(Constants.REPORT)));
 				table.put(p);
 				return report;
 			}
@@ -94,9 +95,9 @@ public class ReportIndexRepository extends AbstraceRepository {
 					Map<String, Object> appTrace = new HashMap<String, Object>();
 					String[] ipQunitifer = getColumnsInColumnFamily(result, ReportIndexTable.CF_IP);
 					String[] nameQunitifer = getColumnsInColumnFamily(result, ReportIndexTable.CF_REPORT);
-					appTrace.put("app", row);
-					appTrace.put("ip", Arrays.asList(ipQunitifer));
-					appTrace.put("report", Arrays.asList(nameQunitifer));
+					appTrace.put(Constants.APP, row);
+					appTrace.put(Constants.IP, Arrays.asList(ipQunitifer));
+					appTrace.put(Constants.REPORT, Arrays.asList(nameQunitifer));
 					appIPNameList.add(appTrace);
 					return appTrace;
 				}

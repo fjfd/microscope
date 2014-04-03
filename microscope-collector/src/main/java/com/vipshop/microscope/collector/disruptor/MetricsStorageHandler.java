@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import com.lmax.disruptor.EventHandler;
 import com.vipshop.microscope.collector.storager.MessageStorager;
+import com.vipshop.microscope.common.logentry.Constants;
 import com.vipshop.microscope.common.metrics.MetricsCategory;
 import com.vipshop.microscope.common.util.ThreadPoolUtil;
 
@@ -38,7 +39,7 @@ public class MetricsStorageHandler implements EventHandler<MetricsEvent> {
 	
 	private void processMetrics(final HashMap<String, Object> metrics) {
 		
-		String metricsType = (String) metrics.get("type");
+		String metricsType = (String) metrics.get(Constants.TYPE);
 		
 		if (metricsType.equals(MetricsCategory.Exception)) {
 			processExceptionMetrics(metrics);

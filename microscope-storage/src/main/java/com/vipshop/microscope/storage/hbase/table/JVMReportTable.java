@@ -4,6 +4,8 @@ import java.util.Map;
 
 import org.apache.hadoop.hbase.util.Bytes;
 
+import com.vipshop.microscope.common.logentry.Constants;
+
 public class JVMReportTable {
 	
 	// ********* Hbase schema for jvm table *********** //
@@ -29,10 +31,9 @@ public class JVMReportTable {
 	public static final byte[] BYTE_C_MEMORY = Bytes.toBytes(C_MEMORY);
 	
 	public static String rowKey(Map<String, Object> map) {
-		return map.get("app") + "-" +
-	           map.get("ip") + "-" +
-			   (Long.MAX_VALUE - Long.valueOf(map.get("date").toString()));
-//	           UUID.randomUUID().getLeastSignificantBits();
+		return map.get(Constants.APP) + "-" +
+	           map.get(Constants.IP) + "-" +
+			   (Long.MAX_VALUE - Long.valueOf(map.get(Constants.DATE).toString()));
 	}
 
 }

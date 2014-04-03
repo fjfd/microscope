@@ -23,8 +23,8 @@ import com.codahale.metrics.ScheduledReporter;
 import com.codahale.metrics.Snapshot;
 import com.codahale.metrics.Timer;
 import com.codahale.metrics.json.MetricsModule;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vipshop.microscope.common.logentry.Constants;
 import com.vipshop.microscope.common.metrics.MetricsCategory;
 import com.vipshop.microscope.common.util.IPAddressUtil;
 import com.vipshop.microscope.common.util.TimeStampUtil;
@@ -207,10 +207,10 @@ public class MicroscopeReporter extends ScheduledReporter {
         
         if (!counters.isEmpty()) {
         	HashMap<String, Object> metrics = new HashMap<String, Object>();
-    		metrics.put("type", MetricsCategory.Counter);
-    		metrics.put("date", dateTime);
-    		metrics.put("app", Tracer.APP_NAME);
-    		metrics.put("ip", IPAddressUtil.IPAddress());
+    		metrics.put(Constants.TYPE, MetricsCategory.Counter);
+    		metrics.put(Constants.DATE, dateTime);
+    		metrics.put(Constants.APP, Tracer.APP_NAME);
+    		metrics.put(Constants.IP, IPAddressUtil.IPAddress());
 
     		for (Entry<String, Counter> entry : counters.entrySet()) {
     			metrics.put(entry.getKey(), entry.getValue().getCount());
@@ -221,10 +221,10 @@ public class MicroscopeReporter extends ScheduledReporter {
         if (!gauges.isEmpty()) {
         	HashMap<String, Object> metrics = new LinkedHashMap<String, Object>();
     		
-    		metrics.put("type", MetricsCategory.Gauge);
-    		metrics.put("date", dateTime);
-    		metrics.put("app", Tracer.APP_NAME);
-    		metrics.put("ip", IPAddressUtil.IPAddress());
+    		metrics.put(Constants.TYPE, MetricsCategory.Gauge);
+    		metrics.put(Constants.DATE, dateTime);
+    		metrics.put(Constants.APP, Tracer.APP_NAME);
+    		metrics.put(Constants.IP, IPAddressUtil.IPAddress());
     		
     		for (Entry<String, Gauge> entry : gauges.entrySet()) {
     			String key = entry.getKey();
@@ -238,11 +238,11 @@ public class MicroscopeReporter extends ScheduledReporter {
 
         if (!histograms.isEmpty()) {
         	HashMap<String, Object> metrics = new HashMap<String, Object>();
-    		metrics.put("type", MetricsCategory.Histogram);
-    		metrics.put("date", dateTime);
-    		metrics.put("app", Tracer.APP_NAME);
-    		metrics.put("ip", IPAddressUtil.IPAddress());
-
+    		metrics.put(Constants.TYPE, MetricsCategory.Histogram);
+    		metrics.put(Constants.DATE, dateTime);
+    		metrics.put(Constants.APP, Tracer.APP_NAME);
+    		metrics.put(Constants.IP, IPAddressUtil.IPAddress());
+    		
     		for (Map.Entry<String, Histogram> entry : histograms.entrySet()) {
     			Histogram histogram = entry.getValue();
     			Snapshot snapshot = histogram.getSnapshot();
@@ -265,10 +265,11 @@ public class MicroscopeReporter extends ScheduledReporter {
 
         if (!meters.isEmpty()) {
         	HashMap<String, Object> metrics = new HashMap<String, Object>();
-        	metrics.put("type", MetricsCategory.Meter);
-    		metrics.put("date", dateTime);
-    		metrics.put("app", Tracer.APP_NAME);
-    		metrics.put("ip", IPAddressUtil.IPAddress());
+        	metrics.put(Constants.TYPE, MetricsCategory.Meter);
+        	metrics.put(Constants.DATE, dateTime);
+    		metrics.put(Constants.APP, Tracer.APP_NAME);
+    		metrics.put(Constants.IP, IPAddressUtil.IPAddress());
+    		
         	for (Map.Entry<String, Meter> entry : meters.entrySet()) {
     			Meter meter = entry.getValue();
     			HashMap<String, Object> values = new HashMap<String, Object>();
@@ -284,10 +285,11 @@ public class MicroscopeReporter extends ScheduledReporter {
 
         if (!timers.isEmpty()) {
         	HashMap<String, Object> metrics = new HashMap<String, Object>();
-        	metrics.put("type", MetricsCategory.Timer);
-    		metrics.put("date", dateTime);
-    		metrics.put("app", Tracer.APP_NAME);
-    		metrics.put("ip", IPAddressUtil.IPAddress());
+        	metrics.put(Constants.TYPE, MetricsCategory.Timer);
+        	metrics.put(Constants.DATE, dateTime);
+    		metrics.put(Constants.APP, Tracer.APP_NAME);
+    		metrics.put(Constants.IP, IPAddressUtil.IPAddress());
+    		
     		for (Map.Entry<String, Timer> entry : timers.entrySet()) {
     			Timer timer = entry.getValue();
     			Snapshot snapshot = timer.getSnapshot();

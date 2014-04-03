@@ -4,6 +4,8 @@ import java.util.Map;
 
 import org.apache.hadoop.hbase.util.Bytes;
 
+import com.vipshop.microscope.common.logentry.Constants;
+
 public class ServletReportTable {
 	
 	// ********* Hbase schema for servlet table *********** //
@@ -23,10 +25,9 @@ public class ServletReportTable {
 	public static final byte[] BYTE_C_REQUEST = Bytes.toBytes(C_REQUEST);
 	
 	public static String rowKey(Map<String, Object> map) {
-		return map.get("app") + "-" +
-	           map.get("ip") + "-" +
-			   (Long.MAX_VALUE - Long.valueOf(map.get("date").toString()));
-//	           UUID.randomUUID().getLeastSignificantBits();
+		return map.get(Constants.APP) + "-" +
+	           map.get(Constants.IP) + "-" +
+			   (Long.MAX_VALUE - Long.valueOf(map.get(Constants.DATE).toString()));
 	}
 
 }

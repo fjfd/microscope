@@ -4,6 +4,8 @@ import java.util.Map;
 
 import org.apache.hadoop.hbase.util.Bytes;
 
+import com.vipshop.microscope.common.logentry.Constants;
+
 public class ExceptionIndexTable {
 	
 	// ********** HBase schema for exception index table ******** //
@@ -15,21 +17,17 @@ public class ExceptionIndexTable {
 	 */
 	public static final String CF_APP = "cf_app";
 	public static final String CF_IP = "cf_ip";
-	public static final String CF_NAME = "cf_exception";
+	public static final String CF_EXCEPTION = "cf_exception";
 	
 	/*
 	 * column family in byte[] fromat
 	 */
 	public static final byte[] BYTE_CF_APP = Bytes.toBytes(CF_APP);
 	public static final byte[] BYTE_CF_IP = Bytes.toBytes(CF_IP);
-	public static final byte[] BYTE_CF_NAME = Bytes.toBytes(CF_NAME);
+	public static final byte[] BYTE_CF_EXCEPTION = Bytes.toBytes(CF_EXCEPTION);
 	
-	public static String rowKey(Map<String, Object> map) {
-		return map.get("APP") + "-" +
-	           map.get("IP") + "-" +
-	           map.get("Name") + "-" +
-			   (Long.MAX_VALUE - Long.valueOf(map.get("Date").toString()));
-//	           UUID.randomUUID().getLeastSignificantBits();
+	public static byte[] rowKey(Map<String, Object> exception) {
+		return Bytes.toBytes((String)exception.get(Constants.APP));
 	}
 
 }

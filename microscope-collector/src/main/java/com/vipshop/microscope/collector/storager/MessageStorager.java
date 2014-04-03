@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.vipshop.microscope.common.logentry.Constants;
 import com.vipshop.microscope.common.metrics.MetricsCategory;
 import com.vipshop.microscope.common.trace.Span;
 import com.vipshop.microscope.storage.StorageRepository;
@@ -54,6 +55,7 @@ public class MessageStorager {
 	 * @param map
 	 */
 	public void storageException(Map<String, Object> map) {
+		storageRepository.saveExceptionIndex(map);
 		storageRepository.saveException(map);
 	}
 	
@@ -65,11 +67,15 @@ public class MessageStorager {
 			}
 		}
 		
-		servletCounter.put("ip", counter.get("ip"));
-		servletCounter.put("app", counter.get("app"));
-		servletCounter.put("date", counter.get("date"));
+		if (servletCounter.entrySet().size() != 0) {
+			
+			servletCounter.put(Constants.APP, counter.get(Constants.APP));
+			servletCounter.put(Constants.IP, counter.get(Constants.IP));
+			servletCounter.put(Constants.DATE, counter.get(Constants.DATE));
+			
+			storageRepository.saveServletActiveRequest(servletCounter);
+		}
 		
-		storageRepository.saveServletActiveRequest(servletCounter);
 	}
 	
 	public void storageGauge(HashMap<String, Object> gauge) {
@@ -81,11 +87,16 @@ public class MessageStorager {
 			}
 		}
 		
-		jvmGauge.put("ip", gauge.get("ip"));
-		jvmGauge.put("app", gauge.get("app"));
-		jvmGauge.put("date", gauge.get("date"));
+		if (jvmGauge.entrySet().size() != 0) {
+			jvmGauge.put(Constants.APP, gauge.get(Constants.APP));
+			jvmGauge.put(Constants.IP, gauge.get(Constants.IP));
+			jvmGauge.put(Constants.DATE, gauge.get(Constants.DATE));
+			jvmGauge.put(Constants.REPORT, MetricsCategory.JVM);
+			
+			storageRepository.saveReportIndex(jvmGauge);
+			storageRepository.saveJVM(jvmGauge);
+		}
 		
-		storageRepository.saveJVM(jvmGauge);
 	}
 	
 	public void storageHistogram(HashMap<String, Object> histogram) {
@@ -100,11 +111,16 @@ public class MessageStorager {
 			}
 		}
 		
-		servletMeter.put("ip", meter.get("ip"));
-		servletMeter.put("app", meter.get("app"));
-		servletMeter.put("date", meter.get("date"));
+		if (servletMeter.entrySet().size() != 0) {
+			servletMeter.put(Constants.APP, meter.get(Constants.APP));
+			servletMeter.put(Constants.IP, meter.get(Constants.IP));
+			servletMeter.put(Constants.DATE, meter.get(Constants.DATE));
+			servletMeter.put(Constants.REPORT, MetricsCategory.Servlet);
+			
+			storageRepository.saveReportIndex(servletMeter);
+			storageRepository.saveServletResponseCode(servletMeter);
+		}
 		
-		storageRepository.saveServletResponseCode(servletMeter);
 		
 	}
 	
@@ -115,12 +131,16 @@ public class MessageStorager {
 				servletTimer.put(entry.getKey(), entry.getValue());
 			}
 		}
-
-		servletTimer.put("ip", timer.get("ip"));
-		servletTimer.put("app", timer.get("app"));
-		servletTimer.put("date", timer.get("date"));
 		
-		storageRepository.saveServletRequest(servletTimer);
+		if (servletTimer.entrySet().size() != 0) {
+			servletTimer.put(Constants.APP, timer.get(Constants.APP));
+			servletTimer.put(Constants.IP, timer.get(Constants.IP));
+			servletTimer.put(Constants.DATE, timer.get(Constants.DATE));
+			servletTimer.put(Constants.REPORT, MetricsCategory.Servlet);
+			
+			storageRepository.saveReportIndex(servletTimer);
+			storageRepository.saveServletRequest(servletTimer);
+		}
 	}
 	
 	public void storageHealth(HashMap<String, Object> health) {
