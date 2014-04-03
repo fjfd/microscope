@@ -133,7 +133,7 @@ public class Tracer {
 					/*
 					 * start metrics reporter 
 					 */
-					MetricsStats.startMicroscopeReporter(60, TimeUnit.SECONDS);
+					MetricsStats.startMicroscopeReporter(10, TimeUnit.SECONDS);
 					MetricsStats.registerJVM();
 				}
 			} catch (Exception e) {

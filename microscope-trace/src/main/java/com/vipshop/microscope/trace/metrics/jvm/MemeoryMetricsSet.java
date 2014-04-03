@@ -1,7 +1,5 @@
 package com.vipshop.microscope.trace.metrics.jvm;
 
-import static com.codahale.metrics.MetricRegistry.name;
-
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.lang.management.MemoryPoolMXBean;
@@ -9,19 +7,31 @@ import java.lang.management.MemoryUsage;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import com.codahale.metrics.Gauge;
 import com.codahale.metrics.Metric;
 import com.codahale.metrics.MetricSet;
 import com.codahale.metrics.RatioGauge;
 
+/**
+ * Memory metrics
+ * 
+ * Total
+ * Heap 
+ * EdenSpace
+ * TenuredGen
+ * SurvivorSpace
+ * Non Heap
+ * CodeCache
+ * PermGen
+ * 
+ * @author Xu Fei
+ * @version 1.0
+ */
 public class MemeoryMetricsSet implements MetricSet {
-
-	private static final Pattern WHITESPACE = Pattern.compile("[\\s]+");
 
 	private final MemoryMXBean mxBean;
 	private final List<MemoryPoolMXBean> memoryPools;
@@ -37,65 +47,65 @@ public class MemeoryMetricsSet implements MetricSet {
 
 	@Override
 	public Map<String, Metric> getMetrics() {
-		final Map<String, Metric> gauges = new HashMap<String, Metric>();
+		final Map<String, Metric> gauges = new LinkedHashMap<String, Metric>();
 
-		gauges.put("total.init", new Gauge<Long>() {
+		gauges.put("TotalInit", new Gauge<Long>() {
 			@Override
 			public Long getValue() {
 				return mxBean.getHeapMemoryUsage().getInit() + mxBean.getNonHeapMemoryUsage().getInit();
 			}
 		});
 
-		gauges.put("total.used", new Gauge<Long>() {
+		gauges.put("TotalUsed", new Gauge<Long>() {
 			@Override
 			public Long getValue() {
 				return mxBean.getHeapMemoryUsage().getUsed() + mxBean.getNonHeapMemoryUsage().getUsed();
 			}
 		});
 
-		gauges.put("total.max", new Gauge<Long>() {
+		gauges.put("TotalMax", new Gauge<Long>() {
 			@Override
 			public Long getValue() {
 				return mxBean.getHeapMemoryUsage().getMax() + mxBean.getNonHeapMemoryUsage().getMax();
 			}
 		});
 
-		gauges.put("total.committed", new Gauge<Long>() {
+		gauges.put("TotalCommitted", new Gauge<Long>() {
 			@Override
 			public Long getValue() {
 				return mxBean.getHeapMemoryUsage().getCommitted() + mxBean.getNonHeapMemoryUsage().getCommitted();
 			}
 		});
 
-		gauges.put("heap.init", new Gauge<Long>() {
+		gauges.put("HeapInit", new Gauge<Long>() {
 			@Override
 			public Long getValue() {
 				return mxBean.getHeapMemoryUsage().getInit();
 			}
 		});
 
-		gauges.put("heap.used", new Gauge<Long>() {
+		gauges.put("HeapUsed", new Gauge<Long>() {
 			@Override
 			public Long getValue() {
 				return mxBean.getHeapMemoryUsage().getUsed();
 			}
 		});
 
-		gauges.put("heap.max", new Gauge<Long>() {
+		gauges.put("HeapMax", new Gauge<Long>() {
 			@Override
 			public Long getValue() {
 				return mxBean.getHeapMemoryUsage().getMax();
 			}
 		});
 
-		gauges.put("heap.committed", new Gauge<Long>() {
+		gauges.put("HeapCommitted", new Gauge<Long>() {
 			@Override
 			public Long getValue() {
 				return mxBean.getHeapMemoryUsage().getCommitted();
 			}
 		});
 
-		gauges.put("heap.usage", new RatioGauge() {
+		gauges.put("HeapUsage", new RatioGauge() {
 			@Override
 			protected Ratio getRatio() {
 				final MemoryUsage usage = mxBean.getHeapMemoryUsage();
@@ -103,35 +113,35 @@ public class MemeoryMetricsSet implements MetricSet {
 			}
 		});
 
-		gauges.put("non-heap.init", new Gauge<Long>() {
+		gauges.put("NonHeapInit", new Gauge<Long>() {
 			@Override
 			public Long getValue() {
 				return mxBean.getNonHeapMemoryUsage().getInit();
 			}
 		});
 
-		gauges.put("non-heap.used", new Gauge<Long>() {
+		gauges.put("NonHeapUsed", new Gauge<Long>() {
 			@Override
 			public Long getValue() {
 				return mxBean.getNonHeapMemoryUsage().getUsed();
 			}
 		});
 
-		gauges.put("non-heap.max", new Gauge<Long>() {
+		gauges.put("NonHeapMax", new Gauge<Long>() {
 			@Override
 			public Long getValue() {
 				return mxBean.getNonHeapMemoryUsage().getMax();
 			}
 		});
 
-		gauges.put("non-heap.committed", new Gauge<Long>() {
+		gauges.put("NonHeapCommitted", new Gauge<Long>() {
 			@Override
 			public Long getValue() {
 				return mxBean.getNonHeapMemoryUsage().getCommitted();
 			}
 		});
 
-		gauges.put("non-heap.usage", new RatioGauge() {
+		gauges.put("NonHeapUsage", new RatioGauge() {
 			@Override
 			protected Ratio getRatio() {
 				final MemoryUsage usage = mxBean.getNonHeapMemoryUsage();
@@ -140,13 +150,54 @@ public class MemeoryMetricsSet implements MetricSet {
 		});
 
 		for (final MemoryPoolMXBean pool : memoryPools) {
-			gauges.put(name("pools", WHITESPACE.matcher(pool.getName()).replaceAll("-"), "usage"), new RatioGauge() {
+			
+			String name = "";
+			
+			if (pool.getName().equals("Code Cache")) {
+				name = "CodeCache";
+			} else if (pool.getName().equals("Survivor Space")) {
+				name = "SurvivorSpace";
+			}else if (pool.getName().equals("Tenured Gen")) {
+				name = "TenuredGen";
+			}else if (pool.getName().equals("Eden Space")) {
+				name = "EdenSpace";
+			}else if (pool.getName().equals("Perm Gen")) {
+				name = "PermGen";
+			}
+			
+			gauges.put(name +  "Usage", new RatioGauge() {
 				@Override
 				protected Ratio getRatio() {
 					final long max = pool.getUsage().getMax() == -1 ? pool.getUsage().getCommitted() : pool.getUsage().getMax();
 					return Ratio.of(pool.getUsage().getUsed(), max);
 				}
 			});
+			
+			gauges.put(name + "Max", new Gauge<Long>() {
+				@Override
+				public Long getValue() {
+					return pool.getUsage().getMax();
+				}
+			});
+			gauges.put(name + "Init", new Gauge<Long>() {
+				@Override
+				public Long getValue() {
+					return pool.getUsage().getInit();
+				}
+			});
+			gauges.put(name + "Committed", new Gauge<Long>() {
+				@Override
+				public Long getValue() {
+					return pool.getUsage().getCommitted();
+				}
+			});
+			gauges.put(name + "Used", new Gauge<Long>() {
+				@Override
+				public Long getValue() {
+					return pool.getUsage().getUsed();
+				}
+			});
+			
 		}
 		return Collections.unmodifiableMap(gauges);
 	}

@@ -6,7 +6,8 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadInfo;
 import java.lang.management.ThreadMXBean;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -42,44 +43,45 @@ public class ThreadMetricsSet implements MetricSet {
 
 	@Override
 	public Map<String, Metric> getMetrics() {
-		final Map<String, Metric> gauges = new HashMap<String, Metric>();
+		final ThreadInfo[] allThreads = threads.dumpAllThreads(true, true);
+		final Map<String, Metric> gauges = new LinkedHashMap<String, Metric>();
 
 		for (final Thread.State state : Thread.State.values()) {
 			gauges.put(name(state.toString().toLowerCase(), "count"), new Gauge<Object>() {
 				@Override
 				public Object getValue() {
-					return getThreadCount(state);
+					return getThreadCount(state, allThreads);
 				}
 			});
 		}
 
-		gauges.put("count", new Gauge<Integer>() {
+		gauges.put("Count", new Gauge<Integer>() {
 			@Override
 			public Integer getValue() {
 				return threads.getThreadCount();
 			}
 		});
 
-		gauges.put("daemon.count", new Gauge<Integer>() {
+		gauges.put("DaemonCount", new Gauge<Integer>() {
 			@Override
 			public Integer getValue() {
 				return threads.getDaemonThreadCount();
 			}
 		});
 
-		gauges.put("deadlocks", new Gauge<Set<String>>() {
+		gauges.put("DeadLocks", new Gauge<Set<String>>() {
 			@Override
 			public Set<String> getValue() {
 				return deadlockDetector.getDeadlockedThreads();
 			}
 		});
 
-		gauges.put("threaddump", new Gauge<ArrayList<String>>() {
+		gauges.put("ThreadDump", new Gauge<List<String>>() {
+			List<String> threadInfos = new ArrayList<String>();
 			@Override
-			public ArrayList<String> getValue() {
-				ThreadInfo[] infos = threads.dumpAllThreads(true, true);
-				ArrayList<String> threadInfos = new ArrayList<String>(infos.length);
-				for (ThreadInfo threadInfo : infos) {
+			public List<String> getValue() {
+//				ThreadInfo[] infos = threads.dumpAllThreads(true, true);
+				for (ThreadInfo threadInfo : allThreads) {
 					threadInfos.add(threadInfo.toString());
 				}
 				return threadInfos;
@@ -89,8 +91,7 @@ public class ThreadMetricsSet implements MetricSet {
 		return gauges;
 	}
 
-	private int getThreadCount(Thread.State state) {
-		final ThreadInfo[] allThreads = threads.getThreadInfo(threads.getAllThreadIds());
+	private int getThreadCount(Thread.State state, ThreadInfo[] allThreads) {
 		int count = 0;
 		for (ThreadInfo info : allThreads) {
 			if (info != null && info.getThreadState() == state) {

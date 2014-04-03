@@ -30,8 +30,8 @@ import com.vipshop.microscope.common.metrics.MetricsCategory;
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.metrics.jvm.GCMetricSet;
 import com.vipshop.microscope.trace.metrics.jvm.MemeoryMetricsSet;
+import com.vipshop.microscope.trace.metrics.jvm.MonitorMetricsSet;
 import com.vipshop.microscope.trace.metrics.jvm.OverviewMetricsSet;
-import com.vipshop.microscope.trace.metrics.jvm.RuntimeMetricsSet;
 import com.vipshop.microscope.trace.metrics.jvm.ThreadMetricsSet;
 
 /**
@@ -56,7 +56,7 @@ public class MetricsStats {
 														   .convertRatesTo(TimeUnit.SECONDS)
 														   .convertDurationsTo(TimeUnit.MILLISECONDS)
 														   .build();
-			reporter.start(5, TimeUnit.SECONDS);
+			reporter.start(60, TimeUnit.SECONDS);
 			start = true;
 		}
 	}
@@ -84,7 +84,7 @@ public class MetricsStats {
 													  .convertRatesTo(TimeUnit.SECONDS)
 													  .convertDurationsTo(TimeUnit.MILLISECONDS)
 													  .build();
-			reporter.start(5, TimeUnit.SECONDS);
+			reporter.start(60, TimeUnit.SECONDS);
 			start = true;
 		}
 	}
@@ -112,7 +112,7 @@ public class MetricsStats {
 													    .convertRatesTo(TimeUnit.SECONDS)
 													    .convertDurationsTo(TimeUnit.MILLISECONDS)
 													    .build();
-			reporter.start(5, TimeUnit.SECONDS);
+			reporter.start(60, TimeUnit.SECONDS);
 			start = true;
 		}
 	}
@@ -137,7 +137,7 @@ public class MetricsStats {
 	public static void startCsvReporter() {
 		if (!start) {
 			ScheduledReporter reporter = CsvReporter.forRegistry(metrics).build(new File("."));
-			reporter.start(5, TimeUnit.SECONDS);
+			reporter.start(60, TimeUnit.SECONDS);
 			start = true;
 		}
 	}
@@ -176,7 +176,7 @@ public class MetricsStats {
 															  .convertDurationsTo(TimeUnit.MILLISECONDS)
 															  .filter(MetricFilter.ALL)
 															  .build(graphite);
-			reporter.start(5, TimeUnit.MINUTES);
+			reporter.start(60, TimeUnit.MINUTES);
 			start = true;
 		}
 	}
@@ -208,7 +208,7 @@ public class MetricsStats {
 					.convertRatesTo(TimeUnit.SECONDS)
 					.convertDurationsTo(TimeUnit.MILLISECONDS)
 					.build(ganglia);
-			reporter.start(5, TimeUnit.MINUTES);
+			reporter.start(60, TimeUnit.MINUTES);
 			start = true;
 		}
 	}
@@ -243,7 +243,7 @@ public class MetricsStats {
 	 */
 	public static void registerJVM() {
 		metrics.register(MetricsCategory.JVM_Overview, new OverviewMetricsSet());
-		metrics.register(MetricsCategory.JVM_Runtime, new RuntimeMetricsSet());
+		metrics.register(MetricsCategory.JVM_Monitor, new MonitorMetricsSet());
 		metrics.register(MetricsCategory.JVM_Thread, new ThreadMetricsSet());
 		metrics.register(MetricsCategory.JVM_Memory, new MemeoryMetricsSet());
 		metrics.register(MetricsCategory.JVM_GC, new GCMetricSet());

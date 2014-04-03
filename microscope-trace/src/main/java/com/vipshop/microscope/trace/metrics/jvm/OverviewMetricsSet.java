@@ -2,121 +2,130 @@ package com.vipshop.microscope.trace.metrics.jvm;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
-import java.util.HashMap;
+import java.lang.management.RuntimeMXBean;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.codahale.metrics.Gauge;
 import com.codahale.metrics.Metric;
 import com.codahale.metrics.MetricSet;
+import com.vipshop.microscope.common.util.IPAddressUtil;
 
 public class OverviewMetricsSet implements MetricSet {
 	
-	OperatingSystemMXBean bean = ManagementFactory.getOperatingSystemMXBean();
-
-	@SuppressWarnings("restriction")
+	private final OperatingSystemMXBean osBean = ManagementFactory.getOperatingSystemMXBean();
+	private final RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
+	
 	@Override
 	public Map<String, Metric> getMetrics() {
-		final Map<String, Metric> gauges = new HashMap<String, Metric>();
-
-		gauges.put("arch", new Gauge<String>() {
-			@Override
-			public String getValue() {
-				return bean.getArch();
-			}
-		});
-
-		gauges.put("name", new Gauge<String>() {
-			@Override
-			public String getValue() {
-				return bean.getName();
-			}
-		});
-
-		gauges.put("version", new Gauge<String>() {
-			@Override
-			public String getValue() {
-				return bean.getVersion();
-			}
-		});
-
-		gauges.put("availableprocessors", new Gauge<Integer>() {
+		final Map<String, String> system = runtimeMXBean.getSystemProperties();
+		
+		final Map<String, Metric> gauges = new LinkedHashMap<String, Metric>();
+		
+		// **************************** process *************************************//
+		gauges.put("PID", new Gauge<Integer>() {
 			@Override
 			public Integer getValue() {
-				return bean.getAvailableProcessors();
+				String name = runtimeMXBean.getName();
+				int index = name.indexOf("@");
+				if (index != -1) {
+					return Integer.parseInt(name.substring(0, index));
+				}
+				return 0;
 			}
 		});
-
-		gauges.put("systemloadaverage", new Gauge<Double>() {
+		
+		gauges.put("Host", new Gauge<String>() {
 			@Override
-			public Double getValue() {
-				return bean.getSystemLoadAverage();
+			public String getValue() {
+				return IPAddressUtil.IPAddress();
 			}
 		});
 
-		if (isInstanceOfInterface(bean.getClass(), "com.sun.management.OperatingSystemMXBean")) {
-			final com.sun.management.OperatingSystemMXBean b = (com.sun.management.OperatingSystemMXBean) bean;
+		gauges.put("MainClass", new Gauge<String>() {
+			@Override
+			public String getValue() {
+				return system.get("sun.java.command");
+			}
+		});
 
-			gauges.put("TotalPhysicalMemory", new Gauge<Long>() {
-				@Override
-				public Long getValue() {
-					return b.getTotalPhysicalMemorySize();
-				}
-			});
+		gauges.put("Arguments", new Gauge<String>() {
+			@Override
+			public String getValue() {
+				return "none";
+			}
+		});
+		
+		
+		// *********************** JVM ************************** //
+		gauges.put("JVM", new Gauge<String>() {
+			@Override
+			public String getValue() {
+				return system.get("java.vm.name") + "(" + system.get("java.vm.version") + ", " + system.get("java.vm.info") + ")";
+			}
+		});
+		
+		gauges.put("Java", new Gauge<String>() {
+			@Override
+			public String getValue() {
+				return "version " + system.get("java.version") + ", vendor " + system.get("java.vendor");
+			}
+		});
+		
+		gauges.put("JavaHome", new Gauge<String>() {
+			@Override
+			public String getValue() {
+				return system.get("java.home");
+			}
+		});
+		
+		gauges.put("JVMFlags", new Gauge<String>() {
+			@Override
+			public String getValue() {
+				return "none";
+			}
+		});
+		
+		gauges.put("JVMArguments", new Gauge<List<String>>() {
 
-			gauges.put("FreePhysicalMemory", new Gauge<Long>() {
-				@Override
-				public Long getValue() {
-					return b.getFreePhysicalMemorySize();
-				}
-			});
+			@Override
+			public List<String> getValue() {
+				return runtimeMXBean.getInputArguments();
+			}
+		});
+		
+		// ************************ OS ***************************** //
+		gauges.put("OSVersion", new Gauge<String>() {
+			@Override
+			public String getValue() {
+				return osBean.getVersion();
+			}
+		});
+		
+		gauges.put("OSArch", new Gauge<String>() {
+			@Override
+			public String getValue() {
+				return system.get("os.arch");
+			}
+		});
+		
+		gauges.put("OSName", new Gauge<String>() {
+			@Override
+			public String getValue() {
+				return system.get("os.name");
+			}
+		});
 
-			gauges.put("TotalSwapSpace", new Gauge<Long>() {
-				@Override
-				public Long getValue() {
-					return b.getTotalSwapSpaceSize();
-				}
-			});
-
-			gauges.put("FreeSwapSpace", new Gauge<Long>() {
-				@Override
-				public Long getValue() {
-					return b.getFreeSwapSpaceSize();
-				}
-			});
-
-			gauges.put("ProcessCpuTime", new Gauge<Long>() {
-				@Override
-				public Long getValue() {
-					return b.getProcessCpuTime();
-				}
-			});
-			gauges.put("CommittedVirtualMemory", new Gauge<Long>() {
-				@Override
-				public Long getValue() {
-					return b.getCommittedVirtualMemorySize();
-				}
-			});
-
-		}
-
+		gauges.put("AvailableProcessors", new Gauge<Integer>() {
+			@Override
+			public Integer getValue() {
+				return osBean.getAvailableProcessors();
+			}
+		});
+		
 		return gauges;
 	}
 	
-	private static boolean isInstanceOfInterface(Class<?> clazz, String interfaceName) {
-		if (clazz == Object.class) {
-			return false;
-		} else if (clazz.getName().equals(interfaceName)) {
-			return true;
-		}
-
-		Class<?>[] interfaceclasses = clazz.getInterfaces();
-
-		for (Class<?> interfaceClass : interfaceclasses) {
-			if (isInstanceOfInterface(interfaceClass, interfaceName)) {
-				return true;
-			}
-		}
-
-		return isInstanceOfInterface(clazz.getSuperclass(), interfaceName);
-	}
+	
 }

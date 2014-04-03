@@ -1,14 +1,20 @@
 package com.vipshop.microscope.trace.metrics.jvm;
+import static com.codahale.metrics.MetricRegistry.name;
+
+import java.lang.management.CompilationMXBean;
+import java.lang.management.GarbageCollectorMXBean;
+import java.lang.management.ManagementFactory;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
+
 import com.codahale.metrics.Gauge;
 import com.codahale.metrics.Metric;
 import com.codahale.metrics.MetricSet;
-
-import java.lang.management.GarbageCollectorMXBean;
-import java.lang.management.ManagementFactory;
-import java.util.*;
-import java.util.regex.Pattern;
-
-import static com.codahale.metrics.MetricRegistry.name;
 
 /**
  * A set of gauges for the counts and elapsed times of garbage collections.
@@ -17,6 +23,8 @@ public class GCMetricSet implements MetricSet {
     private static final Pattern WHITESPACE = Pattern.compile("[\\s]+");
 
     private final List<GarbageCollectorMXBean> garbageCollectors;
+    
+    private final CompilationMXBean cBean = ManagementFactory.getCompilationMXBean();
 
     /**
      * Creates a new set of gauges for all discoverable garbage collectors.
@@ -36,7 +44,7 @@ public class GCMetricSet implements MetricSet {
 
     @Override
     public Map<String, Metric> getMetrics() {
-        final Map<String, Metric> gauges = new HashMap<String, Metric>();
+        final Map<String, Metric> gauges = new LinkedHashMap<String, Metric>();
         for (final GarbageCollectorMXBean gc : garbageCollectors) {
             final String name = WHITESPACE.matcher(gc.getName()).replaceAll("-");
             gauges.put(name(name, "count"), new Gauge<Long>() {
@@ -53,6 +61,14 @@ public class GCMetricSet implements MetricSet {
                 }
             });
         }
+        
+        gauges.put(("TotalCompilationTime"), new Gauge<Long>() {
+            @Override
+            public Long getValue() {
+                return cBean.getTotalCompilationTime();
+            }
+        });
+        
         return Collections.unmodifiableMap(gauges);
     }
 }
