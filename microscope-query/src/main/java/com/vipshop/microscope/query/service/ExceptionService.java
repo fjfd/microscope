@@ -16,7 +16,7 @@ public class ExceptionService {
 	private final QueryRepository queryRepository = QueryRepository.getQueryRepository();
 	
 	public List<Map<String, Object>> getQueryCondition() {
-		return queryRepository.findAppIPName();
+		return queryRepository.findExceptionIndex();
 	}
 
 	public List<Map<String, Object>> getExceptionList(HttpServletRequest request) {
@@ -35,6 +35,6 @@ public class ExceptionService {
 		query.put("endTime", endTime);
 		query.put("limit", limit);
 		
-		return queryRepository.findExcepList(query);
+		return queryRepository.findExceptionList(query);
 	}
 }

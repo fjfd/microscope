@@ -29,19 +29,19 @@ public class QueryRepository {
 	
 	private final HbaseQueryRepository hbaseQueryRepository = new HbaseQueryRepository();
 	
-	public List<Map<String, Object>> findAppIPTrace() {
+	public List<Map<String, Object>> findTraceIndex() {
 		return hbaseQueryRepository.findTraceIndex();
 	}
 	
-	public List<TraceOverviewTable> find(Map<String, String> query) {
+	public List<TraceOverviewTable> findTraceList(Map<String, String> query) {
 		return hbaseQueryRepository.findTraceList(query);
 	}
 	
-	public List<TraceOverviewTable> find(Scan scan) {
+	public List<TraceOverviewTable> findTraceList(Scan scan) {
 		return hbaseQueryRepository.findTraceList(scan);
 	}
 	
-	public List<Span> find(String traceId) {
+	public List<Span> findTrace(String traceId) {
 		return hbaseQueryRepository.findTrace(traceId);
 	}
 	
@@ -49,16 +49,24 @@ public class QueryRepository {
 		return hbaseQueryRepository.findSpanName(traceId);
 	}
 	
-	public List<Map<String, Object>> findAppIPName() {
+	public List<Map<String, Object>> findExceptionIndex() {
 		return hbaseQueryRepository.findExceptionIndex();
 	}
 	
-	public List<Map<String, Object>> findExcepList(Map<String, String> query) {
+	public List<Map<String, Object>> findExceptionList(Map<String, String> query) {
 		return hbaseQueryRepository.findExceptionList(query);
 	}
 	
-	public List<Map<String, Object>> findAppIP() {
-		return hbaseQueryRepository.findAppIP();
+	public List<Map<String, Object>> findReportIndex() {
+		return hbaseQueryRepository.findReportIndex();
+	}
+	
+	public Map<String, Object> findTopList() {
+		return hbaseQueryRepository.findTopList();
+	}
+	
+	public List<Map<String, Object>> findServletList(Map<String, String> query) {
+		return hbaseQueryRepository.findServletList(query);
 	}
 	
 	public List<Map<String, Object>> findJVMList(Map<String, String> query) {
@@ -73,15 +81,8 @@ public class QueryRepository {
 		return hbaseQueryRepository.findJVMListByTime(query);
 	}
 	
-	public List<Map<String, Object>> findServletList(Map<String, String> query) {
-		return hbaseQueryRepository.findServletList(query);
-	}
-	
-	public Map<String, Object> findTop() {
-		return hbaseQueryRepository.findTop();
-	}
-	
 	public List<Map<String, Object>> findUserHistory() {
 		return hbaseQueryRepository.findUserHistory();
 	}
+	
  }

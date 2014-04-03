@@ -6,9 +6,10 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.vipshop.microscope.storage.hbase.repository.ExceptionIndexRepository;
 import com.vipshop.microscope.storage.hbase.repository.ExceptionRepository;
-import com.vipshop.microscope.storage.hbase.repository.JVMRepository;
-import com.vipshop.microscope.storage.hbase.repository.ServletRepository;
-import com.vipshop.microscope.storage.hbase.repository.TopRepository;
+import com.vipshop.microscope.storage.hbase.repository.JVMReportRepository;
+import com.vipshop.microscope.storage.hbase.repository.ReportIndexRepository;
+import com.vipshop.microscope.storage.hbase.repository.ServletReportRepository;
+import com.vipshop.microscope.storage.hbase.repository.TopReportRepository;
 import com.vipshop.microscope.storage.hbase.repository.TraceIndexRepository;
 import com.vipshop.microscope.storage.hbase.repository.TraceOverviewRepository;
 import com.vipshop.microscope.storage.hbase.repository.TraceRepository;
@@ -29,16 +30,13 @@ public class RepositoryFactory {
 	private static final ExceptionIndexRepository EXCEPTION_INDEX;
 	private static final ExceptionRepository EXCEPTION;
 	
-	private static final JVMRepository JVM_TABLB;
-	private static final ServletRepository SERVLET_TABLB;
+	private static final ReportIndexRepository REPORT_INDEX;
+	private static final TopReportRepository TOP;
+	private static final JVMReportRepository JVM;
+	private static final ServletReportRepository SERVLET;
 	
-	private static final TopRepository TOP_TABLE;
+	private static final UserRepository USER;
 	
-	private static final UserRepository USER_TABLE;
-	
-	/**
-	 * Initialize hbase tables. 
-	 */
 	static {
 		AbstractApplicationContext context = new ClassPathXmlApplicationContext("/applicationContext-storage-hbase.xml", RepositoryFactory.class);
 		
@@ -55,13 +53,14 @@ public class RepositoryFactory {
 		
 		// ************** report **********************************************  //
 		
-		JVM_TABLB = context.getBean(JVMRepository.class);
-		TOP_TABLE = context.getBean(TopRepository.class);
-		SERVLET_TABLB = context.getBean(ServletRepository.class);
+		REPORT_INDEX = context.getBean(ReportIndexRepository.class);
+		TOP = context.getBean(TopReportRepository.class);
+		JVM = context.getBean(JVMReportRepository.class);
+		SERVLET = context.getBean(ServletReportRepository.class);
 
 		// ************** user   ********************************************** //
 		
-		USER_TABLE = context.getBean(UserRepository.class);
+		USER = context.getBean(UserRepository.class);
 		
 		TRACE_INDEX.initialize();
 		TRACE_OVERVIEW.initialize();
@@ -70,10 +69,12 @@ public class RepositoryFactory {
 		EXCEPTION_INDEX.initialize();
 		EXCEPTION.initialize();
 		
-		TOP_TABLE.initialize();
-		JVM_TABLB.initialize();
-		USER_TABLE.initialize();
-		SERVLET_TABLB.initialize();
+		REPORT_INDEX.initialize();
+		TOP.initialize();
+		JVM.initialize();
+		SERVLET.initialize();
+
+		USER.initialize();
 		
 		context.close();
 	}
@@ -124,46 +125,55 @@ public class RepositoryFactory {
 	}
 	
 	/**
-	 * Return {@link JVMRepository}
+	 * Return {@link ReportIndexRepository}
 	 * 
 	 * @return
 	 */
-	public static JVMRepository getJVMTableRepository() {
-		return JVM_TABLB;
+	public static ReportIndexRepository getReportIndexRepository() {
+		return REPORT_INDEX;
 	}
 	
 	/**
-	 * Return {@link TopRepository}
+	 * Return {@link TopReportRepository}
 	 * 
 	 * @return
 	 */
-	public static TopRepository getTopTableRepository() {
-		return TOP_TABLE;
+	public static TopReportRepository getTopRepository() {
+		return TOP;
+	}
+
+	/**
+	 * Return {@link JVMReportRepository}
+	 * 
+	 * @return
+	 */
+	public static JVMReportRepository getJVMRepository() {
+		return JVM;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
+	public static ServletReportRepository getServletRepository() {
+		return SERVLET;
+	}
+
 	/**
 	 * Return {@link UserRepository}
 	 * @return
 	 */
-	public static UserRepository getUserTableRepository() {
-		return USER_TABLE;
+	public static UserRepository getUserRepository() {
+		return USER;
 	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public static ServletRepository getServletTableRepository() {
-		return SERVLET_TABLB;
-	}
-	
+
 	/**
 	 * Return Configuration
 	 * 
 	 * @return
 	 */
 	public static Configuration getConfiguration() {
-		return USER_TABLE.getConfiguration();
+		return USER.getConfiguration();
 	}
 	
 }

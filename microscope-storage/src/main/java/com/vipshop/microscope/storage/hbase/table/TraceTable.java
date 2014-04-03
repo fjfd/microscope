@@ -8,12 +8,6 @@ import org.apache.hadoop.hbase.util.Bytes;
 
 import com.vipshop.microscope.common.trace.Span;
 
-/**
- * TraceTable store span.
- * 
- * @author Xu Fei
- * @version 1.0
- */
 public class TraceTable {
 	
 	// ********* hbase schema for trace table *********** //

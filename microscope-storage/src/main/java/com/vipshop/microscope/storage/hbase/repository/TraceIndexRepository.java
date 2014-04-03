@@ -29,7 +29,7 @@ public class TraceIndexRepository extends AbstraceRepository {
 	}
 	
 	/**
-	 * Save appName, IPAdress, traceName(URL) to AppTable.
+	 * Save App, IP, traceName.
 	 * 
 	 * for example
 	 * 
@@ -38,24 +38,24 @@ public class TraceIndexRepository extends AbstraceRepository {
      * user_info          column=cf_ip    :12456789,         timestamp=1393829977044,   value=12456789                                                                                                                                                    
      * user_info          column=cf_trace :www.huohu.com,    timestamp=1393830202990,   value=www.huohu.com   
 	 * 
-	 * @param app
+	 * @param traceIndex
 	 */
-	public void save(final TraceIndexTable app) {
+	public void save(final TraceIndexTable traceIndex) {
 		hbaseTemplate.execute(TraceIndexTable.TABLE_NAME, new TableCallback<TraceIndexTable>() {
 			@Override
 			public TraceIndexTable doInTable(HTableInterface table) throws Throwable {
-				Put p = new Put(Bytes.toBytes(app.getAppName()));
-				p.add(TraceIndexTable.BYTE_CF_APP, Bytes.toBytes(app.getAppName()), Bytes.toBytes(app.getAppName()));
-				p.add(TraceIndexTable.BYTE_CF_IP, Bytes.toBytes(app.getIpAdress()), Bytes.toBytes(app.getIpAdress()));
-				p.add(TraceIndexTable.BYTE_CF_TRACE, Bytes.toBytes(app.getTraceName()), Bytes.toBytes(app.getTraceName()));
+				Put p = new Put(Bytes.toBytes(traceIndex.getAppName()));
+				p.add(TraceIndexTable.BYTE_CF_APP, Bytes.toBytes(traceIndex.getAppName()), Bytes.toBytes(traceIndex.getAppName()));
+				p.add(TraceIndexTable.BYTE_CF_IP, Bytes.toBytes(traceIndex.getIpAdress()), Bytes.toBytes(traceIndex.getIpAdress()));
+				p.add(TraceIndexTable.BYTE_CF_TRACE, Bytes.toBytes(traceIndex.getTraceName()), Bytes.toBytes(traceIndex.getTraceName()));
 				table.put(p);
-				return app;
+				return traceIndex;
 			}
 		});
 	}
 	
 	/**
-	 * Save appName, IPAdress, traceName(URL) to AppTable.
+	 * Save App, IP, traceName.
 	 * 
 	 * for example
 	 * 
@@ -86,17 +86,23 @@ public class TraceIndexRepository extends AbstraceRepository {
 
 	
 	/**
-	 * Returns appName, IPAdress, traceName in follow format:
+	 * Returns App, IP, traceName in follow format:
 	 * 
 	 * [
-	 * "app"   :   app name,
+	 * "app"   :   app name a,
+	 * "ip"    :   ["ip adress 1", "ip adress 2", ...], 
+	 * "trace" :   ["trace name 1", "trace name 2", ...],
+	 * ]
+	 * 
+	 * [
+	 * "app"   :   app name b,
 	 * "ip"    :   ["ip adress 1", "ip adress 2", ...], 
 	 * "trace" :   ["trace name 1", "trace name 2", ...],
 	 * ]
 	 * 
 	 * @return
 	 */
-	public List<Map<String, Object>> findAppIPTrace() {
+	public List<Map<String, Object>> find() {
 		
 		final List<String> appList = new ArrayList<String>();
 		final List<Map<String, Object>> appTraceList = new ArrayList<Map<String,Object>>();

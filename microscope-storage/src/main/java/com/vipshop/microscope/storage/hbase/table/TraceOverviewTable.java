@@ -6,15 +6,9 @@ import org.apache.hadoop.hbase.util.Bytes;
 
 import com.vipshop.microscope.common.trace.Span;
 
-/**
- * TraceTable store trace info.
- * 
- * @author Xu Fei
- * @version 1.0
- */
 public class TraceOverviewTable implements Serializable, Comparable<TraceOverviewTable> {
 	
-	// ********* hbase schema for trace table ************ //
+	// ********* hbase schema for trace overview table ************ //
 	
 	/*
 	 * table name adn cloumn family

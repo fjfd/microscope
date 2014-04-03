@@ -10,4 +10,14 @@ public class StorageRepositoryTest {
 	public void testReInitalizeHbaseTable() {
 		storageRepository.reInitalizeHbaseTable();
 	}
+	
+	@Test
+	public void dropTable() {
+		storageRepository.dropHbaseTable();
+	}
+	
+	@Test
+	public void createTable() {
+		storageRepository.createHbaseTable();
+	}
 }

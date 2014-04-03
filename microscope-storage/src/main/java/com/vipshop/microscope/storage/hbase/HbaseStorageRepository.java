@@ -22,11 +22,12 @@ public class HbaseStorageRepository {
 		RepositoryFactory.getTraceIndexRepository().initialize();
 		RepositoryFactory.getTraceOverviewRepository().initialize();
 		RepositoryFactory.getTraceRepository().initialize();
+		RepositoryFactory.getExceptionIndexRepository().initialize();
 		RepositoryFactory.getExceptionRepository().initialize();
-		RepositoryFactory.getJVMTableRepository().initialize();
-		RepositoryFactory.getTopTableRepository().initialize();
-		RepositoryFactory.getUserTableRepository().initialize();
-		RepositoryFactory.getServletTableRepository().initialize();
+		RepositoryFactory.getJVMRepository().initialize();
+		RepositoryFactory.getTopRepository().initialize();
+		RepositoryFactory.getUserRepository().initialize();
+		RepositoryFactory.getServletRepository().initialize();
 	}
 	
 	/**
@@ -36,11 +37,12 @@ public class HbaseStorageRepository {
 		RepositoryFactory.getTraceIndexRepository().drop();
 		RepositoryFactory.getTraceOverviewRepository().drop();
 		RepositoryFactory.getTraceRepository().drop();
+		RepositoryFactory.getExceptionIndexRepository().drop();
 		RepositoryFactory.getExceptionRepository().drop();
-		RepositoryFactory.getJVMTableRepository().drop();
-		RepositoryFactory.getTopTableRepository().drop();
-		RepositoryFactory.getUserTableRepository().drop();
-		RepositoryFactory.getServletTableRepository().drop();
+		RepositoryFactory.getJVMRepository().drop();
+		RepositoryFactory.getTopRepository().drop();
+		RepositoryFactory.getUserRepository().drop();
+		RepositoryFactory.getServletRepository().drop();
 	}
 	
 	/**
@@ -97,25 +99,29 @@ public class HbaseStorageRepository {
 		RepositoryFactory.getExceptionRepository().save(excption);
 	}
 	
+	public void saveReportIndex(Map<String, Object> report) {
+		RepositoryFactory.getReportIndexRepository().save(report);
+	}
+	
 	/**
 	 * Store jvm metrics to jvm table.
 	 * 
 	 * @param jvm
 	 */
 	public void saveJVM(Map<String, Object> jvm) {
-		RepositoryFactory.getJVMTableRepository().save(jvm);
+		RepositoryFactory.getJVMRepository().save(jvm);
 	}
 	
 	public void saveServletActiveRequest(Map<String, Object> activeRequest) {
-		RepositoryFactory.getServletTableRepository().saveActiveRequest(activeRequest);
+		RepositoryFactory.getServletRepository().saveActiveRequest(activeRequest);
 	}
 	
 	public void saveServletResponseCode(Map<String, Object> responseCode) {
-		RepositoryFactory.getServletTableRepository().saveResponseCode(responseCode);
+		RepositoryFactory.getServletRepository().saveResponseCode(responseCode);
 	}
 	
 	public void saveServletRequest(Map<String, Object> request) {
-		RepositoryFactory.getServletTableRepository().saveRequest(request);
+		RepositoryFactory.getServletRepository().saveRequest(request);
 	}
 	
 	/**
@@ -124,7 +130,7 @@ public class HbaseStorageRepository {
 	 * @param top
 	 */
 	public void saveTop(Map<String, Object> top) {
-		RepositoryFactory.getTopTableRepository().save(top);
+		RepositoryFactory.getTopRepository().save(top);
 	}
 	
 	/**
@@ -133,7 +139,7 @@ public class HbaseStorageRepository {
 	 * @param user
 	 */
 	public void saveUser(Map<String, String> user) {
-		RepositoryFactory.getUserTableRepository().save(user);
+		RepositoryFactory.getUserRepository().save(user);
 	}
 	
 }

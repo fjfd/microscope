@@ -1,29 +1,14 @@
 package com.vipshop.microscope.storage.hbase.table;
 
+import java.util.Map;
+
 import org.apache.hadoop.hbase.util.Bytes;
 
 public class ServletReportTable {
 	
-	// ********** HBase schema for servlet index table ******** //
-	
-	public static final String INDEX_TABLE_NAME = "servlet_index";
-	
-	/*
-	 * column family
-	 */
-	public static final String CF_APP = "cf_app";
-	public static final String CF_IP = "cf_ip";
-	
-	/*
-	 * column family in byte[] fromat
-	 */
-	public static final byte[] BYTE_CF_APP = Bytes.toBytes(CF_APP);
-	public static final byte[] BYTE_CF_IP = Bytes.toBytes(CF_IP);
-	
-	
 	// ********* Hbase schema for servlet table *********** //
 	
-	public static final String TABLE_NAME = "servlet";
+	public static final String TABLE_NAME = "report_servlet";
 	
 	public static final String CF_SERVLET = "cf_servlet";
 
@@ -37,4 +22,11 @@ public class ServletReportTable {
 	public static final byte[] BYTE_C_RESPONSE_CODE = Bytes.toBytes(C_RESPONSE_CODE);
 	public static final byte[] BYTE_C_REQUEST = Bytes.toBytes(C_REQUEST);
 	
+	public static String rowKey(Map<String, Object> map) {
+		return map.get("app") + "-" +
+	           map.get("ip") + "-" +
+			   (Long.MAX_VALUE - Long.valueOf(map.get("date").toString()));
+//	           UUID.randomUUID().getLeastSignificantBits();
+	}
+
 }

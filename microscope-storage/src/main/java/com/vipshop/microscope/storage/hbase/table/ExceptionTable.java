@@ -4,12 +4,6 @@ import java.util.Map;
 
 import org.apache.hadoop.hbase.util.Bytes;
 
-/**
- * Exception table stores exception info
- * 
- * @author Xu Fei
- * @version 1.0
- */
 public class ExceptionTable {
 	
 	// ********* Hbase schema for exception table *********** //

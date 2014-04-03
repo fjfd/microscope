@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 import com.vipshop.microscope.storage.hbase.table.TopReportTable;
 
 @Repository
-public class TopRepository extends AbstraceRepository {
+public class TopReportRepository extends AbstraceRepository {
 
 	public void initialize() {
 		super.initialize(TopReportTable.TABLE_NAME, TopReportTable.CF);
@@ -48,7 +48,7 @@ public class TopRepository extends AbstraceRepository {
 		});
 	}
 	
-	public Map<String, Object> findTopReport() {
+	public Map<String, Object> find() {
 		final Map<String, Object> top = new HashMap<String, Object>();
 		return hbaseTemplate.get(TopReportTable.TABLE_NAME, rowKey(), new RowMapper<Map<String, Object>>() {
 			@Override

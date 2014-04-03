@@ -20,7 +20,7 @@ public class TraceSerivice {
 	private final QueryRepository queryRepository = QueryRepository.getQueryRepository();
 	
 	public List<Map<String, Object>> getQueryCondition() {
-		return queryRepository.findAppIPTrace();
+		return queryRepository.findTraceIndex();
 	}
 	
 	public List<Map<String, Object>> getTraceList(HttpServletRequest request) {
@@ -41,7 +41,7 @@ public class TraceSerivice {
 		query.put("endTime", endTime);
 		query.put("limit", limit);
 		
-		List<TraceOverviewTable> tableTraces = queryRepository.find(query);
+		List<TraceOverviewTable> tableTraces = queryRepository.findTraceList(query);
 		for (TraceOverviewTable tableTrace : tableTraces) {
 			Map<String, Object> trace = new LinkedHashMap<String, Object>();
 			String traceId = tableTrace.getTraceId();
@@ -62,7 +62,7 @@ public class TraceSerivice {
 		Map<String, Object> traceSpan = new LinkedHashMap<String, Object>();
 		traceSpan.put("traceId", traceId);
 		List<Map<String, Object>> spans = new ArrayList<Map<String,Object>>();
-		List<Span> spanTables = queryRepository.find(traceId);
+		List<Span> spanTables = queryRepository.findTrace(traceId);
 		for (Span span : spanTables) {
 			Map<String, Object> spanInfo = new LinkedHashMap<String, Object>();
 			spanInfo.put("app", span.getAppName());

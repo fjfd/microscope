@@ -54,9 +54,16 @@ public class StorageRepository {
 		hbaseStorageRepository.save(span);
 	}
 	
-	public void saveException(Map<String, Object> exception) {
+	public void saveExceptionIndex(Map<String, Object> exception) {
 		hbaseStorageRepository.saveExceptionIndex(exception);
+	}
+	
+	public void saveException(Map<String, Object> exception) {
 		hbaseStorageRepository.saveException(exception);
+	}
+	
+	public void saveReportIndex(Map<String, Object> report) {
+		hbaseStorageRepository.saveReportIndex(report);
 	}
 	
 	public void saveJVM(Map<String, Object> jvm) {

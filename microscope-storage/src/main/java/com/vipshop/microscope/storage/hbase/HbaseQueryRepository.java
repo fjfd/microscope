@@ -23,7 +23,7 @@ public class HbaseQueryRepository {
 	 * @return
 	 */
 	public List<Map<String, Object>> findTraceIndex() {
-		return RepositoryFactory.getTraceIndexRepository().findAppIPTrace();
+		return RepositoryFactory.getTraceIndexRepository().find();
 	}
 	
 	/**
@@ -85,32 +85,37 @@ public class HbaseQueryRepository {
 		return RepositoryFactory.getExceptionRepository().find(query);
 	}
 	
-	public List<Map<String, Object>> findAppIP() {
-		return RepositoryFactory.getJVMTableRepository().findAppIP();
+	/**
+	 * Get report index.
+	 * 
+	 * @return
+	 */
+	public List<Map<String, Object>> findReportIndex() {
+		return RepositoryFactory.getReportIndexRepository().find();
 	}
-	
-	public List<Map<String, Object>> findJVMList(Map<String, String> query) {
-		return RepositoryFactory.getJVMTableRepository().find(query);
+
+	public Map<String, Object> findTopList() {
+		return RepositoryFactory.getTopRepository().find();
 	}
-	
+
 	public List<Map<String, Object>> findJVMListInitLoad(Map<String, String> query) {
-		return RepositoryFactory.getJVMTableRepository().findInitLoad(query);
+		return RepositoryFactory.getJVMRepository().findInitLoad(query);
+	}
+
+	public List<Map<String, Object>> findJVMList(Map<String, String> query) {
+		return RepositoryFactory.getJVMRepository().find(query);
 	}
 	
 	public List<Map<String, Object>> findJVMListByTime(Map<String, String> query) {
-		return RepositoryFactory.getJVMTableRepository().findByTime(query);
+		return RepositoryFactory.getJVMRepository().findByTime(query);
 	}
 	
 	public List<Map<String, Object>> findServletList(Map<String, String> query) {
-		return RepositoryFactory.getServletTableRepository().find(query);
-	}
-	
-	public Map<String, Object> findTop() {
-		return RepositoryFactory.getTopTableRepository().findTopReport();
+		return RepositoryFactory.getServletRepository().find(query);
 	}
 	
 	public List<Map<String, Object>> findUserHistory() {
-		return RepositoryFactory.getUserTableRepository().findUserHistory();
+		return RepositoryFactory.getUserRepository().findUserHistory();
 	}
 
 }

@@ -19,7 +19,7 @@ public class QueryRepositoryTest {
 		query.put("startTime", String.valueOf(System.currentTimeMillis() - 1000 * 60 * 60));
 		query.put("endTime", String.valueOf(System.currentTimeMillis()));
 		
-		List<Map<String, Object>> result = QueryRepository.getQueryRepository().findExcepList(query);
+		List<Map<String, Object>> result = QueryRepository.getQueryRepository().findExceptionList(query);
 		
 		System.out.println(result);
 	}
@@ -36,6 +36,6 @@ public class QueryRepositoryTest {
 	
 	@Test
 	public void testFindTop() {
-		System.out.println(QueryRepository.getQueryRepository().findTop());
+		System.out.println(QueryRepository.getQueryRepository().findTopList());
 	}
 }

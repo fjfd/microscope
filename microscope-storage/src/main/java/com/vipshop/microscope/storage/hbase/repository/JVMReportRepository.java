@@ -1,10 +1,7 @@
 package com.vipshop.microscope.storage.hbase.repository;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -24,25 +21,16 @@ import com.vipshop.microscope.common.metrics.MetricsCategory;
 import com.vipshop.microscope.storage.hbase.table.JVMReportTable;
 
 @Repository
-public class JVMRepository extends AbstraceRepository {
+public class JVMReportRepository extends AbstraceRepository {
 
 	public void initialize() {
-		super.initialize(JVMReportTable.INDEX_TABLE_NAME, new String[]{JVMReportTable.CF_APP, JVMReportTable.CF_IP});
 		super.initialize(JVMReportTable.TABLE_NAME, new String[]{JVMReportTable.CF_JVM});
 	}
 
 	public void drop() {
 		super.drop(JVMReportTable.TABLE_NAME);
-		super.drop(JVMReportTable.INDEX_TABLE_NAME);
 	}
 	
-	private String rowKey(Map<String, Object> map) {
-		return map.get("app") + "-" +
-	           map.get("ip") + "-" +
-			   (Long.MAX_VALUE - Long.valueOf(map.get("date").toString()));
-//	           UUID.randomUUID().getLeastSignificantBits();
-	}
-
 	public void save(final Map<String, Object> jvm) {
 		final HashMap<String, Object> overview = new HashMap<String, Object>();
 		final HashMap<String, Object> monitor = new HashMap<String, Object>();
@@ -74,21 +62,10 @@ public class JVMRepository extends AbstraceRepository {
 		memory.put("date", jvm.get("date"));
 		gc.put("date", jvm.get("date"));
 		
-		hbaseTemplate.execute(JVMReportTable.INDEX_TABLE_NAME, new TableCallback<Map<String, Object>>() {
-			@Override
-			public Map<String, Object> doInTable(HTableInterface table) throws Throwable {
-				Put p = new Put(Bytes.toBytes((String)jvm.get("app")));
-				p.add(JVMReportTable.BYTE_CF_APP, Bytes.toBytes((String)jvm.get("app")), Bytes.toBytes((String)jvm.get("app")));
-				p.add(JVMReportTable.BYTE_CF_IP, Bytes.toBytes((String)jvm.get("ip")), Bytes.toBytes((String)jvm.get("ip")));
-				table.put(p);
-				return jvm;
-			}
-		});
-		
 		hbaseTemplate.execute(JVMReportTable.TABLE_NAME, new TableCallback<Map<String, Object>>() {
 			@Override
 			public Map<String, Object> doInTable(HTableInterface table) throws Throwable {
-				Put p = new Put(Bytes.toBytes(rowKey(jvm)));
+				Put p = new Put(Bytes.toBytes(JVMReportTable.rowKey(jvm)));
 				p.add(JVMReportTable.BYTE_CF_JVM, JVMReportTable.BYTE_C_OVERVIEW, SerializationUtils.serialize((Serializable) overview));
 				p.add(JVMReportTable.BYTE_CF_JVM, JVMReportTable.BYTE_C_MONITOR, SerializationUtils.serialize((Serializable) monitor));
 				p.add(JVMReportTable.BYTE_CF_JVM, JVMReportTable.BYTE_C_THREAD, SerializationUtils.serialize((Serializable) thread));
@@ -101,50 +78,6 @@ public class JVMRepository extends AbstraceRepository {
 	}
 	
 	/**
-	 * Returns appName, IPAdress in follow format:
-	 * 
-	 * [
-	 * "app"   :   app name,
-	 * "ip"    :   ["ip adress 1", "ip adress 2", ...], 
-	 * ]
-	 * 
-	 * @return
-	 */
-	public List<Map<String, Object>> findAppIP() {
-		final List<String> appList = new ArrayList<String>();
-		final List<Map<String, Object>> appIPList = new ArrayList<Map<String,Object>>();
-		
-		hbaseTemplate.find(JVMReportTable.INDEX_TABLE_NAME, JVMReportTable.CF_APP, new RowMapper<List<String>>() {
-			@Override
-			public List<String> mapRow(Result result, int rowNum) throws Exception {
-				String[] appQunitifer = getColumnsInColumnFamily(result, JVMReportTable.CF_APP);
-				for (int i = 0; i < appQunitifer.length; i++) {
-					appList.add(appQunitifer[i]);
-				}
-				return appList;
-			}
-		});
-		
-		for (Iterator<String> iterator = appList.iterator(); iterator.hasNext();) {
-			final String row = iterator.next();
-			
-			hbaseTemplate.get(JVMReportTable.INDEX_TABLE_NAME, row, new RowMapper<Map<String, Object>>() {
-				@Override
-				public Map<String, Object> mapRow(Result result, int rowNum) throws Exception {
-					Map<String, Object> appTrace = new HashMap<String, Object>();
-					String[] ipQunitifer = getColumnsInColumnFamily(result, JVMReportTable.CF_IP);
-					appTrace.put("app", row);
-					appTrace.put("ip", Arrays.asList(ipQunitifer));
-					appIPList.add(appTrace);
-					return appTrace;
-				}
-			});
-		}
-		
-		return appIPList;
-	}
-	
-	/**
 	 * Get data in 1 hour when load html.
 	 * 
 	 * @param query
@@ -152,22 +85,6 @@ public class JVMRepository extends AbstraceRepository {
 	 */
 	public List<Map<String, Object>> findInitLoad(Map<String, String> query) {
 		Scan scan = new Scan();
-		
-//		/**
-//		 * limit the size of result in [10, 1000]
-//		 */
-//		long limit = Long.valueOf(query.get("limit"));
-//		
-//		if (limit > 1000) {
-//			limit = 1000;
-//		}
-//		
-//		if (limit < 1) {
-//			limit = 10;
-//		}
-		
-//		PageFilter pageFilter = new PageFilter(1);
-//		scan.setFilter(pageFilter);
 		
 		/**
 		 * Query by rowKey : appName-ipAddress-timestamp
@@ -178,9 +95,6 @@ public class JVMRepository extends AbstraceRepository {
 		long startTime = System.currentTimeMillis() - 10 * 60 * 1000;
 		long endTime = System.currentTimeMillis();
 
-//		long startTime = Long.valueOf(query.get("startTime"));
-//		long endTime = Long.valueOf(query.get("endTime"));
-		
 		String startKey = appName + "-" + ipAddress + "-" + (Long.MAX_VALUE - endTime);
 		String endKey = appName + "-" + ipAddress + "-" + (Long.MAX_VALUE - startTime);
 		
@@ -219,9 +133,6 @@ public class JVMRepository extends AbstraceRepository {
 		long startTime = System.currentTimeMillis() - 60 * 1000;
 		long endTime = System.currentTimeMillis();
 
-//		long startTime = Long.valueOf(query.get("startTime"));
-//		long endTime = Long.valueOf(query.get("endTime"));
-		
 		String startKey = appName + "-" + ipAddress + "-" + (Long.MAX_VALUE - endTime);
 		String endKey = appName + "-" + ipAddress + "-" + (Long.MAX_VALUE - startTime);
 		
@@ -257,9 +168,6 @@ public class JVMRepository extends AbstraceRepository {
 		String appName = query.get("appName");
 		String ipAddress = query.get("ipAddress");
 		
-//		long startTime = System.currentTimeMillis() - 60 * 1000;
-//		long endTime = System.currentTimeMillis();
-
 		long startTime = Long.valueOf(query.get("startTime"));
 		long endTime = Long.valueOf(query.get("endTime"));
 		

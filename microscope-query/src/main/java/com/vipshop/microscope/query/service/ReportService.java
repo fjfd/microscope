@@ -16,7 +16,7 @@ public class ReportService {
 	private final QueryRepository queryRepository = QueryRepository.getQueryRepository();
 	
 	public Map<String, Object> getTopReport() {
-		return queryRepository.findTop();
+		return queryRepository.findTopList();
 	}
 	
 	public List<Map<String, Object>> getJVMMetricsInitLoad(HttpServletRequest request) {

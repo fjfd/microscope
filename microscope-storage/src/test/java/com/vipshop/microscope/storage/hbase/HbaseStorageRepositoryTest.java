@@ -43,7 +43,7 @@ public class HbaseStorageRepositoryTest {
 		storageRepository.save(TraceOverviewTable.build(span));
 		storageRepository.save(span);
 		
-		List<Map<String, Object>> apps = queryRepository.findAppIPTrace();
+		List<Map<String, Object>> apps = queryRepository.findTraceIndex();
 		for (Map<String, Object> map : apps) {
 			Set<Entry<String, Object>> entry = map.entrySet();
 			int size = 0;
@@ -58,7 +58,7 @@ public class HbaseStorageRepositoryTest {
 			}
 		}
 		
-		List<Span> spans = queryRepository.find("8053381312019065847");
+		List<Span> spans = queryRepository.findTrace("8053381312019065847");
 		for (Span tmpspan : spans) {
 			Assert.assertEquals("localhost", tmpspan.getAppIp());
 		}
@@ -72,7 +72,7 @@ public class HbaseStorageRepositoryTest {
 		PageFilter pageFilter = new PageFilter(limit);
 		scan.setFilter(pageFilter);
 		
-		queryRepository.find(scan);
+		queryRepository.findTraceList(scan);
 	}
 	
 	@Test
@@ -86,7 +86,7 @@ public class HbaseStorageRepositoryTest {
 		scan.setFilter(pageFilter);
 		scan.setFilter(singleColumnValueFilter);
 		scan.setTimeRange(System.currentTimeMillis() - 60 * 1000, System.currentTimeMillis());
-		queryRepository.find(scan);
+		queryRepository.findTraceList(scan);
 	}
 	
 	@Test
@@ -101,7 +101,7 @@ public class HbaseStorageRepositoryTest {
 		long endKey = Long.MAX_VALUE - (System.currentTimeMillis() - 60 * 60 * 1000);
 		scan.setStartRow(Bytes.toBytes("trace-http://www.huohu123.com-" + startKey));
 		scan.setStopRow(Bytes.toBytes("trace-http://www.huohu123.com-" + endKey));
-		System.out.println(queryRepository.find(scan));
+		System.out.println(queryRepository.findTraceList(scan));
 		
 	}
 	
@@ -118,7 +118,7 @@ public class HbaseStorageRepositoryTest {
 		scan.setStartRow(Bytes.toBytes(endKey));
 		scan.setStopRow(Bytes.toBytes(startKey));
 		
-		System.out.println(queryRepository.find(scan));
+		System.out.println(queryRepository.findTraceList(scan));
 		
 	}
 

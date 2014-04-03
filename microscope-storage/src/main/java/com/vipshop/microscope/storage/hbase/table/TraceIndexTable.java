@@ -4,15 +4,9 @@ import org.apache.hadoop.hbase.util.Bytes;
 
 import com.vipshop.microscope.common.trace.Span;
 
-/**
- * TraceIndexTable store app name, ip adress, trace name.
- * 
- * @author Xu Fei
- * @version 1.0
- */
 public class TraceIndexTable {
 	
-	// ******* Hbase schema for app table ******** //
+	// ******* Hbase schema for Trace index table ******** //
 	
 	/*
 	 * table name

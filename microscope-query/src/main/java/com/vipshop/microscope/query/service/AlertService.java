@@ -13,7 +13,7 @@ public class AlertService {
 	private final QueryRepository queryRepository = QueryRepository.getQueryRepository();
 	
 	public List<Map<String, Object>> getQueryCondition() {
-		return queryRepository.findAppIPName();
+		return queryRepository.findExceptionIndex();
 	}
 
 }
