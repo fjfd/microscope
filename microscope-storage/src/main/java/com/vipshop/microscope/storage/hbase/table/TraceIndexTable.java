@@ -1,23 +1,23 @@
-package com.vipshop.microscope.storage.hbase.domain;
+package com.vipshop.microscope.storage.hbase.table;
 
 import org.apache.hadoop.hbase.util.Bytes;
 
 import com.vipshop.microscope.common.trace.Span;
 
 /**
- * AppTable store app name, ip adress, trace name.
+ * TraceIndexTable store app name, ip adress, trace name.
  * 
  * @author Xu Fei
  * @version 1.0
  */
-public class AppTable {
+public class TraceIndexTable {
 	
 	// ******* Hbase schema for app table ******** //
 	
 	/*
 	 * table name
 	 */
-	public static final String TABLE_NAME = "app";
+	public static final String TABLE_NAME = "trace_index";
 	
 	/*
 	 * column family
@@ -39,7 +39,7 @@ public class AppTable {
 
 	private String traceName;
 
-	public AppTable(String appName, String ipAdress, String traceName) {
+	public TraceIndexTable(String appName, String ipAdress, String traceName) {
 		this.appName = appName;
 		this.ipAdress = ipAdress;
 		this.traceName = traceName;
@@ -51,11 +51,11 @@ public class AppTable {
 	 * @param span
 	 * @return
 	 */
-	public static AppTable build(Span span) {
+	public static TraceIndexTable build(Span span) {
 		String appName = span.getAppName();
 		String ipAdress = span.getAppIp();
 		String traceName = span.getSpanName();
-		return new AppTable(appName, ipAdress, traceName);
+		return new TraceIndexTable(appName, ipAdress, traceName);
 	}
 	
 	/**

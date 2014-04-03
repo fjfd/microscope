@@ -56,7 +56,7 @@ public class MetricsStats {
 														   .convertRatesTo(TimeUnit.SECONDS)
 														   .convertDurationsTo(TimeUnit.MILLISECONDS)
 														   .build();
-			reporter.start(60, TimeUnit.SECONDS);
+			reporter.start(Tracer.REPORT_PERIOD, TimeUnit.SECONDS);
 			start = true;
 		}
 	}
@@ -84,7 +84,7 @@ public class MetricsStats {
 													  .convertRatesTo(TimeUnit.SECONDS)
 													  .convertDurationsTo(TimeUnit.MILLISECONDS)
 													  .build();
-			reporter.start(60, TimeUnit.SECONDS);
+			reporter.start(Tracer.REPORT_PERIOD, TimeUnit.SECONDS);
 			start = true;
 		}
 	}
@@ -112,7 +112,7 @@ public class MetricsStats {
 													    .convertRatesTo(TimeUnit.SECONDS)
 													    .convertDurationsTo(TimeUnit.MILLISECONDS)
 													    .build();
-			reporter.start(60, TimeUnit.SECONDS);
+			reporter.start(Tracer.REPORT_PERIOD, TimeUnit.SECONDS);
 			start = true;
 		}
 	}
@@ -137,7 +137,7 @@ public class MetricsStats {
 	public static void startCsvReporter() {
 		if (!start) {
 			ScheduledReporter reporter = CsvReporter.forRegistry(metrics).build(new File("."));
-			reporter.start(60, TimeUnit.SECONDS);
+			reporter.start(Tracer.REPORT_PERIOD, TimeUnit.SECONDS);
 			start = true;
 		}
 	}
@@ -176,7 +176,7 @@ public class MetricsStats {
 															  .convertDurationsTo(TimeUnit.MILLISECONDS)
 															  .filter(MetricFilter.ALL)
 															  .build(graphite);
-			reporter.start(60, TimeUnit.MINUTES);
+			reporter.start(Tracer.REPORT_PERIOD, TimeUnit.MINUTES);
 			start = true;
 		}
 	}
@@ -208,7 +208,7 @@ public class MetricsStats {
 					.convertRatesTo(TimeUnit.SECONDS)
 					.convertDurationsTo(TimeUnit.MILLISECONDS)
 					.build(ganglia);
-			reporter.start(60, TimeUnit.MINUTES);
+			reporter.start(Tracer.REPORT_PERIOD, TimeUnit.MINUTES);
 			start = true;
 		}
 	}

@@ -1,4 +1,4 @@
-package com.vipshop.microscope.storage.hbase.domain;
+package com.vipshop.microscope.storage.hbase.table;
 
 import java.io.Serializable;
 
@@ -12,14 +12,14 @@ import com.vipshop.microscope.common.trace.Span;
  * @author Xu Fei
  * @version 1.0
  */
-public class TraceTable implements Serializable, Comparable<TraceTable> {
+public class TraceOverviewTable implements Serializable, Comparable<TraceOverviewTable> {
 	
 	// ********* hbase schema for trace table ************ //
 	
 	/*
 	 * table name adn cloumn family
 	 */
-	public static final String TABLE_NAME = "trace";
+	public static final String TABLE_NAME = "trace_overview";
 	public static final String CF = "cf";
 
 	/*
@@ -56,7 +56,7 @@ public class TraceTable implements Serializable, Comparable<TraceTable> {
 	
 	private String type;
 	
-	public static TraceTable build(Span span) {
+	public static TraceOverviewTable build(Span span) {
 		String appName = span.getAppName();
 		String appIPAdress = span.getAppIp();
 		String traceName = span.getSpanName();
@@ -66,7 +66,7 @@ public class TraceTable implements Serializable, Comparable<TraceTable> {
 		String duration = String.valueOf(span.getDuration());
 		String resultCode = span.getResultCode();
 		String type = span.getSpanType();
-		return new TraceTable(appName, appIPAdress, traceName, traceId, String.valueOf(startTime), String.valueOf(endTime), duration, resultCode, type);
+		return new TraceOverviewTable(appName, appIPAdress, traceName, traceId, String.valueOf(startTime), String.valueOf(endTime), duration, resultCode, type);
 	}
 	
 	/**
@@ -83,7 +83,7 @@ public class TraceTable implements Serializable, Comparable<TraceTable> {
 			   this.getTraceId();
 	}
 	
-	public TraceTable(String appName, String iPAdress, String traceName, String traceId, String startTimestamp, String endTimestamp, String duration, String resultCode, String type) {
+	public TraceOverviewTable(String appName, String iPAdress, String traceName, String traceId, String startTimestamp, String endTimestamp, String duration, String resultCode, String type) {
 		this.appName = appName;
 		this.IPAdress = iPAdress;
 		this.traceName = traceName;
@@ -168,7 +168,7 @@ public class TraceTable implements Serializable, Comparable<TraceTable> {
 	}
 
 	@Override
-	public int compareTo(TraceTable o) {
+	public int compareTo(TraceOverviewTable o) {
 		if (Long.valueOf(this.getStartTimestamp()) > Long.valueOf(o.getStartTimestamp())) {
 			return -1;
 		} else if (Long.valueOf(this.getStartTimestamp()) < Long.valueOf(o.getStartTimestamp())) {

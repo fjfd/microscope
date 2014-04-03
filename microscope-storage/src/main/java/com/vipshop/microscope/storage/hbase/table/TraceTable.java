@@ -1,4 +1,4 @@
-package com.vipshop.microscope.storage.hbase.domain;
+package com.vipshop.microscope.storage.hbase.table;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -9,16 +9,16 @@ import org.apache.hadoop.hbase.util.Bytes;
 import com.vipshop.microscope.common.trace.Span;
 
 /**
- * SpanTable store span.
+ * TraceTable store span.
  * 
  * @author Xu Fei
  * @version 1.0
  */
-public class SpanTable {
+public class TraceTable {
 	
-	// ********* hbase schema for span table *********** //
+	// ********* hbase schema for trace table *********** //
 	
-	public static final String TABLE_NAME = "span";
+	public static final String TABLE_NAME = "trace";
 	public static final String CF = "cf";
 
 	public static final byte[] BYTE_CF = Bytes.toBytes(CF);

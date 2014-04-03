@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.vipshop.microscope.common.trace.Span;
 import com.vipshop.microscope.storage.QueryRepository;
-import com.vipshop.microscope.storage.hbase.domain.TraceTable;
+import com.vipshop.microscope.storage.hbase.table.TraceOverviewTable;
 
 @Service
 public class TraceSerivice {
@@ -41,8 +41,8 @@ public class TraceSerivice {
 		query.put("endTime", endTime);
 		query.put("limit", limit);
 		
-		List<TraceTable> tableTraces = queryRepository.find(query);
-		for (TraceTable tableTrace : tableTraces) {
+		List<TraceOverviewTable> tableTraces = queryRepository.find(query);
+		for (TraceOverviewTable tableTrace : tableTraces) {
 			Map<String, Object> trace = new LinkedHashMap<String, Object>();
 			String traceId = tableTrace.getTraceId();
 			String stmp = tableTrace.getStartTimestamp();

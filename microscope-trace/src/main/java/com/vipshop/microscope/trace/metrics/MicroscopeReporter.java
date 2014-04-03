@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.SortedMap;
 import java.util.TimeZone;
-import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
 import com.codahale.metrics.Clock;
@@ -22,7 +22,9 @@ import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.ScheduledReporter;
 import com.codahale.metrics.Snapshot;
 import com.codahale.metrics.Timer;
-import com.codahale.metrics.health.HealthCheck;
+import com.codahale.metrics.json.MetricsModule;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vipshop.microscope.common.metrics.MetricsCategory;
 import com.vipshop.microscope.common.util.IPAddressUtil;
 import com.vipshop.microscope.common.util.TimeStampUtil;
@@ -36,6 +38,8 @@ import com.vipshop.microscope.trace.stoarge.StorageHolder;
  */
 @SuppressWarnings("unused")
 public class MicroscopeReporter extends ScheduledReporter {
+	
+	private final ObjectMapper mapper = new ObjectMapper().registerModule(new MetricsModule(TimeUnit.SECONDS, TimeUnit.MILLISECONDS, false));
     
 	/**
      * Returns a new {@link Builder} for {@link MicroscopeReporter}.

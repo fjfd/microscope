@@ -1,8 +1,8 @@
-package com.vipshop.microscope.storage.hbase.domain;
+package com.vipshop.microscope.storage.hbase.table;
 
 import org.apache.hadoop.hbase.util.Bytes;
 
-public class JVMTable {
+public class JVMReportTable {
 	
 	// ********** HBase schema for jvm index table ******** //
 	

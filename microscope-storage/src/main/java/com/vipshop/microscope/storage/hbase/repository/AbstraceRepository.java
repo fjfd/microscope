@@ -20,9 +20,9 @@ import org.springframework.data.hadoop.hbase.HbaseTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-public abstract class AbstraceTableRepository implements InitializingBean {
+public abstract class AbstraceRepository implements InitializingBean {
 	
-	private static final Logger logger = LoggerFactory.getLogger(AbstraceTableRepository.class);
+	private static final Logger logger = LoggerFactory.getLogger(AbstraceRepository.class);
 
 	public static final int TIME_TO_LIVE = 2 * 7 * 24 * 60 * 60; 
 	

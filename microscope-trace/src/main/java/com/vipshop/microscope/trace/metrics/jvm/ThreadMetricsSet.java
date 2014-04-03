@@ -80,7 +80,6 @@ public class ThreadMetricsSet implements MetricSet {
 			List<String> threadInfos = new ArrayList<String>();
 			@Override
 			public List<String> getValue() {
-//				ThreadInfo[] infos = threads.dumpAllThreads(true, true);
 				for (ThreadInfo threadInfo : allThreads) {
 					threadInfos.add(threadInfo.toString());
 				}

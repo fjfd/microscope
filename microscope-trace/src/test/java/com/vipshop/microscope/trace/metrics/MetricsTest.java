@@ -29,6 +29,11 @@ public class MetricsTest {
     }
     
     @Test
+    public void testSystemProperties() {
+    	System.out.println(System.getProperties());
+    }
+    
+    @Test
     public void testQueueSize() throws InterruptedException {
         MetricsStats.register("queue-size", new Gauge<Integer>() {
 			@Override

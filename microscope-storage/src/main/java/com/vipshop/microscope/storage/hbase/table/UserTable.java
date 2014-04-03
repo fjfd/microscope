@@ -1,4 +1,4 @@
-package com.vipshop.microscope.storage.hbase.domain;
+package com.vipshop.microscope.storage.hbase.table;
 
 import java.util.Map;
 

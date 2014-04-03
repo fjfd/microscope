@@ -35,6 +35,16 @@ public class ReportController {
 		result.setCallback(callback);
 		return result;
 	}
+	
+	@RequestMapping("/report/jvmReportInitLoad")
+	@ResponseBody
+	public ListResult jvmReportInitLoad(HttpServletRequest request, String callback) {
+		ListResult result = new ListResult();
+		List<Map<String, Object>> data = service.getJVMMetricsInitLoad(request);
+		result.setResult(data);
+		result.setCallback(callback);
+		return result;
+	}
 
 	@RequestMapping("/report/jvmReport")
 	@ResponseBody
@@ -45,6 +55,17 @@ public class ReportController {
 		result.setCallback(callback);
 		return result;
 	}
+	
+	@RequestMapping("/report/jvmReportByTime")
+	@ResponseBody
+	public ListResult jvmReportByTime(HttpServletRequest request, String callback) {
+		ListResult result = new ListResult();
+		List<Map<String, Object>> data = service.getJVMMetricsByTime(request);
+		result.setResult(data);
+		result.setCallback(callback);
+		return result;
+	}
+
 	
 	@RequestMapping("/report/httpReport")
 	@ResponseBody

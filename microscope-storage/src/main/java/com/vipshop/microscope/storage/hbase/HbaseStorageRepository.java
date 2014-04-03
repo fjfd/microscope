@@ -3,9 +3,9 @@ package com.vipshop.microscope.storage.hbase;
 import java.util.Map;
 
 import com.vipshop.microscope.common.trace.Span;
-import com.vipshop.microscope.storage.hbase.domain.AppTable;
-import com.vipshop.microscope.storage.hbase.domain.TraceTable;
 import com.vipshop.microscope.storage.hbase.factory.RepositoryFactory;
+import com.vipshop.microscope.storage.hbase.table.TraceIndexTable;
+import com.vipshop.microscope.storage.hbase.table.TraceOverviewTable;
 
 /**
  * Hbase Storage API.
@@ -19,10 +19,10 @@ public class HbaseStorageRepository {
 	 * Create hbase tables.
 	 */
 	public void create() {
-		RepositoryFactory.getAppTableRepository().initialize();
-		RepositoryFactory.getTraceTableRepository().initialize();
-		RepositoryFactory.getSpanTableRepository().initialize();
-		RepositoryFactory.getExceptionTableRepository().initialize();
+		RepositoryFactory.getTraceIndexRepository().initialize();
+		RepositoryFactory.getTraceOverviewRepository().initialize();
+		RepositoryFactory.getTraceRepository().initialize();
+		RepositoryFactory.getExceptionRepository().initialize();
 		RepositoryFactory.getJVMTableRepository().initialize();
 		RepositoryFactory.getTopTableRepository().initialize();
 		RepositoryFactory.getUserTableRepository().initialize();
@@ -33,10 +33,10 @@ public class HbaseStorageRepository {
 	 * Drop hbase tables.
 	 */
 	public void drop() {
-		RepositoryFactory.getAppTableRepository().drop();
-		RepositoryFactory.getTraceTableRepository().drop();
-		RepositoryFactory.getSpanTableRepository().drop();
-		RepositoryFactory.getExceptionTableRepository().drop();
+		RepositoryFactory.getTraceIndexRepository().drop();
+		RepositoryFactory.getTraceOverviewRepository().drop();
+		RepositoryFactory.getTraceRepository().drop();
+		RepositoryFactory.getExceptionRepository().drop();
 		RepositoryFactory.getJVMTableRepository().drop();
 		RepositoryFactory.getTopTableRepository().drop();
 		RepositoryFactory.getUserTableRepository().drop();
@@ -52,21 +52,21 @@ public class HbaseStorageRepository {
 	}
 	
 	/**
-	 * Store {@link AppTable} to hbase.
+	 * Store {@link TraceIndexTable} to hbase.
 	 * 
 	 * @param appTable
 	 */
-	public void save(AppTable appTable) {
-		RepositoryFactory.getAppTableRepository().save(appTable);
+	public void save(TraceIndexTable appTable) {
+		RepositoryFactory.getTraceIndexRepository().save(appTable);
 	}
 	
 	/**
-	 * Store {@link TraceTable} to hbase.
+	 * Store {@link TraceOverviewTable} to hbase.
 	 * 
 	 * @param traceTable
 	 */
-	public void save(TraceTable traceTable) {
-		RepositoryFactory.getTraceTableRepository().save(traceTable);
+	public void save(TraceOverviewTable traceTable) {
+		RepositoryFactory.getTraceOverviewRepository().save(traceTable);
 	}
 	
 	/**
@@ -75,8 +75,18 @@ public class HbaseStorageRepository {
 	 * @param span
 	 */
 	public void save(Span span) {
-		RepositoryFactory.getSpanTableRepository().save(span);
+		RepositoryFactory.getTraceRepository().save(span);
 	}
+	
+	/**
+	 * Store exception index.
+	 * 
+	 * @param map
+	 */
+	public void saveExceptionIndex(Map<String, Object> exception) {
+		RepositoryFactory.getExceptionIndexRepository().save(exception);
+	}
+
 	
 	/**
 	 * Store Map ojbect to exception table.
@@ -84,7 +94,7 @@ public class HbaseStorageRepository {
 	 * @param map
 	 */
 	public void saveException(Map<String, Object> excption) {
-		RepositoryFactory.getExceptionTableRepository().save(excption);
+		RepositoryFactory.getExceptionRepository().save(excption);
 	}
 	
 	/**

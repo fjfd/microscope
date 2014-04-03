@@ -4,8 +4,8 @@ import java.util.Map;
 
 import com.vipshop.microscope.common.trace.Span;
 import com.vipshop.microscope.storage.hbase.HbaseStorageRepository;
-import com.vipshop.microscope.storage.hbase.domain.AppTable;
-import com.vipshop.microscope.storage.hbase.domain.TraceTable;
+import com.vipshop.microscope.storage.hbase.table.TraceIndexTable;
+import com.vipshop.microscope.storage.hbase.table.TraceOverviewTable;
 import com.vipshop.microscope.storage.mysql.MySQLStorageRepository;
 
 /**
@@ -42,11 +42,11 @@ public class StorageRepository {
 		hbaseStorageRepository.reInitalize();
 	}
 	
-	public void save(AppTable appTable) {
+	public void save(TraceIndexTable appTable) {
 		hbaseStorageRepository.save(appTable);
 	}
 	
-	public void save(TraceTable traceTable) {
+	public void save(TraceOverviewTable traceTable) {
 		hbaseStorageRepository.save(traceTable);
 	}
 	
@@ -55,6 +55,7 @@ public class StorageRepository {
 	}
 	
 	public void saveException(Map<String, Object> exception) {
+		hbaseStorageRepository.saveExceptionIndex(exception);
 		hbaseStorageRepository.saveException(exception);
 	}
 	

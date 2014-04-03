@@ -7,8 +7,8 @@ import java.util.Map.Entry;
 import com.vipshop.microscope.common.metrics.MetricsCategory;
 import com.vipshop.microscope.common.trace.Span;
 import com.vipshop.microscope.storage.StorageRepository;
-import com.vipshop.microscope.storage.hbase.domain.AppTable;
-import com.vipshop.microscope.storage.hbase.domain.TraceTable;
+import com.vipshop.microscope.storage.hbase.table.TraceIndexTable;
+import com.vipshop.microscope.storage.hbase.table.TraceOverviewTable;
 
 /**
  * Message Store API.
@@ -42,8 +42,8 @@ public class MessageStorager {
 		String traceId = String.valueOf(span.getTraceId());
 		String spanId = String.valueOf(span.getSpanId());
 		if (traceId.equals(spanId)) {
-			storageRepository.save(AppTable.build(span));
-			storageRepository.save(TraceTable.build(span));
+			storageRepository.save(TraceIndexTable.build(span));
+			storageRepository.save(TraceOverviewTable.build(span));
 		}
 		storageRepository.save(span);
 	}

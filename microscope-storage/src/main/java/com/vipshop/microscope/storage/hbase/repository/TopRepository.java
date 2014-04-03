@@ -12,17 +12,17 @@ import org.springframework.data.hadoop.hbase.RowMapper;
 import org.springframework.data.hadoop.hbase.TableCallback;
 import org.springframework.stereotype.Repository;
 
-import com.vipshop.microscope.storage.hbase.domain.TopTable;
+import com.vipshop.microscope.storage.hbase.table.TopReportTable;
 
 @Repository
-public class TopTableRepository extends AbstraceTableRepository {
+public class TopRepository extends AbstraceRepository {
 
 	public void initialize() {
-		super.initialize(TopTable.TABLE_NAME, TopTable.CF);
+		super.initialize(TopReportTable.TABLE_NAME, TopReportTable.CF);
 	}
 
 	public void drop() {
-		super.drop(TopTable.TABLE_NAME);
+		super.drop(TopReportTable.TABLE_NAME);
 	}
 	
 	private String rowKey() {
@@ -35,12 +35,12 @@ public class TopTableRepository extends AbstraceTableRepository {
 	}
 
 	public void save(final Map<String, Object> top) {
-		hbaseTemplate.execute(TopTable.TABLE_NAME, new TableCallback<Map<String, Object>>() {
+		hbaseTemplate.execute(TopReportTable.TABLE_NAME, new TableCallback<Map<String, Object>>() {
 			@Override
 			public Map<String, Object> doInTable(HTableInterface table) throws Throwable {
 				Put p = new Put(Bytes.toBytes(rowKey()));
 				for (Entry<String, Object> entry : top.entrySet()) {
-					p.add(TopTable.BYTE_CF, Bytes.toBytes(entry.getKey()), Bytes.toBytes((String)entry.getValue()));
+					p.add(TopReportTable.BYTE_CF, Bytes.toBytes(entry.getKey()), Bytes.toBytes((String)entry.getValue()));
 				}
 				table.put(p);
 				return top;
@@ -50,12 +50,12 @@ public class TopTableRepository extends AbstraceTableRepository {
 	
 	public Map<String, Object> findTopReport() {
 		final Map<String, Object> top = new HashMap<String, Object>();
-		return hbaseTemplate.get(TopTable.TABLE_NAME, rowKey(), new RowMapper<Map<String, Object>>() {
+		return hbaseTemplate.get(TopReportTable.TABLE_NAME, rowKey(), new RowMapper<Map<String, Object>>() {
 			@Override
 			public Map<String, Object> mapRow(Result result, int rowNum) throws Exception {
-				String[] topQunitifer = getColumnsInColumnFamily(result, TopTable.CF);
+				String[] topQunitifer = getColumnsInColumnFamily(result, TopReportTable.CF);
 				for (int i = 0; i < topQunitifer.length; i++) {
-					byte[] data = result.getValue(TopTable.BYTE_CF, Bytes.toBytes(topQunitifer[i]));
+					byte[] data = result.getValue(TopReportTable.BYTE_CF, Bytes.toBytes(topQunitifer[i]));
 					top.put(topQunitifer[i], Bytes.toString(data));
 				}
 				return top;

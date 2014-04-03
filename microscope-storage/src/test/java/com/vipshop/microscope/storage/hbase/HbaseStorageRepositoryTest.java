@@ -21,8 +21,8 @@ import org.testng.annotations.Test;
 import com.vipshop.microscope.common.trace.Span;
 import com.vipshop.microscope.storage.QueryRepository;
 import com.vipshop.microscope.storage.StorageRepository;
-import com.vipshop.microscope.storage.hbase.domain.AppTable;
-import com.vipshop.microscope.storage.hbase.domain.TraceTable;
+import com.vipshop.microscope.storage.hbase.table.TraceIndexTable;
+import com.vipshop.microscope.storage.hbase.table.TraceOverviewTable;
 
 public class HbaseStorageRepositoryTest {
 
@@ -39,8 +39,8 @@ public class HbaseStorageRepositoryTest {
 	@Test(priority = 2)
 	public void save() {
 		Span span = new Span();
-		storageRepository.save(AppTable.build(span));
-		storageRepository.save(TraceTable.build(span));
+		storageRepository.save(TraceIndexTable.build(span));
+		storageRepository.save(TraceOverviewTable.build(span));
 		storageRepository.save(span);
 		
 		List<Map<String, Object>> apps = queryRepository.findAppIPTrace();

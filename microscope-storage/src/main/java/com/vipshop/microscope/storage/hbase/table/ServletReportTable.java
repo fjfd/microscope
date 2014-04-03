@@ -1,8 +1,8 @@
-package com.vipshop.microscope.storage.hbase.domain;
+package com.vipshop.microscope.storage.hbase.table;
 
 import org.apache.hadoop.hbase.util.Bytes;
 
-public class ServletTable {
+public class ServletReportTable {
 	
 	// ********** HBase schema for servlet index table ******** //
 	

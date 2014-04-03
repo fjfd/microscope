@@ -13,10 +13,10 @@ import org.springframework.data.hadoop.hbase.RowMapper;
 import org.springframework.data.hadoop.hbase.TableCallback;
 import org.springframework.stereotype.Repository;
 
-import com.vipshop.microscope.storage.hbase.domain.UserTable;
+import com.vipshop.microscope.storage.hbase.table.UserTable;
 
 @Repository
-public class UserTableRepository extends AbstraceTableRepository {
+public class UserRepository extends AbstraceRepository {
 	
 	public void initialize() {
 		super.initialize(UserTable.TABLE_NAME, new String[]{UserTable.CF_INFO, UserTable.CF_HISTORY});

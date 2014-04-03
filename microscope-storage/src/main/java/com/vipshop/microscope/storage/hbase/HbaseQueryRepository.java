@@ -6,8 +6,8 @@ import java.util.Map;
 import org.apache.hadoop.hbase.client.Scan;
 
 import com.vipshop.microscope.common.trace.Span;
-import com.vipshop.microscope.storage.hbase.domain.TraceTable;
 import com.vipshop.microscope.storage.hbase.factory.RepositoryFactory;
+import com.vipshop.microscope.storage.hbase.table.TraceOverviewTable;
 
 /**
  * Hbase Query API.
@@ -18,23 +18,22 @@ import com.vipshop.microscope.storage.hbase.factory.RepositoryFactory;
 public class HbaseQueryRepository {
 	
 	/**
-	 * Get App name, IP address, Trace name
-	 * from AppTable.
+	 * Trace query index.
 	 * 
 	 * @return
 	 */
-	public List<Map<String, Object>> findAppIPTrace() {
-		return RepositoryFactory.getAppTableRepository().findAppIPTrace();
+	public List<Map<String, Object>> findTraceIndex() {
+		return RepositoryFactory.getTraceIndexRepository().findAppIPTrace();
 	}
 	
 	/**
-	 * Get TraceTable list by query condition.
+	 * Get Trace list by query condition.
 	 * 
 	 * @param query
 	 * @return
 	 */
-	public List<TraceTable> find(Map<String, String> query) {
-		return RepositoryFactory.getTraceTableRepository().find(query);
+	public List<TraceOverviewTable> findTraceList(Map<String, String> query) {
+		return RepositoryFactory.getTraceOverviewRepository().find(query);
 	}
 	
 	/**
@@ -43,8 +42,8 @@ public class HbaseQueryRepository {
 	 * @param scan
 	 * @return
 	 */
-	public List<TraceTable> find(Scan scan) {
-		return RepositoryFactory.getTraceTableRepository().find(scan);
+	public List<TraceOverviewTable> findTraceList(Scan scan) {
+		return RepositoryFactory.getTraceOverviewRepository().find(scan);
 	}
 	
 	/**
@@ -53,8 +52,8 @@ public class HbaseQueryRepository {
 	 * @param traceId
 	 * @return
 	 */
-	public List<Span> find(String traceId) {
-		return RepositoryFactory.getSpanTableRepository().find(traceId);
+	public List<Span> findTrace(String traceId) {
+		return RepositoryFactory.getTraceRepository().find(traceId);
 	}
 
 	/**
@@ -64,29 +63,26 @@ public class HbaseQueryRepository {
 	 * @return
 	 */
 	public Map<String, Integer> findSpanName(String traceId) {
-		return RepositoryFactory.getSpanTableRepository().findSpanName(traceId);
+		return RepositoryFactory.getTraceRepository().findSpanName(traceId);
 	}
 	
 	/**
-	 * Get App name, IP address, Exception name
-	 * 
-	 * from exception_index table.
+	 * Get exception index.
 	 * 
 	 * @return
 	 */
-	public List<Map<String, Object>> findAppIPName() {
-		return RepositoryFactory.getExceptionTableRepository().findAppIPName();
+	public List<Map<String, Object>> findExceptionIndex() {
+		return RepositoryFactory.getExceptionIndexRepository().find();
 	}
 
 	/**
-	 * Get Exception list by query.
-	 * from exception table.
+	 * Get Exception list
 	 * 
 	 * @param query
 	 * @return
 	 */
-	public List<Map<String, Object>> findExcepList(Map<String, String> query) {
-		return RepositoryFactory.getExceptionTableRepository().find(query);
+	public List<Map<String, Object>> findExceptionList(Map<String, String> query) {
+		return RepositoryFactory.getExceptionRepository().find(query);
 	}
 	
 	public List<Map<String, Object>> findAppIP() {
@@ -95,6 +91,14 @@ public class HbaseQueryRepository {
 	
 	public List<Map<String, Object>> findJVMList(Map<String, String> query) {
 		return RepositoryFactory.getJVMTableRepository().find(query);
+	}
+	
+	public List<Map<String, Object>> findJVMListInitLoad(Map<String, String> query) {
+		return RepositoryFactory.getJVMTableRepository().findInitLoad(query);
+	}
+	
+	public List<Map<String, Object>> findJVMListByTime(Map<String, String> query) {
+		return RepositoryFactory.getJVMTableRepository().findByTime(query);
 	}
 	
 	public List<Map<String, Object>> findServletList(Map<String, String> query) {

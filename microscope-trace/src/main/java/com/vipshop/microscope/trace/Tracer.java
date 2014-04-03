@@ -99,6 +99,8 @@ public class Tracer {
 	public static int RECONNECT_WAIT_TIME = 3000;
 	public static int SEND_WAIT_TIME = 100;
 	
+	public static int REPORT_PERIOD = 60;
+	
 	private static Switcher SWITCHER = new ConfigSwitcher();
 	
 	/**
@@ -133,7 +135,11 @@ public class Tracer {
 					/*
 					 * start metrics reporter 
 					 */
-					MetricsStats.startMicroscopeReporter(10, TimeUnit.SECONDS);
+					MetricsStats.startMicroscopeReporter(REPORT_PERIOD, TimeUnit.SECONDS);
+					
+					/*
+					 * register JVM metrics
+					 */
 					MetricsStats.registerJVM();
 				}
 			} catch (Exception e) {

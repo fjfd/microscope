@@ -4,14 +4,15 @@ import org.apache.hadoop.conf.Configuration;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.vipshop.microscope.storage.hbase.repository.AppTableRepository;
-import com.vipshop.microscope.storage.hbase.repository.ExceptionTableRepository;
-import com.vipshop.microscope.storage.hbase.repository.JVMTableRepository;
-import com.vipshop.microscope.storage.hbase.repository.ServletTableRepository;
-import com.vipshop.microscope.storage.hbase.repository.SpanTableRepository;
-import com.vipshop.microscope.storage.hbase.repository.TopTableRepository;
-import com.vipshop.microscope.storage.hbase.repository.TraceTableRepository;
-import com.vipshop.microscope.storage.hbase.repository.UserTableRepository;
+import com.vipshop.microscope.storage.hbase.repository.ExceptionIndexRepository;
+import com.vipshop.microscope.storage.hbase.repository.ExceptionRepository;
+import com.vipshop.microscope.storage.hbase.repository.JVMRepository;
+import com.vipshop.microscope.storage.hbase.repository.ServletRepository;
+import com.vipshop.microscope.storage.hbase.repository.TopRepository;
+import com.vipshop.microscope.storage.hbase.repository.TraceIndexRepository;
+import com.vipshop.microscope.storage.hbase.repository.TraceOverviewRepository;
+import com.vipshop.microscope.storage.hbase.repository.TraceRepository;
+import com.vipshop.microscope.storage.hbase.repository.UserRepository;
 
 /**
  * Hbase Factory responsible for create Repository.
@@ -21,37 +22,54 @@ import com.vipshop.microscope.storage.hbase.repository.UserTableRepository;
  */
 public class RepositoryFactory {
 	
-	private static final AppTableRepository   APP_TABLE;
-	private static final TraceTableRepository TRACE_TABLE;
-	private static final SpanTableRepository  SPAN_TABLE;
+	private static final TraceIndexRepository TRACE_INDEX;
+	private static final TraceOverviewRepository TRACE_OVERVIEW;
+	private static final TraceRepository TRACE;
 	
-	private static final ExceptionTableRepository EXCEPTION_TABLE;
-	private static final JVMTableRepository JVM_TABLB;
-	private static final ServletTableRepository SERVLET_TABLB;
+	private static final ExceptionIndexRepository EXCEPTION_INDEX;
+	private static final ExceptionRepository EXCEPTION;
 	
+	private static final JVMRepository JVM_TABLB;
+	private static final ServletRepository SERVLET_TABLB;
 	
-	private static final TopTableRepository TOP_TABLE;
+	private static final TopRepository TOP_TABLE;
 	
-	private static final UserTableRepository USER_TABLE;
+	private static final UserRepository USER_TABLE;
 	
 	/**
 	 * Initialize hbase tables. 
 	 */
 	static {
 		AbstractApplicationContext context = new ClassPathXmlApplicationContext("/applicationContext-storage-hbase.xml", RepositoryFactory.class);
-		APP_TABLE   = context.getBean(AppTableRepository.class);
-		TRACE_TABLE = context.getBean(TraceTableRepository.class);
-		SPAN_TABLE  = context.getBean(SpanTableRepository.class);
-		EXCEPTION_TABLE = context.getBean(ExceptionTableRepository.class);
-		JVM_TABLB = context.getBean(JVMTableRepository.class);
-		TOP_TABLE = context.getBean(TopTableRepository.class);
-		USER_TABLE = context.getBean(UserTableRepository.class);
-		SERVLET_TABLB = context.getBean(ServletTableRepository.class);
 		
-		APP_TABLE.initialize();
-		TRACE_TABLE.initialize();
-		SPAN_TABLE.initialize();
-		EXCEPTION_TABLE.initialize();
+		// ************** trace ************************************************ //
+		
+		TRACE_INDEX   = context.getBean(TraceIndexRepository.class);
+		TRACE_OVERVIEW = context.getBean(TraceOverviewRepository.class);
+		TRACE  = context.getBean(TraceRepository.class);
+		
+		// ************** exception ******************************************** //
+		
+		EXCEPTION_INDEX = context.getBean(ExceptionIndexRepository.class);
+		EXCEPTION = context.getBean(ExceptionRepository.class);
+		
+		// ************** report **********************************************  //
+		
+		JVM_TABLB = context.getBean(JVMRepository.class);
+		TOP_TABLE = context.getBean(TopRepository.class);
+		SERVLET_TABLB = context.getBean(ServletRepository.class);
+
+		// ************** user   ********************************************** //
+		
+		USER_TABLE = context.getBean(UserRepository.class);
+		
+		TRACE_INDEX.initialize();
+		TRACE_OVERVIEW.initialize();
+		TRACE.initialize();
+		
+		EXCEPTION_INDEX.initialize();
+		EXCEPTION.initialize();
+		
 		TOP_TABLE.initialize();
 		JVM_TABLB.initialize();
 		USER_TABLE.initialize();
@@ -61,64 +79,73 @@ public class RepositoryFactory {
 	}
 	
 	/**
-	 * Return {@link AppTableRepository}
+	 * Return {@link TraceIndexRepository}
 	 * 
 	 * @return
 	 */
-	public static AppTableRepository getAppTableRepository() {
-		return APP_TABLE;
+	public static TraceIndexRepository getTraceIndexRepository() {
+		return TRACE_INDEX;
 	}
 	
 	/**
-	 * Return {@link TraceTableRepository}
+	 * Return {@link TraceOverviewRepository}
 	 * 
 	 * @return
 	 */
-	public static TraceTableRepository getTraceTableRepository() {
-		return TRACE_TABLE;
+	public static TraceOverviewRepository getTraceOverviewRepository() {
+		return TRACE_OVERVIEW;
 	}
 	
 	/**
-	 * Return {@link SpanTableRepository}
+	 * Return {@link TraceRepository}
 	 * 
 	 * @return
 	 */
-	public static SpanTableRepository getSpanTableRepository() {
-		return SPAN_TABLE;
+	public static TraceRepository getTraceRepository() {
+		return TRACE;
 	}
 	
 	/**
-	 * Return {@link ExceptionTableRepository}
+	 * Return {@link ExceptionIndexRepository}
 	 * 
 	 * @return
 	 */
-	public static ExceptionTableRepository getExceptionTableRepository() {
-		return EXCEPTION_TABLE;
+	public static ExceptionIndexRepository getExceptionIndexRepository() {
+		return EXCEPTION_INDEX;
 	}
 	
 	/**
-	 * Return {@link JVMTableRepository}
+	 * Return {@link ExceptionRepository}
 	 * 
 	 * @return
 	 */
-	public static JVMTableRepository getJVMTableRepository() {
+	public static ExceptionRepository getExceptionRepository() {
+		return EXCEPTION;
+	}
+	
+	/**
+	 * Return {@link JVMRepository}
+	 * 
+	 * @return
+	 */
+	public static JVMRepository getJVMTableRepository() {
 		return JVM_TABLB;
 	}
 	
 	/**
-	 * Return {@link TopTableRepository}
+	 * Return {@link TopRepository}
 	 * 
 	 * @return
 	 */
-	public static TopTableRepository getTopTableRepository() {
+	public static TopRepository getTopTableRepository() {
 		return TOP_TABLE;
 	}
 	
 	/**
-	 * Return {@link UserTableRepository}
+	 * Return {@link UserRepository}
 	 * @return
 	 */
-	public static UserTableRepository getUserTableRepository() {
+	public static UserRepository getUserTableRepository() {
 		return USER_TABLE;
 	}
 	
@@ -126,10 +153,15 @@ public class RepositoryFactory {
 	 * 
 	 * @return
 	 */
-	public static ServletTableRepository getServletTableRepository() {
+	public static ServletRepository getServletTableRepository() {
 		return SERVLET_TABLB;
 	}
 	
+	/**
+	 * Return Configuration
+	 * 
+	 * @return
+	 */
 	public static Configuration getConfiguration() {
 		return USER_TABLE.getConfiguration();
 	}

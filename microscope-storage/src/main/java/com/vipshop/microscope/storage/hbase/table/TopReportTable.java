@@ -1,4 +1,4 @@
-package com.vipshop.microscope.storage.hbase.domain;
+package com.vipshop.microscope.storage.hbase.table;
 
 import org.apache.hadoop.hbase.util.Bytes;
 
@@ -8,7 +8,7 @@ import org.apache.hadoop.hbase.util.Bytes;
  * @author Xu Fei
  * @version 1.0
  */
-public class TopTable {
+public class TopReportTable {
 	
 	// ********* Hbase schema for top table *********** //
 	

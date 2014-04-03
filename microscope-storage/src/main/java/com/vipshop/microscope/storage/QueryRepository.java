@@ -7,7 +7,7 @@ import org.apache.hadoop.hbase.client.Scan;
 
 import com.vipshop.microscope.common.trace.Span;
 import com.vipshop.microscope.storage.hbase.HbaseQueryRepository;
-import com.vipshop.microscope.storage.hbase.domain.TraceTable;
+import com.vipshop.microscope.storage.hbase.table.TraceOverviewTable;
 
 /**
  * Query API.
@@ -30,19 +30,19 @@ public class QueryRepository {
 	private final HbaseQueryRepository hbaseQueryRepository = new HbaseQueryRepository();
 	
 	public List<Map<String, Object>> findAppIPTrace() {
-		return hbaseQueryRepository.findAppIPTrace();
+		return hbaseQueryRepository.findTraceIndex();
 	}
 	
-	public List<TraceTable> find(Map<String, String> query) {
-		return hbaseQueryRepository.find(query);
+	public List<TraceOverviewTable> find(Map<String, String> query) {
+		return hbaseQueryRepository.findTraceList(query);
 	}
 	
-	public List<TraceTable> find(Scan scan) {
-		return hbaseQueryRepository.find(scan);
+	public List<TraceOverviewTable> find(Scan scan) {
+		return hbaseQueryRepository.findTraceList(scan);
 	}
 	
 	public List<Span> find(String traceId) {
-		return hbaseQueryRepository.find(traceId);
+		return hbaseQueryRepository.findTrace(traceId);
 	}
 	
 	public Map<String, Integer> findSpanName(String traceId) {
@@ -50,11 +50,11 @@ public class QueryRepository {
 	}
 	
 	public List<Map<String, Object>> findAppIPName() {
-		return hbaseQueryRepository.findAppIPName();
+		return hbaseQueryRepository.findExceptionIndex();
 	}
 	
 	public List<Map<String, Object>> findExcepList(Map<String, String> query) {
-		return hbaseQueryRepository.findExcepList(query);
+		return hbaseQueryRepository.findExceptionList(query);
 	}
 	
 	public List<Map<String, Object>> findAppIP() {
@@ -63,6 +63,14 @@ public class QueryRepository {
 	
 	public List<Map<String, Object>> findJVMList(Map<String, String> query) {
 		return hbaseQueryRepository.findJVMList(query);
+	}
+	
+	public List<Map<String, Object>> findJVMListInitLoad(Map<String, String> query) {
+		return hbaseQueryRepository.findJVMListInitLoad(query);
+	}
+	
+	public List<Map<String, Object>> findJVMListByTime(Map<String, String> query) {
+		return hbaseQueryRepository.findJVMListByTime(query);
 	}
 	
 	public List<Map<String, Object>> findServletList(Map<String, String> query) {
