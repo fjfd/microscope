@@ -25,7 +25,6 @@ public class MetricsTest {
 		}
 	}
 
-
 	@Test
     public void testRegister() throws InterruptedException {
         MetricsStats.startSlf4jReporter(1, TimeUnit.SECONDS);

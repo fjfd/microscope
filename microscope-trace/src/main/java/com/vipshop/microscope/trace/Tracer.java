@@ -96,6 +96,7 @@ public class Tracer {
 	static {
 		if (ConfigurationUtil.fileExist("trace.properties")) {
 			ConfigurationUtil config = ConfigurationUtil.getConfiguration("trace.properties");
+			
 			APP_NAME = config.getString("app_name");
 			COLLECTOR_HOST = config.getString("collector_host");
 			
@@ -254,7 +255,6 @@ public class Tracer {
 		}
 	}
 
-	
 	// ********* methods for record debug info on spans *********** // 
 	
 	/**
