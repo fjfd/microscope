@@ -120,6 +120,11 @@ public class Tracer {
 					 */
 					MetricsStats.startMicroscopeReporter();
 					
+					/*
+					 * register JVM metrics
+					 */
+					MetricsStats.registerJVM();
+					
 				}
 			} catch (Exception e) {
 				SWITCH = 0;

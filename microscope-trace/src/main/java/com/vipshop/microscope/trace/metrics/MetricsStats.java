@@ -65,11 +65,6 @@ public class MetricsStats {
 					   									   .build();
 			reporter.start(period, unit);
 			start = true;
-			
-			/*
-			 * register JVM metrics
-			 */
-			MetricsStats.registerJVM();
 		}
 	}
 
@@ -91,11 +86,6 @@ public class MetricsStats {
 												      .build();
 			reporter.start(period, unit);
 			start = true;
-			
-			/*
-			 * register JVM metrics
-			 */
-			MetricsStats.registerJVM();
 		}
 	}
 	
@@ -117,11 +107,6 @@ public class MetricsStats {
 				    								    .build();
 			reporter.start(period, unit);
 			start = true;
-			
-			/*
-			 * register JVM metrics
-			 */
-			MetricsStats.registerJVM();
 		}
 	}
 	
@@ -140,11 +125,6 @@ public class MetricsStats {
 			ScheduledReporter reporter = CsvReporter.forRegistry(metrics).build(new File("./tmp"));
 			reporter.start(period, unit);
 			start = true;
-			
-			/*
-			 * register JVM metrics
-			 */
-			MetricsStats.registerJVM();
 		}
 	}
 	
@@ -156,11 +136,6 @@ public class MetricsStats {
 			JmxReporter reporter = JmxReporter.forRegistry(metrics).build();
 			reporter.start();
 			start = true;
-			
-			/*
-			 * register JVM metrics
-			 */
-			MetricsStats.registerJVM();
 		}
 	}
 	
@@ -188,11 +163,6 @@ public class MetricsStats {
 														      .build(graphite);
 			reporter.start(period, unit);
 			start = true;
-			
-			/*
-			 * register JVM metrics
-			 */
-			MetricsStats.registerJVM();
 		}
 	}
 	
@@ -209,11 +179,6 @@ public class MetricsStats {
 															.build(ganglia);
 			reporter.start(period, unit);
 			start = true;
-			
-			/*
-			 * register JVM metrics
-			 */
-			MetricsStats.registerJVM();
 		}
 	}
 	

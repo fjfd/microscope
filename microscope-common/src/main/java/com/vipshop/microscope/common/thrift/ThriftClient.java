@@ -3,7 +3,6 @@ package com.vipshop.microscope.common.thrift;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.transport.TFramedTransport;
@@ -70,7 +69,7 @@ public class ThriftClient {
 	}
 	
 	private void connectToSimpleServer() {
-		this.transport = new TSocket(host, port, this.reconnect);
+		this.transport = new TSocket(host, port);
 		this.protocol = new TBinaryProtocol(transport);
 		this.client = new Send.Client(protocol);
 		try {
@@ -92,7 +91,7 @@ public class ThriftClient {
 	}
 	
 	private void connectToThreadPoolServer() {
-		this.transport = new TSocket(host, port, reconnect);
+		this.transport = new TSocket(host, port);
 		this.protocol = new TBinaryProtocol(transport);
 		this.client = new Send.Client(protocol);
 		try {
@@ -103,7 +102,7 @@ public class ThriftClient {
 	}
 	
 	private void connectToHsHaServer() {
-		this.transport = new TFramedTransport(new TSocket(host, port, reconnect));
+		this.transport = new TFramedTransport(new TSocket(host, port));
 		this.protocol = new TBinaryProtocol(transport);
 		this.client = new Send.Client(protocol);
 		try {
@@ -114,7 +113,7 @@ public class ThriftClient {
 	}
 	
 	private void connectToTheadSelectorServer() {
-		this.transport = new TFramedTransport(new TSocket(host, port, reconnect));
+		this.transport = new TFramedTransport(new TSocket(host, port));
 		this.protocol = new TBinaryProtocol(transport);
 		this.client = new Send.Client(protocol);
 		try {
@@ -141,10 +140,10 @@ public class ThriftClient {
     public void send(final List<LogEntry> logEntries) {
         try {
             client.send(logEntries);
-        } catch (final TException e) {
+        } catch (Exception e) {
         	transport.close();
         	resend(logEntries);
-        } 
+		}
         logger.debug("send " + logEntries.size() + " logEntry to collector " + host);
     }
     
@@ -162,10 +161,10 @@ public class ThriftClient {
     			transport.open();
     			client.send(logEntries);
     		} catch (Exception e) {
-    			
+
     			transport.close();
     			
-    			logger.debug("ThriftClient will try to reconnect after " 
+    			logger.info("ThriftClient will try to reconnect after " 
     			             + reconnect + " MILLISECONDS");
     	    	
     			try {

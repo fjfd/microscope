@@ -2,13 +2,11 @@ package com.vipshop.microscope.trace.metrics;
 
 import static com.codahale.metrics.MetricRegistry.name;
 
-import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
 
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.codahale.metrics.Gauge;
@@ -19,20 +17,20 @@ import com.vipshop.microscope.trace.Tracer;
 
 public class MetricsTest {
 	
-    private static Queue<String> queue = new LinkedBlockingDeque<String>();
-    
-    @BeforeMethod
-    public void setUp() {
-    }
-    
-    @Test
-    public void testSystemProperties() {
-    	System.out.println(System.getProperties());
-    }
-    
-    @Test
-    public void testQueueSize() throws InterruptedException {
-        MetricsStats.register("queue-size", new Gauge<Integer>() {
+	@Test
+	public void testMicroscopeJVMMetrics() throws InterruptedException {
+		Tracer.cleanContext();
+		for (;;) {
+			TimeUnit.SECONDS.sleep(1);
+		}
+	}
+
+
+	@Test
+    public void testRegister() throws InterruptedException {
+        MetricsStats.startSlf4jReporter(1, TimeUnit.SECONDS);
+        final Queue<String> queue = new LinkedBlockingDeque<String>();
+		MetricsStats.register("queue-size", new Gauge<Integer>() {
 			@Override
 			public Integer getValue() {
 				return queue.size();
@@ -46,10 +44,9 @@ public class MetricsTest {
     
 	@Test
     public void testCounter() throws InterruptedException {
-		Queue<String> queue = new LinkedList<String>();
+		MetricsStats.startSlf4jReporter(1, TimeUnit.SECONDS);
 		for (int i = 0; i < 5; i++) {
-            queue.add("1");
-            MetricsStats.inc("queue-size");
+			MetricsStats.inc("queue-size");
             Thread.sleep(1000);
         }
     }
@@ -57,52 +54,48 @@ public class MetricsTest {
 	@Test
 	public void testJVMMetrics() throws InterruptedException {
 		MetricsStats.startSlf4jReporter(1, TimeUnit.SECONDS);
-		for (int i = 0; i < 500; i++) {
-			TimeUnit.SECONDS.sleep(1);
-		}
-	}
-	
-	@Test
-	public void testMicroscopeJVMMetrics() throws InterruptedException {
-		Tracer.cleanContext();
-		for (;;) {
+		MetricsStats.registerJVM();
+		for (int i = 0; i < 5; i++) {
 			TimeUnit.SECONDS.sleep(1);
 		}
 	}
 
     @Test
     public void testHistogram() throws InterruptedException {
+    	MetricsStats.startSlf4jReporter(1, TimeUnit.SECONDS);
     	Histogram randomNums = MetricsStats.histogram(name(MetricsTest.class, "random"));
     	Random rand = new Random();
     	for (int i = 0; i < 5; i++) {
             randomNums.update((int) (rand.nextDouble()*100));
-            Thread.sleep(1000);
+            TimeUnit.SECONDS.sleep(1);
         }
     }
     
     @Test
     public void testMeter() throws InterruptedException {
+    	MetricsStats.startSlf4jReporter(1, TimeUnit.SECONDS);
     	Meter requests = MetricsStats.meter(name(MetricsTest.class, "request"));
     	for (int i = 0; i < 5; i++) {
     		requests.mark();
-            Thread.sleep(100);
+    		TimeUnit.SECONDS.sleep(1);
         }
     }
     
     @Test
-    public void testTimer() {
+    public void testTimer() throws InterruptedException {
+    	MetricsStats.startSlf4jReporter(1, TimeUnit.SECONDS);
     	Timer requests = MetricsStats.timer(name(MetricsTest.class, "request"));
     	Random random = new Random();
     	for (int i = 0; i < 5; i++) {
             Timer.Context context = requests.time();
             try {
-                //some operator
                 Thread.sleep(random.nextInt(1000));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } finally {
                 context.stop();
             }
+            TimeUnit.SECONDS.sleep(1);
         }
     }
 }

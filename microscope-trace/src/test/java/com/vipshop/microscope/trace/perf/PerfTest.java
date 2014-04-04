@@ -34,5 +34,21 @@ public class PerfTest {
 		}
 		Thread.currentThread().join();
 	}
+	
+	@Test
+	public void testNetWork() throws InterruptedException {
+		while (true) {
+			Tracer.cleanContext();
+			Tracer.clientSend("trace-perf-test", Category.Method);
+			try {
+				TimeUnit.MILLISECONDS.sleep(1);
+			} catch (Exception e) {
+				Tracer.setResultCode(e);
+			} finally {
+				Tracer.clientReceive();
+			}
+			TimeUnit.SECONDS.sleep(1);
+		}
+	}
 
 }
