@@ -15,6 +15,10 @@ public class ReportService {
 	
 	private final QueryRepository queryRepository = QueryRepository.getQueryRepository();
 	
+	public List<Map<String, Object>> getQueryCondition() {
+		return queryRepository.findReportIndex();
+	}
+
 	public Map<String, Object> getTopReport() {
 		return queryRepository.findTopList();
 	}

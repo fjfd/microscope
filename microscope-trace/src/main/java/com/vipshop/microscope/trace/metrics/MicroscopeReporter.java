@@ -22,6 +22,7 @@ import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.ScheduledReporter;
 import com.codahale.metrics.Snapshot;
 import com.codahale.metrics.Timer;
+import com.codahale.metrics.health.HealthCheck;
 import com.codahale.metrics.json.MetricsModule;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vipshop.microscope.common.logentry.Constants;
@@ -312,6 +313,22 @@ public class MicroscopeReporter extends ScheduledReporter {
     			metrics.put(entry.getKey(), values);
     		}
     		output.addMetrics(metrics);
+        }
+        
+        Map<String, HealthCheck.Result> results = MetricsStats.runHealthChecks();
+        if (!results.isEmpty()) {
+        	HashMap<String, Object> metrics = new HashMap<String, Object>();
+        	metrics.put(Constants.TYPE, MetricsCategory.Health);
+        	metrics.put(Constants.APP, Tracer.APP_NAME);
+        	metrics.put(Constants.IP, IPAddressUtil.IPAddress());
+        	metrics.put(Constants.DATE, System.currentTimeMillis());
+        	for (Entry<String, HealthCheck.Result> entry : results.entrySet()){
+        		HashMap<String, Object> values = new HashMap<String, Object>();
+        		values.put("isHealthy", entry.getValue().isHealthy());
+        		values.put("Message", entry.getValue().getMessage());
+        		metrics.put(entry.getKey(), values);
+        	}
+        	output.addMetrics(metrics);
         }
         
     }

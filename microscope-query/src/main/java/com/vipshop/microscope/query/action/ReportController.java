@@ -26,6 +26,16 @@ public class ReportController {
 	@Autowired
 	private ReportService service;
 	
+	@RequestMapping("/report/queryCondition")
+	@ResponseBody
+	public ListResult queryExcepCondition(String callback) {
+		ListResult result = new ListResult();
+		List<Map<String, Object>> condition = service.getQueryCondition();
+		result.setResult(condition);
+		result.setCallback(callback);
+		return result;
+	}
+
 	@RequestMapping("/report/topReport")
 	@ResponseBody
 	public MapResult topReport(HttpServletRequest request, String callback) {

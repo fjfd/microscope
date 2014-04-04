@@ -1,7 +1,5 @@
 package com.vipshop.microscope.trace;
 
-import java.util.concurrent.TimeUnit;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,21 +29,6 @@ import com.vipshop.microscope.trace.transport.TransporterHolder;
 public class Tracer {
 	
 	private static final Logger logger = LoggerFactory.getLogger(Tracer.class);
-	
-//	/**
-//	 * Load config data from trace.properties.
-//	 */
-//	private static final ConfigurationUtil config = ConfigurationUtil.getConfiguration("trace.properties");
-//	public static final String APP_NAME = config.getString("app_name");
-//	public static final String COLLECTOR_HOST = config.getString("collector_host");
-//	
-//	public static final int COLLECTOR_PORT = config.getInt("collector_port");
-//	public static final int MAX_BATCH_SIZE = config.getInt("max_batch_size");
-//	public static final int MAX_EMPTY_SIZE = config.getInt("max_empty_size");
-//	public static final int SWITCH = config.getInt("switch");
-//	public static final int QUEUE_SIZE = config.getInt("queue_size");
-//	public static final int RECONNECT_WAIT_TIME = config.getInt("reconnect_wait_time");
-//	public static final int SEND_WAIT_TIME = config.getInt("send_wait_time");
 	
 	/**
 	 * HTTP header for propagate trace link.
@@ -135,12 +118,8 @@ public class Tracer {
 					/*
 					 * start metrics reporter 
 					 */
-					MetricsStats.startMicroscopeReporter(REPORT_PERIOD, TimeUnit.SECONDS);
+					MetricsStats.startMicroscopeReporter();
 					
-					/*
-					 * register JVM metrics
-					 */
-					MetricsStats.registerJVM();
 				}
 			} catch (Exception e) {
 				SWITCH = 0;

@@ -51,14 +51,7 @@ public class MetricsStats {
 	 * Start MicroscopeReporter with default period and time.
 	 */
 	public static void startMicroscopeReporter() {
-		if (Tracer.isTraceEnable() && !start) {
-			ScheduledReporter reporter = MicroscopeReporter.forRegistry(metrics)
-														   .convertRatesTo(TimeUnit.SECONDS)
-														   .convertDurationsTo(TimeUnit.MILLISECONDS)
-														   .build();
-			reporter.start(Tracer.REPORT_PERIOD, TimeUnit.SECONDS);
-			start = true;
-		}
+		startMicroscopeReporter(Tracer.REPORT_PERIOD, TimeUnit.SECONDS);
 	}
 	
 	/**
@@ -72,6 +65,11 @@ public class MetricsStats {
 					   									   .build();
 			reporter.start(period, unit);
 			start = true;
+			
+			/*
+			 * register JVM metrics
+			 */
+			MetricsStats.registerJVM();
 		}
 	}
 
@@ -79,14 +77,7 @@ public class MetricsStats {
 	 * Start Slf4jReporter with default period and time.
 	 */
 	public static void startSlf4jReporter() {
-		if (!start) {
-			ScheduledReporter reporter = Slf4jReporter.forRegistry(metrics)
-													  .convertRatesTo(TimeUnit.SECONDS)
-													  .convertDurationsTo(TimeUnit.MILLISECONDS)
-													  .build();
-			reporter.start(Tracer.REPORT_PERIOD, TimeUnit.SECONDS);
-			start = true;
-		}
+		startSlf4jReporter(60, TimeUnit.SECONDS);
 	}
 	
 	/**
@@ -100,6 +91,11 @@ public class MetricsStats {
 												      .build();
 			reporter.start(period, unit);
 			start = true;
+			
+			/*
+			 * register JVM metrics
+			 */
+			MetricsStats.registerJVM();
 		}
 	}
 	
@@ -107,14 +103,7 @@ public class MetricsStats {
 	 * Start ConsoleReporter with default period and time.
 	 */
 	public static void startConsoleReporter() {
-		if (!start) {
-			ScheduledReporter reporter = ConsoleReporter.forRegistry(metrics)
-													    .convertRatesTo(TimeUnit.SECONDS)
-													    .convertDurationsTo(TimeUnit.MILLISECONDS)
-													    .build();
-			reporter.start(Tracer.REPORT_PERIOD, TimeUnit.SECONDS);
-			start = true;
-		}
+		startConsoleReporter(60, TimeUnit.SECONDS);
 	}
 	
 	/**
@@ -128,6 +117,11 @@ public class MetricsStats {
 				    								    .build();
 			reporter.start(period, unit);
 			start = true;
+			
+			/*
+			 * register JVM metrics
+			 */
+			MetricsStats.registerJVM();
 		}
 	}
 	
@@ -135,11 +129,7 @@ public class MetricsStats {
 	 * Start CsvReporter with default period and time.
 	 */
 	public static void startCsvReporter() {
-		if (!start) {
-			ScheduledReporter reporter = CsvReporter.forRegistry(metrics).build(new File("."));
-			reporter.start(Tracer.REPORT_PERIOD, TimeUnit.SECONDS);
-			start = true;
-		}
+		startCsvReporter(60, TimeUnit.SECONDS);
 	}
 	
 	/**
@@ -147,9 +137,14 @@ public class MetricsStats {
 	 */
 	public static void startCsvReporter(long period, TimeUnit unit) {
 		if (!start) {
-			ScheduledReporter reporter = CsvReporter.forRegistry(metrics).build(new File("."));
+			ScheduledReporter reporter = CsvReporter.forRegistry(metrics).build(new File("./tmp"));
 			reporter.start(period, unit);
 			start = true;
+			
+			/*
+			 * register JVM metrics
+			 */
+			MetricsStats.registerJVM();
 		}
 	}
 	
@@ -161,6 +156,11 @@ public class MetricsStats {
 			JmxReporter reporter = JmxReporter.forRegistry(metrics).build();
 			reporter.start();
 			start = true;
+			
+			/*
+			 * register JVM metrics
+			 */
+			MetricsStats.registerJVM();
 		}
 	}
 	
@@ -168,17 +168,7 @@ public class MetricsStats {
 	 * Start GraphiteReporter
 	 */
 	public static void startGraphiteReporter() {
-		if (!start) {
-			final Graphite graphite = new Graphite(new InetSocketAddress("graphite.example.com", 2003));
-			final GraphiteReporter reporter = GraphiteReporter.forRegistry(metrics)
-															  .prefixedWith("web1.example.com")
-															  .convertRatesTo(TimeUnit.SECONDS)
-															  .convertDurationsTo(TimeUnit.MILLISECONDS)
-															  .filter(MetricFilter.ALL)
-															  .build(graphite);
-			reporter.start(Tracer.REPORT_PERIOD, TimeUnit.MINUTES);
-			start = true;
-		}
+		startGraphiteReporter(60, TimeUnit.MINUTES);
 	}
 	
 	/**
@@ -191,55 +181,44 @@ public class MetricsStats {
 		if (!start) {
 			final Graphite graphite = new Graphite(new InetSocketAddress("graphite.example.com", 2003));
 			final GraphiteReporter reporter = GraphiteReporter.forRegistry(metrics)
-					.prefixedWith("web1.example.com")
-					.convertRatesTo(TimeUnit.SECONDS)
-					.convertDurationsTo(TimeUnit.MILLISECONDS)
-					.filter(MetricFilter.ALL)
-					.build(graphite);
+														      .prefixedWith("web1.example.com")
+														      .convertRatesTo(TimeUnit.SECONDS)
+														      .convertDurationsTo(TimeUnit.MILLISECONDS)
+														      .filter(MetricFilter.ALL)
+														      .build(graphite);
 			reporter.start(period, unit);
 			start = true;
+			
+			/*
+			 * register JVM metrics
+			 */
+			MetricsStats.registerJVM();
 		}
 	}
 	
 	public static void startGangliaReporter() throws IOException {
-		if (!start) {
-			final GMetric ganglia = new GMetric("ganglia.example.com", 8649, UDPAddressingMode.MULTICAST, 1);
-			final GangliaReporter reporter = GangliaReporter.forRegistry(metrics)
-					.convertRatesTo(TimeUnit.SECONDS)
-					.convertDurationsTo(TimeUnit.MILLISECONDS)
-					.build(ganglia);
-			reporter.start(Tracer.REPORT_PERIOD, TimeUnit.MINUTES);
-			start = true;
-		}
+		startGangliaReporter(60, TimeUnit.MINUTES);
 	}
 	
 	public static void startGangliaReporter(long period, TimeUnit unit) throws IOException {
 		if (!start) {
 			final GMetric ganglia = new GMetric("ganglia.example.com", 8649, UDPAddressingMode.MULTICAST, 1);
 			final GangliaReporter reporter = GangliaReporter.forRegistry(metrics)
-					.convertRatesTo(TimeUnit.SECONDS)
-					.convertDurationsTo(TimeUnit.MILLISECONDS)
-					.build(ganglia);
+															.convertRatesTo(TimeUnit.SECONDS)
+															.convertDurationsTo(TimeUnit.MILLISECONDS)
+															.build(ganglia);
 			reporter.start(period, unit);
 			start = true;
+			
+			/*
+			 * register JVM metrics
+			 */
+			MetricsStats.registerJVM();
 		}
 	}
 	
-    /**
-     * Given a {@link Metric}, registers it under the given name.
-     *
-     * @param name   the name of the metric
-     * @param metric the metric
-     * @param <T>    the type of the metric
-     * @return {@code metric}
-     * @throws IllegalArgumentException if the name is already registered
-     */
-	public static <T extends Metric> T register(String name, T metric) {
-		return metrics.register(name, metric);
-	}
-
 	/**
-	 * Collect JVM data.
+	 * Register JVM metrics.
 	 */
 	public static void registerJVM() {
 		metrics.register(MetricsCategory.JVM_Overview, new OverviewMetricsSet());
@@ -249,6 +228,19 @@ public class MetricsStats {
 		metrics.register(MetricsCategory.JVM_GC, new GCMetricSet());
 	}
 	
+	/**
+	 * Given a {@link Metric}, registers it under the given name.
+	 *
+	 * @param name   the name of the metric
+	 * @param metric the metric
+	 * @param <T>    the type of the metric
+	 * @return {@code metric}
+	 * @throws IllegalArgumentException if the name is already registered
+	 */
+	public static <T extends Metric> T register(String name, T metric) {
+		return metrics.register(name, metric);
+	}
+
 	/**
 	 * Increment the counter by one.
 	 * 

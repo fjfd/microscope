@@ -68,11 +68,9 @@ public class MessageStorager {
 		}
 		
 		if (servletCounter.entrySet().size() != 0) {
-			
 			servletCounter.put(Constants.APP, counter.get(Constants.APP));
 			servletCounter.put(Constants.IP, counter.get(Constants.IP));
 			servletCounter.put(Constants.DATE, counter.get(Constants.DATE));
-			
 			storageRepository.saveServletActiveRequest(servletCounter);
 		}
 		
@@ -92,7 +90,6 @@ public class MessageStorager {
 			jvmGauge.put(Constants.IP, gauge.get(Constants.IP));
 			jvmGauge.put(Constants.DATE, gauge.get(Constants.DATE));
 			jvmGauge.put(Constants.REPORT, MetricsCategory.JVM);
-			
 			storageRepository.saveReportIndex(jvmGauge);
 			storageRepository.saveJVM(jvmGauge);
 		}
@@ -116,7 +113,6 @@ public class MessageStorager {
 			servletMeter.put(Constants.IP, meter.get(Constants.IP));
 			servletMeter.put(Constants.DATE, meter.get(Constants.DATE));
 			servletMeter.put(Constants.REPORT, MetricsCategory.Servlet);
-			
 			storageRepository.saveReportIndex(servletMeter);
 			storageRepository.saveServletResponseCode(servletMeter);
 		}
@@ -137,7 +133,6 @@ public class MessageStorager {
 			servletTimer.put(Constants.IP, timer.get(Constants.IP));
 			servletTimer.put(Constants.DATE, timer.get(Constants.DATE));
 			servletTimer.put(Constants.REPORT, MetricsCategory.Servlet);
-			
 			storageRepository.saveReportIndex(servletTimer);
 			storageRepository.saveServletRequest(servletTimer);
 		}
