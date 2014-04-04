@@ -54,7 +54,7 @@ public class ArrayBlockingQueueStorage implements Storage {
 		boolean isFull = !queue.offer(object);
 		if (isFull) {
 			queue.clear();
-			logger.info("client queue is full, clean queue now");
+			logger.warn("client queue is full, clean queue now");
 		}
 	}
 	

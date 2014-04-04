@@ -35,7 +35,7 @@ public class MessageStorager {
 	private MessageStorager() {}
 	
 	/**
-	 * Store span message.
+	 * Store trace message.
 	 * 
 	 * @param span
 	 */
@@ -59,6 +59,11 @@ public class MessageStorager {
 		storageRepository.saveException(map);
 	}
 	
+	/**
+	 * Store counter message.
+	 * 
+	 * @param counter
+	 */
 	public void storageCounter(HashMap<String, Object> counter) {
 		HashMap<String, Object> servletCounter = new HashMap<String, Object>();
 		for (Entry<String, Object> entry : counter.entrySet()) {

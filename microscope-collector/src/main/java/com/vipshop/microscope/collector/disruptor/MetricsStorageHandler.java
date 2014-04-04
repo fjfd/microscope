@@ -42,68 +42,40 @@ public class MetricsStorageHandler implements EventHandler<MetricsEvent> {
 		String metricsType = (String) metrics.get(Constants.TYPE);
 		
 		if (metricsType.equals(MetricsCategory.Exception)) {
-			processExceptionMetrics(metrics);
+			messageStorager.storageException(metrics);
 			return;
 		} 
 		
 		if (metricsType.equals(MetricsCategory.Counter)) {
-			processCounterMetrics(metrics);
+			messageStorager.storageCounter(metrics);
 			return;
 		}
 		
 		if (metricsType.equals(MetricsCategory.Gauge)) {
-			processGaugeMetrics(metrics);
+			messageStorager.storageGauge(metrics);
 			return;
 		}
 		
 		if (metricsType.equals(MetricsCategory.Histogram)) {
-			processHistogramMetrics(metrics);
+			messageStorager.storageHistogram(metrics);
 			return;
 		}
 		
 		if (metricsType.equals(MetricsCategory.Meter)) {
-			processMeterMetrics(metrics);
+			messageStorager.storageMeter(metrics);
 			return;
 		}
 		
 		if (metricsType.equals(MetricsCategory.Timer)) {
-			processTimerMetrics(metrics);
+			messageStorager.storageTimer(metrics);
 			return;
 		}
 		
 		if (metricsType.equals(MetricsCategory.Health)) {
-			processHealthMetrics(metrics);
+			messageStorager.storageHealth(metrics);
 			return;
 		}
 		
-	}
-	
-	private void processExceptionMetrics(HashMap<String, Object> metrics) {
-		messageStorager.storageException(metrics);
-	}
-	
-	private void processCounterMetrics(HashMap<String, Object> metrics) {
-		messageStorager.storageCounter(metrics);
-	}
-	
-	private void processGaugeMetrics(HashMap<String, Object> metrics) {
-		messageStorager.storageGauge(metrics);
-	}
-
-	private void processHistogramMetrics(HashMap<String, Object> metrics) {
-		messageStorager.storageHistogram(metrics);
-	}
-
-	private void processMeterMetrics(HashMap<String, Object> metrics) {
-		messageStorager.storageMeter(metrics);
-	}
-
-	private void processTimerMetrics(HashMap<String, Object> metrics) {
-		messageStorager.storageTimer(metrics);
-	}
-	
-	private void processHealthMetrics(HashMap<String, Object> metrics) {
-		messageStorager.storageHealth(metrics);
 	}
 
 }

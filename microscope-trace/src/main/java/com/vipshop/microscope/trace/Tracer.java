@@ -8,8 +8,8 @@ import com.vipshop.microscope.common.util.ConfigurationUtil;
 import com.vipshop.microscope.common.util.DateUtil;
 import com.vipshop.microscope.trace.metrics.MetricsStats;
 import com.vipshop.microscope.trace.metrics.exception.ExceptionBuilder;
-import com.vipshop.microscope.trace.switcher.ConfigSwitcher;
 import com.vipshop.microscope.trace.switcher.Switcher;
+import com.vipshop.microscope.trace.switcher.SwitcherHolder;
 import com.vipshop.microscope.trace.transport.TransporterHolder;
 
 /**
@@ -84,7 +84,7 @@ public class Tracer {
 	
 	public static int REPORT_PERIOD = 60;
 	
-	private static Switcher SWITCHER = new ConfigSwitcher();
+	private static Switcher SWITCHER = SwitcherHolder.getConfigReloadSwitcher();
 	
 	/**
 	 * If trace.properties exist in classpath, then means application

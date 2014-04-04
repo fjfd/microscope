@@ -162,13 +162,13 @@ public class MicroscopeReporter extends ScheduledReporter {
          */
         public MicroscopeReporter build() {
             return new MicroscopeReporter(registry,
-                                       output,
-                                       locale,
-                                       clock,
-                                       timeZone,
-                                       rateUnit,
-                                       durationUnit,
-                                       filter);
+                                          output,
+                                          locale,
+                                          clock,
+                                          timeZone,
+                                          rateUnit,
+                                          durationUnit,
+                                          filter);
         }
     }
 
@@ -180,13 +180,13 @@ public class MicroscopeReporter extends ScheduledReporter {
     private final DateFormat dateFormat;
 
     private MicroscopeReporter(MetricRegistry registry,
-    		                Storage output,
-                            Locale locale,
-                            Clock clock,
-                            TimeZone timeZone,
-                            TimeUnit rateUnit,
-                            TimeUnit durationUnit,
-                            MetricFilter filter) {
+    		                   Storage output,
+    		                   Locale locale,
+    		                   Clock clock,
+    		                   TimeZone timeZone,
+    		                   TimeUnit rateUnit,
+    		                   TimeUnit durationUnit,
+    		                   MetricFilter filter) {
         super(registry, "microscope-reporter", filter, rateUnit, durationUnit);
         this.output = output;
         this.locale = locale;
@@ -204,6 +204,7 @@ public class MicroscopeReporter extends ScheduledReporter {
                        SortedMap<String, Histogram> histograms,
                        SortedMap<String, Meter> meters,
                        SortedMap<String, Timer> timers) {
+    	
         final long dateTime = TimeStampUtil.currentTimeMillis();
         
         if (!counters.isEmpty()) {

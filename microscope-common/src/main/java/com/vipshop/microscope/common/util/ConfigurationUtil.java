@@ -41,7 +41,7 @@ public final class ConfigurationUtil {
 			throw new RuntimeException("can not load the properties file:" + propertiesFile, e);
 		}
 		
-		logger.info("load properties file " + propertiesFile);
+//		logger.info("load properties file " + propertiesFile);
 	}
 	
 	/**
