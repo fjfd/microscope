@@ -9,7 +9,7 @@
 
 	<artifactId>microscope-storage</artifactId>
 	<version>${parent.version}</version>
-	
+
 	<properties>
 		<maven-site-plugin.skip>true</maven-site-plugin.skip>
 	</properties>
@@ -84,6 +84,26 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql-connector-java.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hbase</groupId>
+			<artifactId>asynchbase</artifactId>
+			<version>1.4.1</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.0.13</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-user</artifactId>
+			<version>2.5.0</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>1.1.0.Final</version>
 		</dependency>
 	</dependencies>
 

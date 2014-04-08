@@ -14,6 +14,8 @@
 	<properties>
 		<maven-site-plugin.skip>true</maven-site-plugin.skip>
 		<metrics.version>3.0.1</metrics.version>
+		<jersey.version>1.18</jersey.version>
+		<mockito.version>1.9.5</mockito.version>
 	</properties>
 
 	<dependencies>
@@ -77,6 +79,28 @@
 			<artifactId>metrics-graphite</artifactId>
 			<version>${metrics.version}</version>
 		</dependency>
+		 <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-json</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hamcrest</groupId>
+                    <artifactId>hamcrest-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 	</dependencies>
 
 </project>
