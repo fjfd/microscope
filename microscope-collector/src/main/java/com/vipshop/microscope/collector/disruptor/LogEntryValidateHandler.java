@@ -8,9 +8,10 @@ import org.slf4j.LoggerFactory;
 import com.lmax.disruptor.EventHandler;
 import com.lmax.disruptor.RingBuffer;
 import com.vipshop.microscope.collector.validater.MessageValidater;
+import com.vipshop.microscope.common.logentry.Codec;
+import com.vipshop.microscope.common.logentry.Constants;
 import com.vipshop.microscope.common.logentry.LogEntry;
-import com.vipshop.microscope.common.logentry.LogEntryCategory;
-import com.vipshop.microscope.common.logentry.LogEntryCodec;
+import com.vipshop.microscope.common.metrics.Metric;
 import com.vipshop.microscope.common.trace.Span;
 
 /**
@@ -27,10 +28,14 @@ public class LogEntryValidateHandler implements EventHandler<LogEntryEvent> {
 
 	private RingBuffer<TraceEvent> traceRingBuffer;
 	private RingBuffer<MetricsEvent> metricsRingBuffer;
+	private RingBuffer<ExceptionEvent> exceptionRingBuffer;
 
-	public LogEntryValidateHandler(RingBuffer<TraceEvent> traceBuffer, RingBuffer<MetricsEvent> metricsBuffer) {
+	public LogEntryValidateHandler(RingBuffer<TraceEvent> traceBuffer, 
+								   RingBuffer<MetricsEvent> metricsBuffer,
+								   RingBuffer<ExceptionEvent> exceptionRingBuffer) {
 		this.traceRingBuffer = traceBuffer;
 		this.metricsRingBuffer = metricsBuffer;
+		this.exceptionRingBuffer = exceptionRingBuffer;
 	}
 
 	@Override
@@ -39,10 +44,10 @@ public class LogEntryValidateHandler implements EventHandler<LogEntryEvent> {
 		String category = logEntry.getCategory();
 
 		// handle trace message
-		if (category.equals(LogEntryCategory.TRACE)) {
+		if (category.equals(Constants.TRACE)) {
 			Span span = null;
 			try {
-				span = LogEntryCodec.decodeToSpan(logEntry.getMessage());
+				span = Codec.decodeToSpan(logEntry.getMessage());
 			} catch (Exception e) {
 				logger.error("decode to Span error, ignore this message ", e);
 				return;
@@ -50,12 +55,25 @@ public class LogEntryValidateHandler implements EventHandler<LogEntryEvent> {
 			span = messageValidater.validateMessage(span);
 			publish(span);
 		}
-
+		
 		// handle metrics message
-		if (category.equals(LogEntryCategory.METRICS)) {
+		if (category.equals(Constants.METRICS)) {
+			Metric metrics = null;
+			try {
+				metrics = Codec.decodeToMetric(logEntry.getMessage());
+			} catch (Exception e) {
+				logger.error("decode to Set error, ignore this message ", e);
+				return;
+			}
+			// TODO validate
+			publish(metrics);
+		}
+
+		// handle exception message
+		if (category.equals(Constants.EXCEPTION)) {
 			HashMap<String, Object> metrics = null;
 			try {
-				metrics = LogEntryCodec.decodeToMap(logEntry.getMessage());
+				metrics = Codec.decodeToMap(logEntry.getMessage());
 			} catch (Exception e) {
 				logger.error("decode to Metrics error, ignore this message ", e);
 				// TODO: handle exception
@@ -78,17 +96,30 @@ public class LogEntryValidateHandler implements EventHandler<LogEntryEvent> {
 			this.traceRingBuffer.publish(sequence);
 		}
 	}
-
+	
 	/**
 	 * Publish metrics to {@code MetricsRingBuffer}.
 	 * 
-	 * @param msg
+	 * @param metrics
 	 */
-	private void publish(HashMap<String, Object> metrics) {
+	private void publish(Metric metrics) {
 		if (metrics != null) {
 			long sequence = this.metricsRingBuffer.next();
 			this.metricsRingBuffer.get(sequence).setResult(metrics);
-			this.metricsRingBuffer.publish(sequence);
+			this.metricsRingBuffer.publish(sequence); 
+		}
+	}
+
+	/**
+	 * Publish exception to {@code ExceptionRingBuffer}.
+	 * 
+	 * @param msg
+	 */
+	private void publish(HashMap<String, Object> exception) {
+		if (exception != null) {
+			long sequence = this.exceptionRingBuffer.next();
+			this.exceptionRingBuffer.get(sequence).setResult(exception);
+			this.exceptionRingBuffer.publish(sequence);
 		}
 	}
 

@@ -1,12 +1,13 @@
 package com.vipshop.microscope.trace.stoarge;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import com.vipshop.microscope.common.logentry.LogEntry;
+import com.vipshop.microscope.common.metrics.Metric;
 import com.vipshop.microscope.common.trace.Span;
 
 /**
- * Storge metrics in client queue.
+ * Store message in client queue.
  * 
  * @author Xu Fei
  * @version 1.0
@@ -14,29 +15,30 @@ import com.vipshop.microscope.common.trace.Span;
 public interface Storage {
 	
 	/**
-	 * Metrics
-	 * 
-	 * @param metrics
-	 */
-	public void addMetrics(HashMap<String, Object> metrics);
-	
-	/**
-	 * Trace
+	 * Trace message
 	 * 
 	 * @param span
 	 */
 	public void addSpan(Span span);
 	
 	/**
-	 * Put object to queue
+	 * Metrics message
+	 * 
+	 * @param metrics
+	 */
+	public void addMetrics(Metric metrics);
+	
+	/**
+	 * Exception message
 	 * 
 	 * @param logEntry
 	 */
-	public void add(Object object);
+	public void addException(Map<String, Object> exceptionInfo);
 
 	/**
 	 * Get LogEntry from queue
-	 * @return
+	 * 
+	 * @return LogEntry
 	 */
 	public LogEntry poll();
 	

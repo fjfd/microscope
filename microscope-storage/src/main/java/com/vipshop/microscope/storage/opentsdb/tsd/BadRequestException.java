@@ -17,15 +17,15 @@ package com.vipshop.microscope.storage.opentsdb.tsd;
  */
 final class BadRequestException extends RuntimeException {
 
-  public BadRequestException(final String message) {
-    super(message);
-  }
+	public BadRequestException(final String message) {
+		super(message);
+	}
 
-  public static BadRequestException missingParameter(final String paramname) {
-    return new BadRequestException("Missing parameter <code>" + paramname
-                                   + "</code>");
-  }
+	public static BadRequestException missingParameter(final String paramname) {
+		return new BadRequestException("Missing parameter <code>" + paramname
+				+ "</code>");
+	}
 
-  static final long serialVersionUID = 1276251669;
+	static final long serialVersionUID = 1276251669;
 
 }

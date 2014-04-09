@@ -1,19 +1,21 @@
 package com.vipshop.microscope.trace.stoarge;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.vipshop.microscope.common.logentry.Codec;
 import com.vipshop.microscope.common.logentry.LogEntry;
-import com.vipshop.microscope.common.logentry.LogEntryCodec;
+import com.vipshop.microscope.common.metrics.Metric;
 import com.vipshop.microscope.common.trace.Span;
 import com.vipshop.microscope.trace.Tracer;
 
 /**
- * Storge metrics in client use {@code ArrayBlockingQueue}.
+ * Store message in client use {@code ArrayBlockingQueue}.
  *  
  * @author Xu Fei
  * @version 1.0
@@ -29,28 +31,22 @@ public class ArrayBlockingQueueStorage implements Storage {
 	 */
 	ArrayBlockingQueueStorage() {}
 
-	/**
-	 * Add metrics.
-	 */
-	@Override
-	public void addMetrics(HashMap<String, Object> metrics) {
-		add(metrics);
-	}
-	
-	/**
-	 * Add trace.
-	 */
 	@Override
 	public void addSpan(Span span) {
 		add(span);
 	}
 
-	/**
-	 * Put object to queue.
-	 * 
-	 * @param msg
-	 */
-	public void add(Object object) {
+	@Override
+	public void addMetrics(Metric metrics) {
+		add(metrics);
+	}
+	
+	@Override
+	public void addException(Map<String, Object> exceptionInfo) {
+		add(exceptionInfo);
+	}
+	
+	private void add(Object object) {
 		boolean isFull = !queue.offer(object);
 		if (isFull) {
 			queue.clear();
@@ -63,17 +59,28 @@ public class ArrayBlockingQueueStorage implements Storage {
 	 * 
 	 * @return {@link Span}
 	 */
-	@Override
 	@SuppressWarnings("unchecked")
+	@Override
 	public LogEntry poll() {
 		Object object = queue.poll();
 		
 		if (object instanceof Span) {
 			LogEntry logEntry = null;
 			try {
-				logEntry = LogEntryCodec.encodeToLogEntry((Span)object);
+				logEntry = Codec.encodeToLogEntry((Span)object);
 			} catch (Exception e) {
 				logger.debug("encode span to logEntry error", e);
+				return null;
+			}
+			return logEntry;
+		}
+		
+		if (object instanceof Metric) {
+			LogEntry logEntry = null;
+			try {
+				logEntry = Codec.encodeToLogEntry((Metric) object);
+			} catch (Exception e) {
+				logger.debug("encode metrics to logEntry error", e);
 				return null;
 			}
 			return logEntry;
@@ -82,9 +89,9 @@ public class ArrayBlockingQueueStorage implements Storage {
 		if (object instanceof HashMap) {
 			LogEntry logEntry = null;
 			try {
-				logEntry = LogEntryCodec.encodeToLogEntry((HashMap<String, Object>)object);
+				logEntry = Codec.encodeToLogEntry((HashMap<String, Object>)object);
 			} catch (Exception e) {
-				logger.debug("encode hashmap to logEntry error", e);
+				logger.debug("encode exception to logEntry error", e);
 				return null;
 			}
 			return logEntry;
@@ -100,7 +107,5 @@ public class ArrayBlockingQueueStorage implements Storage {
 	public int size() {
 		return queue.size();
 	}
-
-
 
 }

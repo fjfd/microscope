@@ -17,7 +17,7 @@ import org.springframework.data.hadoop.hbase.RowMapper;
 import org.springframework.data.hadoop.hbase.TableCallback;
 import org.springframework.stereotype.Repository;
 
-import com.vipshop.microscope.common.metrics.MetricsCategory;
+import com.vipshop.microscope.common.logentry.Constants;
 import com.vipshop.microscope.storage.hbase.table.JVMReportTable;
 
 @Repository
@@ -39,19 +39,19 @@ public class JVMReportRepository extends AbstraceRepository {
 		final HashMap<String, Object> gc = new HashMap<String, Object>();
 		
 		for (Entry<String, Object> entry : jvm.entrySet()) {
-			if (entry.getKey().startsWith(MetricsCategory.JVM_Overview)) {
+			if (entry.getKey().startsWith(Constants.JVM_Overview)) {
 				overview.put(entry.getKey(), entry.getValue());
 			}
-			if (entry.getKey().startsWith(MetricsCategory.JVM_Monitor)) {
+			if (entry.getKey().startsWith(Constants.JVM_Monitor)) {
 				monitor.put(entry.getKey(), entry.getValue());
 			}
-			if (entry.getKey().startsWith(MetricsCategory.JVM_Thread)) {
+			if (entry.getKey().startsWith(Constants.JVM_Thread)) {
 				thread.put(entry.getKey(), entry.getValue());
 			}
-			if (entry.getKey().startsWith(MetricsCategory.JVM_Memory)) {
+			if (entry.getKey().startsWith(Constants.JVM_Memory)) {
 				memory.put(entry.getKey(), entry.getValue());
 			}
-			if (entry.getKey().startsWith(MetricsCategory.JVM_GC)) {
+			if (entry.getKey().startsWith(Constants.JVM_GC)) {
 				gc.put(entry.getKey(), entry.getValue());
 			}
 		}

@@ -26,17 +26,16 @@ import com.vipshop.microscope.storage.opentsdb.core.Tags;
  */
 final class WordSplitter extends OneToOneDecoder {
 
-  private static final Charset CHARSET = Charset.forName("ISO-8859-1");
+	private static final Charset CHARSET = Charset.forName("ISO-8859-1");
 
-  /** Constructor. */
-  public WordSplitter() {
-  }
+	/** Constructor. */
+	public WordSplitter() {
+	}
 
-  @Override
-  protected Object decode(final ChannelHandlerContext ctx,
-                          final Channel channel,
-                          final Object msg) throws Exception {
-    return Tags.splitString(((ChannelBuffer) msg).toString(CHARSET), ' ');
-  }
+	@Override
+	protected Object decode(final ChannelHandlerContext ctx,
+			final Channel channel, final Object msg) throws Exception {
+		return Tags.splitString(((ChannelBuffer) msg).toString(CHARSET), ' ');
+	}
 
 }

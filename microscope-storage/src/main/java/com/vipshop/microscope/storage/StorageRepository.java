@@ -1,12 +1,18 @@
 package com.vipshop.microscope.storage;
 
+import java.util.List;
 import java.util.Map;
 
+import org.apache.hadoop.hbase.client.Scan;
+
 import com.vipshop.microscope.common.trace.Span;
-import com.vipshop.microscope.storage.hbase.HbaseStorageRepository;
+import com.vipshop.microscope.storage.hbase.HbaseRepository;
 import com.vipshop.microscope.storage.hbase.table.TraceIndexTable;
 import com.vipshop.microscope.storage.hbase.table.TraceOverviewTable;
 import com.vipshop.microscope.storage.mysql.MySQLStorageRepository;
+import com.vipshop.microscope.storage.opentsdb.OpenTSDBRepository;
+import com.vipshop.microscope.storage.opentsdb.core.Aggregator;
+import com.vipshop.microscope.storage.opentsdb.core.DataPoints;
 
 /**
  * Storage API.
@@ -26,72 +32,171 @@ public class StorageRepository {
 		return StorageRepositoryHolder.storageRepository;
 	}
 	
-	private final HbaseStorageRepository hbaseStorageRepository = new HbaseStorageRepository();
+	private final HbaseRepository hbaseRepository = new HbaseRepository();
+	
+	private final OpenTSDBRepository openTSDBRepository = new OpenTSDBRepository();
 	
 	private final MySQLStorageRepository mysqlStorageRepository = new MySQLStorageRepository();
 	
 	public void createHbaseTable() {
-		hbaseStorageRepository.create();
+		hbaseRepository.create();
 	}
 	
 	public void dropHbaseTable() {
-		hbaseStorageRepository.drop();
+		hbaseRepository.drop();
 	}
 	
 	public void reInitalizeHbaseTable() {
-		hbaseStorageRepository.reInitalize();
+		hbaseRepository.reInitalize();
 	}
 	
 	public void save(TraceIndexTable appTable) {
-		hbaseStorageRepository.save(appTable);
+		hbaseRepository.save(appTable);
 	}
 	
 	public void save(TraceOverviewTable traceTable) {
-		hbaseStorageRepository.save(traceTable);
+		hbaseRepository.save(traceTable);
 	}
 	
 	public void save(Span span) {
-		hbaseStorageRepository.save(span);
+		hbaseRepository.save(span);
 	}
 	
 	public void saveExceptionIndex(Map<String, Object> exception) {
-		hbaseStorageRepository.saveExceptionIndex(exception);
+		hbaseRepository.saveExceptionIndex(exception);
 	}
 	
 	public void saveException(Map<String, Object> exception) {
-		hbaseStorageRepository.saveException(exception);
+		hbaseRepository.saveException(exception);
 	}
 	
 	public void saveReportIndex(Map<String, Object> report) {
-		hbaseStorageRepository.saveReportIndex(report);
+		hbaseRepository.saveReportIndex(report);
 	}
 	
 	public void saveJVM(Map<String, Object> jvm) {
-		hbaseStorageRepository.saveJVM(jvm);
+		hbaseRepository.saveJVM(jvm);
 	}
 	
 	public void saveServletActiveRequest(Map<String, Object> counter) {
-		hbaseStorageRepository.saveServletActiveRequest(counter);
+		hbaseRepository.saveServletActiveRequest(counter);
 	}
 	
 	public void saveServletResponseCode(Map<String, Object> meter) {
-		hbaseStorageRepository.saveServletResponseCode(meter);
+		hbaseRepository.saveServletResponseCode(meter);
 	}
 	
 	public void saveServletRequest(Map<String, Object> timer) {
-		hbaseStorageRepository.saveServletRequest(timer);
+		hbaseRepository.saveServletRequest(timer);
 	}
 	
 	public void saveTop(Map<String, Object> top) {
-		hbaseStorageRepository.saveTop(top);
+		hbaseRepository.saveTop(top);
 	}
 	
 	public void saveUser(Map<String, String> user) {
-		hbaseStorageRepository.saveUser(user);
+		hbaseRepository.saveUser(user);
+	}
+	
+	public void add(final String metric, final long timestamp, final long value, final Map<String, String> tags) {
+		openTSDBRepository.add(metric, timestamp, value, tags);
+	}
+	
+	public void add(final String metric, final long timestamp, final double value, final Map<String, String> tags) {
+		openTSDBRepository.add(metric, timestamp, value, tags);
+	}
+	
+	public void add(final String metric, final long timestamp, final float value, final Map<String, String> tags) {
+		openTSDBRepository.add(metric, timestamp, value, tags);
+	}
+	
+	public void add(final String metric, final long timestamp, final boolean value, final Map<String, String> tags) {
+		long tmp = value == true ? 1l : 0l;
+		openTSDBRepository.add(metric, timestamp, tmp, tags);
+	}
+	
+	public DataPoints[] find(long starttimestamp, 
+			 String metric, Map<String, String> tags,
+			 Aggregator function, boolean rate ){
+		return openTSDBRepository.find(starttimestamp, System.currentTimeMillis(), metric, tags, function, rate);
+	}
+	
+	public DataPoints[] find(long starttimestamp, long endtimestamp, 
+			 String metric, Map<String, String> tags,
+			 Aggregator function, boolean rate ) {
+		return openTSDBRepository.find(starttimestamp, endtimestamp, metric, tags, function, rate);
+	}
+	
+	public List<String> suggestMetrics(final String search) {
+		return openTSDBRepository.suggestMetrics(search);
+	}
+	
+	public List<String> suggestTagNames(final String search) {
+		return openTSDBRepository.suggestTagNames(search);
+	}
+	
+	public List<String> suggestTagValues(final String search) {
+		return openTSDBRepository.suggestTagValues(search);
 	}
 	
 	public void createMySQLTable() {
 		mysqlStorageRepository.create();
+	}
+	
+	public List<Map<String, Object>> findTraceIndex() {
+		return hbaseRepository.findTraceIndex();
+	}
+	
+	public List<TraceOverviewTable> findTraceList(Map<String, String> query) {
+		return hbaseRepository.findTraceList(query);
+	}
+	
+	public List<TraceOverviewTable> findTraceList(Scan scan) {
+		return hbaseRepository.findTraceList(scan);
+	}
+	
+	public List<Span> findTrace(String traceId) {
+		return hbaseRepository.findTrace(traceId);
+	}
+	
+	public Map<String, Integer> findSpanName(String traceId) {
+		return hbaseRepository.findSpanName(traceId);
+	}
+	
+	public List<Map<String, Object>> findExceptionIndex() {
+		return hbaseRepository.findExceptionIndex();
+	}
+	
+	public List<Map<String, Object>> findExceptionList(Map<String, String> query) {
+		return hbaseRepository.findExceptionList(query);
+	}
+	
+	public List<Map<String, Object>> findReportIndex() {
+		return hbaseRepository.findReportIndex();
+	}
+	
+	public Map<String, Object> findTopList() {
+		return hbaseRepository.findTopList();
+	}
+	
+	public List<Map<String, Object>> findServletList(Map<String, String> query) {
+		return hbaseRepository.findServletList(query);
+	}
+	
+	public List<Map<String, Object>> findJVMList(Map<String, String> query) {
+		return hbaseRepository.findJVMList(query);
+	}
+	
+	public List<Map<String, Object>> findJVMListInitLoad(Map<String, String> query) {
+		return hbaseRepository.findJVMListInitLoad(query);
+	}
+	
+	public List<Map<String, Object>> findJVMListByTime(Map<String, String> query) {
+		return hbaseRepository.findJVMListByTime(query);
+	}
+	
+	public List<Map<String, Object>> findUserHistory() {
+		return hbaseRepository.findUserHistory();
 	}
 	
 }

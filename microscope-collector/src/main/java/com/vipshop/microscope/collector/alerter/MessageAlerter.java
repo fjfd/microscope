@@ -3,6 +3,7 @@ package com.vipshop.microscope.collector.alerter;
 import java.util.Map;
 
 import com.vipshop.microscope.alerter.AlertEngine;
+import com.vipshop.microscope.common.metrics.Metric;
 import com.vipshop.microscope.common.trace.Span;
 
 /**
@@ -29,8 +30,12 @@ public class MessageAlerter {
 		alertEngine.alert(span);
 	}
 	
-	public void alert(Map<String, Object> metrics) {
-		alertEngine.alert(metrics);
+	public void alert(Map<String, Object> exception) {
+		alertEngine.alert(exception);
+	}
+	
+	public void alert(Metric metrics) {
+		
 	}
 	
 }

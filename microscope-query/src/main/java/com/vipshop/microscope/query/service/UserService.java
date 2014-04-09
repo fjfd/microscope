@@ -5,15 +5,15 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import com.vipshop.microscope.storage.QueryRepository;
+import com.vipshop.microscope.storage.StorageRepository;
 
 @Service
 public class UserService {
 	
-	private final QueryRepository repository = QueryRepository.getQueryRepository();
+	private final StorageRepository storageRepository = StorageRepository.getStorageRepository();
 	
 	public List<Map<String, Object>> findUseHistory() {
-		return repository.findUserHistory();
+		return storageRepository.findUserHistory();
 	}
 	
 }

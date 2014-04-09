@@ -1,17 +1,12 @@
 package com.vipshop.microscope.trace.stoarge;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import com.vipshop.microscope.common.logentry.LogEntry;
+import com.vipshop.microscope.common.metrics.Metric;
 import com.vipshop.microscope.common.trace.Span;
 
 public class NonBlockingQueueStorage implements Storage {
-
-	@Override
-	public void add(Object object) {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public LogEntry poll() {
@@ -26,13 +21,19 @@ public class NonBlockingQueueStorage implements Storage {
 	}
 
 	@Override
-	public void addMetrics(HashMap<String, Object> metrics) {
+	public void addMetrics(Metric metrics) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void addSpan(Span span) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addException(Map<String, Object> exceptionInfo) {
 		// TODO Auto-generated method stub
 		
 	}

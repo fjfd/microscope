@@ -1,8 +1,7 @@
 package com.vipshop.microscope.collector.disruptor;
 
-import java.util.HashMap;
-
 import com.lmax.disruptor.EventFactory;
+import com.vipshop.microscope.common.metrics.Metric;
 
 /**
  * Metrics Event
@@ -12,13 +11,13 @@ import com.lmax.disruptor.EventFactory;
  */
 public class MetricsEvent {
 	
-	private HashMap<String, Object> result;
+	private Metric result;
 
-	public HashMap<String, Object> getResult() {
+	public Metric getResult() {
 		return result;
 	}
 
-	public void setResult(HashMap<String, Object> map) {
+	public void setResult(Metric map) {
 		this.result = map;
 	}
 

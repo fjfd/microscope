@@ -6,6 +6,12 @@ public class CalendarUtil {
 	
 	private final Calendar CALENDAR = Calendar.getInstance();
 	
+	public CalendarUtil() {}
+	
+	public CalendarUtil(long timestamp) {
+		CALENDAR.setTimeInMillis(timestamp);
+	}
+	
 	public int currentYear() {
 		return CALENDAR.get(Calendar.YEAR);
 	}

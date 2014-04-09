@@ -26,6 +26,26 @@ public class ReportController {
 	@Autowired
 	private ReportService service;
 	
+	@RequestMapping("/report/suggestMetrics")
+	@ResponseBody
+	public MapResult suggestMetrics(HttpServletRequest request, String callback) {
+		MapResult result = new MapResult();
+		Map<String, Object> condition = service.suggestMetrics(request);
+		result.setResult(condition);
+		result.setCallback(callback);
+		return result;
+	}
+	
+	@RequestMapping("/report/metrics")
+	@ResponseBody
+	public MapResult metrics(HttpServletRequest request, String callback) {
+		MapResult result = new MapResult();
+		Map<String, Object> condition = service.metrics(request);
+		result.setResult(condition);
+		result.setCallback(callback);
+		return result;
+	}
+
 	@RequestMapping("/report/queryCondition")
 	@ResponseBody
 	public ListResult queryExcepCondition(String callback) {

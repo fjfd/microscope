@@ -8,15 +8,15 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
 
-import com.vipshop.microscope.storage.QueryRepository;
+import com.vipshop.microscope.storage.StorageRepository;
 
 @Service
 public class ExceptionService {
 	
-	private final QueryRepository queryRepository = QueryRepository.getQueryRepository();
+	private final StorageRepository storageRepository = StorageRepository.getStorageRepository();
 	
 	public List<Map<String, Object>> getQueryCondition() {
-		return queryRepository.findExceptionIndex();
+		return storageRepository.findExceptionIndex();
 	}
 
 	public List<Map<String, Object>> getExceptionList(HttpServletRequest request) {
@@ -35,6 +35,6 @@ public class ExceptionService {
 		query.put("endTime", endTime);
 		query.put("limit", limit);
 		
-		return queryRepository.findExceptionList(query);
+		return storageRepository.findExceptionList(query);
 	}
 }

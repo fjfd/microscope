@@ -1,4 +1,4 @@
-package com.vipshop.microscope.trace.metrics.exception;
+package com.vipshop.microscope.trace.exception;
 
 import java.lang.management.ManagementFactory;
 import java.util.HashMap;
@@ -6,7 +6,6 @@ import java.util.HashMap;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import com.vipshop.microscope.common.logentry.Constants;
-import com.vipshop.microscope.common.metrics.MetricsCategory;
 import com.vipshop.microscope.common.util.IPAddressUtil;
 import com.vipshop.microscope.common.util.TimeStampUtil;
 import com.vipshop.microscope.trace.Tracer;
@@ -26,7 +25,6 @@ public class ExceptionBuilder {
 	public static void record(final Throwable t) {
 		HashMap<String, Object> exception = new HashMap<String, Object>();
 		
-		exception.put(Constants.TYPE, MetricsCategory.Exception);
 		exception.put(Constants.APP, Tracer.APP_NAME);
 		exception.put(Constants.IP, IPAddressUtil.IPAddress());
 		exception.put(Constants.DATE, TimeStampUtil.currentTimeMillis());
@@ -36,13 +34,12 @@ public class ExceptionBuilder {
 		exception.put(Constants.TRACE_ID, Tracer.getTraceId());
 		exception.put(Constants.THREAD_INFO, ManagementFactory.getThreadMXBean().getThreadInfo(Thread.currentThread().getId()).toString());
 		
-		storage.addMetrics(exception);
+		storage.addException(exception);
 	}
 	
 	public static void record(final Throwable t, String info) {
 		HashMap<String, Object> exception = new HashMap<String, Object>();
 		
-		exception.put(Constants.TYPE, MetricsCategory.Exception);
 		exception.put(Constants.APP, Tracer.APP_NAME);
 		exception.put(Constants.IP, IPAddressUtil.IPAddress());
 		exception.put(Constants.DATE, TimeStampUtil.currentTimeMillis());
@@ -53,7 +50,7 @@ public class ExceptionBuilder {
 		exception.put(Constants.THREAD_INFO, ManagementFactory.getThreadMXBean().getThreadInfo(Thread.currentThread().getId()).toString());
 		exception.put(Constants.DEBUG, info);
 
-		storage.addMetrics(exception);
+		storage.addException(exception);
 	}
 	
 }

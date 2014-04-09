@@ -17,6 +17,8 @@ package com.vipshop.microscope.trace.metrics.opentsdb;
 
 import org.junit.Test;
 
+import com.vipshop.microscope.common.metrics.Metric;
+
 import java.util.Collections;
 
 import static org.junit.Assert.*;
@@ -28,19 +30,19 @@ public class OpenTsdbMetricTest {
 
     @Test
     public void testEquals() {
-        OpenTsdbMetric o1 = OpenTsdbMetric.named(null)
+        Metric o1 = Metric.named(null)
                 .withValue(1L)
                 .withTimestamp(null)
                 .withTags(null)
                 .build();
 
-        OpenTsdbMetric o2 = OpenTsdbMetric.named(null)
+        Metric o2 = Metric.named(null)
                 .withValue(1L)
                 .withTimestamp(null)
                 .withTags(null)
                 .build();
 
-        OpenTsdbMetric o3 = OpenTsdbMetric.named(null)
+        Metric o3 = Metric.named(null)
                 .withValue(1L)
                 .withTimestamp(null)
                 .withTags(Collections.singletonMap("foo", "bar"))

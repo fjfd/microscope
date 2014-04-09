@@ -13,23 +13,66 @@ import com.codahale.metrics.Gauge;
 import com.codahale.metrics.Histogram;
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.Timer;
+import com.vipshop.microscope.common.logentry.Constants;
 import com.vipshop.microscope.trace.Tracer;
+import com.vipshop.microscope.trace.metrics.jvm.MemeoryMetricsSet;
 
 public class MetricsTest {
 	
 	@Test
 	public void testMicroscopeJVMMetrics() throws InterruptedException {
 		Tracer.cleanContext();
+		
+		Histogram randomNums = Metrics.histogram(name(MetricsTest.class, "random"));
+		Random rand = new Random();
+		
+		Meter requests = Metrics.meter(name(MetricsTest.class, "meter-request"));
+		
+		Timer timer = Metrics.timer(name(MetricsTest.class, "timer-request"));
+		
+		for (;;) {
+			Timer.Context context = timer.time();
+			randomNums.update((int) (rand.nextDouble()*100));
+			requests.mark();
+			Metrics.inc("queue-size");
+			TimeUnit.SECONDS.sleep(1);
+			context.stop();
+		}
+	}
+	
+	@Test
+	public void testMemory() throws InterruptedException {
+		Tracer.cleanContext();
+		Metrics.register(Constants.JVM_Memory, new MemeoryMetricsSet());
+		
+		for (;;) {
+			TimeUnit.SECONDS.sleep(1);
+		}
+	}
+	
+	@Test
+	public void testLong() throws InterruptedException {
+		Tracer.cleanContext();
+		Metrics.register("long_value", new Gauge<Long>() {
+
+			@Override
+			public Long getValue() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+		});
+		
 		for (;;) {
 			TimeUnit.SECONDS.sleep(1);
 		}
 	}
 
+	
 	@Test
     public void testRegister() throws InterruptedException {
-        MetricsStats.startSlf4jReporter(1, TimeUnit.SECONDS);
+        Metrics.startSlf4jReporter(1, TimeUnit.SECONDS);
         final Queue<String> queue = new LinkedBlockingDeque<String>();
-		MetricsStats.register("queue-size", new Gauge<Integer>() {
+		Metrics.register("queue-size", new Gauge<Integer>() {
 			@Override
 			public Integer getValue() {
 				return queue.size();
@@ -43,17 +86,17 @@ public class MetricsTest {
     
 	@Test
     public void testCounter() throws InterruptedException {
-		MetricsStats.startSlf4jReporter(1, TimeUnit.SECONDS);
+		Metrics.startSlf4jReporter(1, TimeUnit.SECONDS);
 		for (int i = 0; i < 5; i++) {
-			MetricsStats.inc("queue-size");
+			Metrics.inc("queue-size");
             Thread.sleep(1000);
         }
     }
 	
 	@Test
 	public void testJVMMetrics() throws InterruptedException {
-		MetricsStats.startSlf4jReporter(1, TimeUnit.SECONDS);
-		MetricsStats.registerJVM();
+		Metrics.startSlf4jReporter(1, TimeUnit.SECONDS);
+		Metrics.registerJVM();
 		for (int i = 0; i < 5; i++) {
 			TimeUnit.SECONDS.sleep(1);
 		}
@@ -61,8 +104,8 @@ public class MetricsTest {
 
     @Test
     public void testHistogram() throws InterruptedException {
-    	MetricsStats.startSlf4jReporter(1, TimeUnit.SECONDS);
-    	Histogram randomNums = MetricsStats.histogram(name(MetricsTest.class, "random"));
+    	Metrics.startSlf4jReporter(1, TimeUnit.SECONDS);
+    	Histogram randomNums = Metrics.histogram(name(MetricsTest.class, "random"));
     	Random rand = new Random();
     	for (int i = 0; i < 5; i++) {
             randomNums.update((int) (rand.nextDouble()*100));
@@ -72,8 +115,8 @@ public class MetricsTest {
     
     @Test
     public void testMeter() throws InterruptedException {
-    	MetricsStats.startSlf4jReporter(1, TimeUnit.SECONDS);
-    	Meter requests = MetricsStats.meter(name(MetricsTest.class, "request"));
+    	Metrics.startSlf4jReporter(1, TimeUnit.SECONDS);
+    	Meter requests = Metrics.meter(name(MetricsTest.class, "request"));
     	for (int i = 0; i < 5; i++) {
     		requests.mark();
     		TimeUnit.SECONDS.sleep(1);
@@ -82,8 +125,8 @@ public class MetricsTest {
     
     @Test
     public void testTimer() throws InterruptedException {
-    	MetricsStats.startSlf4jReporter(1, TimeUnit.SECONDS);
-    	Timer requests = MetricsStats.timer(name(MetricsTest.class, "request"));
+    	Metrics.startSlf4jReporter(1, TimeUnit.SECONDS);
+    	Timer requests = Metrics.timer(name(MetricsTest.class, "request"));
     	Random random = new Random();
     	for (int i = 0; i < 5; i++) {
             Timer.Context context = requests.time();

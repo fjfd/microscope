@@ -6,6 +6,7 @@ import info.ganglia.gmetric4j.gmetric.GMetric.UDPAddressingMode;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -26,13 +27,15 @@ import com.codahale.metrics.graphite.Graphite;
 import com.codahale.metrics.graphite.GraphiteReporter;
 import com.codahale.metrics.health.HealthCheck;
 import com.codahale.metrics.health.HealthCheckRegistry;
-import com.vipshop.microscope.common.metrics.MetricsCategory;
+import com.vipshop.microscope.common.logentry.Constants;
+import com.vipshop.microscope.common.util.IPAddressUtil;
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.metrics.jvm.GCMetricSet;
 import com.vipshop.microscope.trace.metrics.jvm.MemeoryMetricsSet;
 import com.vipshop.microscope.trace.metrics.jvm.MonitorMetricsSet;
 import com.vipshop.microscope.trace.metrics.jvm.OverviewMetricsSet;
 import com.vipshop.microscope.trace.metrics.jvm.ThreadMetricsSet;
+import com.vipshop.microscope.trace.metrics.reporter.MicroscopeReporter;
 
 /**
  * Collect metrics data API.
@@ -40,7 +43,7 @@ import com.vipshop.microscope.trace.metrics.jvm.ThreadMetricsSet;
  * @author Xu Fei
  * @version 1.0
  */
-public class MetricsStats {
+public class Metrics {
 	
 	private static final MetricRegistry metrics = MetricsHolder.getMetricRegistry();
 	private static final HealthCheckRegistry healthMetrics = MetricsHolder.getHealthCheckRegistry();
@@ -51,7 +54,7 @@ public class MetricsStats {
 	 * Start MicroscopeReporter with default period and time.
 	 */
 	public static void startMicroscopeReporter() {
-		startMicroscopeReporter(Tracer.REPORT_PERIOD, TimeUnit.SECONDS);
+		startMicroscopeReporter(Tracer.REPORT_PERIOD_TIME, TimeUnit.SECONDS);
 	}
 	
 	/**
@@ -59,15 +62,21 @@ public class MetricsStats {
 	 */
 	public static void startMicroscopeReporter(long period, TimeUnit unit) {
 		if (Tracer.isTraceEnable() && !start) {
+			
+			Map<String, String> tags = new HashMap<String, String>();
+			tags.put(Constants.APP, Tracer.APP_NAME);
+			tags.put(Constants.IP, IPAddressUtil.IPAddress());
+			
 			ScheduledReporter reporter = MicroscopeReporter.forRegistry(metrics)
-					   									   .convertRatesTo(TimeUnit.SECONDS)
-					   									   .convertDurationsTo(TimeUnit.MILLISECONDS)
-					   									   .build();
+														   .convertRatesTo(TimeUnit.SECONDS)
+														   .convertDurationsTo(TimeUnit.MILLISECONDS)
+														   .filter(MetricFilter.ALL)
+														   .withTags(tags)
+														   .build();
 			reporter.start(period, unit);
-			start = true;
 		}
 	}
-
+	
 	/**
 	 * Start Slf4jReporter with default period and time.
 	 */
@@ -186,11 +195,11 @@ public class MetricsStats {
 	 * Register JVM metrics.
 	 */
 	public static void registerJVM() {
-		metrics.register(MetricsCategory.JVM_Overview, new OverviewMetricsSet());
-		metrics.register(MetricsCategory.JVM_Monitor, new MonitorMetricsSet());
-		metrics.register(MetricsCategory.JVM_Thread, new ThreadMetricsSet());
-		metrics.register(MetricsCategory.JVM_Memory, new MemeoryMetricsSet());
-		metrics.register(MetricsCategory.JVM_GC, new GCMetricSet());
+		metrics.register(Constants.JVM_Overview, new OverviewMetricsSet());
+		metrics.register(Constants.JVM_Monitor, new MonitorMetricsSet());
+		metrics.register(Constants.JVM_Thread, new ThreadMetricsSet());
+		metrics.register(Constants.JVM_Memory, new MemeoryMetricsSet());
+		metrics.register(Constants.JVM_GC, new GCMetricSet());
 	}
 	
 	/**
@@ -259,7 +268,7 @@ public class MetricsStats {
 	public static Counter counter(String name) {
 		return metrics.counter(name);
 	}
-
+	
     /**
      * Creates a new {@link Histogram} and registers it under the given name.
      *

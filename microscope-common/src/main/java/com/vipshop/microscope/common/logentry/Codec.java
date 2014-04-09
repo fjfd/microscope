@@ -13,6 +13,7 @@ import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.protocol.TProtocolFactory;
 import org.apache.thrift.transport.TIOStreamTransport;
 
+import com.vipshop.microscope.common.metrics.Metric;
 import com.vipshop.microscope.common.trace.Span;
 
 /**
@@ -21,13 +22,13 @@ import com.vipshop.microscope.common.trace.Span;
  * @author Xu Fei
  * @version 1.0
  */
-public class LogEntryCodec {
+public class Codec {
 
 	private static final TProtocolFactory protocolFactory = new TBinaryProtocol.Factory();
 	private static final Base64 base64 = new Base64();
 	
 	
-	//************************  span to logEntry  ***************************//
+	//************************  Span to logEntry  ***************************//
 	
 	/**
 	 * Encode span to {@code LogEntry}.
@@ -44,7 +45,7 @@ public class LogEntryCodec {
 			return null;
 		}
 		String spanAsString = base64.encodeToString(buf.toByteArray());
-		LogEntry logEntry = new LogEntry(LogEntryCategory.TRACE, spanAsString);
+		LogEntry logEntry = new LogEntry(Constants.TRACE, spanAsString);
 		return logEntry;
 	}
 
@@ -68,21 +69,38 @@ public class LogEntryCodec {
 		return span;
 	}
 	
-	//************************  map to logEntry  ***************************//
+	//************************  Metrics to logEntry  ***************************//
 	
-	/**
-	 * Encode map to {@code LogEntry}.
-	 * 
-	 * @param map
-	 * @return
-	 */
-	public static LogEntry encodeToLogEntry(HashMap<String, Object> map) {
-		byte[] bytes = SerializationUtils.serialize((Serializable) map);
+	public static LogEntry encodeToLogEntry(Metric metric) {
+		byte[] bytes = SerializationUtils.serialize((Serializable) metric);
 		String message = Base64.encodeBase64String(bytes);
-		LogEntry logEntry = new LogEntry(LogEntryCategory.METRICS, message);
+		LogEntry logEntry = new LogEntry(Constants.METRICS, message);
 		return logEntry;
 	}
 	
+	public static Metric decodeToMetric(final String msg) {
+		byte[] bytes = Base64.decodeBase64(msg);
+		Metric metric = (Metric) SerializationUtils.deserialize(bytes);
+		return metric;
+	}
+
+	//************************  ExceptionInfo to logEntry  ***************************//
+	
+	public static LogEntry encodeToLogEntry(HashMap<String, Object> exceptionInfo) {
+		byte[] bytes = SerializationUtils.serialize((Serializable) exceptionInfo);
+		String message = Base64.encodeBase64String(bytes);
+		LogEntry logEntry = new LogEntry(Constants.EXCEPTION, message);
+		return logEntry;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static HashMap<String, Object> decodeToException(final String msg) {
+		byte[] bytes = Base64.decodeBase64(msg);
+		HashMap<String, Object> info = (HashMap<String, Object>) SerializationUtils.deserialize(bytes);
+		return info;
+	}
+	
+
 	//************************  map to string  ***************************//
 	
 	/**
@@ -108,5 +126,7 @@ public class LogEntryCodec {
 		HashMap<String, Object> map = (HashMap<String, Object>) SerializationUtils.deserialize(bytes);
 		return map;
 	}
+	
+	
 
 }

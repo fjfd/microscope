@@ -22,50 +22,57 @@ import java.util.NoSuchElementException;
  * each {@link DataPoint} in {@code O(1)} and does not support {@link #remove}.
  * <p>
  * Because no data is copied during iteration and no new object gets created,
- * <b>the {@link DataPoint} returned must not be stored</b> and gets
- * invalidated as soon as {@link #next} is called on the iterator (actually it
- * doesn't get invalidated but rather its contents changes).  If you want to
- * store individual data points, you need to copy the timestamp and value out
- * of each {@link DataPoint} into your own data structures.
+ * <b>the {@link DataPoint} returned must not be stored</b> and gets invalidated
+ * as soon as {@link #next} is called on the iterator (actually it doesn't get
+ * invalidated but rather its contents changes). If you want to store individual
+ * data points, you need to copy the timestamp and value out of each
+ * {@link DataPoint} into your own data structures.
  * <p>
  * In the vast majority of cases, the iterator will be used to go once through
  * all the data points, which is why it's not a problem if the iterator acts
- * just as a transient "view".  Iterating will be very cheap since no memory
+ * just as a transient "view". Iterating will be very cheap since no memory
  * allocation is required (except to instantiate the actual iterator at the
  * beginning).
  */
 public interface SeekableView extends Iterator<DataPoint> {
 
-  /**
-   * Returns {@code true} if this view has more elements.
-   */
-  boolean hasNext();
+	/**
+	 * Returns {@code true} if this view has more elements.
+	 */
+	boolean hasNext();
 
-  /**
-   * Returns a <em>view</em> on the next data point.
-   * No new object gets created, the referenced returned is always the same
-   * and must not be stored since its internal data structure will change the
-   * next time {@code next()} is called.
-   * @throws NoSuchElementException if there were no more elements to iterate
-   * on (in which case {@link #hasNext} would have returned {@code false}.
-   */
-  DataPoint next();
+	/**
+	 * Returns a <em>view</em> on the next data point. No new object gets
+	 * created, the referenced returned is always the same and must not be
+	 * stored since its internal data structure will change the next time
+	 * {@code next()} is called.
+	 * 
+	 * @throws NoSuchElementException
+	 *             if there were no more elements to iterate on (in which case
+	 *             {@link #hasNext} would have returned {@code false}.
+	 */
+	DataPoint next();
 
-  /**
-   * Unsupported operation.
-   * @throws UnsupportedOperationException always.
-   */
-  void remove();
+	/**
+	 * Unsupported operation.
+	 * 
+	 * @throws UnsupportedOperationException
+	 *             always.
+	 */
+	void remove();
 
-  /**
-   * Advances the iterator to the given point in time.
-   * <p>
-   * This allows the iterator to skip all the data points that are strictly
-   * before the given timestamp.
-   * @param timestamp A strictly positive 32 bit UNIX timestamp (in seconds).
-   * @throws IllegalArgumentException if the timestamp is zero, or negative,
-   * or doesn't fit on 32 bits (think "unsigned int" -- yay Java!).
-   */
-  void seek(long timestamp);
+	/**
+	 * Advances the iterator to the given point in time.
+	 * <p>
+	 * This allows the iterator to skip all the data points that are strictly
+	 * before the given timestamp.
+	 * 
+	 * @param timestamp
+	 *            A strictly positive 32 bit UNIX timestamp (in seconds).
+	 * @throws IllegalArgumentException
+	 *             if the timestamp is zero, or negative, or doesn't fit on 32
+	 *             bits (think "unsigned int" -- yay Java!).
+	 */
+	void seek(long timestamp);
 
 }

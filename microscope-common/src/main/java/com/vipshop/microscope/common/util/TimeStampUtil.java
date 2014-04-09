@@ -14,6 +14,11 @@ public class TimeStampUtil {
 							      0).getTime();
 	}
 	
+	public static long timestampByHour(long timestamp) {
+		return (timestamp / 60) * 60;
+	}
+
+	
 	@SuppressWarnings("deprecation")
 	public static long timestampOfPrevHour(CalendarUtil calendar) {
 		return new java.util.Date(calendar.currentYear(), 

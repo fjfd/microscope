@@ -9,6 +9,8 @@ import com.lmax.disruptor.BatchEventProcessor;
 import com.lmax.disruptor.RingBuffer;
 import com.lmax.disruptor.SequenceBarrier;
 import com.lmax.disruptor.SleepingWaitStrategy;
+import com.vipshop.microscope.collector.disruptor.ExceptionEvent;
+import com.vipshop.microscope.collector.disruptor.ExceptionStorageHandler;
 import com.vipshop.microscope.collector.disruptor.LogEntryEvent;
 import com.vipshop.microscope.collector.disruptor.LogEntryValidateHandler;
 import com.vipshop.microscope.collector.disruptor.MetricsAlertHandler;
@@ -32,9 +34,10 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 	
 	private static final Logger logger = LoggerFactory.getLogger(DisruptorMessageConsumer.class);
 
-	private final int LOGENTRY_BUFFER_SIZE    =     1024 * 8 * 8 * 4;
-	private final int TRACE_BUFFER_SIZE       =     1024 * 8 * 8 * 2;
-	private final int METRICS_BUFFER_SIZE     =     1024 * 8 * 8 * 2;
+	private final int LOGENTRY_BUFFER_SIZE    =     1024 * 8 * 8 * 1;
+	private final int TRACE_BUFFER_SIZE       =     1024 * 8 * 2 * 1;
+	private final int METRICS_BUFFER_SIZE     =     1024 * 8 * 4 * 2;
+	private final int EXCEPTION_BUFFER_SIZE   =     1024 * 8 * 2 * 1;
 	
 	private volatile boolean start = false;
 	
@@ -55,6 +58,13 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 	private final BatchEventProcessor<MetricsEvent> metricsAlertEventProcessor;
 	private final BatchEventProcessor<MetricsEvent> metricsAnalyzeEventProcessor;
 	private final BatchEventProcessor<MetricsEvent> metricsStorageEventProcessor;
+	
+	/**
+	 * Exception RingBuffer
+	 */
+	private final RingBuffer<ExceptionEvent> exceptionRingBuffer;
+	private final SequenceBarrier exceptionSequenceBarrier;
+	private final BatchEventProcessor<ExceptionEvent> exceptionStorageEventProcessor;
 	
 	/**
 	 * LogEntry RingBuffer
@@ -84,10 +94,18 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 		this.metricsRingBuffer.addGatingSequences(metricsAlertEventProcessor.getSequence());
 		this.metricsRingBuffer.addGatingSequences(metricsAnalyzeEventProcessor.getSequence());
 		this.metricsRingBuffer.addGatingSequences(metricsStorageEventProcessor.getSequence());
+		
+		this.exceptionRingBuffer = RingBuffer.createSingleProducer(ExceptionEvent.EVENT_FACTORY, EXCEPTION_BUFFER_SIZE, new SleepingWaitStrategy());
+		this.exceptionSequenceBarrier = exceptionRingBuffer.newBarrier();
+		this.exceptionStorageEventProcessor = new BatchEventProcessor<ExceptionEvent>(exceptionRingBuffer, exceptionSequenceBarrier, new ExceptionStorageHandler());
 
 		this.logEntryRingBuffer = RingBuffer.createSingleProducer(LogEntryEvent.EVENT_FACTORY, LOGENTRY_BUFFER_SIZE, new SleepingWaitStrategy());
 		this.logEntrySequenceBarrier = logEntryRingBuffer.newBarrier();
-		this.logEntryValidateEventProcessor = new BatchEventProcessor<LogEntryEvent>(logEntryRingBuffer, logEntrySequenceBarrier, new LogEntryValidateHandler(traceRingBuffer, metricsRingBuffer));
+		this.logEntryValidateEventProcessor = new BatchEventProcessor<LogEntryEvent>(logEntryRingBuffer, 
+																				     logEntrySequenceBarrier, 
+																				     new LogEntryValidateHandler(traceRingBuffer, 
+																								                 metricsRingBuffer, 
+																												 exceptionRingBuffer));
 	}
 	
 	/**
@@ -124,7 +142,11 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 		logger.info("start metrics store thread");
 		ExecutorService metricsStoreExecutor = ThreadPoolUtil.newSingleThreadExecutor("metrics-store-pool");
 		metricsStoreExecutor.execute(this.metricsStorageEventProcessor);
-
+		
+		logger.info("start exception store thread");
+		ExecutorService exceptionStoreExecutor = ThreadPoolUtil.newSingleThreadExecutor("exception-store-pool");
+		exceptionStoreExecutor.execute(this.exceptionStorageEventProcessor);
+		
 		start = true;
 	}
 	
@@ -161,6 +183,8 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 		metricsAlertEventProcessor.halt();
 		metricsAnalyzeEventProcessor.halt();
 		metricsStorageEventProcessor.halt();
+		
+		exceptionStorageEventProcessor.halt();
 	}
 
 }

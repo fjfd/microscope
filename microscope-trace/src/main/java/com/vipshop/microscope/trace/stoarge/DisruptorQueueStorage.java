@@ -1,6 +1,6 @@
 package com.vipshop.microscope.trace.stoarge;
 
-import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 
 import com.lmax.disruptor.BatchEventProcessor;
@@ -10,6 +10,7 @@ import com.lmax.disruptor.RingBuffer;
 import com.lmax.disruptor.SequenceBarrier;
 import com.lmax.disruptor.SleepingWaitStrategy;
 import com.vipshop.microscope.common.logentry.LogEntry;
+import com.vipshop.microscope.common.metrics.Metric;
 import com.vipshop.microscope.common.trace.Span;
 import com.vipshop.microscope.common.util.ThreadPoolUtil;
 import com.vipshop.microscope.trace.transport.Transporter;
@@ -89,19 +90,19 @@ public class DisruptorQueueStorage implements Storage, Transporter {
 	}
 
 	@Override
-	public void add(Object object) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void addMetrics(HashMap<String, Object> metrics) {
+	public void addMetrics(Metric metrics) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void addSpan(Span span) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addException(Map<String, Object> exceptionInfo) {
 		// TODO Auto-generated method stub
 		
 	}

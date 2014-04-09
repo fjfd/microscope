@@ -9,6 +9,8 @@ import com.vipshop.microscope.storage.hbase.repository.ExceptionRepository;
 import com.vipshop.microscope.storage.hbase.repository.JVMReportRepository;
 import com.vipshop.microscope.storage.hbase.repository.ReportIndexRepository;
 import com.vipshop.microscope.storage.hbase.repository.ServletReportRepository;
+import com.vipshop.microscope.storage.hbase.repository.TSDBRepository;
+import com.vipshop.microscope.storage.hbase.repository.TSDBUIDRepository;
 import com.vipshop.microscope.storage.hbase.repository.TopReportRepository;
 import com.vipshop.microscope.storage.hbase.repository.TraceIndexRepository;
 import com.vipshop.microscope.storage.hbase.repository.TraceOverviewRepository;
@@ -37,6 +39,9 @@ public class RepositoryFactory {
 	
 	private static final UserRepository USER;
 	
+	private static final TSDBRepository TSDB;
+	private static final TSDBUIDRepository TSDBUID;
+	
 	static {
 		AbstractApplicationContext context = new ClassPathXmlApplicationContext("/applicationContext-storage-hbase.xml", RepositoryFactory.class);
 		
@@ -62,6 +67,9 @@ public class RepositoryFactory {
 		
 		USER = context.getBean(UserRepository.class);
 		
+		TSDB = context.getBean(TSDBRepository.class);
+		TSDBUID = context.getBean(TSDBUIDRepository.class);
+		
 		TRACE_INDEX.initialize();
 		TRACE_OVERVIEW.initialize();
 		TRACE.initialize();
@@ -75,6 +83,9 @@ public class RepositoryFactory {
 		SERVLET.initialize();
 
 		USER.initialize();
+		
+		TSDB.initialize();
+		TSDBUID.initialize();
 		
 		context.close();
 	}
@@ -165,6 +176,14 @@ public class RepositoryFactory {
 	 */
 	public static UserRepository getUserRepository() {
 		return USER;
+	}
+	
+	public static TSDBRepository getTsdbRepository() {
+		return TSDB;
+	}
+	
+	public static TSDBUIDRepository getTsdbuidRepository() {
+		return TSDBUID;
 	}
 
 	/**

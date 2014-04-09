@@ -3,11 +3,16 @@ package com.vipshop.microscope.trace;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.codahale.metrics.Histogram;
+import com.codahale.metrics.Meter;
+import com.codahale.metrics.Metric;
+import com.codahale.metrics.Timer;
+import com.codahale.metrics.health.HealthCheck;
 import com.vipshop.microscope.common.trace.Category;
 import com.vipshop.microscope.common.util.ConfigurationUtil;
 import com.vipshop.microscope.common.util.DateUtil;
-import com.vipshop.microscope.trace.metrics.MetricsStats;
-import com.vipshop.microscope.trace.metrics.exception.ExceptionBuilder;
+import com.vipshop.microscope.trace.exception.ExceptionBuilder;
+import com.vipshop.microscope.trace.metrics.Metrics;
 import com.vipshop.microscope.trace.switcher.Switcher;
 import com.vipshop.microscope.trace.switcher.SwitcherHolder;
 import com.vipshop.microscope.trace.transport.TransporterHolder;
@@ -82,7 +87,7 @@ public class Tracer {
 	public static int RECONNECT_WAIT_TIME = 3000;
 	public static int SEND_WAIT_TIME = 100;
 	
-	public static int REPORT_PERIOD = 60;
+	public static int REPORT_PERIOD_TIME = 10;
 	
 	private static Switcher SWITCHER = SwitcherHolder.getConfigReloadSwitcher();
 	
@@ -108,6 +113,8 @@ public class Tracer {
 			RECONNECT_WAIT_TIME = config.getInt("reconnect_wait_time");
 			SEND_WAIT_TIME = config.getInt("send_wait_time");
 			
+			REPORT_PERIOD_TIME = config.getInt("report_period_time");
+			
 			try {
 				if (SWITCHER.isOpen()) {
 					
@@ -119,12 +126,12 @@ public class Tracer {
 					/*
 					 * start metrics reporter 
 					 */
-					MetricsStats.startMicroscopeReporter();
+					Metrics.startMicroscopeReporter();
 					
 					/*
 					 * register JVM metrics
 					 */
-					MetricsStats.registerJVM();
+//					Metrics.registerJVM();
 					
 				}
 			} catch (Exception e) {
@@ -135,9 +142,7 @@ public class Tracer {
 		
 	}
 	
-	private Tracer() {
-//		throw new UnsupportedOperationException();
-	}
+	private Tracer() {}
 	
 	/**
 	 * Is trace function open or close. 
@@ -148,7 +153,7 @@ public class Tracer {
 		return SWITCHER.isOpen();
 	}
 
-	// ******* methods for send and receive span ******* //
+	// ******* methods for client send and receive span ******* //
 	
 	/**
 	 * Handle common method operations.
@@ -218,21 +223,23 @@ public class Tracer {
 		}
 	}
 	
+	// ******* methods for server send and receive span ******* //
+	
 	/**
 	 * Server side send response.
 	 * 
 	 */
 	public static void serverSend() {
-//		throw new UnsupportedOperationException();
 	}
 	
 	/**
 	 * Server side receive request.
 	 */
 	public static void serverRecv() {
-//		throw new UnsupportedOperationException();
 	}
-
+	
+	// *************** set result code when exception happens ********************** //
+	
 	/**
 	 * Set result code.
 	 * 
@@ -299,10 +306,10 @@ public class Tracer {
 		}
 	}
 	
-	// ******** methods for new thread async call ******* //
+	// ******** methods for new thread asynchronous call ******* //
 	
 	/**
-	 * Async thread call.
+	 * Asynchronous thread call.
 	 * 
 	 * Get trace object from {@code ThreadLocal}.
 	 * 
@@ -338,6 +345,8 @@ public class Tracer {
 		}
 	}
 	
+	// ********************* method for clean current ThreadLocal ******************* //
+	
 	/**
 	 * Clean {@code ThreadLocal}
 	 */
@@ -352,8 +361,7 @@ public class Tracer {
 		}
 	}
 	
-	
-	// ******** methods for get trace id and span id from threadlocal  *******//
+	// ******** methods for get trace id and span id from ThreadLocal  *******//
 	
 	/**
 	 * Get traceId from {@code ThreadLocal}
@@ -387,7 +395,7 @@ public class Tracer {
 		}
 	}
 	
-	//************************** methods for stats exceptions ********************* //
+	//************************** methods for record exception ********************* //
 	
 	/**
 	 * Record exception.
@@ -420,4 +428,46 @@ public class Tracer {
 		ExceptionBuilder.record(t, info);
 	}
 	
+	//************************** methods for record metrics ********************* //
+
+	public static <T extends Metric> T register(String name, T metric) {
+		return Metrics.register(name, metric);
+	}
+	
+	public static void inc(String name) {
+		Metrics.inc(name);
+	}
+	
+	public static void inc(String name, long n) {
+		Metrics.inc(name, n);
+	}
+	
+	public static void dec(String name) {
+		Metrics.dec(name);
+	}
+	
+	public static void dec(String name, long n) {
+		Metrics.dec(name, n);
+	}
+	
+	public static Histogram histogram(String name) {
+		return Metrics.histogram(name);
+	}
+	
+	public static Meter meter(String name) {
+		return Metrics.meter(name);
+	}
+	
+	public static Timer timer(String name) {
+		return Metrics.timer(name);
+	}
+	
+	public static void register(String name, HealthCheck healthCheck) {
+		Metrics.register(name, healthCheck);
+	}
+	
+	public static void unregister(String name) {
+		Metrics.unregister(name);
+	}
+
 }

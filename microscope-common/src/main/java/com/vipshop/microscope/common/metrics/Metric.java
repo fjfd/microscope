@@ -13,65 +13,46 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.vipshop.microscope.trace.metrics.opentsdb;
+package com.vipshop.microscope.common.metrics;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author Sean Scanlon <sean.scanlon@gmail.com>
- *         <p/>
- *         Representation of a metric.
+ * Representation of a metric
+ * 
+ * { 
+ * 	 "metric"   :      "sys.cpu.nice", 
+ *   "timestamp":      1346846400, 
+ *   "value"    :      18, 
+ *   "tags"     :      {"host": "web01", "dc": "lga" } 
+ * }
+ *
+ * @author Xu Fei
+ * @version 1.0
  */
-public class OpenTsdbMetric {
+public class Metric implements Serializable {
 
-	private OpenTsdbMetric() {
-	}
+	private static final long serialVersionUID = -4616838090366748782L;
+
+	private Metric() {}
 
 	public static Builder named(String name) {
 		return new Builder(name);
 	}
-
-	private String metric;
-
-	private Long timestamp;
-
-	private Object value;
-
-	private Map<String, String> tags = new HashMap<String, String>();
-
-	@Override
-	public boolean equals(Object o) {
-
-		if (o == this) {
-			return true;
-		}
-
-		if (!(o instanceof OpenTsdbMetric)) {
-			return false;
-		}
-
-		final OpenTsdbMetric rhs = (OpenTsdbMetric) o;
-
-		return equals(metric, rhs.metric) && equals(timestamp, rhs.timestamp) && equals(value, rhs.value) && equals(tags, rhs.tags);
-	}
-
-	@Override
-	public int hashCode() {
-		return Arrays.hashCode(new Object[] { metric, timestamp, value, tags });
-	}
-
+	
 	public static class Builder {
 
-		private final OpenTsdbMetric metric;
+		private final Metric metric;
 
 		public Builder(String name) {
-			this.metric = new OpenTsdbMetric();
+			this.metric = new Metric();
 			metric.metric = name;
 		}
 
-		public OpenTsdbMetric build() {
+		public Metric build() {
 			return metric;
 		}
 
@@ -91,6 +72,37 @@ public class OpenTsdbMetric {
 			}
 			return this;
 		}
+	}
+
+	private String metric;
+
+	private Long timestamp;
+
+	private Object value;
+
+	private Map<String, String> tags = new HashMap<String, String>();
+
+	@Override
+	public boolean equals(Object o) {
+
+		if (o == this) {
+			return true;
+		}
+
+		if (!(o instanceof Metric)) {
+			return false;
+		}
+
+		final Metric rhs = (Metric) o;
+
+		return equals(metric, rhs.metric) && equals(timestamp, rhs.timestamp) 
+										  && equals(value, rhs.value) 
+										  && equals(tags, rhs.tags);
+	}
+
+	@Override
+	public int hashCode() {
+		return Arrays.hashCode(new Object[] { metric, timestamp, value, tags });
 	}
 
 	@Override
@@ -119,7 +131,3 @@ public class OpenTsdbMetric {
 	}
 }
 
-/*
- * { "metric": "sys.cpu.nice", "timestamp": 1346846400, "value": 18, "tags": {
- * "host": "web01", "dc": "lga" } }
- */

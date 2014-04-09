@@ -16,6 +16,9 @@
 package com.vipshop.microscope.trace.metrics.opentsdb;
 
 import com.sun.jersey.api.client.WebResource;
+import com.vipshop.microscope.common.metrics.Metric;
+import com.vipshop.microscope.trace.metrics.reporter.OpenTsdbSender;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,7 +38,7 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class OpenTsdbTest {
 
-    private OpenTsdb openTsdb;
+    private OpenTsdbSender openTsdb;
 
     @Mock
     private WebResource apiResource;
@@ -45,7 +48,7 @@ public class OpenTsdbTest {
 
     @Before
     public void setUp() {
-        openTsdb = OpenTsdb.create(apiResource);
+        openTsdb = OpenTsdbSender.create(apiResource);
     }
 
     @Test
@@ -53,13 +56,13 @@ public class OpenTsdbTest {
         when(apiResource.path("/api/put")).thenReturn(apiResource);
         when(apiResource.type(MediaType.APPLICATION_JSON)).thenReturn(mockBuilder);
         when(mockBuilder.entity(anyObject())).thenReturn(mockBuilder);
-        openTsdb.send(OpenTsdbMetric.named("foo").build());
+        openTsdb.send(Metric.named("foo").build());
         verify(mockBuilder).post();
     }
 
     @Test
     public void testBuilder() {
-        assertNotNull(OpenTsdb.forService("foo")
+        assertNotNull(OpenTsdbSender.forService("foo")
                 .withReadTimeout(1)
                 .withConnectTimeout(1)
                 .create());
