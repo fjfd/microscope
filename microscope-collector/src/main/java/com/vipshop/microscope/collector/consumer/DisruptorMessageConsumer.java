@@ -113,7 +113,7 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 	 */
 	@Override
 	public void start() {
-		logger.info("use message consumer base on disruptor");
+		logger.info("start message consumer base on disruptor");
 		
 		logger.info("start logentry validate thread");
 		ExecutorService logEntryValidateExecutor = ThreadPoolUtil.newSingleThreadExecutor("logentry-validate-pool");
