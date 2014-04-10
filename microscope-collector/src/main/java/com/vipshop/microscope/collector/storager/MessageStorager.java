@@ -57,17 +57,21 @@ public class MessageStorager {
 		Map<String, String> tags = metrics.getTags();
 		Object value = metrics.getValue();
 		
-		if (value instanceof Long) {
-			storageRepository.add(metric, timestamp, (Long)value, tags);
-		}
-		
-		if (value instanceof Double) {
-			storageRepository.add(metric, timestamp, (Double)value, tags);
-		}
-		
-		if (value instanceof Float) {
-			storageRepository.add(metric, timestamp, (Float)value, tags);
-		}
+//		if (value instanceof Long) {
+//			storageRepository.add(metric, timestamp, (Long)value, tags);
+//		}
+//
+//		if (value instanceof Double) {
+//			storageRepository.add(metric, timestamp, (Double)value, tags);
+//		}
+//
+//		if (value instanceof Float) {
+//			storageRepository.add(metric, timestamp, (Float)value, tags);
+//		}
+
+        storageRepository.saveMetricIndex(metrics);
+        storageRepository.saveMetric(metrics);
+
 	}
 	
 	/**

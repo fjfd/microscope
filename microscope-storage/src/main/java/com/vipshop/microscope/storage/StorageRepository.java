@@ -3,6 +3,7 @@ package com.vipshop.microscope.storage;
 import java.util.List;
 import java.util.Map;
 
+import com.vipshop.microscope.common.metrics.Metric;
 import org.apache.hadoop.hbase.client.Scan;
 
 import com.vipshop.microscope.common.trace.Span;
@@ -68,26 +69,6 @@ public class StorageRepository {
 	
 	public void saveException(Map<String, Object> exception) {
 		hbaseRepository.saveException(exception);
-	}
-	
-	public void saveReportIndex(Map<String, Object> report) {
-		hbaseRepository.saveReportIndex(report);
-	}
-	
-	public void saveJVM(Map<String, Object> jvm) {
-		hbaseRepository.saveJVM(jvm);
-	}
-	
-	public void saveServletActiveRequest(Map<String, Object> counter) {
-		hbaseRepository.saveServletActiveRequest(counter);
-	}
-	
-	public void saveServletResponseCode(Map<String, Object> meter) {
-		hbaseRepository.saveServletResponseCode(meter);
-	}
-	
-	public void saveServletRequest(Map<String, Object> timer) {
-		hbaseRepository.saveServletRequest(timer);
 	}
 	
 	public void saveTop(Map<String, Object> top) {
@@ -171,32 +152,18 @@ public class StorageRepository {
 		return hbaseRepository.findExceptionList(query);
 	}
 	
-	public List<Map<String, Object>> findReportIndex() {
-		return hbaseRepository.findReportIndex();
-	}
-	
 	public Map<String, Object> findTopList() {
 		return hbaseRepository.findTopList();
 	}
-	
-	public List<Map<String, Object>> findServletList(Map<String, String> query) {
-		return hbaseRepository.findServletList(query);
-	}
-	
-	public List<Map<String, Object>> findJVMList(Map<String, String> query) {
-		return hbaseRepository.findJVMList(query);
-	}
-	
-	public List<Map<String, Object>> findJVMListInitLoad(Map<String, String> query) {
-		return hbaseRepository.findJVMListInitLoad(query);
-	}
-	
-	public List<Map<String, Object>> findJVMListByTime(Map<String, String> query) {
-		return hbaseRepository.findJVMListByTime(query);
-	}
-	
-	public List<Map<String, Object>> findUserHistory() {
-		return hbaseRepository.findUserHistory();
-	}
+
+    public void saveMetricIndex(Metric metric) {
+        hbaseRepository.saveMetricIndex(metric);
+    }
+
+    public void saveMetric(Metric metric) {
+        hbaseRepository.saveMetric(metric);
+    }
+
+
 	
 }

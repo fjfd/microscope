@@ -1,21 +1,9 @@
 package com.vipshop.microscope.storage.hbase.factory;
 
+import com.vipshop.microscope.storage.hbase.repository.*;
 import org.apache.hadoop.conf.Configuration;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import com.vipshop.microscope.storage.hbase.repository.ExceptionIndexRepository;
-import com.vipshop.microscope.storage.hbase.repository.ExceptionRepository;
-import com.vipshop.microscope.storage.hbase.repository.JVMReportRepository;
-import com.vipshop.microscope.storage.hbase.repository.ReportIndexRepository;
-import com.vipshop.microscope.storage.hbase.repository.ServletReportRepository;
-import com.vipshop.microscope.storage.hbase.repository.TSDBRepository;
-import com.vipshop.microscope.storage.hbase.repository.TSDBUIDRepository;
-import com.vipshop.microscope.storage.hbase.repository.TopReportRepository;
-import com.vipshop.microscope.storage.hbase.repository.TraceIndexRepository;
-import com.vipshop.microscope.storage.hbase.repository.TraceOverviewRepository;
-import com.vipshop.microscope.storage.hbase.repository.TraceRepository;
-import com.vipshop.microscope.storage.hbase.repository.UserRepository;
 
 /**
  * Hbase Factory responsible for create Repository.
@@ -32,15 +20,13 @@ public class RepositoryFactory {
 	private static final ExceptionIndexRepository EXCEPTION_INDEX;
 	private static final ExceptionRepository EXCEPTION;
 	
-	private static final ReportIndexRepository REPORT_INDEX;
 	private static final TopReportRepository TOP;
-	private static final JVMReportRepository JVM;
-	private static final ServletReportRepository SERVLET;
-	
+
 	private static final UserRepository USER;
 	
 	private static final TSDBRepository TSDB;
 	private static final TSDBUIDRepository TSDBUID;
+    private static final TSDBIndexRepository TSDB_INDEX;
 	
 	static {
 		AbstractApplicationContext context = new ClassPathXmlApplicationContext("/applicationContext-storage-hbase.xml", RepositoryFactory.class);
@@ -58,15 +44,13 @@ public class RepositoryFactory {
 		
 		// ************** report **********************************************  //
 		
-		REPORT_INDEX = context.getBean(ReportIndexRepository.class);
 		TOP = context.getBean(TopReportRepository.class);
-		JVM = context.getBean(JVMReportRepository.class);
-		SERVLET = context.getBean(ServletReportRepository.class);
 
 		// ************** user   ********************************************** //
 		
 		USER = context.getBean(UserRepository.class);
-		
+
+        TSDB_INDEX = context.getBean(TSDBIndexRepository.class);
 		TSDB = context.getBean(TSDBRepository.class);
 		TSDBUID = context.getBean(TSDBUIDRepository.class);
 		
@@ -77,13 +61,11 @@ public class RepositoryFactory {
 		EXCEPTION_INDEX.initialize();
 		EXCEPTION.initialize();
 		
-		REPORT_INDEX.initialize();
 		TOP.initialize();
-		JVM.initialize();
-		SERVLET.initialize();
 
 		USER.initialize();
-		
+
+        TSDB_INDEX.initialize();
 		TSDB.initialize();
 		TSDBUID.initialize();
 		
@@ -134,16 +116,7 @@ public class RepositoryFactory {
 	public static ExceptionRepository getExceptionRepository() {
 		return EXCEPTION;
 	}
-	
-	/**
-	 * Return {@link ReportIndexRepository}
-	 * 
-	 * @return
-	 */
-	public static ReportIndexRepository getReportIndexRepository() {
-		return REPORT_INDEX;
-	}
-	
+
 	/**
 	 * Return {@link TopReportRepository}
 	 * 
@@ -151,23 +124,6 @@ public class RepositoryFactory {
 	 */
 	public static TopReportRepository getTopRepository() {
 		return TOP;
-	}
-
-	/**
-	 * Return {@link JVMReportRepository}
-	 * 
-	 * @return
-	 */
-	public static JVMReportRepository getJVMRepository() {
-		return JVM;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public static ServletReportRepository getServletRepository() {
-		return SERVLET;
 	}
 
 	/**
@@ -185,6 +141,10 @@ public class RepositoryFactory {
 	public static TSDBUIDRepository getTsdbuidRepository() {
 		return TSDBUID;
 	}
+
+    public static TSDBIndexRepository getTsdbIndexReporsitory() {
+        return TSDB_INDEX;
+    }
 
 	/**
 	 * Return Configuration

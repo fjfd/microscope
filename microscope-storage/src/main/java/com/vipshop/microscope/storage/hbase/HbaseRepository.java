@@ -3,6 +3,7 @@ package com.vipshop.microscope.storage.hbase;
 import java.util.List;
 import java.util.Map;
 
+import com.vipshop.microscope.common.metrics.Metric;
 import org.apache.hadoop.hbase.client.Scan;
 
 import com.vipshop.microscope.common.trace.Span;
@@ -27,12 +28,11 @@ public class HbaseRepository {
 		RepositoryFactory.getTraceRepository().initialize();
 		RepositoryFactory.getExceptionIndexRepository().initialize();
 		RepositoryFactory.getExceptionRepository().initialize();
-		RepositoryFactory.getJVMRepository().initialize();
 		RepositoryFactory.getTopRepository().initialize();
 		RepositoryFactory.getUserRepository().initialize();
-		RepositoryFactory.getServletRepository().initialize();
 		RepositoryFactory.getTsdbRepository().initialize();
 		RepositoryFactory.getTsdbuidRepository().initialize();
+        RepositoryFactory.getTsdbIndexReporsitory().initialize();
 	}
 	
 	/**
@@ -44,12 +44,11 @@ public class HbaseRepository {
 		RepositoryFactory.getTraceRepository().drop();
 		RepositoryFactory.getExceptionIndexRepository().drop();
 		RepositoryFactory.getExceptionRepository().drop();
-		RepositoryFactory.getJVMRepository().drop();
 		RepositoryFactory.getTopRepository().drop();
 		RepositoryFactory.getUserRepository().drop();
-		RepositoryFactory.getServletRepository().drop();
 		RepositoryFactory.getTsdbRepository().drop();
 		RepositoryFactory.getTsdbuidRepository().drop();
+        RepositoryFactory.getTsdbIndexReporsitory().drop();
 	}
 	
 	/**
@@ -90,7 +89,7 @@ public class HbaseRepository {
 	/**
 	 * Store exception index.
 	 * 
-	 * @param map
+	 * @param
 	 */
 	public void saveExceptionIndex(Map<String, Object> exception) {
 		RepositoryFactory.getExceptionIndexRepository().save(exception);
@@ -100,35 +99,10 @@ public class HbaseRepository {
 	/**
 	 * Store Map ojbect to exception table.
 	 * 
-	 * @param map
+	 * @param
 	 */
 	public void saveException(Map<String, Object> excption) {
 		RepositoryFactory.getExceptionRepository().save(excption);
-	}
-	
-	public void saveReportIndex(Map<String, Object> report) {
-		RepositoryFactory.getReportIndexRepository().save(report);
-	}
-	
-	/**
-	 * Store jvm metrics to jvm table.
-	 * 
-	 * @param jvm
-	 */
-	public void saveJVM(Map<String, Object> jvm) {
-		RepositoryFactory.getJVMRepository().save(jvm);
-	}
-	
-	public void saveServletActiveRequest(Map<String, Object> activeRequest) {
-		RepositoryFactory.getServletRepository().saveActiveRequest(activeRequest);
-	}
-	
-	public void saveServletResponseCode(Map<String, Object> responseCode) {
-		RepositoryFactory.getServletRepository().saveResponseCode(responseCode);
-	}
-	
-	public void saveServletRequest(Map<String, Object> request) {
-		RepositoryFactory.getServletRepository().saveRequest(request);
 	}
 	
 	/**
@@ -219,37 +193,25 @@ public class HbaseRepository {
 		return RepositoryFactory.getExceptionRepository().find(query);
 	}
 	
-	/**
-	 * Get report index.
-	 * 
-	 * @return
-	 */
-	public List<Map<String, Object>> findReportIndex() {
-		return RepositoryFactory.getReportIndexRepository().find();
-	}
 
 	public Map<String, Object> findTopList() {
 		return RepositoryFactory.getTopRepository().find();
 	}
 
-	public List<Map<String, Object>> findJVMListInitLoad(Map<String, String> query) {
-		return RepositoryFactory.getJVMRepository().findInitLoad(query);
-	}
+    public void saveMetricIndex(Metric metric) {
+        RepositoryFactory.getTsdbIndexReporsitory().save(metric);
+    }
 
-	public List<Map<String, Object>> findJVMList(Map<String, String> query) {
-		return RepositoryFactory.getJVMRepository().find(query);
-	}
-	
-	public List<Map<String, Object>> findJVMListByTime(Map<String, String> query) {
-		return RepositoryFactory.getJVMRepository().findByTime(query);
-	}
-	
-	public List<Map<String, Object>> findServletList(Map<String, String> query) {
-		return RepositoryFactory.getServletRepository().find(query);
-	}
-	
-	public List<Map<String, Object>> findUserHistory() {
-		return RepositoryFactory.getUserRepository().findUserHistory();
-	}
-	
+    public void saveMetric(Metric metric) {
+        RepositoryFactory.getTsdbRepository().save(metric);
+    }
+
+    public List<Map<String, Object>> findMetricsIndex() {
+        return RepositoryFactory.getTsdbIndexReporsitory().find();
+    }
+
+    public List<Map<String, Object>> findMetrics(Map<String, String> query) {
+        return RepositoryFactory.getTsdbRepository().find(query);
+    }
+
 }

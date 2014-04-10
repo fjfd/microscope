@@ -74,16 +74,6 @@ public class StorageRepositoryTest {
 	}
 	
 	@Test
-	public void testFindJVMList() {
-		Map<String, String> query = new HashMap<String, String>();
-		
-		query.put("appName", "trace");
-		query.put("ipAddress", "10.101.3.111");
-		System.out.println(storageRepository.findJVMList(query));
-		
-	}
-	
-	@Test
 	public void testFindTop() {
 		System.out.println(storageRepository.findTopList());
 	}

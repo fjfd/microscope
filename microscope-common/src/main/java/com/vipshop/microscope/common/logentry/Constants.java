@@ -1,6 +1,7 @@
 package com.vipshop.microscope.common.logentry;
 
-public class Constants {
+public class
+        Constants {
 	
 	
 	public static final String TRACE = "trace";
@@ -20,7 +21,9 @@ public class Constants {
 	public static final String TRACE_ID = "TraceId";
 	public static final String THREAD_INFO = "Thread";
 	public static final String DEBUG = "Debug";
-	
+
+
+    public static final short MAX_TIMESPAN = 3600;
 	
 	// ********************** logic category *************************//
 	

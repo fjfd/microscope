@@ -1,5 +1,7 @@
 package com.vipshop.microscope.common.util;
 
+import com.vipshop.microscope.common.logentry.Constants;
+
 import java.util.concurrent.TimeUnit;
 
 public class TimeStampUtil {
@@ -76,5 +78,11 @@ public class TimeStampUtil {
 	public static long currentTimeMillis() {
 		return System.currentTimeMillis();
 	}
+
+    public static long baseHourTime(long timestamp) {
+        timestamp = timestamp / 1000;
+        return  timestamp - (timestamp % Constants.MAX_TIMESPAN);
+    }
+
 	
 }
