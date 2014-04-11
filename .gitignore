@@ -9,4 +9,5 @@
 /*/pom.xml.versionsBackup
 /.idea/*
 **/bin/
+**/out/
 
