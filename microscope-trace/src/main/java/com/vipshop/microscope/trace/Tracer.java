@@ -82,13 +82,30 @@ public class Tracer {
 	 * Default close microscope monitor
 	 */
 	public static int SWITCH = 0;
-	
+
+    /**
+     * Default client queue size
+     */
 	public static int QUEUE_SIZE = 10000;
+
+    /**
+     * Default reconnect time for thrift client
+     */
 	public static int RECONNECT_WAIT_TIME = 3000;
+
+    /**
+     * Default wait time for transporter thread
+     */
 	public static int SEND_WAIT_TIME = 100;
-	
+
+    /**
+     * Default period time for metrics reporter
+     */
 	public static int REPORT_PERIOD_TIME = 10;
-	
+
+    /**
+     * Default switcher for open/close trace function
+     */
 	private static Switcher SWITCHER = SwitcherHolder.getConfigSwitcher();
 	
 	/**
@@ -176,9 +193,10 @@ public class Tracer {
 	 * Handle MyBatis/Hibernate/SQL/database operations.
 	 * 
 	 * @param name the name of method
-	 * @param serverIP the database name where sql execute
+	 * @param server the database name where sql execute
 	 * @param category the category of service
 	 */
+    @Deprecated
 	public static void clientSend(String name, String server, Category category) {
 		if (SWITCHER.isClose()) 
 			return;
@@ -245,7 +263,7 @@ public class Tracer {
 	 * 
 	 * If exception happens. set ResultCode = EXCEPTION.
 	 * 
-	 * @param Throwable
+	 * @param t
 	 */
 	public static void setResultCode(Throwable t) {
 		if (SWITCHER.isClose()) 
@@ -400,7 +418,7 @@ public class Tracer {
 	/**
 	 * Record exception.
 	 * 
-	 * @param e
+	 * @param t
 	 */
 	public static void record(Throwable t) {
 		if (SWITCHER.isClose()) 
@@ -414,9 +432,9 @@ public class Tracer {
 	
 	/**
 	 * Record exception and debug info.
-	 * 
-	 * @param info
-	 * @param e
+	 *
+     * @param t
+     * @param info
 	 */
 	public static void record(Throwable t, String info) {
 		if (SWITCHER.isClose()) 
@@ -430,42 +448,102 @@ public class Tracer {
 	
 	//************************** methods for record metrics ********************* //
 
+    /**
+     * Given a {@link Metric}, registers it under the given name.
+     *
+     * @param name   the name of the metric
+     * @param metric the metric
+     * @param <T>    the type of the metric
+     * @return {@code metric}
+     * @throws IllegalArgumentException if the name is already registered
+     */
 	public static <T extends Metric> T register(String name, T metric) {
 		return Metrics.register(name, metric);
 	}
-	
+
+    /**
+     * Increment the counter by one.
+     *
+     * @param name the counter name
+     */
 	public static void inc(String name) {
 		Metrics.inc(name);
 	}
-	
+
+    /**
+     * Increment the counter by {@code n}
+     *
+     * @param name the counter name
+     * @param n    the increment
+     */
 	public static void inc(String name, long n) {
 		Metrics.inc(name, n);
 	}
-	
+
+    /**
+     * Decrement the counter by one.
+     *
+     * @param name counter name
+     */
 	public static void dec(String name) {
 		Metrics.dec(name);
 	}
-	
+
+    /**
+     * Decrement the counter by n.
+     *
+     * @param name counter name
+     * @param n    decrement
+     */
 	public static void dec(String name, long n) {
 		Metrics.dec(name, n);
 	}
-	
+
+    /**
+     * Creates a new {@link Histogram} and registers it under the given name.
+     *
+     * @param name the name of the metric
+     * @return a new {@link Histogram}
+     */
 	public static Histogram histogram(String name) {
 		return Metrics.histogram(name);
 	}
-	
+
+    /**
+     * Creates a new {@link Timer} and registers it under the given name.
+     *
+     * @param name the name of the metric
+     * @return a new {@link Timer}
+     */
 	public static Meter meter(String name) {
 		return Metrics.meter(name);
 	}
-	
+
+    /**
+     * Creates a new {@link Timer} and registers it under the given name.
+     *
+     * @param name the name of the metric
+     * @return a new {@link Timer}
+     */
 	public static Timer timer(String name) {
 		return Metrics.timer(name);
 	}
-	
+
+    /**
+     * Registers an application {@link HealthCheck}.
+     *
+     * @param name        the name of the health check
+     * @param healthCheck the {@link HealthCheck} instance
+     */
 	public static void register(String name, HealthCheck healthCheck) {
 		Metrics.register(name, healthCheck);
 	}
-	
+
+    /**
+     * Unregisters the application {@link HealthCheck} with the given name.
+     *
+     * @param name the name of the {@link HealthCheck} instance
+     */
 	public static void unregister(String name) {
 		Metrics.unregister(name);
 	}

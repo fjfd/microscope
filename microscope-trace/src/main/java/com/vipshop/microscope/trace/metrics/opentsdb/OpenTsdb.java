@@ -13,14 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.vipshop.microscope.trace.metrics.reporter;
+package com.vipshop.microscope.trace.metrics.opentsdb;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.json.JSONConfiguration;
-import com.vipshop.microscope.common.metrics.Metric;
 
 import javax.ws.rs.core.MediaType;
 import java.util.Collections;
@@ -33,7 +32,7 @@ import java.util.Set;
  *
  * @author Sean Scanlon <sean.scanlon@gmail.com>
  */
-public class OpenTsdbSender {
+public class OpenTsdb {
 
     /**
      * Initiate a client Builder with the provided base opentsdb server url.
@@ -50,8 +49,8 @@ public class OpenTsdbSender {
      *
      * @param apiResource
      */
-    public static OpenTsdbSender create(WebResource apiResource) {
-        return new OpenTsdbSender(apiResource);
+    public static OpenTsdb create(WebResource apiResource) {
+        return new OpenTsdb(apiResource);
     }
 
     private final WebResource apiResource;
@@ -77,17 +76,17 @@ public class OpenTsdbSender {
             return this;
         }
 
-        public OpenTsdbSender create() {
-            return new OpenTsdbSender(baseUrl, connectionTimeout, readTimeout);
+        public OpenTsdb create() {
+            return new OpenTsdb(baseUrl, connectionTimeout, readTimeout);
         }
 
     }
 
-    private OpenTsdbSender(WebResource apiResource) {
+    private OpenTsdb(WebResource apiResource) {
         this.apiResource = apiResource;
     }
 
-    private OpenTsdbSender(String baseURL, Integer connectionTimeout, Integer readTimeout) {
+    private OpenTsdb(String baseURL, Integer connectionTimeout, Integer readTimeout) {
 
         final ClientConfig clientConfig = new DefaultClientConfig();
         clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
@@ -104,7 +103,7 @@ public class OpenTsdbSender {
      *
      * @param metric
      */
-    public void send(Metric metric) {
+    public void send(OpenTsdbMetric metric) {
         send(Collections.singleton(metric));
     }
 
@@ -113,7 +112,7 @@ public class OpenTsdbSender {
      *
      * @param metrics
      */
-    public void send(Set<Metric> metrics) {
+    public void send(Set<OpenTsdbMetric> metrics) {
         /*
          * might want to bind to a specific version of the API.
          * according to: http://opentsdb.net/docs/build/html/api_http/index.html#api-versioning

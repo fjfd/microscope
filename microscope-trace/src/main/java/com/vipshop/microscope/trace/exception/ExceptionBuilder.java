@@ -21,7 +21,12 @@ import com.vipshop.microscope.trace.stoarge.StorageHolder;
 public class ExceptionBuilder {
 	
 	private static final Storage storage = StorageHolder.getStorage();
-	
+
+    /**
+     * Record Exception to map
+     *
+     * @param t exception
+     */
 	public static void record(final Throwable t) {
 		HashMap<String, Object> exception = new HashMap<String, Object>();
 		
@@ -32,11 +37,18 @@ public class ExceptionBuilder {
 		exception.put(Constants.EXCEPTION_MESSAGE, ExceptionUtils.getMessage(t));
 		exception.put(Constants.EXCEPTION_STACK, ExceptionUtils.getStackTrace(t));
 		exception.put(Constants.TRACE_ID, Tracer.getTraceId());
-		exception.put(Constants.THREAD_INFO, ManagementFactory.getThreadMXBean().getThreadInfo(Thread.currentThread().getId()).toString());
+		exception.put(Constants.THREAD_INFO, ManagementFactory.getThreadMXBean()
+                                                              .getThreadInfo(Thread.currentThread().getId()).toString());
 		
 		storage.addException(exception);
 	}
-	
+
+    /**
+     * Record Exception and debug info to map
+     *
+     * @param t    exception
+     * @param info debug info
+     */
 	public static void record(final Throwable t, String info) {
 		HashMap<String, Object> exception = new HashMap<String, Object>();
 		
@@ -47,7 +59,8 @@ public class ExceptionBuilder {
 		exception.put(Constants.EXCEPTION_MESSAGE, ExceptionUtils.getMessage(t));
 		exception.put(Constants.EXCEPTION_STACK, ExceptionUtils.getStackTrace(t));
 		exception.put(Constants.TRACE_ID, Tracer.getTraceId());
-		exception.put(Constants.THREAD_INFO, ManagementFactory.getThreadMXBean().getThreadInfo(Thread.currentThread().getId()).toString());
+		exception.put(Constants.THREAD_INFO, ManagementFactory.getThreadMXBean()
+                                                              .getThreadInfo(Thread.currentThread().getId()).toString());
 		exception.put(Constants.DEBUG, info);
 
 		storage.addException(exception);

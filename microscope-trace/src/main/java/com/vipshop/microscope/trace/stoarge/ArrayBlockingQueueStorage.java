@@ -47,11 +47,13 @@ public class ArrayBlockingQueueStorage implements Storage {
 	}
 	
 	private void add(Object object) {
-		boolean isFull = !queue.offer(object);
-		if (isFull) {
-			queue.clear();
-			logger.warn("client queue is full, clean queue now");
-		}
+
+        boolean isFull = !queue.offer(object);
+
+        if (isFull) {
+            logger.warn("microscope client queue is full, empty queue now ...");
+            queue.clear();
+        }
 	}
 	
 	/**
@@ -63,7 +65,10 @@ public class ArrayBlockingQueueStorage implements Storage {
 	@Override
 	public LogEntry poll() {
 		Object object = queue.poll();
-		
+
+        /**
+         * construct trace LogEntry
+         */
 		if (object instanceof Span) {
 			LogEntry logEntry = null;
 			try {
@@ -74,18 +79,24 @@ public class ArrayBlockingQueueStorage implements Storage {
 			}
 			return logEntry;
 		}
-		
+
+        /**
+         * construct metric LogEntry
+         */
 		if (object instanceof Metric) {
 			LogEntry logEntry = null;
 			try {
 				logEntry = Codec.encodeToLogEntry((Metric) object);
 			} catch (Exception e) {
-				logger.debug("encode metrics to logEntry error", e);
+				logger.debug("encode metric to logEntry error", e);
 				return null;
 			}
 			return logEntry;
 		}
-		
+
+        /**
+         * construct exception LogEntry
+         */
 		if (object instanceof HashMap) {
 			LogEntry logEntry = null;
 			try {

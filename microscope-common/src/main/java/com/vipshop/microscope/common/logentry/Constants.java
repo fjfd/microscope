@@ -2,11 +2,13 @@ package com.vipshop.microscope.common.logentry;
 
 public class Constants {
 
+    /**
+     * LogEntry category
+     */
     public static final String TRACE = "trace";
     public static final String METRICS = "metrics";
     public static final String EXCEPTION = "exception";
 
-    public static final String TYPE = "Type";
 
     public static final String APP = "APP";
     public static final String IP = "IP";
@@ -25,10 +27,8 @@ public class Constants {
 
     public static final short MAX_TIMESPAN = 3600;
 
-    // ********************** logic category *************************//
-
     /**
-     * JVM
+     * JVM metrics category
      */
     public static final String JVM = "jvm";
     public static final String JVM_Overview = "jvm_overview";
@@ -38,7 +38,7 @@ public class Constants {
     public static final String JVM_GC = "jvm_gc";
 
     /**
-     * Http request response
+     * Http metrics category
      */
     public static final String HttpClient = "httpclient";
     public static final String Servlet = "servlet";
@@ -50,7 +50,7 @@ public class Constants {
     public static final String Http_Connection = "http-connection";
 
     /**
-     * Cache
+     * Cache metrics category
      */
     public static final String Cache = "cache";
 

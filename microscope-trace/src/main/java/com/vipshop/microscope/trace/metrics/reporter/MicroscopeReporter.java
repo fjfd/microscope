@@ -165,12 +165,12 @@ public class MicroscopeReporter extends ScheduledReporter {
     }
     
     private MicroscopeReporter(MetricRegistry registry, 
-    						 Storage output, 
-    						 Clock clock, 
-    						 TimeUnit rateUnit, 
-    						 TimeUnit durationUnit, 
-    						 MetricFilter filter,
-    						 Map<String, String> tags) {
+    						   Storage output,
+    						   Clock clock,
+    						   TimeUnit rateUnit,
+    						   TimeUnit durationUnit,
+    						   MetricFilter filter,
+    						   Map<String, String> tags) {
         super(registry, "opentsdb-reporter", filter, rateUnit, durationUnit);
         this.output = output;
         this.clock = clock;
@@ -216,7 +216,6 @@ public class MicroscopeReporter extends ScheduledReporter {
 
     }
     
-    @SuppressWarnings("rawtypes") 
     private void buildGauge(String name, Gauge gauge, long timestamp) {
 
         logger.debug("add gauge metrics to storage queue");
@@ -241,7 +240,7 @@ public class MicroscopeReporter extends ScheduledReporter {
     
     private void buildHistograms(String name, Histogram histogram, long timestamp) {
 
-        logger.debug("add hisgogram metrics to storage queue");
+        logger.debug("add histogram metrics to storage queue");
 
         final Snapshot snapshot = histogram.getSnapshot();
         output.addMetrics(Metric.named(prefix(name, "count"))

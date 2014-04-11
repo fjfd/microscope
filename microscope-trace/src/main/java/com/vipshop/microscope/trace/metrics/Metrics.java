@@ -1,5 +1,6 @@
 package com.vipshop.microscope.trace.metrics;
 
+import com.vipshop.microscope.trace.metrics.health.MicroscopeHealthCheck;
 import info.ganglia.gmetric4j.gmetric.GMetric;
 import info.ganglia.gmetric4j.gmetric.GMetric.UDPAddressingMode;
 
@@ -210,10 +211,17 @@ public class Metrics {
 
 //      metrics.register(Constants.JVM_Overview, new OverviewMetricsSet());
 		metrics.register(Constants.JVM_Monitor, new MonitorMetricsSet());
-		metrics.register(Constants.JVM_Thread, new ThreadMetricsSet());
-		metrics.register(Constants.JVM_Memory, new MemeoryMetricsSet());
-		metrics.register(Constants.JVM_GC, new GCMetricSet());
+		metrics.register(Constants.JVM_Thread,  new ThreadMetricsSet());
+		metrics.register(Constants.JVM_Memory,  new MemeoryMetricsSet());
+		metrics.register(Constants.JVM_GC,      new GCMetricSet());
 	}
+
+    /**
+     * Register microscope health check
+     */
+    public static void registerMicroscopeHealthCheck() {
+        healthMetrics.register("microscope.healthcheck", new MicroscopeHealthCheck());
+    }
 	
 	/**
 	 * Given a {@link Metric}, registers it under the given name.
@@ -231,8 +239,7 @@ public class Metrics {
 	/**
 	 * Increment the counter by one.
 	 * 
-	 * @param name
-	 *            the counter name
+	 * @param name the counter name
 	 */
 	public static void inc(String name) {
 		metrics.counter(name).inc();
@@ -241,10 +248,8 @@ public class Metrics {
 	/**
 	 * Increment the counter by {@code n}
 	 * 
-	 * @param name
-	 *            the counter name
-	 * @param n
-	 *            the increment
+	 * @param name the counter name
+	 * @param n    the increment
 	 */
 	public static void inc(String name, long n) {
 		metrics.counter(name).inc(n);
@@ -253,8 +258,7 @@ public class Metrics {
 	/**
 	 * Decrement the counter by one.
 	 * 
-	 * @param name
-	 *            counter name
+	 * @param name counter name
 	 */
 	public static void dec(String name) {
 		metrics.counter(name).dec();
@@ -263,10 +267,8 @@ public class Metrics {
 	/**
 	 * Decrement the counter by n.
 	 * 
-	 * @param name
-	 *            counter name
-	 * @param n
-	 *            decrement
+	 * @param name counter name
+	 * @param n    decrement
 	 */
 	public static void dec(String name, long n) {
 		metrics.counter(name).dec(n);

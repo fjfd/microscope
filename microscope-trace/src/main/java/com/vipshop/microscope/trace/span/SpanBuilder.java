@@ -105,7 +105,8 @@ public class SpanBuilder {
 		 */
 		spanStack.push(span);
 	}
-	
+
+    @Deprecated
 	public void clientSend(String spanName, String service, Category category) {
 		Span span = new Span();
 		span.setAppName(Tracer.APP_NAME);

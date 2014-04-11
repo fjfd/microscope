@@ -27,15 +27,14 @@ public class MetricsTest {
 		}
 	}
 	
-	@Test
-	public void testMicroscopeMemoryMetrics() throws InterruptedException {
-		Tracer.cleanContext();
-		Metrics.register(Constants.JVM_Memory, new MemeoryMetricsSet());
-		
-		for (;;) {
-			TimeUnit.SECONDS.sleep(1);
-		}
-	}
+    @Test
+    public void testJVMMetrics() throws InterruptedException {
+        Metrics.startSlf4jReporter(1, TimeUnit.SECONDS);
+        Metrics.registerJVM();
+        for (int i = 0; i < 5; i++) {
+            TimeUnit.SECONDS.sleep(1);
+        }
+    }
 	
 	@Test
     public void testRegister() throws InterruptedException {
@@ -61,15 +60,6 @@ public class MetricsTest {
             Thread.sleep(1000);
         }
     }
-	
-	@Test
-	public void testJVMMetrics() throws InterruptedException {
-		Metrics.startSlf4jReporter(1, TimeUnit.SECONDS);
-		Metrics.registerJVM();
-		for (int i = 0; i < 5; i++) {
-			TimeUnit.SECONDS.sleep(1);
-		}
-	}
 
     @Test
     public void testHistogram() throws InterruptedException {
