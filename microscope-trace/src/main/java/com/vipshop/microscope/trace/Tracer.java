@@ -118,20 +118,20 @@ public class Tracer {
 			try {
 				if (SWITCHER.isOpen()) {
 					
-					/*
+					/**
 					 * start queue transporter
 					 */
 					TransporterHolder.startQueueTransporter();
 					
-					/*
+					/**
 					 * start metrics reporter 
 					 */
 					Metrics.startMicroscopeReporter();
 					
-					/*
+					/**
 					 * register JVM metrics
 					 */
-//					Metrics.registerJVM();
+					Metrics.registerJVM();
 					
 				}
 			} catch (Exception e) {

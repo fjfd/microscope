@@ -12,8 +12,4 @@ public class UserService {
 	
 	private final StorageRepository storageRepository = StorageRepository.getStorageRepository();
 	
-	public List<Map<String, Object>> findUseHistory() {
-		return storageRepository.findUserHistory();
-	}
-	
 }

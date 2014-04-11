@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vipshop.microscope.storage.mysql.repository.DepenReportRepository">
+	
+	<insert id="save" parameterType="DepenReport">
+		insert into
+		depen_report
+		(year, month, week, day, hour, 
+		 client_name, server_name, 
+		 total_count, fail_count, fail_percent,
+		 avg, qps)
+		values
+		(#{year},#{month},#{week},#{day},#{hour},
+		 #{clientName},#{serverName},
+		 #{totalCount},#{failCount},#{failPercent}, 
+		 #{avg},#{qps})
+	</insert>
+	
+	<delete id="empty">
+		delete from depen_report;
+	</delete>
+	
+</mapper>

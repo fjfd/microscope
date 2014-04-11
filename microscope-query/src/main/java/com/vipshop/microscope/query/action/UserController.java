@@ -17,14 +17,4 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@RequestMapping("/user/userlist")
-	@ResponseBody
-	public ListResult queryExcepCondition(String callback) {
-		ListResult result = new ListResult();
-		List<Map<String, Object>> data = userService.findUseHistory();
-		result.setResult(data);
-		result.setCallback(callback);
-		return result;
-	}
-
 }

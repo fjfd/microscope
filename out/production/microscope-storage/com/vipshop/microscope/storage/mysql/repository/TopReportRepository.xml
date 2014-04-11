@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vipshop.microscope.storage.mysql.repository.TopReportRepository">
+	
+	<resultMap id="TopReportList" type="TopReport">
+		<result column="year" property="year" />
+		<result column="month" property="month" />
+		<result column="week" property="week" />
+		<result column="day" property="day" />
+		<result column="hour" property="hour" />
+		<result column="minute" property="minute" />
+		<result column="top_type" property="topType" />
+		<result column="top_1_name" property="top_1_name" />
+		<result column="top_2_name" property="top_2_name" />
+		<result column="top_3_name" property="top_3_name" />
+		<result column="top_4_name" property="top_4_name" />
+		<result column="top_5_name" property="top_5_name" />
+		<result column="top_6_name" property="top_6_name" />
+		<result column="top_7_name" property="top_7_name" />
+		<result column="top_8_name" property="top_8_name" />
+		<result column="top_9_name" property="top_9_name" />
+		<result column="top_10_name" property="top_10_name" />
+		<result column="top_1_data" property="top_1_data" />
+		<result column="top_2_name" property="top_2_name" />
+		<result column="top_3_name" property="top_3_name" />
+		<result column="top_4_name" property="top_4_name" />
+		<result column="top_5_name" property="top_5_name" />
+		<result column="top_6_name" property="top_6_name" />
+		<result column="top_7_name" property="top_7_name" />
+		<result column="top_8_name" property="top_8_name" />
+		<result column="top_9_name" property="top_9_name" />
+		<result column="top_10_name" property="top_10_name" />
+	</resultMap>
+	
+	<insert id="save" parameterType="TopReport">
+		insert into 
+		top_report
+		(year, month, week, day, hour, minute, top_type, 
+		 top_1_name, top_1_data, top_2_name, top_2_data, 
+		 top_3_name, top_3_data, top_4_name, top_4_data, 
+		 top_5_name, top_5_data, top_6_name, top_6_data, 
+		 top_7_name, top_7_data, top_8_name, top_8_data, 
+		 top_9_name, top_9_data, top_10_name, top_10_data)
+		values
+		(#{year},#{month},#{week},#{day},#{hour},#{minute},#{topType}, 
+		 #{top_1_name}, #{top_1_data}, #{top_2_name}, #{top_2_data}, 
+		 #{top_3_name}, #{top_3_data}, #{top_4_name}, #{top_4_data}, 
+		 #{top_5_name}, #{top_5_data}, #{top_6_name}, #{top_6_data}, 
+		 #{top_7_name}, #{top_7_data}, #{top_8_name}, #{top_8_data}, 
+		 #{top_9_name}, #{top_9_data}, #{top_10_name}, #{top_10_data})
+	</insert>
+	
+	<select id="count" resultType="Long">
+		select count(*) from top_report
+	</select>
+	
+	<select id="find" parameterType="int" resultMap="TopReportList">
+		SELECT * FROM top_report 
+		WHERE top_type = #{topType}
+		GROUP BY MINUTE
+		
+		ORDER BY YEAR DESC,
+		         MONTH DESC,
+		         HOUR DESC,
+		         MINUTE DESC
+		         
+		LIMIT 10 
+	</select>
+	
+	<delete id="empty">
+		delete from top_report
+	</delete>
+	
+</mapper>
