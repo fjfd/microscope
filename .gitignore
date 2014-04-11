@@ -8,4 +8,5 @@
 /pom.xml.versionsBackup
 /*/pom.xml.versionsBackup
 /.idea/*
+**/bin/
 
