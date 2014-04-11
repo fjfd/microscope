@@ -36,6 +36,8 @@ import com.vipshop.microscope.trace.metrics.jvm.MonitorMetricsSet;
 import com.vipshop.microscope.trace.metrics.jvm.OverviewMetricsSet;
 import com.vipshop.microscope.trace.metrics.jvm.ThreadMetricsSet;
 import com.vipshop.microscope.trace.metrics.reporter.MicroscopeReporter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Collect metrics data API.
@@ -44,6 +46,8 @@ import com.vipshop.microscope.trace.metrics.reporter.MicroscopeReporter;
  * @version 1.0
  */
 public class Metrics {
+
+    private static final Logger logger = LoggerFactory.getLogger(Metrics.class);
 	
 	private static final MetricRegistry metrics = MetricsHolder.getMetricRegistry();
 	private static final HealthCheckRegistry healthMetrics = MetricsHolder.getHealthCheckRegistry();
@@ -73,7 +77,10 @@ public class Metrics {
 														   .filter(MetricFilter.ALL)
 														   .withTags(tags)
 														   .build();
-			reporter.start(period, unit);
+
+            logger.info("start microscope metrics reporter with period :" + Tracer.REPORT_PERIOD_TIME + " millsecond");
+
+            reporter.start(period, unit);
 		}
 	}
 	
@@ -195,7 +202,13 @@ public class Metrics {
 	 * Register JVM metrics.
 	 */
 	public static void registerJVM() {
-//		metrics.register(Constants.JVM_Overview, new OverviewMetricsSet());
+
+        logger.info("register JVM monitor metrics");
+        logger.info("register JVM thread  metrics");
+        logger.info("register JVM memory  metrics");
+        logger.info("register JVM gc      metrics");
+
+//      metrics.register(Constants.JVM_Overview, new OverviewMetricsSet());
 		metrics.register(Constants.JVM_Monitor, new MonitorMetricsSet());
 		metrics.register(Constants.JVM_Thread, new ThreadMetricsSet());
 		metrics.register(Constants.JVM_Memory, new MemeoryMetricsSet());

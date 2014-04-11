@@ -5,6 +5,8 @@ import java.util.concurrent.TimeUnit;
 
 import com.vipshop.microscope.common.util.ConfigurationUtil;
 import com.vipshop.microscope.common.util.ThreadPoolUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A config reload switcher
@@ -14,11 +16,16 @@ import com.vipshop.microscope.common.util.ThreadPoolUtil;
  */
 public class ConfigReloadSwitcher implements Switcher {
 
+    private static final Logger logger = LoggerFactory.getLogger(ConfigReloadSwitcher.class);
+
 	private static ScheduledExecutorService executor = ThreadPoolUtil.newSingleDaemonScheduledThreadPool("reload-trace.properties-thread");
 	
 	private static volatile int isopen = 0;
 	
 	static {
+
+        logger.info("start config reload switcher thread, reload trace.properties file every 10 second");
+
 		executor.scheduleAtFixedRate(new Runnable() {
 			@Override
 			public void run() {

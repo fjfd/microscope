@@ -35,6 +35,8 @@ import com.vipshop.microscope.common.metrics.Metric;
 import com.vipshop.microscope.trace.metrics.Metrics;
 import com.vipshop.microscope.trace.stoarge.Storage;
 import com.vipshop.microscope.trace.stoarge.StorageHolder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A reporter which publishes metric values to a Microscope server.
@@ -42,6 +44,8 @@ import com.vipshop.microscope.trace.stoarge.StorageHolder;
  * @author Sean Scanlon <sean.scanlon@gmail.com>
  */
 public class MicroscopeReporter extends ScheduledReporter {
+
+    private static final Logger logger = LoggerFactory.getLogger(MicroscopeReporter.class);
 
     private final Clock clock;
 
@@ -145,9 +149,8 @@ public class MicroscopeReporter extends ScheduledReporter {
 
         /**
          * Builds a {@link MicroscopeReporter} with the given properties, sending metrics using the
-         * given {@link com.vipshop.microscope.trace.metrics.opentsdb.OpenTsdbSender.sps.metrics.opentsdb.OpenTsdb} client.
+         * given {@link com.vipshop.microscope.trace.metrics} client.
          *
-         * @param opentsdb a {@link OpenTsdbSender} client
          * @return a {@link MicroscopeReporter}
          */
         public MicroscopeReporter build() {
@@ -215,174 +218,196 @@ public class MicroscopeReporter extends ScheduledReporter {
     
     @SuppressWarnings("rawtypes") 
     private void buildGauge(String name, Gauge gauge, long timestamp) {
+
+        logger.debug("add gauge metrics to storage queue");
+
     	output.addMetrics(Metric.named(name)
-    			.withValue(gauge.getValue())
-    			.withTimestamp(timestamp)
-    			.withTags(tags)
-    			.build());
+    			                .withValue(gauge.getValue())
+    			                .withTimestamp(timestamp)
+    			                .withTags(tags)
+    			                .build());
     }
 
     private void buildCounter(String name, Counter counter, long timestamp) {
+
+        logger.debug("add counter metrics to storage queue");
+
         output.addMetrics(Metric.named(name)
-                	     .withTimestamp(timestamp)
-                	     .withValue(counter.getCount())
-                	     .withTags(tags)
-                	     .build());
+                	            .withTimestamp(timestamp)
+                	            .withValue(counter.getCount())
+                	            .withTags(tags)
+                	            .build());
     }
     
     private void buildHistograms(String name, Histogram histogram, long timestamp) {
+
+        logger.debug("add hisgogram metrics to storage queue");
+
         final Snapshot snapshot = histogram.getSnapshot();
         output.addMetrics(Metric.named(prefix(name, "count"))
-                .withTimestamp(timestamp)
-                .withValue(histogram.getCount())
-                .withTags(tags).build());
+                                .withTimestamp(timestamp)
+                                .withValue(histogram.getCount())
+                                .withTags(tags).build());
 
         output.addMetrics(Metric.named(prefix(name, "max"))
-                .withTimestamp(timestamp)
-                .withValue(snapshot.getMax())
-                .withTags(tags).build());
+                                .withTimestamp(timestamp)
+                                .withValue(snapshot.getMax())
+                                .withTags(tags).build());
 
         output.addMetrics(Metric.named(prefix(name, "min"))
-                .withTimestamp(timestamp)
-                .withValue(snapshot.getMin())
-                .withTags(tags).build());
+                                .withTimestamp(timestamp)
+                                .withValue(snapshot.getMin())
+                                .withTags(tags).build());
 
         output.addMetrics(Metric.named(prefix(name, "mean"))
-                .withTimestamp(timestamp)
-                .withValue(snapshot.getMean())
-                .withTags(tags).build());
+                                .withTimestamp(timestamp)
+                                .withValue(snapshot.getMean())
+                                .withTags(tags).build());
 
         output.addMetrics(Metric.named(prefix(name, "stddev"))
-                .withTimestamp(timestamp)
-                .withValue(snapshot.getStdDev())
-                .withTags(tags).build());
+                                .withTimestamp(timestamp)
+                                .withValue(snapshot.getStdDev())
+                                .withTags(tags).build());
 
 
         output.addMetrics(Metric.named(prefix(name, "p50"))
-                .withTimestamp(timestamp)
-                .withValue(snapshot.getMedian())
-                .withTags(tags).build());
+                                .withTimestamp(timestamp)
+                                .withValue(snapshot.getMedian())
+                                .withTags(tags).build());
 
         output.addMetrics(Metric.named(prefix(name, "p75"))
-                .withTimestamp(timestamp)
-                .withValue(snapshot.get75thPercentile())
-                .withTags(tags).build());
+                                .withTimestamp(timestamp)
+                                .withValue(snapshot.get75thPercentile())
+                                .withTags(tags).build());
 
         output.addMetrics(Metric.named(prefix(name, "p95"))
-                .withTimestamp(timestamp)
-                .withValue(snapshot.get95thPercentile())
-                .withTags(tags).build());
+                                .withTimestamp(timestamp)
+                                .withValue(snapshot.get95thPercentile())
+                                .withTags(tags).build());
 
 
         output.addMetrics(Metric.named(prefix(name, "p98"))
-                .withTimestamp(timestamp)
-                .withValue(snapshot.get98thPercentile())
-                .withTags(tags).build());
+                                .withTimestamp(timestamp)
+                                .withValue(snapshot.get98thPercentile())
+                                .withTags(tags).build());
 
         output.addMetrics(Metric.named(prefix(name, "p99"))
-                .withTimestamp(timestamp)
-                .withValue(snapshot.get99thPercentile())
-                .withTags(tags).build());
+                                .withTimestamp(timestamp)
+                                .withValue(snapshot.get99thPercentile())
+                                .withTags(tags).build());
 
         output.addMetrics(Metric.named(prefix(name, "p999"))
-                .withTimestamp(timestamp)
-                .withValue(snapshot.get999thPercentile())
-                .withTags(tags).build());
+                                .withTimestamp(timestamp)
+                                .withValue(snapshot.get999thPercentile())
+                                .withTags(tags).build());
 
     }
 
-    private void buildMeters(String name, Meter meter, long timestamp) { 
+    private void buildMeters(String name, Meter meter, long timestamp) {
+
+        logger.debug("add meter metrics to storage queue");
+
     	output.addMetrics(Metric.named(prefix(name, "count"))
-                .withTimestamp(timestamp)
-                .withValue(meter.getCount())
-                .withTags(tags).build());
+                                .withTimestamp(timestamp)
+                                .withValue(meter.getCount())
+                                .withTags(tags).build());
     	
     	output.addMetrics(Metric.named(prefix(name, "meanrate"))
-                .withTimestamp(timestamp)
-                .withValue(meter.getMeanRate())
-                .withTags(tags).build());
+                                .withTimestamp(timestamp)
+                                .withValue(meter.getMeanRate())
+                                .withTags(tags).build());
 
     	output.addMetrics(Metric.named(prefix(name, "1meanrate"))
-                .withTimestamp(timestamp)
-                .withValue(meter.getOneMinuteRate())
-                .withTags(tags).build());
+                                .withTimestamp(timestamp)
+                                .withValue(meter.getOneMinuteRate())
+                                .withTags(tags).build());
+
     	output.addMetrics(Metric.named(prefix(name, "5meanrate"))
-                .withTimestamp(timestamp)
-                .withValue(meter.getFiveMinuteRate())
-                .withTags(tags).build());
+                                .withTimestamp(timestamp)
+                                .withValue(meter.getFiveMinuteRate())
+                                .withTags(tags).build());
+
     	output.addMetrics(Metric.named(prefix(name, "15meanrate"))
-                .withTimestamp(timestamp)
-                .withValue(meter.getFifteenMinuteRate())
-                .withTags(tags).build());
+                                .withTimestamp(timestamp)
+                                .withValue(meter.getFifteenMinuteRate())
+                                .withTags(tags).build());
 
     }
 
     private void buildTimers(String name, Timer timer, long timestamp) {
+
+        logger.debug("add timer metrics to storage queue");
+
         final Snapshot snapshot = timer.getSnapshot();
+
         output.addMetrics(Metric.named(prefix(name, "count"))
-                .withTimestamp(timestamp)
-                .withValue(timer.getCount())
-                .withTags(tags).build());
+                                .withTimestamp(timestamp)
+                                .withValue(timer.getCount())
+                                .withTags(tags).build());
 
         output.addMetrics(Metric.named(prefix(name, "max"))
-                .withTimestamp(timestamp)
-                .withValue(snapshot.getMax())
-                .withTags(tags).build());
+                                .withTimestamp(timestamp)
+                                .withValue(snapshot.getMax())
+                                .withTags(tags).build());
 
         output.addMetrics(Metric.named(prefix(name, "min"))
-                .withTimestamp(timestamp)
-                .withValue(snapshot.getMin())
-                .withTags(tags).build());
+                                .withTimestamp(timestamp)
+                                .withValue(snapshot.getMin())
+                                .withTags(tags).build());
 
         output.addMetrics(Metric.named(prefix(name, "mean"))
-                .withTimestamp(timestamp)
-                .withValue(snapshot.getMean())
-                .withTags(tags).build());
+                                .withTimestamp(timestamp)
+                                .withValue(snapshot.getMean())
+                                .withTags(tags).build());
 
         output.addMetrics(Metric.named(prefix(name, "stddev"))
-                .withTimestamp(timestamp)
-                .withValue(snapshot.getStdDev())
-                .withTags(tags).build());
+                                .withTimestamp(timestamp)
+                                .withValue(snapshot.getStdDev())
+                                .withTags(tags).build());
 
 
         output.addMetrics(Metric.named(prefix(name, "p50"))
-                .withTimestamp(timestamp)
-                .withValue(snapshot.getMedian())
-                .withTags(tags).build());
+                                .withTimestamp(timestamp)
+                                .withValue(snapshot.getMedian())
+                                .withTags(tags).build());
 
         output.addMetrics(Metric.named(prefix(name, "p75"))
-                .withTimestamp(timestamp)
-                .withValue(snapshot.get75thPercentile())
-                .withTags(tags).build());
+                                .withTimestamp(timestamp)
+                                .withValue(snapshot.get75thPercentile())
+                                .withTags(tags).build());
 
         output.addMetrics(Metric.named(prefix(name, "p95"))
-                .withTimestamp(timestamp)
-                .withValue(snapshot.get95thPercentile())
-                .withTags(tags).build());
+                                .withTimestamp(timestamp)
+                                .withValue(snapshot.get95thPercentile())
+                                .withTags(tags).build());
 
 
         output.addMetrics(Metric.named(prefix(name, "p98"))
-                .withTimestamp(timestamp)
-                .withValue(snapshot.get98thPercentile())
-                .withTags(tags).build());
+                                .withTimestamp(timestamp)
+                                .withValue(snapshot.get98thPercentile())
+                                .withTags(tags).build());
 
         output.addMetrics(Metric.named(prefix(name, "p99"))
-                .withTimestamp(timestamp)
-                .withValue(snapshot.get99thPercentile())
-                .withTags(tags).build());
+                                .withTimestamp(timestamp)
+                                .withValue(snapshot.get99thPercentile())
+                                .withTags(tags).build());
 
         output.addMetrics(Metric.named(prefix(name, "p999"))
-                .withTimestamp(timestamp)
-                .withValue(snapshot.get999thPercentile())
-                .withTags(tags).build());
+                                .withTimestamp(timestamp)
+                                .withValue(snapshot.get999thPercentile())
+                                .withTags(tags).build());
+
     }
 
     private void buildHealths(String name, HealthCheck.Result result, long timestamp) {
+
+        logger.debug("add health metrics to storage queue");
+
     	output.addMetrics(Metric.named(prefix(name, "health"))
-                			 .withTimestamp(timestamp)
-                			 .withValue(result.isHealthy())
-                			 .withTags(tags)
-                			 .build());
+                                .withTimestamp(timestamp)
+                                .withValue(result.isHealthy())
+                                .withTags(tags)
+                                .build());
     }
 
     private String prefix(String... names) {

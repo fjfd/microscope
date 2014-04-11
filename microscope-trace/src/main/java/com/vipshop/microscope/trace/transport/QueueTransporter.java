@@ -48,7 +48,9 @@ public class QueueTransporter implements Transporter {
 	
 	@Override
 	public void transport() {
-		
+
+        logger.info("start queue transporter thread send LogEntry");
+
 		ExecutorService executor = ThreadPoolUtil.newSingleDaemonThreadExecutor("queue-transporter");
 		
 		executor.execute(new Runnable() {

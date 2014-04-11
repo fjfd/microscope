@@ -89,7 +89,7 @@ public class Tracer {
 	
 	public static int REPORT_PERIOD_TIME = 10;
 	
-	private static Switcher SWITCHER = SwitcherHolder.getConfigReloadSwitcher();
+	private static Switcher SWITCHER = SwitcherHolder.getConfigSwitcher();
 	
 	/**
 	 * If trace.properties exist in classpath, then means application
