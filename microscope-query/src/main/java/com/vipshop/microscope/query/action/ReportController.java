@@ -25,7 +25,27 @@ public class ReportController {
 	
 	@Autowired
 	private ReportService service;
-	
+
+
+    @RequestMapping("/report/metricsIndex")
+    @ResponseBody
+    public ListResult metricIndex(HttpServletRequest request, String callback) {
+        ListResult result = new ListResult();
+        List<Map<String, Object>> data = service.metricIndex();
+        result.setResult(data);
+        result.setCallback(callback);
+        return result;
+    }
+
+    @RequestMapping("/report/metrics")
+    @ResponseBody
+    public ListResult metric(HttpServletRequest request, String callback) {
+        ListResult result = new ListResult();
+        List<Map<String, Object>> data = service.metric(request);
+        result.setResult(data);
+        result.setCallback(callback);
+        return result;
+    }
 
 	@RequestMapping("/report/topReport")
 	@ResponseBody

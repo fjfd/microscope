@@ -34,8 +34,8 @@ public class DisruptorMessageConsumer implements MessageConsumer {
 	
 	private static final Logger logger = LoggerFactory.getLogger(DisruptorMessageConsumer.class);
 
-	private final int LOGENTRY_BUFFER_SIZE    =     1024 * 8 * 8 * 1;
-	private final int TRACE_BUFFER_SIZE       =     1024 * 8 * 2 * 1;
+	private final int LOGENTRY_BUFFER_SIZE    =     1024 * 8 * 8 * 4;
+	private final int TRACE_BUFFER_SIZE       =     1024 * 8 * 8 * 2;
 	private final int METRICS_BUFFER_SIZE     =     1024 * 8 * 4 * 2;
 	private final int EXCEPTION_BUFFER_SIZE   =     1024 * 8 * 2 * 1;
 	

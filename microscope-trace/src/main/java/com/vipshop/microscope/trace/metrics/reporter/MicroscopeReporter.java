@@ -182,7 +182,7 @@ public class MicroscopeReporter extends ScheduledReporter {
     				   SortedMap<String, Meter> meters, 
     				   SortedMap<String, Timer> timers) {
 
-      final long timestamp = clock.getTime() / 1000;
+        final long timestamp = clock.getTime();
 
         for (Map.Entry<String, Gauge> g : gauges.entrySet()) {
         	buildGauge(g.getKey(), g.getValue(), timestamp);

@@ -195,7 +195,7 @@ public class Metrics {
 	 * Register JVM metrics.
 	 */
 	public static void registerJVM() {
-		metrics.register(Constants.JVM_Overview, new OverviewMetricsSet());
+//		metrics.register(Constants.JVM_Overview, new OverviewMetricsSet());
 		metrics.register(Constants.JVM_Monitor, new MonitorMetricsSet());
 		metrics.register(Constants.JVM_Thread, new ThreadMetricsSet());
 		metrics.register(Constants.JVM_Memory, new MemeoryMetricsSet());

@@ -11,11 +11,6 @@ import com.vipshop.microscope.common.trace.Category;
 public class TracerTest {
 	
 	@Test
-	public void testIsTraceEnable() {
-		Assert.assertEquals(true, Tracer.isTraceEnable());
-	}
-	
-	@Test
 	public void testTrace() throws InterruptedException {
 		Tracer.cleanContext();
 		Tracer.clientSend("http://www.huohu.com", Category.URL);

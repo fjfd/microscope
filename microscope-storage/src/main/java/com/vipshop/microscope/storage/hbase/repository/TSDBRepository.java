@@ -45,7 +45,7 @@ public class TSDBRepository extends AbstraceRepository {
         /**
          * limit the size of result in [10, 1000]
          */
-        long limit = Long.valueOf(query.get("limit"));
+        long limit = 10;
 
         if (limit > 1000) {
             limit = 1000;
@@ -62,8 +62,8 @@ public class TSDBRepository extends AbstraceRepository {
         String ipAddress = query.get(Constants.IP);
         String metricsname = query.get(Constants.METRICS);
 
-        long startTime = Long.valueOf(query.get("startTime"));
-        long endTime = Long.valueOf(query.get("endTime"));
+        long startTime = Long.valueOf(query.get(Constants.STARTTIME));
+        long endTime = Long.valueOf(query.get(Constants.ENDTIME));
 
         startTime = TimeStampUtil.baseHourTime(startTime);
         endTime = TimeStampUtil.baseHourTime(endTime);

@@ -32,7 +32,7 @@ public class StorageRepositoryTest {
 	
 	@Test
 	public void testSuggestMetrics() {
-		System.out.println(storageRepository.suggestMetrics("jvm"));;
+		System.out.println(storageRepository.suggestMetrics("jvm"));
 	}
 	
 	@Test

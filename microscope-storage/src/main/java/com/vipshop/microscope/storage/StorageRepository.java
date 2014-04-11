@@ -164,6 +164,13 @@ public class StorageRepository {
         hbaseRepository.saveMetric(metric);
     }
 
+    public List<Map<String, Object>> findMetricIndex(){
+        return hbaseRepository.findMetricsIndex();
+    }
+
+    public List<Map<String, Object>> findMetric(Map<String, String> query){
+        return hbaseRepository.findMetrics(query);
+    }
 
 	
 }

@@ -22,26 +22,13 @@ public class MetricsTest {
 	@Test
 	public void testMicroscopeJVMMetrics() throws InterruptedException {
 		Tracer.cleanContext();
-		
-		Histogram randomNums = Metrics.histogram(name(MetricsTest.class, "random"));
-		Random rand = new Random();
-		
-		Meter requests = Metrics.meter(name(MetricsTest.class, "meter-request"));
-		
-		Timer timer = Metrics.timer(name(MetricsTest.class, "timer-request"));
-		
 		for (;;) {
-			Timer.Context context = timer.time();
-			randomNums.update((int) (rand.nextDouble()*100));
-			requests.mark();
-			Metrics.inc("queue-size");
 			TimeUnit.SECONDS.sleep(1);
-			context.stop();
 		}
 	}
 	
 	@Test
-	public void testMemory() throws InterruptedException {
+	public void testMicroscopeMemoryMetrics() throws InterruptedException {
 		Tracer.cleanContext();
 		Metrics.register(Constants.JVM_Memory, new MemeoryMetricsSet());
 		
@@ -49,24 +36,6 @@ public class MetricsTest {
 			TimeUnit.SECONDS.sleep(1);
 		}
 	}
-	
-	@Test
-	public void testLong() throws InterruptedException {
-		Tracer.cleanContext();
-		Metrics.register("long_value", new Gauge<Long>() {
-
-			@Override
-			public Long getValue() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-		});
-		
-		for (;;) {
-			TimeUnit.SECONDS.sleep(1);
-		}
-	}
-
 	
 	@Test
     public void testRegister() throws InterruptedException {

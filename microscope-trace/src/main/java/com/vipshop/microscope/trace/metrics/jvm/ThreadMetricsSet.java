@@ -43,7 +43,7 @@ public class ThreadMetricsSet implements MetricSet {
 
 	@Override
 	public Map<String, Metric> getMetrics() {
-		final ThreadInfo[] allThreads = threads.dumpAllThreads(true, true);
+		final ThreadInfo[] allThreads = threads.getThreadInfo(threads.getAllThreadIds());
 		final Map<String, Metric> gauges = new LinkedHashMap<String, Metric>();
 
 		for (final Thread.State state : Thread.State.values()) {
@@ -76,16 +76,16 @@ public class ThreadMetricsSet implements MetricSet {
 			}
 		});
 
-		gauges.put("ThreadDump", new Gauge<List<String>>() {
-			List<String> threadInfos = new ArrayList<String>();
-			@Override
-			public List<String> getValue() {
-				for (ThreadInfo threadInfo : allThreads) {
-					threadInfos.add(threadInfo.toString());
-				}
-				return threadInfos;
-			}
-		});
+//		gauges.put("ThreadDump", new Gauge<List<String>>() {
+//			List<String> threadInfos = new ArrayList<String>();
+//			@Override
+//			public List<String> getValue() {
+//				for (ThreadInfo threadInfo : allThreads) {
+//					threadInfos.add(threadInfo.toString());
+//				}
+//				return threadInfos;
+//			}
+//		});
 
 		return gauges;
 	}

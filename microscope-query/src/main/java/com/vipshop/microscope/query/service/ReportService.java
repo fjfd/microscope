@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.vipshop.microscope.common.logentry.Constants;
 import org.springframework.stereotype.Service;
 
 import com.vipshop.microscope.storage.StorageRepository;
@@ -17,26 +18,20 @@ public class ReportService {
 	
 	private final StorageRepository storageRepository = StorageRepository.getStorageRepository();
 	
-	public Map<String, Object> suggestMetrics(HttpServletRequest request) {
-		Map<String, Object> result = new HashMap<String, Object>();
-		String search = request.getParameter("search");
-		
-		result.put("suggestmetrics", storageRepository.suggestMetrics(search));
-		return result;
+	public List<Map<String, Object>> metricIndex() {
+		return storageRepository.findMetricIndex();
 	}
 	
-	public Map<String, Object> metrics(HttpServletRequest request) {
-		Map<String, Object> result = new HashMap<String, Object>();
+	public List<Map<String, Object>> metric(HttpServletRequest request) {
+        Map<String, String> query = new HashMap<String, String>();
 
-		String metric = request.getParameter("metric");
-		Map<String, String> tags = new HashMap<String, String>();
-		tags.put("APP", request.getParameter("app"));
-		tags.put("IP", request.getParameter("ip"));
-		Aggregator function = Aggregators.SUM;
-		boolean rate = true;
-		
-		result.put("metrics", storageRepository.find(System.currentTimeMillis() - 60 * 1000 * 10, metric, tags, function, rate));
-		return result;
+        query.put(Constants.APP, request.getParameter(Constants.APP));
+        query.put(Constants.IP, request.getParameter(Constants.IP));
+        query.put(Constants.METRICS, request.getParameter(Constants.METRICS));
+        query.put(Constants.STARTTIME, request.getParameter(Constants.STARTTIME));
+        query.put(Constants.ENDTIME, request.getParameter(Constants.ENDTIME));
+
+		return storageRepository.findMetric(query);
 	}
 
 	public Map<String, Object> getTopReport() {
