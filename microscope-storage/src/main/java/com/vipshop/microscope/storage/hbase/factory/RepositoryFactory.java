@@ -12,66 +12,84 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @version 1.0
  */
 public class RepositoryFactory {
-	
-	private static final TraceIndexRepository TRACE_INDEX;
-	private static final TraceOverviewRepository TRACE_OVERVIEW;
-	private static final TraceRepository TRACE;
-	
-	private static final ExceptionIndexRepository EXCEPTION_INDEX;
-	private static final ExceptionRepository EXCEPTION;
-	
+
+    // ************** system message ************************************************ //
+    private static final SystemRepository SYSTEM;
+
+    // ************** trace message ************************************************ //
+    private static final TraceIndexRepository TRACE_INDEX;
+    private static final TraceOverviewRepository TRACE_OVERVIEW;
+    private static final TraceRepository TRACE;
+
+    // ************** exception message ************************************************ //
+    private static final ExceptionIndexRepository EXCEPTION_INDEX;
+    private static final ExceptionRepository EXCEPTION;
+
+    // ************** metrics message ************************************************ //
+    private static final TSDBIndexRepository TSDB_INDEX;
+    private static final TSDBUIDRepository TSDBUID;
+    private static final TSDBRepository TSDB;
+
+    // ************** report info ***************************************************** //
 	private static final TopReportRepository TOP;
 
+    // ************** user info ******************************************************* //
 	private static final UserRepository USER;
-	
-	private static final TSDBRepository TSDB;
-	private static final TSDBUIDRepository TSDBUID;
-    private static final TSDBIndexRepository TSDB_INDEX;
-	
+
 	static {
-		AbstractApplicationContext context = new ClassPathXmlApplicationContext("/applicationContext-storage-hbase.xml", RepositoryFactory.class);
-		
-		// ************** trace ************************************************ //
-		
+
+        AbstractApplicationContext context = new ClassPathXmlApplicationContext("/applicationContext-storage-hbase.xml", RepositoryFactory.class);
+
+        // ************************** initialize repository *************************************** //
+
+        SYSTEM = context.getBean(SystemRepository.class);
+
 		TRACE_INDEX   = context.getBean(TraceIndexRepository.class);
 		TRACE_OVERVIEW = context.getBean(TraceOverviewRepository.class);
 		TRACE  = context.getBean(TraceRepository.class);
 		
-		// ************** exception ******************************************** //
-		
 		EXCEPTION_INDEX = context.getBean(ExceptionIndexRepository.class);
 		EXCEPTION = context.getBean(ExceptionRepository.class);
-		
-		// ************** report **********************************************  //
-		
-		TOP = context.getBean(TopReportRepository.class);
-
-		// ************** user   ********************************************** //
-		
-		USER = context.getBean(UserRepository.class);
 
         TSDB_INDEX = context.getBean(TSDBIndexRepository.class);
-		TSDB = context.getBean(TSDBRepository.class);
-		TSDBUID = context.getBean(TSDBUIDRepository.class);
-		
+        TSDB = context.getBean(TSDBRepository.class);
+        TSDBUID = context.getBean(TSDBUIDRepository.class);
+
+        TOP = context.getBean(TopReportRepository.class);
+
+        USER = context.getBean(UserRepository.class);
+
+        // ************************** initialize table ************************************************ //
+
+        SYSTEM.initialize();
+
 		TRACE_INDEX.initialize();
 		TRACE_OVERVIEW.initialize();
 		TRACE.initialize();
 		
 		EXCEPTION_INDEX.initialize();
 		EXCEPTION.initialize();
-		
-		TOP.initialize();
-
-		USER.initialize();
 
         TSDB_INDEX.initialize();
-		TSDB.initialize();
-		TSDBUID.initialize();
-		
-		context.close();
+        TSDB.initialize();
+        TSDBUID.initialize();
+
+        TOP.initialize();
+
+        USER.initialize();
+
+        context.close();
 	}
-	
+
+    /**
+     * Return {@link SystemRepository}
+     *
+     * @return
+     */
+    public static SystemRepository getSystemRepository() {
+        return SYSTEM;
+    }
+
 	/**
 	 * Return {@link TraceIndexRepository}
 	 * 
@@ -117,9 +135,36 @@ public class RepositoryFactory {
 		return EXCEPTION;
 	}
 
+    /**
+     * Return {@link TSDBRepository}
+     *
+     * @return
+     */
+    public static TSDBRepository getTsdbRepository() {
+        return TSDB;
+    }
+
+    /**
+     * Return {@link TSDBUIDRepository}
+     *
+     * @return
+     */
+    public static TSDBUIDRepository getTsdbuidRepository() {
+        return TSDBUID;
+    }
+
+    /**
+     * Return {@link TSDBIndexRepository}
+     *
+     * @return
+     */
+    public static TSDBIndexRepository getTsdbIndexReporsitory() {
+        return TSDB_INDEX;
+    }
+
 	/**
 	 * Return {@link TopReportRepository}
-	 * 
+	 *
 	 * @return
 	 */
 	public static TopReportRepository getTopRepository() {
@@ -133,18 +178,6 @@ public class RepositoryFactory {
 	public static UserRepository getUserRepository() {
 		return USER;
 	}
-	
-	public static TSDBRepository getTsdbRepository() {
-		return TSDB;
-	}
-	
-	public static TSDBUIDRepository getTsdbuidRepository() {
-		return TSDBUID;
-	}
-
-    public static TSDBIndexRepository getTsdbIndexReporsitory() {
-        return TSDB_INDEX;
-    }
 
 	/**
 	 * Return Configuration

@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.HashMap;
 
+import com.vipshop.microscope.common.system.SystemInfo;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.thrift.TException;
@@ -99,7 +100,21 @@ public class Codec {
 		HashMap<String, Object> info = (HashMap<String, Object>) SerializationUtils.deserialize(bytes);
 		return info;
 	}
-	
+
+    //************************  SystemInfo to logEntry  ***************************//
+
+    public static LogEntry encodeToLogEntry(SystemInfo systemInfo) {
+        byte[] bytes = SerializationUtils.serialize((Serializable) systemInfo);
+        String message = Base64.encodeBase64String(bytes);
+        LogEntry logEntry = new LogEntry(Constants.SYSTEM, message);
+        return logEntry;
+    }
+
+    public static SystemInfo decodeToSystemInfo(final String msg) {
+        byte[] bytes = Base64.decodeBase64(msg);
+        SystemInfo info = (SystemInfo) SerializationUtils.deserialize(bytes);
+        return info;
+    }
 
 	//************************  map to string  ***************************//
 	

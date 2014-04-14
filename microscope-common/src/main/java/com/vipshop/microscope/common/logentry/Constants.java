@@ -3,18 +3,28 @@ package com.vipshop.microscope.common.logentry;
 public class Constants {
 
     /**
+     * Common category
+     */
+    public static final String APP = "APP";
+    public static final String IP = "IP";
+    public static final String DATE = "Date";
+    public static final String STARTTIME = "startTime";
+    public static final String ENDTIME = "endTime";
+
+    public static final short MAX_TIMESPAN = 3600;
+    public static final String REPORT = "Report";
+
+    /**
      * LogEntry category
      */
     public static final String TRACE = "trace";
     public static final String METRICS = "metrics";
     public static final String EXCEPTION = "exception";
+    public static final String SYSTEM = "system";
 
-
-    public static final String APP = "APP";
-    public static final String IP = "IP";
-    public static final String DATE = "Date";
-    public static final String REPORT = "Report";
-
+    /**
+     * Exception metrics
+     */
     public static final String EXCEPTION_NAME = "Name";
     public static final String EXCEPTION_MESSAGE = "Message";
     public static final String EXCEPTION_STACK = "Stack";
@@ -22,32 +32,38 @@ public class Constants {
     public static final String THREAD_INFO = "Thread";
     public static final String DEBUG = "Debug";
 
-    public static final String STARTTIME = "startTime";
-    public static final String ENDTIME = "endTime";
-
-    public static final short MAX_TIMESPAN = 3600;
-
     /**
      * JVM metrics category
      */
     public static final String JVM = "jvm";
-    public static final String JVM_Overview = "jvm_overview";
-    public static final String JVM_Monitor = "jvm_monitor";
-    public static final String JVM_Thread = "jvm_thread";
-    public static final String JVM_Memory = "jvm_memory";
-    public static final String JVM_GC = "jvm_gc";
+    public static final String JVM_OVERVIEW = "jvm.overview";
+    public static final String JVM_MONITOR = "jvm.monitor";
+    public static final String JVM_THREAD = "jvm.thread";
+    public static final String JVM_MEMORY = "jvm.memory";
+    public static final String JVM_GC = "jvm.gc";
 
     /**
      * Http metrics category
      */
-    public static final String HttpClient = "httpclient";
-    public static final String Servlet = "servlet";
+    public static final String HTTPCLIENT = "httpclient.";
+    public static final String HTTPCLIENT_AVAILABLE_CONN = "httpclient.available.connections";
+    public static final String HTTPCLIENT_LEASED_CONN = "httpclient.leased.connections";
+    public static final String HTTPCLIENT_MAX_CONN = "httpclient.max.connections";
+    public static final String HTTPCLIENT_PENDING_CONN = "httpclient.pending.connections";
 
-    public static final String Servlet_Active_Request = "servlet-activeRequests";
-    public static final String Servlet_Response_Code = "servlet-responseCodes-";
-    public static final String Servlet_Request = "servlet-requests";
+    /**
+     * Thrift metrics category
+     */
+    public static final String THTTPCLIENT = "thttpclient.";
 
-    public static final String Http_Connection = "http-connection";
+    /**
+     * Servlet metrics category
+     */
+    public static final String SERVLET_CODE = "servlet.code.";
+    public static final String SERVLET_OTHER_CODE = "servlet.code.other";
+    public static final String SERVLET_ACTIVE_REQUEST = "servlet.active.request";
+    public static final String SERVLET_REQUEST = "servlet.request";
+
 
     /**
      * Cache metrics category
@@ -58,28 +74,5 @@ public class Constants {
      * DB
      */
     public static final String DB = "db";
-
-
-    // ********************** basic category *************************//
-
-    /**
-     * exception metrics
-     */
-    public static final String Exception = "exception";
-
-    /**
-     * health metrics
-     */
-    public static final String Health = "health";
-
-    /**
-     * schedule metrics
-     */
-    public static final String Counter = "counter";
-    public static final String Gauge = "gauge";
-    public static final String Histogram = "histogram";
-    public static final String Meter = "meter";
-    public static final String Timer = "timer";
-
 
 }

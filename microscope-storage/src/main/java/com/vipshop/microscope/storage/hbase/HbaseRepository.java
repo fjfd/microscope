@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.vipshop.microscope.common.metrics.Metric;
+import com.vipshop.microscope.common.system.SystemInfo;
 import org.apache.hadoop.hbase.client.Scan;
 
 import com.vipshop.microscope.common.trace.Span;
@@ -23,33 +24,47 @@ public class HbaseRepository {
 	 * Create hbase tables.
 	 */
 	public void create() {
-		RepositoryFactory.getTraceIndexRepository().initialize();
+
+        RepositoryFactory.getSystemRepository().initialize();
+
+        RepositoryFactory.getTraceIndexRepository().initialize();
 		RepositoryFactory.getTraceOverviewRepository().initialize();
 		RepositoryFactory.getTraceRepository().initialize();
+
 		RepositoryFactory.getExceptionIndexRepository().initialize();
 		RepositoryFactory.getExceptionRepository().initialize();
-		RepositoryFactory.getTopRepository().initialize();
-		RepositoryFactory.getUserRepository().initialize();
-		RepositoryFactory.getTsdbRepository().initialize();
-		RepositoryFactory.getTsdbuidRepository().initialize();
+
+        RepositoryFactory.getTsdbRepository().initialize();
+        RepositoryFactory.getTsdbuidRepository().initialize();
         RepositoryFactory.getTsdbIndexReporsitory().initialize();
-	}
+
+        RepositoryFactory.getTopRepository().initialize();
+
+        RepositoryFactory.getUserRepository().initialize();
+    }
 	
 	/**
 	 * Drop hbase tables.
 	 */
 	public void drop() {
-		RepositoryFactory.getTraceIndexRepository().drop();
+
+        RepositoryFactory.getSystemRepository().drop();
+
+        RepositoryFactory.getTraceIndexRepository().drop();
 		RepositoryFactory.getTraceOverviewRepository().drop();
 		RepositoryFactory.getTraceRepository().drop();
+
 		RepositoryFactory.getExceptionIndexRepository().drop();
 		RepositoryFactory.getExceptionRepository().drop();
-		RepositoryFactory.getTopRepository().drop();
-		RepositoryFactory.getUserRepository().drop();
-		RepositoryFactory.getTsdbRepository().drop();
-		RepositoryFactory.getTsdbuidRepository().drop();
+
+        RepositoryFactory.getTsdbRepository().drop();
+        RepositoryFactory.getTsdbuidRepository().drop();
         RepositoryFactory.getTsdbIndexReporsitory().drop();
-	}
+
+        RepositoryFactory.getTopRepository().drop();
+
+        RepositoryFactory.getUserRepository().drop();
+    }
 	
 	/**
 	 * Drop hbast tables then create tables.
@@ -58,9 +73,18 @@ public class HbaseRepository {
 		this.drop();
 		this.create();
 	}
-	
+
+    /**
+     * Store {@link SystemInfo} to table 'system'.
+     *
+     * @param info
+     */
+    public void save(SystemInfo info) {
+        RepositoryFactory.getSystemRepository().save(info);
+    }
+
 	/**
-	 * Store {@link TraceIndexTable} to hbase.
+	 * Store {@link TraceIndexTable} to table 'trace_index'.
 	 * 
 	 * @param appTable
 	 */
@@ -124,7 +148,17 @@ public class HbaseRepository {
 	}
 	
 	// ******************************************************************************** //
-	
+
+    /**
+     * Get {@link SystemInfo} by APP and IP
+     *
+     * @param query
+     * @return
+     */
+    public SystemInfo getSystemInfo(Map<String, String> query) {
+        return RepositoryFactory.getSystemRepository().find(query);
+    }
+
 	/**
 	 * Trace query index.
 	 * 

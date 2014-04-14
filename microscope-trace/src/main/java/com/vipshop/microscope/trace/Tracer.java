@@ -1,12 +1,10 @@
 package com.vipshop.microscope.trace;
 
+import com.codahale.metrics.*;
+import com.vipshop.microscope.trace.metrics.system.SystemInfoBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.codahale.metrics.Histogram;
-import com.codahale.metrics.Meter;
-import com.codahale.metrics.Metric;
-import com.codahale.metrics.Timer;
 import com.codahale.metrics.health.HealthCheck;
 import com.vipshop.microscope.common.trace.Category;
 import com.vipshop.microscope.common.util.ConfigurationUtil;
@@ -149,6 +147,11 @@ public class Tracer {
 					 * register JVM metrics
 					 */
 					Metrics.registerJVM();
+
+                    /**
+                     * record system info
+                     */
+                    SystemInfoBuilder.recordSystemInfo();
 					
 				}
 			} catch (Exception e) {
@@ -498,6 +501,17 @@ public class Tracer {
 	public static void dec(String name, long n) {
 		Metrics.dec(name, n);
 	}
+
+    /**
+     * Creates a new {@link com.codahale.metrics.Counter} and registers it under the given name.
+     *
+     * @param name the name of the metric
+     * @return a new {@link com.codahale.metrics.Counter}
+     */
+    public static Counter counter(String name) {
+        return Metrics.counter(name);
+    }
+
 
     /**
      * Creates a new {@link Histogram} and registers it under the given name.

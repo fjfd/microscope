@@ -52,10 +52,6 @@ public class Metric implements Serializable {
 			metric.metric = name;
 		}
 
-		public Metric build() {
-			return metric;
-		}
-
 		public Builder withValue(Object value) {
 			metric.value = value;
 			return this;
@@ -72,7 +68,11 @@ public class Metric implements Serializable {
 			}
 			return this;
 		}
-	}
+
+        public Metric build() {
+            return metric;
+        }
+    }
 
 	private String metric;
 

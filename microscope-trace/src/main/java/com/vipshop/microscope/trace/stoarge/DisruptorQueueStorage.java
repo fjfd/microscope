@@ -11,6 +11,7 @@ import com.lmax.disruptor.SequenceBarrier;
 import com.lmax.disruptor.SleepingWaitStrategy;
 import com.vipshop.microscope.common.logentry.LogEntry;
 import com.vipshop.microscope.common.metrics.Metric;
+import com.vipshop.microscope.common.system.SystemInfo;
 import com.vipshop.microscope.common.trace.Span;
 import com.vipshop.microscope.common.util.ThreadPoolUtil;
 import com.vipshop.microscope.trace.transport.Transporter;
@@ -106,5 +107,15 @@ public class DisruptorQueueStorage implements Storage, Transporter {
 		// TODO Auto-generated method stub
 		
 	}
+
+    /**
+     * System info
+     *
+     * @param system
+     */
+    @Override
+    public void addSystemInfo(SystemInfo system) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
 
 }

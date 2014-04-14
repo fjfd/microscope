@@ -1,6 +1,7 @@
 package com.vipshop.microscope.trace.metrics;
 
 import com.vipshop.microscope.trace.metrics.health.MicroscopeHealthCheck;
+import com.vipshop.microscope.trace.metrics.jvm.*;
 import info.ganglia.gmetric4j.gmetric.GMetric;
 import info.ganglia.gmetric4j.gmetric.GMetric.UDPAddressingMode;
 
@@ -31,11 +32,6 @@ import com.codahale.metrics.health.HealthCheckRegistry;
 import com.vipshop.microscope.common.logentry.Constants;
 import com.vipshop.microscope.common.util.IPAddressUtil;
 import com.vipshop.microscope.trace.Tracer;
-import com.vipshop.microscope.trace.metrics.jvm.GCMetricSet;
-import com.vipshop.microscope.trace.metrics.jvm.MemeoryMetricsSet;
-import com.vipshop.microscope.trace.metrics.jvm.MonitorMetricsSet;
-import com.vipshop.microscope.trace.metrics.jvm.OverviewMetricsSet;
-import com.vipshop.microscope.trace.metrics.jvm.ThreadMetricsSet;
 import com.vipshop.microscope.trace.metrics.reporter.MicroscopeReporter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -79,7 +75,7 @@ public class Metrics {
 														   .withTags(tags)
 														   .build();
 
-            logger.info("start microscope metrics reporter with period :" + Tracer.REPORT_PERIOD_TIME + " millsecond");
+            logger.info("start microscope metrics reporter with period " + Tracer.REPORT_PERIOD_TIME + " millsecond");
 
             reporter.start(period, unit);
 		}
@@ -204,15 +200,16 @@ public class Metrics {
 	 */
 	public static void registerJVM() {
 
+        logger.info("register JVM over    metrics");
         logger.info("register JVM monitor metrics");
         logger.info("register JVM thread  metrics");
         logger.info("register JVM memory  metrics");
         logger.info("register JVM gc      metrics");
 
-//      metrics.register(Constants.JVM_Overview, new OverviewMetricsSet());
-		metrics.register(Constants.JVM_Monitor, new MonitorMetricsSet());
-		metrics.register(Constants.JVM_Thread,  new ThreadMetricsSet());
-		metrics.register(Constants.JVM_Memory,  new MemeoryMetricsSet());
+        metrics.register(Constants.JVM_OVERVIEW, new OverviewMetricsSet());
+		metrics.register(Constants.JVM_MONITOR, new MonitorMetricsSet());
+		metrics.register(Constants.JVM_THREAD,  new ThreadMetricsSet());
+		metrics.register(Constants.JVM_MEMORY,  new MemeoryMetricsSet());
 		metrics.register(Constants.JVM_GC,      new GCMetricSet());
 	}
 

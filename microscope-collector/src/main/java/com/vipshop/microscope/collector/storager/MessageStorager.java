@@ -3,6 +3,7 @@ package com.vipshop.microscope.collector.storager;
 import java.util.Map;
 
 import com.vipshop.microscope.common.metrics.Metric;
+import com.vipshop.microscope.common.system.SystemInfo;
 import com.vipshop.microscope.common.trace.Span;
 import com.vipshop.microscope.storage.StorageRepository;
 import com.vipshop.microscope.storage.hbase.table.TraceIndexTable;
@@ -83,5 +84,14 @@ public class MessageStorager {
 		storageRepository.saveExceptionIndex(map);
 		storageRepository.saveException(map);
 	}
+
+    /**
+     * Store SystemInfo message.
+     *
+     * @param info
+     */
+    public void storageSystemInfo(SystemInfo info) {
+        storageRepository.save(info);
+    }
 	
 }

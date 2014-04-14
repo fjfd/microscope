@@ -2,6 +2,8 @@ package com.vipshop.microscope.collector.disruptor;
 
 import java.util.HashMap;
 
+import com.vipshop.microscope.collector.storager.MessageStorager;
+import com.vipshop.microscope.common.system.SystemInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,6 +56,7 @@ public class LogEntryValidateHandler implements EventHandler<LogEntryEvent> {
 			}
 			span = messageValidater.validateMessage(span);
 			publish(span);
+            return;
 		}
 		
 		// handle metrics message
@@ -67,6 +70,7 @@ public class LogEntryValidateHandler implements EventHandler<LogEntryEvent> {
 			}
 			// TODO validate
 			publish(metrics);
+            return;
 		}
 
 		// handle exception message
@@ -81,13 +85,34 @@ public class LogEntryValidateHandler implements EventHandler<LogEntryEvent> {
 			}
 			metrics = messageValidater.validateMessage(metrics);
 			publish(metrics);
+            return;
 		}
+
+        // handle system info
+        if (category.equals(Constants.SYSTEM)) {
+            SystemInfo info = null;
+            try {
+                info = Codec.decodeToSystemInfo(logEntry.getMessage());
+            } catch (Exception e) {
+                logger.error("decode to SystemInfo error, ignore this message ", e);
+                return;
+            }
+
+            /**
+             * Store System info directly.
+             *
+             * Because this info only once for a host,
+             * so there is no need to put in buffer.
+             */
+            MessageStorager.getMessageStorager().storageSystemInfo(info);
+
+        }
 	}
 
 	/**
 	 * Publish trace to {@code TraceRingBuffer}.
 	 * 
-	 * @param msg
+	 * @param span
 	 */
 	private void publish(Span span) {
 		if (span != null) {

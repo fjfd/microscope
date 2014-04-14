@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
+import com.vipshop.microscope.common.system.SystemInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,8 +46,13 @@ public class ArrayBlockingQueueStorage implements Storage {
 	public void addException(Map<String, Object> exceptionInfo) {
 		add(exceptionInfo);
 	}
-	
-	private void add(Object object) {
+
+    @Override
+    public void addSystemInfo(SystemInfo system) {
+        add(system);
+    }
+
+    private void add(Object object) {
 
         boolean isFull = !queue.offer(object);
 
@@ -107,6 +113,20 @@ public class ArrayBlockingQueueStorage implements Storage {
 			}
 			return logEntry;
 		}
+
+        /**
+         * construct system info LogEntry
+         */
+        if (object instanceof SystemInfo) {
+            LogEntry logEntry = null;
+            try {
+                logEntry = Codec.encodeToLogEntry((SystemInfo)object);
+            } catch (Exception e) {
+                logger.debug("encode system info to logEntry error", e);
+                return null;
+            }
+            return logEntry;
+        }
 		
 		return null;
 	}

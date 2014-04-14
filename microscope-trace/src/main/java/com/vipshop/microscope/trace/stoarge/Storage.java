@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.vipshop.microscope.common.logentry.LogEntry;
 import com.vipshop.microscope.common.metrics.Metric;
+import com.vipshop.microscope.common.system.SystemInfo;
 import com.vipshop.microscope.common.trace.Span;
 
 /**
@@ -31,9 +32,16 @@ public interface Storage {
 	/**
 	 * Exception message
 	 * 
-	 * @param logEntry
+	 * @param exceptionInfo
 	 */
 	public void addException(Map<String, Object> exceptionInfo);
+
+    /**
+     * System info
+     *
+     * @param system
+     */
+    public void addSystemInfo(SystemInfo system);
 
 	/**
 	 * Get LogEntry from queue

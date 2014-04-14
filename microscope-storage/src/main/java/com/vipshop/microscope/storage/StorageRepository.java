@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.vipshop.microscope.common.metrics.Metric;
+import com.vipshop.microscope.common.system.SystemInfo;
 import org.apache.hadoop.hbase.client.Scan;
 
 import com.vipshop.microscope.common.trace.Span;
@@ -50,6 +51,10 @@ public class StorageRepository {
 	public void reInitalizeHbaseTable() {
 		hbaseRepository.reInitalize();
 	}
+
+    public void save(SystemInfo info) {
+        hbaseRepository.save(info);
+    }
 	
 	public void save(TraceIndexTable appTable) {
 		hbaseRepository.save(appTable);
@@ -123,7 +128,11 @@ public class StorageRepository {
 	public void createMySQLTable() {
 		mysqlStorageRepository.create();
 	}
-	
+
+    public SystemInfo getSystemInfo(Map<String, String> query) {
+        return hbaseRepository.getSystemInfo(query);
+    }
+
 	public List<Map<String, Object>> findTraceIndex() {
 		return hbaseRepository.findTraceIndex();
 	}

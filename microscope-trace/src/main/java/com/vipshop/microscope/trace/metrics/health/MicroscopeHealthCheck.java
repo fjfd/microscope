@@ -4,7 +4,7 @@ import com.codahale.metrics.health.HealthCheck;
 import com.vipshop.microscope.trace.Tracer;
 
 /**
- * Check microscpe trace is enable or not.
+ * Check microscope trace is enable or not.
  * 
  * @author Xu Fei
  * @version 1.0
