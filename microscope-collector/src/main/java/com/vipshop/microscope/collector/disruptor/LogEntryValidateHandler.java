@@ -2,6 +2,7 @@ package com.vipshop.microscope.collector.disruptor;
 
 import java.util.HashMap;
 
+import com.vipshop.microscope.collector.stats.LogEntryStats;
 import com.vipshop.microscope.collector.storager.MessageStorager;
 import com.vipshop.microscope.common.system.SystemInfo;
 import org.slf4j.Logger;
@@ -27,6 +28,7 @@ public class LogEntryValidateHandler implements EventHandler<LogEntryEvent> {
 	public final Logger logger = LoggerFactory.getLogger(LogEntryValidateHandler.class);
 	
 	private final MessageValidater messageValidater = new MessageValidater();
+    private final LogEntryStats stats = new LogEntryStats();
 
 	private RingBuffer<TraceEvent> traceRingBuffer;
 	private RingBuffer<MetricsEvent> metricsRingBuffer;
@@ -42,7 +44,14 @@ public class LogEntryValidateHandler implements EventHandler<LogEntryEvent> {
 
 	@Override
 	public void onEvent(LogEntryEvent event, long sequence, boolean endOfBatch) throws Exception {
-		LogEntry logEntry = event.getResult();
+
+        LogEntry logEntry = event.getResult();
+
+        /**
+         * stats LogEntry size and number
+         */
+        stats.stats(logEntry);
+
 		String category = logEntry.getCategory();
 
 		// handle trace message

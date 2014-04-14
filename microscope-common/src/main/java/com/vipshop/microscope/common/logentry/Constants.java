@@ -3,16 +3,20 @@ package com.vipshop.microscope.common.logentry;
 public class Constants {
 
     /**
-     * Common category
+     * Common constant
      */
     public static final String APP = "APP";
     public static final String IP = "IP";
     public static final String DATE = "Date";
+    public static final String NAME = "Name";
     public static final String STARTTIME = "startTime";
     public static final String ENDTIME = "endTime";
+    public static final String LIMIT = "limit";
 
+    /**
+     * Time serious
+     */
     public static final short MAX_TIMESPAN = 3600;
-    public static final String REPORT = "Report";
 
     /**
      * LogEntry category
@@ -23,7 +27,7 @@ public class Constants {
     public static final String SYSTEM = "system";
 
     /**
-     * Exception metrics
+     * Exception constant
      */
     public static final String EXCEPTION_NAME = "Name";
     public static final String EXCEPTION_MESSAGE = "Message";
@@ -54,7 +58,7 @@ public class Constants {
     /**
      * Thrift metrics category
      */
-    public static final String THTTPCLIENT = "thttpclient.";
+    public static final String THTTPCLIENT = "thrift.httpclient.";
 
     /**
      * Servlet metrics category
@@ -63,7 +67,6 @@ public class Constants {
     public static final String SERVLET_OTHER_CODE = "servlet.code.other";
     public static final String SERVLET_ACTIVE_REQUEST = "servlet.active.request";
     public static final String SERVLET_REQUEST = "servlet.request";
-
 
     /**
      * Cache metrics category

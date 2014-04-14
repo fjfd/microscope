@@ -33,7 +33,6 @@ public class TopAnalyzer {
 	/**
 	 * Analyze top by span.
 	 * 
-	 * @param calendarUtil
 	 * @param span
 	 */
 	public void analyze(Span span) {

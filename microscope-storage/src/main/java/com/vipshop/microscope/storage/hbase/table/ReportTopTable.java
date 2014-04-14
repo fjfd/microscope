@@ -8,11 +8,11 @@ import org.apache.hadoop.hbase.util.Bytes;
  * @author Xu Fei
  * @version 1.0
  */
-public class TopReportTable {
+public class ReportTopTable {
 	
 	// ********* Hbase schema for top table *********** //
 	
-	public static final String TABLE_NAME = "report_top10";
+	public static final String TABLE_NAME = "report_top";
 	
 	public static final String CF = "cf";
 	

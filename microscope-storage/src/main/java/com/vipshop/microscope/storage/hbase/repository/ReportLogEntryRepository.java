@@ -1,9 +1,6 @@
 package com.vipshop.microscope.storage.hbase.repository;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
+import com.vipshop.microscope.storage.hbase.table.ReportTopTable;
 import org.apache.hadoop.hbase.client.HTableInterface;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
@@ -12,17 +9,19 @@ import org.springframework.data.hadoop.hbase.RowMapper;
 import org.springframework.data.hadoop.hbase.TableCallback;
 import org.springframework.stereotype.Repository;
 
-import com.vipshop.microscope.storage.hbase.table.TopReportTable;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 @Repository
-public class TopReportRepository extends AbstraceRepository {
+public class ReportLogEntryRepository extends AbstraceRepository {
 
 	public void initialize() {
-		super.initialize(TopReportTable.TABLE_NAME, TopReportTable.CF);
+		super.initialize(ReportTopTable.TABLE_NAME, ReportTopTable.CF);
 	}
 
 	public void drop() {
-		super.drop(TopReportTable.TABLE_NAME);
+		super.drop(ReportTopTable.TABLE_NAME);
 	}
 	
 	private String rowKey() {
@@ -35,12 +34,12 @@ public class TopReportRepository extends AbstraceRepository {
 	}
 
 	public void save(final Map<String, Object> top) {
-		hbaseTemplate.execute(TopReportTable.TABLE_NAME, new TableCallback<Map<String, Object>>() {
+		hbaseTemplate.execute(ReportTopTable.TABLE_NAME, new TableCallback<Map<String, Object>>() {
 			@Override
 			public Map<String, Object> doInTable(HTableInterface table) throws Throwable {
 				Put p = new Put(Bytes.toBytes(rowKey()));
 				for (Entry<String, Object> entry : top.entrySet()) {
-					p.add(TopReportTable.BYTE_CF, Bytes.toBytes(entry.getKey()), Bytes.toBytes((String)entry.getValue()));
+					p.add(ReportTopTable.BYTE_CF, Bytes.toBytes(entry.getKey()), Bytes.toBytes((String)entry.getValue()));
 				}
 				table.put(p);
 				return top;
@@ -50,12 +49,12 @@ public class TopReportRepository extends AbstraceRepository {
 	
 	public Map<String, Object> find() {
 		final Map<String, Object> top = new HashMap<String, Object>();
-		return hbaseTemplate.get(TopReportTable.TABLE_NAME, rowKey(), new RowMapper<Map<String, Object>>() {
+		return hbaseTemplate.get(ReportTopTable.TABLE_NAME, rowKey(), new RowMapper<Map<String, Object>>() {
 			@Override
 			public Map<String, Object> mapRow(Result result, int rowNum) throws Exception {
-				String[] topQunitifer = getColumnsInColumnFamily(result, TopReportTable.CF);
+				String[] topQunitifer = getColumnsInColumnFamily(result, ReportTopTable.CF);
 				for (int i = 0; i < topQunitifer.length; i++) {
-					byte[] data = result.getValue(TopReportTable.BYTE_CF, Bytes.toBytes(topQunitifer[i]));
+					byte[] data = result.getValue(ReportTopTable.BYTE_CF, Bytes.toBytes(topQunitifer[i]));
 					top.put(topQunitifer[i], Bytes.toString(data));
 				}
 				return top;

@@ -512,7 +512,6 @@ public class Tracer {
         return Metrics.counter(name);
     }
 
-
     /**
      * Creates a new {@link Histogram} and registers it under the given name.
      *

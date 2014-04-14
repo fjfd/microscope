@@ -15,7 +15,7 @@ import com.vipshop.microscope.query.result.MapResult;
 import com.vipshop.microscope.query.service.TraceSerivice;
 
 /**
- * Query Data API.
+ * Query Trace Data API.
  * 
  * @author Xu Fei
  * @version 1.0

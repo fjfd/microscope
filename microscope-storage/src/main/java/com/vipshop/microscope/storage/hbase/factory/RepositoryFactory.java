@@ -31,7 +31,7 @@ public class RepositoryFactory {
     private static final TSDBRepository TSDB;
 
     // ************** report info ***************************************************** //
-	private static final TopReportRepository TOP;
+	private static final ReportTopRepository TOP;
 
     // ************** user info ******************************************************* //
 	private static final UserRepository USER;
@@ -55,7 +55,7 @@ public class RepositoryFactory {
         TSDB = context.getBean(TSDBRepository.class);
         TSDBUID = context.getBean(TSDBUIDRepository.class);
 
-        TOP = context.getBean(TopReportRepository.class);
+        TOP = context.getBean(ReportTopRepository.class);
 
         USER = context.getBean(UserRepository.class);
 
@@ -163,11 +163,11 @@ public class RepositoryFactory {
     }
 
 	/**
-	 * Return {@link TopReportRepository}
+	 * Return {@link com.vipshop.microscope.storage.hbase.repository.ReportTopRepository}
 	 *
 	 * @return
 	 */
-	public static TopReportRepository getTopRepository() {
+	public static ReportTopRepository getTopRepository() {
 		return TOP;
 	}
 

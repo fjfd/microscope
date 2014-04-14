@@ -16,8 +16,13 @@ public class TimeStampUtil {
 							      0).getTime();
 	}
 	
-	public static long timestampByHour(long timestamp) {
-		return (timestamp / 60) * 60;
+	public static long timestampOfCurrentDay(CalendarUtil calendar) {
+        return new java.util.Date(calendar.currentYear(),
+                calendar.currentMonth(),
+                calendar.currentDay(),
+                0,
+                0,
+                0).getTime();
 	}
 
 	
@@ -81,8 +86,7 @@ public class TimeStampUtil {
 
     public static long baseHourTime(long timestamp) {
         timestamp = timestamp / 1000;
-        return  timestamp - (timestamp % Constants.MAX_TIMESPAN);
+        return timestamp - (timestamp % Constants.MAX_TIMESPAN);
     }
 
-	
 }

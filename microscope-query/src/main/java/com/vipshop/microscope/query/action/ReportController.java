@@ -15,7 +15,7 @@ import com.vipshop.microscope.query.result.MapResult;
 import com.vipshop.microscope.query.service.ReportService;
 
 /**
- * Responsible for report data.
+ * Query report data API.
  * 
  * @author Xu Fei
  * @version 1.0
