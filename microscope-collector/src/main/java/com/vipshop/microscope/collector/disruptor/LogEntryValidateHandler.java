@@ -147,7 +147,7 @@ public class LogEntryValidateHandler implements EventHandler<LogEntryEvent> {
 	/**
 	 * Publish exception to {@code ExceptionRingBuffer}.
 	 * 
-	 * @param msg
+	 * @param exception
 	 */
 	private void publish(HashMap<String, Object> exception) {
 		if (exception != null) {
