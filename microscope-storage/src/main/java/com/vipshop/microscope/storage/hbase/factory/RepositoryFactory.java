@@ -14,7 +14,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class RepositoryFactory {
 
     // ************** system message ************************************************ //
-    private static final SystemRepository SYSTEM;
+    private static final HomeSystemRepository SYSTEM;
 
     // ************** trace message ************************************************ //
     private static final TraceIndexRepository TRACE_INDEX;
@@ -42,7 +42,7 @@ public class RepositoryFactory {
 
         // ************************** initialize repository *************************************** //
 
-        SYSTEM = context.getBean(SystemRepository.class);
+        SYSTEM = context.getBean(HomeSystemRepository.class);
 
 		TRACE_INDEX   = context.getBean(TraceIndexRepository.class);
 		TRACE_OVERVIEW = context.getBean(TraceOverviewRepository.class);
@@ -82,11 +82,11 @@ public class RepositoryFactory {
 	}
 
     /**
-     * Return {@link SystemRepository}
+     * Return {@link com.vipshop.microscope.storage.hbase.repository.HomeSystemRepository}
      *
      * @return
      */
-    public static SystemRepository getSystemRepository() {
+    public static HomeSystemRepository getSystemRepository() {
         return SYSTEM;
     }
 

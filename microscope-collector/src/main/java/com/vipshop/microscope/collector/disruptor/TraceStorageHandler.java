@@ -29,7 +29,7 @@ public class TraceStorageHandler implements EventHandler<TraceEvent> {
 		traceStorageWorkerExecutor.execute(new Runnable() {
 			@Override
 			public void run() {
-				messageStorager.storageTrace(event.getSpan());
+				messageStorager.storeTrace(event.getSpan());
 			}
 		});
 	}

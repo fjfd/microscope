@@ -35,7 +35,7 @@ public class ExceptionStorageHandler implements EventHandler<ExceptionEvent> {
 	}
 	
 	private void processMetrics(final HashMap<String, Object> metrics) {
-		messageStorager.storageException(metrics);
+		messageStorager.storeException(metrics);
 	}
 
 }

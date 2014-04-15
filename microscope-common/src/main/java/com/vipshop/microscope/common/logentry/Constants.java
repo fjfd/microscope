@@ -50,32 +50,32 @@ public class Constants {
      * Http metrics category
      */
     public static final String HTTPCLIENT = "httpclient.";
-    public static final String HTTPCLIENT_AVAILABLE_CONN = "httpclient.available.connections";
-    public static final String HTTPCLIENT_LEASED_CONN = "httpclient.leased.connections";
-    public static final String HTTPCLIENT_MAX_CONN = "httpclient.max.connections";
-    public static final String HTTPCLIENT_PENDING_CONN = "httpclient.pending.connections";
+    public static final String HTTPCLIENT_AVAILABLE_CONN = "httpclient.available-connections";
+    public static final String HTTPCLIENT_LEASED_CONN = "httpclient.leased-connections";
+    public static final String HTTPCLIENT_MAX_CONN = "httpclient.max-connections";
+    public static final String HTTPCLIENT_PENDING_CONN = "httpclient.pending-connections";
 
     /**
      * Thrift metrics category
      */
-    public static final String THTTPCLIENT = "thrift.httpclient.";
+    public static final String THTTPCLIENT = "thriftclient.";
 
     /**
      * Servlet metrics category
      */
-    public static final String SERVLET_CODE = "servlet.code.";
-    public static final String SERVLET_OTHER_CODE = "servlet.code.other";
-    public static final String SERVLET_ACTIVE_REQUEST = "servlet.active.request";
+    public static final String SERVLET_CODE = "servlet.code-";
+    public static final String SERVLET_OTHER_CODE = "servlet.code-other";
+    public static final String SERVLET_ACTIVE_REQUEST = "servlet.active-request";
     public static final String SERVLET_REQUEST = "servlet.request";
 
     /**
      * Cache metrics category
      */
-    public static final String Cache = "cache";
+    public static final String Cache = "cache.";
 
     /**
      * DB
      */
-    public static final String DB = "db";
+    public static final String DB = "db.";
 
 }

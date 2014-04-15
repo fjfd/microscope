@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.vipshop.microscope.collector.storager.MessageStorager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,8 +18,6 @@ import com.vipshop.microscope.storage.StorageRepository;
 public class TopAnalyzer {
 	
 	public static final Logger logger = LoggerFactory.getLogger(TopReport.class);
-	
-	private StorageRepository repository = StorageRepository.getStorageRepository();
 	
 	private ConcurrentHashMap<Category, FixedPriorityQueue> container;
 
@@ -35,17 +34,17 @@ public class TopAnalyzer {
 	 * 
 	 * @param span
 	 */
-	public void analyze(Span span) {
+	public void analyze(Span span, MessageStorager storager) {
 		FixedPriorityQueue queue = container.get(Category.valueOf(span.getSpanType()));
 		queue.add(span);
-		writeReport();
+		writeReport(storager);
 	}
 	
 	public ConcurrentHashMap<Category, FixedPriorityQueue> getContainer() {
 		return container;
 	}
 	
-	private void writeReport() {
+	private void writeReport(MessageStorager storager) {
 		HashMap<String, Object> top = new HashMap<String, Object>();
 		for (Entry<Category, FixedPriorityQueue> entry : container.entrySet()) {
 			StringBuilder builder = new StringBuilder();
@@ -63,6 +62,6 @@ public class TopAnalyzer {
 			}
 			top.put(entry.getKey().getStrValue(), builder.toString());
 		}
-		repository.saveTop(top);
+		storager.storeTopReport(top);
 	}
 }

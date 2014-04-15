@@ -1,7 +1,9 @@
 package com.vipshop.microscope.collector.storager;
 
+import java.util.HashMap;
 import java.util.Map;
 
+import com.vipshop.microscope.storage.hbase.report.LogEntryReport;
 import com.vipshop.microscope.common.metrics.Metric;
 import com.vipshop.microscope.common.system.SystemInfo;
 import com.vipshop.microscope.common.trace.Span;
@@ -37,7 +39,7 @@ public class MessageStorager {
 	 * 
 	 * @param span
 	 */
-	public void storageTrace(Span span) {
+	public void storeTrace(Span span) {
 		String traceId = String.valueOf(span.getTraceId());
 		String spanId = String.valueOf(span.getSpanId());
 		if (traceId.equals(spanId)) {
@@ -52,11 +54,11 @@ public class MessageStorager {
 	 * 
 	 * @param metrics
 	 */
-	public void storageMetrics(Metric metrics) {
-		String metric  = metrics.getMetric();
-		long timestamp = metrics.getTimestamp();
-		Map<String, String> tags = metrics.getTags();
-		Object value = metrics.getValue();
+	public void storeMetrics(Metric metrics) {
+//		String metric  = metrics.getMetric();
+//		long timestamp = metrics.getTimestamp();
+//		Map<String, String> tags = metrics.getTags();
+//		Object value = metrics.getValue();
 		
 //		if (value instanceof Long) {
 //			storageRepository.add(metric, timestamp, (Long)value, tags);
@@ -80,7 +82,7 @@ public class MessageStorager {
 	 * 
 	 * @param map
 	 */
-	public void storageException(Map<String, Object> map) {
+	public void storeException(Map<String, Object> map) {
 		storageRepository.saveExceptionIndex(map);
 		storageRepository.saveException(map);
 	}
@@ -90,8 +92,21 @@ public class MessageStorager {
      *
      * @param info
      */
-    public void storageSystemInfo(SystemInfo info) {
+    public void storeSystemInfo(SystemInfo info) {
         storageRepository.save(info);
+    }
+
+    /**
+     * Store top report.
+     *
+     * @param top
+     */
+    public void storeTopReport(HashMap<String, Object> top) {
+        storageRepository.saveTop(top);
+    }
+
+    public void storeLogEntryReport(LogEntryReport report) {
+
     }
 	
 }

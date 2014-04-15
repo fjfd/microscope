@@ -8,12 +8,23 @@ import org.apache.hadoop.hbase.util.Bytes;
 
 import com.vipshop.microscope.common.trace.Span;
 
+/**
+ * Hbase schema for 'trace' table
+ *
+ * @author Xu Fei
+ * @version 1.0
+ */
 public class TraceTable {
-	
-	// ********* hbase schema for trace table *********** //
-	
+
+    /**
+     * table name
+     */
 	public static final String TABLE_NAME = "trace";
-	public static final String CF = "cf";
+
+    /**
+     * column family
+     */
+    public static final String CF = "cf";
 
 	public static final byte[] BYTE_CF = Bytes.toBytes(CF);
 	

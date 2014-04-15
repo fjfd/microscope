@@ -5,23 +5,27 @@ import java.util.Map;
 import org.apache.hadoop.hbase.util.Bytes;
 
 /**
- * Store user info and user history.
+ * Hbase schema for 'user' table.
  * 
  * @author Xu Fei
  * @version 1.0
  */
 public class UserTable {
 
-	// ********* hbase schema for user table ************ //
-	
-	/*
-	 * table name and cloumn family
+	/**
+	 * table name
 	 */
 	public static final String TABLE_NAME = "user";
-	
+
+    /**
+     * column family
+     */
 	public static final String CF_INFO = "cf_info";
 	public static final String CF_HISTORY = "cf_history";
-	
+
+    /**
+     * column family byte
+     */
 	public static final byte[] BYTE_CF_INFO = Bytes.toBytes(CF_INFO);
 	public static final byte[] BYTE_CF_HISTORY = Bytes.toBytes(CF_HISTORY);
 

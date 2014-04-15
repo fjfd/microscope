@@ -49,56 +49,56 @@ public class MemeoryMetricsSet implements MetricSet {
 	public Map<String, Metric> getMetrics() {
 		final Map<String, Metric> gauges = new LinkedHashMap<String, Metric>();
 
-		gauges.put("TotalInit", new Gauge<Long>() {
+		gauges.put("Total.Init", new Gauge<Long>() {
 			@Override
 			public Long getValue() {
 				return mxBean.getHeapMemoryUsage().getInit() + mxBean.getNonHeapMemoryUsage().getInit();
 			}
 		});
 
-		gauges.put("TotalUsed", new Gauge<Long>() {
+		gauges.put("Total.Used", new Gauge<Long>() {
 			@Override
 			public Long getValue() {
 				return mxBean.getHeapMemoryUsage().getUsed() + mxBean.getNonHeapMemoryUsage().getUsed();
 			}
 		});
 
-		gauges.put("TotalMax", new Gauge<Long>() {
+		gauges.put("Total.Max", new Gauge<Long>() {
 			@Override
 			public Long getValue() {
 				return mxBean.getHeapMemoryUsage().getMax() + mxBean.getNonHeapMemoryUsage().getMax();
 			}
 		});
 
-		gauges.put("TotalCommitted", new Gauge<Long>() {
+		gauges.put("Total.Committed", new Gauge<Long>() {
 			@Override
 			public Long getValue() {
 				return mxBean.getHeapMemoryUsage().getCommitted() + mxBean.getNonHeapMemoryUsage().getCommitted();
 			}
 		});
 
-		gauges.put("HeapInit", new Gauge<Long>() {
+		gauges.put("Heap.Init", new Gauge<Long>() {
 			@Override
 			public Long getValue() {
 				return mxBean.getHeapMemoryUsage().getInit();
 			}
 		});
 
-		gauges.put("HeapUsed", new Gauge<Long>() {
+		gauges.put("Heap.Used", new Gauge<Long>() {
 			@Override
 			public Long getValue() {
 				return mxBean.getHeapMemoryUsage().getUsed();
 			}
 		});
 
-		gauges.put("HeapMax", new Gauge<Long>() {
+		gauges.put("Heap.Max", new Gauge<Long>() {
 			@Override
 			public Long getValue() {
 				return mxBean.getHeapMemoryUsage().getMax();
 			}
 		});
 
-		gauges.put("HeapCommitted", new Gauge<Long>() {
+		gauges.put("Heap.Committed", new Gauge<Long>() {
 			@Override
 			public Long getValue() {
 				return mxBean.getHeapMemoryUsage().getCommitted();
@@ -113,35 +113,35 @@ public class MemeoryMetricsSet implements MetricSet {
 			}
 		});
 
-		gauges.put("NonHeapInit", new Gauge<Long>() {
+		gauges.put("NonHeap.Init", new Gauge<Long>() {
 			@Override
 			public Long getValue() {
 				return mxBean.getNonHeapMemoryUsage().getInit();
 			}
 		});
 
-		gauges.put("NonHeapUsed", new Gauge<Long>() {
+		gauges.put("NonHeap.Used", new Gauge<Long>() {
 			@Override
 			public Long getValue() {
 				return mxBean.getNonHeapMemoryUsage().getUsed();
 			}
 		});
 
-		gauges.put("NonHeapMax", new Gauge<Long>() {
+		gauges.put("NonHeap.Max", new Gauge<Long>() {
 			@Override
 			public Long getValue() {
 				return mxBean.getNonHeapMemoryUsage().getMax();
 			}
 		});
 
-		gauges.put("NonHeapCommitted", new Gauge<Long>() {
+		gauges.put("NonHeap.Committed", new Gauge<Long>() {
 			@Override
 			public Long getValue() {
 				return mxBean.getNonHeapMemoryUsage().getCommitted();
 			}
 		});
 
-		gauges.put("NonHeapUsage", new RatioGauge() {
+		gauges.put("NonHeap.Usage", new RatioGauge() {
 			@Override
 			protected Ratio getRatio() {
 				final MemoryUsage usage = mxBean.getNonHeapMemoryUsage();
@@ -154,15 +154,15 @@ public class MemeoryMetricsSet implements MetricSet {
 			String name = "";
 			
 			if (pool.getName().equals("Code Cache")) {
-				name = "CodeCache";
+				name = "CodeCache.";
 			} else if (pool.getName().equals("Survivor Space")) {
-				name = "SurvivorSpace";
+				name = "SurvivorSpace.";
 			}else if (pool.getName().equals("Tenured Gen")) {
-				name = "TenuredGen";
+				name = "TenuredGen.";
 			}else if (pool.getName().equals("Eden Space")) {
-				name = "EdenSpace";
+				name = "EdenSpace.";
 			}else if (pool.getName().equals("Perm Gen")) {
-				name = "PermGen";
+				name = "PermGen.";
 			}
 			
 			gauges.put(name +  "Usage", new RatioGauge() {

@@ -1,5 +1,6 @@
 package com.vipshop.microscope.storage.hbase.table;
 
+import com.vipshop.microscope.storage.hbase.report.LogEntryReport;
 import org.apache.hadoop.hbase.util.Bytes;
 
 /**
@@ -16,8 +17,16 @@ public class ReportLogEntryTable {
 	
 	public static final byte[] BYTE_CF = Bytes.toBytes(CF);
 
-    public static byte[] rowkey() {
-        return null;
+    public static byte[] rowkey(LogEntryReport report) {
+        return Bytes.toBytes(String.valueOf(report.getRowKey()));
+    }
+
+    public static byte[] column(LogEntryReport report) {
+        return Bytes.toBytes(String.valueOf(report.getColumn()));
+    }
+
+    public static byte[] value(LogEntryReport report) {
+        return Bytes.toBytes(String.valueOf(report.getLogEntrySize() + ":" + report.getLogEntryNumber()));
     }
 
 }

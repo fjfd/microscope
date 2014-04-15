@@ -16,7 +16,7 @@ import java.io.Serializable;
 import java.util.Map;
 
 @Repository
-public class SystemRepository extends AbstraceRepository {
+public class HomeSystemRepository extends AbstraceRepository {
 
 	public void initialize() {
 		super.initialize(HomeSystemTable.TABLE_NAME, HomeSystemTable.CF);

@@ -28,7 +28,7 @@ public class TraceStorageWorker implements Runnable {
 			Span span = queue.poll();
 
 			if (span != null) {
-				storager.storageTrace(span);
+				storager.storeTrace(span);
 			} else {
 				try {
 					TimeUnit.MILLISECONDS.sleep(CollectorServer.SLEEP_TIME);

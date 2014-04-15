@@ -4,24 +4,28 @@ import org.apache.hadoop.hbase.util.Bytes;
 
 import com.vipshop.microscope.common.trace.Span;
 
+/**
+ * Hbase schema for 'trace_index' table
+ *
+ * @author Xu Fei
+ * @version 1.0
+ */
 public class TraceIndexTable {
 	
-	// ******* Hbase schema for Trace index table ******** //
-	
-	/*
+	/**
 	 * table name
 	 */
 	public static final String TABLE_NAME = "trace_index";
 	
-	/*
+	/**
 	 * column family
 	 */
 	public static final String CF_APP = "cf_app";
 	public static final String CF_IP = "cf_ip";
 	public static final String CF_TRACE = "cf_trace";
 	
-	/*
-	 * column family in byte[] fromat
+	/**
+	 * column family in byte[] format
 	 */
 	public static final byte[] BYTE_CF_APP = Bytes.toBytes(CF_APP);
 	public static final byte[] BYTE_CF_IP = Bytes.toBytes(CF_IP);
@@ -40,7 +44,7 @@ public class TraceIndexTable {
 	}
 	
 	/**
-	 * Build AppTable by span.
+	 * Build TraceIndexTable by span.
 	 * 
 	 * @param span
 	 * @return
@@ -53,9 +57,9 @@ public class TraceIndexTable {
 	}
 	
 	/**
-	 * Return the rowkey of app table.
+	 * Return the row key of 'trace_index' table.
 	 * 
-	 * @return rowkey
+	 * @return row key
 	 */
 	public byte[] rowKey() {
 		return Bytes.toBytes(this.appName);

@@ -1,5 +1,5 @@
 package com.vipshop.microscope.storage.asynchbase;
 
-public class AsynchbaseStoreEngine {
+public class AsyncHBaseTemplate {
 
 }

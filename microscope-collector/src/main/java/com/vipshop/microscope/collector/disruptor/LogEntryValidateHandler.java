@@ -113,7 +113,7 @@ public class LogEntryValidateHandler implements EventHandler<LogEntryEvent> {
              * Because this info only once for a host,
              * so there is no need to put in buffer.
              */
-            MessageStorager.getMessageStorager().storageSystemInfo(info);
+            MessageStorager.getMessageStorager().storeSystemInfo(info);
 
         }
 	}

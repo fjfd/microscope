@@ -6,18 +6,26 @@ import org.apache.hadoop.hbase.util.Bytes;
 
 import com.vipshop.microscope.common.trace.Span;
 
+/**
+ * Hbase schema for 'trace_overview' table
+ *
+ * @author Xu Fei
+ * @version 1.0
+ */
 public class TraceOverviewTable implements Serializable, Comparable<TraceOverviewTable> {
 	
-	// ********* hbase schema for trace overview table ************ //
-	
-	/*
-	 * table name adn cloumn family
+	/**
+	 * table name
 	 */
 	public static final String TABLE_NAME = "trace_overview";
-	public static final String CF = "cf";
 
-	/*
-	 * cloumns
+    /**
+     * column family
+     */
+    public static final String CF = "cf";
+
+	/**
+	 * column
 	 */
 	public static final byte[] BYTE_CF = Bytes.toBytes(CF);
 	public static final byte[] BYTE_C_APP_NAME = Bytes.toBytes("app_name");
@@ -64,10 +72,10 @@ public class TraceOverviewTable implements Serializable, Comparable<TraceOvervie
 	}
 	
 	/**
-	 * Use reverse timestamp as part of rowkey
+	 * Use reverse timestamp as part of row key
 	 * can make data query as new as possible.
 	 * 
-	 * @return rowkey of TraceTable
+	 * @return row key of TraceTable
 	 */
 	public String rowKey() {
 		return this.getAppName() + "-" +

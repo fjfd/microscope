@@ -29,7 +29,7 @@ public class MetricsStorageHandler implements EventHandler<MetricsEvent> {
 		metricsStorageWorkerExecutor.execute(new Runnable() {
 			@Override
 			public void run() {
-				messageStorager.storageMetrics(event.getResult());
+				messageStorager.storeMetrics(event.getResult());
 			}
 		});
 	}
