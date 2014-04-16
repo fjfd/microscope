@@ -171,13 +171,12 @@ public class MicroscopeReporter extends ScheduledReporter {
     						   TimeUnit durationUnit,
     						   MetricFilter filter,
     						   Map<String, String> tags) {
-        super(registry, "opentsdb-reporter", filter, rateUnit, durationUnit);
+        super(registry, "microscope-reporter", filter, rateUnit, durationUnit);
         this.output = output;
         this.clock = clock;
         this.tags = tags;
     }
 
-    @SuppressWarnings("rawtypes")
     @Override
     public void report(SortedMap<String, Gauge> gauges, 
     				   SortedMap<String, Counter> counters, 
@@ -413,7 +412,7 @@ public class MicroscopeReporter extends ScheduledReporter {
     	final StringBuilder builder = new StringBuilder();
         if (names != null) {
             for (String s : names) {
-                builder.append(s).append("_");
+                builder.append(s).append(".");
             }
         }
         String name = builder.toString();

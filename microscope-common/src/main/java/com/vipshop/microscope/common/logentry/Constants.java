@@ -49,11 +49,11 @@ public class Constants {
     /**
      * Http metrics category
      */
-    public static final String HTTPCLIENT = "httpclient.";
-    public static final String HTTPCLIENT_AVAILABLE_CONN = "httpclient.available-connections";
-    public static final String HTTPCLIENT_LEASED_CONN = "httpclient.leased-connections";
-    public static final String HTTPCLIENT_MAX_CONN = "httpclient.max-connections";
-    public static final String HTTPCLIENT_PENDING_CONN = "httpclient.pending-connections";
+    public static final String HTTPCLIENT = "httpclient.request.";
+    public static final String HTTPCLIENT_AVAILABLE_CONN = "httpclient.connections.available";
+    public static final String HTTPCLIENT_LEASED_CONN = "httpclient.connections.leased";
+    public static final String HTTPCLIENT_MAX_CONN = "httpclient.connections.max";
+    public static final String HTTPCLIENT_PENDING_CONN = "httpclient.connections.pending";
 
     /**
      * Thrift metrics category
@@ -63,10 +63,25 @@ public class Constants {
     /**
      * Servlet metrics category
      */
-    public static final String SERVLET_CODE = "servlet.code-";
-    public static final String SERVLET_OTHER_CODE = "servlet.code-other";
-    public static final String SERVLET_ACTIVE_REQUEST = "servlet.active-request";
-    public static final String SERVLET_REQUEST = "servlet.request";
+    public static final String SERVLET_CODE_OK           = "servlet.response-code.200";
+    public static final String SERVLET_CODE_CREATED      = "servlet.response-code.201";
+    public static final String SERVLET_CODE_NO_CONTENT   = "servlet.response-code.204";
+    public static final String SERVLET_CODE_BAD_REQUEST  = "servlet.response-code.400";
+    public static final String SERVLET_CODE_NOT_FOUND    = "servlet.response-code.404";
+    public static final String SERVLET_CODE_SERVER_ERROR = "servlet.response-code.500";
+    public static final String SERVLET_CODE_OTHER        = "servlet.response-code.other";
+
+    public static final String SERVLET_ACTIVE_REQUEST = "servlet.active-request.count";
+
+    public static final String SERVLET_REQUEST = "servlet.request.timer";
+
+    public static final int OK = 200;
+    public static final int CREATED = 201;
+    public static final int NO_CONTENT = 204;
+    public static final int BAD_REQUEST = 400;
+    public static final int NOT_FOUND = 404;
+    public static final int SERVER_ERROR = 500;
+
 
     /**
      * Cache metrics category

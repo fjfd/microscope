@@ -6,12 +6,8 @@ package com.vipshop.microscope.common.metrics;
  * @author Xu Fei
  * @version 1.0
  */
-public class MetricName {
+public enum MetricName {
 
-    public static final String JVM = "jvm.";
 
-    static enum jvm {
-
-    }
 
 }

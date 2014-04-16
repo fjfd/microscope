@@ -21,10 +21,10 @@ import com.codahale.metrics.RatioGauge;
  * 
  * Total
  * Heap 
+ * Non Heap
  * EdenSpace
  * TenuredGen
  * SurvivorSpace
- * Non Heap
  * CodeCache
  * PermGen
  * 
@@ -105,7 +105,7 @@ public class MemeoryMetricsSet implements MetricSet {
 			}
 		});
 
-		gauges.put("HeapUsage", new RatioGauge() {
+		gauges.put("Heap.Usage", new RatioGauge() {
 			@Override
 			protected Ratio getRatio() {
 				final MemoryUsage usage = mxBean.getHeapMemoryUsage();
@@ -164,40 +164,38 @@ public class MemeoryMetricsSet implements MetricSet {
 			}else if (pool.getName().equals("Perm Gen")) {
 				name = "PermGen.";
 			}
-			
-			gauges.put(name +  "Usage", new RatioGauge() {
-				@Override
-				protected Ratio getRatio() {
-					final long max = pool.getUsage().getMax() == -1 ? pool.getUsage().getCommitted() : pool.getUsage().getMax();
-					return Ratio.of(pool.getUsage().getUsed(), max);
-				}
-			});
-			
-			gauges.put(name + "Max", new Gauge<Long>() {
-				@Override
-				public Long getValue() {
-					return pool.getUsage().getMax();
-				}
-			});
-			gauges.put(name + "Init", new Gauge<Long>() {
-				@Override
-				public Long getValue() {
-					return pool.getUsage().getInit();
-				}
-			});
-			gauges.put(name + "Committed", new Gauge<Long>() {
-				@Override
-				public Long getValue() {
-					return pool.getUsage().getCommitted();
-				}
-			});
-			gauges.put(name + "Used", new Gauge<Long>() {
-				@Override
-				public Long getValue() {
-					return pool.getUsage().getUsed();
-				}
-			});
-			
+
+            gauges.put(name + "Max", new Gauge<Long>() {
+                @Override
+                public Long getValue() {
+                    return pool.getUsage().getMax();
+                }
+            });
+            gauges.put(name + "Init", new Gauge<Long>() {
+                @Override
+                public Long getValue() {
+                    return pool.getUsage().getInit();
+                }
+            });
+            gauges.put(name + "Committed", new Gauge<Long>() {
+                @Override
+                public Long getValue() {return pool.getUsage().getCommitted();
+                }
+            });
+            gauges.put(name + "Used", new Gauge<Long>() {
+                @Override
+                public Long getValue() {
+                    return pool.getUsage().getUsed();
+                }
+            });
+            gauges.put(name +  "Usage", new RatioGauge() {
+                @Override
+                protected Ratio getRatio() {
+                final long max = pool.getUsage().getMax() == -1 ? pool.getUsage().getCommitted() : pool.getUsage().getMax();
+                return Ratio.of(pool.getUsage().getUsed(), max);
+                }
+            });
+
 		}
 		return Collections.unmodifiableMap(gauges);
 	}

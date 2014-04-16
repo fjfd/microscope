@@ -26,37 +26,6 @@ public class ReportController {
 	@Autowired
 	private ReportService service;
 
-    @RequestMapping("/report/reportIndex")
-    @ResponseBody
-    public MapResult reportIndex(HttpServletRequest request, String callback) {
-        MapResult result = new MapResult();
-        Map<String, Object> data = service.reportIndex();
-        result.setResult(data);
-        result.setCallback(callback);
-        return result;
-    }
-
-    @RequestMapping("/report/reportNameIndex")
-    @ResponseBody
-    public MapResult reportLevel2Index(HttpServletRequest request, String callback) {
-        MapResult result = new MapResult();
-        Map<String, Object> data = service.reportLevel2Index(request);
-        result.setResult(data);
-        result.setCallback(callback);
-        return result;
-    }
-
-    @RequestMapping("/report/reportData")
-    @ResponseBody
-    public MapResult reportLevelData(HttpServletRequest request, String callback) {
-        MapResult result = new MapResult();
-        Map<String, Object> data = service.reportData(request);
-        result.setResult(data);
-        result.setCallback(callback);
-        return result;
-    }
-
-
     @RequestMapping("/report/metricsIndex")
     @ResponseBody
     public ListResult metricIndex(HttpServletRequest request, String callback) {
