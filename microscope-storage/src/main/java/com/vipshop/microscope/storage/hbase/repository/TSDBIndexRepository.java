@@ -21,11 +21,11 @@ public class TSDBIndexRepository extends AbstraceRepository {
      */
     public void initialize() {
         super.initialize(TSDBIndexTable.TABLE_NAME, new String[]{TSDBIndexTable.CF_APP,
-                                                                 TSDBIndexTable.CF_IP,
-                                                                 TSDBIndexTable.CF_METRICS_1,
-                                                                 TSDBIndexTable.CF_METRICS_2,
-                                                                 TSDBIndexTable.CF_METRICS_3,
-                                                                 TSDBIndexTable.CF_METRICS_4,});
+                TSDBIndexTable.CF_IP,
+                TSDBIndexTable.CF_METRICS_1,
+                TSDBIndexTable.CF_METRICS_2,
+                TSDBIndexTable.CF_METRICS_3,
+                TSDBIndexTable.CF_METRICS_4,});
     }
 
     /**
@@ -59,25 +59,25 @@ public class TSDBIndexRepository extends AbstraceRepository {
                 if (names.size() == 2) {
                     p.add(TSDBIndexTable.BYTE_CF_METRICS_1, Bytes.toBytes(names.get(0)), Bytes.toBytes(names.get(0)));
                     p.add(TSDBIndexTable.BYTE_CF_METRICS_2, Bytes.toBytes(names.get(0) + "." + names.get(1)),
-                                                            Bytes.toBytes(names.get(0) + "." + names.get(1)));
+                            Bytes.toBytes(names.get(0) + "." + names.get(1)));
                 }
 
                 if (names.size() == 3) {
                     p.add(TSDBIndexTable.BYTE_CF_METRICS_1, Bytes.toBytes(names.get(0)), Bytes.toBytes(names.get(0)));
                     p.add(TSDBIndexTable.BYTE_CF_METRICS_2, Bytes.toBytes(names.get(0) + "." + names.get(1)),
-                                                            Bytes.toBytes(names.get(0) + "." + names.get(1)));
+                            Bytes.toBytes(names.get(0) + "." + names.get(1)));
                     p.add(TSDBIndexTable.BYTE_CF_METRICS_3, Bytes.toBytes(names.get(0) + "." + names.get(1) + "." + names.get(2)),
-                                                            Bytes.toBytes(names.get(0) + "." + names.get(1) + "." + names.get(2)));
+                            Bytes.toBytes(names.get(0) + "." + names.get(1) + "." + names.get(2)));
                 }
 
                 if (names.size() == 4) {
                     p.add(TSDBIndexTable.BYTE_CF_METRICS_1, Bytes.toBytes(names.get(0)), Bytes.toBytes(names.get(0)));
                     p.add(TSDBIndexTable.BYTE_CF_METRICS_2, Bytes.toBytes(names.get(0) + "." + names.get(1)),
-                                                            Bytes.toBytes(names.get(0) + "." + names.get(1)));
+                            Bytes.toBytes(names.get(0) + "." + names.get(1)));
                     p.add(TSDBIndexTable.BYTE_CF_METRICS_3, Bytes.toBytes(names.get(0) + "." + names.get(1) + "." + names.get(2)),
-                                                            Bytes.toBytes(names.get(0) + "." + names.get(1) + "." + names.get(2)));
+                            Bytes.toBytes(names.get(0) + "." + names.get(1) + "." + names.get(2)));
                     p.add(TSDBIndexTable.BYTE_CF_METRICS_4, Bytes.toBytes(names.get(0) + "." + names.get(1) + "." + names.get(2) + "." + names.get(3)),
-                                                            Bytes.toBytes(names.get(0) + "." + names.get(1) + "." + names.get(2) + "." + names.get(3)));
+                            Bytes.toBytes(names.get(0) + "." + names.get(1) + "." + names.get(2) + "." + names.get(3)));
                 }
 
                 table.put(p);
@@ -110,7 +110,7 @@ public class TSDBIndexRepository extends AbstraceRepository {
         hbaseTemplate.find(TSDBIndexTable.TABLE_NAME, TSDBIndexTable.CF_APP, new RowMapper<List<String>>() {
             @Override
             public List<String> mapRow(Result result, int rowNum) throws Exception {
-                String[] appQunitifer = getColumnsInColumnFamily(result, TSDBIndexTable.CF_APP);
+            String[] appQunitifer = getColumnsInColumnFamily(result, TSDBIndexTable.CF_APP);
                 for (int i = 0; i < appQunitifer.length; i++) {
                     appList.add(appQunitifer[i]);
                 }
@@ -184,5 +184,111 @@ public class TSDBIndexRepository extends AbstraceRepository {
 
         return appIPNameList;
     }
+
+    public Map<String, Object> findName1(final String app, final String name1) {
+
+        return hbaseTemplate.get(TSDBIndexTable.TABLE_NAME, app, new RowMapper<Map<String, Object>>() {
+
+            @Override
+            public Map<String, Object> mapRow(Result result, int rowNum) throws Exception {
+                Map<String, Object> metrics = new LinkedHashMap<String, Object>();
+
+                String[] nameQunitifer2 = getColumnsInColumnFamily(result, TSDBIndexTable.CF_METRICS_2);
+                String[] nameQunitifer3 = getColumnsInColumnFamily(result, TSDBIndexTable.CF_METRICS_3);
+                String[] nameQunitifer4 = getColumnsInColumnFamily(result, TSDBIndexTable.CF_METRICS_4);
+
+                List<String> name2List = new ArrayList<String>();
+
+                if (nameQunitifer2 != null) {
+                    for (String name : nameQunitifer2) {
+                        if (name.startsWith(name1)) {
+                            name2List.add(name);
+                        }
+                    }
+                }
+
+                metrics.put("name2", name2List);
+
+                List<String> name3List = new ArrayList<String>();
+                if (name2List != null) {
+                    String firstName = name2List.get(0);
+                    if (nameQunitifer3 != null) {
+                        for (String name : nameQunitifer3) {
+                            if (name.startsWith(firstName)) {
+                                name3List.add(name);
+                            }
+                        }
+                    }
+                }
+
+                metrics.put("name3", name3List);
+
+                List<String> name4List = new ArrayList<String>();
+                if (name3List != null) {
+                    for (String name : name3List) {
+                        if (nameQunitifer4 != null) {
+                            for (String quenitifer : nameQunitifer4) {
+                                if (quenitifer.startsWith(name)) {
+                                    name4List.add(quenitifer);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                metrics.put("name4", name4List);
+
+                return metrics;
+
+            }
+        });
+
+    }
+
+    public Map<String, Object> findName2(final String app, final String name2) {
+
+        return hbaseTemplate.get(TSDBIndexTable.TABLE_NAME, app, new RowMapper<Map<String, Object>>() {
+
+            @Override
+            public Map<String, Object> mapRow(Result result, int rowNum) throws Exception {
+                Map<String, Object> metrics = new LinkedHashMap<String, Object>();
+
+                String[] nameQunitifer3 = getColumnsInColumnFamily(result, TSDBIndexTable.CF_METRICS_3);
+                String[] nameQunitifer4 = getColumnsInColumnFamily(result, TSDBIndexTable.CF_METRICS_4);
+
+                List<String> name3List = new ArrayList<String>();
+
+                if (nameQunitifer3 != null) {
+                    for (String name : nameQunitifer3) {
+                        if (name.startsWith(name2)) {
+                            name3List.add(name);
+                        }
+                    }
+                }
+
+                metrics.put("name3", name3List);
+
+                List<String> name4List = new ArrayList<String>();
+                if (name3List != null) {
+                    for (String name : name3List) {
+                        if (nameQunitifer4 != null) {
+                            for (String quenitifer : nameQunitifer4) {
+                                if (quenitifer.startsWith(name)) {
+                                    name4List.add(quenitifer);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                metrics.put("name4", name4List);
+
+                return metrics;
+
+            }
+        });
+
+    }
+
 
 }

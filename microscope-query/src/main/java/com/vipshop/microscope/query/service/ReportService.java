@@ -8,8 +8,6 @@ import com.vipshop.microscope.common.logentry.Constants;
 import org.springframework.stereotype.Service;
 
 import com.vipshop.microscope.storage.StorageRepository;
-import com.vipshop.microscope.storage.opentsdb.core.Aggregator;
-import com.vipshop.microscope.storage.opentsdb.core.Aggregators;
 
 @Service
 public class ReportService {
@@ -20,7 +18,20 @@ public class ReportService {
         return storageRepository.findMetricIndex();
 	}
 
-	public List<Map<String, Object>> metric(HttpServletRequest request) {
+    public Map<String, Object> changeName1(HttpServletRequest request) {
+        String app = request.getParameter(Constants.APP);
+        String name1 = request.getParameter("name");
+        return storageRepository.findName1(app, name1);
+    }
+
+    public Map<String, Object> changeName2(HttpServletRequest request) {
+        String app = request.getParameter(Constants.APP);
+        String name2 = request.getParameter("name");
+        return storageRepository.findName2(app, name2);
+    }
+
+
+    public List<Map<String, Object>> metric(HttpServletRequest request) {
         Map<String, String> query = new HashMap<String, String>();
 
         query.put(Constants.APP, request.getParameter(Constants.APP));

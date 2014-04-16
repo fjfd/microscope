@@ -244,6 +244,14 @@ public class HbaseRepository {
         return RepositoryFactory.getTsdbIndexReporsitory().find();
     }
 
+    public Map<String, Object> findName1(final String app, final String name1) {
+        return RepositoryFactory.getTsdbIndexReporsitory().findName1(app, name1);
+    }
+
+    public Map<String, Object> findName2(final String app, final String name1) {
+        return RepositoryFactory.getTsdbIndexReporsitory().findName2(app, name1);
+    }
+
     public List<Map<String, Object>> findMetrics(Map<String, String> query) {
         return RepositoryFactory.getTsdbRepository().find(query);
     }

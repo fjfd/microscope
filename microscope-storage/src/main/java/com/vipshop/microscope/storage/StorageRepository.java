@@ -177,6 +177,15 @@ public class StorageRepository {
         return hbaseRepository.findMetricsIndex();
     }
 
+    public Map<String, Object> findName1(final String app, final String name1) {
+        return hbaseRepository.findName1(app, name1);
+    }
+
+    public Map<String, Object> findName2(final String app, final String name2) {
+        return hbaseRepository.findName2(app, name2);
+    }
+
+
     public List<Map<String, Object>> findMetric(Map<String, String> query){
         return hbaseRepository.findMetrics(query);
     }

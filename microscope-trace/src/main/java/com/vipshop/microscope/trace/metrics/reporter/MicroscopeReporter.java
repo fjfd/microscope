@@ -219,7 +219,7 @@ public class MicroscopeReporter extends ScheduledReporter {
 
         logger.debug("add gauge metrics to storage queue");
 
-    	output.addMetrics(Metric.named(name)
+    	output.addMetrics(Metric.named(prefix(name))
     			                .withValue(gauge.getValue())
     			                .withTimestamp(timestamp)
     			                .withTags(tags)
@@ -230,7 +230,7 @@ public class MicroscopeReporter extends ScheduledReporter {
 
         logger.debug("add counter metrics to storage queue");
 
-        output.addMetrics(Metric.named(name)
+        output.addMetrics(Metric.named(prefix(name))
                 	            .withTimestamp(timestamp)
                 	            .withValue(counter.getCount())
                 	            .withTags(tags)
@@ -315,17 +315,17 @@ public class MicroscopeReporter extends ScheduledReporter {
                                 .withValue(meter.getMeanRate())
                                 .withTags(tags).build());
 
-    	output.addMetrics(Metric.named(prefix(name, "1meanrate"))
+    	output.addMetrics(Metric.named(prefix(name, "1-meanrate"))
                                 .withTimestamp(timestamp)
                                 .withValue(meter.getOneMinuteRate())
                                 .withTags(tags).build());
 
-    	output.addMetrics(Metric.named(prefix(name, "5meanrate"))
+    	output.addMetrics(Metric.named(prefix(name, "5-meanrate"))
                                 .withTimestamp(timestamp)
                                 .withValue(meter.getFiveMinuteRate())
                                 .withTags(tags).build());
 
-    	output.addMetrics(Metric.named(prefix(name, "15meanrate"))
+    	output.addMetrics(Metric.named(prefix(name, "15-meanrate"))
                                 .withTimestamp(timestamp)
                                 .withValue(meter.getFifteenMinuteRate())
                                 .withTags(tags).build());
@@ -408,15 +408,22 @@ public class MicroscopeReporter extends ScheduledReporter {
                                 .build());
     }
 
-    private String prefix(String... names) {
-    	final StringBuilder builder = new StringBuilder();
-        if (names != null) {
-            for (String s : names) {
-                builder.append(s).append(".");
-            }
+    private String prefix(String name) {
+        if (name.split("\\.").length != 4) {
+            throw new IllegalArgumentException("the metrics name you given : [" + name + "] is bad, please redefine your name \n" +
+                                               "with pattern [jvm.memory.EdenSpace.Max] ");
         }
-        String name = builder.toString();
-        return name.substring(0, name.length() - 1);
+
+        return name;
+    }
+
+    private String prefix(String name, String suffix) {
+    	if (name.split("\\.").length != 3) {
+            throw new IllegalArgumentException("the metrics name you given : [" + name + "] is bad, please redefine your name \n" +
+                                               "with pattern [servlet.response-code.200] ");
+        }
+
+        return name + "." + suffix;
     }
 
 }

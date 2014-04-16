@@ -71,17 +71,15 @@ public class Constants {
     public static final String SERVLET_CODE_SERVER_ERROR = "servlet.response-code.500";
     public static final String SERVLET_CODE_OTHER        = "servlet.response-code.other";
 
-    public static final String SERVLET_ACTIVE_REQUEST = "servlet.active-request.count";
+    public static final String SERVLET_ACTIVE_REQUEST    = "servlet.request.active-request";
+    public static final String SERVLET_REQUEST           = "servlet.request.timer";
 
-    public static final String SERVLET_REQUEST = "servlet.request.timer";
-
-    public static final int OK = 200;
-    public static final int CREATED = 201;
-    public static final int NO_CONTENT = 204;
-    public static final int BAD_REQUEST = 400;
-    public static final int NOT_FOUND = 404;
-    public static final int SERVER_ERROR = 500;
-
+    public static final int OK                           = 200;
+    public static final int CREATED                      = 201;
+    public static final int NO_CONTENT                   = 204;
+    public static final int BAD_REQUEST                  = 400;
+    public static final int NOT_FOUND                    = 404;
+    public static final int SERVER_ERROR                 = 500;
 
     /**
      * Cache metrics category

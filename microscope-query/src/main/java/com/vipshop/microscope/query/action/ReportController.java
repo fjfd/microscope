@@ -36,6 +36,27 @@ public class ReportController {
         return result;
     }
 
+    @RequestMapping("/report/changeName1")
+    @ResponseBody
+    public MapResult changeName1(HttpServletRequest request, String callback) {
+        MapResult result = new MapResult();
+        Map<String, Object> data = service.changeName1(request);
+        result.setResult(data);
+        result.setCallback(callback);
+        return result;
+    }
+
+    @RequestMapping("/report/changeName2")
+    @ResponseBody
+    public MapResult changeName2(HttpServletRequest request, String callback) {
+        MapResult result = new MapResult();
+        Map<String, Object> data = service.changeName2(request);
+        result.setResult(data);
+        result.setCallback(callback);
+        return result;
+    }
+
+
     @RequestMapping("/report/metrics")
     @ResponseBody
     public ListResult metric(HttpServletRequest request, String callback) {
