@@ -15,117 +15,125 @@ import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.util.thread.ThreadPool;
 import org.eclipse.jetty.webapp.WebAppContext;
 
+/**
+ * Query Server
+ *
+ * @author Xu Fei
+ * @version 1.0
+ *
+ */
 public class QueryServer {
 
-	private static final String WEB_XML = "WEB-INF/web.xml";
-	private static final String CLASS_ONLY_AVAILABLE_IN_IDE = "com.sjl.IDE";
-	private static final String PROJECT_RELATIVE_PATH_TO_WEBAPP = "src/main/java/META-INF/webapp";
+    private static final String WEB_XML = "WEB-INF/web.xml";
+    private static final String CLASS_ONLY_AVAILABLE_IN_IDE = "com.sjl.IDE";
+    private static final String PROJECT_RELATIVE_PATH_TO_WEBAPP = "src/main/java/META-INF/webapp";
 
-	public static interface WebContext {
-		public File getWarPath();
-		public String getContextPath();
-	}
-	
-	private Server server;
-	private int port;
-	private String bindInterface;
-	
-	public QueryServer() {
-		this(8080, null);
-	}
+    public static interface WebContext {
+        public File getWarPath();
 
-	public QueryServer(int aPort) {
-		this(aPort, null);
-	}
+        public String getContextPath();
+    }
 
-	public QueryServer(int aPort, String aBindInterface) {
-		port = aPort;
-		bindInterface = aBindInterface;
-	}
+    private Server server;
+    private int port;
+    private String bindInterface;
 
-	public void start() throws Exception {
-		server = new Server();
+    public QueryServer() {
+        this(8080, null);
+    }
 
-		server.setThreadPool(createThreadPool());
-		server.addConnector(createConnector());
-		server.setHandler(createHandlers());
-		server.setStopAtShutdown(true);
+    public QueryServer(int aPort) {
+        this(aPort, null);
+    }
 
-		server.start();
-	}
+    public QueryServer(int aPort, String aBindInterface) {
+        port = aPort;
+        bindInterface = aBindInterface;
+    }
 
-	public void join() throws InterruptedException {
-		server.join();
-	}
+    public void start() throws Exception {
+        server = new Server();
 
-	public void stop() throws Exception {
-		server.stop();
-	}
+        server.setThreadPool(createThreadPool());
+        server.addConnector(createConnector());
+        server.setHandler(createHandlers());
+        server.setStopAtShutdown(true);
 
-	private ThreadPool createThreadPool() {
-		QueuedThreadPool threadPool = new QueuedThreadPool();
-		threadPool.setMinThreads(10);
-		threadPool.setMaxThreads(100);
-		return threadPool;
-	}
+        server.start();
+    }
 
-	private SelectChannelConnector createConnector() {
-		SelectChannelConnector connector = new SelectChannelConnector();
-		connector.setPort(port);
-		connector.setHost(bindInterface);
-		return connector;
-	}
+    public void join() throws InterruptedException {
+        server.join();
+    }
 
-	private HandlerCollection createHandlers() {
-		WebAppContext ctx = new WebAppContext();
-		ctx.setContextPath("/");
+    public void stop() throws Exception {
+        server.stop();
+    }
 
-		if (isRunningInShadedJar()) {
-			ctx.setWar(getShadedWarUrl());
-		} else {
-			ctx.setWar(PROJECT_RELATIVE_PATH_TO_WEBAPP);
-		}
+    private ThreadPool createThreadPool() {
+        QueuedThreadPool threadPool = new QueuedThreadPool();
+        threadPool.setMinThreads(10);
+        threadPool.setMaxThreads(100);
+        return threadPool;
+    }
 
-		List<Handler> handlers = new ArrayList<Handler>();
+    private SelectChannelConnector createConnector() {
+        SelectChannelConnector connector = new SelectChannelConnector();
+        connector.setPort(port);
+        connector.setHost(bindInterface);
+        return connector;
+    }
 
-		handlers.add(ctx);
+    private HandlerCollection createHandlers() {
+        WebAppContext ctx = new WebAppContext();
+        ctx.setContextPath("/");
 
-		HandlerList contexts = new HandlerList();
-		contexts.setHandlers(handlers.toArray(new Handler[0]));
+        if (isRunningInShadedJar()) {
+            ctx.setWar(getShadedWarUrl());
+        } else {
+            ctx.setWar(PROJECT_RELATIVE_PATH_TO_WEBAPP);
+        }
 
-		RequestLogHandler log = new RequestLogHandler();
+        List<Handler> handlers = new ArrayList<Handler>();
 
-		HandlerCollection result = new HandlerCollection();
-		result.setHandlers(new Handler[] { contexts, log });
+        handlers.add(ctx);
 
-		return result;
-	}
+        HandlerList contexts = new HandlerList();
+        contexts.setHandlers(handlers.toArray(new Handler[0]));
 
-	private boolean isRunningInShadedJar() {
-		try {
-			Class.forName(CLASS_ONLY_AVAILABLE_IN_IDE);
-			return false;
-		} catch (ClassNotFoundException anExc) {
-			return true;
-		}
-	}
+        RequestLogHandler log = new RequestLogHandler();
 
-	private URL getResource(String aResource) {
-		return Thread.currentThread().getContextClassLoader().getResource(aResource);
-	}
+        HandlerCollection result = new HandlerCollection();
+        result.setHandlers(new Handler[]{contexts, log});
 
-	private String getShadedWarUrl() {
-		String urlStr = getResource(WEB_XML).toString();
-		return urlStr.substring(0, urlStr.length() - 15);
-	}
-	
-	public static void main(String[] args) throws Exception {
-		int port = 8080;
-		String newPort = System.getProperty("port");
-		if (newPort != null) {
-			port = Integer.valueOf(newPort);
-		}
-		new QueryServer(port).start();
-	}
+        return result;
+    }
+
+    private boolean isRunningInShadedJar() {
+        try {
+            Class.forName(CLASS_ONLY_AVAILABLE_IN_IDE);
+            return false;
+        } catch (ClassNotFoundException anExc) {
+            return true;
+        }
+    }
+
+    private URL getResource(String aResource) {
+        return Thread.currentThread().getContextClassLoader().getResource(aResource);
+    }
+
+    private String getShadedWarUrl() {
+        String urlStr = getResource(WEB_XML).toString();
+        return urlStr.substring(0, urlStr.length() - 15);
+    }
+
+    public static void main(String[] args) throws Exception {
+        int port = 8080;
+        String newPort = System.getProperty("port");
+        if (newPort != null) {
+            port = Integer.valueOf(newPort);
+        }
+        new QueryServer(port).start();
+    }
 
 }

@@ -16,8 +16,8 @@ public class StorageRepositoryTest {
 	StorageRepository storageRepository = StorageRepository.getStorageRepository();
 	
 	@Test
-	public void testReInitalizeHbaseTable() {
-		storageRepository.reInitalizeHbaseTable();
+	public void initHbaseTable() {
+		storageRepository.initHbaseTable();
 	}
 	
 	@Test

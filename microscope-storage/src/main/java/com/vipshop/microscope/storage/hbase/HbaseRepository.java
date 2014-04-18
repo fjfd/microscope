@@ -69,7 +69,7 @@ public class HbaseRepository {
 	/**
 	 * Drop hbast tables then create tables.
 	 */
-	public void reInitalize() {
+	public void init() {
 		this.drop();
 		this.create();
 	}

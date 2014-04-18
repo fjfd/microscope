@@ -42,6 +42,7 @@ public class CollectorServer {
 	}
 	
 	/**
+     *
 	 * Create collector server.
 	 * 
 	 * @param consumer

@@ -48,8 +48,8 @@ public class StorageRepository {
 		hbaseRepository.drop();
 	}
 	
-	public void reInitalizeHbaseTable() {
-		hbaseRepository.reInitalize();
+	public void initHbaseTable() {
+		hbaseRepository.init();
 	}
 
     public void save(SystemInfo info) {

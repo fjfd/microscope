@@ -62,7 +62,7 @@ public class GCMetricSet implements MetricSet {
             });
         }
         
-        gauges.put(("TotalCompilation.time"), new Gauge<Long>() {
+        gauges.put(("total-compilation.time"), new Gauge<Long>() {
             @Override
             public Long getValue() {
                 return cBean.getTotalCompilationTime();

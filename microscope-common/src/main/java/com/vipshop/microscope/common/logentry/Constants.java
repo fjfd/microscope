@@ -40,7 +40,7 @@ public class Constants {
      * JVM metrics category
      */
     public static final String JVM = "jvm";
-    public static final String JVM_OVERVIEW = "jvm.overview";
+    public static final String JVM_CLASS = "jvm.class";
     public static final String JVM_MONITOR = "jvm.monitor";
     public static final String JVM_THREAD = "jvm.thread";
     public static final String JVM_MEMORY = "jvm.memory";
@@ -50,10 +50,10 @@ public class Constants {
      * Http metrics category
      */
     public static final String HTTPCLIENT = "httpclient.request.";
-    public static final String HTTPCLIENT_AVAILABLE_CONN = "httpclient.connections.available";
-    public static final String HTTPCLIENT_LEASED_CONN = "httpclient.connections.leased";
-    public static final String HTTPCLIENT_MAX_CONN = "httpclient.connections.max";
-    public static final String HTTPCLIENT_PENDING_CONN = "httpclient.connections.pending";
+    public static final String HTTPCLIENT_AVAILABLE_CONN = "httpclient.connections.available.count";
+    public static final String HTTPCLIENT_LEASED_CONN = "httpclient.connections.leased.count";
+    public static final String HTTPCLIENT_MAX_CONN = "httpclient.connections.max.count";
+    public static final String HTTPCLIENT_PENDING_CONN = "httpclient.connections.pending.count";
 
     /**
      * Thrift metrics category
@@ -71,8 +71,8 @@ public class Constants {
     public static final String SERVLET_CODE_SERVER_ERROR = "servlet.response-code.500";
     public static final String SERVLET_CODE_OTHER        = "servlet.response-code.other";
 
-    public static final String SERVLET_ACTIVE_REQUEST    = "servlet.request.active-request";
-    public static final String SERVLET_REQUEST           = "servlet.request.timer";
+    public static final String SERVLET_ACTIVE_REQUEST    = "servlet.request.active-request.count";
+    public static final String SERVLET_REQUEST           = "servlet.request.all";
 
     public static final int OK                           = 200;
     public static final int CREATED                      = 201;

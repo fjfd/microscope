@@ -1,19 +1,17 @@
 package com.vipshop.microscope.analyzer.processor;
 
-import java.util.HashMap;
-import java.util.Map.Entry;
-import java.util.TreeMap;
-import java.util.concurrent.ConcurrentHashMap;
-
-import com.vipshop.microscope.collector.storager.MessageStorager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.vipshop.microscope.analyzer.report.TopReport;
 import com.vipshop.microscope.common.queue.FixedPriorityQueue;
 import com.vipshop.microscope.common.trace.Category;
 import com.vipshop.microscope.common.trace.Span;
 import com.vipshop.microscope.storage.StorageRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.Map.Entry;
+import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class TopAnalyzer {
 	
@@ -34,7 +32,7 @@ public class TopAnalyzer {
 	 * 
 	 * @param span
 	 */
-	public void analyze(Span span, MessageStorager storager) {
+	public void analyze(Span span, StorageRepository storager) {
 		FixedPriorityQueue queue = container.get(Category.valueOf(span.getSpanType()));
 		queue.add(span);
 		writeReport(storager);
@@ -44,7 +42,7 @@ public class TopAnalyzer {
 		return container;
 	}
 	
-	private void writeReport(MessageStorager storager) {
+	private void writeReport(StorageRepository storager) {
 		HashMap<String, Object> top = new HashMap<String, Object>();
 		for (Entry<Category, FixedPriorityQueue> entry : container.entrySet()) {
 			StringBuilder builder = new StringBuilder();
@@ -62,6 +60,6 @@ public class TopAnalyzer {
 			}
 			top.put(entry.getKey().getStrValue(), builder.toString());
 		}
-		storager.storeTopReport(top);
+		storager.saveTop(top);
 	}
 }

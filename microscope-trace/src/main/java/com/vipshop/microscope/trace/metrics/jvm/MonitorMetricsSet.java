@@ -1,16 +1,15 @@
 package com.vipshop.microscope.trace.metrics.jvm;
 
+import com.codahale.metrics.Gauge;
+import com.codahale.metrics.Metric;
+import com.codahale.metrics.MetricSet;
+
 import java.lang.management.ClassLoadingMXBean;
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
 import java.lang.management.RuntimeMXBean;
-import java.lang.management.ThreadMXBean;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import com.codahale.metrics.Gauge;
-import com.codahale.metrics.Metric;
-import com.codahale.metrics.MetricSet;
 
 /**
  * Monitor metrics
@@ -28,23 +27,21 @@ import com.codahale.metrics.MetricSet;
 public class MonitorMetricsSet implements MetricSet {
 
 	private final ClassLoadingMXBean clBean = ManagementFactory.getClassLoadingMXBean();
-	private final ThreadMXBean threads = ManagementFactory.getThreadMXBean();
 	private final OperatingSystemMXBean osBean = ManagementFactory.getOperatingSystemMXBean();
 	private final RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
 	
-	@SuppressWarnings("restriction")
 	@Override
 	public Map<String, Metric> getMetrics() {
 		final Map<String, Metric> gauges = new LinkedHashMap<String, Metric>();
 		
-		gauges.put("JVMStartTime", new Gauge<Long>() {
+		gauges.put("time.jvm-start", new Gauge<Long>() {
 			@Override
 			public Long getValue() {
 				return runtimeMXBean.getStartTime();
 			}
 		});
 
-		gauges.put("JVMUpTime", new Gauge<Long>() {
+		gauges.put("time.jvm-up", new Gauge<Long>() {
 			@Override
 			public Long getValue() {
 				return runtimeMXBean.getUptime();
@@ -52,7 +49,7 @@ public class MonitorMetricsSet implements MetricSet {
 		});
 
 		// ***************************** monitor CPU ********************************* //
-		gauges.put("SystemLoadAverage", new Gauge<Double>() {
+		gauges.put("system.load-average", new Gauge<Double>() {
 			@Override
 			public Double getValue() {
 				return osBean.getSystemLoadAverage();
@@ -63,21 +60,21 @@ public class MonitorMetricsSet implements MetricSet {
 		if (isInstanceOfInterface(osBean.getClass(), "com.sun.management.OperatingSystemMXBean")) {
 			final com.sun.management.OperatingSystemMXBean b = (com.sun.management.OperatingSystemMXBean) osBean;
 
-			gauges.put("TotalPhysicalMemory", new Gauge<Long>() {
+			gauges.put("memory.total-physical", new Gauge<Long>() {
 				@Override
 				public Long getValue() {
 					return b.getTotalPhysicalMemorySize();
 				}
 			});
 
-			gauges.put("FreePhysicalMemory", new Gauge<Long>() {
+			gauges.put("memory.free-physical", new Gauge<Long>() {
 				@Override
 				public Long getValue() {
 					return b.getFreePhysicalMemorySize();
 				}
 			});
 
-			gauges.put("CommittedVirtualMemory", new Gauge<Long>() {
+			gauges.put("memory.committed-virtual", new Gauge<Long>() {
 				@Override
 				public Long getValue() {
 					return b.getCommittedVirtualMemorySize();
@@ -85,21 +82,21 @@ public class MonitorMetricsSet implements MetricSet {
 			});
 
 			// ***************************** monitor disk   ****************************** //
-			gauges.put("TotalSwapSpace", new Gauge<Long>() {
+			gauges.put("space.total-swap", new Gauge<Long>() {
 				@Override
 				public Long getValue() {
 					return b.getTotalSwapSpaceSize();
 				}
 			});
 
-			gauges.put("FreeSwapSpace", new Gauge<Long>() {
+			gauges.put("space.free-swap", new Gauge<Long>() {
 				@Override
 				public Long getValue() {
 					return b.getFreeSwapSpaceSize();
 				}
 			});
 
-			gauges.put("ProcessCpuTime", new Gauge<Long>() {
+			gauges.put("system.cpu-Time", new Gauge<Long>() {
 				@Override
 				public Long getValue() {
 					return b.getProcessCpuTime();
@@ -107,64 +104,6 @@ public class MonitorMetricsSet implements MetricSet {
 			});
 		}
 		
-		// ******************* monitor classes **************************** // 
-		gauges.put("TotalLoadedClasses", new Gauge<Long>() {
-			@Override
-			public Long getValue() {
-				return clBean.getTotalLoadedClassCount();
-			}
-		});
-		
-		gauges.put("TotalUnloadedClasses", new Gauge<Long>() {
-			@Override
-			public Long getValue() {
-				return clBean.getUnloadedClassCount();
-			}
-		});
-		
-		gauges.put("SharedLoadedClasses", new Gauge<Long>() {
-			@Override
-			public Long getValue() {
-				return 0l;
-			}
-		});
-		
-		gauges.put("SharedUnloadedClasses", new Gauge<Long>() {
-			@Override
-			public Long getValue() {
-				return 0l;
-			}
-		});
-		
-		// *************************** monitor thread ************************ //
-		gauges.put("Count", new Gauge<Integer>() {
-			@Override
-			public Integer getValue() {
-				return threads.getThreadCount();
-			}
-		});
-
-		gauges.put("DaemonCount", new Gauge<Integer>() {
-			@Override
-			public Integer getValue() {
-				return threads.getDaemonThreadCount();
-			}
-		});
-		
-		gauges.put("PeakCount", new Gauge<Integer>() {
-			@Override
-			public Integer getValue() {
-				return threads.getPeakThreadCount();
-			}
-		});
-		
-		gauges.put("TotalStartCount", new Gauge<Long>() {
-			@Override
-			public Long getValue() {
-				return threads.getTotalStartedThreadCount();
-			}
-		});
-
 		return gauges;
 	}
 	

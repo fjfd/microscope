@@ -14,7 +14,7 @@
 		<spring.version>3.2.2.RELEASE</spring.version>
 		<testng.version>6.8.5</testng.version>
 		<slf4j.version>1.7.5</slf4j.version>
-		<libthrift.version>0.9.1</libthrift.version>
+		<libthrift.version>0.9.0</libthrift.version>
 		<mybatis.version>3.2.2</mybatis.version>
 		<hadoop.core.version>1.2.1</hadoop.core.version>
 		<hbase.version>0.94.6</hbase.version>
@@ -46,14 +46,18 @@
 		<module>microscope-analyzer</module>
 		<module>microscope-collector</module>
 		<module>microscope-common</module>
-		<module>microscope-job</module>
-		<module>microscope-query</module>
-		<module>microscope-storage</module>
-		<module>microscope-test</module>
-		<module>microscope-trace</module>
-		<module>microscope-validater</module>
-		<module>microscope-web</module>
-	</modules>
+        <module>microscope-flume</module>
+        <module>microscope-job</module>
+        <module>microscope-query</module>
+        <module>microscope-storage</module>
+        <module>microscope-test</module>
+        <module>microscope-trace</module>
+        <module>microscope-validater</module>
+        <module>microscope-web</module>
+        <module>microscope-kafka</module>
+        <module>microscope-storm</module>
+        <module>microscope-netty</module>
+    </modules>
 
 	<!-- deploy jar to nexus server -->
 	<distributionManagement>
@@ -89,7 +93,12 @@
 			<artifactId>libthrift</artifactId>
 			<version>${libthrift.version}</version>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.0.1</version>
+        </dependency>
+    </dependencies>
 
 	<build>
 		<plugins>

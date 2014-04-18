@@ -7,6 +7,7 @@ import java.util.Random;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
 
+import com.vipshop.microscope.trace.metrics.jvm.ThreadMetricsSet;
 import org.testng.annotations.Test;
 
 import com.codahale.metrics.Gauge;
@@ -22,10 +23,17 @@ public class MetricsTest {
 	@Test
 	public void testMicroscopeJVMMetrics() throws InterruptedException {
 		Tracer.cleanContext();
+
 		for (;;) {
 			TimeUnit.SECONDS.sleep(1);
 		}
 	}
+
+    @Test
+    public void test() {
+        throw new IllegalArgumentException("the metrics name you given : [" + "" + "] is bad, please redefine your name \n" +
+                "with pattern [jvm.memory.EdenSpace.Max] ");
+    }
 	
     @Test
     public void testJVMMetrics() throws InterruptedException {

@@ -217,183 +217,222 @@ public class MicroscopeReporter extends ScheduledReporter {
     
     private void buildGauge(String name, Gauge gauge, long timestamp) {
 
-        logger.debug("add gauge metrics to storage queue");
+        if (name.split("\\.").length == 4) {
 
-    	output.addMetrics(Metric.named(prefix(name))
-    			                .withValue(gauge.getValue())
-    			                .withTimestamp(timestamp)
-    			                .withTags(tags)
-    			                .build());
+            logger.debug("add gauge metrics to storage queue");
+
+            output.addMetrics(Metric.named(prefix(name))
+                    .withValue(gauge.getValue())
+                    .withTimestamp(timestamp)
+                    .withTags(tags)
+                    .build());
+
+        } else {
+            logger.error("the gauge metric name you given : [" + name + "] is bad, please redefine your name " +
+                         "follow pattern [jvm.memory.EdenSpace.Max], discard this metric");
+
+        }
+
     }
 
     private void buildCounter(String name, Counter counter, long timestamp) {
 
-        logger.debug("add counter metrics to storage queue");
+        if (name.split("\\.").length == 4) {
+            logger.debug("add counter metrics to storage queue");
 
-        output.addMetrics(Metric.named(prefix(name))
-                	            .withTimestamp(timestamp)
-                	            .withValue(counter.getCount())
-                	            .withTags(tags)
-                	            .build());
+            output.addMetrics(Metric.named(prefix(name))
+                    .withTimestamp(timestamp)
+                    .withValue(counter.getCount())
+                    .withTags(tags)
+                    .build());
+
+        } else {
+            logger.error("the counter metric name you given : [" + name + "] is bad, please redefine your name " +
+                         "follow pattern [jvm.memory.EdenSpace.Max], discard this metric");
+
+        }
+
+
     }
     
     private void buildHistograms(String name, Histogram histogram, long timestamp) {
 
-        logger.debug("add histogram metrics to storage queue");
+        if (name.split("\\.").length == 3) {
 
-        final Snapshot snapshot = histogram.getSnapshot();
-        output.addMetrics(Metric.named(prefix(name, "count"))
-                                .withTimestamp(timestamp)
-                                .withValue(histogram.getCount())
-                                .withTags(tags).build());
+            logger.debug("add histogram metrics to storage queue");
 
-        output.addMetrics(Metric.named(prefix(name, "max"))
-                                .withTimestamp(timestamp)
-                                .withValue(snapshot.getMax())
-                                .withTags(tags).build());
+            final Snapshot snapshot = histogram.getSnapshot();
+            output.addMetrics(Metric.named(prefix(name, "count"))
+                    .withTimestamp(timestamp)
+                    .withValue(histogram.getCount())
+                    .withTags(tags).build());
 
-        output.addMetrics(Metric.named(prefix(name, "min"))
-                                .withTimestamp(timestamp)
-                                .withValue(snapshot.getMin())
-                                .withTags(tags).build());
+            output.addMetrics(Metric.named(prefix(name, "max"))
+                    .withTimestamp(timestamp)
+                    .withValue(snapshot.getMax())
+                    .withTags(tags).build());
 
-        output.addMetrics(Metric.named(prefix(name, "mean"))
-                                .withTimestamp(timestamp)
-                                .withValue(snapshot.getMean())
-                                .withTags(tags).build());
+            output.addMetrics(Metric.named(prefix(name, "min"))
+                    .withTimestamp(timestamp)
+                    .withValue(snapshot.getMin())
+                    .withTags(tags).build());
 
-        output.addMetrics(Metric.named(prefix(name, "stddev"))
-                                .withTimestamp(timestamp)
-                                .withValue(snapshot.getStdDev())
-                                .withTags(tags).build());
+            output.addMetrics(Metric.named(prefix(name, "mean"))
+                    .withTimestamp(timestamp)
+                    .withValue(snapshot.getMean())
+                    .withTags(tags).build());
 
-
-        output.addMetrics(Metric.named(prefix(name, "p50"))
-                                .withTimestamp(timestamp)
-                                .withValue(snapshot.getMedian())
-                                .withTags(tags).build());
-
-        output.addMetrics(Metric.named(prefix(name, "p75"))
-                                .withTimestamp(timestamp)
-                                .withValue(snapshot.get75thPercentile())
-                                .withTags(tags).build());
-
-        output.addMetrics(Metric.named(prefix(name, "p95"))
-                                .withTimestamp(timestamp)
-                                .withValue(snapshot.get95thPercentile())
-                                .withTags(tags).build());
+            output.addMetrics(Metric.named(prefix(name, "stddev"))
+                    .withTimestamp(timestamp)
+                    .withValue(snapshot.getStdDev())
+                    .withTags(tags).build());
 
 
-        output.addMetrics(Metric.named(prefix(name, "p98"))
-                                .withTimestamp(timestamp)
-                                .withValue(snapshot.get98thPercentile())
-                                .withTags(tags).build());
+            output.addMetrics(Metric.named(prefix(name, "p50"))
+                    .withTimestamp(timestamp)
+                    .withValue(snapshot.getMedian())
+                    .withTags(tags).build());
 
-        output.addMetrics(Metric.named(prefix(name, "p99"))
-                                .withTimestamp(timestamp)
-                                .withValue(snapshot.get99thPercentile())
-                                .withTags(tags).build());
+            output.addMetrics(Metric.named(prefix(name, "p75"))
+                    .withTimestamp(timestamp)
+                    .withValue(snapshot.get75thPercentile())
+                    .withTags(tags).build());
 
-        output.addMetrics(Metric.named(prefix(name, "p999"))
-                                .withTimestamp(timestamp)
-                                .withValue(snapshot.get999thPercentile())
-                                .withTags(tags).build());
+            output.addMetrics(Metric.named(prefix(name, "p95"))
+                    .withTimestamp(timestamp)
+                    .withValue(snapshot.get95thPercentile())
+                    .withTags(tags).build());
+
+
+            output.addMetrics(Metric.named(prefix(name, "p98"))
+                    .withTimestamp(timestamp)
+                    .withValue(snapshot.get98thPercentile())
+                    .withTags(tags).build());
+
+            output.addMetrics(Metric.named(prefix(name, "p99"))
+                    .withTimestamp(timestamp)
+                    .withValue(snapshot.get99thPercentile())
+                    .withTags(tags).build());
+
+            output.addMetrics(Metric.named(prefix(name, "p999"))
+                    .withTimestamp(timestamp)
+                    .withValue(snapshot.get999thPercentile())
+                    .withTags(tags).build());
+
+        } else {
+            logger.error("the histogram metric name you given : [" + name + "] is bad, please redefine your name " +
+                         "follow pattern [servlet.response-code.200], discard this metric ");
+        }
+
 
     }
 
     private void buildMeters(String name, Meter meter, long timestamp) {
 
-        logger.debug("add meter metrics to storage queue");
+        if (name.split("\\.").length == 3) {
+            logger.debug("add meter metrics to storage queue");
 
-    	output.addMetrics(Metric.named(prefix(name, "count"))
-                                .withTimestamp(timestamp)
-                                .withValue(meter.getCount())
-                                .withTags(tags).build());
-    	
-    	output.addMetrics(Metric.named(prefix(name, "meanrate"))
-                                .withTimestamp(timestamp)
-                                .withValue(meter.getMeanRate())
-                                .withTags(tags).build());
+            output.addMetrics(Metric.named(prefix(name, "count"))
+                    .withTimestamp(timestamp)
+                    .withValue(meter.getCount())
+                    .withTags(tags).build());
 
-    	output.addMetrics(Metric.named(prefix(name, "1-meanrate"))
-                                .withTimestamp(timestamp)
-                                .withValue(meter.getOneMinuteRate())
-                                .withTags(tags).build());
+            output.addMetrics(Metric.named(prefix(name, "meanrate"))
+                    .withTimestamp(timestamp)
+                    .withValue(meter.getMeanRate())
+                    .withTags(tags).build());
 
-    	output.addMetrics(Metric.named(prefix(name, "5-meanrate"))
-                                .withTimestamp(timestamp)
-                                .withValue(meter.getFiveMinuteRate())
-                                .withTags(tags).build());
+            output.addMetrics(Metric.named(prefix(name, "1-meanrate"))
+                    .withTimestamp(timestamp)
+                    .withValue(meter.getOneMinuteRate())
+                    .withTags(tags).build());
 
-    	output.addMetrics(Metric.named(prefix(name, "15-meanrate"))
-                                .withTimestamp(timestamp)
-                                .withValue(meter.getFifteenMinuteRate())
-                                .withTags(tags).build());
+            output.addMetrics(Metric.named(prefix(name, "5-meanrate"))
+                    .withTimestamp(timestamp)
+                    .withValue(meter.getFiveMinuteRate())
+                    .withTags(tags).build());
+
+            output.addMetrics(Metric.named(prefix(name, "15-meanrate"))
+                    .withTimestamp(timestamp)
+                    .withValue(meter.getFifteenMinuteRate())
+                    .withTags(tags).build());
+        } else {
+            logger.error("the meter metric name you given : [" + name + "] is bad, please redefine your name " +
+                    "follow pattern [servlet.response-code.200], discard this metric ");
+        }
+
 
     }
 
     private void buildTimers(String name, Timer timer, long timestamp) {
 
-        logger.debug("add timer metrics to storage queue");
+        if (name.split("\\.").length == 3) {
 
-        final Snapshot snapshot = timer.getSnapshot();
+            logger.debug("add timer metrics to storage queue");
 
-        output.addMetrics(Metric.named(prefix(name, "count"))
-                                .withTimestamp(timestamp)
-                                .withValue(timer.getCount())
-                                .withTags(tags).build());
+            final Snapshot snapshot = timer.getSnapshot();
 
-        output.addMetrics(Metric.named(prefix(name, "max"))
-                                .withTimestamp(timestamp)
-                                .withValue(snapshot.getMax())
-                                .withTags(tags).build());
+            output.addMetrics(Metric.named(prefix(name, "count"))
+                    .withTimestamp(timestamp)
+                    .withValue(timer.getCount())
+                    .withTags(tags).build());
 
-        output.addMetrics(Metric.named(prefix(name, "min"))
-                                .withTimestamp(timestamp)
-                                .withValue(snapshot.getMin())
-                                .withTags(tags).build());
+            output.addMetrics(Metric.named(prefix(name, "max"))
+                    .withTimestamp(timestamp)
+                    .withValue(snapshot.getMax())
+                    .withTags(tags).build());
 
-        output.addMetrics(Metric.named(prefix(name, "mean"))
-                                .withTimestamp(timestamp)
-                                .withValue(snapshot.getMean())
-                                .withTags(tags).build());
+            output.addMetrics(Metric.named(prefix(name, "min"))
+                    .withTimestamp(timestamp)
+                    .withValue(snapshot.getMin())
+                    .withTags(tags).build());
 
-        output.addMetrics(Metric.named(prefix(name, "stddev"))
-                                .withTimestamp(timestamp)
-                                .withValue(snapshot.getStdDev())
-                                .withTags(tags).build());
+            output.addMetrics(Metric.named(prefix(name, "mean"))
+                    .withTimestamp(timestamp)
+                    .withValue(snapshot.getMean())
+                    .withTags(tags).build());
 
-
-        output.addMetrics(Metric.named(prefix(name, "p50"))
-                                .withTimestamp(timestamp)
-                                .withValue(snapshot.getMedian())
-                                .withTags(tags).build());
-
-        output.addMetrics(Metric.named(prefix(name, "p75"))
-                                .withTimestamp(timestamp)
-                                .withValue(snapshot.get75thPercentile())
-                                .withTags(tags).build());
-
-        output.addMetrics(Metric.named(prefix(name, "p95"))
-                                .withTimestamp(timestamp)
-                                .withValue(snapshot.get95thPercentile())
-                                .withTags(tags).build());
+            output.addMetrics(Metric.named(prefix(name, "stddev"))
+                    .withTimestamp(timestamp)
+                    .withValue(snapshot.getStdDev())
+                    .withTags(tags).build());
 
 
-        output.addMetrics(Metric.named(prefix(name, "p98"))
-                                .withTimestamp(timestamp)
-                                .withValue(snapshot.get98thPercentile())
-                                .withTags(tags).build());
+            output.addMetrics(Metric.named(prefix(name, "p50"))
+                    .withTimestamp(timestamp)
+                    .withValue(snapshot.getMedian())
+                    .withTags(tags).build());
 
-        output.addMetrics(Metric.named(prefix(name, "p99"))
-                                .withTimestamp(timestamp)
-                                .withValue(snapshot.get99thPercentile())
-                                .withTags(tags).build());
+            output.addMetrics(Metric.named(prefix(name, "p75"))
+                    .withTimestamp(timestamp)
+                    .withValue(snapshot.get75thPercentile())
+                    .withTags(tags).build());
 
-        output.addMetrics(Metric.named(prefix(name, "p999"))
-                                .withTimestamp(timestamp)
-                                .withValue(snapshot.get999thPercentile())
-                                .withTags(tags).build());
+            output.addMetrics(Metric.named(prefix(name, "p95"))
+                    .withTimestamp(timestamp)
+                    .withValue(snapshot.get95thPercentile())
+                    .withTags(tags).build());
+
+
+            output.addMetrics(Metric.named(prefix(name, "p98"))
+                    .withTimestamp(timestamp)
+                    .withValue(snapshot.get98thPercentile())
+                    .withTags(tags).build());
+
+            output.addMetrics(Metric.named(prefix(name, "p99"))
+                    .withTimestamp(timestamp)
+                    .withValue(snapshot.get99thPercentile())
+                    .withTags(tags).build());
+
+            output.addMetrics(Metric.named(prefix(name, "p999"))
+                    .withTimestamp(timestamp)
+                    .withValue(snapshot.get999thPercentile())
+                    .withTags(tags).build());
+        } else {
+            logger.error("the meter metric name you given : [" + name + "] is bad, please redefine your name " +
+                         "follow pattern [servlet.response-code.200], discard this metric ");
+        }
+
 
     }
 
@@ -408,22 +447,28 @@ public class MicroscopeReporter extends ScheduledReporter {
                                 .build());
     }
 
-    private String prefix(String name) {
+    private void checkMetricName(String name) {
         if (name.split("\\.").length != 4) {
-            throw new IllegalArgumentException("the metrics name you given : [" + name + "] is bad, please redefine your name \n" +
-                                               "with pattern [jvm.memory.EdenSpace.Max] ");
+            logger.error("the metrics name you given : [" + name + "] is bad, please redefine your Counter or Gauge metrics name " +
+                    "with pattern [jvm.memory.EdenSpace.Max] ");
+            return;
         }
+    }
 
-        return name;
+    private void checkMetricNameSuffix(String name) {
+        if (name.split("\\.").length != 3) {
+            logger.error("the metrics name you given : [" + name + "] is bad, please redefine your Histogram or Meter or Timer metrics name \n" +
+                    "with pattern [servlet.response-code.200] ");
+            return;
+        }
+    }
+
+    private String prefix(String name) {
+        return name.toLowerCase();
     }
 
     private String prefix(String name, String suffix) {
-    	if (name.split("\\.").length != 3) {
-            throw new IllegalArgumentException("the metrics name you given : [" + name + "] is bad, please redefine your name \n" +
-                                               "with pattern [servlet.response-code.200] ");
-        }
-
-        return name + "." + suffix;
+        return name.toLowerCase() + "." + suffix;
     }
 
 }

@@ -19,14 +19,14 @@ import com.codahale.metrics.RatioGauge;
 /**
  * Memory metrics
  * 
- * Total
- * Heap 
- * Non Heap
- * EdenSpace
- * TenuredGen
- * SurvivorSpace
- * CodeCache
- * PermGen
+ * Total           memory  [init, used, max, committed]
+ * Heap            memory  [init, used, max, committed, usage]
+ * Non Heap        memory  [init, used, max, committed, usage]
+ * EdenSpace       memory  [init, used, max, committed, usage]
+ * TenuredGen      memory  [init, used, max, committed, usage]
+ * SurvivorSpace   memory  [init, used, max, committed, usage]
+ * CodeCache       memory  [init, used, max, committed, usage]
+ * PermGen         memory  [init, used, max, committed, usage]
  * 
  * @author Xu Fei
  * @version 1.0
@@ -49,63 +49,63 @@ public class MemeoryMetricsSet implements MetricSet {
 	public Map<String, Metric> getMetrics() {
 		final Map<String, Metric> gauges = new LinkedHashMap<String, Metric>();
 
-		gauges.put("Total.Init", new Gauge<Long>() {
+		gauges.put("total.init", new Gauge<Long>() {
 			@Override
 			public Long getValue() {
 				return mxBean.getHeapMemoryUsage().getInit() + mxBean.getNonHeapMemoryUsage().getInit();
 			}
 		});
 
-		gauges.put("Total.Used", new Gauge<Long>() {
+		gauges.put("total.used", new Gauge<Long>() {
 			@Override
 			public Long getValue() {
 				return mxBean.getHeapMemoryUsage().getUsed() + mxBean.getNonHeapMemoryUsage().getUsed();
 			}
 		});
 
-		gauges.put("Total.Max", new Gauge<Long>() {
+		gauges.put("total.max", new Gauge<Long>() {
 			@Override
 			public Long getValue() {
 				return mxBean.getHeapMemoryUsage().getMax() + mxBean.getNonHeapMemoryUsage().getMax();
 			}
 		});
 
-		gauges.put("Total.Committed", new Gauge<Long>() {
+		gauges.put("total.committed", new Gauge<Long>() {
 			@Override
 			public Long getValue() {
 				return mxBean.getHeapMemoryUsage().getCommitted() + mxBean.getNonHeapMemoryUsage().getCommitted();
 			}
 		});
 
-		gauges.put("Heap.Init", new Gauge<Long>() {
+		gauges.put("heap.init", new Gauge<Long>() {
 			@Override
 			public Long getValue() {
 				return mxBean.getHeapMemoryUsage().getInit();
 			}
 		});
 
-		gauges.put("Heap.Used", new Gauge<Long>() {
+		gauges.put("heap.used", new Gauge<Long>() {
 			@Override
 			public Long getValue() {
 				return mxBean.getHeapMemoryUsage().getUsed();
 			}
 		});
 
-		gauges.put("Heap.Max", new Gauge<Long>() {
+		gauges.put("heap.max", new Gauge<Long>() {
 			@Override
 			public Long getValue() {
 				return mxBean.getHeapMemoryUsage().getMax();
 			}
 		});
 
-		gauges.put("Heap.Committed", new Gauge<Long>() {
+		gauges.put("heap.committed", new Gauge<Long>() {
 			@Override
 			public Long getValue() {
 				return mxBean.getHeapMemoryUsage().getCommitted();
 			}
 		});
 
-		gauges.put("Heap.Usage", new RatioGauge() {
+		gauges.put("heap.usage", new RatioGauge() {
 			@Override
 			protected Ratio getRatio() {
 				final MemoryUsage usage = mxBean.getHeapMemoryUsage();
@@ -113,35 +113,35 @@ public class MemeoryMetricsSet implements MetricSet {
 			}
 		});
 
-		gauges.put("NonHeap.Init", new Gauge<Long>() {
+		gauges.put("non-heap.init", new Gauge<Long>() {
 			@Override
 			public Long getValue() {
 				return mxBean.getNonHeapMemoryUsage().getInit();
 			}
 		});
 
-		gauges.put("NonHeap.Used", new Gauge<Long>() {
+		gauges.put("non-heap.used", new Gauge<Long>() {
 			@Override
 			public Long getValue() {
 				return mxBean.getNonHeapMemoryUsage().getUsed();
 			}
 		});
 
-		gauges.put("NonHeap.Max", new Gauge<Long>() {
+		gauges.put("non-heap.max", new Gauge<Long>() {
 			@Override
 			public Long getValue() {
 				return mxBean.getNonHeapMemoryUsage().getMax();
 			}
 		});
 
-		gauges.put("NonHeap.Committed", new Gauge<Long>() {
+		gauges.put("non-heap.committed", new Gauge<Long>() {
 			@Override
 			public Long getValue() {
 				return mxBean.getNonHeapMemoryUsage().getCommitted();
 			}
 		});
 
-		gauges.put("NonHeap.Usage", new RatioGauge() {
+		gauges.put("non-heap.usage", new RatioGauge() {
 			@Override
 			protected Ratio getRatio() {
 				final MemoryUsage usage = mxBean.getNonHeapMemoryUsage();
@@ -154,41 +154,41 @@ public class MemeoryMetricsSet implements MetricSet {
 			String name = "";
 			
 			if (pool.getName().equals("Code Cache")) {
-				name = "CodeCache.";
+				name = "code-cache.";
 			} else if (pool.getName().equals("Survivor Space")) {
-				name = "SurvivorSpace.";
+				name = "survivor-space.";
 			}else if (pool.getName().equals("Tenured Gen")) {
-				name = "TenuredGen.";
+				name = "tenured-gen.";
 			}else if (pool.getName().equals("Eden Space")) {
-				name = "EdenSpace.";
+				name = "eden-space.";
 			}else if (pool.getName().equals("Perm Gen")) {
-				name = "PermGen.";
+				name = "perm-gen.";
 			}
 
-            gauges.put(name + "Max", new Gauge<Long>() {
+            gauges.put(name + "max", new Gauge<Long>() {
                 @Override
                 public Long getValue() {
                     return pool.getUsage().getMax();
                 }
             });
-            gauges.put(name + "Init", new Gauge<Long>() {
+            gauges.put(name + "init", new Gauge<Long>() {
                 @Override
                 public Long getValue() {
                     return pool.getUsage().getInit();
                 }
             });
-            gauges.put(name + "Committed", new Gauge<Long>() {
+            gauges.put(name + "committed", new Gauge<Long>() {
                 @Override
                 public Long getValue() {return pool.getUsage().getCommitted();
                 }
             });
-            gauges.put(name + "Used", new Gauge<Long>() {
+            gauges.put(name + "used", new Gauge<Long>() {
                 @Override
                 public Long getValue() {
                     return pool.getUsage().getUsed();
                 }
             });
-            gauges.put(name +  "Usage", new RatioGauge() {
+            gauges.put(name + "usage", new RatioGauge() {
                 @Override
                 protected Ratio getRatio() {
                 final long max = pool.getUsage().getMax() == -1 ? pool.getUsage().getCommitted() : pool.getUsage().getMax();

@@ -5,13 +5,13 @@ import java.util.concurrent.ExecutorService;
 
 import com.vipshop.microscope.analyzer.processor.TopAnalyzer;
 import com.vipshop.microscope.analyzer.processor.TraceAnalyzer;
-import com.vipshop.microscope.collector.storager.MessageStorager;
 import com.vipshop.microscope.common.trace.Span;
 import com.vipshop.microscope.common.util.ThreadPoolUtil;
+import com.vipshop.microscope.storage.StorageRepository;
 
 public class AnalyzeEngine {
 
-    private final MessageStorager messageStorager = MessageStorager.getMessageStorager();
+    private final StorageRepository storager = StorageRepository.getStorageRepository();
 	
 	private final TopAnalyzer topAnalyzer = new TopAnalyzer();
 	private final ExecutorService topExecutor = ThreadPoolUtil.newSingleThreadExecutor("top-analyzer");
@@ -26,7 +26,7 @@ public class AnalyzeEngine {
 		topExecutor.execute(new Runnable() {
 			@Override
 			public void run() {
-				topAnalyzer.analyze(span, messageStorager);
+				topAnalyzer.analyze(span, storager);
 			}
 		});
 		

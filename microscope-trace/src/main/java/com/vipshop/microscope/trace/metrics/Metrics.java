@@ -1,29 +1,6 @@
 package com.vipshop.microscope.trace.metrics;
 
-import com.vipshop.microscope.trace.metrics.health.MicroscopeHealthCheck;
-import com.vipshop.microscope.trace.metrics.jvm.*;
-import info.ganglia.gmetric4j.gmetric.GMetric;
-import info.ganglia.gmetric4j.gmetric.GMetric.UDPAddressingMode;
-
-import java.io.File;
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
-import com.codahale.metrics.ConsoleReporter;
-import com.codahale.metrics.Counter;
-import com.codahale.metrics.CsvReporter;
-import com.codahale.metrics.Histogram;
-import com.codahale.metrics.JmxReporter;
-import com.codahale.metrics.Meter;
-import com.codahale.metrics.Metric;
-import com.codahale.metrics.MetricFilter;
-import com.codahale.metrics.MetricRegistry;
-import com.codahale.metrics.ScheduledReporter;
-import com.codahale.metrics.Slf4jReporter;
-import com.codahale.metrics.Timer;
+import com.codahale.metrics.*;
 import com.codahale.metrics.ganglia.GangliaReporter;
 import com.codahale.metrics.graphite.Graphite;
 import com.codahale.metrics.graphite.GraphiteReporter;
@@ -32,9 +9,20 @@ import com.codahale.metrics.health.HealthCheckRegistry;
 import com.vipshop.microscope.common.logentry.Constants;
 import com.vipshop.microscope.common.util.IPAddressUtil;
 import com.vipshop.microscope.trace.Tracer;
+import com.vipshop.microscope.trace.metrics.health.MicroscopeHealthCheck;
+import com.vipshop.microscope.trace.metrics.jvm.*;
 import com.vipshop.microscope.trace.metrics.reporter.MicroscopeReporter;
+import info.ganglia.gmetric4j.gmetric.GMetric;
+import info.ganglia.gmetric4j.gmetric.GMetric.UDPAddressingMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Collect metrics data API.
@@ -200,13 +188,13 @@ public class Metrics {
 	 */
 	public static void registerJVM() {
 
-        logger.info("register JVM over    metrics");
+        logger.info("register JVM class   metrics");
         logger.info("register JVM monitor metrics");
         logger.info("register JVM thread  metrics");
         logger.info("register JVM memory  metrics");
         logger.info("register JVM gc      metrics");
 
-        metrics.register(Constants.JVM_OVERVIEW, new OverviewMetricsSet());
+		metrics.register(Constants.JVM_CLASS,   new ClassMetricsSet());
 		metrics.register(Constants.JVM_MONITOR, new MonitorMetricsSet());
 		metrics.register(Constants.JVM_THREAD,  new ThreadMetricsSet());
 		metrics.register(Constants.JVM_MEMORY,  new MemeoryMetricsSet());

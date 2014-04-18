@@ -47,7 +47,7 @@ public class ThreadMetricsSet implements MetricSet {
 		final Map<String, Metric> gauges = new LinkedHashMap<String, Metric>();
 
 		for (final Thread.State state : Thread.State.values()) {
-			gauges.put(name(state.toString().toLowerCase(), "count"), new Gauge<Object>() {
+			gauges.put(name("count", state.toString()), new Gauge<Object>() {
 				@Override
 				public Object getValue() {
 					return getThreadCount(state, allThreads);
@@ -55,37 +55,40 @@ public class ThreadMetricsSet implements MetricSet {
 			});
 		}
 
-		gauges.put("Count", new Gauge<Integer>() {
+		gauges.put("count.total", new Gauge<Integer>() {
 			@Override
 			public Integer getValue() {
 				return threads.getThreadCount();
 			}
 		});
 
-		gauges.put("DaemonCount", new Gauge<Integer>() {
+		gauges.put("count.daemon", new Gauge<Integer>() {
 			@Override
 			public Integer getValue() {
 				return threads.getDaemonThreadCount();
 			}
 		});
 
-		gauges.put("DeadLocks", new Gauge<Set<String>>() {
+        gauges.put("count.peak", new Gauge<Integer>() {
+            @Override
+            public Integer getValue() {
+                return threads.getPeakThreadCount();
+            }
+        });
+
+        gauges.put("count.total-start", new Gauge<Long>() {
+            @Override
+            public Long getValue() {
+             return threads.getTotalStartedThreadCount();
+            }
+        });
+
+        gauges.put("count.deadlock", new Gauge<Integer>() {
 			@Override
-			public Set<String> getValue() {
-				return deadlockDetector.getDeadlockedThreads();
+			public Integer getValue() {
+				return threads.findDeadlockedThreads().length;
 			}
 		});
-
-//		gauges.put("ThreadDump", new Gauge<List<String>>() {
-//			List<String> threadInfos = new ArrayList<String>();
-//			@Override
-//			public List<String> getValue() {
-//				for (ThreadInfo threadInfo : allThreads) {
-//					threadInfos.add(threadInfo.toString());
-//				}
-//				return threadInfos;
-//			}
-//		});
 
 		return gauges;
 	}

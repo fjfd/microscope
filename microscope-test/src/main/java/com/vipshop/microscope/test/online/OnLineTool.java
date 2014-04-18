@@ -50,7 +50,7 @@ public class OnLineTool {
 	}
 	
 	public static void hbase() {
-		StorageRepository.getStorageRepository().reInitalizeHbaseTable();
+		StorageRepository.getStorageRepository().initHbaseTable();
 	}
 	
 	public static void mysql() {
