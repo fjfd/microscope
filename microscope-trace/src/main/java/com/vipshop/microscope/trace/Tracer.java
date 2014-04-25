@@ -2,6 +2,7 @@ package com.vipshop.microscope.trace;
 
 import com.codahale.metrics.*;
 import com.vipshop.microscope.trace.metrics.system.SystemInfoBuilder;
+import com.vipshop.microscope.trace.stoarge.StorageHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -102,6 +103,17 @@ public class Tracer {
 	public static int REPORT_PERIOD_TIME = 10;
 
     /**
+     * Default storage type:
+     *
+     * 1 ArrayBlockingQueueStorage
+     *
+     * 2 DisruptorQueueStorage
+     *
+     * 3 NonBlockingQueueStorage
+     */
+    public static int DEFAULT_STORAGE = 1;
+
+    /**
      * Default switcher for open/close trace function
      */
 	private static Switcher SWITCHER = SwitcherHolder.getConfigSwitcher();
@@ -134,24 +146,14 @@ public class Tracer {
 				if (SWITCHER.isOpen()) {
 					
 					/**
-					 * start queue transporter
+					 * start transporter
 					 */
-					TransporterHolder.startQueueTransporter();
-					
+					TransporterHolder.startTransporter();
+
 					/**
 					 * start metrics reporter 
 					 */
 					Metrics.startMicroscopeReporter();
-					
-					/**
-					 * register JVM metrics
-					 */
-					Metrics.registerJVM();
-
-                    /**
-                     * record system info
-                     */
-                    SystemInfoBuilder.recordSystemInfo();
 					
 				}
 			} catch (Exception e) {

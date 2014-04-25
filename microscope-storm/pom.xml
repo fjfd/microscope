@@ -12,4 +12,21 @@
     <artifactId>microscope-storm</artifactId>
 
 
+    <repositories>
+        <!-- Repository where we can found the storm dependencies -->
+        <repository>
+            <id>clojars.org</id>
+            <url>http://clojars.org/repo</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <!-- Storm Dependency -->
+        <dependency>
+            <groupId>storm</groupId>
+            <artifactId>storm</artifactId>
+            <version>0.7.1</version>
+        </dependency>
+    </dependencies>
+
 </project>

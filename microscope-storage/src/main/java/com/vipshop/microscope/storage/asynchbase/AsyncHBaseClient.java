@@ -20,4 +20,5 @@ public class AsyncHBaseClient {
 	public static HBaseClient getBaseClient() {
 		return client;
 	}
+
 }

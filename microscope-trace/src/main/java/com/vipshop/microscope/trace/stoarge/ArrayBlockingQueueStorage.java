@@ -130,8 +130,8 @@ public class ArrayBlockingQueueStorage implements Storage {
 		
 		return null;
 	}
-	
-	/**
+
+    /**
 	 * Get size of queue.
 	 */
 	@Override

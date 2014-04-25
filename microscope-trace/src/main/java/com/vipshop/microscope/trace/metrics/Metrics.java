@@ -12,6 +12,7 @@ import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.metrics.health.MicroscopeHealthCheck;
 import com.vipshop.microscope.trace.metrics.jvm.*;
 import com.vipshop.microscope.trace.metrics.reporter.MicroscopeReporter;
+import com.vipshop.microscope.trace.metrics.system.SystemInfoBuilder;
 import info.ganglia.gmetric4j.gmetric.GMetric;
 import info.ganglia.gmetric4j.gmetric.GMetric.UDPAddressingMode;
 import org.slf4j.Logger;
@@ -66,6 +67,16 @@ public class Metrics {
             logger.info("start microscope metrics reporter with period " + Tracer.REPORT_PERIOD_TIME + " millsecond");
 
             reporter.start(period, unit);
+
+            /**
+             * register JVM metrics
+             */
+            Metrics.registerJVM();
+
+            /**
+             * register system metrics
+             */
+            Metrics.registerSystemInfo();
 		}
 	}
 	
@@ -200,6 +211,10 @@ public class Metrics {
 		metrics.register(Constants.JVM_MEMORY,  new MemeoryMetricsSet());
 		metrics.register(Constants.JVM_GC,      new GCMetricSet());
 	}
+
+    public static void registerSystemInfo() {
+        SystemInfoBuilder.recordSystemInfo();
+    }
 
     /**
      * Register microscope health check

@@ -1,5 +1,7 @@
 package com.vipshop.microscope.trace.stoarge;
 
+import com.vipshop.microscope.trace.Tracer;
+
 /**
  * Get singleton message storage.
  * 
@@ -8,13 +10,13 @@ package com.vipshop.microscope.trace.stoarge;
  */
 public class StorageHolder {
 	
-	private static final int key = 1;
+	private static final int key = Tracer.DEFAULT_STORAGE;
 	
 	public static Storage getStorage() {
 		return getStorage(key);
 	}
 	
-	public static Storage getStorage(int key) {
+	private static Storage getStorage(int key) {
 		switch (key) {
 		case 1:
 			return getArrayBlockingQueueStorage();

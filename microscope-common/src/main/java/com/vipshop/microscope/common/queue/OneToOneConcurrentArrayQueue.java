@@ -21,58 +21,49 @@ import java.util.NoSuchElementException;
 import java.util.Queue;
 
 public final class OneToOneConcurrentArrayQueue<E>
-    implements Queue<E>
-{
+        implements Queue<E> {
     private final E[] buffer;
 
     private volatile long tail = 0;
     private volatile long head = 0;
 
     @SuppressWarnings("unchecked")
-    public OneToOneConcurrentArrayQueue(final int capacity)
-    {
-        buffer = (E[])new Object[capacity];
+    public OneToOneConcurrentArrayQueue(final int capacity) {
+        buffer = (E[]) new Object[capacity];
     }
 
-    public boolean add(final E e)
-    {
-        if (offer(e))
-        {
+    public boolean add(final E e) {
+        if (offer(e)) {
             return true;
         }
 
         throw new IllegalStateException("Queue is full");
     }
 
-    public boolean offer(final E e)
-    {
-        if (null == e)
-        {
+    public boolean offer(final E e) {
+        if (null == e) {
             throw new NullPointerException("Null is not a valid element");
         }
 
         final long currentTail = tail;
         final long wrapPoint = currentTail - buffer.length;
-        if (head <= wrapPoint)
-        {
+        if (head <= wrapPoint) {
             return false;
         }
 
-        buffer[(int)(currentTail % buffer.length)] = e;
+        buffer[(int) (currentTail % buffer.length)] = e;
         tail = currentTail + 1;
 
         return true;
     }
 
-    public E poll()
-    {
+    public E poll() {
         final long currentHead = head;
-        if (currentHead >= tail)
-        {
+        if (currentHead >= tail) {
             return null;
         }
 
-        final int index = (int)(currentHead % buffer.length);
+        final int index = (int) (currentHead % buffer.length);
         final E e = buffer[index];
         buffer[index] = null;
         head = currentHead + 1;
@@ -80,55 +71,44 @@ public final class OneToOneConcurrentArrayQueue<E>
         return e;
     }
 
-    public E remove()
-    {
+    public E remove() {
         final E e = poll();
-        if (null == e)
-        {
+        if (null == e) {
             throw new NoSuchElementException("Queue is empty");
         }
 
         return e;
     }
 
-    public E element()
-    {
+    public E element() {
         final E e = peek();
-        if (null == e)
-        {
+        if (null == e) {
             throw new NoSuchElementException("Queue is empty");
         }
 
         return e;
     }
 
-    public E peek()
-    {
-        return buffer[(int)(head % buffer.length)];
+    public E peek() {
+        return buffer[(int) (head % buffer.length)];
     }
 
-    public int size()
-    {
-        return (int)(tail - head);
+    public int size() {
+        return (int) (tail - head);
     }
 
-    public boolean isEmpty()
-    {
+    public boolean isEmpty() {
         return tail == head;
     }
 
-    public boolean contains(final Object o)
-    {
-        if (null == o)
-        {
+    public boolean contains(final Object o) {
+        if (null == o) {
             return false;
         }
 
-        for (long i = head, limit = tail; i < limit; i++)
-        {
-            final E e = buffer[(int)(i % buffer.length)];
-            if (o.equals(e))
-            {
+        for (long i = head, limit = tail; i < limit; i++) {
+            final E e = buffer[(int) (i % buffer.length)];
+            if (o.equals(e)) {
                 return true;
             }
         }
@@ -136,32 +116,25 @@ public final class OneToOneConcurrentArrayQueue<E>
         return false;
     }
 
-    public Iterator<E> iterator()
-    {
+    public Iterator<E> iterator() {
         throw new UnsupportedOperationException();
     }
 
-    public Object[] toArray()
-    {
+    public Object[] toArray() {
         throw new UnsupportedOperationException();
     }
 
-    public <T> T[] toArray(final T[] a)
-    {
+    public <T> T[] toArray(final T[] a) {
         throw new UnsupportedOperationException();
     }
 
-    public boolean remove(final Object o)
-    {
+    public boolean remove(final Object o) {
         throw new UnsupportedOperationException();
     }
 
-    public boolean containsAll(final Collection<?> c)
-    {
-        for (final Object o : c)
-        {
-            if (!contains(o))
-            {
+    public boolean containsAll(final Collection<?> c) {
+        for (final Object o : c) {
+            if (!contains(o)) {
                 return false;
             }
         }
@@ -169,31 +142,25 @@ public final class OneToOneConcurrentArrayQueue<E>
         return true;
     }
 
-    public boolean addAll(final Collection<? extends E> c)
-    {
-        for (final E e : c)
-        {
+    public boolean addAll(final Collection<? extends E> c) {
+        for (final E e : c) {
             add(e);
         }
 
         return true;
     }
 
-    public boolean removeAll(final Collection<?> c)
-    {
+    public boolean removeAll(final Collection<?> c) {
         throw new UnsupportedOperationException();
     }
 
-    public boolean retainAll(final Collection<?> c)
-    {
+    public boolean retainAll(final Collection<?> c) {
         throw new UnsupportedOperationException();
     }
 
-    public void clear()
-    {
+    public void clear() {
         Object value;
-        do
-        {
+        do {
             value = poll();
         }
         while (null != value);

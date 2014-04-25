@@ -79,6 +79,10 @@
     <orderEntry type="module" module-name="microscope-collector" />
     <orderEntry type="module" module-name="microscope-validater" />
     <orderEntry type="module" module-name="microscope-common" />
+    <orderEntry type="library" name="Maven: org.kohsuke:asm3:3.3.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.hadoop:zookeeper:3.3.0" level="project" />
+    <orderEntry type="library" name="Maven: jline:jline:0.9.94" level="project" />
+    <orderEntry type="library" name="Maven: junit:junit:4.10" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-log4j12:1.7.5" level="project" />
     <orderEntry type="library" name="Maven: log4j:log4j:1.2.17" level="project" />
     <orderEntry type="library" name="Maven: org.apache.thrift:libthrift:0.9.0" level="project" />
@@ -103,7 +107,6 @@
     <orderEntry type="library" name="Maven: asm:asm:3.1" level="project" />
     <orderEntry type="library" name="Maven: commons-io:commons-io:2.1" level="project" />
     <orderEntry type="library" name="Maven: commons-httpclient:commons-httpclient:3.0.1" level="project" />
-    <orderEntry type="library" name="Maven: junit:junit:4.10" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-math:2.1" level="project" />
     <orderEntry type="library" name="Maven: commons-configuration:commons-configuration:1.6" level="project" />
     <orderEntry type="library" name="Maven: commons-collections:commons-collections:3.2.1" level="project" />
@@ -151,6 +154,7 @@
     <orderEntry type="module" module-name="microscope-alerter" />
     <orderEntry type="module" module-name="microscope-analyzer" />
     <orderEntry type="library" name="Maven: com.lmax:disruptor:3.2.0" level="project" />
+    <orderEntry type="library" name="Maven: net.java.dev.jna:jna:4.0.0" level="project" />
     <orderEntry type="module" module-name="microscope-trace" />
     <orderEntry type="library" name="Maven: com.codahale.metrics:metrics-core:3.0.1" level="project" />
     <orderEntry type="library" name="Maven: com.codahale.metrics:metrics-healthchecks:3.0.1" level="project" />

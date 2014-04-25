@@ -17,19 +17,14 @@ package com.vipshop.microscope.common.queue;
 
 import java.util.concurrent.atomic.AtomicLong;
 
-public class PaddedAtomicLong extends AtomicLong
-{
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -5488388421473746085L;
+public class PaddedAtomicLong extends AtomicLong {
 
-	public PaddedAtomicLong()
-    {
+    private static final long serialVersionUID = -5488388421473746085L;
+
+    public PaddedAtomicLong() {
     }
 
-    public PaddedAtomicLong(final long initialValue)
-    {
+    public PaddedAtomicLong(final long initialValue) {
         super(initialValue);
     }
 

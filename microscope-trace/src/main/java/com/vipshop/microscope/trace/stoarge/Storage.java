@@ -49,7 +49,7 @@ public interface Storage {
 	 * @return LogEntry
 	 */
 	public LogEntry poll();
-	
+
 	/**
 	 * Get size of queue
 	 * 
