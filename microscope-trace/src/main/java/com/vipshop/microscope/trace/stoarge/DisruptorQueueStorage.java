@@ -25,6 +25,13 @@ import com.vipshop.microscope.trace.Tracer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Store message in client use {@code Disruptor}.
+ *
+ * @author Xu Fei
+ * @version 1.0
+ */
+
 public class DisruptorQueueStorage implements Storage {
 
     private static final Logger logger = LoggerFactory.getLogger(DisruptorQueueStorage.class);
@@ -183,7 +190,7 @@ public class DisruptorQueueStorage implements Storage {
 
     public DisruptorQueueStorage() {
 
-        this.logEntryRingBuffer = RingBuffer.createSingleProducer(LogEntryEvent.EVENT_FACTORY, LOGENTRY_BUFFER_SIZE, new SleepingWaitStrategy());
+        this.logEntryRingBuffer = RingBuffer.createMultiProducer(LogEntryEvent.EVENT_FACTORY, LOGENTRY_BUFFER_SIZE, new SleepingWaitStrategy());
         this.logEntrySequenceBarrier = logEntryRingBuffer.newBarrier();
         this.logEntryEventProcessor = new BatchEventProcessor<LogEntryEvent>(logEntryRingBuffer, logEntrySequenceBarrier, new LogEntryEventHandler());
 

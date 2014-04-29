@@ -71,14 +71,7 @@ public final class OneToOneSequencedThroughputTest extends AbstractPerfTestDisru
     private final BatchEventProcessor<ValueEvent> batchEventProcessor;
 
     public OneToOneSequencedThroughputTest(ProducerType type, WaitStrategy strategy) {
-        if (type.equals(ProducerType.SINGLE)) {
-            this.ringBuffer = createSingleProducer(ValueEvent.EVENT_FACTORY, BUFFER_SIZE, strategy);
-        }
-
-        if (type.equals(ProducerType.MULTI)) {
-            this.ringBuffer = createMultiProducer(ValueEvent.EVENT_FACTORY, BUFFER_SIZE, strategy);
-        }
-
+        this.ringBuffer = RingBuffer.create(type, ValueEvent.EVENT_FACTORY, BUFFER_SIZE, strategy);
         sequenceBarrier = ringBuffer.newBarrier();
         handler = new ValueAdditionEventHandler();
         batchEventProcessor = new BatchEventProcessor<ValueEvent>(ringBuffer, sequenceBarrier, handler);

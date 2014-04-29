@@ -23,7 +23,7 @@ public class StorageHolder {
 		case 2:
 			return getDisruptorQueueStorage();
 		case 3:
-			return getNonBlockingQueueStorage();
+			return getLog4j2FileStorage();
 		default:
 			return getArrayBlockingQueueStorage();
 		}
@@ -45,12 +45,12 @@ public class StorageHolder {
 		return DisruptorQueueStorageHolder.storage;
 	}
 	
-	private static class NonBlockingQueueStorageHolder {
-		private static final Storage storage = new NonBlockingQueueStorage();
+	private static class Log4j2FileStorageHolder {
+		private static final Storage storage = new Log4j2FileStorage();
 	}
 	
-	private static Storage getNonBlockingQueueStorage() {
-		return NonBlockingQueueStorageHolder.storage;
+	private static Storage getLog4j2FileStorage() {
+		return Log4j2FileStorageHolder.storage;
 	}
 
 }

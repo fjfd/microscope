@@ -111,7 +111,7 @@ public class Tracer {
      *
      * 3 NonBlockingQueueStorage
      */
-    public static int DEFAULT_STORAGE = 1;
+    public static int DEFAULT_STORAGE = 3;
 
     /**
      * Default switcher for open/close trace function
