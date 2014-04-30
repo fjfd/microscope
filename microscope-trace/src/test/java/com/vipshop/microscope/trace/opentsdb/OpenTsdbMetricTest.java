@@ -15,7 +15,6 @@
  */
 package com.vipshop.microscope.trace.opentsdb;
 
-import com.vipshop.microscope.trace.metrics.opentsdb.OpenTsdbMetric;
 import org.junit.Test;
 
 import java.util.Collections;

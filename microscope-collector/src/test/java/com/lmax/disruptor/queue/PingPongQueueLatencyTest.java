@@ -15,17 +15,11 @@
  */
 package com.lmax.disruptor.queue;
 
-import java.io.PrintStream;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.CyclicBarrier;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.LinkedBlockingQueue;
-
 import com.lmax.disruptor.collections.Histogram;
 import com.lmax.disruptor.util.DaemonThreadFactory;
+
+import java.io.PrintStream;
+import java.util.concurrent.*;
 
 /**
  * <pre>
@@ -60,20 +54,28 @@ import com.lmax.disruptor.util.DaemonThreadFactory;
  */
 public final class PingPongQueueLatencyTest {
     private static final int BUFFER_SIZE = 1024;
-    private static final long ITERATIONS = 1000L * 1000L * 30L;
-    private static final long PAUSE_NANOS = 1000L;
-    private final ExecutorService executor = Executors.newCachedThreadPool(DaemonThreadFactory.INSTANCE);
+    private final BlockingQueue<Long> pingQueue = new LinkedBlockingQueue<Long>(BUFFER_SIZE);
+    private final BlockingQueue<Long> pongQueue = new LinkedBlockingQueue<Long>(BUFFER_SIZE);
+    private final QueuePonger qPonger = new QueuePonger(pingQueue, pongQueue);
 
 //    private final Histogram histogram = new Histogram(10000000000L, 4);
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
-
-    private final BlockingQueue<Long> pingQueue = new LinkedBlockingQueue<Long>(BUFFER_SIZE);
-    private final BlockingQueue<Long> pongQueue = new LinkedBlockingQueue<Long>(BUFFER_SIZE);
+    private static final long ITERATIONS = 1000L * 1000L * 30L;
+    private static final long PAUSE_NANOS = 1000L;
     private final QueuePinger qPinger = new QueuePinger(pingQueue, pongQueue, ITERATIONS, PAUSE_NANOS);
-    private final QueuePonger qPonger = new QueuePonger(pingQueue, pongQueue);
+    private final ExecutorService executor = Executors.newCachedThreadPool(DaemonThreadFactory.INSTANCE);
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
+
+    private static void dumpHistogram(Histogram histogram, final PrintStream out) {
+//        histogram.getHistogramData().outputPercentileDistribution(out, 1, 1000.0);
+    }
+
+    public static void main(String[] args) throws Exception {
+        PingPongQueueLatencyTest test = new PingPongQueueLatencyTest();
+        test.testImplementation();
+    }
 
     public void testImplementation() throws Exception {
         final int runs = 3;
@@ -87,10 +89,6 @@ public final class PingPongQueueLatencyTest {
 //            System.out.format("%s run %d BlockingQueue %s\n", getClass().getSimpleName(), Long.valueOf(i), histogram);
 //            dumpHistogram(histogram, System.out);
         }
-    }
-
-    private static void dumpHistogram(Histogram histogram, final PrintStream out) {
-//        histogram.getHistogramData().outputPercentileDistribution(out, 1, 1000.0);
     }
 
     private void runQueuePass() throws Exception {
@@ -109,21 +107,15 @@ public final class PingPongQueueLatencyTest {
         pongFuture.cancel(true);
     }
 
-    public static void main(String[] args) throws Exception {
-        PingPongQueueLatencyTest test = new PingPongQueueLatencyTest();
-        test.testImplementation();
-    }
-
     private static class QueuePinger implements Runnable {
         private final BlockingQueue<Long> pingQueue;
         private final BlockingQueue<Long> pongQueue;
         private final long pauseTimeNs;
-
+        private final long maxEvents;
         private Histogram histogram;
         private CyclicBarrier barrier;
         private CountDownLatch latch;
         private long counter;
-        private final long maxEvents;
 
         public QueuePinger(BlockingQueue<Long> pingQueue, BlockingQueue<Long> pongQueue, long maxEvents, long pauseTimeNs) {
             this.pingQueue = pingQueue;

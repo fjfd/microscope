@@ -1,9 +1,9 @@
 package com.vipshop.microscope.storage.hbase.repository;
 
-import com.vipshop.microscope.common.logentry.Constants;
-import com.vipshop.microscope.common.metrics.Metric;
 import com.vipshop.microscope.common.util.TimeStampUtil;
-import com.vipshop.microscope.storage.hbase.table.*;
+import com.vipshop.microscope.storage.hbase.table.TSDBTable;
+import com.vipshop.microscope.trace.Constants;
+import com.vipshop.microscope.trace.metrics.MetricData;
 import org.apache.hadoop.hbase.client.HTableInterface;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
@@ -14,23 +14,26 @@ import org.springframework.data.hadoop.hbase.RowMapper;
 import org.springframework.data.hadoop.hbase.TableCallback;
 import org.springframework.stereotype.Repository;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Repository
 public class TSDBRepository extends AbstraceRepository {
-	
-	public void initialize() {
-		super.initialize(TSDBTable.TABLE_NAME, TSDBTable.CF_T);
-	}
-	
-	public void drop() {
-		super.drop(TSDBTable.TABLE_NAME);
-	}
 
-    public void save(final Metric metric) {
-        hbaseTemplate.execute(TSDBTable.TABLE_NAME, new TableCallback<Metric>() {
+    public void initialize() {
+        super.initialize(TSDBTable.TABLE_NAME, TSDBTable.CF_T);
+    }
+
+    public void drop() {
+        super.drop(TSDBTable.TABLE_NAME);
+    }
+
+    public void save(final MetricData metric) {
+        hbaseTemplate.execute(TSDBTable.TABLE_NAME, new TableCallback<MetricData>() {
             @Override
-            public Metric doInTable(HTableInterface table) throws Throwable {
+            public MetricData doInTable(HTableInterface table) throws Throwable {
                 Put p = new Put(TSDBTable.rowKey(metric));
                 p.add(TSDBTable.BYTE_CF_T, TSDBTable.column(metric), TSDBTable.value(metric));
                 table.put(p);
@@ -69,7 +72,7 @@ public class TSDBRepository extends AbstraceRepository {
         endTime = TimeStampUtil.baseHourTime(endTime);
 
 		/*
-		 * Query by rowKey : appName-traceName-timestamp-ipAddress-******
+         * Query by rowKey : appName-traceName-timestamp-ipAddress-******
 		 */
         String startKey = metricsname + "#" + startTime + "#" + appName + ipAddress;
         String endKey = metricsname + "#" + endTime + "#" + appName + ipAddress;
@@ -98,16 +101,15 @@ public class TSDBRepository extends AbstraceRepository {
                 String tmp = builder.toString();
 
                 metricsResult.put("basetime", row.split("#")[1]);
-                metricsResult.put("value", tmp.substring(0, tmp.length() -1));
+                metricsResult.put("value", tmp.substring(0, tmp.length() - 1));
                 resutls.add(metricsResult);
-                return  metricsResult;
+                return metricsResult;
             }
 
         });
 
         return resutls;
     }
-
 
 
 }

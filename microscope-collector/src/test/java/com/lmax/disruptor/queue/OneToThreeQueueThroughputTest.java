@@ -15,18 +15,13 @@
  */
 package com.lmax.disruptor.queue;
 
-import static com.lmax.disruptor.support.PerfTestUtil.failIf;
-
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.LinkedBlockingQueue;
-
 import com.lmax.disruptor.AbstractPerfTestQueue;
 import com.lmax.disruptor.support.Operation;
 import com.lmax.disruptor.support.ValueMutationQueueProcessor;
+
+import java.util.concurrent.*;
+
+import static com.lmax.disruptor.support.PerfTestUtil.failIf;
 
 /**
  * <pre>
@@ -73,12 +68,8 @@ import com.lmax.disruptor.support.ValueMutationQueueProcessor;
  */
 public final class OneToThreeQueueThroughputTest extends AbstractPerfTestQueue {
     private static final int NUM_EVENT_PROCESSORS = 3;
-    private static final int BUFFER_SIZE = 1024 * 8;
-    private static final long ITERATIONS = 1000L * 1000L * 1L;
     private final ExecutorService executor = Executors.newFixedThreadPool(NUM_EVENT_PROCESSORS);
-
     private final long[] results = new long[NUM_EVENT_PROCESSORS];
-
     {
         for (long i = 0; i < ITERATIONS; i++) {
             results[0] = Operation.ADDITION.op(results[0], i);
@@ -86,27 +77,29 @@ public final class OneToThreeQueueThroughputTest extends AbstractPerfTestQueue {
             results[2] = Operation.AND.op(results[2], i);
         }
     }
-
-    ///////////////////////////////////////////////////////////////////////////////////////////////
-
     @SuppressWarnings("unchecked")
     private final BlockingQueue<Long>[] blockingQueues = new BlockingQueue[NUM_EVENT_PROCESSORS];
-
     {
         blockingQueues[0] = new LinkedBlockingQueue<Long>(BUFFER_SIZE);
         blockingQueues[1] = new LinkedBlockingQueue<Long>(BUFFER_SIZE);
         blockingQueues[2] = new LinkedBlockingQueue<Long>(BUFFER_SIZE);
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////////////////
     private final ValueMutationQueueProcessor[] queueProcessors = new ValueMutationQueueProcessor[NUM_EVENT_PROCESSORS];
-
     {
         queueProcessors[0] = new ValueMutationQueueProcessor(blockingQueues[0], Operation.ADDITION, ITERATIONS - 1);
         queueProcessors[1] = new ValueMutationQueueProcessor(blockingQueues[1], Operation.SUBTRACTION, ITERATIONS - 1);
         queueProcessors[2] = new ValueMutationQueueProcessor(blockingQueues[2], Operation.AND, ITERATIONS - 1);
     }
+    private static final int BUFFER_SIZE = 1024 * 8;
+    private static final long ITERATIONS = 1000L * 1000L * 1L;
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static void main(String[] args) throws Exception {
+        new OneToThreeQueueThroughputTest().testImplementations();
+    }
 
     @Override
     protected int getRequiredProcessorCount() {
@@ -140,9 +133,5 @@ public final class OneToThreeQueueThroughputTest extends AbstractPerfTestQueue {
         }
 
         return opsPerSecond;
-    }
-
-    public static void main(String[] args) throws Exception {
-        new OneToThreeQueueThroughputTest().testImplementations();
     }
 }

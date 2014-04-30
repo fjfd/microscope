@@ -15,21 +15,17 @@
  */
 package com.lmax.disruptor.sequenced;
 
-import static com.lmax.disruptor.RingBuffer.createSingleProducer;
-import static com.lmax.disruptor.support.PerfTestUtil.failIfNot;
+import com.lmax.disruptor.*;
+import com.lmax.disruptor.support.FunctionEvent;
+import com.lmax.disruptor.support.FunctionEventHandler;
+import com.lmax.disruptor.support.FunctionStep;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import com.lmax.disruptor.AbstractPerfTestDisruptor;
-import com.lmax.disruptor.BatchEventProcessor;
-import com.lmax.disruptor.RingBuffer;
-import com.lmax.disruptor.SequenceBarrier;
-import com.lmax.disruptor.YieldingWaitStrategy;
-import com.lmax.disruptor.support.FunctionEvent;
-import com.lmax.disruptor.support.FunctionEventHandler;
-import com.lmax.disruptor.support.FunctionStep;
+import static com.lmax.disruptor.RingBuffer.createSingleProducer;
+import static com.lmax.disruptor.support.PerfTestUtil.failIfNot;
 
 /**
  * <pre>
@@ -69,13 +65,13 @@ import com.lmax.disruptor.support.FunctionStep;
  */
 public final class OneToThreePipelineSequencedThroughputTest extends AbstractPerfTestDisruptor {
     private static final int NUM_EVENT_PROCESSORS = 3;
-    private static final int BUFFER_SIZE = 1024 * 8;
-    private static final long ITERATIONS = 1000L * 1000L * 100L;
     private final ExecutorService executor = Executors.newFixedThreadPool(NUM_EVENT_PROCESSORS);
-
+    private static final int BUFFER_SIZE = 1024 * 8;
+    private final RingBuffer<FunctionEvent> ringBuffer =
+            createSingleProducer(FunctionEvent.EVENT_FACTORY, BUFFER_SIZE, new YieldingWaitStrategy());
+    private static final long ITERATIONS = 1000L * 1000L * 100L;
     private static final long OPERAND_TWO_INITIAL_VALUE = 777L;
     private final long expectedResult;
-
     {
         long temp = 0L;
         long operandTwo = OPERAND_TWO_INITIAL_VALUE;
@@ -91,10 +87,6 @@ public final class OneToThreePipelineSequencedThroughputTest extends AbstractPer
 
         expectedResult = temp;
     }
-
-    private final RingBuffer<FunctionEvent> ringBuffer =
-            createSingleProducer(FunctionEvent.EVENT_FACTORY, BUFFER_SIZE, new YieldingWaitStrategy());
-
     private final SequenceBarrier stepOneSequenceBarrier = ringBuffer.newBarrier();
     private final FunctionEventHandler stepOneFunctionHandler = new FunctionEventHandler(FunctionStep.ONE);
     private final BatchEventProcessor<FunctionEvent> stepOneBatchProcessor =
@@ -112,6 +104,10 @@ public final class OneToThreePipelineSequencedThroughputTest extends AbstractPer
 
     {
         ringBuffer.addGatingSequences(stepThreeBatchProcessor.getSequence());
+    }
+
+    public static void main(String[] args) throws Exception {
+        new OneToThreePipelineSequencedThroughputTest().testImplementations();
     }
 
     @Override
@@ -149,9 +145,5 @@ public final class OneToThreePipelineSequencedThroughputTest extends AbstractPer
         failIfNot(expectedResult, stepThreeFunctionHandler.getStepThreeCounter());
 
         return opsPerSecond;
-    }
-
-    public static void main(String[] args) throws Exception {
-        new OneToThreePipelineSequencedThroughputTest().testImplementations();
     }
 }

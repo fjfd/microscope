@@ -12,25 +12,23 @@
 // see <http://www.gnu.org/licenses/>.
 package com.vipshop.microscope.storage.opentsdb.tsd;
 
-import org.jboss.netty.channel.Channel;
-
 import com.stumbleupon.async.Deferred;
 import com.vipshop.microscope.storage.opentsdb.core.TSDB;
+import org.jboss.netty.channel.Channel;
 
-/** Base interface for all telnet-style RPC handlers. */
+/**
+ * Base interface for all telnet-style RPC handlers.
+ */
 interface TelnetRpc {
 
-	/**
-	 * Executes this RPC.
-	 * 
-	 * @param tsdb
-	 *            The TSDB to use.
-	 * @param chan
-	 *            The channel on which the RPC was received.
-	 * @param command
-	 *            The command received, split.
-	 * @return A deferred result.
-	 */
-	Deferred<Object> execute(TSDB tsdb, Channel chan, String[] command);
+    /**
+     * Executes this RPC.
+     *
+     * @param tsdb    The TSDB to use.
+     * @param chan    The channel on which the RPC was received.
+     * @param command The command received, split.
+     * @return A deferred result.
+     */
+    Deferred<Object> execute(TSDB tsdb, Channel chan, String[] command);
 
 }

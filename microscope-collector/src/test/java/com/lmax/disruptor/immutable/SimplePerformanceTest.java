@@ -1,19 +1,30 @@
 package com.lmax.disruptor.immutable;
 
-import java.util.concurrent.locks.LockSupport;
-
 import com.lmax.disruptor.BatchEventProcessor;
 import com.lmax.disruptor.EventTranslatorOneArg;
 import com.lmax.disruptor.RingBuffer;
 import com.lmax.disruptor.YieldingWaitStrategy;
 
+import java.util.concurrent.locks.LockSupport;
+
 public class SimplePerformanceTest {
+    private static final EventTranslatorOneArg<EventHolder, SimpleEvent> TRANSLATOR =
+            new EventTranslatorOneArg<EventHolder, SimpleEvent>() {
+                @Override
+                public void translateTo(EventHolder holder, long arg1, SimpleEvent event) {
+                    holder.event = event;
+                }
+            };
     private final RingBuffer<EventHolder> ringBuffer;
     private final EventHolderHandler eventHolderHandler;
 
     public SimplePerformanceTest() {
         ringBuffer = RingBuffer.createSingleProducer(EventHolder.FACTORY, Constants.SIZE, new YieldingWaitStrategy());
         eventHolderHandler = new EventHolderHandler(new SimpleEventHandler());
+    }
+
+    public static void main(String[] args) {
+        new SimplePerformanceTest().run();
     }
 
     public void run() {
@@ -46,17 +57,5 @@ public class SimplePerformanceTest {
 
         batchEventProcessor.halt();
         t.join();
-    }
-
-    private static final EventTranslatorOneArg<EventHolder, SimpleEvent> TRANSLATOR =
-            new EventTranslatorOneArg<EventHolder, SimpleEvent>() {
-                @Override
-                public void translateTo(EventHolder holder, long arg1, SimpleEvent event) {
-                    holder.event = event;
-                }
-            };
-
-    public static void main(String[] args) {
-        new SimplePerformanceTest().run();
     }
 }

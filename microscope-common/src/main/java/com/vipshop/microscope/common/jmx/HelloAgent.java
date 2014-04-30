@@ -1,18 +1,12 @@
 package com.vipshop.microscope.common.jmx;
 
+import javax.management.*;
 import java.lang.management.ManagementFactory;
-
-import javax.management.InstanceAlreadyExistsException;
-import javax.management.MBeanRegistrationException;
-import javax.management.MBeanServer;
-import javax.management.MalformedObjectNameException;
-import javax.management.NotCompliantMBeanException;
-import javax.management.ObjectName;
 
 public class HelloAgent {
 
-	public static void main(String[] args) throws InterruptedException, MalformedObjectNameException, NullPointerException, InstanceAlreadyExistsException, MBeanRegistrationException, NotCompliantMBeanException {
-		 // Get the Platform MBean Server
+    public static void main(String[] args) throws InterruptedException, MalformedObjectNameException, NullPointerException, InstanceAlreadyExistsException, MBeanRegistrationException, NotCompliantMBeanException {
+        // Get the Platform MBean Server
         MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
 
         // Construct the ObjectName for the MBean we will register
@@ -26,7 +20,7 @@ public class HelloAgent {
 
         // Wait forever
         System.out.println("Waiting forever...");
-        
+
         Thread.sleep(Long.MAX_VALUE);
-	}
+    }
 }

@@ -29,14 +29,8 @@ public final class OneToOneConcurrentArrayQueue3<E>
 
     private final AtomicLong tail = new PaddedAtomicLong(0);
     private final AtomicLong head = new PaddedAtomicLong(0);
-
-    public static class PaddedLong {
-        public long value = 0, p1, p2, p3, p4, p5, p6;
-    }
-
     private final PaddedLong tailCache = new PaddedLong();
     private final PaddedLong headCache = new PaddedLong();
-
     @SuppressWarnings("unchecked")
     public OneToOneConcurrentArrayQueue3(final int capacity) {
         this.capacity = findNextPositivePowerOfTwo(capacity);
@@ -186,6 +180,10 @@ public final class OneToOneConcurrentArrayQueue3<E>
             value = poll();
         }
         while (null != value);
+    }
+
+    public static class PaddedLong {
+        public long value = 0, p1, p2, p3, p4, p5, p6;
     }
 }
 

@@ -17,9 +17,6 @@ package com.vipshop.microscope.trace.opentsdb;
 
 import com.codahale.metrics.*;
 import com.codahale.metrics.Timer;
-import com.vipshop.microscope.trace.metrics.opentsdb.OpenTsdb;
-import com.vipshop.microscope.trace.metrics.opentsdb.OpenTsdbMetric;
-import com.vipshop.microscope.trace.metrics.opentsdb.OpenTsdbReporter;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,25 +36,18 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class OpenTsdbReporterTest {
 
+    private final long timestamp = 1000198;
     private OpenTsdbReporter reporter;
-
     @Mock
     private OpenTsdb opentsdb;
-
     @Mock
     private MetricRegistry registry;
-
     @Mock
     private Gauge gauge;
-
     @Mock
     private Counter counter;
-
     @Mock
     private Clock clock;
-
-    private final long timestamp = 1000198;
-
     private ArgumentCaptor<Set> captor;
 
     @Before

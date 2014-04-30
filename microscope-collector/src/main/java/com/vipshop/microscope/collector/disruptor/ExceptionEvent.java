@@ -1,31 +1,31 @@
 package com.vipshop.microscope.collector.disruptor;
 
-import java.util.HashMap;
-
 import com.lmax.disruptor.EventFactory;
 
+import java.util.HashMap;
+
 /**
- * Metrics Event
- * 
+ * Exception Event
+ *
  * @author Xu Fei
  * @version 1.0
  */
 public class ExceptionEvent {
-	
-	private HashMap<String, Object> result;
 
-	public HashMap<String, Object> getResult() {
-		return result;
-	}
+    public final static EventFactory<ExceptionEvent> EVENT_FACTORY = new EventFactory<ExceptionEvent>() {
+        public ExceptionEvent newInstance() {
+            return new ExceptionEvent();
+        }
+    };
 
-	public void setResult(HashMap<String, Object> map) {
-		this.result = map;
-	}
+    private HashMap<String, Object> result;
 
-	public final static EventFactory<ExceptionEvent> EVENT_FACTORY = new EventFactory<ExceptionEvent>() {
-		public ExceptionEvent newInstance() {
-			return new ExceptionEvent();
-		}
-	};
+    public HashMap<String, Object> getResult() {
+        return result;
+    }
+
+    public void setResult(HashMap<String, Object> map) {
+        this.result = map;
+    }
 
 }

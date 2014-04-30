@@ -29,7 +29,8 @@ public class EchoClient {
         if (args.length != 2) {
             System.err.println(
                     "Usage: " + EchoClient.class.getSimpleName() +
-                            " <host> <port>");
+                            " <host> <port>"
+            );
             return;
         }
 

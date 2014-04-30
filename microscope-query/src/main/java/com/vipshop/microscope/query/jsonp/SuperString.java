@@ -22,7 +22,7 @@ public class SuperString {
     public static final int NUMERIC_DOUBLE = 4;
 
     public static String notNull(String strTemp) {
-        if(strTemp == null) {
+        if (strTemp == null) {
             return "";
         } else {
             return strTemp;
@@ -47,12 +47,12 @@ public class SuperString {
 
     public static int getInt(String strTemp, int def) {
         strTemp = notNull(strTemp);
-        if(strTemp.equals("")) {
+        if (strTemp.equals("")) {
             return def;
         }
         try {
             return (int) Math.floor(Double.parseDouble(strTemp));
-        } catch(Exception e) {
+        } catch (Exception e) {
             return def;
         }
     }
@@ -60,28 +60,27 @@ public class SuperString {
     public static long getLong(String strTemp) {
         return getLong(strTemp, 0L);
     }
-    
+
     public static long getLong(String strTemp, long def) {
         strTemp = notNull(strTemp);
-        if(strTemp.equals("")) {
+        if (strTemp.equals("")) {
             return def;
         }
         try {
             return (long) Math.floor(Double.parseDouble(strTemp));
-        } catch(Exception e) {
+        } catch (Exception e) {
             return def;
         }
     }
 
     public static float getFloat(String strTemp) {
         strTemp = notNull(strTemp);
-        if(strTemp.equals("")) {
+        if (strTemp.equals("")) {
             return 0f;
         }
         try {
             return Float.parseFloat(strTemp);
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             return 0f;
         }
     }
@@ -93,31 +92,30 @@ public class SuperString {
     public static double getDouble(String strTemp, double defaultVal) {
         strTemp = notNull(strTemp);
         strTemp = strTemp.replace(",", "");
-        if(strTemp.equals("")) {
+        if (strTemp.equals("")) {
             return 0d;
         }
         try {
             return Double.parseDouble(strTemp);
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             return defaultVal;
         }
     }
 
     public static String getRandString(int minlen, int maxlen) {
         String s = "";
-        if(minlen > maxlen) {
+        if (minlen > maxlen) {
             minlen = maxlen;
         }
-        for(; s.length() < maxlen; s = ("" + Math.random()).substring(2) + s) {
+        for (; s.length() < maxlen; s = ("" + Math.random()).substring(2) + s) {
             ;
         }
         s = s.substring(s.length() - maxlen);
         int n = maxlen - minlen;
-        if(n > 0) {
+        if (n > 0) {
             n = (int) Math.round(n * Math.random());
         }
-        if(n > 0) {
+        if (n > 0) {
             s = s.substring(n);
         }
         return s;
@@ -125,14 +123,15 @@ public class SuperString {
 
     /**
      * 判断字符串是否是数字
+     *
      * @param str
      * @param intType
      * @return 是否为数字
      */
     @SuppressWarnings("unused")
-	public static boolean isNumeric(String str, int intType) {
+    public static boolean isNumeric(String str, int intType) {
         try {
-            switch(intType) {
+            switch (intType) {
                 case NUMERIC_SHORT:
                     short shortN = Short.parseShort(str);
                     break;
@@ -149,8 +148,7 @@ public class SuperString {
                     double doubleN = Double.parseDouble(str);
                     break;
             }
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             return false;
         }
         return true;
@@ -165,15 +163,17 @@ public class SuperString {
      * @return 替换后的文本
      */
     public static String replaceTemplateTag(String text, String varname, String value) {
-        if (text == null) { return null; }
+        if (text == null) {
+            return null;
+        }
         return text.replace("${" + varname + "}", value);
     }
 
     @SuppressWarnings("rawtypes")
-	public static String replaceTemplateTag(String text, Map map) {
-        for(Object o : map.keySet()) {
+    public static String replaceTemplateTag(String text, Map map) {
+        for (Object o : map.keySet()) {
             String key = (String) o;
-            if(key != null && map.containsKey(key)) {
+            if (key != null && map.containsKey(key)) {
                 text = replaceTemplateTag(text, key, (String) map.get(key));
             }
         }
@@ -190,7 +190,7 @@ public class SuperString {
 
     public static List<String> strToList(String str, String seperator) {
         List<String> list = new ArrayList<String>();
-        if(str == null || str.length() == 0 || seperator == null) return list;
+        if (str == null || str.length() == 0 || seperator == null) return list;
         list.addAll(Arrays.asList(str.split(seperator)));
         return list;
     }

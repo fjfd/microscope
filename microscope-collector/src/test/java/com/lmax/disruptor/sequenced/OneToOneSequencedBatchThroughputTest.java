@@ -15,20 +15,20 @@
  */
 package com.lmax.disruptor.sequenced;
 
-import static com.lmax.disruptor.RingBuffer.createMultiProducer;
-import static com.lmax.disruptor.RingBuffer.createSingleProducer;
-import static com.lmax.disruptor.support.PerfTestUtil.failIfNot;
-
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import com.lmax.disruptor.*;
 import com.lmax.disruptor.dsl.ProducerType;
 import com.lmax.disruptor.support.PerfTestUtil;
 import com.lmax.disruptor.support.ValueAdditionEventHandler;
 import com.lmax.disruptor.support.ValueEvent;
 import com.lmax.disruptor.util.DaemonThreadFactory;
+
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import static com.lmax.disruptor.RingBuffer.createMultiProducer;
+import static com.lmax.disruptor.RingBuffer.createSingleProducer;
+import static com.lmax.disruptor.support.PerfTestUtil.failIfNot;
 
 /**
  * <pre>
@@ -63,13 +63,12 @@ public final class OneToOneSequencedBatchThroughputTest extends AbstractPerfTest
     public static final int BATCH_SIZE = 10;
     private static final int BUFFER_SIZE = 1024 * 64;
     private static final long ITERATIONS = 1000L * 1000L * 100L;
-    private final ExecutorService executor = Executors.newSingleThreadExecutor(DaemonThreadFactory.INSTANCE);
     private final long expectedResult = PerfTestUtil.accumulatedAddition(ITERATIONS) * BATCH_SIZE;
-
-    private RingBuffer<ValueEvent> ringBuffer;
+    private final ExecutorService executor = Executors.newSingleThreadExecutor(DaemonThreadFactory.INSTANCE);
     private final SequenceBarrier sequenceBarrier;
     private final ValueAdditionEventHandler handler;
     private final BatchEventProcessor<ValueEvent> batchEventProcessor;
+    private RingBuffer<ValueEvent> ringBuffer;
 
     public OneToOneSequencedBatchThroughputTest(ProducerType type, WaitStrategy strategy) {
         if (type.equals(ProducerType.SINGLE)) {
@@ -84,6 +83,40 @@ public final class OneToOneSequencedBatchThroughputTest extends AbstractPerfTest
         handler = new ValueAdditionEventHandler();
         batchEventProcessor = new BatchEventProcessor<ValueEvent>(ringBuffer, sequenceBarrier, handler);
         ringBuffer.addGatingSequences(batchEventProcessor.getSequence());
+    }
+
+    public static void main(String[] args) throws Exception {
+        System.out.println("ProducerType.SINGLE, use yield wait strategy");
+        OneToOneSequencedBatchThroughputTest test1 = new OneToOneSequencedBatchThroughputTest(ProducerType.SINGLE, new YieldingWaitStrategy());
+        test1.testImplementations();
+
+        System.out.println("ProducerType.SINGLE, use sleep wait strategy");
+        OneToOneSequencedBatchThroughputTest test2 = new OneToOneSequencedBatchThroughputTest(ProducerType.SINGLE, new SleepingWaitStrategy());
+        test2.testImplementations();
+
+        System.out.println("ProducerType.SINGLE, use block wait strategy");
+        OneToOneSequencedBatchThroughputTest test3 = new OneToOneSequencedBatchThroughputTest(ProducerType.SINGLE, new BlockingWaitStrategy());
+        test3.testImplementations();
+
+        System.out.println("ProducerType.SINGLE, use busy spin wait strategy");
+        OneToOneSequencedBatchThroughputTest test4 = new OneToOneSequencedBatchThroughputTest(ProducerType.SINGLE, new BusySpinWaitStrategy());
+        test4.testImplementations();
+
+        System.out.println("ProducerType.MULTI, use yield wait strategy");
+        OneToOneSequencedBatchThroughputTest test5 = new OneToOneSequencedBatchThroughputTest(ProducerType.MULTI, new YieldingWaitStrategy());
+        test5.testImplementations();
+
+        System.out.println("ProducerType.MULTI, use sleep wait strategy");
+        OneToOneSequencedBatchThroughputTest test6 = new OneToOneSequencedBatchThroughputTest(ProducerType.MULTI, new SleepingWaitStrategy());
+        test6.testImplementations();
+
+        System.out.println("ProducerType.MULTI, use block wait strategy");
+        OneToOneSequencedBatchThroughputTest test7 = new OneToOneSequencedBatchThroughputTest(ProducerType.MULTI, new BlockingWaitStrategy());
+        test7.testImplementations();
+
+        System.out.println("ProducerType.MULTI, use busy spin wait strategy");
+        OneToOneSequencedBatchThroughputTest test8 = new OneToOneSequencedBatchThroughputTest(ProducerType.MULTI, new BusySpinWaitStrategy());
+        test8.testImplementations();
     }
 
     @Override
@@ -124,39 +157,5 @@ public final class OneToOneSequencedBatchThroughputTest extends AbstractPerfTest
         while (batchEventProcessor.getSequence().get() != expectedCount) {
             Thread.sleep(1);
         }
-    }
-
-    public static void main(String[] args) throws Exception {
-        System.out.println("ProducerType.SINGLE, use yield wait strategy");
-        OneToOneSequencedBatchThroughputTest test1 = new OneToOneSequencedBatchThroughputTest(ProducerType.SINGLE, new YieldingWaitStrategy());
-        test1.testImplementations();
-
-        System.out.println("ProducerType.SINGLE, use sleep wait strategy");
-        OneToOneSequencedBatchThroughputTest test2 = new OneToOneSequencedBatchThroughputTest(ProducerType.SINGLE, new SleepingWaitStrategy());
-        test2.testImplementations();
-
-        System.out.println("ProducerType.SINGLE, use block wait strategy");
-        OneToOneSequencedBatchThroughputTest test3 = new OneToOneSequencedBatchThroughputTest(ProducerType.SINGLE, new BlockingWaitStrategy());
-        test3.testImplementations();
-
-        System.out.println("ProducerType.SINGLE, use busy spin wait strategy");
-        OneToOneSequencedBatchThroughputTest test4 = new OneToOneSequencedBatchThroughputTest(ProducerType.SINGLE, new BusySpinWaitStrategy());
-        test4.testImplementations();
-
-        System.out.println("ProducerType.MULTI, use yield wait strategy");
-        OneToOneSequencedBatchThroughputTest test5 = new OneToOneSequencedBatchThroughputTest(ProducerType.MULTI, new YieldingWaitStrategy());
-        test5.testImplementations();
-
-        System.out.println("ProducerType.MULTI, use sleep wait strategy");
-        OneToOneSequencedBatchThroughputTest test6 = new OneToOneSequencedBatchThroughputTest(ProducerType.MULTI, new SleepingWaitStrategy());
-        test6.testImplementations();
-
-        System.out.println("ProducerType.MULTI, use block wait strategy");
-        OneToOneSequencedBatchThroughputTest test7 = new OneToOneSequencedBatchThroughputTest(ProducerType.MULTI, new BlockingWaitStrategy());
-        test7.testImplementations();
-
-        System.out.println("ProducerType.MULTI, use busy spin wait strategy");
-        OneToOneSequencedBatchThroughputTest test8 = new OneToOneSequencedBatchThroughputTest(ProducerType.MULTI, new BusySpinWaitStrategy());
-        test8.testImplementations();
     }
 }

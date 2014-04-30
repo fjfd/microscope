@@ -1,7 +1,5 @@
 package com.vipshop.microscope.common.util;
 
-import com.vipshop.microscope.common.logentry.Constants;
-
 import java.util.Calendar;
 
 /**
@@ -13,16 +11,35 @@ import java.util.Calendar;
 public enum TimeStampUnit {
 
     HOUR {
-        public long toBaseSeconds(long d) { return base(d, C1); }
-        public long offsetSeconds(long d) { return offsetSecond(d, C1); }
-        public long offsetMinutes(long d) { return offsetMinute(d, C1); }
+        public long toBaseSeconds(long d) {
+            return base(d, C1);
+        }
+
+        public long offsetSeconds(long d) {
+            return offsetSecond(d, C1);
+        }
+
+        public long offsetMinutes(long d) {
+            return offsetMinute(d, C1);
+        }
     },
 
     DAY {
-        public long toBaseSeconds(long d) { return base(d); }
-        public long offsetSeconds(long d) { return offsetSecond(d);}
-        public long offsetMinutes(long d) { return offsetMinute(d);}
-        public long offsetHours(long d) { return offsetHour(d);}
+        public long toBaseSeconds(long d) {
+            return base(d);
+        }
+
+        public long offsetSeconds(long d) {
+            return offsetSecond(d);
+        }
+
+        public long offsetMinutes(long d) {
+            return offsetMinute(d);
+        }
+
+        public long offsetHours(long d) {
+            return offsetHour(d);
+        }
     },
 
     WEEK;
@@ -37,22 +54,6 @@ public enum TimeStampUnit {
 //    static final long C6 = C5 * 24L;
 
     static final long MAX = Long.MAX_VALUE;
-
-    public long toBaseSeconds(long duration) {
-        throw new AbstractMethodError();
-    }
-
-    public long offsetSeconds(long duration) {
-        throw new AbstractMethodError();
-    }
-
-    public long offsetMinutes(long duration) {
-        throw new AbstractMethodError();
-    }
-
-    public long offsetHours(long duration) {
-        throw new AbstractMethodError();
-    }
 
     static long base(long d, long m) {
         d = d / C0;
@@ -107,6 +108,22 @@ public enum TimeStampUnit {
         System.out.println(TimeStampUnit.DAY.offsetMinutes(System.currentTimeMillis()));
         System.out.println(TimeStampUnit.DAY.offsetSeconds(System.currentTimeMillis()));
 
+    }
+
+    public long toBaseSeconds(long duration) {
+        throw new AbstractMethodError();
+    }
+
+    public long offsetSeconds(long duration) {
+        throw new AbstractMethodError();
+    }
+
+    public long offsetMinutes(long duration) {
+        throw new AbstractMethodError();
+    }
+
+    public long offsetHours(long duration) {
+        throw new AbstractMethodError();
     }
 
 }

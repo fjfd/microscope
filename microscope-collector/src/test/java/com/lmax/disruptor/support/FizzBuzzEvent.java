@@ -18,6 +18,11 @@ package com.lmax.disruptor.support;
 import com.lmax.disruptor.EventFactory;
 
 public final class FizzBuzzEvent {
+    public static final EventFactory<FizzBuzzEvent> EVENT_FACTORY = new EventFactory<FizzBuzzEvent>() {
+        public FizzBuzzEvent newInstance() {
+            return new FizzBuzzEvent();
+        }
+    };
     private boolean fizz = false;
     private boolean buzz = false;
     private long value = 0;
@@ -47,10 +52,4 @@ public final class FizzBuzzEvent {
     public void setBuzz(final boolean buzz) {
         this.buzz = buzz;
     }
-
-    public static final EventFactory<FizzBuzzEvent> EVENT_FACTORY = new EventFactory<FizzBuzzEvent>() {
-        public FizzBuzzEvent newInstance() {
-            return new FizzBuzzEvent();
-        }
-    };
 }

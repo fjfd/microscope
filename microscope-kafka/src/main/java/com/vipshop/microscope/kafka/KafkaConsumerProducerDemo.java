@@ -16,8 +16,6 @@
  */
 package com.vipshop.microscope.kafka;
 
-import kafka.examples.*;
-
 public class KafkaConsumerProducerDemo implements KafkaProperties {
     public static void main(String[] args) {
         Producer producerThread = new Producer(KafkaProperties.topic);

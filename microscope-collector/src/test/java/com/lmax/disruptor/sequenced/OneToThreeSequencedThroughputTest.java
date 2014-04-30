@@ -15,19 +15,19 @@
  */
 package com.lmax.disruptor.sequenced;
 
-import static com.lmax.disruptor.RingBuffer.createMultiProducer;
-import static com.lmax.disruptor.RingBuffer.createSingleProducer;
-import static com.lmax.disruptor.support.PerfTestUtil.failIfNot;
-
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import com.lmax.disruptor.*;
 import com.lmax.disruptor.dsl.ProducerType;
 import com.lmax.disruptor.support.Operation;
 import com.lmax.disruptor.support.ValueEvent;
 import com.lmax.disruptor.support.ValueMutationEventHandler;
+
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import static com.lmax.disruptor.RingBuffer.createMultiProducer;
+import static com.lmax.disruptor.RingBuffer.createSingleProducer;
+import static com.lmax.disruptor.support.PerfTestUtil.failIfNot;
 
 /**
  * <pre>
@@ -71,12 +71,8 @@ import com.lmax.disruptor.support.ValueMutationEventHandler;
  */
 public final class OneToThreeSequencedThroughputTest extends AbstractPerfTestDisruptor {
     private static final int NUM_EVENT_PROCESSORS = 3;
-    private static final int BUFFER_SIZE = 1024 * 8;
-    private static final long ITERATIONS = 1000L * 1000L * 100L;
     private final ExecutorService executor = Executors.newFixedThreadPool(NUM_EVENT_PROCESSORS);
-
     private final long[] results = new long[NUM_EVENT_PROCESSORS];
-
     {
         for (long i = 0; i < ITERATIONS; i++) {
             results[0] = Operation.ADDITION.op(results[0], i);
@@ -84,12 +80,12 @@ public final class OneToThreeSequencedThroughputTest extends AbstractPerfTestDis
             results[2] = Operation.AND.op(results[2], i);
         }
     }
-
+    private static final int BUFFER_SIZE = 1024 * 8;
+    private static final long ITERATIONS = 1000L * 1000L * 100L;
     private final SequenceBarrier sequenceBarrier;
-
-    private RingBuffer<ValueEvent> ringBuffer;
     private final ValueMutationEventHandler[] handlers;
     private final BatchEventProcessor<?>[] batchEventProcessors;
+    private RingBuffer<ValueEvent> ringBuffer;
 
     public OneToThreeSequencedThroughputTest(ProducerType type, WaitStrategy strategy) {
         if (type.equals(ProducerType.SINGLE)) {
@@ -113,40 +109,9 @@ public final class OneToThreeSequencedThroughputTest extends AbstractPerfTestDis
         batchEventProcessors[2] = new BatchEventProcessor<ValueEvent>(ringBuffer, sequenceBarrier, handlers[2]);
 
         ringBuffer.addGatingSequences(batchEventProcessors[0].getSequence(),
-                                      batchEventProcessors[1].getSequence(),
-                                      batchEventProcessors[2].getSequence());
+                batchEventProcessors[1].getSequence(),
+                batchEventProcessors[2].getSequence());
 
-    }
-
-    @Override
-    protected int getRequiredProcessorCount() {
-        return 4;
-    }
-
-    @Override
-    protected long runDisruptorPass() throws InterruptedException {
-        CountDownLatch latch = new CountDownLatch(NUM_EVENT_PROCESSORS);
-        for (int i = 0; i < NUM_EVENT_PROCESSORS; i++) {
-            handlers[i].reset(latch, batchEventProcessors[i].getSequence().get() + ITERATIONS);
-            executor.submit(batchEventProcessors[i]);
-        }
-
-        long start = System.currentTimeMillis();
-
-        for (long i = 0; i < ITERATIONS; i++) {
-            long sequence = ringBuffer.next();
-            ringBuffer.get(sequence).setValue(i);
-            ringBuffer.publish(sequence);
-        }
-
-        latch.await();
-        long opsPerSecond = (ITERATIONS * 1000L) / (System.currentTimeMillis() - start);
-        for (int i = 0; i < NUM_EVENT_PROCESSORS; i++) {
-            batchEventProcessors[i].halt();
-            failIfNot(results[i], handlers[i].getValue());
-        }
-
-        return opsPerSecond;
     }
 
     public static void main(String[] args) throws Exception {
@@ -183,5 +148,36 @@ public final class OneToThreeSequencedThroughputTest extends AbstractPerfTestDis
         OneToThreeSequencedThroughputTest test8 = new OneToThreeSequencedThroughputTest(ProducerType.MULTI, new BusySpinWaitStrategy());
         test8.testImplementations();
 
+    }
+
+    @Override
+    protected int getRequiredProcessorCount() {
+        return 4;
+    }
+
+    @Override
+    protected long runDisruptorPass() throws InterruptedException {
+        CountDownLatch latch = new CountDownLatch(NUM_EVENT_PROCESSORS);
+        for (int i = 0; i < NUM_EVENT_PROCESSORS; i++) {
+            handlers[i].reset(latch, batchEventProcessors[i].getSequence().get() + ITERATIONS);
+            executor.submit(batchEventProcessors[i]);
+        }
+
+        long start = System.currentTimeMillis();
+
+        for (long i = 0; i < ITERATIONS; i++) {
+            long sequence = ringBuffer.next();
+            ringBuffer.get(sequence).setValue(i);
+            ringBuffer.publish(sequence);
+        }
+
+        latch.await();
+        long opsPerSecond = (ITERATIONS * 1000L) / (System.currentTimeMillis() - start);
+        for (int i = 0; i < NUM_EVENT_PROCESSORS; i++) {
+            batchEventProcessors[i].halt();
+            failIfNot(results[i], handlers[i].getValue());
+        }
+
+        return opsPerSecond;
     }
 }

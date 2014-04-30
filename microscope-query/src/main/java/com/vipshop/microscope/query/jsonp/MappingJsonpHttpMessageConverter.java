@@ -1,8 +1,6 @@
 package com.vipshop.microscope.query.jsonp;
 
-import java.io.IOException;
-import java.util.Map;
-
+import com.vipshop.microscope.query.result.BasicResult;
 import org.codehaus.jackson.JsonEncoding;
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.map.util.JSONWrappedObject;
@@ -10,17 +8,18 @@ import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 
-import com.vipshop.microscope.query.result.BasicResult;
+import java.io.IOException;
+import java.util.Map;
 
 public class MappingJsonpHttpMessageConverter extends MappingJacksonHttpMessageConverter {
 
     private String prefixCallback;
     private String suffixCallback;
-    
+
     @SuppressWarnings("rawtypes")
-	@Override
+    @Override
     protected void writeInternal(Object object, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
-        
+
         String callback = null;
         if (object instanceof BasicResult) {
             callback = ((BasicResult) object).getCallback();
@@ -38,13 +37,13 @@ public class MappingJsonpHttpMessageConverter extends MappingJacksonHttpMessageC
             super.writeInternal(object, outputMessage);
             return;
         }
-        
+
         JsonEncoding encoding = getJsonEncoding(outputMessage.getHeaders().getContentType());
         JsonGenerator generator = super.getObjectMapper().getJsonFactory().createJsonGenerator(outputMessage.getBody(), encoding);
         JSONWrappedObject jsonWrappedObject = new JSONWrappedObject(callback + "(", ");", object);
         super.getObjectMapper().writeValue(generator, jsonWrappedObject);
     }
-    
+
     public String getPrefixCallback() {
         return prefixCallback;
     }
@@ -52,13 +51,13 @@ public class MappingJsonpHttpMessageConverter extends MappingJacksonHttpMessageC
     public void setPrefixCallback(String prefixCallback) {
         this.prefixCallback = prefixCallback;
     }
-    
+
     public String getSuffixCallback() {
         return suffixCallback;
     }
-    
+
     public void setSuffixCallback(String suffixCallback) {
         this.suffixCallback = suffixCallback;
     }
-    
+
 }

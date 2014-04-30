@@ -7,7 +7,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * Hbase Factory responsible for create Repository.
- * 
+ *
  * @author Xu Fei
  * @version 1.0
  */
@@ -31,12 +31,12 @@ public class RepositoryFactory {
     private static final TSDBRepository TSDB;
 
     // ************** report info ***************************************************** //
-	private static final ReportTopRepository TOP;
+    private static final ReportTopRepository TOP;
 
     // ************** user info ******************************************************* //
-	private static final UserRepository USER;
+    private static final UserRepository USER;
 
-	static {
+    static {
 
         AbstractApplicationContext context = new ClassPathXmlApplicationContext("/applicationContext-storage-hbase.xml", RepositoryFactory.class);
 
@@ -44,12 +44,12 @@ public class RepositoryFactory {
 
         SYSTEM = context.getBean(HomeSystemRepository.class);
 
-		TRACE_INDEX   = context.getBean(TraceIndexRepository.class);
-		TRACE_OVERVIEW = context.getBean(TraceOverviewRepository.class);
-		TRACE  = context.getBean(TraceRepository.class);
-		
-		EXCEPTION_INDEX = context.getBean(ExceptionIndexRepository.class);
-		EXCEPTION = context.getBean(ExceptionRepository.class);
+        TRACE_INDEX = context.getBean(TraceIndexRepository.class);
+        TRACE_OVERVIEW = context.getBean(TraceOverviewRepository.class);
+        TRACE = context.getBean(TraceRepository.class);
+
+        EXCEPTION_INDEX = context.getBean(ExceptionIndexRepository.class);
+        EXCEPTION = context.getBean(ExceptionRepository.class);
 
         TSDB_INDEX = context.getBean(TSDBIndexRepository.class);
         TSDB = context.getBean(TSDBRepository.class);
@@ -63,12 +63,12 @@ public class RepositoryFactory {
 
         SYSTEM.initialize();
 
-		TRACE_INDEX.initialize();
-		TRACE_OVERVIEW.initialize();
-		TRACE.initialize();
-		
-		EXCEPTION_INDEX.initialize();
-		EXCEPTION.initialize();
+        TRACE_INDEX.initialize();
+        TRACE_OVERVIEW.initialize();
+        TRACE.initialize();
+
+        EXCEPTION_INDEX.initialize();
+        EXCEPTION.initialize();
 
         TSDB_INDEX.initialize();
         TSDB.initialize();
@@ -79,7 +79,7 @@ public class RepositoryFactory {
         USER.initialize();
 
         context.close();
-	}
+    }
 
     /**
      * Return {@link com.vipshop.microscope.storage.hbase.repository.HomeSystemRepository}
@@ -90,50 +90,50 @@ public class RepositoryFactory {
         return SYSTEM;
     }
 
-	/**
-	 * Return {@link TraceIndexRepository}
-	 * 
-	 * @return
-	 */
-	public static TraceIndexRepository getTraceIndexRepository() {
-		return TRACE_INDEX;
-	}
-	
-	/**
-	 * Return {@link TraceOverviewRepository}
-	 * 
-	 * @return
-	 */
-	public static TraceOverviewRepository getTraceOverviewRepository() {
-		return TRACE_OVERVIEW;
-	}
-	
-	/**
-	 * Return {@link TraceRepository}
-	 * 
-	 * @return
-	 */
-	public static TraceRepository getTraceRepository() {
-		return TRACE;
-	}
-	
-	/**
-	 * Return {@link ExceptionIndexRepository}
-	 * 
-	 * @return
-	 */
-	public static ExceptionIndexRepository getExceptionIndexRepository() {
-		return EXCEPTION_INDEX;
-	}
-	
-	/**
-	 * Return {@link ExceptionRepository}
-	 * 
-	 * @return
-	 */
-	public static ExceptionRepository getExceptionRepository() {
-		return EXCEPTION;
-	}
+    /**
+     * Return {@link TraceIndexRepository}
+     *
+     * @return
+     */
+    public static TraceIndexRepository getTraceIndexRepository() {
+        return TRACE_INDEX;
+    }
+
+    /**
+     * Return {@link TraceOverviewRepository}
+     *
+     * @return
+     */
+    public static TraceOverviewRepository getTraceOverviewRepository() {
+        return TRACE_OVERVIEW;
+    }
+
+    /**
+     * Return {@link TraceRepository}
+     *
+     * @return
+     */
+    public static TraceRepository getTraceRepository() {
+        return TRACE;
+    }
+
+    /**
+     * Return {@link ExceptionIndexRepository}
+     *
+     * @return
+     */
+    public static ExceptionIndexRepository getExceptionIndexRepository() {
+        return EXCEPTION_INDEX;
+    }
+
+    /**
+     * Return {@link ExceptionRepository}
+     *
+     * @return
+     */
+    public static ExceptionRepository getExceptionRepository() {
+        return EXCEPTION;
+    }
 
     /**
      * Return {@link TSDBRepository}
@@ -162,30 +162,31 @@ public class RepositoryFactory {
         return TSDB_INDEX;
     }
 
-	/**
-	 * Return {@link com.vipshop.microscope.storage.hbase.repository.ReportTopRepository}
-	 *
-	 * @return
-	 */
-	public static ReportTopRepository getTopRepository() {
-		return TOP;
-	}
+    /**
+     * Return {@link com.vipshop.microscope.storage.hbase.repository.ReportTopRepository}
+     *
+     * @return
+     */
+    public static ReportTopRepository getTopRepository() {
+        return TOP;
+    }
 
-	/**
-	 * Return {@link UserRepository}
-	 * @return
-	 */
-	public static UserRepository getUserRepository() {
-		return USER;
-	}
+    /**
+     * Return {@link UserRepository}
+     *
+     * @return
+     */
+    public static UserRepository getUserRepository() {
+        return USER;
+    }
 
-	/**
-	 * Return Configuration
-	 * 
-	 * @return
-	 */
-	public static Configuration getConfiguration() {
-		return USER.getConfiguration();
-	}
-	
+    /**
+     * Return Configuration
+     *
+     * @return
+     */
+    public static Configuration getConfiguration() {
+        return USER.getConfiguration();
+    }
+
 }

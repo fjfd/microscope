@@ -1,5 +1,8 @@
 package com.lmax.disruptor.offheap;
 
+import com.lmax.disruptor.*;
+import com.lmax.disruptor.util.DaemonThreadFactory;
+
 import java.nio.ByteBuffer;
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
@@ -7,20 +10,11 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.locks.LockSupport;
 
-import com.lmax.disruptor.AbstractPerfTestDisruptor;
-import com.lmax.disruptor.BatchEventProcessor;
-import com.lmax.disruptor.EventFactory;
-import com.lmax.disruptor.EventHandler;
-import com.lmax.disruptor.RingBuffer;
-import com.lmax.disruptor.WaitStrategy;
-import com.lmax.disruptor.YieldingWaitStrategy;
-import com.lmax.disruptor.util.DaemonThreadFactory;
-
 public class OneToOneOnHeapThroughputTest extends AbstractPerfTestDisruptor {
     private static final int BLOCK_SIZE = 256;
+    private final byte[] data = new byte[BLOCK_SIZE];
     private static final int BUFFER_SIZE = 1024 * 1024;
     private static final long ITERATIONS = 1000 * 1000 * 10L;
-
     private final Executor executor = Executors.newFixedThreadPool(1, DaemonThreadFactory.INSTANCE);
     private final WaitStrategy waitStrategy = new YieldingWaitStrategy();
     private final RingBuffer<ByteBuffer> buffer =
@@ -28,16 +22,17 @@ public class OneToOneOnHeapThroughputTest extends AbstractPerfTestDisruptor {
     private final ByteBufferHandler handler = new ByteBufferHandler();
     private final BatchEventProcessor<ByteBuffer> processor =
             new BatchEventProcessor<ByteBuffer>(buffer, buffer.newBarrier(), handler);
-
     {
         buffer.addGatingSequences(processor.getSequence());
     }
-
     private final Random r = new Random(1);
-    private final byte[] data = new byte[BLOCK_SIZE];
 
     public OneToOneOnHeapThroughputTest() {
         r.nextBytes(data);
+    }
+
+    public static void main(String[] args) throws Exception {
+        new OneToOneOnHeapThroughputTest().testImplementations();
     }
 
     @Override
@@ -80,10 +75,6 @@ public class OneToOneOnHeapThroughputTest extends AbstractPerfTestDisruptor {
         }
     }
 
-    public static void main(String[] args) throws Exception {
-        new OneToOneOnHeapThroughputTest().testImplementations();
-    }
-
     public static class ByteBufferHandler implements EventHandler<ByteBuffer> {
         private long total = 0;
         private long expectedCount;
@@ -119,15 +110,6 @@ public class OneToOneOnHeapThroughputTest extends AbstractPerfTestDisruptor {
             this.size = size;
         }
 
-        @Override
-        public ByteBuffer newInstance() {
-            if (isDirect) {
-                return ByteBuffer.allocateDirect(size);
-            } else {
-                return ByteBuffer.allocate(size);
-            }
-        }
-
         public static BufferFactory direct(int size) {
             return new BufferFactory(true, size);
         }
@@ -135,6 +117,15 @@ public class OneToOneOnHeapThroughputTest extends AbstractPerfTestDisruptor {
         @SuppressWarnings("unused")
         public static BufferFactory heap(int size) {
             return new BufferFactory(false, size);
+        }
+
+        @Override
+        public ByteBuffer newInstance() {
+            if (isDirect) {
+                return ByteBuffer.allocateDirect(size);
+            } else {
+                return ByteBuffer.allocate(size);
+            }
         }
     }
 }

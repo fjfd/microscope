@@ -32,7 +32,7 @@ public class BioEchoServer {
                             PrintWriter writer = new PrintWriter(clientSocket
                                     .getOutputStream(), true);
                             // read data from client and write it back
-                            while(true) {
+                            while (true) {
                                 writer.println(reader.readLine());
                                 writer.flush();
                             }

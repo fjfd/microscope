@@ -1,10 +1,5 @@
 package com.vipshop.microscope.query;
 
-import java.io.File;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerCollection;
@@ -15,29 +10,25 @@ import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.util.thread.ThreadPool;
 import org.eclipse.jetty.webapp.WebAppContext;
 
+import java.io.File;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Query Server
  *
  * @author Xu Fei
  * @version 1.0
- *
  */
 public class QueryServer {
 
     private static final String WEB_XML = "WEB-INF/web.xml";
     private static final String CLASS_ONLY_AVAILABLE_IN_IDE = "com.sjl.IDE";
     private static final String PROJECT_RELATIVE_PATH_TO_WEBAPP = "src/main/java/META-INF/webapp";
-
-    public static interface WebContext {
-        public File getWarPath();
-
-        public String getContextPath();
-    }
-
     private Server server;
     private int port;
     private String bindInterface;
-
     public QueryServer() {
         this(8080, null);
     }
@@ -49,6 +40,15 @@ public class QueryServer {
     public QueryServer(int aPort, String aBindInterface) {
         port = aPort;
         bindInterface = aBindInterface;
+    }
+
+    public static void main(String[] args) throws Exception {
+        int port = 8080;
+        String newPort = System.getProperty("port");
+        if (newPort != null) {
+            port = Integer.valueOf(newPort);
+        }
+        new QueryServer(port).start();
     }
 
     public void start() throws Exception {
@@ -127,13 +127,10 @@ public class QueryServer {
         return urlStr.substring(0, urlStr.length() - 15);
     }
 
-    public static void main(String[] args) throws Exception {
-        int port = 8080;
-        String newPort = System.getProperty("port");
-        if (newPort != null) {
-            port = Integer.valueOf(newPort);
-        }
-        new QueryServer(port).start();
+    public static interface WebContext {
+        public File getWarPath();
+
+        public String getContextPath();
     }
 
 }

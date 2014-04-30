@@ -20,6 +20,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class PaddedAtomicLong extends AtomicLong {
 
     private static final long serialVersionUID = -5488388421473746085L;
+    public volatile long p1, p2, p3, p4, p5, p6 = 7;
 
     public PaddedAtomicLong() {
     }
@@ -27,6 +28,4 @@ public class PaddedAtomicLong extends AtomicLong {
     public PaddedAtomicLong(final long initialValue) {
         super(initialValue);
     }
-
-    public volatile long p1, p2, p3, p4, p5, p6 = 7;
 }

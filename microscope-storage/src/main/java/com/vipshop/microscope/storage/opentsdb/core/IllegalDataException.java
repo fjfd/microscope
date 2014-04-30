@@ -17,26 +17,24 @@ package com.vipshop.microscope.storage.opentsdb.core;
  */
 public final class IllegalDataException extends IllegalStateException {
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param msg
-	 *            Message describing the problem.
-	 */
-	public IllegalDataException(final String msg) {
-		super(msg);
-	}
+    static final long serialVersionUID = 1307719142;
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param msg
-	 *            Message describing the problem.
-	 */
-	public IllegalDataException(final String msg, final Throwable cause) {
-		super(msg, cause);
-	}
+    /**
+     * Constructor.
+     *
+     * @param msg Message describing the problem.
+     */
+    public IllegalDataException(final String msg) {
+        super(msg);
+    }
 
-	static final long serialVersionUID = 1307719142;
+    /**
+     * Constructor.
+     *
+     * @param msg Message describing the problem.
+     */
+    public IllegalDataException(final String msg, final Throwable cause) {
+        super(msg, cause);
+    }
 
 }

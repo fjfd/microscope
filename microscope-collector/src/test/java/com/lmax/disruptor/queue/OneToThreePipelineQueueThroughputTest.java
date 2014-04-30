@@ -15,18 +15,13 @@
  */
 package com.lmax.disruptor.queue;
 
-import static com.lmax.disruptor.support.PerfTestUtil.failIf;
-
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.LinkedBlockingQueue;
-
 import com.lmax.disruptor.AbstractPerfTestQueue;
 import com.lmax.disruptor.support.FunctionQueueProcessor;
 import com.lmax.disruptor.support.FunctionStep;
+
+import java.util.concurrent.*;
+
+import static com.lmax.disruptor.support.PerfTestUtil.failIf;
 
 /**
  * <pre>
@@ -59,13 +54,22 @@ import com.lmax.disruptor.support.FunctionStep;
  */
 public final class OneToThreePipelineQueueThroughputTest extends AbstractPerfTestQueue {
     private static final int NUM_EVENT_PROCESSORS = 3;
-    private static final int BUFFER_SIZE = 1024 * 8;
-    private static final long ITERATIONS = 1000L * 1000L * 10L;
     private final ExecutorService executor = Executors.newFixedThreadPool(NUM_EVENT_PROCESSORS);
+    private static final int BUFFER_SIZE = 1024 * 8;
+    private final BlockingQueue<long[]> stepOneQueue = new LinkedBlockingQueue<long[]>(BUFFER_SIZE);
+    private final BlockingQueue<Long> stepTwoQueue = new LinkedBlockingQueue<Long>(BUFFER_SIZE);
+    private final BlockingQueue<Long> stepThreeQueue = new LinkedBlockingQueue<Long>(BUFFER_SIZE);
+    private static final long ITERATIONS = 1000L * 1000L * 10L;
 
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    private final FunctionQueueProcessor stepOneQueueProcessor =
+            new FunctionQueueProcessor(FunctionStep.ONE, stepOneQueue, stepTwoQueue, stepThreeQueue, ITERATIONS - 1);
+    private final FunctionQueueProcessor stepTwoQueueProcessor =
+            new FunctionQueueProcessor(FunctionStep.TWO, stepOneQueue, stepTwoQueue, stepThreeQueue, ITERATIONS - 1);
+    private final FunctionQueueProcessor stepThreeQueueProcessor =
+            new FunctionQueueProcessor(FunctionStep.THREE, stepOneQueue, stepTwoQueue, stepThreeQueue, ITERATIONS - 1);
     private static final long OPERAND_TWO_INITIAL_VALUE = 777L;
     private final long expectedResult;
-
     {
         long temp = 0L;
         long operandTwo = OPERAND_TWO_INITIAL_VALUE;
@@ -84,18 +88,9 @@ public final class OneToThreePipelineQueueThroughputTest extends AbstractPerfTes
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
-    private final BlockingQueue<long[]> stepOneQueue = new LinkedBlockingQueue<long[]>(BUFFER_SIZE);
-    private final BlockingQueue<Long> stepTwoQueue = new LinkedBlockingQueue<Long>(BUFFER_SIZE);
-    private final BlockingQueue<Long> stepThreeQueue = new LinkedBlockingQueue<Long>(BUFFER_SIZE);
-
-    private final FunctionQueueProcessor stepOneQueueProcessor =
-            new FunctionQueueProcessor(FunctionStep.ONE, stepOneQueue, stepTwoQueue, stepThreeQueue, ITERATIONS - 1);
-    private final FunctionQueueProcessor stepTwoQueueProcessor =
-            new FunctionQueueProcessor(FunctionStep.TWO, stepOneQueue, stepTwoQueue, stepThreeQueue, ITERATIONS - 1);
-    private final FunctionQueueProcessor stepThreeQueueProcessor =
-            new FunctionQueueProcessor(FunctionStep.THREE, stepOneQueue, stepTwoQueue, stepThreeQueue, ITERATIONS - 1);
-
-    ///////////////////////////////////////////////////////////////////////////////////////////////
+    public static void main(String[] args) throws Exception {
+        new OneToThreePipelineQueueThroughputTest().testImplementations();
+    }
 
     @Override
     protected int getRequiredProcessorCount() {
@@ -136,9 +131,5 @@ public final class OneToThreePipelineQueueThroughputTest extends AbstractPerfTes
         failIf(expectedResult, 0);
 
         return opsPerSecond;
-    }
-
-    public static void main(String[] args) throws Exception {
-        new OneToThreePipelineQueueThroughputTest().testImplementations();
     }
 }

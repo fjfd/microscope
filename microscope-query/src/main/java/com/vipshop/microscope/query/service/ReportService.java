@@ -1,22 +1,22 @@
 package com.vipshop.microscope.query.service;
 
-import java.util.*;
-
-import javax.servlet.http.HttpServletRequest;
-
-import com.vipshop.microscope.common.logentry.Constants;
+import com.vipshop.microscope.storage.StorageRepository;
+import com.vipshop.microscope.trace.Constants;
 import org.springframework.stereotype.Service;
 
-import com.vipshop.microscope.storage.StorageRepository;
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class ReportService {
-	
-	private final StorageRepository storageRepository = StorageRepository.getStorageRepository();
+
+    private final StorageRepository storageRepository = StorageRepository.getStorageRepository();
 
     public List<Map<String, Object>> metricIndex() {
         return storageRepository.findMetricIndex();
-	}
+    }
 
     public Map<String, Object> changeName1(HttpServletRequest request) {
         String app = request.getParameter(Constants.APP);
@@ -40,11 +40,11 @@ public class ReportService {
         query.put(Constants.STARTTIME, request.getParameter(Constants.STARTTIME));
         query.put(Constants.ENDTIME, request.getParameter(Constants.ENDTIME));
 
-		return storageRepository.findMetric(query);
-	}
+        return storageRepository.findMetric(query);
+    }
 
-	public Map<String, Object> getTopReport() {
-		return storageRepository.findTopList();
-	}
-	
+    public Map<String, Object> getTopReport() {
+        return storageRepository.findTopList();
+    }
+
 }

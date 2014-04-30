@@ -1,128 +1,128 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns="http://java.sun.com/xml/ns/javaee" 
-		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 		  				     http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-		 version="2.5">
+         version="2.5">
 
-	<display-name>microscope query</display-name>
-	
-	<welcome-file-list>
-		<welcome-file>/index.html</welcome-file>
-	</welcome-file-list>
-	
-	<filter>
-		<filter-name>CharacterEncodingFilter</filter-name>
-		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
-		<init-param>
-			<param-name>encoding</param-name>
-			<param-value>UTF-8</param-value>
-		</init-param>
-		<init-param>
-			<param-name>forceEncoding</param-name>
-			<param-value>true</param-value>
-		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>CharacterEncodingFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-	
-	<filter>
-		<filter-name>CAS Single Sign Out Filter</filter-name>
-		<filter-class>org.jasig.cas.client.session.SingleSignOutFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>CAS Single Sign Out Filter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-	
-	<filter>
-	<filter-name>CASFilter</filter-name>
-	<filter-class>org.jasig.cas.client.authentication.AuthenticationFilter</filter-class>
-	<!-- CAS login 服务地址 -->
-	<init-param>
-		<param-name>casServerLoginUrl</param-name>
-		<param-value>https://cas.oa.vipshop.com:8443/login</param-value>
-	</init-param>
-	<!-- 客户端应用服务地址 -->
-	<init-param>
-		<param-name>serverName</param-name>
-		<param-value>http://localhost:8080</param-value>
-	</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>CASFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-	
-	<filter>
-		<filter-name>CAS Validation Filter</filter-name>
-		<filter-class>org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter</filter-class>
-	<init-param>
-		<param-name>casServerUrlPrefix</param-name>
-		<!-- CAS的应用服务器地址 -->
-		<param-value>https://cas.oa.vipshop.com:8443</param-value>
-	</init-param>
-	<init-param>
-		<param-name>serverName</param-name>
-		<param-value>http://localhost:8080</param-value>
-	</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>CAS Validation Filter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-	
-	<filter>  
-		<filter-name>CAS HttpServletRequest Wrapper Filter</filter-name>  
-		<filter-class>org.jasig.cas.client.util.HttpServletRequestWrapperFilter</filter-class>  
-	</filter>  
-	<filter-mapping>  
-		<filter-name>CAS HttpServletRequest Wrapper Filter</filter-name>  
-		<url-pattern>/*</url-pattern>  
-	</filter-mapping>
-	
-	<!-- 该过滤器使得开发者可以通过org.jasig.cas.client.util.AssertionHolder来获取用户的登录名。 比如AssertionHolder.getAssertion().getPrincipal().getName()。 -->  
-	<filter>  
-		<filter-name>CAS Assertion Thread Local Filter</filter-name>  
-		<filter-class>org.jasig.cas.client.util.AssertionThreadLocalFilter</filter-class>  
-	</filter>  
-	<filter-mapping>  
-		<filter-name>CAS Assertion Thread Local Filter</filter-name>  
-		<url-pattern>/*</url-pattern>  
-	</filter-mapping>
-	
-	<listener>
-  		<listener-class>
-    		org.springframework.web.context.ContextLoaderListener
-  		</listener-class>
-	</listener>
-	
-	<listener>
-		<listener-class>org.jasig.cas.client.session.SingleSignOutHttpSessionListener</listener-class>
-	</listener>
-	
-	<context-param>
-    	<param-name>contextConfigLocation</param-name>
-    	<param-value>
-        	/WEB-INF/application-context.xml
-    	</param-value>
-	</context-param>
+    <display-name>microscope query</display-name>
 
-	<servlet>
-		<servlet-name>microscope-query</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/web-context.xml</param-value>
-		</init-param>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
+    <welcome-file-list>
+        <welcome-file>/index.html</welcome-file>
+    </welcome-file-list>
 
-	<servlet-mapping>
-		<servlet-name>microscope-query</servlet-name>
-		<url-pattern>/</url-pattern>
-	</servlet-mapping>
-	
+    <filter>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>CAS Single Sign Out Filter</filter-name>
+        <filter-class>org.jasig.cas.client.session.SingleSignOutFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CAS Single Sign Out Filter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>CASFilter</filter-name>
+        <filter-class>org.jasig.cas.client.authentication.AuthenticationFilter</filter-class>
+        <!-- CAS login 服务地址 -->
+        <init-param>
+            <param-name>casServerLoginUrl</param-name>
+            <param-value>https://cas.oa.vipshop.com:8443/login</param-value>
+        </init-param>
+        <!-- 客户端应用服务地址 -->
+        <init-param>
+            <param-name>serverName</param-name>
+            <param-value>http://localhost:8080</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>CASFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>CAS Validation Filter</filter-name>
+        <filter-class>org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter</filter-class>
+        <init-param>
+            <param-name>casServerUrlPrefix</param-name>
+            <!-- CAS的应用服务器地址 -->
+            <param-value>https://cas.oa.vipshop.com:8443</param-value>
+        </init-param>
+        <init-param>
+            <param-name>serverName</param-name>
+            <param-value>http://localhost:8080</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>CAS Validation Filter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>CAS HttpServletRequest Wrapper Filter</filter-name>
+        <filter-class>org.jasig.cas.client.util.HttpServletRequestWrapperFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CAS HttpServletRequest Wrapper Filter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- 该过滤器使得开发者可以通过org.jasig.cas.client.util.AssertionHolder来获取用户的登录名。 比如AssertionHolder.getAssertion().getPrincipal().getName()。 -->
+    <filter>
+        <filter-name>CAS Assertion Thread Local Filter</filter-name>
+        <filter-class>org.jasig.cas.client.util.AssertionThreadLocalFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CAS Assertion Thread Local Filter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <listener>
+        <listener-class>
+            org.springframework.web.context.ContextLoaderListener
+        </listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>org.jasig.cas.client.session.SingleSignOutHttpSessionListener</listener-class>
+    </listener>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            /WEB-INF/application-context.xml
+        </param-value>
+    </context-param>
+
+    <servlet>
+        <servlet-name>microscope-query</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>/WEB-INF/web-context.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>microscope-query</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
 </web-app>

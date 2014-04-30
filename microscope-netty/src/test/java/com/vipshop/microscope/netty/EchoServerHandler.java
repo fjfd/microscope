@@ -19,7 +19,7 @@ public class EchoServerHandler extends
 
     @Override
     public void channelRead(ChannelHandlerContext ctx,
-        Object msg) {
+                            Object msg) {
         ByteBuf in = (ByteBuf) msg;
         System.out.println("Server received: " + ByteBufUtil
                 .hexDump(in));
@@ -33,7 +33,7 @@ public class EchoServerHandler extends
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx,
-        Throwable cause) {
+                                Throwable cause) {
         cause.printStackTrace();
         ctx.close();
     }

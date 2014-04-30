@@ -16,8 +16,6 @@
 package com.vipshop.microscope.trace.opentsdb;
 
 import com.sun.jersey.api.client.WebResource;
-import com.vipshop.microscope.trace.metrics.opentsdb.OpenTsdb;
-import com.vipshop.microscope.trace.metrics.opentsdb.OpenTsdbMetric;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,13 +35,11 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class OpenTsdbTest {
 
-    private OpenTsdb openTsdb;
-
-    @Mock
-    private WebResource apiResource;
-
     @Mock
     WebResource.Builder mockBuilder;
+    private OpenTsdb openTsdb;
+    @Mock
+    private WebResource apiResource;
 
     @Before
     public void setUp() {

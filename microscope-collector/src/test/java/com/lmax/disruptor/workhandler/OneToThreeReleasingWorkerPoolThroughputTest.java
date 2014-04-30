@@ -15,61 +15,54 @@
  */
 package com.lmax.disruptor.workhandler;
 
-import static com.lmax.disruptor.support.PerfTestUtil.failIfNot;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import com.lmax.disruptor.AbstractPerfTestDisruptor;
-import com.lmax.disruptor.FatalExceptionHandler;
-import com.lmax.disruptor.RingBuffer;
-import com.lmax.disruptor.WorkerPool;
-import com.lmax.disruptor.YieldingWaitStrategy;
+import com.lmax.disruptor.*;
 import com.lmax.disruptor.support.EventCountingAndReleasingWorkHandler;
 import com.lmax.disruptor.support.ValueEvent;
 import com.lmax.disruptor.util.PaddedLong;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import static com.lmax.disruptor.support.PerfTestUtil.failIfNot;
+
 public final class OneToThreeReleasingWorkerPoolThroughputTest
         extends AbstractPerfTestDisruptor {
     private static final int NUM_WORKERS = 3;
-    private static final int BUFFER_SIZE = 1024 * 8;
-    private static final long ITERATIONS = 1000L * 1000 * 10L;
     private final ExecutorService executor = Executors.newFixedThreadPool(NUM_WORKERS);
-
     private final PaddedLong[] counters = new PaddedLong[NUM_WORKERS];
-
     {
         for (int i = 0; i < NUM_WORKERS; i++) {
             counters[i] = new PaddedLong();
         }
     }
-
-    ///////////////////////////////////////////////////////////////////////////////////////////////
-
     private final EventCountingAndReleasingWorkHandler[] handlers = new EventCountingAndReleasingWorkHandler[NUM_WORKERS];
-
     {
         for (int i = 0; i < NUM_WORKERS; i++) {
             handlers[i] = new EventCountingAndReleasingWorkHandler(counters, i);
         }
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    private static final int BUFFER_SIZE = 1024 * 8;
     private final RingBuffer<ValueEvent> ringBuffer =
             RingBuffer.createSingleProducer(ValueEvent.EVENT_FACTORY,
                     BUFFER_SIZE,
                     new YieldingWaitStrategy());
-
     private final WorkerPool<ValueEvent> workerPool =
             new WorkerPool<ValueEvent>(ringBuffer,
                     ringBuffer.newBarrier(),
                     new FatalExceptionHandler(),
                     handlers);
-
     {
         ringBuffer.addGatingSequences(workerPool.getWorkerSequences());
     }
+    private static final long ITERATIONS = 1000L * 1000 * 10L;
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static void main(String[] args) throws Exception {
+        new OneToThreeReleasingWorkerPoolThroughputTest().testImplementations();
+    }
 
     @Override
     protected int getRequiredProcessorCount() {
@@ -114,9 +107,5 @@ public final class OneToThreeReleasingWorkerPoolThroughputTest
         }
 
         return sumJobs;
-    }
-
-    public static void main(String[] args) throws Exception {
-        new OneToThreeReleasingWorkerPoolThroughputTest().testImplementations();
     }
 }

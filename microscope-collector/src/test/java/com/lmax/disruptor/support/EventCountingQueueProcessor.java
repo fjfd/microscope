@@ -20,10 +20,10 @@ import com.lmax.disruptor.util.PaddedLong;
 import java.util.concurrent.BlockingQueue;
 
 public final class EventCountingQueueProcessor implements Runnable {
-    private volatile boolean running;
     private final BlockingQueue<Long> blockingQueue;
     private final PaddedLong[] counters;
     private final int index;
+    private volatile boolean running;
 
     public EventCountingQueueProcessor(final BlockingQueue<Long> blockingQueue, final PaddedLong[] counters, final int index) {
         this.blockingQueue = blockingQueue;

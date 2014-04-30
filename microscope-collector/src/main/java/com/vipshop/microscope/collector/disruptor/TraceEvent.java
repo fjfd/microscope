@@ -1,29 +1,28 @@
 package com.vipshop.microscope.collector.disruptor;
 
 import com.lmax.disruptor.EventFactory;
-import com.vipshop.microscope.common.trace.Span;
+import com.vipshop.microscope.trace.gen.Span;
 
 /**
  * Trace Event.
- * 
+ *
  * @author Xu Fei
  * @version 1.0
  */
 public class TraceEvent {
-	
-	private Span span;
 
-	public Span getSpan() {
-		return span;
-	}
+    public final static EventFactory<TraceEvent> EVENT_FACTORY = new EventFactory<TraceEvent>() {
+        public TraceEvent newInstance() {
+            return new TraceEvent();
+        }
+    };
+    private Span span;
 
-	public void setSpan(Span span) {
-		this.span = span;
-	}
+    public Span getSpan() {
+        return span;
+    }
 
-	public final static EventFactory<TraceEvent> EVENT_FACTORY = new EventFactory<TraceEvent>() {
-		public TraceEvent newInstance() {
-			return new TraceEvent();
-		}
-	};
+    public void setSpan(Span span) {
+        this.span = span;
+    }
 }

@@ -15,17 +15,11 @@
  */
 package com.lmax.disruptor.queue;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.CyclicBarrier;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.LinkedBlockingQueue;
-
 import com.lmax.disruptor.AbstractPerfTestQueue;
 import com.lmax.disruptor.support.ValueAdditionQueueProcessor;
 import com.lmax.disruptor.support.ValueQueuePublisher;
+
+import java.util.concurrent.*;
 
 /**
  * <pre>
@@ -70,18 +64,9 @@ import com.lmax.disruptor.support.ValueQueuePublisher;
  */
 public final class ThreeToOneQueueThroughputTest extends AbstractPerfTestQueue {
     private static final int NUM_PUBLISHERS = 3;
-    private static final int BUFFER_SIZE = 1024 * 64;
-    private static final long ITERATIONS = 1000L * 1000L * 20L;
     private final ExecutorService executor = Executors.newFixedThreadPool(NUM_PUBLISHERS + 1);
     private final CyclicBarrier cyclicBarrier = new CyclicBarrier(NUM_PUBLISHERS + 1);
-
-    ///////////////////////////////////////////////////////////////////////////////////////////////
-
-    private final BlockingQueue<Long> blockingQueue = new LinkedBlockingQueue<Long>(BUFFER_SIZE);
-    private final ValueAdditionQueueProcessor queueProcessor =
-            new ValueAdditionQueueProcessor(blockingQueue, ((ITERATIONS / NUM_PUBLISHERS) * NUM_PUBLISHERS) - 1L);
     private final ValueQueuePublisher[] valueQueuePublishers = new ValueQueuePublisher[NUM_PUBLISHERS];
-
     {
         for (int i = 0; i < NUM_PUBLISHERS; i++) {
             valueQueuePublishers[i] = new ValueQueuePublisher(cyclicBarrier, blockingQueue, ITERATIONS / NUM_PUBLISHERS);
@@ -89,6 +74,17 @@ public final class ThreeToOneQueueThroughputTest extends AbstractPerfTestQueue {
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
+    private static final int BUFFER_SIZE = 1024 * 64;
+    private final BlockingQueue<Long> blockingQueue = new LinkedBlockingQueue<Long>(BUFFER_SIZE);
+    private static final long ITERATIONS = 1000L * 1000L * 20L;
+    private final ValueAdditionQueueProcessor queueProcessor =
+            new ValueAdditionQueueProcessor(blockingQueue, ((ITERATIONS / NUM_PUBLISHERS) * NUM_PUBLISHERS) - 1L);
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static void main(String[] args) throws Exception {
+        new ThreeToOneQueueThroughputTest().testImplementations();
+    }
 
     @Override
     protected int getRequiredProcessorCount() {
@@ -120,9 +116,5 @@ public final class ThreeToOneQueueThroughputTest extends AbstractPerfTestQueue {
         processorFuture.cancel(true);
 
         return opsPerSecond;
-    }
-
-    public static void main(String[] args) throws Exception {
-        new ThreeToOneQueueThroughputTest().testImplementations();
     }
 }

@@ -1,12 +1,12 @@
 package com.vipshop.microscope.common.zookeeper;
 
-import java.io.IOException;
-
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.ZooKeeper;
+
+import java.io.IOException;
 
 public class demo {
     //会话超时时间，设置为与系统默认时间一致
@@ -21,6 +21,13 @@ public class demo {
             System.out.println(event.toString());
         }
     };
+
+    public static void main(String[] args) throws IOException, InterruptedException, KeeperException {
+        demo dm = new demo();
+        dm.createZKInstance();
+        dm.ZKOperations();
+        dm.ZKClose();
+    }
 
     //初始化ZooKeeper实例
     private void createZKInstance() throws IOException {
@@ -50,12 +57,5 @@ public class demo {
 
     private void ZKClose() throws InterruptedException {
         zk.close();
-    }
-
-    public static void main(String[] args) throws IOException, InterruptedException, KeeperException {
-        demo dm = new demo();
-        dm.createZKInstance();
-        dm.ZKOperations();
-        dm.ZKClose();
     }
 }

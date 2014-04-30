@@ -18,6 +18,11 @@ package com.lmax.disruptor.support;
 import com.lmax.disruptor.EventFactory;
 
 public final class FunctionEvent {
+    public static final EventFactory<FunctionEvent> EVENT_FACTORY = new EventFactory<FunctionEvent>() {
+        public FunctionEvent newInstance() {
+            return new FunctionEvent();
+        }
+    };
     private long operandOne;
     private long operandTwo;
     private long stepOneResult;
@@ -54,10 +59,4 @@ public final class FunctionEvent {
     public void setStepTwoResult(final long stepTwoResult) {
         this.stepTwoResult = stepTwoResult;
     }
-
-    public static final EventFactory<FunctionEvent> EVENT_FACTORY = new EventFactory<FunctionEvent>() {
-        public FunctionEvent newInstance() {
-            return new FunctionEvent();
-        }
-    };
 }

@@ -17,10 +17,10 @@
 package com.vipshop.microscope.kafka;
 
 
-import java.util.Properties;
-
 import kafka.producer.KeyedMessage;
 import kafka.producer.ProducerConfig;
+
+import java.util.Properties;
 
 public class Producer extends Thread {
     private final kafka.javaapi.producer.Producer<Integer, String> producer;

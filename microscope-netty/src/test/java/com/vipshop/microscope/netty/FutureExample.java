@@ -1,8 +1,9 @@
 package com.vipshop.microscope.netty;
 
-import java.util.concurrent.*;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class FutureExample {
     public static void run() {

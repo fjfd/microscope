@@ -16,17 +16,13 @@
 
 package com.lmax.disruptor.support;
 
-import static java.lang.String.format;
+import com.sun.jna.*;
+import com.sun.jna.ptr.LongByReference;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.sun.jna.LastErrorException;
-import com.sun.jna.Library;
-import com.sun.jna.Native;
-import com.sun.jna.Platform;
-import com.sun.jna.PointerType;
-import com.sun.jna.ptr.LongByReference;
+import static java.lang.String.format;
 
 /**
  * Implementation of {@link IAffinity} based on JNA call of
@@ -40,34 +36,9 @@ import com.sun.jna.ptr.LongByReference;
  */
 public enum PosixJNAAffinity {
     INSTANCE;
-
-    private static final Logger LOGGER = Logger.getLogger(PosixJNAAffinity.class.getName());
     public static final boolean LOADED;
+    private static final Logger LOGGER = Logger.getLogger(PosixJNAAffinity.class.getName());
     private static final String LIBRARY_NAME = Platform.isWindows() ? "msvcrt" : "c";
-
-    /**
-     * @author BegemoT
-     */
-    private interface CLibrary extends Library {
-        CLibrary INSTANCE = (CLibrary) Native.loadLibrary(LIBRARY_NAME, CLibrary.class);
-
-        int sched_setaffinity(final int pid, final int cpusetsize, final PointerType cpuset)
-                throws LastErrorException;
-
-        int sched_getaffinity(final int pid, final int cpusetsize, final PointerType cpuset)
-                throws LastErrorException;
-    }
-
-    static {
-        boolean loaded = false;
-        try {
-            INSTANCE.getAffinity();
-            loaded = true;
-        } catch (UnsatisfiedLinkError e) {
-            LOGGER.log(Level.WARNING, "Unable to load jna library " + e);
-        }
-        LOADED = loaded;
-    }
 
     public long getAffinity() {
         final CLibrary lib = CLibrary.INSTANCE;
@@ -99,5 +70,28 @@ public enum PosixJNAAffinity {
             throw new IllegalStateException(format("sched_setaffinity((%d) , &(%d)) errorNo = %d",
                     Long.SIZE / 8, affinity, e.getErrorCode()));
         }
+    }
+
+    /**
+     * @author BegemoT
+     */
+    private interface CLibrary extends Library {
+        int sched_setaffinity(final int pid, final int cpusetsize, final PointerType cpuset)
+                throws LastErrorException;        CLibrary INSTANCE = (CLibrary) Native.loadLibrary(LIBRARY_NAME, CLibrary.class);
+
+        int sched_getaffinity(final int pid, final int cpusetsize, final PointerType cpuset)
+                throws LastErrorException;
+
+
+    }
+    static {
+        boolean loaded = false;
+        try {
+            INSTANCE.getAffinity();
+            loaded = true;
+        } catch (UnsatisfiedLinkError e) {
+            LOGGER.log(Level.WARNING, "Unable to load jna library " + e);
+        }
+        LOADED = loaded;
     }
 }

@@ -19,14 +19,13 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CountDownLatch;
 
 public final class ValueMutationQueueProcessor implements Runnable {
+    private final BlockingQueue<Long> blockingQueue;
+    private final Operation operation;
+    private final long count;
     private volatile boolean running;
     private long value;
     private long sequence;
     private CountDownLatch latch;
-
-    private final BlockingQueue<Long> blockingQueue;
-    private final Operation operation;
-    private final long count;
 
     public ValueMutationQueueProcessor(final BlockingQueue<Long> blockingQueue, final Operation operation, final long count) {
         this.blockingQueue = blockingQueue;

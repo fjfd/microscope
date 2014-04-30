@@ -1,6 +1,6 @@
 package com.vipshop.microscope.storage.hbase.report;
 
-import com.vipshop.microscope.common.logentry.LogEntry;
+import com.vipshop.microscope.trace.gen.LogEntry;
 
 /**
  * LogEntry report Object
@@ -27,7 +27,6 @@ public class LogEntryReport {
 
     /**
      * Column of current report
-
      */
     private long column;
 

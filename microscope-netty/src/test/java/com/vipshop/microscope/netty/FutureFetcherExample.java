@@ -12,7 +12,7 @@ public class FutureFetcherExample {
             Fetcher fetcher = null; // obtain reference to fetcher implementation
             Future<Data> future = fetcher.fetchData();
             try {
-                while(!future.isDone()) {
+                while (!future.isDone()) {
 
                     // do something else
                 }

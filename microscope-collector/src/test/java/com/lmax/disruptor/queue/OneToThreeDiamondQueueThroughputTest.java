@@ -15,18 +15,13 @@
  */
 package com.lmax.disruptor.queue;
 
-import static com.lmax.disruptor.support.PerfTestUtil.failIf;
-
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.LinkedBlockingQueue;
-
 import com.lmax.disruptor.AbstractPerfTestQueue;
 import com.lmax.disruptor.support.FizzBuzzQueueProcessor;
 import com.lmax.disruptor.support.FizzBuzzStep;
+
+import java.util.concurrent.*;
+
+import static com.lmax.disruptor.support.PerfTestUtil.failIf;
 
 /**
  * <pre>
@@ -97,12 +92,22 @@ import com.lmax.disruptor.support.FizzBuzzStep;
  */
 public final class OneToThreeDiamondQueueThroughputTest extends AbstractPerfTestQueue {
     private static final int NUM_EVENT_PROCESSORS = 3;
-    private static final int BUFFER_SIZE = 1024 * 8;
-    private static final long ITERATIONS = 1000L * 1000L * 100L;
     private final ExecutorService executor = Executors.newFixedThreadPool(NUM_EVENT_PROCESSORS);
+    private static final int BUFFER_SIZE = 1024 * 8;
+    private final BlockingQueue<Long> fizzInputQueue = new LinkedBlockingQueue<Long>(BUFFER_SIZE);
+    private final BlockingQueue<Long> buzzInputQueue = new LinkedBlockingQueue<Long>(BUFFER_SIZE);
+    private final BlockingQueue<Boolean> fizzOutputQueue = new LinkedBlockingQueue<Boolean>(BUFFER_SIZE);
 
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    private final BlockingQueue<Boolean> buzzOutputQueue = new LinkedBlockingQueue<Boolean>(BUFFER_SIZE);
+    private static final long ITERATIONS = 1000L * 1000L * 100L;
+    private final FizzBuzzQueueProcessor fizzQueueProcessor =
+            new FizzBuzzQueueProcessor(FizzBuzzStep.FIZZ, fizzInputQueue, buzzInputQueue, fizzOutputQueue, buzzOutputQueue, ITERATIONS - 1);
+    private final FizzBuzzQueueProcessor buzzQueueProcessor =
+            new FizzBuzzQueueProcessor(FizzBuzzStep.BUZZ, fizzInputQueue, buzzInputQueue, fizzOutputQueue, buzzOutputQueue, ITERATIONS - 1);
+    private final FizzBuzzQueueProcessor fizzBuzzQueueProcessor =
+            new FizzBuzzQueueProcessor(FizzBuzzStep.FIZZ_BUZZ, fizzInputQueue, buzzInputQueue, fizzOutputQueue, buzzOutputQueue, ITERATIONS - 1);
     private final long expectedResult;
-
     {
         long temp = 0L;
 
@@ -120,21 +125,9 @@ public final class OneToThreeDiamondQueueThroughputTest extends AbstractPerfTest
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
-    private final BlockingQueue<Long> fizzInputQueue = new LinkedBlockingQueue<Long>(BUFFER_SIZE);
-    private final BlockingQueue<Long> buzzInputQueue = new LinkedBlockingQueue<Long>(BUFFER_SIZE);
-    private final BlockingQueue<Boolean> fizzOutputQueue = new LinkedBlockingQueue<Boolean>(BUFFER_SIZE);
-    private final BlockingQueue<Boolean> buzzOutputQueue = new LinkedBlockingQueue<Boolean>(BUFFER_SIZE);
-
-    private final FizzBuzzQueueProcessor fizzQueueProcessor =
-            new FizzBuzzQueueProcessor(FizzBuzzStep.FIZZ, fizzInputQueue, buzzInputQueue, fizzOutputQueue, buzzOutputQueue, ITERATIONS - 1);
-
-    private final FizzBuzzQueueProcessor buzzQueueProcessor =
-            new FizzBuzzQueueProcessor(FizzBuzzStep.BUZZ, fizzInputQueue, buzzInputQueue, fizzOutputQueue, buzzOutputQueue, ITERATIONS - 1);
-
-    private final FizzBuzzQueueProcessor fizzBuzzQueueProcessor =
-            new FizzBuzzQueueProcessor(FizzBuzzStep.FIZZ_BUZZ, fizzInputQueue, buzzInputQueue, fizzOutputQueue, buzzOutputQueue, ITERATIONS - 1);
-
-    ///////////////////////////////////////////////////////////////////////////////////////////////
+    public static void main(String[] args) throws Exception {
+        new OneToThreeDiamondQueueThroughputTest().testImplementations();
+    }
 
     @Override
     protected int getRequiredProcessorCount() {
@@ -173,9 +166,5 @@ public final class OneToThreeDiamondQueueThroughputTest extends AbstractPerfTest
         failIf(expectedResult, 0);
 
         return opsPerSecond;
-    }
-
-    public static void main(String[] args) throws Exception {
-        new OneToThreeDiamondQueueThroughputTest().testImplementations();
     }
 }

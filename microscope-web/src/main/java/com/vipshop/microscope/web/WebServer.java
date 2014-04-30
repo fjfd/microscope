@@ -1,9 +1,8 @@
 package com.vipshop.microscope.web;
 
+import com.vipshop.microscope.query.QueryServer;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ResourceHandler;
-
-import com.vipshop.microscope.query.QueryServer;
 
 public class WebServer {
 

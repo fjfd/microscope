@@ -1,16 +1,20 @@
 package com.lmax.disruptor.immutable;
 
-import java.util.concurrent.locks.LockSupport;
-
 import com.lmax.disruptor.BatchEventProcessor;
 import com.lmax.disruptor.SingleProducerSequencer;
 import com.lmax.disruptor.YieldingWaitStrategy;
+
+import java.util.concurrent.locks.LockSupport;
 
 public class CustomPerformanceTest {
     private final CustomRingBuffer<SimpleEvent> ringBuffer;
 
     public CustomPerformanceTest() {
         ringBuffer = new CustomRingBuffer<SimpleEvent>(new SingleProducerSequencer(Constants.SIZE, new YieldingWaitStrategy()));
+    }
+
+    public static void main(String[] args) {
+        new CustomPerformanceTest().run();
     }
 
     public void run() {
@@ -39,10 +43,6 @@ public class CustomPerformanceTest {
 
         batchEventProcessor.halt();
         t.join();
-    }
-
-    public static void main(String[] args) {
-        new CustomPerformanceTest().run();
     }
 
 }

@@ -1,134 +1,140 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>com.vipshop</groupId>
-		<artifactId>microscope</artifactId>
-		<version>1.4.0</version>
-	</parent>
+    <parent>
+        <groupId>com.vipshop</groupId>
+        <artifactId>microscope</artifactId>
+        <version>1.4.0</version>
+    </parent>
 
-	<artifactId>microscope-collector</artifactId>
-	<name>microscope-collector</name>
-	<version>${project.parent.version}</version>
+    <artifactId>microscope-collector</artifactId>
+    <name>microscope-collector</name>
+    <version>${project.parent.version}</version>
 
-	<properties>
-		<maven-site-plugin.skip>true</maven-site-plugin.skip>
-	</properties>
+    <properties>
+        <maven-site-plugin.skip>true</maven-site-plugin.skip>
+    </properties>
 
-	<dependencies>
-		<dependency>
-			<groupId>com.vipshop</groupId>
-			<artifactId>microscope-validater</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.vipshop</groupId>
-			<artifactId>microscope-alerter</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.vipshop</groupId>
-			<artifactId>microscope-analyzer</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.vipshop</groupId>
-			<artifactId>microscope-storage</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.lmax</groupId>
-			<artifactId>disruptor</artifactId>
-			<version>3.2.0</version>
-		</dependency>
+    <dependencies>
+        <dependency>
+            <groupId>com.vipshop</groupId>
+            <artifactId>microscope-validater</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vipshop</groupId>
+            <artifactId>microscope-alerter</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vipshop</groupId>
+            <artifactId>microscope-analyzer</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vipshop</groupId>
+            <artifactId>microscope-storage</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vipshop</groupId>
+            <artifactId>microscope-trace</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.lmax</groupId>
+            <artifactId>disruptor</artifactId>
+            <version>3.2.0</version>
+        </dependency>
         <dependency>
             <groupId>net.java.dev.jna</groupId>
             <artifactId>jna</artifactId>
             <version>4.0.0</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
-	<profiles>
-		<profile>
-			<id>dev</id>
-			<build>
-				<filters>
-					<filter>src/main/resources/filters/collector-dev.properties</filter>
-				</filters>
-				<resources>
-					<resource>
-						<directory>src/main/resources</directory>
-						<filtering>true</filtering>
-						<includes>
-							<include>*.*</include>
-						</includes>
-					</resource>
-				</resources>
-			</build>
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <build>
+                <filters>
+                    <filter>src/main/resources/filters/collector-dev.properties</filter>
+                </filters>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                        <filtering>true</filtering>
+                        <includes>
+                            <include>*.*</include>
+                        </includes>
+                    </resource>
+                </resources>
+            </build>
 
-			<activation>
-				<activeByDefault>true</activeByDefault>
-				<property>
-					<name>env</name>
-					<value>dev</value>
-				</property>
-			</activation>
-		</profile>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>env</name>
+                    <value>dev</value>
+                </property>
+            </activation>
+        </profile>
 
-		<profile>
-			<id>qa</id>
-			<build>
-				<filters>
-					<filter>src/main/resources/filters/collector-qa.properties</filter>
-				</filters>
-				<resources>
-					<resource>
-						<directory>src/main/resources</directory>
-						<filtering>true</filtering>
-						<includes>
-							<include>*.*</include>
-						</includes>
-					</resource>
-				</resources>
-			</build>
+        <profile>
+            <id>qa</id>
+            <build>
+                <filters>
+                    <filter>src/main/resources/filters/collector-qa.properties</filter>
+                </filters>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                        <filtering>true</filtering>
+                        <includes>
+                            <include>*.*</include>
+                        </includes>
+                    </resource>
+                </resources>
+            </build>
 
-			<activation>
-				<property>
-					<name>env</name>
-					<value>qa</value>
-				</property>
-			</activation>
-		</profile>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>qa</value>
+                </property>
+            </activation>
+        </profile>
 
-		<profile>
-			<id>prod</id>
-			<build>
-				<filters>
-					<filter>src/main/resources/filters/collector-prod.properties</filter>
-				</filters>
-				<resources>
-					<resource>
-						<directory>src/main/resources</directory>
-						<filtering>true</filtering>
-						<includes>
-							<include>*.*</include>
-						</includes>
-					</resource>
-				</resources>
-			</build>
+        <profile>
+            <id>prod</id>
+            <build>
+                <filters>
+                    <filter>src/main/resources/filters/collector-prod.properties</filter>
+                </filters>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                        <filtering>true</filtering>
+                        <includes>
+                            <include>*.*</include>
+                        </includes>
+                    </resource>
+                </resources>
+            </build>
 
-			<activation>
-				<property>
-					<name>env</name>
-					<value>prod</value>
-				</property>
-			</activation>
-		</profile>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>prod</value>
+                </property>
+            </activation>
+        </profile>
 
-	</profiles>
+    </profiles>
 
-	<build>
+    <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -163,6 +169,6 @@
                 </executions>
             </plugin>
         </plugins>
-	</build>
+    </build>
 
 </project>

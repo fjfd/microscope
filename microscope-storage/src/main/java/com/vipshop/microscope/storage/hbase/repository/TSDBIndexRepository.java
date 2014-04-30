@@ -1,8 +1,8 @@
 package com.vipshop.microscope.storage.hbase.repository;
 
-import com.vipshop.microscope.common.logentry.Constants;
-import com.vipshop.microscope.common.metrics.Metric;
 import com.vipshop.microscope.storage.hbase.table.TSDBIndexTable;
+import com.vipshop.microscope.trace.Constants;
+import com.vipshop.microscope.trace.metrics.MetricData;
 import org.apache.hadoop.hbase.client.HTableInterface;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
@@ -40,10 +40,10 @@ public class TSDBIndexRepository extends AbstraceRepository {
      *
      * @param metric
      */
-    public void save(final Metric metric) {
-        hbaseTemplate.execute(TSDBIndexTable.TABLE_NAME, new TableCallback<Metric>() {
+    public void save(final MetricData metric) {
+        hbaseTemplate.execute(TSDBIndexTable.TABLE_NAME, new TableCallback<MetricData>() {
             @Override
-            public Metric doInTable(HTableInterface table) throws Throwable {
+            public MetricData doInTable(HTableInterface table) throws Throwable {
                 Put p = new Put(Bytes.toBytes(metric.getTags().get(Constants.APP)));
                 p.add(TSDBIndexTable.BYTE_CF_APP, Bytes.toBytes(metric.getTags().get(Constants.APP)), Bytes.toBytes(metric.getTags().get(Constants.APP)));
                 p.add(TSDBIndexTable.BYTE_CF_IP, Bytes.toBytes(metric.getTags().get(Constants.IP)), Bytes.toBytes(metric.getTags().get(Constants.IP)));
@@ -110,7 +110,7 @@ public class TSDBIndexRepository extends AbstraceRepository {
         hbaseTemplate.find(TSDBIndexTable.TABLE_NAME, TSDBIndexTable.CF_APP, new RowMapper<List<String>>() {
             @Override
             public List<String> mapRow(Result result, int rowNum) throws Exception {
-            String[] appQunitifer = getColumnsInColumnFamily(result, TSDBIndexTable.CF_APP);
+                String[] appQunitifer = getColumnsInColumnFamily(result, TSDBIndexTable.CF_APP);
                 for (int i = 0; i < appQunitifer.length; i++) {
                     appList.add(appQunitifer[i]);
                 }

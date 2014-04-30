@@ -18,20 +18,17 @@ package com.vipshop.microscope.kafka;
 
 import kafka.api.FetchRequest;
 import kafka.api.FetchRequestBuilder;
-import kafka.examples.*;
 import kafka.examples.KafkaProperties;
 import kafka.javaapi.FetchResponse;
-
-import java.io.UnsupportedEncodingException;
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.List;
-
 import kafka.javaapi.consumer.SimpleConsumer;
 import kafka.javaapi.message.ByteBufferMessageSet;
 import kafka.message.MessageAndOffset;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SimpleConsumerDemo {

@@ -15,17 +15,12 @@
  */
 package com.lmax.disruptor.raw;
 
+import com.lmax.disruptor.*;
+import com.lmax.disruptor.util.DaemonThreadFactory;
+
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import com.lmax.disruptor.AbstractPerfTestDisruptor;
-import com.lmax.disruptor.Sequence;
-import com.lmax.disruptor.SequenceBarrier;
-import com.lmax.disruptor.Sequencer;
-import com.lmax.disruptor.SingleProducerSequencer;
-import com.lmax.disruptor.YieldingWaitStrategy;
-import com.lmax.disruptor.util.DaemonThreadFactory;
 
 /**
  * <pre>
@@ -72,19 +67,22 @@ import com.lmax.disruptor.util.DaemonThreadFactory;
  */
 public final class OneToOneRawThroughputTest extends AbstractPerfTestDisruptor {
     private static final int BUFFER_SIZE = 1024 * 64;
+    private final Sequencer sequencer = new SingleProducerSequencer(BUFFER_SIZE, new YieldingWaitStrategy());
+    private final MyRunnable myRunnable = new MyRunnable(sequencer);
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    {
+        sequencer.addGatingSequences(myRunnable.sequence);
+    }
     private static final long ITERATIONS = 1000L * 1000L * 200L;
     private final ExecutorService executor = Executors.newSingleThreadExecutor(DaemonThreadFactory.INSTANCE);
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
-    private final Sequencer sequencer = new SingleProducerSequencer(BUFFER_SIZE, new YieldingWaitStrategy());
-    private final MyRunnable myRunnable = new MyRunnable(sequencer);
-
-    {
-        sequencer.addGatingSequences(myRunnable.sequence);
+    public static void main(String[] args) throws Exception {
+        OneToOneRawThroughputTest test = new OneToOneRawThroughputTest();
+        test.testImplementations();
     }
-
-    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     protected int getRequiredProcessorCount() {
@@ -120,10 +118,10 @@ public final class OneToOneRawThroughputTest extends AbstractPerfTestDisruptor {
     }
 
     private static class MyRunnable implements Runnable {
+        private final SequenceBarrier barrier;
+        Sequence sequence = new Sequence(-1);
         private CountDownLatch latch;
         private long expectedCount;
-        Sequence sequence = new Sequence(-1);
-        private final SequenceBarrier barrier;
 
         public MyRunnable(Sequencer sequencer) {
             this.barrier = sequencer.newBarrier();
@@ -152,10 +150,5 @@ public final class OneToOneRawThroughputTest extends AbstractPerfTestDisruptor {
                 e.printStackTrace();
             }
         }
-    }
-
-    public static void main(String[] args) throws Exception {
-        OneToOneRawThroughputTest test = new OneToOneRawThroughputTest();
-        test.testImplementations();
     }
 }

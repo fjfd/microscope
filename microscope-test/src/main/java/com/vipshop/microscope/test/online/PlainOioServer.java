@@ -6,7 +6,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
- *
  * @author Xu Fei
  * @version 1.0
  */

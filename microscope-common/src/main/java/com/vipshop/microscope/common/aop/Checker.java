@@ -1,7 +1,6 @@
 package com.vipshop.microscope.common.aop;
 
 /**
- *
  * @author Xu Fei
  * @version 1.0
  */

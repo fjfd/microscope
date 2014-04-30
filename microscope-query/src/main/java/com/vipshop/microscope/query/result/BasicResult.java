@@ -17,5 +17,5 @@ public class BasicResult {
     public void setCallback(String callback) {
         this.callback = callback;
     }
-    
+
 }

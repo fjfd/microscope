@@ -12,30 +12,31 @@
 // see <http://www.gnu.org/licenses/>.
 package com.vipshop.microscope.storage.opentsdb.tsd;
 
-import java.nio.charset.Charset;
-
+import com.vipshop.microscope.storage.opentsdb.core.Tags;
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.handler.codec.oneone.OneToOneDecoder;
 
-import com.vipshop.microscope.storage.opentsdb.core.Tags;
+import java.nio.charset.Charset;
 
 /**
  * Splits a ChannelBuffer in multiple space separated words.
  */
 final class WordSplitter extends OneToOneDecoder {
 
-	private static final Charset CHARSET = Charset.forName("ISO-8859-1");
+    private static final Charset CHARSET = Charset.forName("ISO-8859-1");
 
-	/** Constructor. */
-	public WordSplitter() {
-	}
+    /**
+     * Constructor.
+     */
+    public WordSplitter() {
+    }
 
-	@Override
-	protected Object decode(final ChannelHandlerContext ctx,
-			final Channel channel, final Object msg) throws Exception {
-		return Tags.splitString(((ChannelBuffer) msg).toString(CHARSET), ' ');
-	}
+    @Override
+    protected Object decode(final ChannelHandlerContext ctx,
+                            final Channel channel, final Object msg) throws Exception {
+        return Tags.splitString(((ChannelBuffer) msg).toString(CHARSET), ' ');
+    }
 
 }
