@@ -31,7 +31,7 @@ public class FixedSampler implements Sampler {
     }
 
     /**
-     * Fixed 10% precentage
+     * Fixed 10% percentage
      *
      * @param traceId
      * @return
