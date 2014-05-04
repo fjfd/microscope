@@ -26,8 +26,8 @@ public class DisruptorMessageConsumer implements MessageConsumer {
     private final int TRACE_BUFFER_SIZE = 1024 * 8 * 8 * 2;
     private final int METRICS_BUFFER_SIZE = 1024 * 8 * 4 * 2;
     private final int EXCEPTION_BUFFER_SIZE = 1024 * 8 * 2 * 1;
-
     private final int LOG_BUFFER_SIZE = 1024 * 8 * 1 * 1;
+
     /**
      * Trace RingBuffer
      */
@@ -36,20 +36,23 @@ public class DisruptorMessageConsumer implements MessageConsumer {
     private final BatchEventProcessor<TraceEvent> traceAlertEventProcessor;
     private final BatchEventProcessor<TraceEvent> traceAnalyzeEventProcessor;
     private final BatchEventProcessor<TraceEvent> traceStorageEventProcessor;
+
     /**
-     * Metrics RingBuffer
+     * Metric RingBuffer
      */
     private final RingBuffer<MetricsEvent> metricsRingBuffer;
     private final SequenceBarrier metricsSequenceBarrier;
     private final BatchEventProcessor<MetricsEvent> metricsAlertEventProcessor;
     private final BatchEventProcessor<MetricsEvent> metricsAnalyzeEventProcessor;
     private final BatchEventProcessor<MetricsEvent> metricsStorageEventProcessor;
+
     /**
      * Exception RingBuffer
      */
     private final RingBuffer<ExceptionEvent> exceptionRingBuffer;
     private final SequenceBarrier exceptionSequenceBarrier;
     private final BatchEventProcessor<ExceptionEvent> exceptionStorageEventProcessor;
+
     /**
      * LogEntry RingBuffer
      */
@@ -62,7 +65,10 @@ public class DisruptorMessageConsumer implements MessageConsumer {
      */
     private final RingBuffer<LogEvent> logRingBuffer;
     private final SequenceBarrier logSequenceBarrier;
+    private final BatchEventProcessor<LogEvent> logAlertEventProcessor;
+    private final BatchEventProcessor<LogEvent> logAnalyzeEventProcessor;
     private final BatchEventProcessor<LogEvent> logStoreEventProcessor;
+
     private volatile boolean start = false;
 
     /**
@@ -95,14 +101,19 @@ public class DisruptorMessageConsumer implements MessageConsumer {
         this.logEntrySequenceBarrier = logEntryRingBuffer.newBarrier();
         this.logEntryValidateEventProcessor = new BatchEventProcessor<LogEntryEvent>(logEntryRingBuffer,
                 logEntrySequenceBarrier,
-                new LogEntryValidateHandler(traceRingBuffer,
+                new LogEntryHandler(traceRingBuffer,
                         metricsRingBuffer,
                         exceptionRingBuffer)
         );
 
         this.logRingBuffer = RingBuffer.createSingleProducer(LogEvent.EVENT_FACTORY, LOG_BUFFER_SIZE, new SleepingWaitStrategy());
         this.logSequenceBarrier = this.logRingBuffer.newBarrier();
+        this.logAlertEventProcessor = new BatchEventProcessor<LogEvent>(logRingBuffer, logSequenceBarrier, new LogAlertHandler());
+        this.logAnalyzeEventProcessor = new BatchEventProcessor<LogEvent>(logRingBuffer, logSequenceBarrier, new LogAnalyzeHandler());
         this.logStoreEventProcessor = new BatchEventProcessor<LogEvent>(logRingBuffer, logSequenceBarrier, new LogStorageHandler());
+        this.logRingBuffer.addGatingSequences(logAlertEventProcessor.getSequence());
+        this.logRingBuffer.addGatingSequences(logAnalyzeEventProcessor.getSequence());
+        this.logRingBuffer.addGatingSequences(logStoreEventProcessor.getSequence());
 
     }
 
@@ -145,6 +156,14 @@ public class DisruptorMessageConsumer implements MessageConsumer {
         ExecutorService exceptionStoreExecutor = ThreadPoolUtil.newSingleThreadExecutor("exception-store-pool");
         exceptionStoreExecutor.execute(this.exceptionStorageEventProcessor);
 
+        logger.info("start log alert thread");
+        ExecutorService logAlertExecutor = ThreadPoolUtil.newSingleThreadExecutor("log-alert-pool");
+        logAlertExecutor.execute(this.logAlertEventProcessor);
+
+        logger.info("start log analyze thread");
+        ExecutorService logAnalyzeExecutor = ThreadPoolUtil.newSingleThreadExecutor("log-analyze-pool");
+        logAnalyzeExecutor.execute(this.logAnalyzeEventProcessor);
+
         logger.info("start log store thread");
         ExecutorService logStoreExecutor = ThreadPoolUtil.newSingleThreadExecutor("log-store-pool");
         logStoreExecutor.execute(this.logStoreEventProcessor);
@@ -167,13 +186,13 @@ public class DisruptorMessageConsumer implements MessageConsumer {
     /**
      * Publish logs to consumer.
      *
-     * @param logs log4j, gc logs
+     * @param log log4j/gc logs
      */
     @Override
-    public void publish(String logs) {
-        if (start && logs != null) {
+    public void publish(String log) {
+        if (start && log != null) {
             long sequence = this.logRingBuffer.next();
-            this.logRingBuffer.get(sequence).setResult(logs);
+            this.logRingBuffer.get(sequence).setResult(log);
             this.logRingBuffer.publish(sequence);
         }
     }
@@ -211,6 +230,8 @@ public class DisruptorMessageConsumer implements MessageConsumer {
         /**
          * close log process thread
          */
+        logAlertEventProcessor.halt();
+        logAnalyzeEventProcessor.halt();
         logStoreEventProcessor.halt();
 
     }

@@ -37,7 +37,7 @@ public class ExceptionDataBuilder {
                         .getThreadInfo(Thread.currentThread().getId()).toString())
                 .build();
 
-        storage.addExceptionData(exception);
+        storage.add(exception);
     }
 
     /**
@@ -60,7 +60,7 @@ public class ExceptionDataBuilder {
                 .withDebug(info)
                 .build();
 
-        storage.addExceptionData(exception);
+        storage.add(exception);
     }
 
 }

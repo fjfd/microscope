@@ -1,9 +1,8 @@
 package com.vipshop.microscope.collector.alerter;
 
 import com.vipshop.microscope.thrift.Span;
+import com.vipshop.microscope.trace.exception.ExceptionData;
 import com.vipshop.microscope.trace.metric.MetricData;
-
-import java.util.Map;
 
 /**
  * Message Alert API.
@@ -13,10 +12,12 @@ import java.util.Map;
  */
 public class MessageAlerter {
 
-    private AlertEngine alertEngine = new AlertEngine();
-
     private MessageAlerter() {
 
+    }
+
+    private static final class MessageAlerterHolder {
+        private static final MessageAlerter MESSAGE_ALERTER = new MessageAlerter();
     }
 
     public static MessageAlerter getMessageAlerter() {
@@ -24,19 +25,13 @@ public class MessageAlerter {
     }
 
     public void alert(Span span) {
-        alertEngine.alert(span);
     }
 
-    public void alert(Map<String, Object> exception) {
-        alertEngine.alert(exception);
+    public void alert(ExceptionData exception) {
     }
 
     public void alert(MetricData metrics) {
 
-    }
-
-    private static final class MessageAlerterHolder {
-        private static final MessageAlerter MESSAGE_ALERTER = new MessageAlerter();
     }
 
 }

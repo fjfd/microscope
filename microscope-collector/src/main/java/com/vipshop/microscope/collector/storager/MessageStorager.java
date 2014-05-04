@@ -1,15 +1,15 @@
 package com.vipshop.microscope.collector.storager;
 
 import com.vipshop.microscope.storage.StorageRepository;
-import com.vipshop.microscope.storage.hbase.report.LogEntryReport;
-import com.vipshop.microscope.storage.hbase.table.TraceIndexTable;
-import com.vipshop.microscope.storage.hbase.table.TraceOverviewTable;
+import com.vipshop.microscope.storage.hbase.LogEntryReport;
+import com.vipshop.microscope.storage.hbase.TraceIndexTable;
+import com.vipshop.microscope.storage.hbase.TraceOverviewTable;
 import com.vipshop.microscope.thrift.Span;
+import com.vipshop.microscope.trace.exception.ExceptionData;
 import com.vipshop.microscope.trace.metric.MetricData;
 import com.vipshop.microscope.trace.system.SystemData;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Message Store API.
@@ -31,12 +31,16 @@ public class MessageStorager {
         return MessageStoragerHolder.messageStorager;
     }
 
+    private static class MessageStoragerHolder {
+        private static final MessageStorager messageStorager = new MessageStorager();
+    }
+
     /**
-     * Store trace message.
+     * Store trace data.
      *
      * @param span
      */
-    public void storeTrace(Span span) {
+    public void store(Span span) {
         String traceId = String.valueOf(span.getTraceId());
         String spanId = String.valueOf(span.getSpanId());
         if (traceId.equals(spanId)) {
@@ -47,67 +51,51 @@ public class MessageStorager {
     }
 
     /**
-     * Store metrics message
+     * Store metric data
      *
      * @param metrics
      */
-    public void storeMetrics(MetricData metrics) {
-//		String metric  = metrics.getMetric();
-//		long timestamp = metrics.getTimestamp();
-//		Map<String, String> tags = metrics.getTags();
-//		Object value = metrics.getValue();
-
-//		if (value instanceof Long) {
-//			storageRepository.add(metric, timestamp, (Long)value, tags);
-//		}
-//
-//		if (value instanceof Double) {
-//			storageRepository.add(metric, timestamp, (Double)value, tags);
-//		}
-//
-//		if (value instanceof Float) {
-//			storageRepository.add(metric, timestamp, (Float)value, tags);
-//		}
-
+    public void store(MetricData metrics) {
         storageRepository.saveMetricIndex(metrics);
         storageRepository.saveMetric(metrics);
 
     }
 
     /**
-     * Store exception message.
+     * Store exception data.
      *
-     * @param map
+     * @param exception
      */
-    public void storeException(Map<String, Object> map) {
-        storageRepository.saveExceptionIndex(map);
-        storageRepository.saveException(map);
+    public void store(ExceptionData exception) {
     }
 
     /**
-     * Store SystemMetric message.
+     * Store System data.
      *
-     * @param info
+     * @param system
      */
-    public void storeSystemInfo(SystemData info) {
-        storageRepository.save(info);
+    public void store(SystemData system) {
+        storageRepository.save(system);
     }
 
     /**
-     * Store top report.
+     * Store top slow report.
      *
      * @param top
      */
-    public void storeTopReport(HashMap<String, Object> top) {
+    public void store(HashMap<String, Object> top) {
         storageRepository.saveTop(top);
     }
 
-    public void storeLogEntryReport(LogEntryReport report) {
+    /**
+     * Store LogEntry stats report
+     *
+     * @param report
+     */
+    public void store(LogEntryReport report) {
 
     }
 
-    private static class MessageStoragerHolder {
-        private static final MessageStorager messageStorager = new MessageStorager();
-    }
+
 
 }

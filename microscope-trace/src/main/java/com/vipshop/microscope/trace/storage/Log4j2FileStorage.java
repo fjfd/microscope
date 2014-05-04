@@ -22,24 +22,24 @@ public class Log4j2FileStorage implements Storage {
     private static Logger logger = LogManager.getLogger(Log4j2FileStorage.class.getName());
 
     @Override
-    public void addTraceData(Span span) {
+    public void add(Span span) {
         if (SAMPLER.sample(span.getTraceId())) {
             logger.info(span.toString());
         }
     }
 
     @Override
-    public void addMetricData(MetricData metrics) {
+    public void add(MetricData metrics) {
         logger.info(metrics.toString());
     }
 
     @Override
-    public void addExceptionData(ExceptionData exception) {
+    public void add(ExceptionData exception) {
         logger.info(exception.toString());
     }
 
     @Override
-    public void addSystemData(SystemData system) {
+    public void add(SystemData system) {
         logger.info(system.toString());
     }
 

@@ -34,7 +34,7 @@ public class SystemDataBuilder {
                 .withProcessorCount(osBean.getAvailableProcessors())
                 .build();
 
-        StorageHolder.getStorage().addSystemData(metric);
+        StorageHolder.getStorage().add(metric);
 
     }
 

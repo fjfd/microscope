@@ -1,8 +1,7 @@
 package com.vipshop.microscope.collector.disruptor;
 
 import com.lmax.disruptor.EventFactory;
-
-import java.util.HashMap;
+import com.vipshop.microscope.trace.exception.ExceptionData;
 
 /**
  * Exception Event
@@ -18,13 +17,13 @@ public class ExceptionEvent {
         }
     };
 
-    private HashMap<String, Object> result;
+    private ExceptionData result;
 
-    public HashMap<String, Object> getResult() {
+    public ExceptionData getResult() {
         return result;
     }
 
-    public void setResult(HashMap<String, Object> map) {
+    public void setResult(ExceptionData map) {
         this.result = map;
     }
 

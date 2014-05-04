@@ -3,10 +3,10 @@ package com.vipshop.microscope.collector.disruptor;
 import com.lmax.disruptor.EventHandler;
 import com.vipshop.microscope.collector.storager.MessageStorager;
 import com.vipshop.microscope.common.util.ThreadPoolUtil;
+import com.vipshop.microscope.trace.exception.ExceptionData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 
 /**
@@ -33,8 +33,8 @@ public class ExceptionStorageHandler implements EventHandler<ExceptionEvent> {
         });
     }
 
-    private void processMetrics(final HashMap<String, Object> metrics) {
-        messageStorager.storeException(metrics);
+    private void processMetrics(final ExceptionData exception) {
+        messageStorager.store(exception);
     }
 
 }

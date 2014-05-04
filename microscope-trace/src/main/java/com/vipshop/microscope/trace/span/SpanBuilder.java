@@ -188,7 +188,7 @@ public class SpanBuilder {
 		/*
     	 * put span to queue
     	 */
-        storage.addTraceData(span);
+        storage.add(span);
 
 		/*
     	 * check stack, if span exist,

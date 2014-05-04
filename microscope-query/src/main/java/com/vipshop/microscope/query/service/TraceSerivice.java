@@ -1,7 +1,7 @@
 package com.vipshop.microscope.query.service;
 
 import com.vipshop.microscope.storage.StorageRepository;
-import com.vipshop.microscope.storage.hbase.table.TraceOverviewTable;
+import com.vipshop.microscope.storage.hbase.TraceOverviewTable;
 import com.vipshop.microscope.thrift.Span;
 import org.springframework.stereotype.Service;
 

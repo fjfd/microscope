@@ -1,5 +1,6 @@
 package com.vipshop.microscope.storage.opentsdb;
 
+import com.vipshop.microscope.storage.tsdb.TSDBRepository;
 import org.testng.annotations.Test;
 
 import java.util.HashMap;
@@ -8,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 public class OpenTSDBRepositoryTest {
 
-    private OpenTSDBRepository repository = new OpenTSDBRepository();
+    private TSDBRepository repository = new TSDBRepository();
 
     @Test
     public void testAdd() throws InterruptedException {

@@ -28,7 +28,7 @@ public class Log4jFileStorage implements Storage {
      * @param span
      */
     @Override
-    public void addTraceData(Span span) {
+    public void add(Span span) {
         if (SAMPLER.sample(span.getTraceId())) {
             logger.info(span.toString());
         }
@@ -40,7 +40,7 @@ public class Log4jFileStorage implements Storage {
      * @param metric
      */
     @Override
-    public void addMetricData(MetricData metric) {
+    public void add(MetricData metric) {
         logger.info(metric.toString());
     }
 
@@ -50,7 +50,7 @@ public class Log4jFileStorage implements Storage {
      * @param exception
      */
     @Override
-    public void addExceptionData(ExceptionData exception) {
+    public void add(ExceptionData exception) {
         logger.info(exception.toString());
     }
 
@@ -60,7 +60,7 @@ public class Log4jFileStorage implements Storage {
      * @param system
      */
     @Override
-    public void addSystemData(SystemData system) {
+    public void add(SystemData system) {
         logger.info(system.toString());
     }
 

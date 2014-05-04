@@ -36,28 +36,28 @@ public class ArrayBlockingQueueStorage implements Storage {
     }
 
     @Override
-    public void addTraceData(Span span) {
+    public void add(Span span) {
         if (SAMPLER.sample(span.getTraceId())) {
-            add(span);
+            offer(span);
         }
     }
 
     @Override
-    public void addMetricData(MetricData metrics) {
-        add(metrics);
+    public void add(MetricData metrics) {
+        offer(metrics);
     }
 
     @Override
-    public void addExceptionData(ExceptionData exception) {
-        add(exception);
+    public void add(ExceptionData exception) {
+        offer(exception);
     }
 
     @Override
-    public void addSystemData(SystemData system) {
-        add(system);
+    public void add(SystemData system) {
+        offer(system);
     }
 
-    private void add(Object object) {
+    private void offer(Object object) {
 
         boolean isFull = !queue.offer(object);
 
@@ -72,7 +72,6 @@ public class ArrayBlockingQueueStorage implements Storage {
      *
      * @return {@link Span}
      */
-    @SuppressWarnings("unchecked")
     @Override
     public LogEntry poll() {
 

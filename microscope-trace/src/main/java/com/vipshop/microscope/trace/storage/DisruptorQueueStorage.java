@@ -62,24 +62,24 @@ public class DisruptorQueueStorage implements Storage, Transporter {
     }
 
     @Override
-    public void addMetricData(MetricData metrics) {
+    public void add(MetricData metrics) {
         publish(metrics);
     }
 
     @Override
-    public void addTraceData(Span span) {
+    public void add(Span span) {
         if (SAMPLER.sample(span.getTraceId())) {
             publish(span);
         }
     }
 
     @Override
-    public void addExceptionData(ExceptionData exception) {
+    public void add(ExceptionData exception) {
         publish(exception);
     }
 
     @Override
-    public void addSystemData(SystemData system) {
+    public void add(SystemData system) {
         publish(system);
     }
 

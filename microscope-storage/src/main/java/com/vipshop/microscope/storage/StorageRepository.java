@@ -1,9 +1,9 @@
 package com.vipshop.microscope.storage;
 
-import com.vipshop.microscope.storage.hbase.HbaseRepository;
-import com.vipshop.microscope.storage.hbase.table.TraceIndexTable;
-import com.vipshop.microscope.storage.hbase.table.TraceOverviewTable;
-import com.vipshop.microscope.storage.opentsdb.OpenTSDBRepository;
+import com.vipshop.microscope.storage.hbase.HBaseRepository;
+import com.vipshop.microscope.storage.hbase.TraceIndexTable;
+import com.vipshop.microscope.storage.hbase.TraceOverviewTable;
+import com.vipshop.microscope.storage.tsdb.TSDBRepository;
 import com.vipshop.microscope.storage.opentsdb.core.Aggregator;
 import com.vipshop.microscope.storage.opentsdb.core.DataPoints;
 import com.vipshop.microscope.thrift.Span;
@@ -16,16 +16,17 @@ import java.util.Map;
 
 /**
  * Storage API.
- * <p/>
- * Storage API responsible for save data to database.
+ *
+ * Storage API responsible for store and query data.
  *
  * @author Xu Fei
  * @version 1.0
  */
 public class StorageRepository {
 
-    private final HbaseRepository hbaseRepository = new HbaseRepository();
-    private final OpenTSDBRepository openTSDBRepository = new OpenTSDBRepository();
+    private final HBaseRepository hbaseRepository = new HBaseRepository();
+
+    private final TSDBRepository openTSDBRepository = new TSDBRepository();
 
     public static StorageRepository getStorageRepository() {
         return StorageRepositoryHolder.storageRepository;

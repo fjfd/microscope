@@ -19,28 +19,28 @@ public interface Storage {
      *
      * @param span data of trace
      */
-    void addTraceData(Span span);
+    void add(Span span);
 
     /**
      * Put metric data to storage
      *
      * @param metric data of metric
      */
-    void addMetricData(MetricData metric);
+    void add(MetricData metric);
 
     /**
      * Put exception data to storage
      *
      * @param exception data of exception
      */
-    void addExceptionData(ExceptionData exception);
+    void add(ExceptionData exception);
 
     /**
      * Put system data to storage
      *
      * @param system data of system
      */
-    void addSystemData(SystemData system);
+    void add(SystemData system);
 
     /**
      * Get LogEntry from storage

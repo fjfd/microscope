@@ -1,8 +1,5 @@
 package com.vipshop.microscope.storage.hbase;
 
-import com.vipshop.microscope.storage.hbase.factory.RepositoryFactory;
-import com.vipshop.microscope.storage.hbase.table.TraceIndexTable;
-import com.vipshop.microscope.storage.hbase.table.TraceOverviewTable;
 import com.vipshop.microscope.thrift.Span;
 import com.vipshop.microscope.trace.metric.MetricData;
 import com.vipshop.microscope.trace.system.SystemData;
@@ -12,15 +9,15 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Hbase Storage API.
+ * HBase Storage API.
  *
  * @author Xu Fei
  * @version 1.0
  */
-public class HbaseRepository {
+public class HBaseRepository {
 
     /**
-     * Create hbase tables.
+     * Create HBase tables.
      */
     public void create() {
 

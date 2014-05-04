@@ -16,7 +16,7 @@ public class LogStorageHandler implements EventHandler<LogEvent> {
 
     @Override
     public void onEvent(final LogEvent event, long sequence, boolean endOfBatch) throws Exception {
-        System.out.println(event.getResult());
+//        System.out.println(event.getResult());
     }
 
 }

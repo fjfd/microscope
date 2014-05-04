@@ -64,8 +64,12 @@ public class CollectorServer {
      * @param args
      */
     public static void main(String[] args) {
+//        AbstractApplicationContext context = new ClassPathXmlApplicationContext("/applicationContext-collector.xml", CollectorServer.class);
+//        context.close();
+
         CollectorServer server = new CollectorServer();
         server.start();
+
     }
 
     /**

@@ -25,7 +25,6 @@ public class KafkaMessageReceiver implements MessageReceiver {
     /**
      * Read logs from kafka
      *
-     * @throws org.apache.thrift.transport.TTransportException
      */
     @Override
     public void start() {
@@ -38,7 +37,7 @@ public class KafkaMessageReceiver implements MessageReceiver {
                 for (; ; ) {
 
                     String logs = "this is a test log in local";
-                    consumer.publish(logs);
+//                    consumer.publish(logs);
 
                     try {
                         TimeUnit.SECONDS.sleep(1);

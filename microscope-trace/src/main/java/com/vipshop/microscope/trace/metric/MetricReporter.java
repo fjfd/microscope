@@ -107,7 +107,7 @@ public class MetricReporter extends ScheduledReporter {
 
         logger.debug("add gauge metrics to storage queue");
 
-        output.addMetricData(MetricData.named(prefix(name))
+        output.add(MetricData.named(prefix(name))
                 .withValue(gauge.getValue())
                 .withTimestamp(timestamp)
                 .withTags(tags)
@@ -119,7 +119,7 @@ public class MetricReporter extends ScheduledReporter {
 
         logger.debug("add counter metrics to storage queue");
 
-        output.addMetricData(MetricData.named(prefix(name))
+        output.add(MetricData.named(prefix(name))
                 .withTimestamp(timestamp)
                 .withValue(counter.getCount())
                 .withTags(tags)
@@ -132,59 +132,59 @@ public class MetricReporter extends ScheduledReporter {
         logger.debug("add histogram metrics to storage queue");
 
         final Snapshot snapshot = histogram.getSnapshot();
-        output.addMetricData(MetricData.named(prefix(name, "count"))
+        output.add(MetricData.named(prefix(name, "count"))
                 .withTimestamp(timestamp)
                 .withValue(histogram.getCount())
                 .withTags(tags).build());
 
-        output.addMetricData(MetricData.named(prefix(name, "max"))
+        output.add(MetricData.named(prefix(name, "max"))
                 .withTimestamp(timestamp)
                 .withValue(snapshot.getMax())
                 .withTags(tags).build());
 
-        output.addMetricData(MetricData.named(prefix(name, "min"))
+        output.add(MetricData.named(prefix(name, "min"))
                 .withTimestamp(timestamp)
                 .withValue(snapshot.getMin())
                 .withTags(tags).build());
 
-        output.addMetricData(MetricData.named(prefix(name, "mean"))
+        output.add(MetricData.named(prefix(name, "mean"))
                 .withTimestamp(timestamp)
                 .withValue(snapshot.getMean())
                 .withTags(tags).build());
 
-        output.addMetricData(MetricData.named(prefix(name, "stddev"))
+        output.add(MetricData.named(prefix(name, "stddev"))
                 .withTimestamp(timestamp)
                 .withValue(snapshot.getStdDev())
                 .withTags(tags).build());
 
 
-        output.addMetricData(MetricData.named(prefix(name, "p50"))
+        output.add(MetricData.named(prefix(name, "p50"))
                 .withTimestamp(timestamp)
                 .withValue(snapshot.getMedian())
                 .withTags(tags).build());
 
-        output.addMetricData(MetricData.named(prefix(name, "p75"))
+        output.add(MetricData.named(prefix(name, "p75"))
                 .withTimestamp(timestamp)
                 .withValue(snapshot.get75thPercentile())
                 .withTags(tags).build());
 
-        output.addMetricData(MetricData.named(prefix(name, "p95"))
+        output.add(MetricData.named(prefix(name, "p95"))
                 .withTimestamp(timestamp)
                 .withValue(snapshot.get95thPercentile())
                 .withTags(tags).build());
 
 
-        output.addMetricData(MetricData.named(prefix(name, "p98"))
+        output.add(MetricData.named(prefix(name, "p98"))
                 .withTimestamp(timestamp)
                 .withValue(snapshot.get98thPercentile())
                 .withTags(tags).build());
 
-        output.addMetricData(MetricData.named(prefix(name, "p99"))
+        output.add(MetricData.named(prefix(name, "p99"))
                 .withTimestamp(timestamp)
                 .withValue(snapshot.get99thPercentile())
                 .withTags(tags).build());
 
-        output.addMetricData(MetricData.named(prefix(name, "p999"))
+        output.add(MetricData.named(prefix(name, "p999"))
                 .withTimestamp(timestamp)
                 .withValue(snapshot.get999thPercentile())
                 .withTags(tags).build());
@@ -195,27 +195,27 @@ public class MetricReporter extends ScheduledReporter {
 
         logger.debug("add meter metrics to storage queue");
 
-        output.addMetricData(MetricData.named(prefix(name, "count"))
+        output.add(MetricData.named(prefix(name, "count"))
                 .withTimestamp(timestamp)
                 .withValue(meter.getCount())
                 .withTags(tags).build());
 
-        output.addMetricData(MetricData.named(prefix(name, "meanrate"))
+        output.add(MetricData.named(prefix(name, "meanrate"))
                 .withTimestamp(timestamp)
                 .withValue(meter.getMeanRate())
                 .withTags(tags).build());
 
-        output.addMetricData(MetricData.named(prefix(name, "1-meanrate"))
+        output.add(MetricData.named(prefix(name, "1-meanrate"))
                 .withTimestamp(timestamp)
                 .withValue(meter.getOneMinuteRate())
                 .withTags(tags).build());
 
-        output.addMetricData(MetricData.named(prefix(name, "5-meanrate"))
+        output.add(MetricData.named(prefix(name, "5-meanrate"))
                 .withTimestamp(timestamp)
                 .withValue(meter.getFiveMinuteRate())
                 .withTags(tags).build());
 
-        output.addMetricData(MetricData.named(prefix(name, "15-meanrate"))
+        output.add(MetricData.named(prefix(name, "15-meanrate"))
                 .withTimestamp(timestamp)
                 .withValue(meter.getFifteenMinuteRate())
                 .withTags(tags).build());
@@ -228,59 +228,59 @@ public class MetricReporter extends ScheduledReporter {
 
         final Snapshot snapshot = timer.getSnapshot();
 
-        output.addMetricData(MetricData.named(prefix(name, "count"))
+        output.add(MetricData.named(prefix(name, "count"))
                 .withTimestamp(timestamp)
                 .withValue(timer.getCount())
                 .withTags(tags).build());
 
-        output.addMetricData(MetricData.named(prefix(name, "max"))
+        output.add(MetricData.named(prefix(name, "max"))
                 .withTimestamp(timestamp)
                 .withValue(snapshot.getMax())
                 .withTags(tags).build());
 
-        output.addMetricData(MetricData.named(prefix(name, "min"))
+        output.add(MetricData.named(prefix(name, "min"))
                 .withTimestamp(timestamp)
                 .withValue(snapshot.getMin())
                 .withTags(tags).build());
 
-        output.addMetricData(MetricData.named(prefix(name, "mean"))
+        output.add(MetricData.named(prefix(name, "mean"))
                 .withTimestamp(timestamp)
                 .withValue(snapshot.getMean())
                 .withTags(tags).build());
 
-        output.addMetricData(MetricData.named(prefix(name, "stddev"))
+        output.add(MetricData.named(prefix(name, "stddev"))
                 .withTimestamp(timestamp)
                 .withValue(snapshot.getStdDev())
                 .withTags(tags).build());
 
 
-        output.addMetricData(MetricData.named(prefix(name, "p50"))
+        output.add(MetricData.named(prefix(name, "p50"))
                 .withTimestamp(timestamp)
                 .withValue(snapshot.getMedian())
                 .withTags(tags).build());
 
-        output.addMetricData(MetricData.named(prefix(name, "p75"))
+        output.add(MetricData.named(prefix(name, "p75"))
                 .withTimestamp(timestamp)
                 .withValue(snapshot.get75thPercentile())
                 .withTags(tags).build());
 
-        output.addMetricData(MetricData.named(prefix(name, "p95"))
+        output.add(MetricData.named(prefix(name, "p95"))
                 .withTimestamp(timestamp)
                 .withValue(snapshot.get95thPercentile())
                 .withTags(tags).build());
 
 
-        output.addMetricData(MetricData.named(prefix(name, "p98"))
+        output.add(MetricData.named(prefix(name, "p98"))
                 .withTimestamp(timestamp)
                 .withValue(snapshot.get98thPercentile())
                 .withTags(tags).build());
 
-        output.addMetricData(MetricData.named(prefix(name, "p99"))
+        output.add(MetricData.named(prefix(name, "p99"))
                 .withTimestamp(timestamp)
                 .withValue(snapshot.get99thPercentile())
                 .withTags(tags).build());
 
-        output.addMetricData(MetricData.named(prefix(name, "p999"))
+        output.add(MetricData.named(prefix(name, "p999"))
                 .withTimestamp(timestamp)
                 .withValue(snapshot.get999thPercentile())
                 .withTags(tags).build());
@@ -291,7 +291,7 @@ public class MetricReporter extends ScheduledReporter {
 
         logger.debug("add health metrics to storage queue");
 
-        output.addMetricData(MetricData.named(prefix(name, "health"))
+        output.add(MetricData.named(prefix(name, "health"))
                 .withTimestamp(timestamp)
                 .withValue(result.isHealthy())
                 .withTags(tags)

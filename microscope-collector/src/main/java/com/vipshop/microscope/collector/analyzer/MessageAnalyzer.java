@@ -1,9 +1,9 @@
 package com.vipshop.microscope.collector.analyzer;
 
 import com.vipshop.microscope.thrift.Span;
+import com.vipshop.microscope.trace.exception.ExceptionData;
 import com.vipshop.microscope.trace.metric.MetricData;
-
-import java.util.Map;
+import com.vipshop.microscope.trace.system.SystemData;
 
 /**
  * Message Analyze API.
@@ -13,9 +13,11 @@ import java.util.Map;
  */
 public class MessageAnalyzer {
 
-    private AnalyzeEngine engine = new AnalyzeEngine();
-
     private MessageAnalyzer() {
+    }
+
+    private static class MessageAnalyzerHolder {
+        private static MessageAnalyzer messageAnalyzer = new MessageAnalyzer();
     }
 
     public static MessageAnalyzer getMessageAnalyzer() {
@@ -23,19 +25,16 @@ public class MessageAnalyzer {
     }
 
     public void analyze(Span span) {
-        engine.analyze(span);
     }
 
-    public void analyze(Map<String, Object> metrics) {
-        engine.analyze(metrics);
+    public void analyze(MetricData metric) {
     }
 
-    public void analyze(MetricData metrics) {
+    public void analyze(ExceptionData exception) {
 
     }
 
-    private static class MessageAnalyzerHolder {
-        private static MessageAnalyzer messageAnalyzer = new MessageAnalyzer();
-    }
+    public void analyze(SystemData system) {
 
+    }
 }
