@@ -7,10 +7,10 @@ import com.vipshop.microscope.collector.storager.MessageStorager;
 import com.vipshop.microscope.collector.validater.MessageValidater;
 import com.vipshop.microscope.trace.Codec;
 import com.vipshop.microscope.trace.Constants;
-import com.vipshop.microscope.trace.gen.LogEntry;
-import com.vipshop.microscope.trace.gen.Span;
-import com.vipshop.microscope.trace.metrics.MetricData;
-import com.vipshop.microscope.trace.metrics.SystemMetric;
+import com.vipshop.microscope.thrift.LogEntry;
+import com.vipshop.microscope.thrift.Span;
+import com.vipshop.microscope.trace.metric.MetricData;
+import com.vipshop.microscope.trace.system.SystemData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,7 +57,7 @@ public class LogEntryValidateHandler implements EventHandler<LogEntryEvent> {
         if (category.equals(Constants.TRACE)) {
             Span span = null;
             try {
-                span = Codec.decodeToSpan(logEntry.getMessage());
+                span = Codec.toSpan(logEntry.getMessage());
             } catch (Exception e) {
                 logger.error("decode to Span error, ignore this message ", e);
                 return;
@@ -68,10 +68,10 @@ public class LogEntryValidateHandler implements EventHandler<LogEntryEvent> {
         }
 
         // handle metrics message
-        if (category.equals(Constants.METRICS)) {
+        if (category.equals(Constants.METRIC)) {
             MetricData metrics = null;
             try {
-                metrics = Codec.decodeToMetric(logEntry.getMessage());
+                metrics = Codec.toMetricData(logEntry.getMessage());
             } catch (Exception e) {
                 logger.error("decode to Set error, ignore this message ", e);
                 return;
@@ -98,9 +98,9 @@ public class LogEntryValidateHandler implements EventHandler<LogEntryEvent> {
 
         // handle system info
         if (category.equals(Constants.SYSTEM)) {
-            SystemMetric info = null;
+            SystemData info = null;
             try {
-                info = Codec.decodeToSystemInfo(logEntry.getMessage());
+                info = Codec.toSystemData(logEntry.getMessage());
             } catch (Exception e) {
                 logger.error("decode to SystemMetric error, ignore this message ", e);
                 return;

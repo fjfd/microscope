@@ -1,6 +1,6 @@
 package com.vipshop.microscope.collector.consumer;
 
-import com.vipshop.microscope.trace.gen.LogEntry;
+import com.vipshop.microscope.thrift.LogEntry;
 
 /**
  * Created by Administrator on 2014/4/30.

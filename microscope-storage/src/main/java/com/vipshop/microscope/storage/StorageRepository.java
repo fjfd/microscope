@@ -3,13 +3,12 @@ package com.vipshop.microscope.storage;
 import com.vipshop.microscope.storage.hbase.HbaseRepository;
 import com.vipshop.microscope.storage.hbase.table.TraceIndexTable;
 import com.vipshop.microscope.storage.hbase.table.TraceOverviewTable;
-import com.vipshop.microscope.storage.mysql.MySQLStorageRepository;
 import com.vipshop.microscope.storage.opentsdb.OpenTSDBRepository;
 import com.vipshop.microscope.storage.opentsdb.core.Aggregator;
 import com.vipshop.microscope.storage.opentsdb.core.DataPoints;
-import com.vipshop.microscope.trace.gen.Span;
-import com.vipshop.microscope.trace.metrics.MetricData;
-import com.vipshop.microscope.trace.metrics.SystemMetric;
+import com.vipshop.microscope.thrift.Span;
+import com.vipshop.microscope.trace.metric.MetricData;
+import com.vipshop.microscope.trace.system.SystemData;
 import org.apache.hadoop.hbase.client.Scan;
 
 import java.util.List;
@@ -27,7 +26,6 @@ public class StorageRepository {
 
     private final HbaseRepository hbaseRepository = new HbaseRepository();
     private final OpenTSDBRepository openTSDBRepository = new OpenTSDBRepository();
-    private final MySQLStorageRepository mysqlStorageRepository = new MySQLStorageRepository();
 
     public static StorageRepository getStorageRepository() {
         return StorageRepositoryHolder.storageRepository;
@@ -45,7 +43,7 @@ public class StorageRepository {
         hbaseRepository.init();
     }
 
-    public void save(SystemMetric info) {
+    public void save(SystemData info) {
         hbaseRepository.save(info);
     }
 
@@ -118,11 +116,7 @@ public class StorageRepository {
         return openTSDBRepository.suggestTagValues(search);
     }
 
-    public void createMySQLTable() {
-        mysqlStorageRepository.create();
-    }
-
-    public SystemMetric getSystemInfo(Map<String, String> query) {
+    public SystemData getSystemInfo(Map<String, String> query) {
         return hbaseRepository.getSystemInfo(query);
     }
 

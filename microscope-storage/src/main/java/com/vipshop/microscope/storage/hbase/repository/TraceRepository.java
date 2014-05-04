@@ -1,7 +1,7 @@
 package com.vipshop.microscope.storage.hbase.repository;
 
 import com.vipshop.microscope.storage.hbase.table.TraceTable;
-import com.vipshop.microscope.trace.gen.Span;
+import com.vipshop.microscope.thrift.Span;
 import org.apache.commons.lang.SerializationUtils;
 import org.apache.hadoop.hbase.client.HTableInterface;
 import org.apache.hadoop.hbase.client.Put;

@@ -42,8 +42,6 @@
     </properties>
 
     <modules>
-        <module>microscope-alerter</module>
-        <module>microscope-analyzer</module>
         <module>microscope-collector</module>
         <module>microscope-common</module>
         <module>microscope-flume</module>
@@ -52,11 +50,11 @@
         <module>microscope-storage</module>
         <module>microscope-test</module>
         <module>microscope-trace</module>
-        <module>microscope-validater</module>
         <module>microscope-web</module>
         <module>microscope-kafka</module>
         <module>microscope-storm</module>
         <module>microscope-netty</module>
+        <module>microscope-thrift</module>
     </modules>
 
     <!-- deploy jar to nexus server -->

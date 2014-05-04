@@ -70,18 +70,6 @@ import static com.lmax.disruptor.RingBuffer.createMultiProducer;
  * </pre>
  */
 public final class ThreeToOneSequencedThroughputTest extends AbstractPerfTestDisruptor {
-    private static final int NUM_PUBLISHERS = 3;
-    private final ExecutorService executor = Executors.newFixedThreadPool(NUM_PUBLISHERS + 1);
-    private final CyclicBarrier cyclicBarrier = new CyclicBarrier(NUM_PUBLISHERS + 1);
-    private final ValuePublisher[] valuePublishers = new ValuePublisher[NUM_PUBLISHERS];
-    {
-        for (int i = 0; i < NUM_PUBLISHERS; i++) {
-            valuePublishers[i] = new ValuePublisher(cyclicBarrier, ringBuffer, ITERATIONS / NUM_PUBLISHERS);
-        }
-
-        ringBuffer.addGatingSequences(batchEventProcessor.getSequence());
-    }
-
     ///////////////////////////////////////////////////////////////////////////////////////////////
     private static final int BUFFER_SIZE = 1024 * 64;
     private final RingBuffer<ValueEvent> ringBuffer =
@@ -90,6 +78,18 @@ public final class ThreeToOneSequencedThroughputTest extends AbstractPerfTestDis
     private final SequenceBarrier sequenceBarrier = ringBuffer.newBarrier();
     private final ValueAdditionEventHandler handler = new ValueAdditionEventHandler();
     private final BatchEventProcessor<ValueEvent> batchEventProcessor = new BatchEventProcessor<ValueEvent>(ringBuffer, sequenceBarrier, handler);
+    private static final int NUM_PUBLISHERS = 3;
+    private final ExecutorService executor = Executors.newFixedThreadPool(NUM_PUBLISHERS + 1);
+    private final CyclicBarrier cyclicBarrier = new CyclicBarrier(NUM_PUBLISHERS + 1);
+    private final ValuePublisher[] valuePublishers = new ValuePublisher[NUM_PUBLISHERS];
+
+    {
+        for (int i = 0; i < NUM_PUBLISHERS; i++) {
+            valuePublishers[i] = new ValuePublisher(cyclicBarrier, ringBuffer, ITERATIONS / NUM_PUBLISHERS);
+        }
+
+        ringBuffer.addGatingSequences(batchEventProcessor.getSequence());
+    }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
 

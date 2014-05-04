@@ -1,14 +1,13 @@
 package com.vipshop.microscope.trace.storage;
 
-import com.vipshop.microscope.trace.gen.LogEntry;
-import com.vipshop.microscope.trace.gen.Span;
-import com.vipshop.microscope.trace.metrics.MetricData;
-import com.vipshop.microscope.trace.metrics.SystemMetric;
-
-import java.util.Map;
+import com.vipshop.microscope.thrift.LogEntry;
+import com.vipshop.microscope.thrift.Span;
+import com.vipshop.microscope.trace.exception.ExceptionData;
+import com.vipshop.microscope.trace.metric.MetricData;
+import com.vipshop.microscope.trace.system.SystemData;
 
 /**
- * Store message in client queue.
+ * Store message in client memory or disk.
  *
  * @author Xu Fei
  * @version 1.0
@@ -16,45 +15,38 @@ import java.util.Map;
 public interface Storage {
 
     /**
-     * Trace message
+     * Put trace data to storage
      *
-     * @param span
+     * @param span data of trace
      */
-    public void addSpan(Span span);
+    void addTraceData(Span span);
 
     /**
-     * Metrics message
+     * Put metric data to storage
      *
-     * @param metrics
+     * @param metric data of metric
      */
-    public void addMetrics(MetricData metrics);
+    void addMetricData(MetricData metric);
 
     /**
-     * Exception message
+     * Put exception data to storage
      *
-     * @param exceptionInfo
+     * @param exception data of exception
      */
-    public void addException(Map<String, Object> exceptionInfo);
+    void addExceptionData(ExceptionData exception);
 
     /**
-     * System message
+     * Put system data to storage
      *
-     * @param system
+     * @param system data of system
      */
-    public void addSystemMetric(SystemMetric system);
+    void addSystemData(SystemData system);
 
     /**
-     * Get LogEntry from queue
+     * Get LogEntry from storage
      *
      * @return LogEntry
      */
-    public LogEntry poll();
-
-    /**
-     * Get size of queue
-     *
-     * @return
-     */
-    public int size();
+    LogEntry poll();
 
 }

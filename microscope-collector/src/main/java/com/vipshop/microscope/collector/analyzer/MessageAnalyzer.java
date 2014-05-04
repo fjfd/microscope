@@ -1,8 +1,7 @@
 package com.vipshop.microscope.collector.analyzer;
 
-import com.vipshop.microscope.analyzer.AnalyzeEngine;
-import com.vipshop.microscope.trace.gen.Span;
-import com.vipshop.microscope.trace.metrics.MetricData;
+import com.vipshop.microscope.thrift.Span;
+import com.vipshop.microscope.trace.metric.MetricData;
 
 import java.util.Map;
 

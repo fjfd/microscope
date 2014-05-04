@@ -2,7 +2,7 @@ package com.vipshop.microscope.storage.hbase.repository;
 
 import com.vipshop.microscope.storage.hbase.table.HomeSystemTable;
 import com.vipshop.microscope.trace.Constants;
-import com.vipshop.microscope.trace.metrics.SystemMetric;
+import com.vipshop.microscope.trace.system.SystemData;
 import org.apache.commons.lang.SerializationUtils;
 import org.apache.hadoop.hbase.client.HTableInterface;
 import org.apache.hadoop.hbase.client.Put;
@@ -31,10 +31,10 @@ public class HomeSystemRepository extends AbstraceRepository {
      *
      * @param info
      */
-    public void save(final SystemMetric info) {
-        hbaseTemplate.execute(HomeSystemTable.TABLE_NAME, new TableCallback<SystemMetric>() {
+    public void save(final SystemData info) {
+        hbaseTemplate.execute(HomeSystemTable.TABLE_NAME, new TableCallback<SystemData>() {
             @Override
-            public SystemMetric doInTable(HTableInterface table) throws Throwable {
+            public SystemData doInTable(HTableInterface table) throws Throwable {
                 Put p = new Put(Bytes.toBytes(HomeSystemTable.rowKey(info)));
                 p.add(HomeSystemTable.BYTE_CF, HomeSystemTable.BYTE_C_SYSTEM, SerializationUtils.serialize((Serializable) info));
                 table.put(p);
@@ -49,15 +49,15 @@ public class HomeSystemRepository extends AbstraceRepository {
      * @param query
      * @return
      */
-    public SystemMetric find(Map<String, String> query) {
+    public SystemData find(Map<String, String> query) {
 
         String rowName = query.get(Constants.APP) + query.get(Constants.IP);
 
-        return hbaseTemplate.get(HomeSystemTable.TABLE_NAME, rowName, new RowMapper<SystemMetric>() {
+        return hbaseTemplate.get(HomeSystemTable.TABLE_NAME, rowName, new RowMapper<SystemData>() {
             @SuppressWarnings("unchecked")
             @Override
-            public SystemMetric mapRow(Result result, int rowNum) throws Exception {
-                return (SystemMetric) SerializationUtils.deserialize(result.getValue(HomeSystemTable.BYTE_CF, HomeSystemTable.BYTE_C_SYSTEM));
+            public SystemData mapRow(Result result, int rowNum) throws Exception {
+                return (SystemData) SerializationUtils.deserialize(result.getValue(HomeSystemTable.BYTE_CF, HomeSystemTable.BYTE_C_SYSTEM));
             }
         });
     }

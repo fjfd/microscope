@@ -31,6 +31,15 @@ import static com.lmax.disruptor.support.PerfTestUtil.failIfNot;
 public final class OneToThreeWorkerPoolThroughputTest
         extends AbstractPerfTestDisruptor {
     private static final int NUM_WORKERS = 3;
+    private static final int BUFFER_SIZE = 1024 * 8;
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    private final BlockingQueue<Long> blockingQueue = new LinkedBlockingQueue<Long>(BUFFER_SIZE);
+    private final RingBuffer<ValueEvent> ringBuffer =
+            RingBuffer.createSingleProducer(ValueEvent.EVENT_FACTORY,
+                    BUFFER_SIZE,
+                    new YieldingWaitStrategy());
+    private static final long ITERATIONS = 1000L * 1000L * 100L;
     private final ExecutorService executor = Executors.newFixedThreadPool(NUM_WORKERS);
     private final PaddedLong[] counters = new PaddedLong[NUM_WORKERS];
     {
@@ -52,14 +61,6 @@ public final class OneToThreeWorkerPoolThroughputTest
             handlers[i] = new EventCountingWorkHandler(counters, i);
         }
     }
-    private static final int BUFFER_SIZE = 1024 * 8;
-
-    ///////////////////////////////////////////////////////////////////////////////////////////////
-    private final BlockingQueue<Long> blockingQueue = new LinkedBlockingQueue<Long>(BUFFER_SIZE);
-    private final RingBuffer<ValueEvent> ringBuffer =
-            RingBuffer.createSingleProducer(ValueEvent.EVENT_FACTORY,
-                    BUFFER_SIZE,
-                    new YieldingWaitStrategy());
     private final WorkerPool<ValueEvent> workerPool =
             new WorkerPool<ValueEvent>(ringBuffer,
                     ringBuffer.newBarrier(),
@@ -68,7 +69,6 @@ public final class OneToThreeWorkerPoolThroughputTest
     {
         ringBuffer.addGatingSequences(workerPool.getWorkerSequences());
     }
-    private static final long ITERATIONS = 1000L * 1000L * 100L;
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
 

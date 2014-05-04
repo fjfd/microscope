@@ -3,7 +3,7 @@ package com.vipshop.microscope.storage.hbase.repository;
 import com.vipshop.microscope.common.util.TimeStampUtil;
 import com.vipshop.microscope.storage.hbase.table.TSDBTable;
 import com.vipshop.microscope.trace.Constants;
-import com.vipshop.microscope.trace.metrics.MetricData;
+import com.vipshop.microscope.trace.metric.MetricData;
 import org.apache.hadoop.hbase.client.HTableInterface;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
@@ -63,7 +63,7 @@ public class TSDBRepository extends AbstraceRepository {
 
         String appName = query.get(Constants.APP);
         String ipAddress = query.get(Constants.IP);
-        String metricsname = query.get(Constants.METRICS);
+        String metricsname = query.get(Constants.METRIC);
 
         long startTime = Long.valueOf(query.get(Constants.STARTTIME));
         long endTime = Long.valueOf(query.get(Constants.ENDTIME));

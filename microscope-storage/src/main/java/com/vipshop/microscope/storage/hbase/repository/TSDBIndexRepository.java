@@ -2,7 +2,7 @@ package com.vipshop.microscope.storage.hbase.repository;
 
 import com.vipshop.microscope.storage.hbase.table.TSDBIndexTable;
 import com.vipshop.microscope.trace.Constants;
-import com.vipshop.microscope.trace.metrics.MetricData;
+import com.vipshop.microscope.trace.metric.MetricData;
 import org.apache.hadoop.hbase.client.HTableInterface;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;

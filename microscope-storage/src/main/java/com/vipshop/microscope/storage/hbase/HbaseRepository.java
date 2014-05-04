@@ -3,9 +3,9 @@ package com.vipshop.microscope.storage.hbase;
 import com.vipshop.microscope.storage.hbase.factory.RepositoryFactory;
 import com.vipshop.microscope.storage.hbase.table.TraceIndexTable;
 import com.vipshop.microscope.storage.hbase.table.TraceOverviewTable;
-import com.vipshop.microscope.trace.gen.Span;
-import com.vipshop.microscope.trace.metrics.MetricData;
-import com.vipshop.microscope.trace.metrics.SystemMetric;
+import com.vipshop.microscope.thrift.Span;
+import com.vipshop.microscope.trace.metric.MetricData;
+import com.vipshop.microscope.trace.system.SystemData;
 import org.apache.hadoop.hbase.client.Scan;
 
 import java.util.List;
@@ -78,7 +78,7 @@ public class HbaseRepository {
      *
      * @param info
      */
-    public void save(SystemMetric info) {
+    public void save(SystemData info) {
         RepositoryFactory.getSystemRepository().save(info);
     }
 
@@ -154,7 +154,7 @@ public class HbaseRepository {
      * @param query
      * @return
      */
-    public SystemMetric getSystemInfo(Map<String, String> query) {
+    public SystemData getSystemInfo(Map<String, String> query) {
         return RepositoryFactory.getSystemRepository().find(query);
     }
 

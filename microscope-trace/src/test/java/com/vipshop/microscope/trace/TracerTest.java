@@ -34,6 +34,8 @@ public class TracerTest {
             Tracer.clientReceive();
             Tracer.clientReceive();
 
+            throw new UnsupportedOperationException("this is for test");
+
         } catch (Exception e) {
             Tracer.setResultCode(e);
         } finally {

@@ -4,9 +4,9 @@ import com.vipshop.microscope.storage.StorageRepository;
 import com.vipshop.microscope.storage.hbase.report.LogEntryReport;
 import com.vipshop.microscope.storage.hbase.table.TraceIndexTable;
 import com.vipshop.microscope.storage.hbase.table.TraceOverviewTable;
-import com.vipshop.microscope.trace.gen.Span;
-import com.vipshop.microscope.trace.metrics.MetricData;
-import com.vipshop.microscope.trace.metrics.SystemMetric;
+import com.vipshop.microscope.thrift.Span;
+import com.vipshop.microscope.trace.metric.MetricData;
+import com.vipshop.microscope.trace.system.SystemData;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -89,7 +89,7 @@ public class MessageStorager {
      *
      * @param info
      */
-    public void storeSystemInfo(SystemMetric info) {
+    public void storeSystemInfo(SystemData info) {
         storageRepository.save(info);
     }
 

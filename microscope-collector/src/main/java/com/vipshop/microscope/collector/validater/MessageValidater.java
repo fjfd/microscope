@@ -1,7 +1,6 @@
 package com.vipshop.microscope.collector.validater;
 
-import com.vipshop.microscope.trace.gen.Span;
-import com.vipshop.microscope.validater.ValidateEngine;
+import com.vipshop.microscope.thrift.Span;
 
 import java.util.HashMap;
 

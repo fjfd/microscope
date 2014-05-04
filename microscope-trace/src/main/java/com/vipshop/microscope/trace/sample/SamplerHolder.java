@@ -3,23 +3,21 @@ package com.vipshop.microscope.trace.sample;
 import com.vipshop.microscope.trace.Tracer;
 
 /**
- * Sampler holder
- * <p/>
+ * Sampler factory
+ *
  * 1 All sampler
- * <p/>
  * 2 Fixed sampler (10%)
- * <p/>
  * 3 Adapted sampler
  */
 public class SamplerHolder {
 
-    private static int key = Tracer.DEFAULT_SAMPLER;
+    private static int key = Tracer.SAMPLER_TYPE;
 
     public static Sampler getSampler() {
         return getSampler(key);
     }
 
-    public static Sampler getSampler(int key) {
+    private static Sampler getSampler(int key) {
         switch (key) {
             case 1:
                 return getAllSampler();
@@ -27,7 +25,6 @@ public class SamplerHolder {
                 return getFixedSampler();
             case 3:
                 return getAdaptedSampler();
-
             default:
                 return getAllSampler();
         }

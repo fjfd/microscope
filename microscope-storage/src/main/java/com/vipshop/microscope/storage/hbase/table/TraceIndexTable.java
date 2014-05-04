@@ -1,6 +1,6 @@
 package com.vipshop.microscope.storage.hbase.table;
 
-import com.vipshop.microscope.trace.gen.Span;
+import com.vipshop.microscope.thrift.Span;
 import org.apache.hadoop.hbase.util.Bytes;
 
 /**

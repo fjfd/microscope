@@ -6,7 +6,7 @@ import com.lmax.disruptor.SequenceBarrier;
 import com.lmax.disruptor.SleepingWaitStrategy;
 import com.vipshop.microscope.collector.disruptor.*;
 import com.vipshop.microscope.common.util.ThreadPoolUtil;
-import com.vipshop.microscope.trace.gen.LogEntry;
+import com.vipshop.microscope.thrift.LogEntry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,6 +56,7 @@ public class DisruptorMessageConsumer implements MessageConsumer {
     private final RingBuffer<LogEntryEvent> logEntryRingBuffer;
     private final SequenceBarrier logEntrySequenceBarrier;
     private final BatchEventProcessor<LogEntryEvent> logEntryValidateEventProcessor;
+
     /**
      * LogEvent RingBuffer
      */

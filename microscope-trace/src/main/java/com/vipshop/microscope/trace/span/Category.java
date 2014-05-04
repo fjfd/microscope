@@ -1,6 +1,6 @@
 package com.vipshop.microscope.trace.span;
 
-import com.vipshop.microscope.trace.gen.Span;
+import com.vipshop.microscope.thrift.Span;
 
 /**
  * Category of span type.

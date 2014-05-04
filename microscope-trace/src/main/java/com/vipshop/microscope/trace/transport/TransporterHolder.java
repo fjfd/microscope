@@ -4,19 +4,34 @@ import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.storage.DisruptorQueueStorage;
 import com.vipshop.microscope.trace.storage.StorageHolder;
 
+/**
+ * Transporter factory
+ */
 public class TransporterHolder {
 
+    private static int key = Tracer.STORAGE_TYPE;
+
     public static void startTransporter() {
-        if (Tracer.DEFAULT_STORAGE == 1) {
-            startQueueTransporter();
-        }
+        startTransporter(key);
+    }
 
-        if (Tracer.DEFAULT_STORAGE == 2) {
-            startDisruptorTransporter();
-        }
-
-        if (Tracer.DEFAULT_STORAGE == 3) {
-            startLog4j2FileTransporter();
+    private static void startTransporter(int key) {
+        switch (key) {
+            case 1:
+                startQueueTransporter();
+                break;
+            case 2:
+                startDisruptorTransporter();
+                break;
+            case 3:
+                startLog4j2FileTransporter();
+                break;
+            case 4:
+                startLog4jFileTransporter();
+                break;
+            default:
+                startQueueTransporter();
+                break;
         }
     }
 
@@ -29,7 +44,10 @@ public class TransporterHolder {
     }
 
     private static void startLog4j2FileTransporter() {
-        // TODO
+        // TODO flume transport
     }
 
+    private static void startLog4jFileTransporter() {
+        // TODO flume transport
+    }
 }

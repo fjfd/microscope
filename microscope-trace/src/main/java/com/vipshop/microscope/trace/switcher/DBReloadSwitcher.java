@@ -1,6 +1,5 @@
 package com.vipshop.microscope.trace.switcher;
 
-import com.vipshop.microscope.common.util.ConfigurationUtil;
 import com.vipshop.microscope.common.util.ThreadPoolUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +20,7 @@ public class DBReloadSwitcher implements Switcher {
     private static final int CLOSE = 0;
     private static ScheduledExecutorService executor = ThreadPoolUtil.newSingleDaemonScheduledThreadPool("reload-trace.properties-thread");
     private static volatile int isopen = 0;
+
     static {
 
         logger.info("start config reload switcher thread, reload trace.properties file every 10 second");
@@ -28,10 +28,9 @@ public class DBReloadSwitcher implements Switcher {
         executor.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
-                if (ConfigurationUtil.fileExist("trace.properties")) {
-                    ConfigurationUtil config = ConfigurationUtil.getConfiguration("trace.properties");
-                    isopen = config.getInt("switch");
-                }
+
+            // TODO request remote db server for the value of trace_switch and metric_switch
+
             }
         }, 0, 10, TimeUnit.SECONDS);
     }

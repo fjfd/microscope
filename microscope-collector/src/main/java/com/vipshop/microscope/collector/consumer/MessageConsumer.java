@@ -2,7 +2,7 @@ package com.vipshop.microscope.collector.consumer;
 
 import com.vipshop.microscope.collector.analyzer.MessageAnalyzer;
 import com.vipshop.microscope.collector.storager.MessageStorager;
-import com.vipshop.microscope.trace.gen.LogEntry;
+import com.vipshop.microscope.thrift.LogEntry;
 
 /**
  * MessageConsumer responsible for consumer spans.

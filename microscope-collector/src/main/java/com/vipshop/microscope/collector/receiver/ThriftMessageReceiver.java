@@ -1,11 +1,11 @@
 package com.vipshop.microscope.collector.receiver;
 
 import com.vipshop.microscope.collector.consumer.MessageConsumer;
-import com.vipshop.microscope.trace.gen.LogEntry;
-import com.vipshop.microscope.trace.gen.ResultCode;
-import com.vipshop.microscope.trace.gen.Send;
-import com.vipshop.microscope.trace.thrift.ThriftCategory;
-import com.vipshop.microscope.trace.thrift.ThriftServer;
+import com.vipshop.microscope.thrift.LogEntry;
+import com.vipshop.microscope.thrift.ResultCode;
+import com.vipshop.microscope.thrift.Send;
+import com.vipshop.microscope.thrift.ThriftCategory;
+import com.vipshop.microscope.thrift.ThriftServer;
 import org.apache.thrift.TException;
 
 import java.util.List;

@@ -2,7 +2,7 @@ package com.vipshop.microscope.storage.hbase.table;
 
 import com.vipshop.microscope.common.util.TimeStampUtil;
 import com.vipshop.microscope.trace.Constants;
-import com.vipshop.microscope.trace.metrics.MetricData;
+import com.vipshop.microscope.trace.metric.MetricData;
 import org.apache.hadoop.hbase.util.Bytes;
 
 public class TSDBTable {

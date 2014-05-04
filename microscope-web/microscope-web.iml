@@ -98,6 +98,7 @@
     <orderEntry type="library" name="Maven: jline:jline:0.9.94" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.0.1" level="project" />
     <orderEntry type="module" module-name="microscope-trace" />
+    <orderEntry type="module" module-name="microscope-thrift" />
     <orderEntry type="library" name="Maven: com.lmax:disruptor:3.2.0" level="project" />
     <orderEntry type="library" name="Maven: com.codahale.metrics:metrics-core:3.0.1" level="project" />
     <orderEntry type="library" name="Maven: com.codahale.metrics:metrics-healthchecks:3.0.1" level="project" />

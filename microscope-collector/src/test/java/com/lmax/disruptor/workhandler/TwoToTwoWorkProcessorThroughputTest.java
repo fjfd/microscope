@@ -49,17 +49,6 @@ import static com.lmax.disruptor.RingBuffer.createMultiProducer;
  */
 public final class TwoToTwoWorkProcessorThroughputTest extends AbstractPerfTestDisruptor {
     private static final int NUM_PUBLISHERS = 2;
-    private final ExecutorService executor = Executors.newFixedThreadPool(NUM_PUBLISHERS + 2);
-    private final CyclicBarrier cyclicBarrier = new CyclicBarrier(NUM_PUBLISHERS + 1);
-    private final ValuePublisher[] valuePublishers = new ValuePublisher[NUM_PUBLISHERS];
-    {
-        for (int i = 0; i < NUM_PUBLISHERS; i++) {
-            valuePublishers[i] = new ValuePublisher(cyclicBarrier, ringBuffer, ITERATIONS);
-        }
-
-        ringBuffer.addGatingSequences(workProcessors[0].getSequence(), workProcessors[1].getSequence());
-    }
-
     ///////////////////////////////////////////////////////////////////////////////////////////////
     private static final int BUFFER_SIZE = 1024 * 64;
     private final RingBuffer<ValueEvent> ringBuffer =
@@ -67,13 +56,17 @@ public final class TwoToTwoWorkProcessorThroughputTest extends AbstractPerfTestD
     private static final long ITERATIONS = 1000L * 1000L * 1L;
     private final SequenceBarrier sequenceBarrier = ringBuffer.newBarrier();
     private final Sequence workSequence = new Sequence(-1);
+    private final ExecutorService executor = Executors.newFixedThreadPool(NUM_PUBLISHERS + 2);
+    private final CyclicBarrier cyclicBarrier = new CyclicBarrier(NUM_PUBLISHERS + 1);
+
     private final ValueAdditionWorkHandler[] handlers = new ValueAdditionWorkHandler[2];
+
     {
         handlers[0] = new ValueAdditionWorkHandler();
         handlers[1] = new ValueAdditionWorkHandler();
     }
 
-    ;
+
     @SuppressWarnings("unchecked")
     private final WorkProcessor<ValueEvent>[] workProcessors = new WorkProcessor[2];
     {
@@ -83,6 +76,15 @@ public final class TwoToTwoWorkProcessorThroughputTest extends AbstractPerfTestD
         workProcessors[1] = new WorkProcessor<ValueEvent>(ringBuffer, sequenceBarrier,
                 handlers[1], new IgnoreExceptionHandler(),
                 workSequence);
+    }
+
+    private final ValuePublisher[] valuePublishers = new ValuePublisher[NUM_PUBLISHERS];
+    {
+        for (int i = 0; i < NUM_PUBLISHERS; i++) {
+            valuePublishers[i] = new ValuePublisher(cyclicBarrier, ringBuffer, ITERATIONS);
+        }
+
+        ringBuffer.addGatingSequences(workProcessors[0].getSequence(), workProcessors[1].getSequence());
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////

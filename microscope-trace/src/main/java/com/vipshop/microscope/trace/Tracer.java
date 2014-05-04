@@ -4,11 +4,12 @@ import com.codahale.metrics.*;
 import com.codahale.metrics.health.HealthCheck;
 import com.vipshop.microscope.common.util.ConfigurationUtil;
 import com.vipshop.microscope.common.util.DateUtil;
-import com.vipshop.microscope.trace.exception.ExceptionBuilder;
-import com.vipshop.microscope.trace.metrics.Metrics;
+import com.vipshop.microscope.trace.exception.ExceptionDataBuilder;
+import com.vipshop.microscope.trace.metric.Metrics;
 import com.vipshop.microscope.trace.span.Category;
 import com.vipshop.microscope.trace.switcher.Switcher;
 import com.vipshop.microscope.trace.switcher.SwitcherHolder;
+import com.vipshop.microscope.trace.system.SystemDataBuilder;
 import com.vipshop.microscope.trace.transport.TransporterHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,9 +30,11 @@ import org.slf4j.LoggerFactory;
  */
 public class Tracer {
 
+    private static final Logger logger = LoggerFactory.getLogger(Tracer.class);
+
     /**
      * HTTP header for propagate trace link.
-     * <p/>
+     *
      * As nginx server will remove string "X_B3_Trace_Id" with
      * underline, so use middle line "X-B3-Trace-Id".
      */
@@ -40,12 +43,13 @@ public class Tracer {
     public static final String X_B3_PARENT_ID = "X-B3-Parent-Id";
     public static final String X_B3_FLAG = "X-B3-Flag";
     public static final String X_B3_SAMPLED = "X-B3-Sampled";
+
     /**
      * Trace result status
      */
     public static final String OK = "OK";
     public static final String EXCEPTION = "EXCEPTION";
-    private static final Logger logger = LoggerFactory.getLogger(Tracer.class);
+
     /**
      * Default app name
      */
@@ -102,31 +106,24 @@ public class Tracer {
     public static int REPORT_PERIOD_TIME = 10;
 
     /**
-     * Default storage type:
-     * <p/>
-     * 1 ArrayBlockingQueueStorage
-     * <p/>
-     * 2 DisruptorQueueStorage
-     * <p/>
-     * 3 Log4j2FileStorage
+     * Use {@code ArrayBlockingQueueStorage} as default storage
      */
-    public static int DEFAULT_STORAGE = 1;
+    public static int STORAGE_TYPE = 1;
 
     /**
-     * Default sampler type:
-     * <p/>
-     * 1 All sampler
-     * <p/>
-     * 2 Fixed sampler (10%)
-     * <p/>
-     * 3 Adapted sampler
+     * Use {@code AllSampler} as default sampler
      */
-    public static int DEFAULT_SAMPLER = 1;
+    public static int SAMPLER_TYPE = 1;
+
+    /**
+     * Use {@code ConfigSwitcher} as default switcher
+     */
+    public static int SWITCHER_TYPE = 1;
 
     /**
      * Default switcher for open/close trace function
      */
-    private static Switcher SWITCHER = SwitcherHolder.getConfigSwitcher();
+    private static Switcher switcher;
 
     /**
      * If trace.properties exist in classpath, then means application
@@ -159,29 +156,36 @@ public class Tracer {
 
             REPORT_PERIOD_TIME = config.getInt("report_period_time");
 
-            DEFAULT_STORAGE = config.getInt("storage_type");
+            STORAGE_TYPE = config.getInt("storage_type");
+            SAMPLER_TYPE = config.getInt("sampler_type");
+            SWITCHER_TYPE = config.getInt("switcher_type");
 
-            DEFAULT_SAMPLER = config.getInt("sampler_type");
+            switcher = SwitcherHolder.getSwitcher();
 
             try {
 
                 /**
                  * start message transporter
                  */
-                if (SWITCHER.isTraceOpen()) {
+                if (switcher.isTraceOpen()) {
                     TransporterHolder.startTransporter();
                 }
 
                 /**
                  * start metrics reporter
                  */
-                if (SWITCHER.isMetricOpen()) {
+                if (switcher.isMetricOpen()) {
                     Metrics.startMicroscopeReporter();
                 }
 
+                /**
+                 * record system data
+                 */
+                recordSystem();
+
             } catch (Exception e) {
-                SWITCHER.closeTrace();
-                SWITCHER.closeMetric();
+                switcher.closeTrace();
+                switcher.closeMetric();
                 logger.error("start microscope client error, close client", e);
             }
         }
@@ -200,7 +204,7 @@ public class Tracer {
      * @return {@code true} if trace enable, {@code false} if not
      */
     public static boolean isTraceEnable() {
-        return SWITCHER.isTraceOpen();
+        return switcher.isTraceOpen();
     }
 
     /**
@@ -209,7 +213,7 @@ public class Tracer {
      * @return {@code true} if metric enable, {@code false} if not.
      */
     public static boolean isMetricEnable() {
-        return SWITCHER.isMetricOpen();
+        return switcher.isMetricOpen();
     }
 
     // ******* methods for client send and receive span ******* //
@@ -354,7 +358,7 @@ public class Tracer {
      * @param key
      * @param value
      */
-    public static void addDebug(String key, String value) {
+    private static void addDebug(String key, String value) {
         if (!isTraceEnable())
             return;
 
@@ -389,7 +393,7 @@ public class Tracer {
     }
 
     /**
-     * Asyn thread invoke.
+     * Async thread invoke.
      * <p/>
      * Set trace object to {@code ThreadLocal}
      * with the new Thread.
@@ -457,10 +461,23 @@ public class Tracer {
         }
     }
 
-    //************************** methods for recordException ********************* //
+    //************************** methods for record system data ********************* //
 
     /**
-     * Record exception.
+     * Record system data.
+     *
+     */
+    public static void recordSystem() {
+        if (!isTraceEnable())
+            return;
+
+        SystemDataBuilder.record();
+    }
+
+    //************************** methods for record Exception data ********************* //
+
+    /**
+     * Record exception data.
      *
      * @param t
      */
@@ -472,7 +489,7 @@ public class Tracer {
         if (trace != null) {
             trace.setResutlCode(EXCEPTION);
         }
-        ExceptionBuilder.record(t);
+        ExceptionDataBuilder.record(t);
     }
 
     /**
@@ -489,10 +506,10 @@ public class Tracer {
         if (trace != null) {
             trace.setResutlCode(EXCEPTION);
         }
-        ExceptionBuilder.record(t, info);
+        ExceptionDataBuilder.record(t, info);
     }
 
-    //************************** methods for record metrics ********************* //
+    //************************** methods for record metric data ********************* //
 
     /**
      * Given a {@link Metric}, registers it under the given name.

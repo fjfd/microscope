@@ -73,7 +73,16 @@ import static com.lmax.disruptor.RingBuffer.createMultiProducer;
  * @author mikeb01
  */
 public final class ThreeToOneSequencedBatchThroughputTest extends AbstractPerfTestDisruptor {
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    private static final int BUFFER_SIZE = 1024 * 64;
+    private static final long ITERATIONS = 1000L * 1000L * 100L;
+    private final RingBuffer<ValueEvent> ringBuffer =
+            createMultiProducer(ValueEvent.EVENT_FACTORY, BUFFER_SIZE, new BusySpinWaitStrategy());
+    private final SequenceBarrier sequenceBarrier = ringBuffer.newBarrier();
+    private final ValueAdditionEventHandler handler = new ValueAdditionEventHandler();
+    private final BatchEventProcessor<ValueEvent> batchEventProcessor = new BatchEventProcessor<ValueEvent>(ringBuffer, sequenceBarrier, handler);
     private static final int NUM_PUBLISHERS = 3;
+
     private final ExecutorService executor = Executors.newFixedThreadPool(NUM_PUBLISHERS + 1);
     private final CyclicBarrier cyclicBarrier = new CyclicBarrier(NUM_PUBLISHERS + 1);
     private final ValueBatchPublisher[] valuePublishers = new ValueBatchPublisher[NUM_PUBLISHERS];
@@ -84,15 +93,6 @@ public final class ThreeToOneSequencedBatchThroughputTest extends AbstractPerfTe
 
         ringBuffer.addGatingSequences(batchEventProcessor.getSequence());
     }
-
-    ///////////////////////////////////////////////////////////////////////////////////////////////
-    private static final int BUFFER_SIZE = 1024 * 64;
-    private final RingBuffer<ValueEvent> ringBuffer =
-            createMultiProducer(ValueEvent.EVENT_FACTORY, BUFFER_SIZE, new BusySpinWaitStrategy());
-    private static final long ITERATIONS = 1000L * 1000L * 100L;
-    private final SequenceBarrier sequenceBarrier = ringBuffer.newBarrier();
-    private final ValueAdditionEventHandler handler = new ValueAdditionEventHandler();
-    private final BatchEventProcessor<ValueEvent> batchEventProcessor = new BatchEventProcessor<ValueEvent>(ringBuffer, sequenceBarrier, handler);
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
 

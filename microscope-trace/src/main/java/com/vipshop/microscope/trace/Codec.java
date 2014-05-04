@@ -1,9 +1,10 @@
 package com.vipshop.microscope.trace;
 
-import com.vipshop.microscope.trace.gen.LogEntry;
-import com.vipshop.microscope.trace.gen.Span;
-import com.vipshop.microscope.trace.metrics.MetricData;
-import com.vipshop.microscope.trace.metrics.SystemMetric;
+import com.vipshop.microscope.thrift.LogEntry;
+import com.vipshop.microscope.thrift.Span;
+import com.vipshop.microscope.trace.exception.ExceptionData;
+import com.vipshop.microscope.trace.metric.MetricData;
+import com.vipshop.microscope.trace.system.SystemData;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.thrift.TException;
@@ -28,16 +29,13 @@ public class Codec {
     private static final TProtocolFactory protocolFactory = new TBinaryProtocol.Factory();
     private static final Base64 base64 = new Base64();
 
-
-    //************************  Span to logEntry  ***************************//
-
     /**
      * Encode span to {@code LogEntry}.
      *
      * @param span
      * @return
      */
-    public static LogEntry encodeToLogEntry(Span span) {
+    public static LogEntry toLogEntry(Span span) {
         final ByteArrayOutputStream buf = new ByteArrayOutputStream();
         final TProtocol proto = protocolFactory.getProtocol(new TIOStreamTransport(buf));
         try {
@@ -56,7 +54,7 @@ public class Codec {
      * @param msg
      * @return
      */
-    public static Span decodeToSpan(final String msg) {
+    public static Span toSpan(final String msg) {
         byte[] tmp = Base64.decodeBase64(msg);
         final ByteArrayInputStream buf = new ByteArrayInputStream(tmp);
         final TProtocol proto = protocolFactory.getProtocol(new TIOStreamTransport(buf));
@@ -70,24 +68,20 @@ public class Codec {
         return span;
     }
 
-    //************************  Metrics to logEntry  ***************************//
-
-    public static LogEntry encodeToLogEntry(MetricData metric) {
+    public static LogEntry toLogEntry(MetricData metric) {
         byte[] bytes = SerializationUtils.serialize((Serializable) metric);
         String message = Base64.encodeBase64String(bytes);
-        LogEntry logEntry = new LogEntry(Constants.METRICS, message);
+        LogEntry logEntry = new LogEntry(Constants.METRIC, message);
         return logEntry;
     }
 
-    public static MetricData decodeToMetric(final String msg) {
+    public static MetricData toMetricData(final String msg) {
         byte[] bytes = Base64.decodeBase64(msg);
         MetricData metric = (MetricData) SerializationUtils.deserialize(bytes);
         return metric;
     }
 
-    //************************  ExceptionInfo to logEntry  ***************************//
-
-    public static LogEntry encodeToLogEntry(HashMap<String, Object> exceptionInfo) {
+    public static LogEntry toLogEntry(HashMap<String, Object> exceptionInfo) {
         byte[] bytes = SerializationUtils.serialize((Serializable) exceptionInfo);
         String message = Base64.encodeBase64String(bytes);
         LogEntry logEntry = new LogEntry(Constants.EXCEPTION, message);
@@ -95,28 +89,37 @@ public class Codec {
     }
 
     @SuppressWarnings("unchecked")
-    public static HashMap<String, Object> decodeToException(final String msg) {
+    public static HashMap<String, Object> toException(final String msg) {
         byte[] bytes = Base64.decodeBase64(msg);
         HashMap<String, Object> info = (HashMap<String, Object>) SerializationUtils.deserialize(bytes);
         return info;
     }
 
-    //************************  SystemMetric to logEntry  ***************************//
+    public static LogEntry toLogEntry(ExceptionData exception) {
+        byte[] bytes = SerializationUtils.serialize((Serializable) exception);
+        String message = Base64.encodeBase64String(bytes);
+        LogEntry logEntry = new LogEntry(Constants.EXCEPTION, message);
+        return logEntry;
+    }
 
-    public static LogEntry encodeToLogEntry(SystemMetric systemInfo) {
+    public static ExceptionData toExceptionData(final String msg) {
+        byte[] bytes = Base64.decodeBase64(msg);
+        ExceptionData exception = (ExceptionData) SerializationUtils.deserialize(bytes);
+        return exception;
+    }
+
+    public static LogEntry toLogEntry(SystemData systemInfo) {
         byte[] bytes = SerializationUtils.serialize((Serializable) systemInfo);
         String message = Base64.encodeBase64String(bytes);
         LogEntry logEntry = new LogEntry(Constants.SYSTEM, message);
         return logEntry;
     }
 
-    public static SystemMetric decodeToSystemInfo(final String msg) {
+    public static SystemData toSystemData(final String msg) {
         byte[] bytes = Base64.decodeBase64(msg);
-        SystemMetric info = (SystemMetric) SerializationUtils.deserialize(bytes);
+        SystemData info = (SystemData) SerializationUtils.deserialize(bytes);
         return info;
     }
-
-    //************************  map to string  ***************************//
 
     /**
      * Encode map to string.

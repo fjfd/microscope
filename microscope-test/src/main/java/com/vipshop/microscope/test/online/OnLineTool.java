@@ -1,11 +1,7 @@
 package com.vipshop.microscope.test.online;
 
-import com.vipshop.microscope.common.util.CalendarUtil;
 import com.vipshop.microscope.storage.StorageRepository;
-import com.vipshop.microscope.storage.mysql.domain.TopReport;
-import com.vipshop.microscope.storage.mysql.factory.RepositoryFactory;
 import com.vipshop.microscope.trace.Tracer;
-import com.vipshop.microscope.trace.gen.Span;
 import com.vipshop.microscope.trace.span.Category;
 
 import java.util.concurrent.TimeUnit;
@@ -20,7 +16,6 @@ public class OnLineTool {
 
     public static final String TRACE = "trace";
     public static final String HBASE = "hbase";
-    public static final String MYSQL = "mysql";
     public static final String IP = "ip";
     public static final String IPCahe = "cache";
 
@@ -31,9 +26,6 @@ public class OnLineTool {
         }
         if (app.equals(HBASE)) {
             hbase();
-        }
-        if (app.equals(MYSQL)) {
-            mysql();
         }
     }
 
@@ -51,22 +43,6 @@ public class OnLineTool {
 
     public static void hbase() {
         StorageRepository.getStorageRepository().initHbaseTable();
-    }
-
-    public static void mysql() {
-        TopReport report = new TopReport();
-        CalendarUtil calendarUtil = new CalendarUtil();
-        Span span = new Span();
-
-        report.updateReportInit(calendarUtil, span);
-        report.updateReportNext(span);
-        RepositoryFactory.getTopReportRepository().empty();
-
-        report.saveReport();
-
-        System.out.println(RepositoryFactory.getTopReportRepository().find(6));
-
-        RepositoryFactory.getTopReportRepository().empty();
     }
 
 }

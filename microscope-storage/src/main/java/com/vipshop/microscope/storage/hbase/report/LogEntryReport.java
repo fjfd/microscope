@@ -1,6 +1,6 @@
 package com.vipshop.microscope.storage.hbase.report;
 
-import com.vipshop.microscope.trace.gen.LogEntry;
+import com.vipshop.microscope.thrift.LogEntry;
 
 /**
  * LogEntry report Object

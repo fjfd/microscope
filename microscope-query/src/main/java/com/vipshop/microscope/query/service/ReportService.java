@@ -36,7 +36,7 @@ public class ReportService {
 
         query.put(Constants.APP, request.getParameter(Constants.APP));
         query.put(Constants.IP, request.getParameter(Constants.IP));
-        query.put(Constants.METRICS, request.getParameter(Constants.METRICS));
+        query.put(Constants.METRIC, request.getParameter(Constants.METRIC));
         query.put(Constants.STARTTIME, request.getParameter(Constants.STARTTIME));
         query.put(Constants.ENDTIME, request.getParameter(Constants.ENDTIME));
 

@@ -3,7 +3,7 @@ package com.vipshop.microscope.collector.stats;
 import com.vipshop.microscope.common.util.CalendarUtil;
 import com.vipshop.microscope.common.util.TimeStampUtil;
 import com.vipshop.microscope.storage.hbase.report.LogEntryReport;
-import com.vipshop.microscope.trace.gen.LogEntry;
+import com.vipshop.microscope.thrift.LogEntry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

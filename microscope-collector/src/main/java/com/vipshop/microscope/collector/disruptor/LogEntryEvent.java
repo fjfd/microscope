@@ -1,7 +1,7 @@
 package com.vipshop.microscope.collector.disruptor;
 
 import com.lmax.disruptor.EventFactory;
-import com.vipshop.microscope.trace.gen.LogEntry;
+import com.vipshop.microscope.thrift.LogEntry;
 
 /**
  * LogEntry Event

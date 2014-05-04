@@ -4,8 +4,8 @@ import com.vipshop.microscope.collector.queue.TraceAlertWorker;
 import com.vipshop.microscope.collector.queue.TraceAnalyzeWorker;
 import com.vipshop.microscope.collector.queue.TraceStorageWorker;
 import com.vipshop.microscope.common.util.ThreadPoolUtil;
-import com.vipshop.microscope.trace.gen.LogEntry;
-import com.vipshop.microscope.trace.gen.Span;
+import com.vipshop.microscope.thrift.LogEntry;
+import com.vipshop.microscope.thrift.Span;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

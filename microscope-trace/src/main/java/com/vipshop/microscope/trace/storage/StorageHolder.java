@@ -3,24 +3,25 @@ package com.vipshop.microscope.trace.storage;
 import com.vipshop.microscope.trace.Tracer;
 
 /**
- * Storage holder.
- * <p/>
+ * Storage factory.
+ *
  * 1 ArrayBlockingQueue
  * 2 Disruptor
  * 3 Log4j2
+ * 4 Log4j
  *
  * @author Xu Fei
  * @version 1.0
  */
 public class StorageHolder {
 
-    private static final int key = Tracer.DEFAULT_STORAGE;
+    private static final int key = Tracer.STORAGE_TYPE;
 
     public static Storage getStorage() {
         return getStorage(key);
     }
 
-    public static Storage getStorage(int key) {
+    private static Storage getStorage(int key) {
         switch (key) {
             case 1:
                 return getArrayBlockingQueueStorage();
@@ -28,6 +29,8 @@ public class StorageHolder {
                 return getDisruptorQueueStorage();
             case 3:
                 return getLog4j2FileStorage();
+            case 4:
+                return getLog4jFileStorage();
             default:
                 return getArrayBlockingQueueStorage();
         }
@@ -45,6 +48,10 @@ public class StorageHolder {
         return Log4j2FileStorageHolder.storage;
     }
 
+    private static Storage getLog4jFileStorage() {
+        return Log4jFileStorageHolder.storage;
+    }
+
     private static class ArrayBlockingQueueStorageHolder {
         private static final Storage storage = new ArrayBlockingQueueStorage();
     }
@@ -55,6 +62,10 @@ public class StorageHolder {
 
     private static class Log4j2FileStorageHolder {
         private static final Storage storage = new Log4j2FileStorage();
+    }
+
+    private static class Log4jFileStorageHolder {
+        private static final Storage storage = new Log4jFileStorage();
     }
 
 }

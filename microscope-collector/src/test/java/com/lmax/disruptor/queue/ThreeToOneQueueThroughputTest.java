@@ -66,19 +66,19 @@ public final class ThreeToOneQueueThroughputTest extends AbstractPerfTestQueue {
     private static final int NUM_PUBLISHERS = 3;
     private final ExecutorService executor = Executors.newFixedThreadPool(NUM_PUBLISHERS + 1);
     private final CyclicBarrier cyclicBarrier = new CyclicBarrier(NUM_PUBLISHERS + 1);
-    private final ValueQueuePublisher[] valueQueuePublishers = new ValueQueuePublisher[NUM_PUBLISHERS];
-    {
-        for (int i = 0; i < NUM_PUBLISHERS; i++) {
-            valueQueuePublishers[i] = new ValueQueuePublisher(cyclicBarrier, blockingQueue, ITERATIONS / NUM_PUBLISHERS);
-        }
-    }
-
     ///////////////////////////////////////////////////////////////////////////////////////////////
     private static final int BUFFER_SIZE = 1024 * 64;
     private final BlockingQueue<Long> blockingQueue = new LinkedBlockingQueue<Long>(BUFFER_SIZE);
     private static final long ITERATIONS = 1000L * 1000L * 20L;
     private final ValueAdditionQueueProcessor queueProcessor =
             new ValueAdditionQueueProcessor(blockingQueue, ((ITERATIONS / NUM_PUBLISHERS) * NUM_PUBLISHERS) - 1L);
+    private final ValueQueuePublisher[] valueQueuePublishers = new ValueQueuePublisher[NUM_PUBLISHERS];
+
+    {
+        for (int i = 0; i < NUM_PUBLISHERS; i++) {
+            valueQueuePublishers[i] = new ValueQueuePublisher(cyclicBarrier, blockingQueue, ITERATIONS / NUM_PUBLISHERS);
+        }
+    }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
 

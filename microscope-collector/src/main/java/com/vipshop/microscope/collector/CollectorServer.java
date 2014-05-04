@@ -6,7 +6,7 @@ import com.vipshop.microscope.collector.receiver.KafkaMessageReceiver;
 import com.vipshop.microscope.collector.receiver.MessageReceiver;
 import com.vipshop.microscope.collector.receiver.ThriftMessageReceiver;
 import com.vipshop.microscope.common.util.ConfigurationUtil;
-import com.vipshop.microscope.trace.thrift.ThriftCategory;
+import com.vipshop.microscope.thrift.ThriftCategory;
 
 /**
  * Message collector server.
@@ -16,10 +16,12 @@ import com.vipshop.microscope.trace.thrift.ThriftCategory;
  */
 public class CollectorServer {
 
+    private static final ConfigurationUtil config = ConfigurationUtil.getConfiguration("collector.properties");
+
     public static final int COLLECTOR_PORT = config.getInt("collector_port");
     public static final int CONSUMER_POOL_SIZE = config.getInt("consumer_pool_size");
     public static final int SLEEP_TIME = config.getInt("sleep_time");
-    private static final ConfigurationUtil config = ConfigurationUtil.getConfiguration("collector.properties");
+
     /**
      * Consume message to {@code RingBuffer}.
      */

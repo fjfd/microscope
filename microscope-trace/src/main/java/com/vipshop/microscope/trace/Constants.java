@@ -22,7 +22,7 @@ public class Constants {
      * LogEntry category
      */
     public static final String TRACE = "trace";
-    public static final String METRICS = "metrics";
+    public static final String METRIC = "metric";
     public static final String EXCEPTION = "exception";
     public static final String SYSTEM = "system";
 

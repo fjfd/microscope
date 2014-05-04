@@ -1,18 +1,17 @@
 package com.vipshop.microscope.trace.storage;
 
+import com.vipshop.microscope.thrift.LogEntry;
+import com.vipshop.microscope.thrift.Span;
 import com.vipshop.microscope.trace.Codec;
 import com.vipshop.microscope.trace.Tracer;
-import com.vipshop.microscope.trace.gen.LogEntry;
-import com.vipshop.microscope.trace.gen.Span;
-import com.vipshop.microscope.trace.metrics.MetricData;
-import com.vipshop.microscope.trace.metrics.SystemMetric;
+import com.vipshop.microscope.trace.exception.ExceptionData;
+import com.vipshop.microscope.trace.metric.MetricData;
 import com.vipshop.microscope.trace.sample.Sampler;
 import com.vipshop.microscope.trace.sample.SamplerHolder;
+import com.vipshop.microscope.trace.system.SystemData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
@@ -37,24 +36,24 @@ public class ArrayBlockingQueueStorage implements Storage {
     }
 
     @Override
-    public void addSpan(Span span) {
+    public void addTraceData(Span span) {
         if (SAMPLER.sample(span.getTraceId())) {
             add(span);
         }
     }
 
     @Override
-    public void addMetrics(MetricData metrics) {
+    public void addMetricData(MetricData metrics) {
         add(metrics);
     }
 
     @Override
-    public void addException(Map<String, Object> exceptionInfo) {
-        add(exceptionInfo);
+    public void addExceptionData(ExceptionData exception) {
+        add(exception);
     }
 
     @Override
-    public void addSystemMetric(SystemMetric system) {
+    public void addSystemData(SystemData system) {
         add(system);
     }
 
@@ -76,6 +75,7 @@ public class ArrayBlockingQueueStorage implements Storage {
     @SuppressWarnings("unchecked")
     @Override
     public LogEntry poll() {
+
         Object object = queue.poll();
 
         /**
@@ -84,7 +84,7 @@ public class ArrayBlockingQueueStorage implements Storage {
         if (object instanceof Span) {
             LogEntry logEntry = null;
             try {
-                logEntry = Codec.encodeToLogEntry((Span) object);
+                logEntry = Codec.toLogEntry((Span) object);
             } catch (Exception e) {
                 logger.debug("encode span to logEntry error", e);
                 return null;
@@ -98,7 +98,7 @@ public class ArrayBlockingQueueStorage implements Storage {
         if (object instanceof MetricData) {
             LogEntry logEntry = null;
             try {
-                logEntry = Codec.encodeToLogEntry((MetricData) object);
+                logEntry = Codec.toLogEntry((MetricData) object);
             } catch (Exception e) {
                 logger.debug("encode metric to logEntry error", e);
                 return null;
@@ -109,10 +109,10 @@ public class ArrayBlockingQueueStorage implements Storage {
         /**
          * construct exception LogEntry
          */
-        if (object instanceof HashMap) {
+        if (object instanceof ExceptionData) {
             LogEntry logEntry = null;
             try {
-                logEntry = Codec.encodeToLogEntry((HashMap<String, Object>) object);
+                logEntry = Codec.toLogEntry((ExceptionData) object);
             } catch (Exception e) {
                 logger.debug("encode exception to logEntry error", e);
                 return null;
@@ -121,12 +121,12 @@ public class ArrayBlockingQueueStorage implements Storage {
         }
 
         /**
-         * construct system info LogEntry
+         * construct system LogEntry
          */
-        if (object instanceof SystemMetric) {
+        if (object instanceof SystemData) {
             LogEntry logEntry = null;
             try {
-                logEntry = Codec.encodeToLogEntry((SystemMetric) object);
+                logEntry = Codec.toLogEntry((SystemData) object);
             } catch (Exception e) {
                 logger.debug("encode system info to logEntry error", e);
                 return null;
@@ -135,14 +135,6 @@ public class ArrayBlockingQueueStorage implements Storage {
         }
 
         return null;
-    }
-
-    /**
-     * Get size of queue.
-     */
-    @Override
-    public int size() {
-        return queue.size();
     }
 
 }

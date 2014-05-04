@@ -2,11 +2,11 @@ package com.vipshop.microscope.trace.transport;
 
 import com.vipshop.microscope.common.util.ThreadPoolUtil;
 import com.vipshop.microscope.trace.Tracer;
-import com.vipshop.microscope.trace.gen.LogEntry;
+import com.vipshop.microscope.thrift.LogEntry;
 import com.vipshop.microscope.trace.storage.Storage;
 import com.vipshop.microscope.trace.storage.StorageHolder;
-import com.vipshop.microscope.trace.thrift.ThriftCategory;
-import com.vipshop.microscope.trace.thrift.ThriftClient;
+import com.vipshop.microscope.thrift.ThriftCategory;
+import com.vipshop.microscope.thrift.ThriftClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,16 +31,17 @@ public class ArrayBlockingQueueTransporter implements Transporter {
      * use thrift client send {@code LogEntry}
      */
     private final ThriftClient client = new ThriftClient(Tracer.COLLECTOR_HOST,
-            Tracer.COLLECTOR_PORT,
-            Tracer.RECONNECT_WAIT_TIME,
-            ThriftCategory.THREAD_SELECTOR);
+                                                         Tracer.COLLECTOR_PORT,
+                                                         Tracer.RECONNECT_WAIT_TIME,
+                                                         ThriftCategory.THREAD_SELECTOR);
 
+    private final int MAX_EMPTY_SIZE = Tracer.MAX_EMPTY_SIZE;
     private final int MAX_BATCH_SIZE = Tracer.MAX_BATCH_SIZE;
+
     /**
      * use for batch send
      */
     private final List<LogEntry> logEntries = new ArrayList<LogEntry>(MAX_BATCH_SIZE);
-    private final int MAX_EMPTY_SIZE = Tracer.MAX_EMPTY_SIZE;
     private int emptySize = 0;
 
     @Override

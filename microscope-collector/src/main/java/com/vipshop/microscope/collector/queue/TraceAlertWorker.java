@@ -2,7 +2,7 @@ package com.vipshop.microscope.collector.queue;
 
 import com.vipshop.microscope.collector.CollectorServer;
 import com.vipshop.microscope.collector.alerter.MessageAlerter;
-import com.vipshop.microscope.trace.gen.Span;
+import com.vipshop.microscope.thrift.Span;
 
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;

@@ -2,24 +2,23 @@ package com.vipshop.microscope.trace.storage;
 
 import com.lmax.disruptor.*;
 import com.vipshop.microscope.common.util.ThreadPoolUtil;
+import com.vipshop.microscope.thrift.LogEntry;
+import com.vipshop.microscope.thrift.Span;
+import com.vipshop.microscope.thrift.ThriftCategory;
+import com.vipshop.microscope.thrift.ThriftClient;
 import com.vipshop.microscope.trace.Codec;
 import com.vipshop.microscope.trace.Tracer;
-import com.vipshop.microscope.trace.gen.LogEntry;
-import com.vipshop.microscope.trace.gen.Span;
-import com.vipshop.microscope.trace.metrics.MetricData;
-import com.vipshop.microscope.trace.metrics.SystemMetric;
+import com.vipshop.microscope.trace.exception.ExceptionData;
+import com.vipshop.microscope.trace.metric.MetricData;
 import com.vipshop.microscope.trace.sample.Sampler;
 import com.vipshop.microscope.trace.sample.SamplerHolder;
-import com.vipshop.microscope.trace.thrift.ThriftCategory;
-import com.vipshop.microscope.trace.thrift.ThriftClient;
+import com.vipshop.microscope.trace.system.SystemData;
 import com.vipshop.microscope.trace.transport.Transporter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 
@@ -63,29 +62,24 @@ public class DisruptorQueueStorage implements Storage, Transporter {
     }
 
     @Override
-    public int size() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void addMetrics(MetricData metrics) {
+    public void addMetricData(MetricData metrics) {
         publish(metrics);
     }
 
     @Override
-    public void addSpan(Span span) {
+    public void addTraceData(Span span) {
         if (SAMPLER.sample(span.getTraceId())) {
             publish(span);
         }
     }
 
     @Override
-    public void addException(Map<String, Object> exceptionInfo) {
-        publish(exceptionInfo);
+    public void addExceptionData(ExceptionData exception) {
+        publish(exception);
     }
 
     @Override
-    public void addSystemMetric(SystemMetric system) {
+    public void addSystemData(SystemData system) {
         publish(system);
     }
 
@@ -182,7 +176,7 @@ public class DisruptorQueueStorage implements Storage, Transporter {
             if (object instanceof Span) {
                 LogEntry logEntry = null;
                 try {
-                    logEntry = Codec.encodeToLogEntry((Span) object);
+                    logEntry = Codec.toLogEntry((Span) object);
                 } catch (Exception e) {
                     logger.debug("encode span to logEntry error", e);
                     return null;
@@ -196,7 +190,7 @@ public class DisruptorQueueStorage implements Storage, Transporter {
             if (object instanceof MetricData) {
                 LogEntry logEntry = null;
                 try {
-                    logEntry = Codec.encodeToLogEntry((MetricData) object);
+                    logEntry = Codec.toLogEntry((MetricData) object);
                 } catch (Exception e) {
                     logger.debug("encode metric to logEntry error", e);
                     return null;
@@ -207,10 +201,10 @@ public class DisruptorQueueStorage implements Storage, Transporter {
             /**
              * construct exception LogEntry
              */
-            if (object instanceof HashMap) {
+            if (object instanceof ExceptionData) {
                 LogEntry logEntry = null;
                 try {
-                    logEntry = Codec.encodeToLogEntry((HashMap<String, Object>) object);
+                    logEntry = Codec.toLogEntry((ExceptionData) object);
                 } catch (Exception e) {
                     logger.debug("encode exception to logEntry error", e);
                     return null;
@@ -219,12 +213,12 @@ public class DisruptorQueueStorage implements Storage, Transporter {
             }
 
             /**
-             * construct system info LogEntry
+             * construct system LogEntry
              */
-            if (object instanceof SystemMetric) {
+            if (object instanceof SystemData) {
                 LogEntry logEntry = null;
                 try {
-                    logEntry = Codec.encodeToLogEntry((SystemMetric) object);
+                    logEntry = Codec.toLogEntry((SystemData) object);
                 } catch (Exception e) {
                     logger.debug("encode system info to logEntry error", e);
                     return null;

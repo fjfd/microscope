@@ -2,7 +2,7 @@ package com.vipshop.microscope.trace.span;
 
 import com.vipshop.microscope.common.util.IPAddressUtil;
 import com.vipshop.microscope.trace.Tracer;
-import com.vipshop.microscope.trace.gen.Span;
+import com.vipshop.microscope.thrift.Span;
 import com.vipshop.microscope.trace.storage.Storage;
 import com.vipshop.microscope.trace.storage.StorageHolder;
 
@@ -188,7 +188,7 @@ public class SpanBuilder {
 		/*
     	 * put span to queue
     	 */
-        storage.addSpan(span);
+        storage.addTraceData(span);
 
 		/*
     	 * check stack, if span exist,
