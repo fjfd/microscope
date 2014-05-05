@@ -15,10 +15,10 @@ import java.io.Serializable;
 import java.util.Map;
 
 @Repository
-public class HomeSystemRepository extends AbstraceRepository {
+public class HomeSystemRepository extends AbstractRepository {
 
     public void initialize() {
-        super.initialize(HomeSystemTable.TABLE_NAME, HomeSystemTable.CF);
+        super.create(HomeSystemTable.TABLE_NAME, HomeSystemTable.CF);
     }
 
     public void drop() {

@@ -23,68 +23,69 @@ import java.util.HashMap;
  */
 public final class QueryString extends HashMap<String, ArrayList<String>> {
 
-  /**
-   * Returns the decoded key-value parameter pairs of the URI.
-   */
-  public static QueryString decode(final String s) {
-    final QueryString params = new QueryString();
-    String name = null;
-    int pos = 0; // Beginning of the unprocessed region
-    int i;       // End of the unprocessed region
-    for (i = 0; i < s.length(); i++) {
-      final char c = s.charAt(i);
-      if (c == '=' && name == null) {
-        if (pos != i) {
-          name = s.substring(pos, i);
+    /**
+     * Returns the decoded key-value parameter pairs of the URI.
+     */
+    public static QueryString decode(final String s) {
+        final QueryString params = new QueryString();
+        String name = null;
+        int pos = 0; // Beginning of the unprocessed region
+        int i;       // End of the unprocessed region
+        for (i = 0; i < s.length(); i++) {
+            final char c = s.charAt(i);
+            if (c == '=' && name == null) {
+                if (pos != i) {
+                    name = s.substring(pos, i);
+                }
+                pos = i + 1;
+            } else if (c == '&') {
+                if (name == null && pos != i) {
+                    // We haven't seen an `=' so far but moved forward.
+                    // Must be a param of the form '&a&' so save it with
+                    // an empty value.
+                    params.add(s.substring(pos, i), "");
+                } else if (name != null) {
+                    params.add(name, s.substring(pos, i));
+                    name = null;
+                }
+                pos = i + 1;
+            }
         }
-        pos = i + 1;
-      } else if (c == '&') {
-        if (name == null && pos != i) {
-          // We haven't seen an `=' so far but moved forward.
-          // Must be a param of the form '&a&' so save it with
-          // an empty value.
-          params.add(s.substring(pos, i), "");
-        } else if (name != null) {
-          params.add(name, s.substring(pos, i));
-          name = null;
+
+        if (pos != i) {  // Are there characters we haven't dealt with?
+            if (name == null) {     // Yes and we haven't seen any `='.
+                params.add(s.substring(pos, i), "");
+            } else {                // Yes and this must be the last value.
+                params.add(name, s.substring(pos, i));
+            }
+        } else if (name != null) {  // Have we seen a name without value?
+            params.add(name, "");
         }
-        pos = i + 1;
-      }
+
+        return params;
     }
 
-    if (pos != i) {  // Are there characters we haven't dealt with?
-      if (name == null) {     // Yes and we haven't seen any `='.
-        params.add(s.substring(pos, i), "");
-      } else {                // Yes and this must be the last value.
-        params.add(name, s.substring(pos, i));
-      }
-    } else if (name != null) {  // Have we seen a name without value?
-      params.add(name, "");
+    /**
+     * Adds a query string element.
+     *
+     * @param name  The name of the element.
+     * @param value The value of the element.
+     */
+    public void add(final String name, final String value) {
+        ArrayList<String> values = super.get(name);
+        if (values == null) {
+            values = new ArrayList<String>(1);  // Often there's only 1 value.
+            super.put(name, values);
+        }
+        values.add(value);
     }
 
-    return params;
-  }
-
-  /**
-   * Adds a query string element.
-   * @param name The name of the element.
-   * @param value The value of the element.
-   */
-  public void add(final String name, final String value) {
-    ArrayList<String> values = super.get(name);
-    if (values == null) {
-      values = new ArrayList<String>(1);  // Often there's only 1 value.
-      super.put(name, values);
+    /**
+     * Returns the first value for the given key, or {@code null}.
+     */
+    public String getFirst(final String key) {
+        final ArrayList<String> values = super.get(key);
+        return values == null ? null : values.get(0);
     }
-    values.add(value);
-  }
-
-  /**
-   * Returns the first value for the given key, or {@code null}.
-   */
-  public String getFirst(final String key) {
-    final ArrayList<String> values = super.get(key);
-    return values == null ? null : values.get(0);
-  }
 
 }

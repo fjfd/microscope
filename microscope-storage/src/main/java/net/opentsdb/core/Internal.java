@@ -12,12 +12,12 @@
 // see <http://www.gnu.org/licenses/>.
 package net.opentsdb.core;
 
-import java.util.ArrayList;
-import java.util.Map;
-
 import org.hbase.async.Bytes;
 import org.hbase.async.KeyValue;
 import org.hbase.async.Scanner;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * <strong>This class is not part of the public API.</strong>
@@ -47,74 +47,94 @@ import org.hbase.async.Scanner;
  * This class is reserved for OpenTSDB's own internal usage only.  If you use
  * anything from this package outside of OpenTSDB, a dragon will spontaneously
  * appear and eat you.  You've been warned.
- * <p>
+ * <p/>
  * This class only exists because Java's packaging system is annoying as the
  * "package-private" accessibility level only applies to the current package
  * but not its sub-packages,  and because Java doesn't have fine-grained API
  * visibility mechanism such as that of Scala or C++.
- * <p>
+ * <p/>
  * This package provides access into internal methods for higher-level
  * packages, for the sake of reducing code duplication and (ab)use of
  * reflection.
  */
 public final class Internal {
 
-  /** @see net.opentsdb.core.Const#FLAG_BITS  */
-  public static final short FLAG_BITS = Const.FLAG_BITS;
+    /**
+     * @see net.opentsdb.core.Const#FLAG_BITS
+     */
+    public static final short FLAG_BITS = Const.FLAG_BITS;
 
-  /** @see net.opentsdb.core.Const#LENGTH_MASK  */
-  public static final short LENGTH_MASK = Const.LENGTH_MASK;
+    /**
+     * @see net.opentsdb.core.Const#LENGTH_MASK
+     */
+    public static final short LENGTH_MASK = Const.LENGTH_MASK;
 
-  /** @see net.opentsdb.core.Const#FLAGS_MASK  */
-  public static final short FLAGS_MASK = Const.FLAGS_MASK;
+    /**
+     * @see net.opentsdb.core.Const#FLAGS_MASK
+     */
+    public static final short FLAGS_MASK = Const.FLAGS_MASK;
 
-  private Internal() {
-    // Can't instantiate.
-  }
+    private Internal() {
+        // Can't instantiate.
+    }
 
-  /** @see TsdbQuery#getScanner */
-  public static Scanner getScanner(final Query query) {
-    return ((TsdbQuery) query).getScanner();
-  }
+    /**
+     * @see TsdbQuery#getScanner
+     */
+    public static Scanner getScanner(final Query query) {
+        return ((TsdbQuery) query).getScanner();
+    }
 
-  /** @see net.opentsdb.core.RowKey#metricName */
-  public static String metricName(final TSDB tsdb, final byte[] id) {
-    return RowKey.metricName(tsdb, id);
-  }
+    /**
+     * @see net.opentsdb.core.RowKey#metricName
+     */
+    public static String metricName(final TSDB tsdb, final byte[] id) {
+        return RowKey.metricName(tsdb, id);
+    }
 
-  /** Extracts the timestamp from a row key.  */
-  public static long baseTime(final TSDB tsdb, final byte[] row) {
-    return Bytes.getUnsignedInt(row, tsdb.metrics.width());
-  }
+    /**
+     * Extracts the timestamp from a row key.
+     */
+    public static long baseTime(final TSDB tsdb, final byte[] row) {
+        return Bytes.getUnsignedInt(row, tsdb.metrics.width());
+    }
 
-  /** @see net.opentsdb.core.Tags#getTags */
-  public static Map<String, String> getTags(final TSDB tsdb, final byte[] row) {
-    return Tags.getTags(tsdb, row);
-  }
+    /**
+     * @see net.opentsdb.core.Tags#getTags
+     */
+    public static Map<String, String> getTags(final TSDB tsdb, final byte[] row) {
+        return Tags.getTags(tsdb, row);
+    }
 
-  /** @see net.opentsdb.core.RowSeq#extractIntegerValue */
-  public static long extractIntegerValue(final byte[] values,
-                                         final int value_idx,
-                                         final byte flags) {
-    return RowSeq.extractIntegerValue(values, value_idx, flags);
-  }
+    /**
+     * @see net.opentsdb.core.RowSeq#extractIntegerValue
+     */
+    public static long extractIntegerValue(final byte[] values,
+                                           final int value_idx,
+                                           final byte flags) {
+        return RowSeq.extractIntegerValue(values, value_idx, flags);
+    }
 
-  /** @see net.opentsdb.core.RowSeq#extractFloatingPointValue */
-  public static double extractFloatingPointValue(final byte[] values,
-                                                 final int value_idx,
-                                                 final byte flags) {
-    return RowSeq.extractFloatingPointValue(values, value_idx, flags);
-  }
+    /**
+     * @see net.opentsdb.core.RowSeq#extractFloatingPointValue
+     */
+    public static double extractFloatingPointValue(final byte[] values,
+                                                   final int value_idx,
+                                                   final byte flags) {
+        return RowSeq.extractFloatingPointValue(values, value_idx, flags);
+    }
 
-  public static short metricWidth(final TSDB tsdb) {
-    return tsdb.metrics.width();
-  }
+    public static short metricWidth(final TSDB tsdb) {
+        return tsdb.metrics.width();
+    }
 
-  /** @see CompactionQueue#complexCompact  */
-  public static KeyValue complexCompact(final KeyValue kv) {
-    final ArrayList<KeyValue> kvs = new ArrayList<KeyValue>(1);
-    kvs.add(kv);
-    return CompactionQueue.complexCompact(kvs, kv.qualifier().length / 2);
-  }
+    /**
+     * @see CompactionQueue#complexCompact
+     */
+    public static KeyValue complexCompact(final KeyValue kv) {
+        final ArrayList<KeyValue> kvs = new ArrayList<KeyValue>(1);
+        kvs.add(kv);
+        return CompactionQueue.complexCompact(kvs, kv.qualifier().length / 2);
+    }
 
 }

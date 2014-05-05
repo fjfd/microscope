@@ -19,10 +19,12 @@ import java.io.IOException;
 import java.util.NavigableMap;
 
 @Component
-public abstract class AbstraceRepository implements InitializingBean {
+public abstract class AbstractRepository implements InitializingBean {
+
+    private static final Logger logger = LoggerFactory.getLogger(AbstractRepository.class);
 
     public static final int TIME_TO_LIVE = 2 * 7 * 24 * 60 * 60;
-    private static final Logger logger = LoggerFactory.getLogger(AbstraceRepository.class);
+
     @Resource(name = "hbaseConfiguration")
     protected Configuration config;
 
@@ -36,77 +38,103 @@ public abstract class AbstraceRepository implements InitializingBean {
         admin = new HBaseAdmin(config);
     }
 
-    protected void initialize(String tableName, String cfName) {
+    /**
+     * Create HBase table
+     *
+     * @param table the name of table
+     * @param cf    the name of column family
+     */
+    protected void create(String table, String cf) {
         try {
-            if (!admin.tableExists(tableName)) {
-                HTableDescriptor tableDescriptor = new HTableDescriptor(tableName);
-                HColumnDescriptor columnDescriptor = new HColumnDescriptor(cfName);
+            if (!admin.tableExists(table)) {
+                HTableDescriptor tableDescriptor = new HTableDescriptor(table);
+                HColumnDescriptor columnDescriptor = new HColumnDescriptor(cf);
                 columnDescriptor.setMaxVersions(1);
                 columnDescriptor.setCompressionType(Algorithm.SNAPPY);
                 columnDescriptor.setTimeToLive(TIME_TO_LIVE);
                 tableDescriptor.addFamily(columnDescriptor);
-
                 admin.createTable(tableDescriptor);
 
 				/*
-				 * close auto flush function.
+                 * close auto flush function.
 				 */
                 hbaseTemplate.setAutoFlush(false);
 
-                logger.info("init hbase table " + tableName);
+                logger.info("create HBase table " + table);
             }
         } catch (IOException e) {
-            throw new RuntimeException("initialize " + tableName, e);
+            throw new RuntimeException("error happens when create " + table, e);
         }
     }
 
-    protected void initialize(String tableName, String[] cfName) {
+    /**
+     * Create HBase table
+     *
+     * @param table the name of table
+     * @param cf    the name of column family
+     */
+    protected void create(String table, String[] cf) {
         try {
-            if (!admin.tableExists(tableName)) {
-                HTableDescriptor tableDescriptor = new HTableDescriptor(tableName);
-                for (int i = 0; i < cfName.length; i++) {
-                    HColumnDescriptor columnDescriptor = new HColumnDescriptor(cfName[i]);
+            if (!admin.tableExists(table)) {
+                HTableDescriptor tableDescriptor = new HTableDescriptor(table);
+                for (int i = 0; i < cf.length; i++) {
+                    HColumnDescriptor columnDescriptor = new HColumnDescriptor(cf[i]);
                     columnDescriptor.setMaxVersions(1);
                     columnDescriptor.setCompressionType(Algorithm.SNAPPY);
                     columnDescriptor.setTimeToLive(TIME_TO_LIVE);
                     tableDescriptor.addFamily(columnDescriptor);
                 }
-
                 admin.createTable(tableDescriptor);
                 hbaseTemplate.setAutoFlush(false);
 
-                logger.info("init hbase table " + tableName);
+                logger.info("create HBase table " + table);
             }
         } catch (IOException e) {
-            throw new RuntimeException("initialize " + tableName, e);
+            throw new RuntimeException("error happens when create " + table, e);
         }
     }
 
-    protected void drop(String tableName) {
-        byte[] tableNameAsBytes = Bytes.toBytes(tableName);
+    /**
+     * Drop HBase table
+     *
+     * @param table the name of table
+     */
+    protected void drop(String table) {
+        byte[] tableNameAsBytes = Bytes.toBytes(table);
         try {
             if (!admin.isTableDisabled(tableNameAsBytes)) {
                 admin.disableTable(tableNameAsBytes);
             }
             admin.deleteTable(tableNameAsBytes);
 
-            logger.info("drop hbase table " + tableName);
+            logger.info("drop HBase table " + table);
         } catch (IOException e) {
-            throw new RuntimeException("drop" + tableName, e);
+            throw new RuntimeException("error happens when drop" + table, e);
         }
     }
 
+    /**
+     * Get all columns by column family
+     *
+     * @param r            row result
+     * @param ColumnFamily the name of column family
+     * @return             columns in array format
+     */
     protected String[] getColumnsInColumnFamily(Result r, String ColumnFamily) {
         NavigableMap<byte[], byte[]> familyMap = r.getFamilyMap(Bytes.toBytes(ColumnFamily));
-        String[] Quantifers = new String[familyMap.size()];
+        String[] qualifiers = new String[familyMap.size()];
         int counter = 0;
-        for (byte[] bQunitifer : familyMap.keySet()) {
-            Quantifers[counter++] = Bytes.toString(bQunitifer);
-
+        for (byte[] qualifier : familyMap.keySet()) {
+            qualifiers[counter++] = Bytes.toString(qualifier);
         }
-        return Quantifers;
+        return qualifiers;
     }
 
+    /**
+     * Return Configuration
+     *
+     * @return config
+     */
     public Configuration getConfiguration() {
         return config;
     }

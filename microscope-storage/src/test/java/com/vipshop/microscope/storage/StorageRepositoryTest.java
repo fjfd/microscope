@@ -44,7 +44,7 @@ public class StorageRepositoryTest {
         Aggregator function = Aggregators.MAX;
         boolean rate = true;
 
-        DataPoints[] dataPoints = storageRepository.find(timestamp - 60 * 1000 * 60, timestamp, metric, tags, function, rate);
+        DataPoints[] dataPoints = storageRepository.find(timestamp - 10 * 60 * 1000 * 60, timestamp, metric, tags, function, rate);
         TimeUnit.SECONDS.sleep(1);
         for (int i = 0; i < dataPoints.length; i++) {
             System.out.println(dataPoints[i].toString());

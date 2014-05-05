@@ -13,21 +13,22 @@
 package net.opentsdb.tsd;
 
 import com.stumbleupon.async.Deferred;
-
+import net.opentsdb.core.TSDB;
 import org.jboss.netty.channel.Channel;
 
-import net.opentsdb.core.TSDB;
-
-/** Base interface for all telnet-style RPC handlers. */
+/**
+ * Base interface for all telnet-style RPC handlers.
+ */
 interface TelnetRpc {
 
-  /**
-   * Executes this RPC.
-   * @param tsdb The TSDB to use.
-   * @param chan The channel on which the RPC was received.
-   * @param command The command received, split.
-   * @return A deferred result.
-   */
-  Deferred<Object> execute(TSDB tsdb, Channel chan, String[] command);
+    /**
+     * Executes this RPC.
+     *
+     * @param tsdb    The TSDB to use.
+     * @param chan    The channel on which the RPC was received.
+     * @param command The command received, split.
+     * @return A deferred result.
+     */
+    Deferred<Object> execute(TSDB tsdb, Channel chan, String[] command);
 
 }

@@ -16,10 +16,10 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class TraceOverviewRepository extends AbstraceRepository {
+public class TraceOverviewRepository extends AbstractRepository {
 
     public void initialize() {
-        super.initialize(TraceOverviewTable.TABLE_NAME, TraceOverviewTable.CF);
+        super.create(TraceOverviewTable.TABLE_NAME, TraceOverviewTable.CF);
     }
 
     public void drop() {

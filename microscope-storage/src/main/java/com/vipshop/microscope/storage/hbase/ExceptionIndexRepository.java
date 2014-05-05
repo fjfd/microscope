@@ -12,13 +12,13 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 @Repository
-public class ExceptionIndexRepository extends AbstraceRepository {
+public class ExceptionIndexRepository extends AbstractRepository {
 
     /**
      * Create table
      */
     public void initialize() {
-        super.initialize(ExceptionIndexTable.TABLE_NAME, new String[]{ExceptionIndexTable.CF_APP,
+        super.create(ExceptionIndexTable.TABLE_NAME, new String[]{ExceptionIndexTable.CF_APP,
                 ExceptionIndexTable.CF_IP,
                 ExceptionIndexTable.CF_EXCEPTION});
     }

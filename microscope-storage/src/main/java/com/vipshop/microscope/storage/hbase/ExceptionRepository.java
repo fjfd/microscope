@@ -16,10 +16,10 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class ExceptionRepository extends AbstraceRepository {
+public class ExceptionRepository extends AbstractRepository {
 
     public void initialize() {
-        super.initialize(ExceptionTable.TABLE_NAME, ExceptionTable.CF);
+        super.create(ExceptionTable.TABLE_NAME, ExceptionTable.CF);
     }
 
     public void drop() {

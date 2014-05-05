@@ -13,10 +13,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 @Repository
-public class ReportTraceRepository extends AbstraceRepository {
+public class ReportTraceRepository extends AbstractRepository {
 
     public void initialize() {
-        super.initialize(ReportTopTable.TABLE_NAME, ReportTopTable.CF);
+        super.create(ReportTopTable.TABLE_NAME, ReportTopTable.CF);
     }
 
     public void drop() {

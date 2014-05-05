@@ -13,13 +13,13 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 @Repository
-public class TSDBIndexRepository extends AbstraceRepository {
+public class TSDBIndexRepository extends AbstractRepository {
 
     /**
      * Create table
      */
     public void initialize() {
-        super.initialize(TSDBIndexTable.TABLE_NAME, new String[]{TSDBIndexTable.CF_APP,
+        super.create(TSDBIndexTable.TABLE_NAME, new String[]{TSDBIndexTable.CF_APP,
                 TSDBIndexTable.CF_IP,
                 TSDBIndexTable.CF_METRICS_1,
                 TSDBIndexTable.CF_METRICS_2,

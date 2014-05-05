@@ -16,6 +16,6 @@ import com.google.gwt.json.client.JSONValue;
 
 interface GotJsonCallback {
 
-  void got(JSONValue json);
+    void got(JSONValue json);
 
 }

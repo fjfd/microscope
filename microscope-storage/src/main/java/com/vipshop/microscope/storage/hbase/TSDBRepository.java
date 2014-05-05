@@ -19,10 +19,10 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class TSDBRepository extends AbstraceRepository {
+public class TSDBRepository extends AbstractRepository {
 
     public void initialize() {
-        super.initialize(TSDBTable.TABLE_NAME, TSDBTable.CF_T);
+        super.create(TSDBTable.TABLE_NAME, TSDBTable.CF_T);
     }
 
     public void drop() {

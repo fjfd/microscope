@@ -11,10 +11,10 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 @Repository
-public class TraceIndexRepository extends AbstraceRepository {
+public class TraceIndexRepository extends AbstractRepository {
 
     public void initialize() {
-        super.initialize(TraceIndexTable.TABLE_NAME, new String[]{TraceIndexTable.CF_APP, TraceIndexTable.CF_IP, TraceIndexTable.CF_TRACE});
+        super.create(TraceIndexTable.TABLE_NAME, new String[]{TraceIndexTable.CF_APP, TraceIndexTable.CF_IP, TraceIndexTable.CF_TRACE});
     }
 
     public void drop() {

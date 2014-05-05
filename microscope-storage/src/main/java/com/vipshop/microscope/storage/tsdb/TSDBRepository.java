@@ -18,9 +18,8 @@ public class TSDBRepository {
     private final String DEFAULT_ZK_QUORUM = config.getString("zk.host");
     private final int DEFAULT_SIZE = Runtime.getRuntime().availableProcessors();
 
-    private final HBaseClient client = new HBaseClient(DEFAULT_ZK_QUORUM,
-            DEFAULT_ZK_DIR,
-            ThreadPoolUtil.newFixedThreadPool(DEFAULT_SIZE, "async-hbaseclient"));
+    private final HBaseClient client = new HBaseClient(DEFAULT_ZK_QUORUM, DEFAULT_ZK_DIR,
+                    ThreadPoolUtil.newFixedThreadPool(DEFAULT_SIZE, "async-hbaseclient"));
 
     private final TSDB tsdb = new TSDB(client, TSDBTable.TABLE_NAME, TSDBUIDTable.TABLE_NAME);
 
@@ -29,29 +28,17 @@ public class TSDBRepository {
     public void add(final String metric, final long timestamp, final Object value, final Map<String, String> tags) {
 
         if (value instanceof Long) {
-            add(metric, timestamp, ((Long) value).longValue(), tags);
+            tsdb.addPoint(metric, timestamp / 1000, ((Long) value).longValue(), tags);
         }
 
         if (value instanceof Double) {
-            add(metric, timestamp, ((Double) value).doubleValue(), tags);
+            tsdb.addPoint(metric, timestamp / 1000, ((Double) value).doubleValue(), tags);
         }
 
         if (value instanceof Float) {
-            add(metric, timestamp, ((Float) value).floatValue(), tags);
+            tsdb.addPoint(metric, timestamp / 1000, ((Float) value).floatValue(), tags);
         }
 
-    }
-
-    public void add(final String metric, final long timestamp, final long value, final Map<String, String> tags) {
-        tsdb.addPoint(metric, timestamp / 1000, value, tags);
-    }
-
-    public void add(final String metric, final long timestamp, final double value, final Map<String, String> tags) {
-        tsdb.addPoint(metric, timestamp / 1000, value, tags);
-    }
-
-    public void add(final String metric, final long timestamp, final float value, final Map<String, String> tags) {
-        tsdb.addPoint(metric, timestamp / 1000, value, tags);
     }
 
     public List<String> suggestMetrics(final String search) {

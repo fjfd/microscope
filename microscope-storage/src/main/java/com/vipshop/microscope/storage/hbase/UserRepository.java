@@ -14,10 +14,10 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class UserRepository extends AbstraceRepository {
+public class UserRepository extends AbstractRepository {
 
     public void initialize() {
-        super.initialize(UserTable.TABLE_NAME, new String[]{UserTable.CF_INFO, UserTable.CF_HISTORY});
+        super.create(UserTable.TABLE_NAME, new String[]{UserTable.CF_INFO, UserTable.CF_HISTORY});
     }
 
     public void drop() {

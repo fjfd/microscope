@@ -21,225 +21,238 @@ import java.util.Set;
  */
 public final class Aggregators {
 
-  /** Aggregator that sums up all the data points. */
-  public static final Aggregator SUM = new Sum();
+    /**
+     * Aggregator that sums up all the data points.
+     */
+    public static final Aggregator SUM = new Sum();
 
-  /** Aggregator that returns the minimum data point. */
-  public static final Aggregator MIN = new Min();
+    /**
+     * Aggregator that returns the minimum data point.
+     */
+    public static final Aggregator MIN = new Min();
 
-  /** Aggregator that returns the maximum data point. */
-  public static final Aggregator MAX = new Max();
+    /**
+     * Aggregator that returns the maximum data point.
+     */
+    public static final Aggregator MAX = new Max();
 
-  /** Aggregator that returns the average value of the data point. */
-  public static final Aggregator AVG = new Avg();
+    /**
+     * Aggregator that returns the average value of the data point.
+     */
+    public static final Aggregator AVG = new Avg();
 
-  /** Aggregator that returns the Standard Deviation of the data points. */
-  public static final Aggregator DEV = new StdDev();
+    /**
+     * Aggregator that returns the Standard Deviation of the data points.
+     */
+    public static final Aggregator DEV = new StdDev();
 
-  /** Maps an aggregator name to its instance. */
-  private static final HashMap<String, Aggregator> aggregators;
+    /**
+     * Maps an aggregator name to its instance.
+     */
+    private static final HashMap<String, Aggregator> aggregators;
 
-  static {
-    aggregators = new HashMap<String, Aggregator>(5);
-    aggregators.put("sum", SUM);
-    aggregators.put("min", MIN);
-    aggregators.put("max", MAX);
-    aggregators.put("avg", AVG);
-    aggregators.put("dev", DEV);
-  }
-
-  private Aggregators() {
-    // Can't create instances of this utility class.
-  }
-
-  /**
-   * Returns the set of the names that can be used with {@link #get get}.
-   */
-  public static Set<String> set() {
-    return aggregators.keySet();
-  }
-
-  /**
-   * Returns the aggregator corresponding to the given name.
-   * @param name The name of the aggregator to get.
-   * @throws java.util.NoSuchElementException if the given name doesn't exist.
-   * @see #set
-   */
-  public static Aggregator get(final String name) {
-    final Aggregator agg = aggregators.get(name);
-    if (agg != null) {
-      return agg;
-    }
-    throw new NoSuchElementException("No such aggregator: " + name);
-  }
-
-  private static final class Sum implements Aggregator {
-
-    public long runLong(final Longs values) {
-      long result = values.nextLongValue();
-      while (values.hasNextValue()) {
-        result += values.nextLongValue();
-      }
-      return result;
+    static {
+        aggregators = new HashMap<String, Aggregator>(5);
+        aggregators.put("sum", SUM);
+        aggregators.put("min", MIN);
+        aggregators.put("max", MAX);
+        aggregators.put("avg", AVG);
+        aggregators.put("dev", DEV);
     }
 
-    public double runDouble(final Doubles values) {
-      double result = values.nextDoubleValue();
-      while (values.hasNextValue()) {
-        result += values.nextDoubleValue();
-      }
-      return result;
+    private Aggregators() {
+        // Can't create instances of this utility class.
     }
 
-    public String toString() {
-      return "sum";
+    /**
+     * Returns the set of the names that can be used with {@link #get get}.
+     */
+    public static Set<String> set() {
+        return aggregators.keySet();
     }
 
-  }
-
-  private static final class Min implements Aggregator {
-
-    public long runLong(final Longs values) {
-      long min = values.nextLongValue();
-      while (values.hasNextValue()) {
-        final long val = values.nextLongValue();
-        if (val < min) {
-          min = val;
+    /**
+     * Returns the aggregator corresponding to the given name.
+     *
+     * @param name The name of the aggregator to get.
+     * @throws java.util.NoSuchElementException if the given name doesn't exist.
+     * @see #set
+     */
+    public static Aggregator get(final String name) {
+        final Aggregator agg = aggregators.get(name);
+        if (agg != null) {
+            return agg;
         }
-      }
-      return min;
+        throw new NoSuchElementException("No such aggregator: " + name);
     }
 
-    public double runDouble(final Doubles values) {
-      double min = values.nextDoubleValue();
-      while (values.hasNextValue()) {
-        final double val = values.nextDoubleValue();
-        if (val < min) {
-          min = val;
+    private static final class Sum implements Aggregator {
+
+        public long runLong(final Longs values) {
+            long result = values.nextLongValue();
+            while (values.hasNextValue()) {
+                result += values.nextLongValue();
+            }
+            return result;
         }
-      }
-      return min;
-    }
 
-    public String toString() {
-      return "min";
-    }
-
-  }
-
-  private static final class Max implements Aggregator {
-
-    public long runLong(final Longs values) {
-      long max = values.nextLongValue();
-      while (values.hasNextValue()) {
-        final long val = values.nextLongValue();
-        if (val > max) {
-          max = val;
+        public double runDouble(final Doubles values) {
+            double result = values.nextDoubleValue();
+            while (values.hasNextValue()) {
+                result += values.nextDoubleValue();
+            }
+            return result;
         }
-      }
-      return max;
-    }
 
-    public double runDouble(final Doubles values) {
-      double max = values.nextDoubleValue();
-      while (values.hasNextValue()) {
-        final double val = values.nextDoubleValue();
-        if (val > max) {
-          max = val;
+        public String toString() {
+            return "sum";
         }
-      }
-      return max;
+
     }
 
-    public String toString() {
-      return "max";
+    private static final class Min implements Aggregator {
+
+        public long runLong(final Longs values) {
+            long min = values.nextLongValue();
+            while (values.hasNextValue()) {
+                final long val = values.nextLongValue();
+                if (val < min) {
+                    min = val;
+                }
+            }
+            return min;
+        }
+
+        public double runDouble(final Doubles values) {
+            double min = values.nextDoubleValue();
+            while (values.hasNextValue()) {
+                final double val = values.nextDoubleValue();
+                if (val < min) {
+                    min = val;
+                }
+            }
+            return min;
+        }
+
+        public String toString() {
+            return "min";
+        }
+
     }
 
-  }
+    private static final class Max implements Aggregator {
 
-  private static final class Avg implements Aggregator {
+        public long runLong(final Longs values) {
+            long max = values.nextLongValue();
+            while (values.hasNextValue()) {
+                final long val = values.nextLongValue();
+                if (val > max) {
+                    max = val;
+                }
+            }
+            return max;
+        }
 
-    public long runLong(final Longs values) {
-      long result = values.nextLongValue();
-      int n = 1;
-      while (values.hasNextValue()) {
-        result += values.nextLongValue();
-        n++;
-      }
-      return result / n;
+        public double runDouble(final Doubles values) {
+            double max = values.nextDoubleValue();
+            while (values.hasNextValue()) {
+                final double val = values.nextDoubleValue();
+                if (val > max) {
+                    max = val;
+                }
+            }
+            return max;
+        }
+
+        public String toString() {
+            return "max";
+        }
+
     }
 
-    public double runDouble(final Doubles values) {
-      double result = values.nextDoubleValue();
-      int n = 1;
-      while (values.hasNextValue()) {
-        result += values.nextDoubleValue();
-        n++;
-      }
-      return result / n;
+    private static final class Avg implements Aggregator {
+
+        public long runLong(final Longs values) {
+            long result = values.nextLongValue();
+            int n = 1;
+            while (values.hasNextValue()) {
+                result += values.nextLongValue();
+                n++;
+            }
+            return result / n;
+        }
+
+        public double runDouble(final Doubles values) {
+            double result = values.nextDoubleValue();
+            int n = 1;
+            while (values.hasNextValue()) {
+                result += values.nextDoubleValue();
+                n++;
+            }
+            return result / n;
+        }
+
+        public String toString() {
+            return "avg";
+        }
     }
 
-    public String toString() {
-      return "avg";
+    /**
+     * Standard Deviation aggregator.
+     * Can compute without storing all of the data points in memory at the same
+     * time.  This implementation is based upon a
+     * <a href="http://www.johndcook.com/standard_deviation.html">paper by John
+     * D. Cook</a>, which itself is based upon a method that goes back to a 1962
+     * paper by B.  P. Welford and is presented in Donald Knuth's Art of
+     * Computer Programming, Vol 2, page 232, 3rd edition
+     */
+    private static final class StdDev implements Aggregator {
+
+        public long runLong(final Longs values) {
+            double old_mean = values.nextLongValue();
+
+            if (!values.hasNextValue()) {
+                return 0;
+            }
+
+            long n = 2;
+            double new_mean = 0;
+            double variance = 0;
+            do {
+                final double x = values.nextLongValue();
+                new_mean = old_mean + (x - old_mean) / n;
+                variance += (x - old_mean) * (x - new_mean);
+                old_mean = new_mean;
+                n++;
+            } while (values.hasNextValue());
+
+            return (long) Math.sqrt(variance / (n - 1));
+        }
+
+        public double runDouble(final Doubles values) {
+            double old_mean = values.nextDoubleValue();
+
+            if (!values.hasNextValue()) {
+                return 0;
+            }
+
+            long n = 2;
+            double new_mean = 0;
+            double variance = 0;
+            do {
+                final double x = values.nextDoubleValue();
+                new_mean = old_mean + (x - old_mean) / n;
+                variance += (x - old_mean) * (x - new_mean);
+                old_mean = new_mean;
+                n++;
+            } while (values.hasNextValue());
+
+            return Math.sqrt(variance / (n - 1));
+        }
+
+        public String toString() {
+            return "dev";
+        }
     }
-  }
-
-  /**
-   * Standard Deviation aggregator.
-   * Can compute without storing all of the data points in memory at the same
-   * time.  This implementation is based upon a
-   * <a href="http://www.johndcook.com/standard_deviation.html">paper by John
-   * D. Cook</a>, which itself is based upon a method that goes back to a 1962
-   * paper by B.  P. Welford and is presented in Donald Knuth's Art of
-   * Computer Programming, Vol 2, page 232, 3rd edition
-   */
-  private static final class StdDev implements Aggregator {
-
-    public long runLong(final Longs values) {
-      double old_mean = values.nextLongValue();
-
-      if (!values.hasNextValue()) {
-        return 0;
-      }
-
-      long n = 2;
-      double new_mean = 0;
-      double variance = 0;
-      do {
-        final double x = values.nextLongValue();
-        new_mean = old_mean + (x - old_mean) / n;
-        variance += (x - old_mean) * (x - new_mean);
-        old_mean = new_mean;
-        n++;
-      } while (values.hasNextValue());
-
-      return (long) Math.sqrt(variance / (n - 1));
-    }
-
-    public double runDouble(final Doubles values) {
-      double old_mean = values.nextDoubleValue();
-
-      if (!values.hasNextValue()) {
-        return 0;
-      }
-
-      long n = 2;
-      double new_mean = 0;
-      double variance = 0;
-      do {
-        final double x = values.nextDoubleValue();
-        new_mean = old_mean + (x - old_mean) / n;
-        variance += (x - old_mean) * (x - new_mean);
-        old_mean = new_mean;
-        n++;
-      } while (values.hasNextValue());
-
-      return Math.sqrt(variance / (n - 1));
-    }
-
-    public String toString() {
-      return "dev";
-    }
-  }
 
 }

@@ -16,14 +16,17 @@ import net.opentsdb.core.TSDB;
 
 import java.io.IOException;
 
-/** Base interface for all HTTP query handlers. */
+/**
+ * Base interface for all HTTP query handlers.
+ */
 interface HttpRpc {
 
-  /**
-   * Executes this RPC.
-   * @param tsdb The TSDB to use.
-   * @param query The HTTP query to execute.
-   */
-  void execute(TSDB tsdb, HttpQuery query) throws IOException;
+    /**
+     * Executes this RPC.
+     *
+     * @param tsdb  The TSDB to use.
+     * @param query The HTTP query to execute.
+     */
+    void execute(TSDB tsdb, HttpQuery query) throws IOException;
 
 }

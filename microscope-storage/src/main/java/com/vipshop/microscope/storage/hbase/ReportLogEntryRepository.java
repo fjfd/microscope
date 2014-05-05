@@ -17,10 +17,10 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class ReportLogEntryRepository extends AbstraceRepository {
+public class ReportLogEntryRepository extends AbstractRepository {
 
     public void initialize() {
-        super.initialize(ReportLogEntryTable.TABLE_NAME, ReportLogEntryTable.CF);
+        super.create(ReportLogEntryTable.TABLE_NAME, ReportLogEntryTable.CF);
     }
 
     public void drop() {

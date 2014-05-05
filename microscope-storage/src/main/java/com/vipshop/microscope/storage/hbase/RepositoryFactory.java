@@ -39,7 +39,7 @@ public class RepositoryFactory {
 
         AbstractApplicationContext context = new ClassPathXmlApplicationContext("/applicationContext-storage-hbase.xml", RepositoryFactory.class);
 
-        // ************************** initialize repository *************************************** //
+        // ************************** create repository *************************************** //
 
         SYSTEM = context.getBean(HomeSystemRepository.class);
 
@@ -58,7 +58,7 @@ public class RepositoryFactory {
 
         USER = context.getBean(UserRepository.class);
 
-        // ************************** initialize table ************************************************ //
+        // ************************** create table ************************************************ //
 
         SYSTEM.initialize();
 

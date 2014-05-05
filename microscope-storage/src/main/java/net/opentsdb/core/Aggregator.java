@@ -14,71 +14,75 @@ package net.opentsdb.core;
 
 /**
  * A function capable of aggregating multiple {@link DataPoints} together.
- * <p>
+ * <p/>
  * All aggregators must be stateless.  All they can do is run through a
  * sequence of {@link net.opentsdb.core.Aggregator.Longs Longs} or {@link net.opentsdb.core.Aggregator.Doubles Doubles} and return an
  * aggregated value.
  */
 public interface Aggregator {
 
-  /**
-   * A sequence of {@code long}s.
-   * <p>
-   * This interface is semantically equivalent to
-   * {@code Iterator<long>}.
-   */
-  public interface Longs {
+    /**
+     * A sequence of {@code long}s.
+     * <p/>
+     * This interface is semantically equivalent to
+     * {@code Iterator<long>}.
+     */
+    public interface Longs {
+
+        /**
+         * Returns {@code true} if this sequence has more values.
+         * {@code false} otherwise.
+         */
+        boolean hasNextValue();
+
+        /**
+         * Returns the next {@code long} value in this sequence.
+         *
+         * @throws java.util.NoSuchElementException if calling {@link #hasNextValue} returns
+         *                                          {@code false}.
+         */
+        long nextLongValue();
+
+    }
 
     /**
-     * Returns {@code true} if this sequence has more values.
-     * {@code false} otherwise.
+     * A sequence of {@code double}s.
+     * <p/>
+     * This interface is semantically equivalent to
+     * {@code Iterator<double>}.
      */
-    boolean hasNextValue();
+    public interface Doubles {
+
+        /**
+         * Returns {@code true} if this sequence has more values.
+         * {@code false} otherwise.
+         */
+        boolean hasNextValue();
+
+        /**
+         * Returns the next {@code double} value in this sequence.
+         *
+         * @throws java.util.NoSuchElementException if calling {@link #hasNextValue} returns
+         *                                          {@code false}.
+         */
+        double nextDoubleValue();
+
+    }
 
     /**
-     * Returns the next {@code long} value in this sequence.
-     * @throws java.util.NoSuchElementException if calling {@link #hasNextValue} returns
-     * {@code false}.
+     * Aggregates a sequence of {@code long}s.
+     *
+     * @param values The sequence to aggregate.
+     * @return The aggregated value.
      */
-    long nextLongValue();
-
-  }
-
-  /**
-   * A sequence of {@code double}s.
-   * <p>
-   * This interface is semantically equivalent to
-   * {@code Iterator<double>}.
-   */
-  public interface Doubles {
+    long runLong(Longs values);
 
     /**
-     * Returns {@code true} if this sequence has more values.
-     * {@code false} otherwise.
+     * Aggregates a sequence of {@code double}s.
+     *
+     * @param values The sequence to aggregate.
+     * @return The aggregated value.
      */
-    boolean hasNextValue();
-
-    /**
-     * Returns the next {@code double} value in this sequence.
-     * @throws java.util.NoSuchElementException if calling {@link #hasNextValue} returns
-     * {@code false}.
-     */
-    double nextDoubleValue();
-
-  }
-
-  /**
-   * Aggregates a sequence of {@code long}s.
-   * @param values The sequence to aggregate.
-   * @return The aggregated value.
-   */
-  long runLong(Longs values);
-
-  /**
-   * Aggregates a sequence of {@code double}s.
-   * @param values The sequence to aggregate.
-   * @return The aggregated value.
-   */
-  double runDouble(Doubles values);
+    double runDouble(Doubles values);
 
 }
