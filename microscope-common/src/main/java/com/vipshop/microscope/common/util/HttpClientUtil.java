@@ -30,4 +30,8 @@ public class HttpClientUtil {
         }
         return null;
     }
+
+    public static void main(String[] args) throws IOException {
+        request("http://localhost:9411/api/putmyservice.latency.avg 1292148123 42 reqtype=foo host=web42");
+    }
 }

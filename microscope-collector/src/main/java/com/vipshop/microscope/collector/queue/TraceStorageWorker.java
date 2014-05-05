@@ -8,7 +8,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 /**
- * A thread worker store span.
+ * A thread worker save span.
  *
  * @author Xu Fei
  * @version 1.0
@@ -28,7 +28,7 @@ public class TraceStorageWorker implements Runnable {
             Span span = queue.poll();
 
             if (span != null) {
-                storager.store(span);
+                storager.save(span);
             } else {
                 try {
                     TimeUnit.MILLISECONDS.sleep(CollectorServer.SLEEP_TIME);

@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Log4j store handler.
+ * Logs analyze handler.
  *
  * @author Xu Fei
  * @version 1.0

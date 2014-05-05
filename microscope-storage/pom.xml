@@ -100,7 +100,26 @@
             <artifactId>logback-classic</artifactId>
             <version>1.0.13</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-user</artifactId>
+            <version>2.6.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>1.9.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito</artifactId>
+            <version>1.5.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <version>1.5.4</version>
+        </dependency>
     </dependencies>
 
     <profiles>
@@ -109,7 +128,6 @@
             <build>
                 <filters>
                     <filter>src/main/resources/filters/hbase-dev.properties</filter>
-                    <filter>src/main/resources/filters/jdbc-dev.properties</filter>
                 </filters>
                 <resources>
                     <resource>
@@ -136,7 +154,6 @@
             <build>
                 <filters>
                     <filter>src/main/resources/filters/hbase-qa.properties</filter>
-                    <filter>src/main/resources/filters/jdbc-qa.properties</filter>
                 </filters>
                 <resources>
                     <resource>
@@ -162,7 +179,6 @@
             <build>
                 <filters>
                     <filter>src/main/resources/filters/hbase-prod.properties</filter>
-                    <filter>src/main/resources/filters/jdbc-prod.properties</filter>
                 </filters>
                 <resources>
                     <resource>

@@ -67,7 +67,7 @@ public class TopAnalyzer {
         private int initialCapacity;
 
         /**
-         * A sorted map store top 10 data<K,V>
+         * A sorted map save top 10 data<K,V>
          * <p/>
          * key   --> span duration
          * value --> app name

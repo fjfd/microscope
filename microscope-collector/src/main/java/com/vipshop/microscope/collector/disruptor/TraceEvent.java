@@ -16,6 +16,7 @@ public class TraceEvent {
             return new TraceEvent();
         }
     };
+
     private Span span;
 
     public Span getSpan() {

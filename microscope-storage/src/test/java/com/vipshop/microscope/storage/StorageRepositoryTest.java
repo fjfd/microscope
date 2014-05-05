@@ -1,8 +1,6 @@
 package com.vipshop.microscope.storage;
 
-import com.vipshop.microscope.storage.opentsdb.core.Aggregator;
-import com.vipshop.microscope.storage.opentsdb.core.Aggregators;
-import com.vipshop.microscope.storage.opentsdb.core.DataPoints;
+import net.opentsdb.core.*;
 import org.testng.annotations.Test;
 
 import java.util.HashMap;
@@ -16,17 +14,17 @@ public class StorageRepositoryTest {
 
     @Test
     public void initHbaseTable() {
-        storageRepository.initHbaseTable();
+        storageRepository.initHBaseTable();
     }
 
     @Test
     public void dropTable() {
-        storageRepository.dropHbaseTable();
+        storageRepository.dropHBaseTable();
     }
 
     @Test
     public void createTable() {
-        storageRepository.createHbaseTable();
+        storageRepository.createHBaseTable();
     }
 
     @Test
@@ -35,15 +33,13 @@ public class StorageRepositoryTest {
     }
 
     @Test
-    public void testMetrics() throws InterruptedException {
+    public void testFind() throws InterruptedException {
         long timestamp = System.currentTimeMillis();
         String metric = "jvm_memory.Usage";
         Map<String, String> tags = new HashMap<String, String>();
         tags.put("APP", "trace");
         tags.put("IP", "10.101.3.111");
         long value = 10;
-
-        storageRepository.add(metric, timestamp, value, tags);
 
         Aggregator function = Aggregators.MAX;
         boolean rate = true;
@@ -53,7 +49,36 @@ public class StorageRepositoryTest {
         for (int i = 0; i < dataPoints.length; i++) {
             System.out.println(dataPoints[i].toString());
         }
+    }
 
+    @Test
+    public void testAddPoint() throws InterruptedException {
+        long timestamp = System.currentTimeMillis();
+        String metric = "jvm_memory.Usage";
+        Map<String, String> tags = new HashMap<String, String>();
+        tags.put("APP", "trace");
+        tags.put("IP", "10.101.3.111");
+        long value = 10;
+
+        storageRepository.save(metric, timestamp, value, tags);
+
+        TimeUnit.SECONDS.sleep(10);
+    }
+
+    @Test
+    public void testAddPointLoop() throws InterruptedException {
+        while (true) {
+            long timestamp = System.currentTimeMillis();
+            String metric = "jvm_memory.Committed";
+            Map<String, String> tags = new HashMap<String, String>();
+            tags.put("APP", "trace");
+            tags.put("IP", "10.101.3.111");
+            long value = 10;
+
+            storageRepository.save(metric, timestamp, value, tags);
+
+            TimeUnit.SECONDS.sleep(1);
+        }
     }
 
     @Test

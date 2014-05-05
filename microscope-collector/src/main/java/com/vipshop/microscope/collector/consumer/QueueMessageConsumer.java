@@ -49,7 +49,7 @@ public class QueueMessageConsumer implements MessageConsumer {
         analyzeExecutor.execute(new TraceAnalyzeWorker(analyzeQueue));
 
         logger.info("start storage thread pool with size " + poolSize);
-        storageExecutor = ThreadPoolUtil.newFixedThreadPool(poolSize, "store-span-pool");
+        storageExecutor = ThreadPoolUtil.newFixedThreadPool(poolSize, "save-span-pool");
         for (int i = 0; i < poolSize; i++) {
             storageExecutor.execute(new TraceStorageWorker(storageQueue));
         }

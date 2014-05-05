@@ -16,6 +16,7 @@ public class LogEntryEvent {
             return new LogEntryEvent();
         }
     };
+
     private LogEntry result;
 
     public LogEntry getResult() {

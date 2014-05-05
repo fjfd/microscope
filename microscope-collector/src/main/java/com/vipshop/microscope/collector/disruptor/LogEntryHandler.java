@@ -29,11 +29,11 @@ public class LogEntryHandler implements EventHandler<LogEntryEvent> {
     private final MesssageStats stats = new MesssageStats();
 
     private RingBuffer<TraceEvent> traceRingBuffer;
-    private RingBuffer<MetricsEvent> metricsRingBuffer;
+    private RingBuffer<MetricEvent> metricsRingBuffer;
     private RingBuffer<ExceptionEvent> exceptionRingBuffer;
 
     public LogEntryHandler(RingBuffer<TraceEvent> traceBuffer,
-                           RingBuffer<MetricsEvent> metricsBuffer,
+                           RingBuffer<MetricEvent> metricsBuffer,
                            RingBuffer<ExceptionEvent> exceptionRingBuffer) {
         this.traceRingBuffer = traceBuffer;
         this.metricsRingBuffer = metricsBuffer;
@@ -162,7 +162,7 @@ public class LogEntryHandler implements EventHandler<LogEntryEvent> {
      * so there is no need to put in buffer.
      */
     private void publish(SystemData system) {
-        MessageStorager.getMessageStorager().store(system);
+        MessageStorager.getMessageStorager().save(system);
     }
 
 }

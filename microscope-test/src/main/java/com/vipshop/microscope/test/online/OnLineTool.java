@@ -42,7 +42,7 @@ public class OnLineTool {
     }
 
     public static void hbase() {
-        StorageRepository.getStorageRepository().initHbaseTable();
+        StorageRepository.getStorageRepository().initHBaseTable();
     }
 
 }

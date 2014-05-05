@@ -10,6 +10,7 @@ import com.vipshop.microscope.trace.metric.MetricData;
 import com.vipshop.microscope.trace.system.SystemData;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Message Store API.
@@ -40,7 +41,7 @@ public class MessageStorager {
      *
      * @param span
      */
-    public void store(Span span) {
+    public void save(Span span) {
         String traceId = String.valueOf(span.getTraceId());
         String spanId = String.valueOf(span.getSpanId());
         if (traceId.equals(spanId)) {
@@ -55,10 +56,12 @@ public class MessageStorager {
      *
      * @param metrics
      */
-    public void store(MetricData metrics) {
-        storageRepository.saveMetricIndex(metrics);
-        storageRepository.saveMetric(metrics);
-
+    public void save(MetricData metrics) {
+        String metric = metrics.getMetric();
+        long timestamp = metrics.getTimestamp();
+        Map<String, String> tags = metrics.getTags();
+        Object value = metrics.getValue();
+        storageRepository.save(metric, timestamp, value, tags);
     }
 
     /**
@@ -66,7 +69,7 @@ public class MessageStorager {
      *
      * @param exception
      */
-    public void store(ExceptionData exception) {
+    public void save(ExceptionData exception) {
     }
 
     /**
@@ -74,7 +77,7 @@ public class MessageStorager {
      *
      * @param system
      */
-    public void store(SystemData system) {
+    public void save(SystemData system) {
         storageRepository.save(system);
     }
 
@@ -83,8 +86,8 @@ public class MessageStorager {
      *
      * @param top
      */
-    public void store(HashMap<String, Object> top) {
-        storageRepository.saveTop(top);
+    public void save(HashMap<String, Object> top) {
+
     }
 
     /**
@@ -92,7 +95,7 @@ public class MessageStorager {
      *
      * @param report
      */
-    public void store(LogEntryReport report) {
+    public void save(LogEntryReport report) {
 
     }
 

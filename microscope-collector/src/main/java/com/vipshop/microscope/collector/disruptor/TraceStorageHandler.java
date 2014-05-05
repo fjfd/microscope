@@ -21,14 +21,14 @@ public class TraceStorageHandler implements EventHandler<TraceEvent> {
     private final MessageStorager messageStorager = MessageStorager.getMessageStorager();
 
     private final int size = Runtime.getRuntime().availableProcessors();
-    private final ExecutorService traceStorageWorkerExecutor = ThreadPoolUtil.newFixedThreadPool(size, "trace-store-worker-pool");
+    private final ExecutorService traceStorageWorkerExecutor = ThreadPoolUtil.newFixedThreadPool(size, "trace-save-worker-pool");
 
     @Override
     public void onEvent(final TraceEvent event, long sequence, boolean endOfBatch) throws Exception {
         traceStorageWorkerExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                messageStorager.store(event.getSpan());
+                messageStorager.save(event.getSpan());
             }
         });
     }

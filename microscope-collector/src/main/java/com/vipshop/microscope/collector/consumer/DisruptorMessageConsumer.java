@@ -40,17 +40,19 @@ public class DisruptorMessageConsumer implements MessageConsumer {
     /**
      * Metric RingBuffer
      */
-    private final RingBuffer<MetricsEvent> metricsRingBuffer;
-    private final SequenceBarrier metricsSequenceBarrier;
-    private final BatchEventProcessor<MetricsEvent> metricsAlertEventProcessor;
-    private final BatchEventProcessor<MetricsEvent> metricsAnalyzeEventProcessor;
-    private final BatchEventProcessor<MetricsEvent> metricsStorageEventProcessor;
+    private final RingBuffer<MetricEvent> metricRingBuffer;
+    private final SequenceBarrier metricSequenceBarrier;
+    private final BatchEventProcessor<MetricEvent> metricAlertEventProcessor;
+    private final BatchEventProcessor<MetricEvent> metricAnalyzeEventProcessor;
+    private final BatchEventProcessor<MetricEvent> metricStorageEventProcessor;
 
     /**
      * Exception RingBuffer
      */
     private final RingBuffer<ExceptionEvent> exceptionRingBuffer;
     private final SequenceBarrier exceptionSequenceBarrier;
+    private final BatchEventProcessor<ExceptionEvent> exceptionAlertEventProcessor;
+    private final BatchEventProcessor<ExceptionEvent> exceptionAnalyzeEventProcessor;
     private final BatchEventProcessor<ExceptionEvent> exceptionStorageEventProcessor;
 
     /**
@@ -58,7 +60,7 @@ public class DisruptorMessageConsumer implements MessageConsumer {
      */
     private final RingBuffer<LogEntryEvent> logEntryRingBuffer;
     private final SequenceBarrier logEntrySequenceBarrier;
-    private final BatchEventProcessor<LogEntryEvent> logEntryValidateEventProcessor;
+    private final BatchEventProcessor<LogEntryEvent> logEntryEventProcessor;
 
     /**
      * LogEvent RingBuffer
@@ -75,6 +77,7 @@ public class DisruptorMessageConsumer implements MessageConsumer {
      * Construct DisruptorMessageConsumer
      */
     public DisruptorMessageConsumer() {
+
         this.traceRingBuffer = RingBuffer.createSingleProducer(TraceEvent.EVENT_FACTORY, TRACE_BUFFER_SIZE, new SleepingWaitStrategy());
         this.traceSequenceBarrier = traceRingBuffer.newBarrier();
         this.traceAlertEventProcessor = new BatchEventProcessor<TraceEvent>(traceRingBuffer, traceSequenceBarrier, new TraceAlertHandler());
@@ -84,26 +87,30 @@ public class DisruptorMessageConsumer implements MessageConsumer {
         this.traceRingBuffer.addGatingSequences(traceAnalyzeEventProcessor.getSequence());
         this.traceRingBuffer.addGatingSequences(traceStorageEventProcessor.getSequence());
 
-        this.metricsRingBuffer = RingBuffer.createSingleProducer(MetricsEvent.EVENT_FACTORY, METRICS_BUFFER_SIZE, new SleepingWaitStrategy());
-        this.metricsSequenceBarrier = metricsRingBuffer.newBarrier();
-        this.metricsAlertEventProcessor = new BatchEventProcessor<MetricsEvent>(metricsRingBuffer, metricsSequenceBarrier, new MetricsAlertHandler());
-        this.metricsAnalyzeEventProcessor = new BatchEventProcessor<MetricsEvent>(metricsRingBuffer, metricsSequenceBarrier, new MetricsAnalyzeHandler());
-        this.metricsStorageEventProcessor = new BatchEventProcessor<MetricsEvent>(metricsRingBuffer, metricsSequenceBarrier, new MetricsStorageHandler());
-        this.metricsRingBuffer.addGatingSequences(metricsAlertEventProcessor.getSequence());
-        this.metricsRingBuffer.addGatingSequences(metricsAnalyzeEventProcessor.getSequence());
-        this.metricsRingBuffer.addGatingSequences(metricsStorageEventProcessor.getSequence());
+        this.metricRingBuffer = RingBuffer.createSingleProducer(MetricEvent.EVENT_FACTORY, METRICS_BUFFER_SIZE, new SleepingWaitStrategy());
+        this.metricSequenceBarrier = metricRingBuffer.newBarrier();
+        this.metricAlertEventProcessor = new BatchEventProcessor<MetricEvent>(metricRingBuffer, metricSequenceBarrier, new MetricAlertHandler());
+        this.metricAnalyzeEventProcessor = new BatchEventProcessor<MetricEvent>(metricRingBuffer, metricSequenceBarrier, new MetricAnalyzeHandler());
+        this.metricStorageEventProcessor = new BatchEventProcessor<MetricEvent>(metricRingBuffer, metricSequenceBarrier, new MetricStorageHandler());
+        this.metricRingBuffer.addGatingSequences(metricAlertEventProcessor.getSequence());
+        this.metricRingBuffer.addGatingSequences(metricAnalyzeEventProcessor.getSequence());
+        this.metricRingBuffer.addGatingSequences(metricStorageEventProcessor.getSequence());
 
         this.exceptionRingBuffer = RingBuffer.createSingleProducer(ExceptionEvent.EVENT_FACTORY, EXCEPTION_BUFFER_SIZE, new SleepingWaitStrategy());
         this.exceptionSequenceBarrier = exceptionRingBuffer.newBarrier();
+        this.exceptionAlertEventProcessor = new BatchEventProcessor<ExceptionEvent>(exceptionRingBuffer, exceptionSequenceBarrier, new ExceptionAlertHandler());
+        this.exceptionAnalyzeEventProcessor = new BatchEventProcessor<ExceptionEvent>(exceptionRingBuffer, exceptionSequenceBarrier, new ExceptionAnalyzeHandler());
         this.exceptionStorageEventProcessor = new BatchEventProcessor<ExceptionEvent>(exceptionRingBuffer, exceptionSequenceBarrier, new ExceptionStorageHandler());
+        this.exceptionRingBuffer.addGatingSequences(exceptionAlertEventProcessor.getSequence());
+        this.exceptionRingBuffer.addGatingSequences(exceptionAnalyzeEventProcessor.getSequence());
+        this.exceptionRingBuffer.addGatingSequences(exceptionStorageEventProcessor.getSequence());
 
         this.logEntryRingBuffer = RingBuffer.createSingleProducer(LogEntryEvent.EVENT_FACTORY, LOGENTRY_BUFFER_SIZE, new SleepingWaitStrategy());
         this.logEntrySequenceBarrier = logEntryRingBuffer.newBarrier();
-        this.logEntryValidateEventProcessor = new BatchEventProcessor<LogEntryEvent>(logEntryRingBuffer,
-                logEntrySequenceBarrier,
-                new LogEntryHandler(traceRingBuffer,
-                        metricsRingBuffer,
-                        exceptionRingBuffer)
+        this.logEntryEventProcessor = new BatchEventProcessor<LogEntryEvent>(logEntryRingBuffer, logEntrySequenceBarrier,
+                                                                                                         new LogEntryHandler(traceRingBuffer,
+                                                                                                                             metricRingBuffer,
+                                                                                                                             exceptionRingBuffer)
         );
 
         this.logRingBuffer = RingBuffer.createSingleProducer(LogEvent.EVENT_FACTORY, LOG_BUFFER_SIZE, new SleepingWaitStrategy());
@@ -122,11 +129,12 @@ public class DisruptorMessageConsumer implements MessageConsumer {
      */
     @Override
     public void start() {
+
         logger.info("start message consumer base on disruptor");
 
-        logger.info("start LogEntry validate thread");
-        ExecutorService logEntryValidateExecutor = ThreadPoolUtil.newSingleThreadExecutor("logentry-validate-pool");
-        logEntryValidateExecutor.execute(this.logEntryValidateEventProcessor);
+        logger.info("start LogEntry process thread");
+        ExecutorService logEntryValidateExecutor = ThreadPoolUtil.newSingleThreadExecutor("LogEntry-process-pool");
+        logEntryValidateExecutor.execute(this.logEntryEventProcessor);
 
         logger.info("start trace alert thread");
         ExecutorService traceAlertExecutor = ThreadPoolUtil.newSingleThreadExecutor("trace-alert-pool");
@@ -136,24 +144,32 @@ public class DisruptorMessageConsumer implements MessageConsumer {
         ExecutorService traceAnalyzeExecutor = ThreadPoolUtil.newSingleThreadExecutor("trace-analyze-pool");
         traceAnalyzeExecutor.execute(this.traceAnalyzeEventProcessor);
 
-        logger.info("start trace store thread");
-        ExecutorService traceStoreExecutor = ThreadPoolUtil.newSingleThreadExecutor("trace-store-pool");
+        logger.info("start trace save thread");
+        ExecutorService traceStoreExecutor = ThreadPoolUtil.newSingleThreadExecutor("trace-save-pool");
         traceStoreExecutor.execute(this.traceStorageEventProcessor);
 
-        logger.info("start metrics alert thread");
-        ExecutorService metricsAlertExecutor = ThreadPoolUtil.newSingleThreadExecutor("metrics-alert-pool");
-        metricsAlertExecutor.execute(this.metricsAlertEventProcessor);
+        logger.info("start metric alert thread");
+        ExecutorService metricsAlertExecutor = ThreadPoolUtil.newSingleThreadExecutor("metric-alert-pool");
+        metricsAlertExecutor.execute(this.metricAlertEventProcessor);
 
-        logger.info("start metrics analyze thread");
-        ExecutorService metricsAnalyzeExecutor = ThreadPoolUtil.newSingleThreadExecutor("metrics-analyze-pool");
-        metricsAnalyzeExecutor.execute(this.metricsAnalyzeEventProcessor);
+        logger.info("start metric analyze thread");
+        ExecutorService metricsAnalyzeExecutor = ThreadPoolUtil.newSingleThreadExecutor("metric-analyze-pool");
+        metricsAnalyzeExecutor.execute(this.metricAnalyzeEventProcessor);
 
-        logger.info("start metrics store thread");
-        ExecutorService metricsStoreExecutor = ThreadPoolUtil.newSingleThreadExecutor("metrics-store-pool");
-        metricsStoreExecutor.execute(this.metricsStorageEventProcessor);
+        logger.info("start metric save thread");
+        ExecutorService metricsStoreExecutor = ThreadPoolUtil.newSingleThreadExecutor("metric-save-pool");
+        metricsStoreExecutor.execute(this.metricStorageEventProcessor);
 
-        logger.info("start exception store thread");
-        ExecutorService exceptionStoreExecutor = ThreadPoolUtil.newSingleThreadExecutor("exception-store-pool");
+        logger.info("start exception alert thread");
+        ExecutorService exceptionAlertExecutor = ThreadPoolUtil.newSingleThreadExecutor("exception-alert-pool");
+        exceptionAlertExecutor.execute(this.exceptionAlertEventProcessor);
+
+        logger.info("start exception analyze thread");
+        ExecutorService exceptionAnalyzeExecutor = ThreadPoolUtil.newSingleThreadExecutor("exception-analyze-pool");
+        exceptionAnalyzeExecutor.execute(this.exceptionAnalyzeEventProcessor);
+
+        logger.info("start exception save thread");
+        ExecutorService exceptionStoreExecutor = ThreadPoolUtil.newSingleThreadExecutor("exception-save-pool");
         exceptionStoreExecutor.execute(this.exceptionStorageEventProcessor);
 
         logger.info("start log alert thread");
@@ -164,8 +180,8 @@ public class DisruptorMessageConsumer implements MessageConsumer {
         ExecutorService logAnalyzeExecutor = ThreadPoolUtil.newSingleThreadExecutor("log-analyze-pool");
         logAnalyzeExecutor.execute(this.logAnalyzeEventProcessor);
 
-        logger.info("start log store thread");
-        ExecutorService logStoreExecutor = ThreadPoolUtil.newSingleThreadExecutor("log-store-pool");
+        logger.info("start log save thread");
+        ExecutorService logStoreExecutor = ThreadPoolUtil.newSingleThreadExecutor("log-save-pool");
         logStoreExecutor.execute(this.logStoreEventProcessor);
 
         start = true;
@@ -204,9 +220,9 @@ public class DisruptorMessageConsumer implements MessageConsumer {
     public void shutdown() {
 
         /**
-         * close LogEntry validate thread
+         * close LogEntry process thread
          */
-        logEntryValidateEventProcessor.halt();
+        logEntryEventProcessor.halt();
 
         /**
          * close trace process thread
@@ -216,15 +232,17 @@ public class DisruptorMessageConsumer implements MessageConsumer {
         traceStorageEventProcessor.halt();
 
         /**
-         * close metrics process thread
+         * close metric process thread
          */
-        metricsAlertEventProcessor.halt();
-        metricsAnalyzeEventProcessor.halt();
-        metricsStorageEventProcessor.halt();
+        metricAlertEventProcessor.halt();
+        metricAnalyzeEventProcessor.halt();
+        metricStorageEventProcessor.halt();
 
         /**
          * close exception process thread
          */
+        exceptionAlertEventProcessor.halt();
+        exceptionAnalyzeEventProcessor.halt();
         exceptionStorageEventProcessor.halt();
 
         /**
