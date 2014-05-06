@@ -1,5 +1,7 @@
 package com.vipshop.microscope.storage;
 
+import com.vipshop.microscope.trace.exception.ExceptionData;
+import com.vipshop.microscope.trace.metric.MetricData;
 import net.opentsdb.core.*;
 import org.testng.annotations.Test;
 
@@ -28,13 +30,8 @@ public class StorageRepositoryTest {
     }
 
     @Test
-    public void testSuggestMetrics() {
-        System.out.println(storageRepository.suggestMetrics("jvm"));
-    }
-
-    @Test
     public void testFind() throws InterruptedException {
-        long timestamp = System.currentTimeMillis();
+        long timestamp = System.currentTimeMillis() - 10 * 60 * 1000 * 60;
         String metric = "jvm_memory.Usage";
         Map<String, String> tags = new HashMap<String, String>();
         tags.put("APP", "trace");
@@ -44,8 +41,18 @@ public class StorageRepositoryTest {
         Aggregator function = Aggregators.MAX;
         boolean rate = true;
 
-        DataPoints[] dataPoints = storageRepository.find(timestamp - 10 * 60 * 1000 * 60, timestamp, metric, tags, function, rate);
+        DataPoints[] dataPoints = storageRepository.find(timestamp, System.currentTimeMillis(), metric, tags, function, rate);
+
         TimeUnit.SECONDS.sleep(1);
+
+//        for(int i = 0; i < dataPoints.length; i++) {
+//            SeekableView views = dataPoints[i].iterator();
+//            while (views.hasNext()) {
+//                DataPoint dataPoint = views.next();
+//                System.out.println(dataPoint.timestamp());
+//            }
+//        }
+
         for (int i = 0; i < dataPoints.length; i++) {
             System.out.println(dataPoints[i].toString());
         }
@@ -60,7 +67,9 @@ public class StorageRepositoryTest {
         tags.put("IP", "10.101.3.111");
         long value = 10;
 
-        storageRepository.save(metric, timestamp, value, tags);
+        MetricData metricData = MetricData.named(metric).withTags(tags).withValue(value).withTimestamp(timestamp).build();
+
+        storageRepository.save(metricData);
 
         TimeUnit.SECONDS.sleep(10);
     }
@@ -75,7 +84,9 @@ public class StorageRepositoryTest {
             tags.put("IP", "10.101.3.111");
             long value = 10;
 
-            storageRepository.save(metric, timestamp, value, tags);
+            MetricData metricData = MetricData.named(metric).withTags(tags).withValue(value).withTimestamp(timestamp).build();
+
+            storageRepository.save(metricData);
 
             TimeUnit.SECONDS.sleep(1);
         }
@@ -92,14 +103,9 @@ public class StorageRepositoryTest {
         query.put("startTime", String.valueOf(System.currentTimeMillis() - 1000 * 60 * 60));
         query.put("endTime", String.valueOf(System.currentTimeMillis()));
 
-        List<Map<String, Object>> result = storageRepository.findExceptionList(query);
+        List<ExceptionData> result = storageRepository.findExceptionData(query);
 
         System.out.println(result);
-    }
-
-    @Test
-    public void testFindTop() {
-        System.out.println(storageRepository.findTopList());
     }
 
 }

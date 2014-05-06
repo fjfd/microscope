@@ -13,7 +13,7 @@ import java.util.*;
 @Repository
 public class TraceIndexRepository extends AbstractRepository {
 
-    public void initialize() {
+    public void create() {
         super.create(TraceIndexTable.TABLE_NAME, new String[]{TraceIndexTable.CF_APP, TraceIndexTable.CF_IP, TraceIndexTable.CF_TRACE});
     }
 

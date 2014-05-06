@@ -64,4 +64,8 @@ public final class Const {
             'A', 'B', 'C', 'D', 'E', 'F'
     };
 
+    public static void main(String[] args){
+        System.out.println(0x00000000FFFFFFFF);
+    }
+
 }

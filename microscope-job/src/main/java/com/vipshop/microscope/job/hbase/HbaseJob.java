@@ -1,6 +1,6 @@
 package com.vipshop.microscope.job.hbase;
 
-import com.vipshop.microscope.storage.hbase.RepositoryFactory;
+import com.vipshop.microscope.storage.RepositoryFactory;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.KeyValue;
 import org.apache.hadoop.hbase.client.Put;

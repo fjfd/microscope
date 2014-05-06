@@ -21,7 +21,7 @@ public class HomeService {
         query.put(Constants.APP, request.getParameter(Constants.APP));
         query.put(Constants.IP, request.getParameter(Constants.IP));
 
-        result.put("systeminfo", storageRepository.getSystemInfo(query));
+        result.put("systeminfo", storageRepository.findSystemData(query));
 
         return result;
     }

@@ -109,7 +109,7 @@ public abstract class AbstractRepository implements InitializingBean {
 
             logger.info("drop HBase table " + table);
         } catch (IOException e) {
-            throw new RuntimeException("error happens when drop" + table, e);
+            throw new RuntimeException("error happens when drop " + table, e);
         }
     }
 

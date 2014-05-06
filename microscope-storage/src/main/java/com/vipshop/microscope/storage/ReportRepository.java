@@ -15,7 +15,7 @@ import java.util.Map.Entry;
 @Repository
 public class ReportRepository extends AbstractRepository {
 
-    public void initialize() {
+    public void create() {
         super.create(ReportTable.TABLE_NAME, ReportTable.CF);
     }
 

@@ -60,7 +60,7 @@ public class Metrics {
                     .withTags(tags)
                     .build();
 
-            logger.info("start microscope metrics reporter with period " + Tracer.REPORT_PERIOD_TIME + " millisecond");
+            logger.info("start microscope metrics reporter with period " + period + " second");
 
             reporter.start(period, unit);
 

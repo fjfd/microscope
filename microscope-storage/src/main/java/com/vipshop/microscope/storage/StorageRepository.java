@@ -1,16 +1,11 @@
 package com.vipshop.microscope.storage;
 
-import com.vipshop.microscope.storage.hbase.HBaseRepository;
-import com.vipshop.microscope.storage.hbase.TraceIndexTable;
-import com.vipshop.microscope.storage.hbase.TraceOverviewTable;
-import com.vipshop.microscope.storage.tsdb.TSDBRepository;
 import com.vipshop.microscope.thrift.Span;
 import com.vipshop.microscope.trace.exception.ExceptionData;
 import com.vipshop.microscope.trace.metric.MetricData;
 import com.vipshop.microscope.trace.system.SystemData;
 import net.opentsdb.core.Aggregator;
 import net.opentsdb.core.DataPoints;
-import org.apache.hadoop.hbase.client.Scan;
 
 import java.util.List;
 import java.util.Map;
@@ -25,10 +20,6 @@ import java.util.Map;
  */
 public class StorageRepository {
 
-    private final HBaseRepository hbaseRepository = new HBaseRepository();
-
-    private final TSDBRepository TSDBRepository = new TSDBRepository();
-
     private static class StorageRepositoryHolder {
         public static StorageRepository storageRepository = new StorageRepository();
     }
@@ -37,30 +28,39 @@ public class StorageRepository {
         return StorageRepositoryHolder.storageRepository;
     }
 
-    // ************************** table operations **************************************** //
-
     /**
      * Create table
      */
     public void createHBaseTable() {
-        hbaseRepository.create();
+        RepositoryFactory.getSystemRepository().create();
+        RepositoryFactory.getTraceIndexRepository().create();
+        RepositoryFactory.getTraceOverviewRepository().create();
+        RepositoryFactory.getTraceRepository().create();
+        RepositoryFactory.getExceptionRepository().create();
+        RepositoryFactory.getMetricRepository().create();
+        RepositoryFactory.getUserRepository().create();
     }
 
     /**
      * Drop table
      */
     public void dropHBaseTable() {
-        hbaseRepository.drop();
+        RepositoryFactory.getSystemRepository().drop();
+        RepositoryFactory.getTraceIndexRepository().drop();
+        RepositoryFactory.getTraceOverviewRepository().drop();
+        RepositoryFactory.getTraceRepository().drop();
+        RepositoryFactory.getExceptionRepository().drop();
+        RepositoryFactory.getMetricRepository().drop();
+        RepositoryFactory.getUserRepository().drop();
     }
 
     /**
      * Drop table then create table
      */
     public void initHBaseTable() {
-        hbaseRepository.init();
+        dropHBaseTable();
+        createHBaseTable();
     }
-
-    // ************************* write operations ************************************** //
 
     /**
      * Save trace index data
@@ -68,7 +68,7 @@ public class StorageRepository {
      * @param appTable
      */
     public void save(TraceIndexTable appTable) {
-        hbaseRepository.save(appTable);
+        RepositoryFactory.getTraceIndexRepository().save(appTable);
     }
 
     /**
@@ -77,7 +77,7 @@ public class StorageRepository {
      * @param traceTable
      */
     public void save(TraceOverviewTable traceTable) {
-        hbaseRepository.save(traceTable);
+        RepositoryFactory.getTraceOverviewRepository().save(traceTable);
     }
 
     /**
@@ -86,7 +86,7 @@ public class StorageRepository {
      * @param span
      */
     public void save(Span span) {
-        hbaseRepository.save(span);
+        RepositoryFactory.getTraceRepository().save(span);
     }
 
     /**
@@ -95,7 +95,7 @@ public class StorageRepository {
      * @param systemData
      */
     public void save(SystemData systemData) {
-        hbaseRepository.save(systemData);
+        RepositoryFactory.getSystemRepository().save(systemData);
     }
 
     /**
@@ -104,116 +104,60 @@ public class StorageRepository {
      * @param exception
      */
     public void save(ExceptionData exception) {
-        // TODO
+        RepositoryFactory.getExceptionRepository().save(exception);
     }
 
     /**
      * Save metric data
      *
-     * @param metric    the name of metric
-     * @param timestamp the value of timestamp
-     * @param value     the value of metric
-     * @param tags      the tags of metric
+     * @param metric the data of metric
      */
-    public void save(final String metric, final long timestamp, final Object value, final Map<String, String> tags) {
-        TSDBRepository.add(metric, timestamp, value, tags);
+    public void save(MetricData metric) {
+        RepositoryFactory.getMetricRepository().save(metric);
     }
 
-    public void saveUser(Map<String, String> user) {
-        hbaseRepository.saveUser(user);
+    public List<Map<String, Object>> findExceptionIndex() {
+        return RepositoryFactory.getExceptionRepository().find();
     }
 
-    public void saveTop(Map<String, Object> top) {
-        hbaseRepository.saveTop(top);
+    public List<ExceptionData> findExceptionData(Map<String, String> query) {
+        return RepositoryFactory.getExceptionRepository().find(query);
     }
-
-
-    // **************************** read operations ************************************** //
-
 
     public DataPoints[] find(long start,
                              String metric, Map<String, String> tags,
                              Aggregator function, boolean rate) {
-        return TSDBRepository.find(start, System.currentTimeMillis(), metric, tags, function, rate);
+        return RepositoryFactory.getMetricRepository().find(start, metric, tags, function, rate);
     }
 
     public DataPoints[] find(long start, long end,
                              String metric, Map<String, String> tags,
                              Aggregator function, boolean rate) {
-        return TSDBRepository.find(start, end, metric, tags, function, rate);
+        return RepositoryFactory.getMetricRepository().find(start, end, metric, tags, function, rate);
     }
 
-    public List<String> suggestMetrics(final String search) {
-        return TSDBRepository.suggestMetrics(search);
+    public List<Map<String, Object>> findSystemIndex() {
+        return null;
     }
 
-    public List<String> suggestTagNames(final String search) {
-        return TSDBRepository.suggestTagNames(search);
-    }
-
-    public List<String> suggestTagValues(final String search) {
-        return TSDBRepository.suggestTagValues(search);
-    }
-
-    public SystemData getSystemInfo(Map<String, String> query) {
-        return hbaseRepository.getSystemInfo(query);
+    public SystemData findSystemData(Map<String, String> query) {
+        return RepositoryFactory.getSystemRepository().find(query);
     }
 
     public List<Map<String, Object>> findTraceIndex() {
-        return hbaseRepository.findTraceIndex();
+        return RepositoryFactory.getTraceIndexRepository().find();
     }
 
     public List<TraceOverviewTable> findTraceList(Map<String, String> query) {
-        return hbaseRepository.findTraceList(query);
-    }
-
-    public List<TraceOverviewTable> findTraceList(Scan scan) {
-        return hbaseRepository.findTraceList(scan);
-    }
-
-    public List<Span> findTrace(String traceId) {
-        return hbaseRepository.findTrace(traceId);
+        return RepositoryFactory.getTraceOverviewRepository().find(query);
     }
 
     public Map<String, Integer> findSpanName(String traceId) {
-        return hbaseRepository.findSpanName(traceId);
+        return RepositoryFactory.getTraceRepository().findSpanName(traceId);
     }
 
-    public List<Map<String, Object>> findExceptionIndex() {
-        return hbaseRepository.findExceptionIndex();
+    public List<Span> findTrace(String traceId) {
+        return RepositoryFactory.getTraceRepository().find(traceId);
     }
-
-    public List<Map<String, Object>> findExceptionList(Map<String, String> query) {
-        return hbaseRepository.findExceptionList(query);
-    }
-
-    public Map<String, Object> findTopList() {
-        return hbaseRepository.findTopList();
-    }
-
-    public void saveMetricIndex(MetricData metric) {
-        hbaseRepository.saveMetricIndex(metric);
-    }
-
-    public void saveMetric(MetricData metric) {
-        hbaseRepository.saveMetric(metric);
-    }
-
-    public List<Map<String, Object>> findMetricIndex() {
-        return hbaseRepository.findMetricsIndex();
-    }
-
-    public Map<String, Object> findName1(final String app, final String name1) {
-        return hbaseRepository.findName1(app, name1);
-    }
-
-    public Map<String, Object> findName2(final String app, final String name2) {
-        return hbaseRepository.findName2(app, name2);
-    }
-
-    public List<Map<String, Object>> findMetric(Map<String, String> query) {
-        return hbaseRepository.findMetrics(query);
-    }
-
 
 }

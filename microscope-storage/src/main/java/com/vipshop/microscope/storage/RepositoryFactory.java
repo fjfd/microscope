@@ -5,87 +5,59 @@ import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
- * Hbase Factory responsible for create Repository.
+ * HBase Factory responsible for create Repository.
  *
  * @author Xu Fei
  * @version 1.0
  */
 public class RepositoryFactory {
 
-    // ************** system message ************************************************ //
-    private static final HomeSystemRepository SYSTEM;
-
-    // ************** trace message ************************************************ //
+    private static final SystemRepository SYSTEM;
     private static final TraceIndexRepository TRACE_INDEX;
     private static final TraceOverviewRepository TRACE_OVERVIEW;
     private static final TraceRepository TRACE;
-
-    // ************** exception message ************************************************ //
-    private static final ExceptionIndexRepository EXCEPTION_INDEX;
     private static final ExceptionRepository EXCEPTION;
-
-    // ************** metrics message ************************************************ //
-    private static final TSDBIndexRepository TSDB_INDEX;
-    private static final TSDBUIDRepository TSDBUID;
-    private static final TSDBRepository TSDB;
-
-    // ************** report info ***************************************************** //
-    private static final ReportTopRepository TOP;
-
-    // ************** user info ******************************************************* //
+    private static final MetricRepository METRIC;
+    private static final ReportRepository REPORT;
+    private static final LogRepository LOG;
+    private static final AlertRepository ALERT;
     private static final UserRepository USER;
 
     static {
 
-        AbstractApplicationContext context = new ClassPathXmlApplicationContext("/applicationContext-storage-hbase.xml", RepositoryFactory.class);
-
-        // ************************** create repository *************************************** //
-
-        SYSTEM = context.getBean(HomeSystemRepository.class);
-
+        AbstractApplicationContext context = new ClassPathXmlApplicationContext("/applicationContext-storage-hbase.xml",
+                                                                                RepositoryFactory.class);
+        SYSTEM = context.getBean(SystemRepository.class);
         TRACE_INDEX = context.getBean(TraceIndexRepository.class);
         TRACE_OVERVIEW = context.getBean(TraceOverviewRepository.class);
         TRACE = context.getBean(TraceRepository.class);
-
-        EXCEPTION_INDEX = context.getBean(ExceptionIndexRepository.class);
         EXCEPTION = context.getBean(ExceptionRepository.class);
-
-        TSDB_INDEX = context.getBean(TSDBIndexRepository.class);
-        TSDB = context.getBean(TSDBRepository.class);
-        TSDBUID = context.getBean(TSDBUIDRepository.class);
-
-        TOP = context.getBean(ReportTopRepository.class);
-
+        METRIC = context.getBean(MetricRepository.class);
+        REPORT = context.getBean(ReportRepository.class);
+        LOG = context.getBean(LogRepository.class);
+        ALERT = context.getBean(AlertRepository.class);
         USER = context.getBean(UserRepository.class);
 
-        // ************************** create table ************************************************ //
-
-        SYSTEM.initialize();
-
-        TRACE_INDEX.initialize();
-        TRACE_OVERVIEW.initialize();
-        TRACE.initialize();
-
-        EXCEPTION_INDEX.initialize();
-        EXCEPTION.initialize();
-
-        TSDB_INDEX.initialize();
-        TSDB.initialize();
-        TSDBUID.initialize();
-
-        TOP.initialize();
-
-        USER.initialize();
+        SYSTEM.create();
+        TRACE_INDEX.create();
+        TRACE_OVERVIEW.create();
+        TRACE.create();
+        EXCEPTION.create();
+        METRIC.create();
+        REPORT.create();
+        LOG.create();
+        ALERT.create();
+        USER.create();
 
         context.close();
     }
 
     /**
-     * Return {@link HomeSystemRepository}
+     * Return {@link SystemRepository}
      *
      * @return
      */
-    public static HomeSystemRepository getSystemRepository() {
+    public static SystemRepository getSystemRepository() {
         return SYSTEM;
     }
 
@@ -117,15 +89,6 @@ public class RepositoryFactory {
     }
 
     /**
-     * Return {@link ExceptionIndexRepository}
-     *
-     * @return
-     */
-    public static ExceptionIndexRepository getExceptionIndexRepository() {
-        return EXCEPTION_INDEX;
-    }
-
-    /**
      * Return {@link ExceptionRepository}
      *
      * @return
@@ -135,39 +98,12 @@ public class RepositoryFactory {
     }
 
     /**
-     * Return {@link TSDBRepository}
+     * Return {@link MetricRepository}
      *
      * @return
      */
-    public static TSDBRepository getTsdbRepository() {
-        return TSDB;
-    }
-
-    /**
-     * Return {@link TSDBUIDRepository}
-     *
-     * @return
-     */
-    public static TSDBUIDRepository getTsdbuidRepository() {
-        return TSDBUID;
-    }
-
-    /**
-     * Return {@link TSDBIndexRepository}
-     *
-     * @return
-     */
-    public static TSDBIndexRepository getTsdbIndexReporsitory() {
-        return TSDB_INDEX;
-    }
-
-    /**
-     * Return {@link ReportTopRepository}
-     *
-     * @return
-     */
-    public static ReportTopRepository getTopRepository() {
-        return TOP;
+    public static MetricRepository getMetricRepository() {
+        return METRIC;
     }
 
     /**

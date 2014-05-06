@@ -2,12 +2,12 @@ package com.vipshop.microscope.collector.disruptor;
 
 import com.lmax.disruptor.EventHandler;
 import com.lmax.disruptor.RingBuffer;
-import com.vipshop.microscope.collector.stats.MesssageStats;
+import com.vipshop.microscope.collector.analyzer.StatsAnalyzer;
 import com.vipshop.microscope.collector.storager.MessageStorager;
 import com.vipshop.microscope.collector.validater.MessageValidater;
 import com.vipshop.microscope.thrift.LogEntry;
 import com.vipshop.microscope.thrift.Span;
-import com.vipshop.microscope.trace.Codec;
+import com.vipshop.microscope.trace.codec.Codec;
 import com.vipshop.microscope.trace.Constants;
 import com.vipshop.microscope.trace.exception.ExceptionData;
 import com.vipshop.microscope.trace.metric.MetricData;
@@ -26,7 +26,7 @@ public class LogEntryHandler implements EventHandler<LogEntryEvent> {
     public final Logger logger = LoggerFactory.getLogger(LogEntryHandler.class);
 
     private final MessageValidater messageValidater = new MessageValidater();
-    private final MesssageStats stats = new MesssageStats();
+    private final StatsAnalyzer stats = new StatsAnalyzer();
 
     private RingBuffer<TraceEvent> traceRingBuffer;
     private RingBuffer<MetricEvent> metricsRingBuffer;

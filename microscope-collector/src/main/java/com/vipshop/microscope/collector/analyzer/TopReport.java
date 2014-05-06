@@ -18,7 +18,7 @@ package com.vipshop.microscope.collector.analyzer;
  * @version 1.0
  */
 
-public class TopReport extends AbstraceReport {
+public class TopReport {
 
 
 }

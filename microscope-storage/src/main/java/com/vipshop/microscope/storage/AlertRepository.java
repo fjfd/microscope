@@ -10,4 +10,11 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class AlertRepository extends AbstractRepository {
+
+    public void create() {
+
+    }
+
+    public void drop() {}
+
 }

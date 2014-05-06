@@ -18,7 +18,7 @@ import java.util.Map;
 @Repository
 public class TraceOverviewRepository extends AbstractRepository {
 
-    public void initialize() {
+    public void create() {
         super.create(TraceOverviewTable.TABLE_NAME, TraceOverviewTable.CF);
     }
 

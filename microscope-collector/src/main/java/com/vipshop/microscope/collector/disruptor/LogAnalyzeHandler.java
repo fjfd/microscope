@@ -1,6 +1,7 @@
 package com.vipshop.microscope.collector.disruptor;
 
 import com.lmax.disruptor.EventHandler;
+import com.vipshop.microscope.collector.analyzer.MessageAnalyzer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,9 +15,11 @@ public class LogAnalyzeHandler implements EventHandler<LogEvent> {
 
     public static final Logger logger = LoggerFactory.getLogger(LogAnalyzeHandler.class);
 
+    private final MessageAnalyzer messageAnalyzer = MessageAnalyzer.getMessageAnalyzer();
+
     @Override
     public void onEvent(final LogEvent event, long sequence, boolean endOfBatch) throws Exception {
-//        System.out.println(event.getResult());
+        messageAnalyzer.analyzeLog(event.getResult());
     }
 
 }

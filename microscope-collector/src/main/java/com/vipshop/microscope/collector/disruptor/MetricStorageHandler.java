@@ -21,7 +21,7 @@ public class MetricStorageHandler implements EventHandler<MetricEvent> {
     private final MessageStorager messageStorager = MessageStorager.getMessageStorager();
 
     private final int size = Runtime.getRuntime().availableProcessors() * 1;
-    private final ExecutorService metricsStorageWorkerExecutor = ThreadPoolUtil.newFixedThreadPool(size, "metrics-save-worker-pool");
+    private final ExecutorService metricsStorageWorkerExecutor = ThreadPoolUtil.newFixedThreadPool(size, "metrics-saveLog-worker-pool");
 
     @Override
     public void onEvent(final MetricEvent event, long sequence, boolean endOfBatch) throws Exception {

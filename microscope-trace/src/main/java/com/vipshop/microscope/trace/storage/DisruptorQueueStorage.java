@@ -6,7 +6,7 @@ import com.vipshop.microscope.thrift.LogEntry;
 import com.vipshop.microscope.thrift.Span;
 import com.vipshop.microscope.thrift.ThriftCategory;
 import com.vipshop.microscope.thrift.ThriftClient;
-import com.vipshop.microscope.trace.Codec;
+import com.vipshop.microscope.trace.codec.Codec;
 import com.vipshop.microscope.trace.Tracer;
 import com.vipshop.microscope.trace.exception.ExceptionData;
 import com.vipshop.microscope.trace.metric.MetricData;

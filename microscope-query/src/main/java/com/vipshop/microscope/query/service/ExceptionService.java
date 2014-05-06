@@ -33,6 +33,7 @@ public class ExceptionService {
         query.put("endTime", endTime);
         query.put("limit", limit);
 
-        return storageRepository.findExceptionList(query);
+//        return storageRepository.findExceptionData(query);
+        return null;
     }
 }

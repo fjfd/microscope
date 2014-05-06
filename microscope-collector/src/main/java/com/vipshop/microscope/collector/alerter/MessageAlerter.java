@@ -3,6 +3,7 @@ package com.vipshop.microscope.collector.alerter;
 import com.vipshop.microscope.thrift.Span;
 import com.vipshop.microscope.trace.exception.ExceptionData;
 import com.vipshop.microscope.trace.metric.MetricData;
+import com.vipshop.microscope.trace.system.SystemData;
 
 /**
  * Message Alert API.
@@ -33,5 +34,11 @@ public class MessageAlerter {
     public void alert(MetricData metrics) {
 
     }
+
+    public void alert(SystemData system) {}
+
+    public void alertLog(String logs){}
+
+    public void alertGCLog(String logs){}
 
 }

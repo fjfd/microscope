@@ -14,6 +14,8 @@ import com.vipshop.microscope.trace.transport.TransporterHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Trace client API for Java.
  * <p/>
@@ -175,7 +177,7 @@ public class Tracer {
                  * start metrics reporter
                  */
                 if (switcher.isMetricOpen()) {
-                    Metrics.startMicroscopeReporter();
+                    Metrics.startMicroscopeReporter(REPORT_PERIOD_TIME, TimeUnit.SECONDS);
                 }
 
                 /**

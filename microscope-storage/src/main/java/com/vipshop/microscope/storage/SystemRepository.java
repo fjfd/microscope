@@ -11,39 +11,38 @@ import org.springframework.data.hadoop.hbase.RowMapper;
 import org.springframework.data.hadoop.hbase.TableCallback;
 import org.springframework.stereotype.Repository;
 
-import java.io.Serializable;
 import java.util.Map;
 
 @Repository
 public class SystemRepository extends AbstractRepository {
 
-    public void initialize() {
-        super.create(HomeSystemTable.TABLE_NAME, HomeSystemTable.CF);
+    public void create() {
+        super.create(SystemTable.TABLE_NAME, SystemTable.CF);
     }
 
     public void drop() {
-        super.drop(HomeSystemTable.TABLE_NAME);
+        super.drop(SystemTable.TABLE_NAME);
     }
 
     /**
-     * Store system info.
+     * Store system data.
      *
-     * @param info
+     * @param system
      */
-    public void save(final SystemData info) {
-        hbaseTemplate.execute(HomeSystemTable.TABLE_NAME, new TableCallback<SystemData>() {
+    public void save(final SystemData system) {
+        hbaseTemplate.execute(SystemTable.TABLE_NAME, new TableCallback<SystemData>() {
             @Override
             public SystemData doInTable(HTableInterface table) throws Throwable {
-                Put p = new Put(Bytes.toBytes(HomeSystemTable.rowKey(info)));
-                p.add(HomeSystemTable.BYTE_CF, HomeSystemTable.BYTE_C_SYSTEM, SerializationUtils.serialize((Serializable) info));
+                Put p = new Put(Bytes.toBytes(SystemTable.rowKey(system)));
+                p.add(SystemTable.BYTE_CF, SystemTable.BYTE_C_SYSTEM, SerializationUtils.serialize(system));
                 table.put(p);
-                return info;
+                return system;
             }
         });
     }
 
     /**
-     * find system info.
+     * get system data.
      *
      * @param query
      * @return
@@ -52,11 +51,10 @@ public class SystemRepository extends AbstractRepository {
 
         String rowName = query.get(Constants.APP) + query.get(Constants.IP);
 
-        return hbaseTemplate.get(HomeSystemTable.TABLE_NAME, rowName, new RowMapper<SystemData>() {
-            @SuppressWarnings("unchecked")
+        return hbaseTemplate.get(SystemTable.TABLE_NAME, rowName, new RowMapper<SystemData>() {
             @Override
             public SystemData mapRow(Result result, int rowNum) throws Exception {
-                return (SystemData) SerializationUtils.deserialize(result.getValue(HomeSystemTable.BYTE_CF, HomeSystemTable.BYTE_C_SYSTEM));
+                return (SystemData) SerializationUtils.deserialize(result.getValue(SystemTable.BYTE_CF, SystemTable.BYTE_C_SYSTEM));
             }
         });
     }

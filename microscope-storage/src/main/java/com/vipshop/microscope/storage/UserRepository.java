@@ -16,7 +16,7 @@ import java.util.Map;
 @Repository
 public class UserRepository extends AbstractRepository {
 
-    public void initialize() {
+    public void create() {
         super.create(UserTable.TABLE_NAME, new String[]{UserTable.CF_INFO, UserTable.CF_HISTORY});
     }
 

@@ -1,6 +1,5 @@
 package com.vipshop.microscope.query.user;
 
-import com.vipshop.microscope.storage.StorageRepository;
 import org.jasig.cas.client.authentication.AttributePrincipal;
 import org.jasig.cas.client.util.AssertionHolder;
 import org.jasig.cas.client.validation.Assertion;
@@ -46,7 +45,7 @@ public class UserFilter implements Filter {
         user.put("username", info[0]);
         user.put("history", ((HttpServletRequest) request).getRequestURL().toString());
 
-        StorageRepository.getStorageRepository().saveUser(user);
+//        StorageRepository.getStorageRepository().saveUser(user);
 
     }
 

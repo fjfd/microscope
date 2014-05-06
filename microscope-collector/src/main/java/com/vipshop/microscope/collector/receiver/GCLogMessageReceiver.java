@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Read Kafka message
+ * Read gc log message
  *
  * @author Xu Fei
  * @version 1.0
@@ -29,15 +29,15 @@ public class GCLogMessageReceiver implements MessageReceiver {
     @Override
     public void start() {
 
-        logger.info("start kafka message consumer");
+        logger.info("start gc log message receiver");
 
         new Thread(new Runnable() {
             @Override
             public void run() {
                 for (; ; ) {
 
-                    String logs = "this is a test log in local model";
-                    consumer.publish(logs);
+                    String logs = "this is a gc log in local model";
+                    consumer.publishGCLog(logs);
 
                     try {
                         TimeUnit.SECONDS.sleep(1);

@@ -21,7 +21,7 @@ public class ExceptionStorageHandler implements EventHandler<ExceptionEvent> {
 
     private final MessageStorager messageStorager = MessageStorager.getMessageStorager();
 
-    private final ExecutorService exceptionStorageWorkerExecutor = ThreadPoolUtil.newFixedThreadPool(1, "exception-save-worker-pool");
+    private final ExecutorService exceptionStorageWorkerExecutor = ThreadPoolUtil.newFixedThreadPool(1, "exception-saveLog-worker-pool");
 
     @Override
     public void onEvent(final ExceptionEvent event, long sequence, boolean endOfBatch) throws Exception {

@@ -15,14 +15,8 @@ import java.util.List;
  */
 public class TraceTable {
 
-    /**
-     * table name
-     */
-    public static final String TABLE_NAME = "trace";
+    public static final String TABLE_TRACE = "trace";
 
-    /**
-     * column family
-     */
     public static final String CF = "cf";
 
     public static final byte[] BYTE_CF = Bytes.toBytes(CF);

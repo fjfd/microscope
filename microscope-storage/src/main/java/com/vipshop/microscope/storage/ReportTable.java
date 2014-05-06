@@ -12,7 +12,7 @@ public class ReportTable {
 
     // ********* Hbase schema for top table *********** //
 
-    public static final String TABLE_NAME = "report_top";
+    public static final String TABLE_NAME = "report";
 
     public static final String CF = "cf";
 

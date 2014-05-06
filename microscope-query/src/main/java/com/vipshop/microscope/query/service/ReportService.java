@@ -2,11 +2,12 @@ package com.vipshop.microscope.query.service;
 
 import com.vipshop.microscope.storage.StorageRepository;
 import com.vipshop.microscope.trace.Constants;
+import net.opentsdb.core.Aggregators;
+import net.opentsdb.core.DataPoints;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Service
@@ -14,37 +15,48 @@ public class ReportService {
 
     private final StorageRepository storageRepository = StorageRepository.getStorageRepository();
 
-    public List<Map<String, Object>> metricIndex() {
-        return storageRepository.findMetricIndex();
-    }
+    public Map<String, Object> metric(HttpServletRequest request) {
 
-    public Map<String, Object> changeName1(HttpServletRequest request) {
-        String app = request.getParameter(Constants.APP);
-        String name1 = request.getParameter("name");
-        return storageRepository.findName1(app, name1);
-    }
+        /**
+         * start time
+         */
+        long startTime = Long.valueOf(request.getParameter(Constants.STARTTIME));
 
-    public Map<String, Object> changeName2(HttpServletRequest request) {
-        String app = request.getParameter(Constants.APP);
-        String name2 = request.getParameter("name");
-        return storageRepository.findName2(app, name2);
-    }
+        /**
+         * end time
+         */
+        long endTime = 0L;
+        if (request.getParameter(Constants.ENDTIME) == null) {
+            endTime = System.currentTimeMillis();
+        } else {
+            endTime = Long.valueOf(request.getParameter(Constants.ENDTIME));
+        }
 
+        /**
+         * metric name
+         */
+        String metric = request.getParameter(Constants.METRIC);
 
-    public List<Map<String, Object>> metric(HttpServletRequest request) {
-        Map<String, String> query = new HashMap<String, String>();
+        /**
+         * tags
+         */
+        Map<String, String> tags = new HashMap<String, String>();
+        tags.put(Constants.APP, request.getParameter(Constants.APP));
+        tags.put(Constants.IP, request.getParameter(Constants.IP));
 
-        query.put(Constants.APP, request.getParameter(Constants.APP));
-        query.put(Constants.IP, request.getParameter(Constants.IP));
-        query.put(Constants.METRIC, request.getParameter(Constants.METRIC));
-        query.put(Constants.STARTTIME, request.getParameter(Constants.STARTTIME));
-        query.put(Constants.ENDTIME, request.getParameter(Constants.ENDTIME));
+        Map<String, Object> result = new HashMap<String, Object>();
 
-        return storageRepository.findMetric(query);
+        DataPoints[] dataPointes = storageRepository.find(startTime, endTime, metric, tags, Aggregators.AVG, false);
+        for(int i = 0; i < dataPointes.length; i++) {
+            result.put("dataPoints[" + i + "]", dataPointes[i].toString());
+        }
+
+        return result;
     }
 
     public Map<String, Object> getTopReport() {
-        return storageRepository.findTopList();
+        return null;
     }
+
 
 }

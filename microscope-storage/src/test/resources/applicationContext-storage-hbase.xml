@@ -9,7 +9,7 @@
 
     <context:property-placeholder location="hbase.properties"/>
 
-    <context:component-scan base-package="com.vipshop.microscope.storage.hbase"/>
+    <context:component-scan base-package="com.vipshop.microscope.storage"/>
 
     <hdp:configuration id="hadoopConfiguration">
         fs.default.name=${hbase.hdfs}

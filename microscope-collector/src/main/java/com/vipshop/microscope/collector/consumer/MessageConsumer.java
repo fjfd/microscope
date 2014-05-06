@@ -35,6 +35,8 @@ public interface MessageConsumer {
      */
     public void publish(String logs);
 
+    public void publishGCLog(String gcLog);
+
     /**
      * Stop consumer.
      */

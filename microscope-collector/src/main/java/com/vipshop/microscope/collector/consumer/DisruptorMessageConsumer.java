@@ -27,6 +27,7 @@ public class DisruptorMessageConsumer implements MessageConsumer {
     private final int METRICS_BUFFER_SIZE = 1024 * 8 * 4 * 2;
     private final int EXCEPTION_BUFFER_SIZE = 1024 * 8 * 2 * 1;
     private final int LOG_BUFFER_SIZE = 1024 * 8 * 1 * 1;
+    private final int GCLOG_BUFFER_SIZE = 1024 *8 * 1 * 1;
 
     /**
      * Trace RingBuffer
@@ -70,6 +71,13 @@ public class DisruptorMessageConsumer implements MessageConsumer {
     private final BatchEventProcessor<LogEvent> logAlertEventProcessor;
     private final BatchEventProcessor<LogEvent> logAnalyzeEventProcessor;
     private final BatchEventProcessor<LogEvent> logStoreEventProcessor;
+
+    /**
+     * GCLogEvent RingBuffer
+     */
+    private final RingBuffer<GCLogEvent> gcLogRingBuffer;
+    private final SequenceBarrier gcLogSequenceBarrier;
+    private final BatchEventProcessor<GCLogEvent> gcLogStoreEventProcessor;
 
     private volatile boolean start = false;
 
@@ -122,6 +130,10 @@ public class DisruptorMessageConsumer implements MessageConsumer {
         this.logRingBuffer.addGatingSequences(logAnalyzeEventProcessor.getSequence());
         this.logRingBuffer.addGatingSequences(logStoreEventProcessor.getSequence());
 
+        this.gcLogRingBuffer = RingBuffer.createSingleProducer(GCLogEvent.EVENT_FACTORY, GCLOG_BUFFER_SIZE, new SleepingWaitStrategy());
+        this.gcLogSequenceBarrier = gcLogRingBuffer.newBarrier();
+        this.gcLogStoreEventProcessor = new BatchEventProcessor<GCLogEvent>(gcLogRingBuffer, gcLogSequenceBarrier, new GCLogStorageHandler());
+
     }
 
     /**
@@ -144,8 +156,8 @@ public class DisruptorMessageConsumer implements MessageConsumer {
         ExecutorService traceAnalyzeExecutor = ThreadPoolUtil.newSingleThreadExecutor("trace-analyze-pool");
         traceAnalyzeExecutor.execute(this.traceAnalyzeEventProcessor);
 
-        logger.info("start trace save thread");
-        ExecutorService traceStoreExecutor = ThreadPoolUtil.newSingleThreadExecutor("trace-save-pool");
+        logger.info("start trace saveLog thread");
+        ExecutorService traceStoreExecutor = ThreadPoolUtil.newSingleThreadExecutor("trace-saveLog-pool");
         traceStoreExecutor.execute(this.traceStorageEventProcessor);
 
         logger.info("start metric alert thread");
@@ -156,8 +168,8 @@ public class DisruptorMessageConsumer implements MessageConsumer {
         ExecutorService metricsAnalyzeExecutor = ThreadPoolUtil.newSingleThreadExecutor("metric-analyze-pool");
         metricsAnalyzeExecutor.execute(this.metricAnalyzeEventProcessor);
 
-        logger.info("start metric save thread");
-        ExecutorService metricsStoreExecutor = ThreadPoolUtil.newSingleThreadExecutor("metric-save-pool");
+        logger.info("start metric saveLog thread");
+        ExecutorService metricsStoreExecutor = ThreadPoolUtil.newSingleThreadExecutor("metric-saveLog-pool");
         metricsStoreExecutor.execute(this.metricStorageEventProcessor);
 
         logger.info("start exception alert thread");
@@ -168,8 +180,8 @@ public class DisruptorMessageConsumer implements MessageConsumer {
         ExecutorService exceptionAnalyzeExecutor = ThreadPoolUtil.newSingleThreadExecutor("exception-analyze-pool");
         exceptionAnalyzeExecutor.execute(this.exceptionAnalyzeEventProcessor);
 
-        logger.info("start exception save thread");
-        ExecutorService exceptionStoreExecutor = ThreadPoolUtil.newSingleThreadExecutor("exception-save-pool");
+        logger.info("start exception saveLog thread");
+        ExecutorService exceptionStoreExecutor = ThreadPoolUtil.newSingleThreadExecutor("exception-saveLog-pool");
         exceptionStoreExecutor.execute(this.exceptionStorageEventProcessor);
 
         logger.info("start log alert thread");
@@ -180,9 +192,13 @@ public class DisruptorMessageConsumer implements MessageConsumer {
         ExecutorService logAnalyzeExecutor = ThreadPoolUtil.newSingleThreadExecutor("log-analyze-pool");
         logAnalyzeExecutor.execute(this.logAnalyzeEventProcessor);
 
-        logger.info("start log save thread");
-        ExecutorService logStoreExecutor = ThreadPoolUtil.newSingleThreadExecutor("log-save-pool");
+        logger.info("start log saveLog thread");
+        ExecutorService logStoreExecutor = ThreadPoolUtil.newSingleThreadExecutor("log-saveLog-pool");
         logStoreExecutor.execute(this.logStoreEventProcessor);
+
+        logger.info("start gc log saveLog thread");
+        ExecutorService gcLogStoreExecutor = ThreadPoolUtil.newSingleThreadExecutor("gc-log-saveLog-pool");
+        gcLogStoreExecutor.execute(this.gcLogStoreEventProcessor);
 
         start = true;
     }
@@ -210,6 +226,20 @@ public class DisruptorMessageConsumer implements MessageConsumer {
             long sequence = this.logRingBuffer.next();
             this.logRingBuffer.get(sequence).setResult(log);
             this.logRingBuffer.publish(sequence);
+        }
+    }
+
+    /**
+     * Publish gc logs to consumer.
+     *
+     * @param gcLog gc logs
+     */
+    @Override
+    public void publishGCLog(String gcLog) {
+        if (start && gcLog != null) {
+            long sequence = this.gcLogRingBuffer.next();
+            this.gcLogRingBuffer.get(sequence).setResult(gcLog);
+            this.gcLogRingBuffer.publish(sequence);
         }
     }
 
@@ -251,6 +281,11 @@ public class DisruptorMessageConsumer implements MessageConsumer {
         logAlertEventProcessor.halt();
         logAnalyzeEventProcessor.halt();
         logStoreEventProcessor.halt();
+
+        /**
+         * close gc log process thread
+         */
+        gcLogStoreEventProcessor.halt();
 
     }
 

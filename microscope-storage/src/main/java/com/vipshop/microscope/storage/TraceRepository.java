@@ -18,16 +18,16 @@ import java.util.Map;
 @Repository
 public class TraceRepository extends AbstractRepository {
 
-    public void initialize() {
-        super.create(TraceTable.TABLE_NAME, TraceTable.CF);
+    public void create() {
+        super.create(TraceTable.TABLE_TRACE, TraceTable.CF);
     }
 
     public void drop() {
-        super.drop(TraceTable.TABLE_NAME);
+        super.drop(TraceTable.TABLE_TRACE);
     }
 
     public void save(final Span span) {
-        hbaseTemplate.execute(TraceTable.TABLE_NAME, new TableCallback<Span>() {
+        hbaseTemplate.execute(TraceTable.TABLE_TRACE, new TableCallback<Span>() {
             @Override
             public Span doInTable(HTableInterface table) throws Throwable {
                 Put p = new Put(Bytes.toBytes(String.valueOf(span.getTraceId())));
@@ -39,7 +39,7 @@ public class TraceRepository extends AbstractRepository {
     }
 
     public void save(final List<Span> spans) {
-        hbaseTemplate.execute(TraceTable.TABLE_NAME, new TableCallback<List<Span>>() {
+        hbaseTemplate.execute(TraceTable.TABLE_TRACE, new TableCallback<List<Span>>() {
             @Override
             public List<Span> doInTable(HTableInterface table) throws Throwable {
                 List<Put> puts = new ArrayList<Put>();
@@ -56,7 +56,7 @@ public class TraceRepository extends AbstractRepository {
 
     public List<Span> find(String traceId) {
         final List<Span> spans = new ArrayList<Span>();
-        return hbaseTemplate.get(TraceTable.TABLE_NAME, traceId, new RowMapper<List<Span>>() {
+        return hbaseTemplate.get(TraceTable.TABLE_TRACE, traceId, new RowMapper<List<Span>>() {
             @Override
             public List<Span> mapRow(Result result, int rowNum) throws Exception {
                 String[] qunitifer = getColumnsInColumnFamily(result, TraceTable.CF);
@@ -72,7 +72,7 @@ public class TraceRepository extends AbstractRepository {
 
     public Map<String, Integer> findSpanName(String traceId) {
         final Map<String, Integer> span = new HashMap<String, Integer>();
-        return hbaseTemplate.get(TraceTable.TABLE_NAME, traceId, new RowMapper<Map<String, Integer>>() {
+        return hbaseTemplate.get(TraceTable.TABLE_TRACE, traceId, new RowMapper<Map<String, Integer>>() {
             @Override
             public Map<String, Integer> mapRow(Result result, int rowNum) throws Exception {
                 String[] qunitifer = getColumnsInColumnFamily(result, TraceTable.CF);

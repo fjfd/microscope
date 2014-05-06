@@ -1,6 +1,5 @@
 package com.vipshop.microscope.query.action;
 
-import com.vipshop.microscope.query.result.ListResult;
 import com.vipshop.microscope.query.result.MapResult;
 import com.vipshop.microscope.query.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,42 +22,11 @@ public class ReportController {
     @Autowired
     private ReportService service;
 
-    @RequestMapping("/report/metricsIndex")
-    @ResponseBody
-    public ListResult metricIndex(HttpServletRequest request, String callback) {
-        ListResult result = new ListResult();
-        List<Map<String, Object>> data = service.metricIndex();
-        result.setResult(data);
-        result.setCallback(callback);
-        return result;
-    }
-
-    @RequestMapping("/report/changeName1")
-    @ResponseBody
-    public MapResult changeName1(HttpServletRequest request, String callback) {
-        MapResult result = new MapResult();
-        Map<String, Object> data = service.changeName1(request);
-        result.setResult(data);
-        result.setCallback(callback);
-        return result;
-    }
-
-    @RequestMapping("/report/changeName2")
-    @ResponseBody
-    public MapResult changeName2(HttpServletRequest request, String callback) {
-        MapResult result = new MapResult();
-        Map<String, Object> data = service.changeName2(request);
-        result.setResult(data);
-        result.setCallback(callback);
-        return result;
-    }
-
-
     @RequestMapping("/report/metrics")
     @ResponseBody
-    public ListResult metric(HttpServletRequest request, String callback) {
-        ListResult result = new ListResult();
-        List<Map<String, Object>> data = service.metric(request);
+    public MapResult metric(HttpServletRequest request, String callback) {
+        MapResult result = new MapResult();
+        Map<String, Object> data = service.metric(request);
         result.setResult(data);
         result.setCallback(callback);
         return result;

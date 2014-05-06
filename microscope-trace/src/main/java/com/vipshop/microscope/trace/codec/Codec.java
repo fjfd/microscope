@@ -1,7 +1,8 @@
-package com.vipshop.microscope.trace;
+package com.vipshop.microscope.trace.codec;
 
 import com.vipshop.microscope.thrift.LogEntry;
 import com.vipshop.microscope.thrift.Span;
+import com.vipshop.microscope.trace.Constants;
 import com.vipshop.microscope.trace.exception.ExceptionData;
 import com.vipshop.microscope.trace.metric.MetricData;
 import com.vipshop.microscope.trace.system.SystemData;

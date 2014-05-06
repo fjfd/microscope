@@ -37,4 +37,8 @@ public class MessageAnalyzer {
     public void analyze(SystemData system) {
 
     }
+
+    public void analyzeLog(String logs){}
+
+    public void analyzeGCLog(String logs){}
 }

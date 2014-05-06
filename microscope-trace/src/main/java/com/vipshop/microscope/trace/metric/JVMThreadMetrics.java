@@ -78,13 +78,6 @@ public class JVMThreadMetrics implements MetricSet {
             }
         });
 
-        gauges.put("count.deadlock", new Gauge<Integer>() {
-            @Override
-            public Integer getValue() {
-                return threads.findDeadlockedThreads().length;
-            }
-        });
-
         return gauges;
     }
 

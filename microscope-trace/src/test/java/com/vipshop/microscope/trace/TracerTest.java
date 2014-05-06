@@ -51,32 +51,34 @@ public class TracerTest {
             Tracer.clientSend("http://www.huohu.com", Category.URL);
             Tracer.record("URL", "http://10.100.90.183/#/trace");
             try {
-                TimeUnit.MILLISECONDS.sleep(1);
+                TimeUnit.MILLISECONDS.sleep(1000);
                 Tracer.clientSend("getNew@newService", Category.Service);
                 Tracer.record("username", "alex");
                 Tracer.record("email", "alex.ux01@vipshop.com");
-                TimeUnit.MILLISECONDS.sleep(4);
+                TimeUnit.MILLISECONDS.sleep(400);
                 Tracer.clientSend("get@DB", Category.DB);
                 Tracer.record("sql", "select * from user where username = ? and email = ?");
-                TimeUnit.MILLISECONDS.sleep(1);
+                TimeUnit.MILLISECONDS.sleep(100);
                 Tracer.clientReceive();
                 Tracer.clientReceive();
 
                 Tracer.clientSend("buyNew@buyService", Category.Service);
                 Tracer.record("servicename", "userservice");
-                TimeUnit.MILLISECONDS.sleep(2);
+                TimeUnit.MILLISECONDS.sleep(200);
                 Tracer.clientSend("buy@Cache", Category.Cache);
                 Tracer.record("cache", "memcache");
-                TimeUnit.MILLISECONDS.sleep(1);
+                TimeUnit.MILLISECONDS.sleep(10);
                 Tracer.clientReceive();
                 Tracer.clientReceive();
+
+                throw new UnsupportedOperationException("this is for test");
 
             } catch (Exception e) {
                 Tracer.setResultCode(e);
             } finally {
                 Tracer.clientReceive();
             }
-            TimeUnit.SECONDS.sleep(0);
+            TimeUnit.SECONDS.sleep(3);
         }
     }
 

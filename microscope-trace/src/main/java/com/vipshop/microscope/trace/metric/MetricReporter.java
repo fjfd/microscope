@@ -23,7 +23,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.SortedMap;
 import java.util.concurrent.TimeUnit;
 
@@ -74,29 +73,39 @@ public class MetricReporter extends ScheduledReporter {
 
         final long timestamp = clock.getTime();
 
-        for (Map.Entry<String, Gauge> g : gauges.entrySet()) {
-            buildGauge(g.getKey(), g.getValue(), timestamp);
+        if (!gauges.isEmpty()) {
+            for (Map.Entry<String, Gauge> g : gauges.entrySet()) {
+                buildGauge(g.getKey(), g.getValue(), timestamp);
+            }
         }
 
-        for (Map.Entry<String, Counter> entry : counters.entrySet()) {
-            buildCounter(entry.getKey(), entry.getValue(), timestamp);
+        if (!counters.isEmpty()) {
+            for (Map.Entry<String, Counter> entry : counters.entrySet()) {
+                buildCounter(entry.getKey(), entry.getValue(), timestamp);
+            }
         }
 
-        for (Map.Entry<String, Histogram> entry : histograms.entrySet()) {
-            buildHistograms(entry.getKey(), entry.getValue(), timestamp);
+        if (!histograms.isEmpty()) {
+            for (Map.Entry<String, Histogram> entry : histograms.entrySet()) {
+                buildHistograms(entry.getKey(), entry.getValue(), timestamp);
+            }
         }
 
-        for (Map.Entry<String, Meter> entry : meters.entrySet()) {
-            buildMeters(entry.getKey(), entry.getValue(), timestamp);
+        if (!meters.isEmpty()) {
+            for (Map.Entry<String, Meter> entry : meters.entrySet()) {
+                buildMeters(entry.getKey(), entry.getValue(), timestamp);
+            }
         }
 
-        for (Map.Entry<String, Timer> entry : timers.entrySet()) {
-            buildTimers(entry.getKey(), entry.getValue(), timestamp);
+        if(!timers.isEmpty()) {
+            for (Map.Entry<String, Timer> entry : timers.entrySet()) {
+                buildTimers(entry.getKey(), entry.getValue(), timestamp);
+            }
         }
 
         Map<String, HealthCheck.Result> results = Metrics.runHealthChecks();
         if (!results.isEmpty()) {
-            for (Entry<String, HealthCheck.Result> entry : results.entrySet()) {
+            for (Map.Entry<String, HealthCheck.Result> entry : results.entrySet()) {
                 buildHealths(entry.getKey(), entry.getValue(), timestamp);
             }
         }

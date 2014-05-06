@@ -36,8 +36,8 @@ public class KafkaMessageReceiver implements MessageReceiver {
             public void run() {
                 for (; ; ) {
 
-                    String logs = "this is a test log in local";
-//                    consumer.publish(logs);
+                    String logs = "this is a application log in local model";
+                    consumer.publish(logs);
 
                     try {
                         TimeUnit.SECONDS.sleep(1);
@@ -49,4 +49,5 @@ public class KafkaMessageReceiver implements MessageReceiver {
         }).start();
 
     }
+
 }
