@@ -29,15 +29,6 @@ public interface MessageConsumer {
     public void publish(LogEntry logEntry);
 
     /**
-     * Publish logs to consumer.
-     *
-     * @param logs log4j, gc logs
-     */
-    public void publish(String logs);
-
-    public void publishGCLog(String gcLog);
-
-    /**
      * Stop consumer.
      */
     public void shutdown();

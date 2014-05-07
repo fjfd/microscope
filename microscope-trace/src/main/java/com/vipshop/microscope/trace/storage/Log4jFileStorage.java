@@ -71,7 +71,7 @@ public class Log4jFileStorage implements Storage {
      */
     @Override
     public LogEntry poll() {
-        return null;
+        throw new UnsupportedOperationException("this method is not supported in Log4j mode");
     }
 
 }

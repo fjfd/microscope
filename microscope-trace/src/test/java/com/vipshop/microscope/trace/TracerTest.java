@@ -78,7 +78,7 @@ public class TracerTest {
             } finally {
                 Tracer.clientReceive();
             }
-            TimeUnit.SECONDS.sleep(3);
+            TimeUnit.SECONDS.sleep(0);
         }
     }
 

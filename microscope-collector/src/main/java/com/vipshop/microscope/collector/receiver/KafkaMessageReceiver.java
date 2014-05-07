@@ -1,6 +1,8 @@
 package com.vipshop.microscope.collector.receiver;
 
 import com.vipshop.microscope.collector.consumer.MessageConsumer;
+import com.vipshop.microscope.common.cons.Constants;
+import com.vipshop.microscope.thrift.LogEntry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +31,7 @@ public class KafkaMessageReceiver implements MessageReceiver {
     @Override
     public void start() {
 
-        logger.info("start kafka message consumer");
+        logger.info("start kafka message receiver");
 
         new Thread(new Runnable() {
             @Override
@@ -37,7 +39,12 @@ public class KafkaMessageReceiver implements MessageReceiver {
                 for (; ; ) {
 
                     String logs = "this is a application log in local model";
-                    consumer.publish(logs);
+
+                    LogEntry logEntry1 = new LogEntry(Constants.LOG, logs);
+                    LogEntry logEntry2 = new LogEntry(Constants.GCLOG, logs);
+
+                    consumer.publish(logEntry1);
+                    consumer.publish(logEntry2);
 
                     try {
                         TimeUnit.SECONDS.sleep(1);

@@ -38,7 +38,7 @@ public class MessageAnalyzer {
 
     }
 
-    public void analyzeLog(String logs){}
+    public void analyzeAppLog(String logs){}
 
     public void analyzeGCLog(String logs){}
 }

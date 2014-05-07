@@ -1,8 +1,6 @@
 package com.vipshop.microscope.trace.transport;
 
 import com.vipshop.microscope.trace.Tracer;
-import com.vipshop.microscope.trace.storage.DisruptorQueueStorage;
-import com.vipshop.microscope.trace.storage.StorageHolder;
 
 /**
  * Transporter factory
@@ -40,14 +38,14 @@ public class TransporterHolder {
     }
 
     private static void startDisruptorTransporter() {
-        ((DisruptorQueueStorage) StorageHolder.getStorage()).transport();
+        new DisruptorQueueTransporter().transport();
     }
 
     private static void startLog4j2FileTransporter() {
-        // TODO flume transport
+        new Log4j2FileTransporter().transport();
     }
 
     private static void startLog4jFileTransporter() {
-        // TODO flume transport
+        new Log4jFileTransporter().transport();
     }
 }

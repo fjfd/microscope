@@ -93,8 +93,12 @@ public class MessageValidater {
         return data;
     }
 
-    public static String validate(String log) {
+    public static String validateAppLog(String log) {
         return log;
+    }
+
+    public static String validateGCLog(String logs) {
+        return logs;
     }
 
 }

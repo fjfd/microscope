@@ -20,7 +20,7 @@ public class ExceptionAlertHandler implements EventHandler<ExceptionEvent> {
 
     private final MessageAlerter messageAlerter = MessageAlerter.getMessageAlerter();
 
-    private final ExecutorService exceptionStorageWorkerExecutor = ThreadPoolUtil.newFixedThreadPool(1, "exception-saveLog-worker-pool");
+    private final ExecutorService exceptionStorageWorkerExecutor = ThreadPoolUtil.newFixedThreadPool(1, "exception-saveAppLog-worker-pool");
 
     @Override
     public void onEvent(final ExceptionEvent event, long sequence, boolean endOfBatch) throws Exception {

@@ -1,9 +1,14 @@
 package com.vipshop.microscope.trace.transport;
 
+import com.vipshop.microscope.trace.storage.DisruptorQueueStorage;
+import com.vipshop.microscope.trace.storage.StorageHolder;
+
 public class DisruptorQueueTransporter implements Transporter {
+
+    DisruptorQueueTransporter(){}
 
     @Override
     public void transport() {
-        throw new UnsupportedOperationException("transport operations is defined in DisruptorQueueStorage");
+        ((DisruptorQueueStorage) StorageHolder.getStorage()).transport();
     }
 }

@@ -18,12 +18,13 @@ import org.apache.logging.log4j.Logger;
  */
 public class Log4j2FileStorage implements Storage {
 
-    private static final Sampler SAMPLER = SamplerHolder.getSampler();
     private static Logger logger = LogManager.getLogger(Log4j2FileStorage.class.getName());
+
+    private static final Sampler sampler = SamplerHolder.getSampler();
 
     @Override
     public void add(Span span) {
-        if (SAMPLER.sample(span.getTraceId())) {
+        if (sampler.sample(span.getTraceId())) {
             logger.info(span.toString());
         }
     }

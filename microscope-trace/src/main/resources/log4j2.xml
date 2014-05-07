@@ -13,10 +13,14 @@
             <PatternLayout pattern="%d{yyyy.MM.dd 'at' HH:mm:ss z} %-5level %class{36} %L %M - %msg%xEx%n"/>
             <SizeBasedTriggeringPolicy size="500 MB"/>
         </RollingFile>
+        <Flume name="eventLogger" compress="true">
+            <Agent host="10.101.3.79" port="44444"/>
+            <RFC5424Layout enterpriseNumber="18060" includeMDC="true" appName="MyApp"/>
+        </Flume>
     </appenders>
     <loggers>
         <root level="debug">
-            <appender-ref ref="log"/>
+            <appender-ref ref="eventLogger"/>
         </root>
     </loggers>
 </configuration> 

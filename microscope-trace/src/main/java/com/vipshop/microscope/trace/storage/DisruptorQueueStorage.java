@@ -6,8 +6,8 @@ import com.vipshop.microscope.thrift.LogEntry;
 import com.vipshop.microscope.thrift.Span;
 import com.vipshop.microscope.thrift.ThriftCategory;
 import com.vipshop.microscope.thrift.ThriftClient;
-import com.vipshop.microscope.trace.codec.Codec;
 import com.vipshop.microscope.trace.Tracer;
+import com.vipshop.microscope.trace.codec.Codec;
 import com.vipshop.microscope.trace.exception.ExceptionData;
 import com.vipshop.microscope.trace.metric.MetricData;
 import com.vipshop.microscope.trace.sample.Sampler;
@@ -20,7 +20,6 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Store message in client use {@code Disruptor}.
@@ -32,9 +31,12 @@ import java.util.concurrent.TimeUnit;
 public class DisruptorQueueStorage implements Storage, Transporter {
 
     private static final Logger logger = LoggerFactory.getLogger(DisruptorQueueStorage.class);
+
     private static final Sampler SAMPLER = SamplerHolder.getSampler();
     private static volatile boolean start = false;
+
     private final int LOGENTRY_BUFFER_SIZE = 1024 * 8 * 1 * 1;
+
     /**
      * LogEntry RingBuffer
      */
@@ -49,12 +51,14 @@ public class DisruptorQueueStorage implements Storage, Transporter {
 
     @Override
     public void transport() {
+
         logger.info("start disruptor transporter thread send LogEntry");
 
         ExecutorService logEntryExecutor = ThreadPoolUtil.newSingleDaemonThreadExecutor("disruptor-transporter");
         logEntryExecutor.execute(this.logEntryEventProcessor);
 
         start = true;
+
     }
 
     public LogEntry poll() {
@@ -159,12 +163,6 @@ public class DisruptorQueueStorage implements Storage, Transporter {
                 client.send(logEntries);
                 logEntries.clear();
                 emptySize = 0;
-            } else {
-                try {
-                    TimeUnit.MICROSECONDS.sleep(Tracer.SEND_WAIT_TIME);
-                } catch (InterruptedException e) {
-                    logger.debug("Ignore Thread Interrupted exception", e);
-                }
             }
         }
 

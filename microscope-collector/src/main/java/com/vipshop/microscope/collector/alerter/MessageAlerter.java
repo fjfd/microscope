@@ -37,7 +37,7 @@ public class MessageAlerter {
 
     public void alert(SystemData system) {}
 
-    public void alertLog(String logs){}
+    public void alertAppLog(String logs){}
 
     public void alertGCLog(String logs){}
 

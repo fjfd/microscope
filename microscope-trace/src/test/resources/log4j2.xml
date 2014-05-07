@@ -17,12 +17,17 @@
             <PatternLayout pattern="%d{yyyy.MM.dd 'at' HH:mm:ss z} %-5level %class{36} %L %M - %msg%xEx%n"/>
             <SizeBasedTriggeringPolicy size="100 MB"/>
         </RollingFile>
+        <Flume name="flume" compress="false" batchSize="100">
+            <Agent host="10.101.3.79" port="44444"/>
+            <RFC5424Layout enterpriseNumber="18060" includeMDC="true" appName="microscope"/>
+        </Flume>
     </appenders>
     <loggers>
         <root level="debug">
-            <appender-ref ref="log"/>
-            <appender-ref ref="error"/>
-            <appender-ref ref="RollingFile"/>
+            <!--<appender-ref ref="log"/>-->
+            <appender-ref ref="flume"/>
+            <!--<appender-ref ref="error"/>-->
+            <!--<appender-ref ref="RollingFile"/>-->
         </root>
     </loggers>
 </configuration> 

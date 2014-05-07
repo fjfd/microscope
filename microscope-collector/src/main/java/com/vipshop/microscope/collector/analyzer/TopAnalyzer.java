@@ -59,7 +59,7 @@ public class TopAnalyzer {
             }
             top.put(entry.getKey().getStrValue(), builder.toString());
         }
-//        storager.saveLog(top);
+//        storager.saveAppLog(top);
     }
 
     static class FixedPriorityQueue {
@@ -67,7 +67,7 @@ public class TopAnalyzer {
         private int initialCapacity;
 
         /**
-         * A sorted map saveLog top 10 data<K,V>
+         * A sorted map saveAppLog top 10 data<K,V>
          * <p/>
          * key   --> span duration
          * value --> app name

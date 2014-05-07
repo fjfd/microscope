@@ -16,6 +16,7 @@ public class MetricEvent {
             return new MetricEvent();
         }
     };
+
     private MetricData result;
 
     public MetricData getResult() {

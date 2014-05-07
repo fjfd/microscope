@@ -4,7 +4,7 @@ import com.lmax.disruptor.EventFactory;
 import com.vipshop.microscope.thrift.LogEntry;
 
 /**
- * LogEntry Event
+ * LogEntry dispatch Event
  *
  * @author Xu Fei
  * @version 1.0

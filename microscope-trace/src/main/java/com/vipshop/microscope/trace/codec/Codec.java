@@ -2,7 +2,7 @@ package com.vipshop.microscope.trace.codec;
 
 import com.vipshop.microscope.thrift.LogEntry;
 import com.vipshop.microscope.thrift.Span;
-import com.vipshop.microscope.trace.Constants;
+import com.vipshop.microscope.common.cons.Constants;
 import com.vipshop.microscope.trace.exception.ExceptionData;
 import com.vipshop.microscope.trace.metric.MetricData;
 import com.vipshop.microscope.trace.system.SystemData;
@@ -16,8 +16,6 @@ import org.apache.thrift.transport.TIOStreamTransport;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.Serializable;
-import java.util.HashMap;
 
 /**
  * A codec for {@code LogEntry}
@@ -70,7 +68,7 @@ public class Codec {
     }
 
     public static LogEntry toLogEntry(MetricData metric) {
-        byte[] bytes = SerializationUtils.serialize((Serializable) metric);
+        byte[] bytes = SerializationUtils.serialize(metric);
         String message = Base64.encodeBase64String(bytes);
         LogEntry logEntry = new LogEntry(Constants.METRIC, message);
         return logEntry;
@@ -82,22 +80,8 @@ public class Codec {
         return metric;
     }
 
-    public static LogEntry toLogEntry(HashMap<String, Object> exceptionInfo) {
-        byte[] bytes = SerializationUtils.serialize((Serializable) exceptionInfo);
-        String message = Base64.encodeBase64String(bytes);
-        LogEntry logEntry = new LogEntry(Constants.EXCEPTION, message);
-        return logEntry;
-    }
-
-    @SuppressWarnings("unchecked")
-    public static HashMap<String, Object> toException(final String msg) {
-        byte[] bytes = Base64.decodeBase64(msg);
-        HashMap<String, Object> info = (HashMap<String, Object>) SerializationUtils.deserialize(bytes);
-        return info;
-    }
-
     public static LogEntry toLogEntry(ExceptionData exception) {
-        byte[] bytes = SerializationUtils.serialize((Serializable) exception);
+        byte[] bytes = SerializationUtils.serialize(exception);
         String message = Base64.encodeBase64String(bytes);
         LogEntry logEntry = new LogEntry(Constants.EXCEPTION, message);
         return logEntry;
@@ -109,8 +93,8 @@ public class Codec {
         return exception;
     }
 
-    public static LogEntry toLogEntry(SystemData systemInfo) {
-        byte[] bytes = SerializationUtils.serialize((Serializable) systemInfo);
+    public static LogEntry toLogEntry(SystemData system) {
+        byte[] bytes = SerializationUtils.serialize(system);
         String message = Base64.encodeBase64String(bytes);
         LogEntry logEntry = new LogEntry(Constants.SYSTEM, message);
         return logEntry;
@@ -120,30 +104,6 @@ public class Codec {
         byte[] bytes = Base64.decodeBase64(msg);
         SystemData info = (SystemData) SerializationUtils.deserialize(bytes);
         return info;
-    }
-
-    /**
-     * Encode map to string.
-     *
-     * @param map
-     * @return
-     */
-    public static String encodeToString(HashMap<String, Object> map) {
-        byte[] bytes = SerializationUtils.serialize((Serializable) map);
-        return Base64.encodeBase64String(bytes);
-    }
-
-    /**
-     * Decode string to map.
-     *
-     * @param msg
-     * @return
-     */
-    public static HashMap<String, Object> decodeToMap(final String msg) {
-        byte[] bytes = Base64.decodeBase64(msg);
-        @SuppressWarnings("unchecked")
-        HashMap<String, Object> map = (HashMap<String, Object>) SerializationUtils.deserialize(bytes);
-        return map;
     }
 
 }

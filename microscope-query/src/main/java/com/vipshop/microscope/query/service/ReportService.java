@@ -1,7 +1,7 @@
 package com.vipshop.microscope.query.service;
 
 import com.vipshop.microscope.storage.StorageRepository;
-import com.vipshop.microscope.trace.Constants;
+import com.vipshop.microscope.common.cons.Constants;
 import net.opentsdb.core.Aggregators;
 import net.opentsdb.core.DataPoints;
 import org.springframework.stereotype.Service;

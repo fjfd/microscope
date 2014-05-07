@@ -13,6 +13,8 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Maven: io.netty:netty-all:4.0.18.Final" level="project" />
+    <orderEntry type="library" name="Maven: com.google.protobuf:protobuf-java:2.5.0" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty.npn:npn-api:8.1.2.v20120308" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.testng:testng:6.8.5" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.10" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:1.1" level="project" />

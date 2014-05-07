@@ -27,6 +27,8 @@ public class ArrayBlockingQueueTransporter implements Transporter {
 
     private final Storage storage = StorageHolder.getStorage();
 
+    ArrayBlockingQueueTransporter(){}
+
     /**
      * use thrift client send {@code LogEntry}
      */

@@ -7,7 +7,7 @@ import com.codahale.metrics.graphite.GraphiteReporter;
 import com.codahale.metrics.health.HealthCheck;
 import com.codahale.metrics.health.HealthCheckRegistry;
 import com.vipshop.microscope.common.util.IPAddressUtil;
-import com.vipshop.microscope.trace.Constants;
+import com.vipshop.microscope.common.cons.Constants;
 import com.vipshop.microscope.trace.Tracer;
 import info.ganglia.gmetric4j.gmetric.GMetric;
 import info.ganglia.gmetric4j.gmetric.GMetric.UDPAddressingMode;

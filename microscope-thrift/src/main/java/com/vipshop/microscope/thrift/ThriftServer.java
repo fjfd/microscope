@@ -29,7 +29,7 @@ public class ThriftServer {
 
     public void startServer(final ThriftCategory category) {
 
-        logger.info("start " + category + " thrift server");
+        logger.info("start thrift server use " + category.toString().toLowerCase() + " mode");
 
         new Thread(new Runnable() {
             @Override

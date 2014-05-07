@@ -99,9 +99,9 @@ public class MessageStorager {
      *
      * @param logs
      */
-    public void saveLog(String logs) {
+    public void saveAppLog(String logs) {
 
-        logger.info("store application logs to hbase --> " + logs);
+//        logger.info("store app logs to hbase --> " + logs);
 
     }
 
@@ -112,16 +112,16 @@ public class MessageStorager {
      */
     public void saveGCLog(String logs) {
 
-        logger.info("store gc logs to hbase --> " + logs);
+//        logger.info("store gc logs to hbase --> " + logs);
 
     }
 
     /**
-     * Store trace report
+     * Store stats report
      *
      * @param report
      */
-    public void save(TraceReport report) {
+    public void save(StatsReport report) {
 
     }
 
@@ -135,11 +135,11 @@ public class MessageStorager {
     }
 
     /**
-     * Store stats report
+     * Store trace report
      *
      * @param report
      */
-    public void save(StatsReport report) {
+    public void save(TraceReport report) {
 
     }
 
