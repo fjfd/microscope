@@ -7,6 +7,7 @@ import com.vipshop.microscope.collector.receiver.MessageReceiver;
 import com.vipshop.microscope.collector.receiver.ThriftMessageReceiver;
 import com.vipshop.microscope.common.util.ConfigurationUtil;
 import com.vipshop.microscope.thrift.ThriftCategory;
+import com.vipshop.microscope.zookeeper.MicroscopeZooKeeperServer;
 
 /**
  * Message collector server.
@@ -18,6 +19,7 @@ public class CollectorServer {
 
     private static final ConfigurationUtil config = ConfigurationUtil.getConfiguration("collector.properties");
 
+    public static final String COLLECTOR_HOST = config.getString("collector_host");
     public static final int COLLECTOR_PORT = config.getInt("collector_port");
     public static final int SLEEP_TIME = config.getInt("sleep_time");
 
@@ -62,13 +64,16 @@ public class CollectorServer {
      *
      * @param args
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 //        AbstractApplicationContext context = new ClassPathXmlApplicationContext("/applicationContext-collector.xml", CollectorServer.class);
 //        context.close();
 
         CollectorServer server = new CollectorServer();
         server.start();
 
+        MicroscopeZooKeeperServer zooKeeperServer = new MicroscopeZooKeeperServer();
+
+        zooKeeperServer.connectZookeeper("localhost:9410");
     }
 
     /**

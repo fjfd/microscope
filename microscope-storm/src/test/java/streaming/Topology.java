@@ -1,4 +1,4 @@
-package twitter.streaming;
+package streaming;
 
 import backtype.storm.Config;
 import backtype.storm.LocalCluster;

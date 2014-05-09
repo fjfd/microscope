@@ -30,9 +30,9 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.lmax</groupId>
-            <artifactId>disruptor</artifactId>
-            <version>${disruptor.version}</version>
+            <groupId>com.vipshop</groupId>
+            <artifactId>microscope-zookeeper</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.codahale.metrics</groupId>

@@ -7,13 +7,14 @@
         <groupId>com.vipshop</groupId>
         <version>1.4.0</version>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
+    <version>${parent.version}</version>
 
     <artifactId>microscope-storm</artifactId>
 
-
+    <!-- Repository where we can found the storm dependencies -->
     <repositories>
-        <!-- Repository where we can found the storm dependencies -->
         <repository>
             <id>clojars.org</id>
             <url>http://clojars.org/repo</url>
@@ -21,7 +22,6 @@
     </repositories>
 
     <dependencies>
-        <!-- Storm Dependency -->
         <dependency>
             <groupId>storm</groupId>
             <artifactId>storm</artifactId>

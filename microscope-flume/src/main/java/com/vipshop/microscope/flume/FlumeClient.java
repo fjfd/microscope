@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Class
+ * Flume test client
  *
  * @author Xu Fei
  * @version 1.0

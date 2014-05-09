@@ -1,4 +1,4 @@
-package twitter.streaming;
+package streaming;
 
 import backtype.storm.task.TopologyContext;
 import backtype.storm.topology.BasicOutputCollector;

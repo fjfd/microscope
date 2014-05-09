@@ -7,6 +7,7 @@ import com.vipshop.microscope.trace.storage.Storage;
 import com.vipshop.microscope.trace.storage.StorageHolder;
 import com.vipshop.microscope.thrift.ThriftCategory;
 import com.vipshop.microscope.thrift.ThriftClient;
+import com.vipshop.microscope.zookeeper.MicroscopeZooKeeperClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,13 +30,15 @@ public class ArrayBlockingQueueTransporter implements Transporter {
 
     ArrayBlockingQueueTransporter(){}
 
-    /**
-     * use thrift client send {@code LogEntry}
-     */
-    private final ThriftClient client = new ThriftClient(Tracer.COLLECTOR_HOST,
-                                                         Tracer.COLLECTOR_PORT,
-                                                         Tracer.RECONNECT_WAIT_TIME,
-                                                         ThriftCategory.THREAD_SELECTOR);
+//    /**
+//     * use thrift client send {@code LogEntry}
+//     */
+//    private ThriftClient client = new ThriftClient(Tracer.COLLECTOR_HOST,
+//                                                   Tracer.COLLECTOR_PORT,
+//                                                   Tracer.RECONNECT_WAIT_TIME,
+//                                                   ThriftCategory.THREAD_SELECTOR);
+
+    private ThriftClient client = null;
 
     private final int MAX_EMPTY_SIZE = Tracer.MAX_EMPTY_SIZE;
     private final int MAX_BATCH_SIZE = Tracer.MAX_BATCH_SIZE;
@@ -46,8 +49,24 @@ public class ArrayBlockingQueueTransporter implements Transporter {
     private final List<LogEntry> logEntries = new ArrayList<LogEntry>(MAX_BATCH_SIZE);
     private int emptySize = 0;
 
+    private List<String> serverList = new ArrayList<String>(10);
+
+    private MicroscopeZooKeeperClient zooKeeperClient = new MicroscopeZooKeeperClient(serverList);
+
     @Override
     public void transport() {
+
+        try {
+            zooKeeperClient.connectZookeeper();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if(!serverList.isEmpty()) {
+            logger.info("server list --> " + serverList);
+            String data = serverList.get(0);
+            client = new ThriftClient(data.split(":")[0], Integer.valueOf(data.split(":")[1]), 3000, ThriftCategory.THREAD_SELECTOR);
+        }
 
         logger.info("start queue transporter thread send LogEntry");
 
