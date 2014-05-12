@@ -1,7 +1,7 @@
 package com.vipshop.microscope.storage;
 
-import com.vipshop.microscope.trace.exception.ExceptionData;
-import com.vipshop.microscope.trace.metric.MetricData;
+import com.vipshop.microscope.client.exception.ExceptionData;
+import com.vipshop.microscope.client.metric.MetricData;
 import net.opentsdb.core.*;
 import org.testng.annotations.Test;
 

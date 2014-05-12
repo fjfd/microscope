@@ -1,7 +1,7 @@
 package com.vipshop.microscope.collector.disruptor;
 
 import com.lmax.disruptor.EventFactory;
-import com.vipshop.microscope.trace.exception.ExceptionData;
+import com.vipshop.microscope.client.exception.ExceptionData;
 
 /**
  * Exception Event

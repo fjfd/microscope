@@ -12,7 +12,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="microscope-trace" />
+    <orderEntry type="module" module-name="microscope-client" />
     <orderEntry type="module" module-name="microscope-common" />
     <orderEntry type="library" name="Maven: org.testng:testng:6.8.5" level="project" />
     <orderEntry type="library" name="Maven: junit:junit:4.11" level="project" />
@@ -131,6 +131,7 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-aop:3.2.2.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: aopalliance:aopalliance:1.0" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-expression:3.2.2.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: com.vipshop:microscope-trace:1.4.0" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-dao:2.0.8" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-jdbc:3.2.2.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-tx:3.2.2.RELEASE" level="project" />

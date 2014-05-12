@@ -1,7 +1,7 @@
 package com.vipshop.microscope.test.integrate;
 
-import com.vipshop.microscope.trace.Tracer;
-import com.vipshop.microscope.trace.span.Category;
+import com.vipshop.microscope.client.Tracer;
+import com.vipshop.microscope.client.trace.Category;
 import org.testng.annotations.Test;
 
 import java.util.Random;

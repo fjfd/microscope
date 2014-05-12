@@ -2,7 +2,7 @@ package com.vipshop.microscope.collector.analyzer;
 
 import com.vipshop.microscope.storage.StorageRepository;
 import com.vipshop.microscope.thrift.Span;
-import com.vipshop.microscope.trace.span.Category;
+import com.vipshop.microscope.client.trace.Category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,7 +1,7 @@
 package com.vipshop.microscope.collector.disruptor;
 
 import com.lmax.disruptor.EventFactory;
-import com.vipshop.microscope.trace.metric.MetricData;
+import com.vipshop.microscope.client.metric.MetricData;
 
 /**
  * Metrics Event

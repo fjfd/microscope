@@ -1,7 +1,7 @@
 package com.vipshop.microscope.storage;
 
 import com.vipshop.microscope.common.cons.Constants;
-import com.vipshop.microscope.trace.exception.ExceptionData;
+import com.vipshop.microscope.client.exception.ExceptionData;
 import org.apache.commons.lang.SerializationUtils;
 import org.apache.hadoop.hbase.client.HTableInterface;
 import org.apache.hadoop.hbase.client.Put;

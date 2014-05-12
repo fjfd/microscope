@@ -1,8 +1,8 @@
 package com.vipshop.microscope.test.online;
 
 import com.vipshop.microscope.storage.StorageRepository;
-import com.vipshop.microscope.trace.Tracer;
-import com.vipshop.microscope.trace.span.Category;
+import com.vipshop.microscope.client.Tracer;
+import com.vipshop.microscope.client.trace.Category;
 
 import java.util.concurrent.TimeUnit;
 

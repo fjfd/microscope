@@ -1,9 +1,9 @@
 package com.vipshop.microscope.collector.alerter;
 
 import com.vipshop.microscope.thrift.Span;
-import com.vipshop.microscope.trace.exception.ExceptionData;
-import com.vipshop.microscope.trace.metric.MetricData;
-import com.vipshop.microscope.trace.system.SystemData;
+import com.vipshop.microscope.client.exception.ExceptionData;
+import com.vipshop.microscope.client.metric.MetricData;
+import com.vipshop.microscope.client.system.SystemData;
 
 /**
  * Message Alert API.

@@ -8,9 +8,9 @@ import com.vipshop.microscope.storage.StorageRepository;
 import com.vipshop.microscope.storage.TraceIndexTable;
 import com.vipshop.microscope.storage.TraceOverviewTable;
 import com.vipshop.microscope.thrift.Span;
-import com.vipshop.microscope.trace.exception.ExceptionData;
-import com.vipshop.microscope.trace.metric.MetricData;
-import com.vipshop.microscope.trace.system.SystemData;
+import com.vipshop.microscope.client.exception.ExceptionData;
+import com.vipshop.microscope.client.metric.MetricData;
+import com.vipshop.microscope.client.system.SystemData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

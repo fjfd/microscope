@@ -3,7 +3,7 @@ package com.vipshop.microscope.collector.disruptor;
 import com.lmax.disruptor.EventHandler;
 import com.vipshop.microscope.collector.storager.MessageStorager;
 import com.vipshop.microscope.common.util.ThreadPoolUtil;
-import com.vipshop.microscope.trace.exception.ExceptionData;
+import com.vipshop.microscope.client.exception.ExceptionData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

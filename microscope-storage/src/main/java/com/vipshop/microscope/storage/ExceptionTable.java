@@ -1,6 +1,6 @@
 package com.vipshop.microscope.storage;
 
-import com.vipshop.microscope.trace.exception.ExceptionData;
+import com.vipshop.microscope.client.exception.ExceptionData;
 import org.apache.hadoop.hbase.util.Bytes;
 
 /**

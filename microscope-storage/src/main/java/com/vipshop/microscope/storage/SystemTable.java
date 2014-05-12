@@ -1,6 +1,6 @@
 package com.vipshop.microscope.storage;
 
-import com.vipshop.microscope.trace.system.SystemData;
+import com.vipshop.microscope.client.system.SystemData;
 import org.apache.hadoop.hbase.util.Bytes;
 
 /**

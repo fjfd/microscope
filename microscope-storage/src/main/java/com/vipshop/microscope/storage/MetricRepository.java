@@ -2,7 +2,7 @@ package com.vipshop.microscope.storage;
 
 import com.vipshop.microscope.common.util.ConfigurationUtil;
 import com.vipshop.microscope.common.util.ThreadPoolUtil;
-import com.vipshop.microscope.trace.metric.MetricData;
+import com.vipshop.microscope.client.metric.MetricData;
 import net.opentsdb.core.*;
 import org.hbase.async.HBaseClient;
 import org.springframework.stereotype.Repository;
