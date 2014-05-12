@@ -7,4 +7,5 @@ package com.vipshop.microscope.client.log4j;
  * @version 1.0
  */
 public class Log4jCollector {
+
 }

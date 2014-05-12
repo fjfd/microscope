@@ -23,7 +23,7 @@ public class ConnectionWatcher implements Watcher {
 
     private static final int SESSION_TIMEOUT = 30000;
 
-    private ZooKeeper zk;
+    protected ZooKeeper zk;
 
     public void connect(String hosts) throws IOException, InterruptedException {
         zk = new ZooKeeper(hosts, SESSION_TIMEOUT, this);

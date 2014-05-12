@@ -7,7 +7,6 @@ import com.vipshop.microscope.collector.receiver.MessageReceiver;
 import com.vipshop.microscope.collector.receiver.ThriftMessageReceiver;
 import com.vipshop.microscope.common.util.ConfigurationUtil;
 import com.vipshop.microscope.thrift.ThriftCategory;
-import com.vipshop.microscope.zookeeper.MicroscopeZooKeeperServer;
 
 /**
  * Message collector server.
@@ -71,9 +70,9 @@ public class CollectorServer {
         CollectorServer server = new CollectorServer();
         server.start();
 
-        MicroscopeZooKeeperServer zooKeeperServer = new MicroscopeZooKeeperServer();
+//        MicroscopeZooKeeperServer zooKeeperServer = new MicroscopeZooKeeperServer();
 
-        zooKeeperServer.connectZookeeper("localhost:9410");
+//        zooKeeperServer.connectZookeeper("localhost:9410");
     }
 
     /**
