@@ -1,7 +1,7 @@
 package com.vipshop.microscope.test.integrate;
 
 import com.vipshop.microscope.client.Tracer;
-import com.vipshop.microscope.client.trace.Category;
+import com.vipshop.microscope.client.trace.SpanCategory;
 import org.testng.annotations.Test;
 
 import java.util.Random;
@@ -13,19 +13,19 @@ public class TopReportTest {
     public void testTopReport() {
         while (true) {
             Tracer.cleanContext();
-            Tracer.clientSend("http://www.huohu.com", Category.URL);
+            Tracer.clientSend("http://www.huohu.com", SpanCategory.URL);
             try {
                 TimeUnit.MILLISECONDS.sleep(new Random(1000).nextInt(1000));
-                Tracer.clientSend("getNew@newService", Category.Service);
+                Tracer.clientSend("getNew@newService", SpanCategory.Service);
                 TimeUnit.MILLISECONDS.sleep(new Random(1000).nextInt(1000));
-                Tracer.clientSend("get@DB", Category.DB);
+                Tracer.clientSend("get@DB", SpanCategory.DB);
                 TimeUnit.MILLISECONDS.sleep(new Random(1000).nextInt(1000));
                 Tracer.clientReceive();
                 Tracer.clientReceive();
 
-                Tracer.clientSend("buyNew@buyService", Category.Service);
+                Tracer.clientSend("buyNew@buyService", SpanCategory.Service);
                 TimeUnit.MILLISECONDS.sleep(new Random(1000).nextInt(1000));
-                Tracer.clientSend("buy@Cache", Category.Cache);
+                Tracer.clientSend("buy@Cache", SpanCategory.Cache);
                 TimeUnit.MILLISECONDS.sleep(new Random(1000).nextInt(1000));
                 Tracer.clientReceive();
                 Tracer.clientReceive();

@@ -1,6 +1,7 @@
 package com.vipshop.microscope.client.metric;
 
 import com.codahale.metrics.*;
+import com.codahale.metrics.Timer;
 import com.codahale.metrics.ganglia.GangliaReporter;
 import com.codahale.metrics.graphite.Graphite;
 import com.codahale.metrics.graphite.GraphiteReporter;
@@ -17,8 +18,8 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -209,6 +210,26 @@ public class Metrics {
     }
 
     /**
+     * Given a metric set, registers them.
+     *
+     * @param metricset    a set of metrics
+     * @throws IllegalArgumentException if any of the names are already registered
+     */
+    public void registerAll(MetricSet metricset) throws IllegalArgumentException {
+        metrics.registerAll(metricset);
+    }
+
+    /**
+     * Creates a new {@link com.codahale.metrics.Counter} and registers it under the given name.
+     *
+     * @param name the name of the metric
+     * @return a new {@link com.codahale.metrics.Counter}
+     */
+    public static Counter counter(String name) {
+        return metrics.counter(name);
+    }
+
+    /**
      * Increment the counter by one.
      *
      * @param name the counter name
@@ -247,16 +268,6 @@ public class Metrics {
     }
 
     /**
-     * Creates a new {@link com.codahale.metrics.Counter} and registers it under the given name.
-     *
-     * @param name the name of the metric
-     * @return a new {@link com.codahale.metrics.Counter}
-     */
-    public static Counter counter(String name) {
-        return metrics.counter(name);
-    }
-
-    /**
      * Creates a new {@link com.codahale.metrics.Histogram} and registers it under the given name.
      *
      * @param name the name of the metric
@@ -287,6 +298,146 @@ public class Metrics {
     }
 
     /**
+     * Removes the metric with the given name.
+     *
+     * @param name the name of the metric
+     * @return whether or not the metric was removed
+     */
+    public boolean remove(String name) {
+        return metrics.remove(name);
+    }
+
+    /**
+     * Removes all metrics which match the given filter.
+     *
+     * @param filter a filter
+     */
+    public void removeMatching(MetricFilter filter) {
+        metrics.removeMatching(filter);
+    }
+
+    /**
+     * Adds a {@link MetricRegistryListener} to a collection of listeners that will be notified on
+     * metric creation.  Listeners will be notified in the order in which they are added.
+     * <p/>
+     * <b>N.B.:</b> The listener will be notified of all existing metrics when it first registers.
+     *
+     * @param listener the listener that will be notified
+     */
+    public void addListener(MetricRegistryListener listener) {
+        metrics.addListener(listener);
+    }
+
+    /**
+     * Removes a {@link MetricRegistryListener} from this registry's collection of listeners.
+     *
+     * @param listener the listener that will be removed
+     */
+    public void removeListener(MetricRegistryListener listener) {
+        metrics.removeListener(listener);
+    }
+
+    /**
+     * Returns a set of the names of all the metrics in the registry.
+     *
+     * @return the names of all the metrics
+     */
+    public SortedSet<String> getNames() {
+        return metrics.getNames();
+    }
+
+    /**
+     * Returns a map of all the gauges in the registry and their names.
+     *
+     * @return all the gauges in the registry
+     */
+    public SortedMap<String, Gauge> getGauges() {
+        return metrics.getGauges();
+    }
+
+    /**
+     * Returns a map of all the gauges in the registry and their names which match the given filter.
+     *
+     * @param filter    the metric filter to match
+     * @return all the gauges in the registry
+     */
+    public SortedMap<String, Gauge> getGauges(MetricFilter filter) {
+        return metrics.getGauges(filter);
+    }
+
+    /**
+     * Returns a map of all the counters in the registry and their names.
+     *
+     * @return all the counters in the registry
+     */
+    public SortedMap<String, Counter> getCounters() {
+        return metrics.getCounters();
+    }
+
+    /**
+     * Returns a map of all the counters in the registry and their names.
+     *
+     * @return all the counters in the registry
+     */
+    public SortedMap<String, Counter> getCounters(MetricFilter filter) {
+        return metrics.getCounters(filter);
+    }
+
+    /**
+     * Returns a map of all the histograms in the registry and their names.
+     *
+     * @return all the histograms in the registry
+     */
+    public SortedMap<String, Histogram> getHistograms() {
+        return metrics.getHistograms();
+    }
+
+    /**
+     * Returns a map of all the histograms in the registry and their names.
+     *
+     * @return all the histograms in the registry
+     */
+    public SortedMap<String, Histogram> getHistograms(MetricFilter filter) {
+        return metrics.getHistograms(filter);
+    }
+
+    /**
+     * Returns a map of all the meters in the registry and their names.
+     *
+     * @return all the meters in the registry
+     */
+    public SortedMap<String, Meter> getMeters() {
+        return metrics.getMeters();
+    }
+
+    /**
+     * Returns a map of all the meters in the registry and their names.
+     *
+     * @return all the meters in the registry
+     */
+    public SortedMap<String, Meter> getMeters(MetricFilter filter) {
+        return metrics.getMeters(filter);
+    }
+
+    /**
+     * Returns a map of all the timers in the registry and their names.
+     *
+     * @return all the timers in the registry
+     */
+    public SortedMap<String, Timer> getTimers() {
+        return metrics.getTimers();
+    }
+
+    /**
+     * Returns a map of all the timers in the registry and their names.
+     *
+     * @return all the timers in the registry
+     */
+    public SortedMap<String, Timer> getTimers(MetricFilter filter) {
+        return metrics.getTimers(filter);
+    }
+
+    /**
      * Registers an application {@link com.codahale.metrics.health.HealthCheck}.
      *
      * @param name        the name of the health check
@@ -306,12 +457,41 @@ public class Metrics {
     }
 
     /**
+     * Returns a set of the names of all registered health checks.
+     *
+     * @return the names of all registered health checks
+     */
+    public SortedSet<String> getHealthNames() {
+        return healthMetrics.getNames();
+    }
+
+    /**
+     * Runs the health check with the given name.
+     *
+     * @param name    the health check's name
+     * @return the result of the health check
+     * @throws java.util.NoSuchElementException if there is no health check with the given name
+     */
+    public HealthCheck.Result runHealthCheck(String name) throws NoSuchElementException {
+        return healthMetrics.runHealthCheck(name);
+    }
+
+    /**
      * Runs the registered health checks and returns a map of the results.
      *
      * @return a map of the health check results
      */
-    public static Map<String, HealthCheck.Result> runHealthChecks() {
+    public SortedMap<String, HealthCheck.Result> runHealthChecks() {
         return healthMetrics.runHealthChecks();
+    }
+
+    /**
+     * Runs the registered health checks in parallel and returns a map of the results.
+     *
+     * @return a map of the health check results
+     */
+    public SortedMap<String, HealthCheck.Result> runHealthChecks(ExecutorService executor) {
+        return healthMetrics.runHealthChecks(executor);
     }
 
 }

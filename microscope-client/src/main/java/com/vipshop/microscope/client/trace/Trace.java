@@ -56,6 +56,20 @@ public class Trace {
     }
 
     /**
+     * Current don't support
+     */
+    public void serverReceive() {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Current don't support
+     */
+    public void serverSend() {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
      * Set span ResultCode.
      * <p/>
      * <p>If exception happens, should set
@@ -74,7 +88,7 @@ public class Trace {
      * @param value
      */
     public void record(String key, String value) {
-        spanBuilder.addDebug(key, value);
+        spanBuilder.record(key, value);
     }
 
 }

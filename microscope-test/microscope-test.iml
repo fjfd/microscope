@@ -181,7 +181,6 @@
     <orderEntry type="library" name="Maven: org.apache.hadoop:hadoop-streaming:1.0.4" level="project" />
     <orderEntry type="library" name="Maven: org.apache.hadoop:hadoop-tools:1.0.4" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context-support:3.0.7.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: com.vipshop:microscope-trace:1.4.0" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-dao:2.0.8" level="project" />
     <orderEntry type="library" name="Maven: org.mybatis:mybatis:3.2.2" level="project" />
     <orderEntry type="library" name="Maven: org.hbase:asynchbase:1.4.1" level="project" />
@@ -205,6 +204,7 @@
     <orderEntry type="library" name="Maven: org.powermock:powermock-module-junit4-common:1.5.4" level="project" />
     <orderEntry type="library" name="Maven: org.apache.bval:bval-jsr303:0.5" level="project" />
     <orderEntry type="library" name="Maven: org.apache.bval:bval-core:0.5" level="project" />
+    <orderEntry type="library" name="Maven: com.vipshop:microscope-trace:1.4.0" level="project" />
   </component>
 </module>
 

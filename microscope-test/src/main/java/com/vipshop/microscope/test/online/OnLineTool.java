@@ -2,7 +2,7 @@ package com.vipshop.microscope.test.online;
 
 import com.vipshop.microscope.storage.StorageRepository;
 import com.vipshop.microscope.client.Tracer;
-import com.vipshop.microscope.client.trace.Category;
+import com.vipshop.microscope.client.trace.SpanCategory;
 
 import java.util.concurrent.TimeUnit;
 
@@ -30,7 +30,7 @@ public class OnLineTool {
     }
 
     public static void trace() throws InterruptedException {
-        Tracer.clientSend("example", Category.Method);
+        Tracer.clientSend("example", SpanCategory.Method);
         try {
             TimeUnit.MILLISECONDS.sleep(1000);
         } catch (Exception e) {

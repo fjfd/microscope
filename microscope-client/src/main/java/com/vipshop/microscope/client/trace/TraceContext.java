@@ -9,34 +9,6 @@ package com.vipshop.microscope.client.trace;
  * in single JVM. When trace cross JVM, use HTTP
  * Header to propagate it. Currently, we have HTTP
  * and Thrift protocol.
- * <p/>
- * <p>custom httpclient jar
- * <p/>
- * <pre>
- * 	<dependency>
- *  	<groupId>org.apache.httpcomponents</groupId>
- * 		<artifactId>httpclient</artifactId>
- * 		<version>4.2</version>
- * 		<classifier>microscope-1.1.2</classifier>
- * 		<exclusions>
- * 			<exclusion>
- * 				<groupId>org.apache.httpcomponents</groupId>
- * 				<artifactId>httpclient</artifactId>
- * 			</exclusion>
- * 		</exclusions>
- * 	</dependency>
- * </pre>
- * <p/>
- * <p>custom libthrift jar
- * <p/>
- * <pre>
- * 	<dependency>
- * 		<groupId>org.apache.thrift</groupId>
- * 		<artifactId>libthrift</artifactId>
- * 		<version>0.9.0</version>
- * 		<classifier>microscope-1.1.2</classifier>
- * 	</dependency>
- * </pre>
  *
  * @author Xu Fei
  * @version 1.0
@@ -50,7 +22,7 @@ public class TraceContext {
     private static final ThreadLocal<Trace> TRACE = new ThreadLocal<Trace>();
 
     /**
-     * Returns current thread's trace.
+     * Returns current thread's trace object.
      *
      * @return trace {@code Trace} Object.
      */
@@ -104,7 +76,7 @@ public class TraceContext {
      * @return
      */
     public static Trace getTrace(String traceId, String spanId) {
-        /*
+        /**
 		 * If this is a new trace.
 		 */
         if (traceId == null || spanId == null) {
@@ -113,7 +85,7 @@ public class TraceContext {
             return TRACE.get();
         }
 
-		/*
+		/**
 		 * If this is some part of exist trace.
 		 */
         SpanID spanID = new SpanID();

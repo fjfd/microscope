@@ -26,7 +26,7 @@ public class Samplers {
             case 2:
                 return getFixedSampler();
             case 3:
-                return getAdaptedSampler();
+                return getAdaptiveSampler();
             case 4:
                 return getNoneSampler();
             default:
@@ -43,8 +43,8 @@ public class Samplers {
         private static Sampler sampler = new FixedSampler();
     }
 
-    private static class AdaptedSamplerHolder {
-        private static Sampler sampler = new AdaptedSampler();
+    private static class AdaptiveSamplerHolder {
+        private static Sampler sampler = new AdaptiveSampler();
     }
 
     private static class NoneSamplerHolder {
@@ -59,8 +59,8 @@ public class Samplers {
         return FixedSamplerHolder.sampler;
     }
 
-    public static Sampler getAdaptedSampler() {
-        return AdaptedSamplerHolder.sampler;
+    public static Sampler getAdaptiveSampler() {
+        return AdaptiveSamplerHolder.sampler;
     }
 
     public static Sampler getNoneSampler() {

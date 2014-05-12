@@ -2,7 +2,7 @@ package com.vipshop.microscope.collector.analyzer;
 
 import com.vipshop.microscope.storage.StorageRepository;
 import com.vipshop.microscope.thrift.Span;
-import com.vipshop.microscope.client.trace.Category;
+import com.vipshop.microscope.client.trace.SpanCategory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,11 +16,11 @@ public class TopAnalyzer {
 
     public static final Logger logger = LoggerFactory.getLogger(TopReport.class);
 
-    private ConcurrentHashMap<Category, FixedPriorityQueue> container;
+    private ConcurrentHashMap<SpanCategory, FixedPriorityQueue> container;
 
     public TopAnalyzer() {
-        this.container = new ConcurrentHashMap<Category, FixedPriorityQueue>(Category.values().length);
-        Category[] categories = Category.values();
+        this.container = new ConcurrentHashMap<SpanCategory, FixedPriorityQueue>(SpanCategory.values().length);
+        SpanCategory[] categories = SpanCategory.values();
         for (int i = 0; i < categories.length; i++) {
             container.put(categories[i], new FixedPriorityQueue(10));
         }
@@ -32,18 +32,18 @@ public class TopAnalyzer {
      * @param span
      */
     public void analyze(Span span, StorageRepository storager) {
-        FixedPriorityQueue queue = container.get(Category.valueOf(span.getSpanType()));
+        FixedPriorityQueue queue = container.get(SpanCategory.valueOf(span.getSpanType()));
         queue.add(span);
         writeReport(storager);
     }
 
-    public ConcurrentHashMap<Category, FixedPriorityQueue> getContainer() {
+    public ConcurrentHashMap<SpanCategory, FixedPriorityQueue> getContainer() {
         return container;
     }
 
     private void writeReport(StorageRepository storager) {
         HashMap<String, Object> top = new HashMap<String, Object>();
-        for (Entry<Category, FixedPriorityQueue> entry : container.entrySet()) {
+        for (Entry<SpanCategory, FixedPriorityQueue> entry : container.entrySet()) {
             StringBuilder builder = new StringBuilder();
             TreeMap<Integer, Span> queue = entry.getValue().getQueue();
             for (Entry<Integer, Span> treeEntry : queue.entrySet()) {

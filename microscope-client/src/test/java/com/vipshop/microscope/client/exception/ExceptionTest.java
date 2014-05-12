@@ -29,7 +29,7 @@ public class ExceptionTest {
                 Tracer.clientReceive();
                 throw new RuntimeException("testRecordException exception");
             } catch (Exception e) {
-                Tracer.recordExceptionData(e);
+                Tracer.recordException(e);
             } finally {
                 Tracer.clientReceive();
             }
@@ -59,7 +59,7 @@ public class ExceptionTest {
                 Tracer.clientReceive();
                 throw new RuntimeException("testRecordException exception");
             } catch (Exception e) {
-                Tracer.recordExceptionData(e, "programmer debug info fortestRecordException exception");
+                Tracer.recordException(e, "programmer debug info fortestRecordException exception");
             } finally {
                 Tracer.clientReceive();
             }

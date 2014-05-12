@@ -8,14 +8,14 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author Xu Fei
  * @version 1.0
  */
-public class AdaptedSampler extends AbstractSampler implements Sampler {
+public class AdaptiveSampler extends AbstractSampler implements Sampler {
 
     private AtomicLong count = new AtomicLong();
 
     private int baseNumber = 100;
     private Long lastTime = -1L;
 
-    public AdaptedSampler() {
+    public AdaptiveSampler() {
         lastTime = System.currentTimeMillis();
     }
 

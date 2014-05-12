@@ -18,14 +18,21 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
 /**
- * A codec util for {@code LogEntry} data.
+ * A codec util for {@code LogEntry}.
  *
  * @author Xu Fei
  * @version 1.0
  */
 public class Codec {
 
+    /**
+     * A util from Apache thrift java lib
+     */
     private static final TProtocolFactory protocolFactory = new TBinaryProtocol.Factory();
+
+    /**
+     * A util from Apache commons-codec lib
+     */
     private static final Base64 base64 = new Base64();
 
     /**
@@ -36,9 +43,9 @@ public class Codec {
      */
     public static LogEntry toLogEntry(Span span) {
         final ByteArrayOutputStream buf = new ByteArrayOutputStream();
-        final TProtocol proto = protocolFactory.getProtocol(new TIOStreamTransport(buf));
+        final TProtocol protocol = protocolFactory.getProtocol(new TIOStreamTransport(buf));
         try {
-            span.write(proto);
+            span.write(protocol);
         } catch (TException e) {
             return null;
         }
@@ -50,23 +57,29 @@ public class Codec {
     /**
      * Decode string to {@code Span}.
      *
-     * @param msg
+     * @param data
      * @return
      */
-    public static Span toSpan(final String msg) {
-        byte[] tmp = Base64.decodeBase64(msg);
+    public static Span toSpan(final String data) {
+        byte[] tmp = Base64.decodeBase64(data);
         final ByteArrayInputStream buf = new ByteArrayInputStream(tmp);
-        final TProtocol proto = protocolFactory.getProtocol(new TIOStreamTransport(buf));
+        final TProtocol protocol = protocolFactory.getProtocol(new TIOStreamTransport(buf));
         Span span = new Span();
         try {
-            span.read(proto);
+            span.read(protocol);
         } catch (TException e) {
             return null;
         }
-        span.setResultSize(msg.length());
+        span.setResultSize(data.length());
         return span;
     }
 
+    /**
+     * Encode {@code MetricData} to {@code LogEntry}
+     *
+     * @param metric metric data
+     * @return       LogEntry
+     */
     public static LogEntry toLogEntry(MetricData metric) {
         byte[] bytes = SerializationUtils.serialize(metric);
         String message = Base64.encodeBase64String(bytes);
@@ -74,12 +87,24 @@ public class Codec {
         return logEntry;
     }
 
+    /**
+     * Decode string format data to {@code MetricData}
+     *
+     * @param msg string format data
+     * @return    {@code MetricData}
+     */
     public static MetricData toMetricData(final String msg) {
         byte[] bytes = Base64.decodeBase64(msg);
         MetricData metric = (MetricData) SerializationUtils.deserialize(bytes);
         return metric;
     }
 
+    /**
+     * Encode {@code ExceptionData} to {@code LogEntry}
+     *
+     * @param exception data
+     * @return          LogEntry
+     */
     public static LogEntry toLogEntry(ExceptionData exception) {
         byte[] bytes = SerializationUtils.serialize(exception);
         String message = Base64.encodeBase64String(bytes);
@@ -87,12 +112,24 @@ public class Codec {
         return logEntry;
     }
 
+    /**
+     * Decode string format data to {@code ExceptionData}
+     *
+     * @param msg data
+     * @return    ExceptionData
+     */
     public static ExceptionData toExceptionData(final String msg) {
         byte[] bytes = Base64.decodeBase64(msg);
         ExceptionData exception = (ExceptionData) SerializationUtils.deserialize(bytes);
         return exception;
     }
 
+    /**
+     * Encode {@code SystemData} to {@code LogEntry}
+     *
+     * @param system data
+     * @return       LogEntry
+     */
     public static LogEntry toLogEntry(SystemData system) {
         byte[] bytes = SerializationUtils.serialize(system);
         String message = Base64.encodeBase64String(bytes);
@@ -100,6 +137,12 @@ public class Codec {
         return logEntry;
     }
 
+    /**
+     * Decode string format data to SystemData
+     *
+     * @param msg data
+     * @return    SystemData
+     */
     public static SystemData toSystemData(final String msg) {
         byte[] bytes = Base64.decodeBase64(msg);
         SystemData info = (SystemData) SerializationUtils.deserialize(bytes);

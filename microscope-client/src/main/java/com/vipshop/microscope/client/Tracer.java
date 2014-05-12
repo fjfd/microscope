@@ -2,29 +2,27 @@ package com.vipshop.microscope.client;
 
 import com.codahale.metrics.*;
 import com.codahale.metrics.health.HealthCheck;
-import com.vipshop.microscope.client.config.Config;
-import com.vipshop.microscope.client.config.Configs;
+import com.vipshop.microscope.client.configurator.Configurator;
+import com.vipshop.microscope.client.configurator.Configurators;
 import com.vipshop.microscope.client.exception.Exceptions;
 import com.vipshop.microscope.client.metric.Metrics;
 import com.vipshop.microscope.client.system.SystemDatas;
 import com.vipshop.microscope.client.trace.SpanCategory;
 import com.vipshop.microscope.client.trace.Trace;
 import com.vipshop.microscope.client.trace.TraceContext;
+import com.vipshop.microscope.client.trace.TraceStatus;
 import com.vipshop.microscope.client.transporter.Transporters;
-import com.vipshop.microscope.common.util.ConfigurationUtil;
 import com.vipshop.microscope.common.util.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.TimeUnit;
-
 /**
  * Microscope client API for Java.
- * <p/>
+ *
  * <p>Basically, we use {@code collector} as our backend system,
  * we build a java tracing client to collector message, use
  * {@code ThreadTransporter} transport spans to {@code collector}.
- * <p/>
+ *
  * <p>Application programmers can use this API in app code
  * if necessary. But in most case, we will embed this tracing API
  * to framework.
@@ -37,105 +35,97 @@ public class Tracer {
     private static final Logger logger = LoggerFactory.getLogger(Tracer.class);
 
     /**
-     * HTTP header for propagate trace status.
-     *
-     * As nginx server will remove string "X_B3_Trace_Id" with
-     * underline, so use middle line "X-B3-Trace-Id".
-     */
-    public static final String X_B3_TRACE_ID = "X-B3-Trace-Id";
-    public static final String X_B3_SPAN_ID = "X-B3-Span-Id";
-    public static final String X_B3_PARENT_ID = "X-B3-Parent-Id";
-    public static final String X_B3_FLAG = "X-B3-Flag";
-    public static final String X_B3_SAMPLED = "X-B3-Sampled";
-
-    /**
-     * Trace result status
-     */
-    public static final String OK = "OK";
-    public static final String EXCEPTION = "EXCEPTION";
-
-    /**
      * Default app name
      */
-    public static String APP_NAME = "default-app-name";
+    public static String APP_NAME = Configurators.DEFAULT_APP_NAME;
 
     /**
      * Default collector host
      */
-    public static String COLLECTOR_HOST = "10.19.111.64";
+    public static String COLLECTOR_HOST = Configurators.DEFAULT_COLLECTOR_HOST;
 
     /**
      * Default collector port
      */
-    public static int COLLECTOR_PORT = 9410;
+    public static int COLLECTOR_PORT = Configurators.DEFAULT_COLLECTOR_PORT;
 
     /**
      * Default batch send spans size
      */
-    public static int MAX_BATCH_SIZE = 100;
+    public static int MAX_BATCH_SIZE = Configurators.DEFAULT_MAX_BATCH_SIZE;
 
     /**
      * Default retry times when no data come
      */
-    public static int MAX_EMPTY_SIZE = 100;
+    public static int MAX_EMPTY_SIZE = Configurators.DEFAULT_MAX_EMPTY_SIZE;
 
     /**
      * Default close trace function
      */
-    public static volatile int TRACE_SWITCH = 0;
+    public static volatile int TRACE_SWITCH = Configurators.DEFAULT_TRACE_SWITCH;
 
     /**
      * Default close metric function
      */
-    public static volatile int METRIC_SWITCH = 0;
+    public static volatile int METRIC_SWITCH = Configurators.DEFAULT_METRIC_SWITCH;
+
+    /**
+     * Default close system function
+     */
+    public static volatile int SYSTEM_SWITCH = Configurators.DEFAULT_SYSTEM_SWITCH;
+
+    /**
+     * Default close exception function
+     */
+    public static volatile int EXCEPTION_SWITCH = Configurators.DEFAULT_EXCEPTION_SWITCH;
+
+    /**
+     * Default close transport function
+     */
+    public static volatile int TRANSPORT_SWITCH = Configurators.DEFAULT_TRANSPORT_SWITCH;
 
     /**
      * Default client queue size
      */
-    public static int QUEUE_SIZE = 10000;
+    public static int QUEUE_SIZE = Configurators.DEFAULT_QUEUE_SIZE;
 
     /**
      * Default reconnect time for thrift client
      */
-    public static int RECONNECT_WAIT_TIME = 3000;
+    public static int RECONNECT_WAIT_TIME = Configurators.DEFAULT_RECONNECT_WAIT_TIME;
 
     /**
      * Default wait time for transporter thread
      */
-    public static int SEND_WAIT_TIME = 100;
+    public static int SEND_WAIT_TIME = Configurators.DEFAULT_SEND_WAIT_TIME;
 
     /**
      * Default period time for metrics reporter
      */
-    public static int REPORT_PERIOD_TIME = 10;
+    public static int REPORT_PERIOD_TIME = Configurators.DEFAULT_REPORT_PERIOD_TIME;
 
     /**
      * Use {@code ArrayBlockingQueueStorage} as default storage
      */
-    public static int STORAGE_TYPE = 1;
+    public static int STORAGE_TYPE = Configurators.DEFAULT_STORAGE_TYPE;
 
     /**
      * Use {@code AllSampler} as default sampler
      */
-    public static int SAMPLER_TYPE = 1;
-
-    /**
-     * Use {@code ConfigSwitcher} as default config
-     */
-    public static int SWITCHER_TYPE = 1;
-
-    /**
-     * Config properties reader
-     */
-    private static Config config;
+    public static int SAMPLER_TYPE = Configurators.DEFAULT_SAMPLER_TYPE;
 
     /**
      * Config properties file name
      */
-    private static final String configFileName = "trace.properties";
+    private static final String CONFIG_NAME = Configurators.DEFAULT_CONFIG_NAME;
 
     /**
-     * If trace.properties exist in classpath, then means application
+     * Config properties reader
+     */
+    private static Configurator config;
+
+    /**
+     * If microscope.properties exist in classpath, then means application
      * developer want to monitor by microscope. Read values from file
      * and start transporter and metrics reporter.
      *
@@ -144,39 +134,39 @@ public class Tracer {
      */
     static {
 
-        config = Configs.getConfig();
+        if (Configurators.hasConfigFile(CONFIG_NAME)) {
 
-        if (config.hasConfigFile(configFileName)) {
+            config = Configurators.getConfig(CONFIG_NAME);
 
-            ConfigurationUtil properties = config.initConfigFile(configFileName);
+            APP_NAME = config.getAppName();
 
-            APP_NAME = properties.getString("app_name");
+            COLLECTOR_HOST = config.getCollectorHost();
+            COLLECTOR_PORT = config.getCollectorPort();
 
-            COLLECTOR_HOST = properties.getString("collector_host");
-            COLLECTOR_PORT = properties.getInt("collector_port");
+            MAX_BATCH_SIZE = config.getMaxBatchSize();
+            MAX_EMPTY_SIZE = config.getMaxEmptySize();
 
-            MAX_BATCH_SIZE = properties.getInt("max_batch_size");
-            MAX_EMPTY_SIZE = properties.getInt("max_empty_size");
+            TRACE_SWITCH = config.getTraceSwitch();
+            METRIC_SWITCH = config.getMetricSwitch();
+            SYSTEM_SWITCH = config.getSystemSwitch();
+            EXCEPTION_SWITCH = config.getExceptionSwitch();
+            TRANSPORT_SWITCH = config.getTraceSwitch();
 
-            TRACE_SWITCH = properties.getInt("trace_switch");
-            METRIC_SWITCH = properties.getInt("metric_switch");
+            QUEUE_SIZE = config.getQueueSize();
+            RECONNECT_WAIT_TIME = config.getReconnectWaitTime();
+            SEND_WAIT_TIME = config.getSendWaitTime();
 
-            QUEUE_SIZE = properties.getInt("queue_size");
-            RECONNECT_WAIT_TIME = properties.getInt("reconnect_wait_time");
-            SEND_WAIT_TIME = properties.getInt("send_wait_time");
+            REPORT_PERIOD_TIME = config.getReportPeriodTime();
 
-            REPORT_PERIOD_TIME = properties.getInt("report_period_time");
-
-            STORAGE_TYPE = properties.getInt("storage_type");
-            SAMPLER_TYPE = properties.getInt("sampler_type");
-            SWITCHER_TYPE = properties.getInt("switcher_type");
+            STORAGE_TYPE = config.getStorageType();
+            SAMPLER_TYPE = config.getSamplerType();
 
             try {
 
                 /**
                  * start message transporter
                  */
-                if (config.isTraceOpen()) {
+                if (config.isTransportOpen()) {
                     Transporters.startTransporter();
                 }
 
@@ -184,13 +174,16 @@ public class Tracer {
                  * start metrics reporter
                  */
                 if (config.isMetricOpen()) {
-                    Metrics.startMicroscopeReporter(REPORT_PERIOD_TIME, TimeUnit.SECONDS);
+                    Metrics.startMicroscopeReporter();
                 }
 
                 /**
-                 * build system data
+                 * record system data
                  */
-                recordSystemData();
+                if (config.isSystemOpen()){
+                    SystemDatas.record();
+                }
+
 
             } catch (Exception e) {
                 config.closeTrace();
@@ -223,6 +216,10 @@ public class Tracer {
      */
     public static boolean isMetricEnable() {
         return config.isMetricOpen();
+    }
+
+    public static boolean isExceptionEnable() {
+        return config.isExceptionOpen();
     }
 
     /**
@@ -279,12 +276,14 @@ public class Tracer {
      * Server side send response.
      */
     public static void serverSend() {
+        throw new UnsupportedOperationException();
     }
 
     /**
      * Server side receive request.
      */
     public static void serverRecv() {
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -301,8 +300,8 @@ public class Tracer {
         try {
             Trace trace = TraceContext.getContext();
             if (trace != null) {
-                trace.setResutlCode(EXCEPTION);
-                recordExceptionData(t);
+                trace.setResutlCode(TraceStatus.EXCEPTION);
+                Exceptions.record(t);
             }
         } catch (Exception e) {
             logger.info("set result code error", e);
@@ -435,28 +434,17 @@ public class Tracer {
     }
 
     /**
-     * Record system data.
-     *
-     */
-    public static void recordSystemData() {
-        if (!isTraceEnable())
-            return;
-
-        SystemDatas.record();
-    }
-
-    /**
      * Record exception data.
      *
      * @param t
      */
-    public static void recordExceptionData(Throwable t) {
-        if (!isTraceEnable())
+    public static void recordException(Throwable t) {
+        if (!isExceptionEnable())
             return;
 
         Trace trace = TraceContext.getContext();
         if (trace != null) {
-            trace.setResutlCode(EXCEPTION);
+            trace.setResutlCode(TraceStatus.EXCEPTION);
         }
         Exceptions.record(t);
     }
@@ -467,13 +455,13 @@ public class Tracer {
      * @param t
      * @param info
      */
-    public static void recordExceptionData(Throwable t, String info) {
-        if (!isTraceEnable())
+    public static void recordException(Throwable t, String info) {
+        if (!isExceptionEnable())
             return;
 
         Trace trace = TraceContext.getContext();
         if (trace != null) {
-            trace.setResutlCode(EXCEPTION);
+            trace.setResutlCode(TraceStatus.EXCEPTION);
         }
         Exceptions.record(t, info);
     }
