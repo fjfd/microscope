@@ -461,7 +461,7 @@ public class Metrics {
      *
      * @return the names of all registered health checks
      */
-    public SortedSet<String> getHealthNames() {
+    public static SortedSet<String> getHealthNames() {
         return healthMetrics.getNames();
     }
 
@@ -472,7 +472,7 @@ public class Metrics {
      * @return the result of the health check
      * @throws java.util.NoSuchElementException if there is no health check with the given name
      */
-    public HealthCheck.Result runHealthCheck(String name) throws NoSuchElementException {
+    public static HealthCheck.Result runHealthCheck(String name) throws NoSuchElementException {
         return healthMetrics.runHealthCheck(name);
     }
 
@@ -481,7 +481,7 @@ public class Metrics {
      *
      * @return a map of the health check results
      */
-    public SortedMap<String, HealthCheck.Result> runHealthChecks() {
+    public static SortedMap<String, HealthCheck.Result> runHealthChecks() {
         return healthMetrics.runHealthChecks();
     }
 
@@ -490,7 +490,7 @@ public class Metrics {
      *
      * @return a map of the health check results
      */
-    public SortedMap<String, HealthCheck.Result> runHealthChecks(ExecutorService executor) {
+    public static SortedMap<String, HealthCheck.Result> runHealthChecks(ExecutorService executor) {
         return healthMetrics.runHealthChecks(executor);
     }
 
