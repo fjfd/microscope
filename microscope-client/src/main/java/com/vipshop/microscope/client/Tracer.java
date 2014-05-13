@@ -369,7 +369,7 @@ public class Tracer {
     }
 
     /**
-     * Async thread invoke.
+     * Asynchronous thread invoke.
      * <p/>
      * Set trace object to {@code ThreadLocal}
      * with the new Thread.

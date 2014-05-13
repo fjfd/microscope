@@ -125,7 +125,11 @@
             <artifactId>bval-jsr303</artifactId>
             <version>0.5</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.apache.thrift</groupId>
+            <artifactId>libthrift</artifactId>
+            <version>${libthrift.version}</version>
+        </dependency>
     </dependencies>
 
     <profiles>

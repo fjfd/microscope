@@ -113,7 +113,7 @@ public class ExceptionRepository extends AbstractRepository {
     public List<ExceptionData> find(Map<String, String> query) {
         Scan scan = new Scan();
 
-        long limit = Long.valueOf(query.get("limit"));
+        long limit = Long.valueOf(query.get(Constants.LIMIT));
 
         if (limit > 1000) {
             limit = 1000;
