@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 /**
- * Distributed FIFOQueue use zookeeper
+ * Distributed FIFO Queue use zookeeper
  *
  * @author Xu Fei
  * @version 1.0

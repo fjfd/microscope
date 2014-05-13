@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * ZooKeeper Client class
+ * ZooKeeper simple client
  *
  * @author Xu Fei
  * @version 1.0

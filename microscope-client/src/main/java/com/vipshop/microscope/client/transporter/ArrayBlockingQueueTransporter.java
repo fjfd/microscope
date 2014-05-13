@@ -7,7 +7,6 @@ import com.vipshop.microscope.thrift.LogEntry;
 import com.vipshop.microscope.client.storage.Storage;
 import com.vipshop.microscope.thrift.ThriftCategory;
 import com.vipshop.microscope.thrift.ThriftClient;
-import com.vipshop.microscope.zookeeper.MicroscopeZooKeeperClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,8 +50,6 @@ public class ArrayBlockingQueueTransporter implements Transporter {
     private int emptySize = 0;
 
     private List<String> serverList = new ArrayList<String>(10);
-
-    private MicroscopeZooKeeperClient zooKeeperClient = new MicroscopeZooKeeperClient(serverList);
 
     @Override
     public void transport() {
