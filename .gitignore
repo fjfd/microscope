@@ -5,12 +5,10 @@
 /*/.classpath
 /*/test-output/*
 /*/dependency-reduced-pom.xml
-/pom.xml.versionsBackup
-/*/pom.xml.versionsBackup
 /.idea/*
 **/bin/
 **/out/
-/log/*
-/logs/*
+*.log
+*.versionsBackup
 *.iml
 
